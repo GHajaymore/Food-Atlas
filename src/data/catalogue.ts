@@ -19,6 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
+import { assess } from '../domain/assess';
 import { registerContinents } from '../domain/continents';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
@@ -39,13 +40,14 @@ interface ImportedRow {
   qid: string;
   blurb: string;
   photo: string;
+  /** Present once `scripts/enrich-wikipedia.mjs` has run over the row. */
+  evidence?: {
+    ingredients: string[];
+    heritage: string[];
+    hasArticle: boolean;
+    extractLength: number;
+  };
 }
-
-/** Said once, about every imported record. */
-const IMPORT_DISCLAIMER =
-  'This record has not been through the evidence assessment. It states that the dish exists and where it is ' +
-  'associated with — nothing more. Its ingredients, method and authenticity are undocumented here, and it stays ' +
-  'Unverified until someone from the place records them.';
 
 const IMPORT_DIET_BASIS =
   'Imported from Wikidata, which does not record the preparation. No dietary classification can be made until ' +
@@ -64,6 +66,17 @@ function expand(row: ImportedRow): Dish {
   const breadcrumb = [row.country, row.region].filter(Boolean);
   const name = cleanName(row.name);
 
+  // Classification is earned from the evidence gathered by the enrichment pass, not
+  // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
+  const assessment = assess({
+    hasCountry: !!row.country,
+    hasRegion: !!row.region,
+    ingredients: row.evidence?.ingredients ?? [],
+    heritage: row.evidence?.heritage ?? [],
+    hasArticle: row.evidence?.hasArticle ?? false,
+    extractLength: row.evidence?.extractLength ?? 0,
+  });
+
   return {
     id: row.id,
     name,
@@ -74,10 +87,12 @@ function expand(row: ImportedRow): Dish {
     loc: { country: row.country, region: row.region, province: '', city: '', village: '' },
     breadcrumb,
 
-    badgeLevel: 'unverified',
-    badgeIcon: '⚪',
-    badgeLabel: 'Unverified',
-    badgeLabelFull: 'Unverified — insufficient evidence',
+    badgeLevel: assessment.level,
+    badgeIcon: assessment.badgeIcon,
+    badgeLabel: assessment.badgeLabel,
+    badgeLabelFull: assessment.badgeLabelFull,
+    // Never set on an import: it certifies that no modern substitution was found,
+    // and nothing here has looked at the preparation.
     traditionalBadge: false,
     atRisk: false,
 
@@ -91,14 +106,14 @@ function expand(row: ImportedRow): Dish {
     photoOrigin: 'Shooting location not recorded in the source',
     photoVerified: false,
 
-    // No evidence has been assessed, so there is no score to show and nothing to
-    // break down. The app renders this as Unverified rather than as a low score.
-    score: null,
-    breakdown: [],
+    score: assessment.score,
+    breakdown: assessment.breakdown,
     views: '',
 
     prepSummary: '',
-    ingredients: [],
+    // From Wikidata's "made from material". Traditional ingredients only — there is
+    // no substitute list on an import, so nothing can leak between the two.
+    ingredients: row.evidence?.ingredients ?? [],
     equipment: [],
     steps: [],
     adaptation: null,
@@ -115,7 +130,7 @@ function expand(row: ImportedRow): Dish {
         note: 'Imported record. Place and name only — no preparation is claimed.',
       },
     ],
-    disclaimer: IMPORT_DISCLAIMER,
+    disclaimer: assessment.disclaimer,
     sourceLanguage: 'en',
   };
 }
@@ -126,7 +141,30 @@ const importedRows = rawImported as ImportedRow[];
 // supplies the continent for every country it covers.
 registerContinents(importedRows.map((row) => [row.country, row.continent] as [string, string]));
 
-const imported: Dish[] = importedRows.map(expand);
+/**
+ * No empty dishes.
+ *
+ * A record whose only content is a name and a country tells the reader nothing: no
+ * description, no ingredients, no documentation, not even a photograph. Listing it
+ * pads the count without adding knowledge, and it is what makes the atlas feel
+ * hollow. Those rows are held back until the enrichment pass finds something for
+ * them — they are not deleted from `catalogue.json`, so a later run brings them in
+ * rather than having to re-fetch.
+ *
+ * A dish is worth showing when it carries at least one of: a real description, its
+ * ingredients, a heritage designation, an encyclopaedia article, or a photograph.
+ */
+const hasSomethingToShow = (row: ImportedRow): boolean =>
+  !!row.blurb?.trim() ||
+  !!row.evidence?.ingredients?.length ||
+  !!row.evidence?.heritage?.length ||
+  !!row.evidence?.hasArticle ||
+  !!row.photo;
+
+const imported: Dish[] = importedRows.filter(hasSomethingToShow).map(expand);
+
+/** Held back for a later enrichment run, not lost. Surfaced in the coverage stats. */
+const withheld = importedRows.length - imported.length;
 
 /**
  * Imported records go through the same invariants as curated ones. A malformed row
@@ -145,5 +183,7 @@ export const catalogueStats = {
   total: catalogue.length,
   curated: curated.length,
   imported: validImported.length,
+  /** Rows on disk with nothing to show yet, awaiting enrichment. */
+  withheld,
   countries: new Set(catalogue.map((d) => d.loc.country)).size,
 };

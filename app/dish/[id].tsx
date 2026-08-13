@@ -32,6 +32,7 @@ import { dietLabel, traceLabels } from '../../src/domain/diet';
 import { MEAL_LABELS } from '../../src/domain/meals';
 import { availableLanguages } from '../../src/domain/translate';
 import { openAtSource } from '../../src/domain/video';
+import { searchUrl } from '../../src/domain/videoDiscovery';
 import { settings } from '../../src/state/store';
 import { useTranslations } from '../../src/state/translations';
 import { accentText, color, radius, space } from '../../src/theme/tokens';
@@ -321,7 +322,34 @@ export default function DishDetail() {
                 Engagement figures are deliberately not shown — they don&apos;t measure authenticity.
               </Muted>
             </>
-          ) : null}
+          ) : (
+            /* No curated video. Rather than an empty section, offer the search —
+               and say exactly what it is: a popularity-ordered starting point, not
+               a video anyone has checked against the tradition. */
+            <>
+              <H5 style={styles.tightHeading}>Watch it being made</H5>
+              <Muted style={styles.sectionLead}>
+                No video from the tradition has been recorded for this dish yet.
+              </Muted>
+              <Block style={styles.discoverBlock}>
+                <Muted style={styles.discoverNote}>
+                  You can search for one at the source. Results come back ordered by view count, which measures
+                  reach and nothing else — the cook may or may not be from {dish.breadcrumb[0]}. Nothing found this
+                  way affects this record&apos;s classification.
+                </Muted>
+                <Button
+                  label="Find preparation videos ↗"
+                  variant="secondary"
+                  block
+                  onPress={() => openAtSource(searchUrl(dish))}
+                />
+                <Muted style={styles.discoverNote}>
+                  If you find one made by someone from the place, it can be added through Add a tradition — that is
+                  what would give this dish a ranked video.
+                </Muted>
+              </Block>
+            </>
+          )}
 
           <H5 style={styles.h5}>Where the method comes from</H5>
           <View style={styles.sources}>
@@ -418,6 +446,8 @@ const styles = StyleSheet.create({
   sourceLink: { fontSize: 12, color: accentText },
   popularClosing: { fontSize: 11, lineHeight: 11 * 1.45, color: accentText, marginTop: 10 },
 
+  discoverBlock: { marginBottom: 22, gap: 4 },
+  discoverNote: { fontSize: 11, lineHeight: 11 * 1.5 },
   videos: { gap: 14, marginBottom: 8 },
   videoNote: { fontSize: 11, lineHeight: 11 * 1.45, marginBottom: 22 },
 

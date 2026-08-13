@@ -9,6 +9,7 @@
 
 import { dishes } from '../src/data/seed';
 import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
+import { assess } from '../src/domain/assess';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import { findViolations } from '../src/domain/invariants';
 import { planTranslation, withLanguage } from '../src/domain/language';
@@ -25,6 +26,7 @@ import { readDish } from '../src/domain/translate';
 import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
 import { thumbnailUrl, watchUrl } from '../src/domain/video';
+import { isAcceptable, needsDiscovery, searchQuery, searchUrl } from '../src/domain/videoDiscovery';
 
 const byId = (id: number) => dishes.find((d) => d.id === id)!;
 const halwa = () => byId(1);
@@ -272,6 +274,121 @@ describe('classification vocabulary', () => {
 
   it('defaults discovery to Authentic Only', () => {
     expect(FILTERS[0].key).toBe('authentic');
+  });
+});
+
+describe('an imported record earns its classification', () => {
+  const base = {
+    hasCountry: true,
+    hasRegion: false,
+    ingredients: [] as string[],
+    heritage: [] as string[],
+    hasArticle: false,
+    extractLength: 0,
+  };
+
+  it('stays unscored when only a name and a place are known', () => {
+    const a = assess(base);
+    expect(a.level).toBe('unverified');
+    expect(a.score).toBeNull();
+    expect(a.breakdown).toEqual([]);
+    expect(a.disclaimer).toMatch(/Only the name and the place are recorded/);
+  });
+
+  it('will not call a record authentic on an article alone', () => {
+    const a = assess({ ...base, hasArticle: true, extractLength: 900 });
+    expect(a.level).toBe('unverified');
+    expect(a.score).toBeGreaterThan(0);
+  });
+
+  it('reaches Traditional Variation when ingredients and an article are documented', () => {
+    const a = assess({ ...base, hasArticle: true, extractLength: 700, ingredients: ['rice', 'coconut'] });
+    expect(a.level).toBe('variation');
+    expect(a.disclaimer).toMatch(/no one from the place has confirmed it/);
+  });
+
+  it('reaches Authentic — Regional only with a heritage designation and ingredients', () => {
+    const a = assess({ ...base, hasRegion: true, ingredients: ['pork', 'salt'], heritage: ['PDO'] });
+    expect(a.level).toBe('regional');
+    expect(a.disclaimer).toMatch(/does not establish the method/);
+  });
+
+  it('never infers technique or community validation', () => {
+    const a = assess({ ...base, hasRegion: true, ingredients: ['a', 'b', 'c'], heritage: ['PGI'], hasArticle: true, extractLength: 2000 });
+    const byName = Object.fromEntries(a.breakdown);
+    expect(byName['Traditional technique']).toBe(0);
+    expect(byName['Community validation']).toBe(0);
+    expect(byName['Local source']).toBe(0);
+  });
+
+  it('caps an imported score below every assessed record in the seed', () => {
+    const best = assess({
+      ...base,
+      hasRegion: true,
+      ingredients: ['a', 'b', 'c', 'd'],
+      heritage: ['PDO', 'PAT'],
+      hasArticle: true,
+      extractLength: 5000,
+    });
+    const lowestCurated = Math.min(...dishes.filter((d) => d.score !== null).map((d) => d.score!));
+    expect(best.score).toBeLessThan(lowestCurated);
+  });
+
+  it('produces records that satisfy the catalogue invariants', () => {
+    // A promoted record must still carry all six dimensions, a disclaimer and — via
+    // the loader — a source. This is the check that stops a promotion from
+    // producing a record the app would refuse to show.
+    const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
+    expect(a.breakdown).toHaveLength(6);
+    expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe('discovered videos must be high-quality originals', () => {
+  const ok = {
+    id: 'x',
+    title: 'How to make Kozhikode Halwa the traditional way',
+    channel: 'A cook',
+    views: '10,000 views',
+    short: false,
+    definition: 'hd',
+    durationSeconds: 600,
+  };
+
+  it('accepts a full-length HD preparation', () => {
+    expect(isAcceptable(ok)).toBe(true);
+  });
+
+  it('rejects shorts and clips, which are the most re-uploaded format', () => {
+    expect(isAcceptable({ ...ok, short: true })).toBe(false);
+    expect(isAcceptable({ ...ok, durationSeconds: 45 })).toBe(false);
+  });
+
+  it('rejects standard definition', () => {
+    expect(isAcceptable({ ...ok, definition: 'sd' })).toBe(false);
+  });
+
+  it('rejects derivative uploads by title', () => {
+    for (const bad of ['Top 10 Indian sweets', 'HALWA COMPILATION', 'My reaction to halwa', 'halwa asmr']) {
+      expect(isAcceptable({ ...ok, title: bad })).toBe(false);
+    }
+  });
+
+  it('rejects an hours-long stream rather than a method', () => {
+    expect(isAcceptable({ ...ok, durationSeconds: 4 * 60 * 60 })).toBe(false);
+  });
+
+  it('builds a search that names the dish and its place', () => {
+    const q = searchQuery(halwa());
+    expect(q).toContain('Kozhikode Halwa');
+    expect(q).toContain('Kozhikode');
+    expect(q).toContain('traditional');
+    expect(searchUrl(halwa())).toContain('youtube.com/results');
+  });
+
+  it('only offers discovery where no locality-ranked video exists', () => {
+    expect(needsDiscovery(halwa())).toBe(false);
+    expect(needsDiscovery(hawaiian())).toBe(true);
   });
 });
 
