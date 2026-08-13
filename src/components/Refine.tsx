@@ -21,14 +21,18 @@ import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
 
 interface Props {
+  /** The row's own label, e.g. 'Diet & occasion' or 'Filters'. */
+  label?: string;
   /** Human-readable summary of what is applied, e.g. 'Vegan · Breakfast'. */
   summary: string;
   /** How many choices are active, for the count badge. */
   count: number;
+  /** Shown in place of the summary when nothing is applied. */
+  emptyLabel?: string;
   children: React.ReactNode;
 }
 
-export function Refine({ summary, count, children }: Props) {
+export function Refine({ label = 'Diet & occasion', summary, count, emptyLabel = 'Any', children }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -36,7 +40,7 @@ export function Refine({ summary, count, children }: Props) {
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`Refine. ${count ? summary : 'No dietary or meal filter applied'}`}
+        accessibilityLabel={`${label}. ${count ? summary : 'nothing applied'}`}
         tint="neutral"
         onPress={() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -44,13 +48,13 @@ export function Refine({ summary, count, children }: Props) {
         }}
         style={styles.header}
       >
-        <T style={styles.label}>Diet &amp; occasion</T>
+        <T style={styles.label}>{label}</T>
         {count ? (
           <Muted style={styles.summary} numberOfLines={1}>
             {summary}
           </Muted>
         ) : (
-          <Muted style={styles.summary}>Any</Muted>
+          <Muted style={styles.summary}>{emptyLabel}</Muted>
         )}
         <View style={open ? styles.caretOpen : undefined}>
           <CaretDownIcon size={14} color={color.neutral[400]} />

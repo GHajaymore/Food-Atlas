@@ -14,6 +14,7 @@ import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { MealFilter } from '../src/components/MealFilter';
+import { Refine } from '../src/components/Refine';
 import { Input } from '../src/components/Field';
 import { NavRow } from '../src/components/NavRow';
 import { Photo } from '../src/components/Photo';
@@ -23,6 +24,7 @@ import { H6, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CLASSIFICATIONS } from '../src/domain/authenticity';
+import { MEAL_LABELS } from '../src/domain/meals';
 import { allCategories, allIngredients, randomAtRisk, searchResults } from '../src/domain/queries';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
@@ -86,6 +88,12 @@ export default function Search() {
     ...facetIngredients.map((v) => ({ label: v, remove: () => toggleFacet('facetIngredients', v) })),
   ];
 
+  const activeSummary = [
+    ...active.map((f) => f.label),
+    ...meals.map((m) => MEAL_LABELS[m]),
+    ...(sortBy === 'authenticity' ? [] : [SORTS.find((s) => s.key === sortBy)!.label]),
+  ].join(' · ');
+
   const surprise = () => {
     const pick = randomAtRisk(dishes);
     if (pick) router.push(`/dish/${pick.id}`);
@@ -113,6 +121,15 @@ export default function Search() {
         </View>
       ) : null}
 
+      {/* Five facet groups is a wall of chips ahead of the first result once the
+          catalogue is global. Collapsed by default, with what is applied stated on
+          the row, so the screen opens on results rather than on controls. */}
+      <Refine
+        label="Filters"
+        emptyLabel="None"
+        summary={activeSummary}
+        count={active.length + meals.length + (sortBy === 'authenticity' ? 0 : 1)}
+      >
       <View style={styles.facetGroups}>
         <DietFilter
           variant="facet"
@@ -169,6 +186,7 @@ export default function Search() {
           ))}
         </FacetGroup>
       </View>
+      </Refine>
 
       <View style={styles.resultsHeader}>
         <H6>Results</H6>

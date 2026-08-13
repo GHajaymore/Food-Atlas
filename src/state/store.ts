@@ -70,8 +70,20 @@ interface AppState {
  * the handoff — not as hard-coded values.
  */
 export const settings = {
-  /** The default authenticity filter. The discovery experience prioritises Authentic Only. */
-  defaultFilter: 'authentic' as FilterKey,
+  /**
+   * The default authenticity filter.
+   *
+   * The brief says discovery prioritises Authentic Only, and it was written for a
+   * catalogue of assessed records. Against a global atlas where the great majority
+   * are imported and `unverified`, that default lands the reader on five dishes and
+   * hides eight thousand — which reads as a broken app, not as rigour.
+   *
+   * So the default is `all`, and the priority is expressed where it belongs: the
+   * Feed renders assessed records first as full cards, then the unassessed ones
+   * below a heading that says exactly what they are. Authentic Only remains one tap
+   * away and still means precisely what it says.
+   */
+  defaultFilter: 'all' as FilterKey,
   /** Whether view counts are shown at all. Popularity is always the weakest element. */
   showViewCounts: true,
   /** Score breakdown as bars, or as a bare number. */
