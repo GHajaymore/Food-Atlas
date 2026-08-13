@@ -27,7 +27,14 @@ import { Screen } from '../../src/components/Screen';
 import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
-import { dishById } from '../../src/data/catalogue';
+import { catalogue, dishById } from '../../src/data/catalogue';
+import {
+  CONFIRM_PROMPT,
+  forkedDisputes,
+  ORIGIN_DISCLAIMER,
+  openDisputes,
+  siblingsOf,
+} from '../../src/domain/traditions';
 import { dietLabel, traceLabels } from '../../src/domain/diet';
 import { MEAL_LABELS } from '../../src/domain/meals';
 import { availableLanguages } from '../../src/domain/translate';
@@ -78,6 +85,10 @@ export default function DishDetail() {
   // Imported records carry a name and a place and nothing else. The sections below
   // describe a preparation, so they only render where there is one.
   const isDocumented = dish.steps.length > 0;
+
+  const siblings = siblingsOf(dish, catalogue);
+  const forked = forkedDisputes(dish);
+  const open = openDisputes(dish);
 
   return (
     <Screen bottomPad={50}>
@@ -166,6 +177,20 @@ export default function DishDetail() {
               canTranslate={canTranslate()}
               onTranslate={() => void retryTranslation(dish)}
             />
+          ) : null}
+
+          {/* An open challenge is shown, and the score is left alone. Hiding a live
+              disagreement, or quietly docking the number, would be the same failure
+              as claiming a certainty the evidence does not support. */}
+          {open.length ? (
+            <Card style={styles.disputed}>
+              <CardKicker>Open disagreement</CardKicker>
+              <CardBody>
+                Someone who cooks this in {open[0].from} says it is made differently: {open[0].differs} Nothing has
+                been removed while this is looked at, and the confidence below is unchanged — if both accounts hold,
+                the record will split rather than one being overruled.
+              </CardBody>
+            </Card>
           ) : null}
 
           {dish.score !== null ? (
@@ -372,10 +397,76 @@ export default function DishDetail() {
           {/* An unassessed record cannot answer "why is this authentic?" — it has
               not been assessed. Asking the question and then not answering it would
               be the pretence of certainty the brief warns against. */}
+          {/* Other traditions of this dish. Peers, never a canonical and a variant —
+              the record split because both accounts were true of their own place. */}
+          {siblings.length ? (
+            <>
+              <H5 style={styles.tightHeading}>Also made this way</H5>
+              <Muted style={styles.sectionLead}>
+                The same dish, recorded separately where it is made differently. Neither is the real one.
+              </Muted>
+              <View style={styles.sources}>
+                {siblings.map((sibling) => (
+                  <Pressable
+                    key={sibling.id}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${sibling.name}, ${sibling.breadcrumb.join(', ')}`}
+                    tint="neutral"
+                    onPress={() => router.replace(`/dish/${sibling.id}`)}
+                    style={styles.sourceRow}
+                  >
+                    <T style={styles.sourceTitle}>{sibling.name}</T>
+                    <Muted style={styles.sourceMeta}>{sibling.breadcrumb.join(' › ')}</Muted>
+                    {forked.length ? <Muted style={styles.sourceMeta}>{forked[0].differs}</Muted> : null}
+                  </Pressable>
+                ))}
+              </View>
+            </>
+          ) : null}
+
+          {/* A contested origin is recorded, not adjudicated — and kept away from the
+              score, which measures how a dish is made here, not who invented it. */}
+          {dish.originClaims?.length ? (
+            <>
+              <H5 style={styles.tightHeading}>Origin &amp; cultural attribution</H5>
+              <Muted style={styles.sectionLead}>{ORIGIN_DISCLAIMER}</Muted>
+              <View style={styles.sources}>
+                {dish.originClaims.map((claim) => (
+                  <Pressable
+                    key={claim.place}
+                    accessibilityRole="link"
+                    tint="neutral"
+                    onPress={() => openAtSource(claim.source.url)}
+                    style={styles.sourceRow}
+                  >
+                    <T style={styles.sourceTitle}>{claim.place}</T>
+                    <Muted style={styles.sourceMeta}>{claim.claim}</Muted>
+                    <Muted style={styles.sourceMeta}>
+                      {claim.source.publisher} · {claim.source.title} ↗
+                    </Muted>
+                  </Pressable>
+                ))}
+              </View>
+            </>
+          ) : null}
+
           <H5 style={styles.h5}>
             {isDocumented ? 'Why is this considered authentic?' : 'What this record is'}
           </H5>
           <Muted style={styles.disclaimer}>{reading.disclaimer}</Muted>
+
+          {/* The prompt that turns a reader into a validator. Two taps, not a form —
+              correcting your own food is a far stronger motive than filling in a
+              blank submission, and it is what actually feeds the pipeline. */}
+          <Card style={styles.confirm}>
+            <CardKicker>{CONFIRM_PROMPT}</CardKicker>
+            <CardBody>
+              If you cook this where it comes from, confirming or correcting it is what moves a record out of
+              Unverified. Where your version differs, it is recorded alongside — not instead of — this one.
+            </CardBody>
+            <Button label="Yes — this matches" variant="secondary" block onPress={() => router.push('/contribute')} />
+            <Button label="It's made differently where I'm from" block onPress={() => router.push('/contribute')} />
+          </Card>
         </>
       )}
     </Screen>
@@ -404,6 +495,8 @@ const styles = StyleSheet.create({
   popularityLine: { fontSize: 11, marginTop: -12, marginBottom: 20 },
 
   undocumented: { marginBottom: 22 },
+  disputed: { marginBottom: 18 },
+  confirm: { marginTop: 24 },
   dietBlock: { marginBottom: 20 },
   dietChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   dietBasis: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 8 },

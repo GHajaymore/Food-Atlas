@@ -129,6 +129,111 @@ const SEED: Dish[] = [
     ],
     disclaimer:
       "Kozhikode's halwa-making families have documented, multi-generational records of this recipe, and the preparation is consistently described the same way across independent local sources.",
+    // Peer of the Thalassery record below. Neither is the canonical halwa.
+    traditionId: 'malabar-halwa',
+    disputes: [
+      {
+        id: 'halwa-thalassery',
+        from: 'Thalassery',
+        kind: 'variation',
+        differs: 'Less sugar, and the halwa is set thinner and cut smaller.',
+        raisedAt: '2026-05-02',
+        // Kept, not overruled: the Thalassery account was true about Thalassery.
+        status: 'forked',
+        resultingDishId: 7,
+      },
+    ],
+  },
+  {
+    /**
+     * The fork, worked through.
+     *
+     * A bakery owner in Thalassery said their version uses less sugar. That was not a
+     * contradiction of the Kozhikode record — it was never a claim about Thalassery —
+     * so the record split rather than one account being overruled. Both are published,
+     * both carry their own evidence, and neither is presented as the real one.
+     */
+    id: 7,
+    name: 'Thalassery Halwa',
+    category: 'Sweet',
+    sourceLanguage: 'en',
+    diet: {
+      group: 'vegan',
+      kinds: [],
+      contains: [],
+      basis: 'Coconut oil, as in the Kozhikode preparation. No dairy, egg or honey in the method described.',
+    },
+    meals: {
+      occasions: ['snack', 'celebration'],
+      note: 'Cut smaller than the Kozhikode version and eaten with tea, and at Ramadan and family occasions.',
+    },
+    loc: { country: 'India', region: 'Kerala', province: 'Malabar', city: 'Thalassery', village: '' },
+    breadcrumb: ['India', 'Kerala', 'Malabar', 'Thalassery'],
+    badgeLevel: 'local',
+    badgeIcon: '🟢',
+    badgeLabel: 'Authentic — Local',
+    badgeLabelFull: 'Authentic — Local/Traditional',
+    traditionalBadge: true,
+    atRisk: false,
+    blurb: 'The Malabar halwa as set in Thalassery — less sugar, cut thinner, eaten with tea.',
+    photo: commons('Kozhikode_Halwa.jpg'),
+    credit: 'Wikimedia Commons',
+    creditHref: commonsPage('Kozhikode_Halwa.jpg'),
+    photoOrigin: 'Malabar halwa — shooting location not recorded in the source',
+    photoVerified: false,
+    // Lower than Kozhikode's 94: fewer independent sources describe this version,
+    // and the fork is recent. The number reflects the evidence, not the ranking.
+    score: 81,
+    views: '900 views',
+    breakdown: [
+      ['Geographic connection', 92],
+      ['Traditional ingredients', 88],
+      ['Traditional technique', 85],
+      ['Local source', 90],
+      ['Cultural documentation', 62],
+      ['Community validation', 70],
+    ],
+    prepSummary:
+      'Cooked as in Kozhikode — coconut oil, a wide pan, hours of stirring — but with noticeably less sugar and set in a thinner tray.',
+    ingredients: ['Wheat starch or maida', 'Coconut oil', 'Sugar or jaggery', 'Cashews', 'Cardamom'],
+    equipment: ['Wide copper or bronze pan', 'Long-handled wooden stirrer'],
+    steps: [
+      'Extract the starch milk as for the Kozhikode preparation and let it settle.',
+      'Melt sugar into a syrup — Thalassery bakers use noticeably less than Kozhikode.',
+      'Pour in the starch milk and stir without stopping until it thickens and darkens.',
+      'Add coconut oil a ladle at a time, only as the mixture takes up the last one.',
+      'Stir in roasted cashews and cardamom near the end.',
+      'Pour into a shallow tray so it sets thinner, cool, and cut into small pieces.',
+    ],
+    adaptation: {
+      traditional: 'Starch extracted by hand and cooked in coconut oil.',
+      substitute: 'Cornstarch and refined vegetable oil, used in some commercial bakery versions.',
+    },
+    popular: null,
+    videos: [],
+    sources: [
+      {
+        title: 'Kozhikode Halwa — process documented in the city',
+        publisher: 'Sahapedia',
+        url: 'http://www.sahapedia.org/kozhikode-halwa',
+        note: 'Documents the shared Malabar method the Thalassery version varies from.',
+      },
+    ],
+    disclaimer:
+      'Recorded from a Thalassery bakery owner during the validation of the Kozhikode record, and consistent with the ' +
+      'shared Malabar method. Fewer independent sources describe this version specifically, which is why its ' +
+      'cultural-documentation score is lower — not because it is less traditional.',
+    traditionId: 'malabar-halwa',
+    disputes: [
+      {
+        id: 'halwa-thalassery',
+        from: 'Thalassery',
+        kind: 'variation',
+        differs: 'Less sugar, and the halwa is set thinner and cut smaller.',
+        raisedAt: '2026-05-02',
+        status: 'kept',
+      },
+    ],
   },
   {
     id: 2,
@@ -587,6 +692,33 @@ const SEED: Dish[] = [
     ],
     disclaimer:
       'Airag is made by herding households across Mongolia; this record is pinned to Khövsgöl because that is where the preparation behind it was documented. The method is consistent across herding families, though fewer households now keep mares for it.',
+    /**
+     * A genuinely contested origin, and the reason origin is kept away from the
+     * score: fermented mare's milk is claimed across the steppe, and the app has no
+     * business ruling on it. The claims are recorded, sourced, and left standing.
+     */
+    originClaims: [
+      {
+        place: 'Mongolia',
+        claim: 'Known as airag and central to herding life; Mongolia treats it as a national drink.',
+        source: {
+          title: "The link between climate and Mongolia's thirst for fermented horse milk",
+          publisher: 'Scientific American Custom Media',
+          url: 'https://www.scientificamerican.com/custom-media/the-link-between-climate-and-mongolias-thirst-for-fermented-horse-milk/',
+          note: 'Research on airag production in herding households.',
+        },
+      },
+      {
+        place: 'Kazakhstan and Kyrgyzstan',
+        claim: 'Known as kumis, with its own continuous herding tradition and preparation across the steppe.',
+        source: {
+          title: 'Kumis',
+          publisher: 'Wikipedia',
+          url: 'https://en.wikipedia.org/wiki/Kumis',
+          note: 'Records the drink across Central Asia under its Turkic name.',
+        },
+      },
+    ],
   },
 ];
 

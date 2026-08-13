@@ -11,7 +11,7 @@ import { dishes } from '../src/data/seed';
 import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
 import { assess } from '../src/domain/assess';
 import { dietLabel, traceLabels } from '../src/domain/diet';
-import { findViolations } from '../src/domain/invariants';
+import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { planTranslation, withLanguage } from '../src/domain/language';
 import {
   allIngredients,
@@ -22,6 +22,14 @@ import {
   placeGroups,
   searchResults,
 } from '../src/domain/queries';
+import {
+  forkedDisputes,
+  isDisputed,
+  ORIGIN_DISCLAIMER,
+  originAffectsScore,
+  routeDispute,
+  siblingsOf,
+} from '../src/domain/traditions';
 import { readDish } from '../src/domain/translate';
 import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
@@ -33,6 +41,8 @@ const halwa = () => byId(1);
 const mole = () => byId(2);
 const pizza = () => byId(3);
 const hawaiian = () => byId(4);
+/** The Thalassery fork of the Malabar halwa — sibling of `halwa()`. */
+const thalassery = () => byId(7);
 
 describe('the catalogue holds to the brief', () => {
   it('admits no record that breaks a hard rule', () => {
@@ -231,11 +241,16 @@ describe('search', () => {
 
   it('matches on ingredient and on equipment, not just the name', () => {
     expect(searchResults(dishes, { ...base, query: 'metate' }).map((d) => d.id)).toEqual([mole().id]);
-    expect(searchResults(dishes, { ...base, query: 'coconut oil' }).map((d) => d.id)).toEqual([halwa().id]);
+    // Both Malabar halwas use coconut oil — the fork shares its ingredients.
+    expect(searchResults(dishes, { ...base, query: 'coconut oil' }).map((d) => d.id).sort()).toEqual(
+      [halwa().id, thalassery().id].sort(),
+    );
   });
 
   it('matches on any level of the geographic path', () => {
-    expect(searchResults(dishes, { ...base, query: 'malabar' }).map((d) => d.id)).toEqual([halwa().id]);
+    expect(searchResults(dishes, { ...base, query: 'malabar' }).map((d) => d.id).sort()).toEqual(
+      [halwa().id, thalassery().id].sort(),
+    );
   });
 
   it('ANDs across facet groups', () => {
@@ -392,6 +407,114 @@ describe('discovered videos must be high-quality originals', () => {
   });
 });
 
+describe('disagreement forks the record rather than picking a winner', () => {
+  it('routes a challenge from a different place to a fork', () => {
+    expect(routeDispute('Kozhikode', 'Thalassery', 'variation')).toBe('fork');
+  });
+
+  it('routes a challenge from the same place to adjudication, not a fork', () => {
+    expect(routeDispute('Kozhikode', 'kozhikode', 'variation')).toBe('adjudicate');
+  });
+
+  it('never settles an origin claim by geography or by counting', () => {
+    expect(routeDispute('Mongolia', 'Kazakhstan', 'origin')).toBe('attribute');
+    expect(routeDispute('Mongolia', 'Mongolia', 'origin')).toBe('attribute');
+    expect(originAffectsScore).toBe(false);
+  });
+
+  it('amends rather than forks when the record is simply wrong', () => {
+    expect(routeDispute('Kozhikode', 'Kozhikode', 'correction')).toBe('amend');
+  });
+
+  it('keeps both accounts as peers, with neither marked canonical', () => {
+    const siblings = siblingsOf(halwa(), dishes);
+    expect(siblings.map((d) => d.id)).toEqual([thalassery().id]);
+    // Symmetry is the point: neither record is the parent of the other.
+    expect(siblingsOf(thalassery(), dishes).map((d) => d.id)).toEqual([halwa().id]);
+    expect(halwa().traditionId).toBe(thalassery().traditionId);
+  });
+
+  it('gives the fork its own place and its own evidence', () => {
+    expect(thalassery().loc.city).toBe('Thalassery');
+    expect(halwa().loc.city).toBe('Kozhikode');
+    expect(thalassery().score).not.toBe(halwa().score);
+    expect(thalassery().breakdown).toHaveLength(6);
+  });
+
+  it('records what differed, so the fork is traceable to its cause', () => {
+    expect(forkedDisputes(halwa())[0].differs).toMatch(/less sugar/i);
+    expect(forkedDisputes(halwa())[0].resultingDishId).toBe(thalassery().id);
+  });
+
+  it('rejects a challenge with no substance — a bare downvote cannot fork a record', () => {
+    const empty: Dish = {
+      ...pizza(),
+      disputes: [{ id: 'x', from: 'Rome', kind: 'variation', differs: '   ', raisedAt: '2026-01-01', status: 'open' }],
+    };
+    expect(findViolations(empty).join(' ')).toMatch(/states no substance/);
+  });
+
+  it('rejects a challenge that names no place, since routing depends on it', () => {
+    const nowhere: Dish = {
+      ...pizza(),
+      disputes: [{ id: 'x', from: '', kind: 'variation', differs: 'less salt', raisedAt: '2026-01-01', status: 'open' }],
+    };
+    expect(findViolations(nowhere).join(' ')).toMatch(/names no place/);
+  });
+
+  it('requires a forked dispute to point at the record it produced', () => {
+    const dangling: Dish = {
+      ...pizza(),
+      disputes: [{ id: 'x', from: 'Rome', kind: 'variation', differs: 'less salt', raisedAt: '2026-01-01', status: 'forked' }],
+    };
+    expect(findViolations(dangling).join(' ')).toMatch(/points at no sibling record/);
+  });
+
+  it('records contested origins with sources, and refuses to rank them', () => {
+    const claims = byId(6).originClaims!;
+    expect(claims.length).toBeGreaterThan(1);
+    for (const claim of claims) expect(claim.source.url).toMatch(/^https?:\/\//);
+    expect(ORIGIN_DISCLAIMER).toMatch(/No claim here is presented as the winner/);
+  });
+
+  it('rejects a single origin claim, which is not a dispute', () => {
+    const lone: Dish = {
+      ...pizza(),
+      originClaims: [{ place: 'Naples', claim: 'Invented here.', source: pizza().sources[0] }],
+    };
+    expect(findViolations(lone).join(' ')).toMatch(/a single origin claim is not a dispute/);
+  });
+
+  it('supports any number of peers, not just two', () => {
+    // A third and fourth tradition join exactly as the second did — the group is a
+    // flat peer set, so nothing about the model caps it.
+    const kannur: Dish = { ...thalassery(), id: 91, name: 'Kannur Halwa', loc: { ...thalassery().loc, city: 'Kannur' }, breadcrumb: ['India', 'Kerala', 'Malabar', 'Kannur'] };
+    const kochi: Dish = { ...thalassery(), id: 92, name: 'Kochi Halwa', loc: { ...thalassery().loc, city: 'Kochi' }, breadcrumb: ['India', 'Kerala', 'Malabar', 'Kochi'] };
+    const pool = [...dishes, kannur, kochi];
+
+    expect(siblingsOf(halwa(), pool).map((d) => d.id).sort()).toEqual([thalassery().id, 91, 92].sort());
+    expect(siblingsOf(kannur, pool)).toHaveLength(3);
+    expect(findCatalogueViolations(pool)).toEqual([]);
+  });
+
+  it('rejects two peers claiming the same place — that is a conflict, not a plurality', () => {
+    const duplicate: Dish = { ...thalassery(), id: 93, name: 'Thalassery Halwa (second account)' };
+    expect(findCatalogueViolations([...dishes, duplicate]).join(' ')).toMatch(
+      /both claim thalassery.*adjudicated, not forked/i,
+    );
+  });
+
+  it('leaves an open dispute visible without touching the score', () => {
+    const challenged: Dish = {
+      ...pizza(),
+      disputes: [{ id: 'x', from: 'Rome', kind: 'variation', differs: 'thicker base', raisedAt: '2026-01-01', status: 'open' }],
+    };
+    expect(isDisputed(challenged)).toBe(true);
+    expect(challenged.score).toBe(pizza().score);
+    expect(findViolations(challenged)).toEqual([]);
+  });
+});
+
 describe('dietary classification', () => {
   const base = { query: '', levels: [], categories: [], ingredients: [], sortBy: 'authenticity' as const };
 
@@ -443,7 +566,7 @@ describe('dietary classification', () => {
     expect(vegetarian.map((d) => d.id)).toEqual(expect.arrayContaining([halwa().id, pizza().id]));
 
     const vegan = feedFor(dishes, 'all', [], { groups: ['vegan'], kinds: [] });
-    expect(vegan.map((d) => d.id)).toEqual([halwa().id]);
+    expect(vegan.map((d) => d.id).sort()).toEqual([halwa().id, thalassery().id].sort());
     expect(vegan.map((d) => d.id)).not.toContain(pizza().id);
   });
 
@@ -457,7 +580,7 @@ describe('dietary classification', () => {
 
   it('ORs several groups, for a household with mixed preferences', () => {
     const mixed = feedFor(dishes, 'all', [], { groups: ['vegan', 'seafood'], kinds: [] });
-    expect(mixed.map((d) => d.id).sort()).toEqual([halwa().id, byId(5).id].sort());
+    expect(mixed.map((d) => d.id).sort()).toEqual([halwa().id, thalassery().id, byId(5).id].sort());
   });
 
   it('composes with authenticity and place rather than replacing them', () => {
@@ -539,7 +662,7 @@ describe('meal occasion is recorded in the tradition s own terms', () => {
   it('ORs several occasions', () => {
     const either = feedFor(dishes, 'all', [], undefined, ['street-food', 'celebration']);
     expect(either.map((d) => d.id).sort()).toEqual(
-      [halwa().id, mole().id, pizza().id, byId(5).id, byId(6).id].sort(),
+      [halwa().id, thalassery().id, mole().id, pizza().id, byId(5).id, byId(6).id].sort(),
     );
   });
 
@@ -550,7 +673,7 @@ describe('meal occasion is recorded in the tradition s own terms', () => {
 
   it('applies to search too', () => {
     expect(searchResults(dishes, { ...base, meals: ['celebration'] }).map((d) => d.id).sort()).toEqual(
-      [halwa().id, mole().id, byId(5).id, byId(6).id].sort(),
+      [halwa().id, thalassery().id, mole().id, byId(5).id, byId(6).id].sort(),
     );
   });
 

@@ -122,6 +122,35 @@ export function findViolations(dish: Dish): string[] {
     fail('Dietary classification', `a ${diet.group} dish must say which kind, so the sub-menu can place it`);
   }
 
+  // A challenge must carry substance. "Substance is the price of entry" is not a
+  // nicety: a bare downvote cannot become a forked record, and a dispute with nothing
+  // in it is indistinguishable from brigading.
+  for (const dispute of dish.disputes ?? []) {
+    if (!dispute.differs.trim()) {
+      fail('Cultural Disputes', `dispute ${dispute.id} states no substance — what differs must be named`);
+    }
+    if (!dispute.from.trim()) {
+      fail('Cultural Disputes', `dispute ${dispute.id} names no place — routing depends on where the challenger cooks`);
+    }
+    if (dispute.status === 'forked' && dispute.resultingDishId === undefined) {
+      fail('Multiple Authentic Traditions', `dispute ${dispute.id} is marked forked but points at no sibling record`);
+    }
+  }
+
+  // Every origin claim is sourced. The platform records claims; it does not repeat
+  // assertions, and it never picks a winner between them.
+  for (const claim of dish.originClaims ?? []) {
+    if (!claim.source?.url?.trim()) {
+      fail('Origin & Cultural Attribution', `the claim from ${claim.place} carries no source`);
+    }
+  }
+  if (dish.originClaims && dish.originClaims.length === 1) {
+    fail(
+      'Origin & Cultural Attribution',
+      'a single origin claim is not a dispute — record it in the disclaimer rather than as a contested origin',
+    );
+  }
+
   // Authenticity has geographic depth: the display breadcrumb must match the path.
   const locPath = [dish.loc.country, dish.loc.region, dish.loc.province, dish.loc.city, dish.loc.village].filter(
     Boolean,
@@ -134,11 +163,51 @@ export function findViolations(dish: Dish): string[] {
 }
 
 /**
+ * Rules that span records rather than sitting inside one.
+ *
+ * A tradition can hold any number of peers — the brief's "Region A, Region B,
+ * Region C, Community D" — so nothing here caps the count. What it does enforce is
+ * that each peer speaks for a *different* place. Two records claiming to be how the
+ * dish is made in the same town are not multiple traditions; they are one
+ * disagreement that was forked when it should have been adjudicated, and leaving
+ * both standing would present a genuine conflict as a settled plurality.
+ */
+export function findCatalogueViolations(dishes: Dish[]): string[] {
+  const problems: string[] = [];
+  const traditions = new Map<string, Dish[]>();
+
+  for (const dish of dishes) {
+    if (!dish.traditionId) continue;
+    traditions.set(dish.traditionId, [...(traditions.get(dish.traditionId) ?? []), dish]);
+  }
+
+  for (const [traditionId, peers] of traditions) {
+    const seen = new Map<string, string>();
+    for (const dish of peers) {
+      // The deepest recorded level is what a peer speaks for.
+      const place = [dish.loc.village, dish.loc.city, dish.loc.province, dish.loc.region, dish.loc.country]
+        .find(Boolean)!
+        .toLowerCase();
+      const taken = seen.get(place);
+      if (taken) {
+        problems.push(
+          `Tradition "${traditionId}": ${dish.name} and ${taken} both claim ${place}. ` +
+            `Peers must each speak for a different place — same-place conflicts are adjudicated, not forked.`,
+        );
+      }
+      seen.set(place, dish.name);
+    }
+  }
+
+  return problems;
+}
+
+/**
  * Gate a set of records. Throws on the first violating record so a bad seed or a bad
  * API response fails loudly at load rather than quietly mislabelling a tradition.
  */
 export function assertDishes(dishes: Dish[]): Dish[] {
-  const problems = dishes.flatMap(findViolations);
+  const problems = [...dishes.flatMap(findViolations), ...findCatalogueViolations(dishes)];
   if (problems.length) {
     throw new AuthenticityViolation(
       { id: 0, name: 'catalogue' },

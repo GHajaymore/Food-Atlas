@@ -124,6 +124,42 @@ export interface Source {
   note: string;
 }
 
+/**
+ * What kind of disagreement was raised. The three resolve differently, which is why
+ * the app asks rather than lumping them together as "disputes":
+ *
+ *   - `correction` — the record is simply wrong. One right answer. Amend it.
+ *   - `variation`  — both accounts are true, in different places. Fork the record.
+ *   - `origin`     — who the dish belongs to. Never forked, never settled by count.
+ */
+export type DisputeKind = 'correction' | 'variation' | 'origin';
+
+export interface Dispute {
+  id: string;
+  /** Where the challenger cooks or lives. The routing turns on this. */
+  from: string;
+  kind: DisputeKind;
+  /**
+   * What specifically differs — an ingredient, a technique, a proportion. Substance
+   * is the price of raising a challenge: there is no bare disagreement, and this text
+   * becomes the raw material of the forked record.
+   */
+  differs: string;
+  /** ISO date. */
+  raisedAt: string;
+  /** `kept` means both accounts stand and neither was declared the true one. */
+  status: 'open' | 'forked' | 'amended' | 'kept';
+  /** The sibling record a fork produced. */
+  resultingDishId?: number;
+}
+
+/** One documented claim on a contested origin. Neutral language, always sourced. */
+export interface OriginClaim {
+  place: string;
+  claim: string;
+  source: Source;
+}
+
 export interface Dish {
   id: number;
   name: string;
@@ -197,6 +233,22 @@ export interface Dish {
    * records, rather than machine-translating behind the reader's back.
    */
   translations?: Record<string, DishTranslation>;
+
+  /**
+   * Groups sibling records that are the same dish as made in different places or by
+   * different communities. Records sharing a `traditionId` are peers: none of them is
+   * the canonical one, which is the whole point of "Multiple Authentic Traditions".
+   */
+  traditionId?: string;
+  /** Open or resolved challenges to this record. */
+  disputes?: Dispute[];
+  /**
+   * Competing documented claims about where the dish originates. Present only on
+   * dishes whose origin is genuinely contested — and deliberately separate from the
+   * authenticity score, which is about how a dish is prepared in a place, not who
+   * invented it.
+   */
+  originClaims?: OriginClaim[];
 
   /** Fusion records only. */
   fusionNote?: string;
