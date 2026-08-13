@@ -10,7 +10,7 @@
 import { forwardRef } from 'react';
 import { ScrollView, StyleSheet, View, type ScrollViewProps, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { color, PAGE_PADDING } from '../theme/tokens';
+import { color, PAGE_PADDING, PHONE_WIDTH } from '../theme/tokens';
 
 interface Props extends ScrollViewProps {
   children: React.ReactNode;
@@ -32,6 +32,7 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
         showsVerticalScrollIndicator={false}
         {...props}
         contentContainerStyle={[
+          styles.column,
           {
             paddingTop: insets.top + 6,
             paddingBottom: bottomPad + insets.bottom,
@@ -48,4 +49,11 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
 
 const styles = StyleSheet.create({
   ground: { flex: 1, backgroundColor: color.bg },
+  /**
+   * This is a phone-first design — 390pt, one column, full-bleed photographs. On a
+   * desktop browser it would otherwise stretch to the window width and a single dish
+   * card would fill the screen. The column is capped and centred so the proportions
+   * the design specifies survive; below the cap (every phone) this does nothing.
+   */
+  column: { width: '100%', maxWidth: PHONE_WIDTH, alignSelf: 'center' },
 });

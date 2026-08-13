@@ -26,7 +26,10 @@ export default function Atlas() {
 
   const openCountry = (name: string) => {
     setCountry(name);
-    router.dismissTo('/');
+    // Unwind to the Feed rather than stacking another copy of it. Opened directly
+    // there is nothing to unwind, so fall back to replacing the route.
+    if (router.canGoBack()) router.dismissTo('/');
+    else router.replace('/');
   };
 
   return (

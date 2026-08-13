@@ -140,6 +140,15 @@ export const type = {
 export const PAGE_PADDING = 20;
 
 /**
+ * The design's frame: 390 x 844pt, an iPhone 14-class phone. The device shell the
+ * prototype draws is chrome, not part of the app — but the column width is real, and
+ * on a desktop browser the layout has to stop somewhere or a single dish card fills
+ * the window. 430 is the widest current phone (Pro Max class), so capping here keeps
+ * every real device edge-to-edge while giving the web build sane proportions.
+ */
+export const PHONE_WIDTH = 430;
+
+/**
  * Minimum tap target. The prototype draws 36px icon buttons; the handoff requires
  * they be padded up to 44 in the real app (Accessibility note).
  */

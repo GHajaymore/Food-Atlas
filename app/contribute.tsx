@@ -85,7 +85,17 @@ export default function Contribute() {
   const [step, setStep] = useState(1);
 
   // Back steps through the flow first, and only then out to the Atlas.
-  const back = () => (step > 1 ? setStep(step - 1) : router.back());
+  // The fallback matters: opened directly — a deep link, or a refresh on the web
+  // build — there is no history to pop, and a bare router.back() would leave the
+  // reader stuck on the form with a dead control.
+  const back = () => {
+    if (step > 1) {
+      setStep(step - 1);
+      return;
+    }
+    if (router.canGoBack()) router.back();
+    else router.replace('/atlas');
+  };
 
   return (
     <Screen bottomPad={50}>
@@ -225,7 +235,9 @@ export default function Contribute() {
             </Muted>
           </Block>
 
-          <Button label="Back to the atlas" block onPress={() => router.back()} />
+          {/* Deterministic rather than a history pop: the label promises the atlas,
+              and the flow can be entered from Search as well as from the Atlas. */}
+          <Button label="Back to the atlas" block onPress={() => router.replace('/atlas')} />
         </>
       ) : null}
     </Screen>

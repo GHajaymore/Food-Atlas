@@ -30,10 +30,18 @@ export default function PlacePicker() {
   const levelLabel = next?.label ?? 'place';
   const contextLine = path.length ? `Within ${path.map((p) => p.value).join(' › ')}` : 'Worldwide';
 
+  // Selecting a place returns to the Feed. Opened directly — a deep link, or a
+  // refresh on the web build — there is no history to pop, so a bare router.back()
+  // would apply the choice and then strand the reader on the picker.
+  const toFeed = () => {
+    if (router.canGoBack()) router.back();
+    else router.replace('/');
+  };
+
   const choose = (value: string) => {
     if (!next) return;
     pushPlace(next.key, value);
-    router.back();
+    toFeed();
   };
 
   return (
@@ -54,7 +62,7 @@ export default function PlacePicker() {
         tint="neutral"
         onPress={() => {
           setPlaceQuery('');
-          router.back();
+          toFeed();
         }}
         style={styles.row}
       >

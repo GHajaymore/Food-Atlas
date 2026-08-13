@@ -51,12 +51,22 @@ const IMPORT_DIET_BASIS =
   'Imported from Wikidata, which does not record the preparation. No dietary classification can be made until ' +
   'the method is documented.';
 
+/**
+ * Wikidata labels sometimes carry a register's tag rather than the food's name —
+ * Italy's ~4,400 Prodotti Agroalimentari Tradizionali all end in " PAT". That suffix
+ * belongs to the registry, not to the dish, and showing it would put a bureaucratic
+ * acronym where the tradition's name should be. The Wikidata link on the record still
+ * points at the registered entry, so nothing is lost by dropping it from the label.
+ */
+const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').trim();
+
 function expand(row: ImportedRow): Dish {
   const breadcrumb = [row.country, row.region].filter(Boolean);
+  const name = cleanName(row.name);
 
   return {
     id: row.id,
-    name: row.name,
+    name,
     category: 'Unclassified',
     diet: { group: 'unclassified', kinds: [], contains: [], basis: IMPORT_DIET_BASIS },
     // Not recorded — never "probably dinner".
@@ -97,6 +107,8 @@ function expand(row: ImportedRow): Dish {
 
     sources: [
       {
+        // The source keeps the registered label, suffix and all — that is what the
+        // reader would find at the other end of the link.
         title: row.name,
         publisher: 'Wikidata',
         url: `https://www.wikidata.org/wiki/${row.qid}`,
