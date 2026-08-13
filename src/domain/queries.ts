@@ -183,6 +183,29 @@ export interface SearchFacets {
  * Sorting never blends the two measurements: 'authenticity' orders by evidence
  * strength, 'popularity' by views, and neither feeds the other.
  */
+/**
+ * The searchable text for a dish, lowercased and built once.
+ *
+ * The query is live — it re-filters on every keystroke — and the catalogue runs to
+ * thousands of records, so rebuilding this string per dish per keystroke is the
+ * difference between a responsive field and a janky one. Keyed by the dish object,
+ * so it is dropped with the record and never goes stale.
+ */
+const haystacks = new WeakMap<Dish, string>();
+
+function haystackFor(dish: Dish): string {
+  const cached = haystacks.get(dish);
+  if (cached !== undefined) return cached;
+
+  const built = [dish.name, dish.category, ...Object.values(dish.loc), ...dish.ingredients, ...dish.equipment]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  haystacks.set(dish, built);
+  return built;
+}
+
 export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
   const q = facets.query.trim().toLowerCase();
 
@@ -193,12 +216,7 @@ export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
     if (!matchesDiet(d.diet, facets.dietGroups ?? [], facets.dietKinds ?? [])) return false;
     if (!matchesMeal(d.meals, facets.meals ?? [])) return false;
     if (!q) return true;
-
-    const haystack = [d.name, d.category, ...Object.values(d.loc), ...d.ingredients, ...d.equipment]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase();
-    return haystack.includes(q);
+    return haystackFor(d).includes(q);
   });
 
   const sorted = [...matched];

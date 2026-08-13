@@ -8,6 +8,7 @@
  */
 
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
@@ -29,6 +30,9 @@ import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
 const LEVEL_FACETS: Level[] = ['local', 'regional', 'variation', 'adaptation', 'fusion'];
+
+/** Result rows rendered per page. */
+const PAGE_SIZE = 30;
 
 const SORTS: { key: SortKey; label: string }[] = [
   { key: 'authenticity', label: 'Authenticity confidence' },
@@ -67,6 +71,14 @@ export default function Search() {
     dietKinds,
     meals,
   });
+
+  const [page, setPage] = useState(1);
+  const visible = results.slice(0, page * PAGE_SIZE);
+
+  // Any change to the query or the facets starts the paging over.
+  useEffect(() => {
+    setPage(1);
+  }, [query, facetLevels, facetCategories, facetIngredients, sortBy, dietGroups, dietKinds, meals]);
 
   const active = [
     ...facetLevels.map((v) => ({ label: CLASSIFICATIONS[v as Level].label, remove: () => toggleFacet('facetLevels', v) })),
@@ -166,7 +178,7 @@ export default function Search() {
       </View>
 
       <View>
-        {results.map((dish) => {
+        {visible.map((dish) => {
           const video = topVideo(dish.videos);
           return (
             <View key={dish.id} style={styles.resultRow}>
@@ -199,6 +211,18 @@ export default function Search() {
           );
         })}
       </View>
+
+      {/* The catalogue runs to thousands of matches; the count above states the true
+          total, and the list grows on request rather than all at once. */}
+      {results.length > visible.length ? (
+        <Button
+          label={`Show more — ${results.length - visible.length} left`}
+          variant="secondary"
+          block
+          onPress={() => setPage((p) => p + 1)}
+          style={styles.showMore}
+        />
+      ) : null}
 
       {results.length === 0 ? (
         <Card style={styles.emptyCard}>
@@ -263,6 +287,7 @@ const styles = StyleSheet.create({
   resultClass: { fontSize: 11, lineHeight: 11 * 1.4 },
   videoButton: { flexShrink: 0 },
 
+  showMore: { marginTop: 16 },
   emptyCard: { marginTop: 16 },
   footer: { gap: space[2], marginTop: 22 },
 });

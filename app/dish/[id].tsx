@@ -74,6 +74,10 @@ export default function DishDetail() {
   // come back untranslated by construction — see domain/translate.ts.
   const reading = read(dish);
 
+  // Imported records carry a name and a place and nothing else. The sections below
+  // describe a preparation, so they only render where there is one.
+  const isDocumented = dish.steps.length > 0;
+
   return (
     <Screen bottomPad={50}>
       <NavRow
@@ -93,19 +97,21 @@ export default function DishDetail() {
         hideCredit
       />
 
-      {/* Where the photograph itself was taken, or that the source does not record it. */}
+      {/* Where the photograph itself was taken, or that the source does not record
+          it. Only meaningful when there is a photograph — most imported records
+          have none, and a bare "photo via" would be worse than saying nothing. */}
       <View style={styles.photoProvenance}>
         <View style={styles.cameraIcon}>
           <CameraIcon size={12} color={color.muted} />
         </View>
         <Muted style={styles.photoProvenanceText}>
-          {dish.photoOrigin} · photo via {dish.credit}
+          {dish.photo ? `${dish.photoOrigin} · photo via ${dish.credit}` : 'No photograph on record for this dish.'}
         </Muted>
       </View>
 
       <View style={styles.badges}>
         <Tag label={`${dish.badgeIcon} ${dish.badgeLabelFull}`} variant="neutral" />
-        {!dish.photoVerified ? (
+        {dish.photo && !dish.photoVerified ? (
           <Tag label="Photo origin unverified" variant="outline" style={styles.unverified} />
         ) : null}
         {dish.traditionalBadge ? <Tag label="🏺 Traditional Preparation" variant="outline" /> : null}
@@ -145,16 +151,21 @@ export default function DishDetail() {
         </>
       ) : (
         <>
-          <LanguageBar
-            language={language}
-            onSelect={setLanguage}
-            available={availableLanguages(dish)}
-            reading={reading}
-            status={statusFor(dish)}
-            error={errorFor(dish)}
-            canTranslate={canTranslate()}
-            onTranslate={() => void retryTranslation(dish)}
-          />
+          {/* Translation is offered where there is prose worth translating. An
+              undocumented record has only its one-line blurb, so the control would
+              be a promise of substance the record does not have. */}
+          {isDocumented ? (
+            <LanguageBar
+              language={language}
+              onSelect={setLanguage}
+              available={availableLanguages(dish)}
+              reading={reading}
+              status={statusFor(dish)}
+              error={errorFor(dish)}
+              canTranslate={canTranslate()}
+              onTranslate={() => void retryTranslation(dish)}
+            />
+          ) : null}
 
           {dish.score !== null ? (
             <ScoreBreakdown
@@ -164,7 +175,7 @@ export default function DishDetail() {
             />
           ) : null}
 
-          {settings.showViewCounts ? (
+          {settings.showViewCounts && dish.views ? (
             <Muted style={styles.popularityLine}>{dish.views} · authenticity outranks popularity here</Muted>
           ) : null}
 
@@ -195,6 +206,23 @@ export default function DishDetail() {
             ) : null}
           </Block>
 
+          {/* An unassessed record has no method, no ingredients and no equipment.
+              Rendering the headings anyway would promise a preparation that is not
+              there — so it says what it is, and offers the way to fix it. */}
+          {!isDocumented ? (
+            <Card style={styles.undocumented}>
+              <CardKicker>Not documented yet</CardKicker>
+              <CardBody>
+                Nobody has recorded how this is made. We could copy the most-published recipe from the internet and
+                call it authentic, but that is the thing this atlas exists not to do — so the record stays as it is
+                until someone who cooks it fills it in.
+              </CardBody>
+              <Button label="Record how it's made" block onPress={() => router.push('/contribute')} />
+            </Card>
+          ) : null}
+
+          {isDocumented ? (
+          <>
           <H5 style={styles.h5}>Authentic Version</H5>
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>
           <View style={styles.chipWrap}>
@@ -240,6 +268,8 @@ export default function DishDetail() {
                 This is an adaptation and should not be considered the authentic preparation.
               </T>
             </Disclosure>
+          ) : null}
+          </>
           ) : null}
 
           {dish.popular ? (
@@ -311,7 +341,12 @@ export default function DishDetail() {
             ))}
           </View>
 
-          <H5 style={styles.h5}>Why is this considered authentic?</H5>
+          {/* An unassessed record cannot answer "why is this authentic?" — it has
+              not been assessed. Asking the question and then not answering it would
+              be the pretence of certainty the brief warns against. */}
+          <H5 style={styles.h5}>
+            {isDocumented ? 'Why is this considered authentic?' : 'What this record is'}
+          </H5>
           <Muted style={styles.disclaimer}>{reading.disclaimer}</Muted>
         </>
       )}
@@ -340,6 +375,7 @@ const styles = StyleSheet.create({
 
   popularityLine: { fontSize: 11, marginTop: -12, marginBottom: 20 },
 
+  undocumented: { marginBottom: 22 },
   dietBlock: { marginBottom: 20 },
   dietChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   dietBasis: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 8 },
