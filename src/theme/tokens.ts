@@ -14,13 +14,26 @@
 const textAlpha = (pct: number) => `rgba(233, 233, 237, ${pct / 100})`;
 
 /** color-mix(in srgb, var(--color-accent) n%, transparent) — accent tints for hover/press. */
-export const accentAlpha = (pct: number) => `rgba(145, 132, 217, ${pct / 100})`;
+export const accentAlpha = (pct: number) => `rgba(217, 164, 65, ${pct / 100})`;
 
 export const color = {
   bg: '#161826',
   surface: '#232532',
   text: '#e9e9ed',
-  accent: '#9184d9',
+  /**
+   * Grain gold.
+   *
+   * The accent moves off Nocturne's blurple to the colour of the world's staple
+   * ingredient — rice and wheat, the grains most of humanity eats daily, and the
+   * allium base most cuisines start from. All three sit in the same warm amber band.
+   *
+   * Kept at roughly the lightness the blurple held (L≈0.75 against the #161826
+   * ground) so the contrast ratios the design system documents still hold: fine for
+   * icons, large text and chrome, with `accentText` below for paragraph-size copy.
+   * The system's rule is unchanged — the accent is a line, a mark and a glow, never
+   * a flood fill.
+   */
+  accent: '#d9a441',
   /** --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent) */
   divider: textAlpha(16),
 
@@ -43,16 +56,24 @@ export const color = {
     900: '#292b31',
   },
 
+  /**
+   * The grain-gold ramp, generated on the same perceptual lightness scale as the
+   * neutral ramp, so the same step of either role carries the same visual weight —
+   * the property the Nocturne token sheet is built around.
+   *
+   * The dark steps (700–900) are the tinted fills: 800 is the filled chip, 900 the
+   * step-number disc. The light steps (100–300) are the text on those tints.
+   */
   accentRamp: {
-    100: '#f5f4ff',
-    200: '#e7e5fe',
-    300: '#d2cefd',
-    400: '#b5abfc',
-    500: '#968ae0',
-    600: '#796cbf',
-    700: '#5d5294',
-    800: '#423a6a',
-    900: '#2b2741',
+    100: '#fff9ee',
+    200: '#fdefd2',
+    300: '#f7dda6',
+    400: '#eec670',
+    500: '#d9a441',
+    600: '#b28230',
+    700: '#866125',
+    800: '#5d431b',
+    900: '#3a2a11',
   },
 } as const;
 
