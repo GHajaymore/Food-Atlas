@@ -12,6 +12,7 @@ import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domai
 import { assess } from '../src/domain/assess';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
+import { catalogueMetrics } from '../src/domain/metrics';
 import { planTranslation, withLanguage } from '../src/domain/language';
 import {
   allIngredients,
@@ -512,6 +513,52 @@ describe('disagreement forks the record rather than picking a winner', () => {
     expect(isDisputed(challenged)).toBe(true);
     expect(challenged.score).toBe(pizza().score);
     expect(findViolations(challenged)).toEqual([]);
+  });
+});
+
+describe('the atlas reports its own gaps', () => {
+  const m = () => catalogueMetrics(dishes);
+
+  it('counts what is actually there', () => {
+    expect(m().total).toBe(dishes.length);
+    expect(m().countries).toBe(new Set(dishes.map((d) => d.loc.country)).size);
+  });
+
+  it('measures the number that matters most — how much is documented', () => {
+    const documented = m().documented;
+    expect(documented.count).toBe(dishes.filter((d) => d.steps.length > 0).length);
+    expect(documented.percent).toBe(Math.round((documented.count / documented.total) * 100));
+  });
+
+  it('surfaces concentration rather than burying it', () => {
+    // The honest headline for a lopsided catalogue: name the country and the share.
+    const { country, percent } = m().concentration;
+    const counts = new Map<string, number>();
+    for (const d of dishes) counts.set(d.loc.country, (counts.get(d.loc.country) ?? 0) + 1);
+    const top = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+    expect(country).toBe(top[0]);
+    expect(percent).toBe(Math.round((top[1] / dishes.length) * 100));
+  });
+
+  it('bands confidence without double-counting', () => {
+    const total = m().confidence.reduce((sum, row) => sum + row.count, 0);
+    expect(total).toBe(dishes.length);
+  });
+
+  it('accounts for every record across continents', () => {
+    expect(m().byContinent.reduce((sum, row) => sum + row.count, 0)).toBe(dishes.length);
+  });
+
+  it('counts a tradition as forked only when it has more than one peer', () => {
+    // Kozhikode and Thalassery share one traditionId — that is one forked tradition.
+    expect(m().forked).toBe(1);
+  });
+
+  it('never divides by zero on an empty catalogue', () => {
+    const empty = catalogueMetrics([]);
+    expect(empty.documented.percent).toBe(0);
+    expect(empty.concentration.percent).toBe(0);
+    expect(empty.total).toBe(0);
   });
 });
 

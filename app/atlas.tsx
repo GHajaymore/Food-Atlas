@@ -16,6 +16,8 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
+import { CoverageTable, Meter, StatTile } from '../src/components/Metrics';
+import { catalogueMetrics } from '../src/domain/metrics';
 import { atlasCoverage, buildAtlas } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { color, space } from '../src/theme/tokens';
@@ -23,6 +25,7 @@ import { color, space } from '../src/theme/tokens';
 export default function Atlas() {
   const setCountry = useApp((s) => s.setCountry);
   const atlas = buildAtlas(dishes);
+  const metrics = catalogueMetrics(dishes);
 
   const openCountry = (name: string) => {
     setCountry(name);
@@ -58,6 +61,35 @@ export default function Atlas() {
         ))}
       </View>
 
+      {/* The atlas's own numbers, computed from the catalogue — nothing here
+          observes a reader, so it costs nothing and needs no consent banner.
+          They are deliberately the uncomfortable ones: a record that shows its
+          gaps is doing what the confidence score does for a single dish. */}
+      <View style={styles.stats}>
+        <H6 style={styles.statsTitle}>How complete is this atlas?</H6>
+
+        <View style={styles.tiles}>
+          <StatTile value={metrics.total.toLocaleString()} label="dishes recorded" />
+          <StatTile value={String(metrics.countries)} label="countries" />
+          <StatTile value={String(metrics.atRisk)} label="at-risk traditions" />
+        </View>
+
+        <Muted style={styles.concentration}>
+          {metrics.concentration.percent}% of the catalogue comes from {metrics.concentration.country} alone. That
+          reflects which countries have been catalogued in the open sources this is built from — not where the
+          world&apos;s food is.
+        </Muted>
+
+        <Meter ratio={metrics.documented} />
+        <Meter ratio={metrics.located} />
+        <Meter ratio={metrics.assessed} />
+        <Meter ratio={metrics.illustrated} />
+        <Meter ratio={metrics.filmed} />
+
+        <CoverageTable title="Where the records are" rows={metrics.byContinent} />
+        <CoverageTable title="Confidence" rows={metrics.confidence} />
+      </View>
+
       <Card style={styles.grow}>
         <CardKicker>Grow the atlas</CardKicker>
         <CardBody>
@@ -88,5 +120,9 @@ const styles = StyleSheet.create({
   },
   country: { fontSize: 14, flexShrink: 0 },
   detail: { fontSize: 12, textAlign: 'right', flex: 1, marginLeft: space[2] },
+  stats: { marginTop: 30, paddingTop: 22, borderTopWidth: 1, borderTopColor: color.divider },
+  statsTitle: { marginBottom: 12 },
+  tiles: { flexDirection: 'row', gap: space[4], marginBottom: 14 },
+  concentration: { fontSize: 11, lineHeight: 11 * 1.5, marginBottom: 18 },
   grow: { marginTop: 26 },
 });
