@@ -85,6 +85,8 @@ export default function DishDetail() {
   // Imported records carry a name and a place and nothing else. The sections below
   // describe a preparation, so they only render where there is one.
   const isDocumented = dish.steps.length > 0;
+  /** An adaptation documents how a dish is made today, not how its tradition makes it. */
+  const isAdaptation = dish.badgeLevel === 'adaptation';
 
   const siblings = siblingsOf(dish, catalogue);
   const forked = forkedDisputes(dish);
@@ -286,7 +288,17 @@ export default function DishDetail() {
 
           {isDocumented ? (
           <>
-          <H5 style={styles.h5}>Authentic Version</H5>
+          {/* The heading has to agree with the badge. A Cookbook recipe is classified
+              Modern Adaptation, and calling its ingredients the "Authentic Version"
+              contradicts the classification printed directly above it — which is the
+              silent mislabelling the brief exists to prevent. */}
+          <H5 style={styles.h5}>{isAdaptation ? 'The published recipe' : 'Authentic Version'}</H5>
+          {isAdaptation ? (
+            <Muted style={styles.sectionLead}>
+              How this dish is commonly made today. It is not a record of how it is prepared in{' '}
+              {dish.breadcrumb[dish.breadcrumb.length - 1]}, and nobody from there has confirmed it.
+            </Muted>
+          ) : null}
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>
           <View style={styles.chipWrap}>
             {/* Never translated — these names are the identity of the food. */}
@@ -295,16 +307,23 @@ export default function DishDetail() {
             ))}
           </View>
 
-          <H6 style={styles.equipmentHeading}>Traditional Equipment</H6>
-          <View style={[styles.chipWrap, styles.equipmentWrap]}>
-            {reading.equipment.map((item) => (
-              <Tag key={item} label={item} variant="outline" />
-            ))}
-          </View>
+          {/* Only where there is equipment to name. Published recipes list none. */}
+          {reading.equipment.length ? (
+            <>
+              <H6 style={styles.equipmentHeading}>Traditional Equipment</H6>
+              <View style={[styles.chipWrap, styles.equipmentWrap]}>
+                {reading.equipment.map((item) => (
+                  <Tag key={item} label={item} variant="outline" />
+                ))}
+              </View>
+            </>
+          ) : null}
 
           <H5 style={styles.tightHeading}>How it&apos;s made</H5>
           <Muted style={styles.sectionLead}>
-            The traditional method, with no modern shortcuts substituted in.
+            {isAdaptation
+              ? 'The method as published. Modern equipment and shortcuts are part of it.'
+              : 'The traditional method, with no modern shortcuts substituted in.'}
           </Muted>
           <View style={styles.steps}>
             {reading.steps.map((step, i) => (
@@ -487,8 +506,15 @@ export default function DishDetail() {
             </>
           ) : null}
 
+          {/* An adaptation is not claiming authenticity, so it is not asked to
+              justify any — the question would invite the reader to read the answer
+              as a defence of a claim the record never made. */}
           <H5 style={styles.h5}>
-            {isDocumented ? 'Why is this considered authentic?' : 'What this record is'}
+            {isAdaptation
+              ? 'Why this is an adaptation'
+              : isDocumented
+                ? 'Why is this considered authentic?'
+                : 'What this record is'}
           </H5>
           <Muted style={styles.disclaimer}>{reading.disclaimer}</Muted>
 
