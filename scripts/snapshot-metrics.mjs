@@ -23,7 +23,18 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const CATALOGUE = resolve(HERE, '../src/data/catalogue.json');
+const CUISINES = resolve(HERE, '../src/data/cuisines.json');
+const COOKBOOK = resolve(HERE, '../src/data/cookbook.json');
 const HISTORY = resolve(HERE, '../src/data/metrics-history.json');
+
+const readJson = async (path) => {
+  try {
+    const parsed = JSON.parse(await readFile(path, 'utf8'));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
 
 /** Mirrors `hasSomethingToShow` in src/data/catalogue.ts — held-back rows are not shown. */
 const isShown = (row) =>
@@ -37,15 +48,21 @@ const isShown = (row) =>
 const CURATED_COUNT = 7;
 
 const main = async () => {
-  const rows = JSON.parse(await readFile(CATALOGUE, 'utf8')).filter(isShown);
+  // The catalogue is three sources now, and counting only the first made the
+  // snapshot report 7,877 while the app showed 13,791.
+  const wikidata = (await readJson(CATALOGUE)).filter(isShown);
+  const cuisines = await readJson(CUISINES);
+  const cookbook = (await readJson(COOKBOOK)).filter((r) => r.country && r.steps?.length);
 
-  const countries = new Set(rows.map((r) => r.country));
+  const rows = [...wikidata, ...cuisines, ...cookbook];
+  const countries = new Set(rows.map((r) => r.country).filter(Boolean));
+
   const snapshot = {
     date: new Date().toISOString().slice(0, 10),
     total: rows.length + CURATED_COUNT,
     countries: countries.size,
-    // Only curated records carry steps today; enrichment is what moves this.
-    documented: CURATED_COUNT,
+    // Cookbook recipes carry ordered steps; the other sources carry prose at best.
+    documented: cookbook.length + CURATED_COUNT,
     illustrated: rows.filter((r) => r.photo).length + CURATED_COUNT,
     located: rows.filter((r) => r.region).length + CURATED_COUNT,
   };
