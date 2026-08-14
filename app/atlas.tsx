@@ -23,7 +23,7 @@ import rawHistory from '../src/data/metrics-history.json';
 import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics';
 import { atlasCoverage, buildAtlas } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
-import { color, space } from '../src/theme/tokens';
+import { accentText, color, space } from '../src/theme/tokens';
 
 export default function Atlas() {
   const setCountry = useApp((s) => s.setCountry);
@@ -69,19 +69,23 @@ export default function Atlas() {
                   // continents is the same problem in a different shape.
                   setExpanded(open ? null : group.label);
                 }}
-                style={styles.groupHeader}
+                style={[styles.groupHeader, open ? styles.groupHeaderOpen : null]}
               >
-                <H6 style={styles.groupLabel}>{group.label}</H6>
+                <H6 style={[styles.groupLabel, open ? styles.groupLabelOpen : null]}>{group.label}</H6>
                 <Muted style={styles.groupCount}>
                   {group.countries.length} countries · {dishCount.toLocaleString()}
                 </Muted>
                 <View style={open ? styles.caretOpen : undefined}>
-                  <CaretDownIcon size={14} color={color.neutral[400]} />
+                  <CaretDownIcon size={14} color={open ? color.accent : color.neutral[400]} />
                 </View>
               </Pressable>
 
-              {open
-                ? group.countries.map((country) => (
+              {/* The children sit inside a rule that runs the length of the group, so
+                  an expanded continent reads as one block rather than as more rows
+                  in the same list as the headers above it. */}
+              {open ? (
+                <View style={styles.groupBody}>
+                  {group.countries.map((country) => (
                     <Pressable
                       key={country.name}
                       accessibilityRole="button"
@@ -93,8 +97,9 @@ export default function Atlas() {
                       <T style={styles.country}>{country.name}</T>
                       <Muted style={styles.detail}>{country.detail}</Muted>
                     </Pressable>
-                  ))
-                : null}
+                  ))}
+                </View>
+              ) : null}
             </View>
           );
         })}
@@ -156,10 +161,25 @@ const styles = StyleSheet.create({
     gap: space[2],
     paddingVertical: 12,
     minHeight: 44,
+    borderBottomWidth: 1,
+    borderBottomColor: color.divider,
   },
+  // Open: the header stops being a list row and becomes a section heading — the
+  // rule under it goes accent, and the label follows.
+  groupHeaderOpen: { borderBottomColor: color.accent },
   groupLabel: { flex: 1 },
+  groupLabelOpen: { color: accentText },
   groupCount: { fontSize: 11, fontVariant: ['tabular-nums'] },
   caretOpen: { transform: [{ rotate: '180deg' }] },
+
+  // Children are indented behind a hairline that spans the whole group, so their
+  // relationship to the header is structural rather than something you infer.
+  groupBody: {
+    marginLeft: space[2],
+    paddingLeft: space[4],
+    borderLeftWidth: 1,
+    borderLeftColor: color.divider,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
