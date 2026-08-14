@@ -24,6 +24,8 @@ import { registerContinents } from '../domain/continents';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
 import rawImported from './catalogue.json';
+import rawCookbook from './cookbook.json';
+import rawCuisines from './cuisines.json';
 import { dishes as curated } from './seed';
 
 /**
@@ -62,8 +64,30 @@ const IMPORT_DIET_BASIS =
  */
 const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').trim();
 
+/**
+ * A region has to be *below* the country to mean anything.
+ *
+ * Wikidata's administrative-territory statements sometimes point back at the country
+ * itself, or at its formal name — so China arrived carrying "People's Republic of
+ * China" as a region, which the atlas then presented as geographic depth it does not
+ * have. An empty region is the honest answer there.
+ */
+function cleanRegion(region: string, country: string): string {
+  const r = region.trim();
+  if (!r) return '';
+
+  const normalise = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/^(the\s+)?(people's\s+)?(republic|kingdom|state|union|federation)\s+of\s+/, '')
+      .replace(/[^a-z]/g, '');
+
+  return normalise(r) === normalise(country) ? '' : r;
+}
+
 function expand(row: ImportedRow): Dish {
-  const breadcrumb = [row.country, row.region].filter(Boolean);
+  const region = cleanRegion(row.region ?? '', row.country);
+  const breadcrumb = [row.country, region].filter(Boolean);
   const name = cleanName(row.name);
 
   // Classification is earned from the evidence gathered by the enrichment pass, not
@@ -84,7 +108,7 @@ function expand(row: ImportedRow): Dish {
     diet: { group: 'unclassified', kinds: [], contains: [], basis: IMPORT_DIET_BASIS },
     // Not recorded — never "probably dinner".
     meals: { occasions: [], note: '' },
-    loc: { country: row.country, region: row.region, province: '', city: '', village: '' },
+    loc: { country: row.country, region, province: '', city: '', village: '' },
     breadcrumb,
 
     badgeLevel: assessment.level,
@@ -135,6 +159,47 @@ function expand(row: ImportedRow): Dish {
   };
 }
 
+/**
+ * A dish found by walking a cuisine's Wikipedia category tree.
+ *
+ * These exist because Wikidata's country-of-origin is a poor census of the world's
+ * food — it holds 173 Indian dishes to Wikipedia's 1,200. Every one of these has an
+ * encyclopaedia article by construction, which is both why it is worth showing and
+ * the only evidence it arrives with.
+ */
+interface CuisineRow {
+  title: string;
+  name: string;
+  country: string;
+  region: string;
+  url: string;
+}
+
+/** A Wikibooks Cookbook recipe: no place, but a real method. */
+interface CookbookRow {
+  title: string;
+  name: string;
+  ingredients: string[];
+  steps: string[];
+  url: string;
+}
+
+/** Match key for reconciling the same dish arriving from different sources. */
+const key = (name: string, country = '') => `${name.trim().toLowerCase()}|${country.trim().toLowerCase()}`;
+
+/**
+ * Cookbook recipes carry a method but no place, so they cannot stand as atlas
+ * records of their own — a record with no country has nowhere to sit and nothing to
+ * be authentic *to*. They are far more useful reconciled onto dishes already in the
+ * catalogue, where they supply the preparation those records lack.
+ *
+ * What they supply is explicitly *the common recipe*, not the local tradition, which
+ * is why a record enriched this way is never promoted by it.
+ */
+const cookbookByName = new Map<string, CookbookRow>(
+  (rawCookbook as CookbookRow[]).map((r) => [r.name.trim().toLowerCase(), r]),
+);
+
 const importedRows = rawImported as ImportedRow[];
 
 // The atlas cannot group 240 countries from a six-entry literal, so the import
@@ -163,6 +228,113 @@ const hasSomethingToShow = (row: ImportedRow): boolean =>
 
 const imported: Dish[] = importedRows.filter(hasSomethingToShow).map(expand);
 
+/**
+ * Cuisine-tree records, added for the countries the structured sources under-serve.
+ *
+ * Ids start at 100000 so the three sources never collide. Anything already present
+ * from Wikidata under the same name and country is skipped rather than duplicated —
+ * the same dish arriving twice is a data bug, not two traditions.
+ */
+const alreadyPresent = new Set([...curated, ...imported].map((d) => key(d.name, d.loc.country)));
+
+const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
+  .filter((row) => row.name && row.country && !alreadyPresent.has(key(row.name, row.country)))
+  .map((row, index) => {
+    const region = cleanRegion(row.region ?? '', row.country);
+    const breadcrumb = [row.country, region].filter(Boolean);
+
+    // Its Wikipedia article is the one piece of evidence it arrives with.
+    const assessment = assess({
+      hasCountry: true,
+      hasRegion: !!region,
+      ingredients: [],
+      heritage: [],
+      hasArticle: true,
+      extractLength: 0,
+    });
+
+    return {
+      id: 100_000 + index,
+      name: row.name,
+      category: 'Unclassified',
+      diet: {
+        group: 'unclassified' as const,
+        kinds: [],
+        contains: [],
+        basis: IMPORT_DIET_BASIS,
+      },
+      meals: { occasions: [], note: '' },
+      loc: { country: row.country, region, province: '', city: '', village: '' },
+      breadcrumb,
+
+      badgeLevel: assessment.level,
+      badgeIcon: assessment.badgeIcon,
+      badgeLabel: assessment.badgeLabel,
+      badgeLabelFull: assessment.badgeLabelFull,
+      traditionalBadge: false,
+      atRisk: false,
+
+      blurb: `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
+
+      photo: '',
+      credit: '',
+      creditHref: '',
+      photoOrigin: 'No photograph on record',
+      photoVerified: false,
+
+      score: assessment.score,
+      breakdown: assessment.breakdown,
+      views: '',
+
+      prepSummary: '',
+      ingredients: [],
+      equipment: [],
+      steps: [],
+      adaptation: null,
+      popular: null,
+      videos: [],
+
+      sources: [
+        {
+          title: row.name,
+          publisher: 'Wikipedia',
+          url: row.url,
+          note: 'Found in this cuisine’s category. Place and name only — no preparation is claimed.',
+        },
+      ],
+      disclaimer: assessment.disclaimer,
+      sourceLanguage: 'en',
+    } satisfies Dish;
+  });
+
+/**
+ * Reconcile Cookbook methods onto records that have none.
+ *
+ * The method arrives as `popular` — the most-published version — rather than as the
+ * record's own steps. A community recipe documents how a dish is commonly made, not
+ * how it is made where it comes from, and the brief is explicit that the
+ * most-published version never becomes the authentic record by default.
+ */
+function withCookbookMethod(dish: Dish): Dish {
+  if (dish.steps.length || dish.popular) return dish;
+  const recipe = cookbookByName.get(dish.name.trim().toLowerCase());
+  if (!recipe) return dish;
+
+  return {
+    ...dish,
+    popular: {
+      label: 'The commonly published recipe',
+      source: 'Wikibooks Cookbook',
+      url: recipe.url,
+      level: '🟠 Modern Adaptation',
+      changed: [
+        'Written for a general audience rather than recorded in the place the dish comes from',
+        'No source here states who prepared it, or where',
+      ],
+    },
+  };
+}
+
 /** Held back for a later enrichment run, not lost. Surfaced in the coverage stats. */
 const withheld = importedRows.length - imported.length;
 
@@ -171,7 +343,9 @@ const withheld = importedRows.length - imported.length;
  * is dropped rather than taking the whole catalogue down — one bad record from an
  * upstream source should not stop the app from opening.
  */
-const validImported = imported.filter((dish) => findViolations(dish).length === 0);
+const validImported = [...imported, ...fromCuisines]
+  .map(withCookbookMethod)
+  .filter((dish) => findViolations(dish).length === 0);
 
 /** Everything the app can show. Curated records first, so they lead every list. */
 export const catalogue: Dish[] = [...curated, ...validImported];

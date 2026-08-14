@@ -124,7 +124,17 @@ export function placeGroups(next: NextLevel | null, query: string, atCountryLeve
 export interface AtlasCountry {
   name: string;
   count: number;
-  /** '3 traditions · Kozhikode, Naples' */
+  /** Distinct places recorded below country level. */
+  places: number;
+  /**
+   * '12 traditions · 3 places'.
+   *
+   * Every row carries the same two facts, always. An earlier version appended place
+   * names where it had them, which made the list read as though some countries were
+   * documented and others were an afterthought — when the real difference was only
+   * whether anyone had recorded a region. A country with no places is a genuine
+   * signal in its own right, and it says so in the same shape as everyone else.
+   */
   detail: string;
 }
 
@@ -151,14 +161,16 @@ export function buildAtlas(dishes: Dish[]): AtlasGroup[] {
       const places = [
         ...new Set(list.map((d) => d.loc.village || d.loc.city || d.loc.province || d.loc.region).filter(Boolean)),
       ];
-      const count = `${list.length} ${list.length === 1 ? 'tradition' : 'traditions'}`;
-      // Most imported records are country-level only, so there is often nothing
-      // below to name — and a dangling separator would imply there was.
-      const named = places.slice(0, 3).join(', ');
+      const traditions = `${list.length} ${list.length === 1 ? 'tradition' : 'traditions'}`;
+      const placeCount = places.length
+        ? `${places.length} ${places.length === 1 ? 'place' : 'places'}`
+        : 'country level only';
+
       return {
         name,
         count: list.length,
-        detail: named ? `${count} · ${named}` : count,
+        places: places.length,
+        detail: `${traditions} · ${placeCount}`,
       };
     }),
   }));

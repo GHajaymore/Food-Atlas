@@ -516,6 +516,28 @@ describe('disagreement forks the record rather than picking a winner', () => {
   });
 });
 
+describe('every atlas row reads the same way', () => {
+  it('gives each country the same two facts, whether or not it has places', () => {
+    // The earlier version appended place names where it had them, which made some
+    // countries look documented and others like an afterthought — when the only
+    // difference was whether anyone had recorded a region.
+    for (const group of buildAtlas(dishes)) {
+      for (const country of group.countries) {
+        expect(country.detail).toMatch(/^\d+ traditions? · (\d+ places?|country level only)$/);
+      }
+    }
+  });
+
+  it('counts places consistently with the detail line', () => {
+    for (const group of buildAtlas(dishes)) {
+      for (const country of group.countries) {
+        if (country.places === 0) expect(country.detail).toMatch(/country level only$/);
+        else expect(country.detail).toMatch(new RegExp(`· ${country.places} places?$`));
+      }
+    }
+  });
+});
+
 describe('the atlas reports its own gaps', () => {
   const m = () => catalogueMetrics(dishes);
 
