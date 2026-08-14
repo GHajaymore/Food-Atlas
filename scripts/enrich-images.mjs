@@ -56,10 +56,62 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const strip = (html) => (html ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
 /**
+ * Words that describe a heritage listing rather than a food, and so must never be
+ * the thing a filename is matched on. UNESCO titles are sentences — "Artisanal
+ * know-how and culture of baguette bread" — and without this the shared word is
+ * "culture" and every inscription matches every other one.
+ */
+const STOPWORDS = new Set([
+  'and', 'the', 'of', 'in', 'its', 'associated', 'practices', 'practice', 'traditional', 'traditions',
+  'knowledge', 'know', 'how', 'skills', 'culture', 'cultural', 'social', 'making', 'preparation',
+  'related', 'techniques', 'craft', 'art', 'artisanal', 'culinary', 'festive', 'meanings', 'processing',
+  'cultivating', 'consumption', 'emblematic', 'food', 'dish', 'cooking', 'cuisine', 'recipe',
+]);
+
+/** Distinctive words in a name, lowercased and stripped of accents and punctuation. */
+const tokens = (text) =>
+  new Set(
+    (text ?? '')
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((w) => w.length >= 4 && !STOPWORDS.has(w)),
+  );
+
+/**
+ * Does this file plausibly show this dish?
+ *
+ * Commons search will always return *something*, and for a record whose name is a
+ * sentence rather than a dish it returns nonsense with confidence: a French baguette
+ * inscription came back illustrated with Macedonian ajvar, and Al-Man'ouché with an
+ * Israeli zaatar manakeesh. In an app about provenance a picture that is nearly right
+ * is a claim that is wrong, and `photoVerified: false` in small text does not undo a
+ * photograph of the wrong country's food.
+ *
+ * So the filename has to share a distinctive word with the record. This rejects good
+ * matches too — a correct Arabic-titled harissa photograph does not share a Latin
+ * word with "Harissa" — and that trade is deliberate. A missing picture costs a card;
+ * a confidently wrong one costs the reader's trust in every other card.
+ */
+function plausible(name, fileTitle) {
+  const wanted = tokens(name);
+  if (!wanted.size) return false;
+  const found = tokens(fileTitle);
+  for (const word of wanted) if (found.has(word)) return true;
+  return false;
+}
+
+/**
  * Find one image for a dish.
  *
  * `filetype:bitmap` keeps out diagrams and svg logos; namespace 6 is the File space.
- * One result only — a second-choice image is a worse guess, not a better one.
+ *
+ * Several results are asked for, not one, because the first hit is often the least
+ * plausible: the search ranks on the whole descriptive phrase, so an inscription
+ * title matches an essay about culture before it matches a photograph of the food.
+ * The first candidate whose filename actually names the dish is taken, and if none
+ * do, none is taken.
  */
 async function findImage(name, country, attempt = 1) {
   const params = new URLSearchParams({
@@ -70,7 +122,7 @@ async function findImage(name, country, attempt = 1) {
     // The country narrows a generic dish name towards the right tradition.
     gsrsearch: `${name} ${country} filetype:bitmap`,
     gsrnamespace: '6',
-    gsrlimit: '1',
+    gsrlimit: '8',
     prop: 'imageinfo',
     iiprop: 'url|extmetadata',
     iiurlwidth: '900',
@@ -86,7 +138,9 @@ async function findImage(name, country, attempt = 1) {
     if (!res.ok) return null;
 
     const data = await res.json();
-    const page = data?.query?.pages?.[0];
+    // `generator=search` does not preserve rank in the page list, so restore it.
+    const pages = [...(data?.query?.pages ?? [])].sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
+    const page = pages.find((p) => p?.imageinfo?.[0]?.thumburl && plausible(name, p.title));
     const info = page?.imageinfo?.[0];
     if (!info?.thumburl) return null;
 
@@ -141,6 +195,24 @@ const main = async () => {
 
   const rows = JSON.parse(await readFile(target.path, 'utf8'));
   const byKey = new Map(rows.map((r) => [r[target.key], r]));
+
+  /**
+   * Re-judge images written before the plausibility guard existed, and drop the ones
+   * that fail it. Runs offline — the filename is already on the row, so no request
+   * is needed to decide a picture never belonged there.
+   */
+  if (process.argv.includes('--recheck')) {
+    const cleared = new Map();
+    for (const row of rows.filter((r) => r.photo)) {
+      const file = decodeURIComponent(row.photo.split('/').pop() ?? '').replace(/^\d+px-/, '');
+      if (plausible(row.name, file)) continue;
+      cleared.set(row[target.key], { photo: '', credit: '', licence: '', imageChecked: true });
+      process.stdout.write(`  dropped  ${row.name.slice(0, 44).padEnd(46)} ${file.slice(0, 46)}\n`);
+    }
+    await mergeWrite(target.path, target.key, cleared);
+    process.stdout.write(`\n${name}: dropped ${cleared.size} implausible images.\n`);
+    return;
+  }
 
   const pending = rows.filter((r) => !r.photo && !r.imageChecked);
   const targets = limit ? pending.slice(0, limit) : pending;
