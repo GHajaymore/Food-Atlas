@@ -8,7 +8,8 @@
  */
 
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { LayoutAnimation, StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
@@ -16,6 +17,7 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
+import { CaretDownIcon } from '../src/components/icons';
 import { CoverageTable, Meter, StatTile } from '../src/components/Metrics';
 import rawHistory from '../src/data/metrics-history.json';
 import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics';
@@ -27,6 +29,7 @@ export default function Atlas() {
   const setCountry = useApp((s) => s.setCountry);
   const atlas = buildAtlas(dishes);
   const metrics = catalogueMetrics(dishes);
+  const [expanded, setExpanded] = useState<string | null>(null);
   // Appended by scripts/snapshot-metrics.mjs. Empty until the first run, and the
   // tiles simply show no direction rather than inventing one.
   const history = rawHistory as Snapshot[];
@@ -44,25 +47,57 @@ export default function Atlas() {
       <NavRow title="Food Atlas" />
       <Muted style={styles.coverage}>{atlasCoverage(dishes)}</Muted>
 
+      {/* Collapsed by continent. At 268 countries a flat list buries everything
+          below it — including the coverage numbers, which are the point of the
+          screen. Each header states its own count, so the shape of the atlas is
+          legible without opening anything. */}
       <View style={styles.groups}>
-        {atlas.map((group) => (
-          <View key={group.label}>
-            <H6 style={styles.groupLabel}>{group.label}</H6>
-            {group.countries.map((country) => (
+        {atlas.map((group) => {
+          const open = expanded === group.label;
+          const dishCount = group.countries.reduce((sum, c) => sum + c.count, 0);
+
+          return (
+            <View key={group.label}>
               <Pressable
-                key={country.name}
                 accessibilityRole="button"
-                accessibilityLabel={`${country.name}, ${country.detail}`}
+                accessibilityState={{ expanded: open }}
+                accessibilityLabel={`${group.label}, ${group.countries.length} countries, ${dishCount} traditions`}
                 tint="neutral"
-                onPress={() => openCountry(country.name)}
-                style={styles.row}
+                onPress={() => {
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                  // One open at a time: the list is long enough that several open
+                  // continents is the same problem in a different shape.
+                  setExpanded(open ? null : group.label);
+                }}
+                style={styles.groupHeader}
               >
-                <T style={styles.country}>{country.name}</T>
-                <Muted style={styles.detail}>{country.detail}</Muted>
+                <H6 style={styles.groupLabel}>{group.label}</H6>
+                <Muted style={styles.groupCount}>
+                  {group.countries.length} countries · {dishCount.toLocaleString()}
+                </Muted>
+                <View style={open ? styles.caretOpen : undefined}>
+                  <CaretDownIcon size={14} color={color.neutral[400]} />
+                </View>
               </Pressable>
-            ))}
-          </View>
-        ))}
+
+              {open
+                ? group.countries.map((country) => (
+                    <Pressable
+                      key={country.name}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${country.name}, ${country.detail}`}
+                      tint="neutral"
+                      onPress={() => openCountry(country.name)}
+                      style={styles.row}
+                    >
+                      <T style={styles.country}>{country.name}</T>
+                      <Muted style={styles.detail}>{country.detail}</Muted>
+                    </Pressable>
+                  ))
+                : null}
+            </View>
+          );
+        })}
       </View>
 
       {/* The atlas's own numbers, computed from the catalogue — nothing here
@@ -115,7 +150,16 @@ export default function Atlas() {
 const styles = StyleSheet.create({
   coverage: { fontSize: 13, lineHeight: 13 * 1.5, marginTop: 4, marginBottom: 22 },
   groups: { gap: 24 },
-  groupLabel: { marginBottom: 10 },
+  groupHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space[2],
+    paddingVertical: 12,
+    minHeight: 44,
+  },
+  groupLabel: { flex: 1 },
+  groupCount: { fontSize: 11, fontVariant: ['tabular-nums'] },
+  caretOpen: { transform: [{ rotate: '180deg' }] },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

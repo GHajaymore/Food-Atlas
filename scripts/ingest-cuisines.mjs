@@ -174,7 +174,9 @@ async function walk(root, maxDepth = 2) {
         }
       }
       cont = data?.continue?.cmcontinue;
-      await sleep(600);
+      // 250ms is well inside what the API tolerates for a single identified client,
+      // and 600ms turned a 46-cuisine run into an overnight job.
+      await sleep(250);
     } while (cont);
   }
 
@@ -209,8 +211,18 @@ const main = async () => {
   const byTitle = new Map(existing.map((r) => [r.title, r]));
   process.stdout.write(`${existing.length} cuisine records on disk.\n`);
 
+  // Countries already represented are skipped: re-walking India to find nothing new
+  // cost ten minutes on the last run. `--all` forces a full re-walk.
+  const force = process.argv.includes('--all');
+  const covered = new Set(existing.map((r) => r.country));
+
   const targets = CUISINES.slice(0, limit);
   for (const [i, cuisine] of targets.entries()) {
+    if (!force && covered.has(cuisine.country)) {
+      process.stdout.write(`  [${i + 1}/${targets.length}] ${cuisine.cat.replace('Category:', '')}: already covered\n`);
+      continue;
+    }
+
     try {
       const found = await walk(cuisine.cat);
       let added = 0;
