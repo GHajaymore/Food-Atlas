@@ -173,6 +173,16 @@ interface CuisineRow {
   country: string;
   region: string;
   url: string;
+  /** From `{{Infobox food}}`, once the enrichment pass has run. */
+  ingredients?: string[];
+  /**
+   * The article's own account of how the dish is made, in prose.
+   *
+   * Deliberately not `steps`. An encyclopaedia paragraph describes how a dish is
+   * generally made; presenting it as an ordered method would claim a precision the
+   * source does not have, and would let an import read as a documented tradition.
+   */
+  prepSummary?: string;
 }
 
 /** A Wikibooks Cookbook recipe: no place, but a real method. */
@@ -244,13 +254,18 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     const breadcrumb = [row.country, region].filter(Boolean);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
+    const ingredients = row.ingredients ?? [];
+    const prepSummary = row.prepSummary ?? '';
+
     const assessment = assess({
       hasCountry: true,
       hasRegion: !!region,
-      ingredients: [],
+      ingredients,
       heritage: [],
       hasArticle: true,
-      extractLength: 0,
+      // A described preparation is more of the article than a bare stub, and the
+      // assessment reads length as a proxy for how much is actually documented.
+      extractLength: prepSummary.length,
     });
 
     return {
@@ -274,7 +289,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       traditionalBadge: false,
       atRisk: false,
 
-      blurb: `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
+      blurb: prepSummary
+        ? prepSummary.slice(0, 220)
+        : `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
       photo: '',
       credit: '',
@@ -286,9 +303,10 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       breakdown: assessment.breakdown,
       views: '',
 
-      prepSummary: '',
-      ingredients: [],
+      prepSummary,
+      ingredients,
       equipment: [],
+      // Never populated from an article. Prose is a description, not a method.
       steps: [],
       adaptation: null,
       popular: null,
@@ -299,7 +317,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
           title: row.name,
           publisher: 'Wikipedia',
           url: row.url,
-          note: 'Found in this cuisine’s category. Place and name only — no preparation is claimed.',
+          note: prepSummary
+            ? 'The preparation below is quoted from this article, not from someone cooking it in the place.'
+            : 'Found in this cuisine’s category. Place and name only — no preparation is claimed.',
         },
       ],
       disclaimer: assessment.disclaimer,

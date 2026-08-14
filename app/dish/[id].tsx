@@ -235,7 +235,44 @@ export default function DishDetail() {
           {/* An unassessed record has no method, no ingredients and no equipment.
               Rendering the headings anyway would promise a preparation that is not
               there — so it says what it is, and offers the way to fix it. */}
-          {!isDocumented ? (
+          {/* A described preparation is documentation, not a method. It is quoted
+              from a source and labelled as such, so it never passes for the
+              traditional preparation — which is still open, and still needs
+              someone who cooks it. */}
+          {!isDocumented && dish.prepSummary ? (
+            <>
+              <H5 style={styles.tightHeading}>How it&apos;s described</H5>
+              <Muted style={styles.sectionLead}>
+                Quoted from the source below — a general account of how the dish is made, not a record of how it is
+                made in {dish.breadcrumb[dish.breadcrumb.length - 1]}.
+              </Muted>
+              <Block style={styles.describedBlock}>
+                <Muted style={styles.described}>{dish.prepSummary}</Muted>
+              </Block>
+
+              {dish.ingredients.length ? (
+                <>
+                  <H6 style={styles.equipmentHeading}>Ingredients named in that account</H6>
+                  <View style={[styles.chipWrap, styles.equipmentWrap]}>
+                    {dish.ingredients.map((ingredient) => (
+                      <Tag key={ingredient} label={ingredient} variant="neutral" />
+                    ))}
+                  </View>
+                </>
+              ) : null}
+
+              <Card style={styles.undocumented}>
+                <CardKicker>The method is still open</CardKicker>
+                <CardBody>
+                  Nobody has recorded the technique — the timings, the vessel, the order things happen in. That is
+                  what would lift this record out of Unverified, and it takes someone who cooks it.
+                </CardBody>
+                <Button label="Record how it's made" block onPress={() => router.push('/contribute')} />
+              </Card>
+            </>
+          ) : null}
+
+          {!isDocumented && !dish.prepSummary ? (
             <Card style={styles.undocumented}>
               <CardKicker>Not documented yet</CardKicker>
               <CardBody>
@@ -495,6 +532,8 @@ const styles = StyleSheet.create({
   popularityLine: { fontSize: 11, marginTop: -12, marginBottom: 20 },
 
   undocumented: { marginBottom: 22 },
+  describedBlock: { marginBottom: 16 },
+  described: { fontSize: 13, lineHeight: 13 * 1.55 },
   disputed: { marginBottom: 18 },
   confirm: { marginTop: 24 },
   dietBlock: { marginBottom: 20 },
