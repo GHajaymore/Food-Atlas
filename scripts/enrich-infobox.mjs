@@ -129,6 +129,45 @@ function placeFrom(fields, country) {
   return parts[0] ?? '';
 }
 
+/**
+ * The article's own account of how the dish is made.
+ *
+ * Every food article sampled carried a section of this kind — Preparation,
+ * Production, "Ingredients and preparation", "Composition and cooking method" — and
+ * this is what turns thousands of name-and-place records into records that say
+ * something.
+ *
+ * It is captured as **prose, attributed to the article**, and never as numbered
+ * steps. That distinction is the whole point: an encyclopaedia paragraph describes
+ * how a dish is generally made, and rewriting it into an ordered method would
+ * manufacture a precision the source does not have — and would let an imported
+ * record pass for a documented tradition. `steps` stays empty and the traditional
+ * technique check stays open.
+ */
+function preparationProse(wikitext) {
+  const heading = /^==+\s*([^=\n]*(preparation|cooking|method|making|production|recipe)[^=\n]*)==+\s*$/im;
+  const start = wikitext.search(heading);
+  if (start === -1) return '';
+
+  const after = wikitext.slice(start);
+  const body = after.slice(after.indexOf('\n') + 1);
+  const end = body.search(/^==+[^=\n]+==+\s*$/m);
+  const block = end === -1 ? body : body.slice(0, end);
+
+  const prose = clean(
+    block
+      .replace(/\{\|[\s\S]*?\|\}/g, '') // tables
+      .replace(/^[*#:;].*$/gm, '') // lists — prose only
+      .replace(/^\s*\[\[File:[\s\S]*?\]\]\s*$/gim, ''),
+  );
+
+  // Too short to be an account of anything; too long to belong on a card.
+  if (prose.length < 120) return '';
+  const trimmed = prose.slice(0, 700);
+  const lastStop = trimmed.lastIndexOf('. ');
+  return lastStop > 200 ? trimmed.slice(0, lastStop + 1) : trimmed;
+}
+
 const listFrom = (value) =>
   (value || '')
     .split(/[,;]| and /)
@@ -186,6 +225,7 @@ const main = async () => {
   const updates = new Map();
   let gainedPlace = 0;
   let gainedIngredients = 0;
+  let gainedPrep = 0;
 
   const batches = chunk(targets, 20);
   for (const [i, batch] of batches.entries()) {
@@ -205,6 +245,15 @@ const main = async () => {
         if (!row) continue;
 
         const patch = { infobox: true }; // fetched, whether or not it had one
+
+        if (text) {
+          const prose = preparationProse(text);
+          if (prose) {
+            patch.prepSummary = prose;
+            gainedPrep += 1;
+          }
+        }
+
         const fields = text ? infobox(text) : null;
 
         if (fields) {
@@ -233,7 +282,7 @@ const main = async () => {
 
     if (i % 10 === 0) {
       process.stdout.write(
-        `  batch ${i + 1}/${batches.length} — ${gainedPlace} places, ${gainedIngredients} ingredient lists\n`,
+        `  batch ${i + 1}/${batches.length} — ${gainedPrep} preparations, ${gainedPlace} places, ${gainedIngredients} ingredients\n`,
       );
       await mergeWrite(CUISINES, updates);
     }
@@ -246,7 +295,8 @@ const main = async () => {
 
   const places = new Set(cuisines.filter((r) => r.region).map((r) => `${r.country}|${r.region}`));
   process.stdout.write(
-    `\nEnriched. ${gainedPlace} rows gained a real place, ${gainedIngredients} gained ingredients.\n` +
+    `\nEnriched. ${gainedPrep} rows gained a described preparation, ` +
+      `${gainedPlace} a real place, ${gainedIngredients} ingredients.\n` +
       `  ${places.size} distinct places now recorded across the cuisine source.\n`,
   );
 };
