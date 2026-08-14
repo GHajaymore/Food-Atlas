@@ -102,26 +102,35 @@ export default function DishDetail() {
         }
       />
 
-      <Photo
-        uri={dish.photo}
-        credit={dish.credit}
-        label={dish.name}
-        style={styles.hero}
-        // The provenance line directly below carries the attribution in full.
-        hideCredit
-      />
+      {/* No photograph, no hero.
+          A 4:3 placeholder for a record without an image pushed the dish's own name
+          385px down an 812px screen — half the first view spent on a monogram that
+          says nothing. Most records have no photograph, so this was the common case,
+          not the edge one. Where there is no image the record leads with what it
+          actually knows: its classification and its name. */}
+      {dish.photo ? (
+        <>
+          <Photo
+            uri={dish.photo}
+            credit={dish.credit}
+            label={dish.name}
+            style={styles.hero}
+            // The provenance line directly below carries the attribution in full.
+            hideCredit
+          />
 
-      {/* Where the photograph itself was taken, or that the source does not record
-          it. Only meaningful when there is a photograph — most imported records
-          have none, and a bare "photo via" would be worse than saying nothing. */}
-      <View style={styles.photoProvenance}>
-        <View style={styles.cameraIcon}>
-          <CameraIcon size={12} color={color.muted} />
-        </View>
-        <Muted style={styles.photoProvenanceText}>
-          {dish.photo ? `${dish.photoOrigin} · photo via ${dish.credit}` : 'No photograph on record for this dish.'}
-        </Muted>
-      </View>
+          {/* Where the photograph itself was taken, or that the source does not
+              record it. */}
+          <View style={styles.photoProvenance}>
+            <View style={styles.cameraIcon}>
+              <CameraIcon size={12} color={color.muted} />
+            </View>
+            <Muted style={styles.photoProvenanceText}>
+              {dish.photoOrigin} · photo via {dish.credit}
+            </Muted>
+          </View>
+        </>
+      ) : null}
 
       <View style={styles.badges}>
         <Tag label={`${dish.badgeIcon} ${dish.badgeLabelFull}`} variant="neutral" />

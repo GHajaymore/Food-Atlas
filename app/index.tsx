@@ -184,9 +184,12 @@ export default function Feed() {
 
       {/* Curated records lead as full cards; imported ones follow as rows, because a
           full card would dress an absence of evidence up as content. */}
+      {/* A photo card needs a photo. Without one the card is a monogram block with
+          a caption, which takes a card's worth of space to say a row's worth of
+          thing — and most records have no image. */}
       <View style={styles.cards}>
         {assessed.map((dish) => (
-          <DishCard key={dish.id} dish={dish} showViews={showViews} />
+          <DishCard key={dish.id} dish={dish} showViews={showViews} compact={!dish.photo} />
         ))}
       </View>
 

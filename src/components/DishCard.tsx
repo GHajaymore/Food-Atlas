@@ -44,7 +44,9 @@ export function DishCard({ dish, showViews, compact }: Props) {
         onPress={open}
         style={styles.row}
       >
-        <Photo uri={dish.photo} label={dish.name} style={styles.rowThumb} />
+        {/* Only where there is an image. A monogram tile beside every row is visual
+            noise that carries no information. */}
+        {dish.photo ? <Photo uri={dish.photo} label={dish.name} style={styles.rowThumb} /> : null}
         <View style={styles.rowText}>
           <T style={styles.rowName} numberOfLines={1}>
             {dish.name}
@@ -54,6 +56,8 @@ export function DishCard({ dish, showViews, compact }: Props) {
           </Muted>
           <Muted style={styles.rowClass}>
             {dish.badgeIcon} {dish.badgeLabel}
+            {dish.score !== null ? ` · ${dish.score}/100` : ''}
+            {dish.atRisk ? ' · 🕯️ At risk' : ''}
           </Muted>
         </View>
       </Pressable>
