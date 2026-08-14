@@ -63,6 +63,63 @@ export interface CatalogueMetrics {
   forked: number;
 }
 
+/**
+ * One dated snapshot of the atlas, written by `scripts/snapshot-metrics.mjs`.
+ *
+ * Trend needs history, and the app has no storage — so history lives in the repo as
+ * an append-only file, one entry per ingest. Git carries the audit trail, it costs
+ * nothing to keep, and it cannot drift from what shipped because it ships with it.
+ */
+export interface Snapshot {
+  /** ISO date, YYYY-MM-DD. */
+  date: string;
+  total: number;
+  countries: number;
+  documented: number;
+  illustrated: number;
+  located: number;
+}
+
+export interface Trend {
+  /** Oldest → newest, for the sparkline. At least two points, or there is no trend. */
+  points: number[];
+  /** Change since the previous snapshot. */
+  delta: number;
+  /** Change since the first snapshot on record. */
+  sinceStart: number;
+  /** Days covered. Stated so a rise is not mistaken for a rate. */
+  span: number;
+}
+
+/**
+ * Derive a trend for one measure.
+ *
+ * Returns null with fewer than two snapshots. That is the honest answer — a single
+ * data point is a value, not a direction, and drawing a flat line through it would
+ * imply a stability nobody has observed.
+ */
+export function trendFor(history: Snapshot[], key: keyof Omit<Snapshot, 'date'>): Trend | null {
+  if (history.length < 2) return null;
+
+  const ordered = [...history].sort((a, b) => a.date.localeCompare(b.date));
+  const points = ordered.map((s) => s[key]);
+  const first = ordered[0];
+  const last = ordered[ordered.length - 1];
+  const previous = ordered[ordered.length - 2];
+
+  const days = Math.max(
+    1,
+    Math.round((Date.parse(last.date) - Date.parse(first.date)) / 86_400_000),
+  );
+
+  return {
+    points,
+    delta: last[key] - previous[key],
+    sinceStart: last[key] - first[key],
+    span: days,
+  };
+}
+
 const ratio = (label: string, count: number, total: number, note: string): Ratio => ({
   label,
   count,

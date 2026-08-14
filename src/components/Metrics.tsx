@@ -14,16 +14,67 @@
  */
 
 import { StyleSheet, View } from 'react-native';
-import type { CoverageRow, Ratio } from '../domain/metrics';
+import Svg, { Polyline } from 'react-native-svg';
+import type { CoverageRow, Ratio, Trend } from '../domain/metrics';
 import { accentText, color, font, space } from '../theme/tokens';
 import { H6, Muted, T } from './Text';
 
-/** A headline count. The number is the chart — no one-bar bar charts. */
-export function StatTile({ value, label }: { value: string; label: string }) {
+/**
+ * A trend line, drawn only where there is a trend.
+ *
+ * Two points minimum. A single snapshot is a value, not a direction, and a flat line
+ * through one point would assert a stability nobody has observed.
+ */
+function Sparkline({ points }: { points: number[] }) {
+  if (points.length < 2) return null;
+
+  const width = 56;
+  const height = 16;
+  const min = Math.min(...points);
+  const max = Math.max(...points);
+  const span = max - min || 1;
+
+  const path = points
+    .map((p, i) => {
+      const x = (i / (points.length - 1)) * width;
+      const y = height - ((p - min) / span) * height;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(' ');
+
+  return (
+    <Svg width={width} height={height} style={styles.spark}>
+      {/* 2px line, one hue, no axis or grid — a sparkline carries shape, not values. */}
+      <Polyline points={path} fill="none" stroke={color.accent} strokeWidth={2} strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+/** A headline count, optionally with its direction. The number is the chart. */
+export function StatTile({
+  value,
+  label,
+  trend,
+}: {
+  value: string;
+  label: string;
+  trend?: Trend | null;
+}) {
   return (
     <View style={styles.tile}>
       {/* Proportional figures: tabular-nums makes a large standalone number look loose. */}
       <T style={styles.tileValue}>{value}</T>
+
+      {trend ? (
+        <View style={styles.trendRow}>
+          <Muted style={styles.delta}>
+            {trend.delta > 0 ? '+' : ''}
+            {trend.delta.toLocaleString()} in {trend.span}d
+          </Muted>
+          <Sparkline points={trend.points} />
+        </View>
+      ) : null}
+
       <Muted style={styles.tileLabel}>{label}</Muted>
     </View>
   );
@@ -68,6 +119,9 @@ const styles = StyleSheet.create({
   tile: { flex: 1, minWidth: 96 },
   tileValue: { fontFamily: font.heading, fontSize: 28, lineHeight: 28 * 1.12, color: accentText },
   tileLabel: { fontSize: 11, lineHeight: 11 * 1.4, marginTop: 2 },
+  trendRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 },
+  delta: { fontSize: 10, fontVariant: ['tabular-nums'] },
+  spark: { flexShrink: 0 },
 
   meter: { marginBottom: 16 },
   meterHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },

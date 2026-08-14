@@ -12,7 +12,7 @@ import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domai
 import { assess } from '../src/domain/assess';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
-import { catalogueMetrics } from '../src/domain/metrics';
+import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import { planTranslation, withLanguage } from '../src/domain/language';
 import {
   allIngredients,
@@ -552,6 +552,40 @@ describe('the atlas reports its own gaps', () => {
   it('counts a tradition as forked only when it has more than one peer', () => {
     // Kozhikode and Thalassery share one traditionId — that is one forked tradition.
     expect(m().forked).toBe(1);
+  });
+
+  it('shows no trend from a single snapshot — a point is not a direction', () => {
+    expect(trendFor([], 'total')).toBeNull();
+    expect(trendFor([{ date: '2026-08-13', total: 10, countries: 2, documented: 1, illustrated: 3, located: 4 }], 'total')).toBeNull();
+  });
+
+  it('reads direction, span and history once there are two points', () => {
+    const history = [
+      { date: '2026-08-01', total: 100, countries: 10, documented: 5, illustrated: 40, located: 50 },
+      { date: '2026-08-08', total: 140, countries: 12, documented: 6, illustrated: 55, located: 70 },
+      { date: '2026-08-11', total: 150, countries: 12, documented: 9, illustrated: 60, located: 80 },
+    ];
+    const t = trendFor(history, 'total')!;
+    expect(t.points).toEqual([100, 140, 150]);
+    expect(t.delta).toBe(10); // since the previous snapshot
+    expect(t.sinceStart).toBe(50);
+    expect(t.span).toBe(10); // days covered, so a rise is not mistaken for a rate
+  });
+
+  it('orders history by date regardless of how it was appended', () => {
+    const jumbled = [
+      { date: '2026-08-11', total: 150, countries: 12, documented: 9, illustrated: 60, located: 80 },
+      { date: '2026-08-01', total: 100, countries: 10, documented: 5, illustrated: 40, located: 50 },
+    ];
+    expect(trendFor(jumbled, 'total')!.points).toEqual([100, 150]);
+  });
+
+  it('reports a fall as a fall', () => {
+    const history = [
+      { date: '2026-08-01', total: 200, countries: 10, documented: 5, illustrated: 40, located: 50 },
+      { date: '2026-08-05', total: 180, countries: 10, documented: 5, illustrated: 40, located: 50 },
+    ];
+    expect(trendFor(history, 'total')!.delta).toBe(-20);
   });
 
   it('never divides by zero on an empty catalogue', () => {

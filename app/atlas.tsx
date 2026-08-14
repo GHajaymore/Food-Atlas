@@ -17,7 +17,8 @@ import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CoverageTable, Meter, StatTile } from '../src/components/Metrics';
-import { catalogueMetrics } from '../src/domain/metrics';
+import rawHistory from '../src/data/metrics-history.json';
+import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics';
 import { atlasCoverage, buildAtlas } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { color, space } from '../src/theme/tokens';
@@ -26,6 +27,9 @@ export default function Atlas() {
   const setCountry = useApp((s) => s.setCountry);
   const atlas = buildAtlas(dishes);
   const metrics = catalogueMetrics(dishes);
+  // Appended by scripts/snapshot-metrics.mjs. Empty until the first run, and the
+  // tiles simply show no direction rather than inventing one.
+  const history = rawHistory as Snapshot[];
 
   const openCountry = (name: string) => {
     setCountry(name);
@@ -69,8 +73,14 @@ export default function Atlas() {
         <H6 style={styles.statsTitle}>How complete is this atlas?</H6>
 
         <View style={styles.tiles}>
-          <StatTile value={metrics.total.toLocaleString()} label="dishes recorded" />
-          <StatTile value={String(metrics.countries)} label="countries" />
+          {/* "Traditions", not "dishes" — the unit of this atlas is a way of making
+              a food in a place, and the same dish can hold several of them. */}
+          <StatTile
+            value={metrics.total.toLocaleString()}
+            label="traditions recorded"
+            trend={trendFor(history, 'total')}
+          />
+          <StatTile value={String(metrics.countries)} label="countries" trend={trendFor(history, 'countries')} />
           <StatTile value={String(metrics.atRisk)} label="at-risk traditions" />
         </View>
 
