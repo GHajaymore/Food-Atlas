@@ -166,6 +166,15 @@ export interface Dish {
   /** Sweet | Sauce | Bread & baked | Cured & fermented | Fermented drink | … */
   category: string;
   /**
+   * The culinary tradition a dish belongs to — "Tamil", "Sichuan", "Levantine".
+   *
+   * Deliberately separate from `loc.country`, because a cuisine is not a country:
+   * Tamil, Sichuan, Cantonese and Punjabi sit inside one, and Levantine and Kurdish
+   * span several. Collapsing the two would erase exactly the distinctions this atlas
+   * exists to record. Empty where the record's tradition is not established.
+   */
+  cuisine?: string;
+  /**
    * Dietary classification, read from the whole traditional preparation — method
    * included, not just the ingredient list. Narrows what a reader is shown; never
    * a licence to substitute an ingredient so a dish fits a preference.

@@ -25,7 +25,7 @@ import { Tag } from '../src/components/Tag';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CLASSIFICATIONS } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
-import { allCategories, allIngredients, randomAtRisk, searchResults } from '../src/domain/queries';
+import { allCategories, allCuisines, allIngredients, randomAtRisk, searchResults } from '../src/domain/queries';
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
@@ -49,6 +49,7 @@ export default function Search() {
     facetLevels,
     facetCategories,
     facetIngredients,
+    facetCuisines,
     sortBy,
     setQuery,
     toggleFacet,
@@ -73,6 +74,7 @@ export default function Search() {
     dietGroups,
     dietKinds,
     meals,
+    cuisines: facetCuisines,
   });
 
   const [page, setPage] = useState(1);
@@ -81,12 +83,13 @@ export default function Search() {
   // Any change to the query or the facets starts the paging over.
   useEffect(() => {
     setPage(1);
-  }, [query, facetLevels, facetCategories, facetIngredients, sortBy, dietGroups, dietKinds, meals]);
+  }, [query, facetLevels, facetCategories, facetIngredients, facetCuisines, sortBy, dietGroups, dietKinds, meals]);
 
   const active = [
     ...facetLevels.map((v) => ({ label: CLASSIFICATIONS[v as Level].label, remove: () => toggleFacet('facetLevels', v) })),
     ...facetCategories.map((v) => ({ label: v, remove: () => toggleFacet('facetCategories', v) })),
     ...facetIngredients.map((v) => ({ label: v, remove: () => toggleFacet('facetIngredients', v) })),
+    ...facetCuisines.map((v) => ({ label: v, remove: () => toggleFacet('facetCuisines', v) })),
   ];
 
   const activeSummary = [
@@ -150,6 +153,20 @@ export default function Search() {
               label={`${CLASSIFICATIONS[level].icon} ${CLASSIFICATIONS[level].label}`}
               variant={facetLevels.includes(level) ? 'accent' : 'outline'}
               onPress={() => toggleFacet('facetLevels', level)}
+            />
+          ))}
+        </FacetGroup>
+
+        {/* Cuisine sits above "kind of dish" because it is how people actually
+            arrive — "I want Thai food" — and it is not the same as the place
+            filter: Tamil and Sichuan are inside a country, Levantine spans several. */}
+        <FacetGroup label="Cuisine">
+          {allCuisines(dishes).map((cuisine) => (
+            <Tag
+              key={cuisine}
+              label={cuisine}
+              variant={facetCuisines.includes(cuisine) ? 'accent' : 'outline'}
+              onPress={() => toggleFacet('facetCuisines', cuisine)}
             />
           ))}
         </FacetGroup>

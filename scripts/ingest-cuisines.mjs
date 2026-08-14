@@ -95,6 +95,88 @@ const CUISINES = [
   // Europe, for balance rather than emphasis
   { cat: 'Category:Greek cuisine', country: 'Greece', region: '' },
   { cat: 'Category:Portuguese cuisine', country: 'Portugal', region: '' },
+
+  // — Second pass —
+  // Breadth, so the atlas stops being a handful of well-covered cuisines. Order
+  // still favours the older and more under-served traditions.
+  { cat: 'Category:Tamil cuisine', country: 'India', region: 'Tamil Nadu' },
+  { cat: 'Category:Bengali cuisine', country: 'India', region: 'Bengal' },
+  { cat: 'Category:Punjabi cuisine', country: 'India', region: 'Punjab' },
+  { cat: 'Category:Sindhi cuisine', country: 'Pakistan', region: 'Sindh' },
+  { cat: 'Category:Tibetan cuisine', country: 'China', region: 'Tibet' },
+  { cat: 'Category:Uyghur cuisine', country: 'China', region: 'Xinjiang' },
+  { cat: 'Category:Sichuan cuisine', country: 'China', region: 'Sichuan' },
+  { cat: 'Category:Cantonese cuisine', country: 'China', region: 'Guangdong' },
+  { cat: 'Category:Okinawan cuisine', country: 'Japan', region: 'Okinawa' },
+  { cat: 'Category:Singaporean cuisine', country: 'Singapore', region: '' },
+  { cat: 'Category:Timorese cuisine', country: 'East Timor', region: '' },
+  { cat: 'Category:Maldivian cuisine', country: 'Maldives', region: '' },
+  { cat: 'Category:Kazakh cuisine', country: 'Kazakhstan', region: '' },
+  { cat: 'Category:Kyrgyz cuisine', country: 'Kyrgyzstan', region: '' },
+  { cat: 'Category:Tajik cuisine', country: 'Tajikistan', region: '' },
+  { cat: 'Category:Azerbaijani cuisine', country: 'Azerbaijan', region: '' },
+  { cat: 'Category:Kurdish cuisine', country: 'Iraq', region: 'Kurdistan' },
+  { cat: 'Category:Yemeni cuisine', country: 'Yemen', region: '' },
+  { cat: 'Category:Saudi Arabian cuisine', country: 'Saudi Arabia', region: '' },
+  { cat: 'Category:Omani cuisine', country: 'Oman', region: '' },
+  { cat: 'Category:Jordanian cuisine', country: 'Jordan', region: '' },
+  { cat: 'Category:Emirati cuisine', country: 'United Arab Emirates', region: '' },
+
+  // Africa
+  { cat: 'Category:Algerian cuisine', country: 'Algeria', region: '' },
+  { cat: 'Category:Tunisian cuisine', country: 'Tunisia', region: '' },
+  { cat: 'Category:Libyan cuisine', country: 'Libya', region: '' },
+  { cat: 'Category:Sudanese cuisine', country: 'Sudan', region: '' },
+  { cat: 'Category:Somali cuisine', country: 'Somalia', region: '' },
+  { cat: 'Category:Eritrean cuisine', country: 'Eritrea', region: '' },
+  { cat: 'Category:Tanzanian cuisine', country: 'Tanzania', region: '' },
+  { cat: 'Category:Ugandan cuisine', country: 'Uganda', region: '' },
+  { cat: 'Category:Cameroonian cuisine', country: 'Cameroon', region: '' },
+  { cat: 'Category:Ivorian cuisine', country: 'Ivory Coast', region: '' },
+  { cat: 'Category:Malian cuisine', country: 'Mali', region: '' },
+  { cat: 'Category:Zimbabwean cuisine', country: 'Zimbabwe', region: '' },
+  { cat: 'Category:Mozambican cuisine', country: 'Mozambique', region: '' },
+  { cat: 'Category:Angolan cuisine', country: 'Angola', region: '' },
+  { cat: 'Category:Madagascar cuisine', country: 'Madagascar', region: '' },
+
+  // The Americas
+  { cat: 'Category:Argentine cuisine', country: 'Argentina', region: '' },
+  { cat: 'Category:Chilean cuisine', country: 'Chile', region: '' },
+  { cat: 'Category:Colombian cuisine', country: 'Colombia', region: '' },
+  { cat: 'Category:Venezuelan cuisine', country: 'Venezuela', region: '' },
+  { cat: 'Category:Ecuadorian cuisine', country: 'Ecuador', region: '' },
+  { cat: 'Category:Cuban cuisine', country: 'Cuba', region: '' },
+  { cat: 'Category:Jamaican cuisine', country: 'Jamaica', region: '' },
+  { cat: 'Category:Haitian cuisine', country: 'Haiti', region: '' },
+  { cat: 'Category:Salvadoran cuisine', country: 'El Salvador', region: '' },
+  { cat: 'Category:Honduran cuisine', country: 'Honduras', region: '' },
+
+  // Europe
+  { cat: 'Category:Spanish cuisine', country: 'Spain', region: '' },
+  { cat: 'Category:French cuisine', country: 'France', region: '' },
+  { cat: 'Category:Russian cuisine', country: 'Russia', region: '' },
+  { cat: 'Category:Ukrainian cuisine', country: 'Ukraine', region: '' },
+  { cat: 'Category:Polish cuisine', country: 'Poland', region: '' },
+  { cat: 'Category:Hungarian cuisine', country: 'Hungary', region: '' },
+  { cat: 'Category:Romanian cuisine', country: 'Romania', region: '' },
+  { cat: 'Category:Bulgarian cuisine', country: 'Bulgaria', region: '' },
+  { cat: 'Category:Serbian cuisine', country: 'Serbia', region: '' },
+  { cat: 'Category:Croatian cuisine', country: 'Croatia', region: '' },
+  { cat: 'Category:Czech cuisine', country: 'Czech Republic', region: '' },
+  { cat: 'Category:German cuisine', country: 'Germany', region: '' },
+  { cat: 'Category:Austrian cuisine', country: 'Austria', region: '' },
+  { cat: 'Category:Swedish cuisine', country: 'Sweden', region: '' },
+  { cat: 'Category:Norwegian cuisine', country: 'Norway', region: '' },
+  { cat: 'Category:Danish cuisine', country: 'Denmark', region: '' },
+  { cat: 'Category:Finnish cuisine', country: 'Finland', region: '' },
+  { cat: 'Category:Irish cuisine', country: 'Ireland', region: '' },
+  { cat: 'Category:Dutch cuisine', country: 'Netherlands', region: '' },
+  { cat: 'Category:Belgian cuisine', country: 'Belgium', region: '' },
+
+  // Oceania
+  { cat: 'Category:Australian cuisine', country: 'Australia', region: '' },
+  { cat: 'Category:New Zealand cuisine', country: 'New Zealand', region: '' },
+  { cat: 'Category:Fijian cuisine', country: 'Fiji', region: '' },
 ];
 
 /**
@@ -232,7 +314,13 @@ const main = async () => {
           title,
           name: title,
           country: cuisine.country,
-          region: regionFrom(hint),
+          region: regionFrom(hint) || cuisine.region,
+          /**
+           * The cuisine this dish was found under — "Tamil", "Sichuan", "Levantine".
+           * Kept because a cuisine is not a country: several are sub-national, and
+           * a few span borders, so neither can stand in for the other.
+           */
+          cuisine: cuisine.cat.replace(/^Category:/, '').replace(/\s*cuisine\s*$/i, '').trim(),
           url: `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`,
         });
         added += 1;

@@ -175,6 +175,8 @@ interface CuisineRow {
   url: string;
   /** From `{{Infobox food}}`, once the enrichment pass has run. */
   ingredients?: string[];
+  /** The culinary tradition it was found under — "Tamil", "Sichuan". */
+  cuisine?: string;
   /**
    * The article's own account of how the dish is made, in prose.
    *
@@ -272,6 +274,10 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       id: 100_000 + index,
       name: row.name,
       category: 'Unclassified',
+      // Rows ingested before the cuisine label was recorded fall back to the
+      // country's own adjective, which is right for the national cuisines and
+      // simply absent for the sub-national ones until they are re-walked.
+      cuisine: row.cuisine || '',
       diet: {
         group: 'unclassified' as const,
         kinds: [],

@@ -15,6 +15,7 @@ import { findCatalogueViolations, findViolations } from '../src/domain/invariant
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import { planTranslation, withLanguage } from '../src/domain/language';
 import {
+  allCuisines,
   allIngredients,
   buildAtlas,
   feedFor,
@@ -535,6 +536,46 @@ describe('every atlas row reads the same way', () => {
         else expect(country.detail).toMatch(new RegExp(`· ${country.places} places?$`));
       }
     }
+  });
+});
+
+describe('cuisine is its own axis, not a synonym for country', () => {
+  const base = { query: '', levels: [], categories: [], ingredients: [], sortBy: 'authenticity' as const };
+
+  const pool: Dish[] = [
+    { ...halwa(), id: 201, name: 'Tamil dish', cuisine: 'Tamil', loc: { ...halwa().loc, city: 'Madurai' } },
+    { ...halwa(), id: 202, name: 'Sichuan dish', cuisine: 'Sichuan', loc: { ...halwa().loc, country: 'China', region: 'Sichuan', province: '', city: '', village: '' }, breadcrumb: ['China', 'Sichuan'] },
+    { ...halwa(), id: 203, name: 'Another Tamil dish', cuisine: 'Tamil', loc: { ...halwa().loc, city: 'Chennai' } },
+  ];
+
+  it('filters by culinary tradition', () => {
+    const tamil = searchResults(pool, { ...base, cuisines: ['Tamil'] });
+    expect(tamil.map((d) => d.id).sort()).toEqual([201, 203]);
+  });
+
+  it('separates sub-national cuisines that share a country', () => {
+    // Both Tamil dishes are Indian; filtering by country could not tell them from
+    // any other Indian dish, which is the whole reason this axis exists.
+    const tamil = searchResults(pool, { ...base, cuisines: ['Tamil'] });
+    expect(tamil.every((d) => d.loc.country === 'India')).toBe(true);
+    expect(searchResults(pool, { ...base, cuisines: ['Sichuan'] }).map((d) => d.id)).toEqual([202]);
+  });
+
+  it('ORs several cuisines', () => {
+    expect(searchResults(pool, { ...base, cuisines: ['Tamil', 'Sichuan'] })).toHaveLength(3);
+  });
+
+  it('narrows nothing when no cuisine is chosen', () => {
+    expect(searchResults(pool, base)).toHaveLength(3);
+  });
+
+  it('excludes records whose tradition is not established', () => {
+    const unknown: Dish = { ...halwa(), id: 204, name: 'Unplaced', cuisine: undefined };
+    expect(searchResults([...pool, unknown], { ...base, cuisines: ['Tamil'] }).map((d) => d.id)).not.toContain(204);
+  });
+
+  it('orders the facet by how much of the atlas each tradition holds', () => {
+    expect(allCuisines(pool)[0]).toBe('Tamil');
   });
 });
 

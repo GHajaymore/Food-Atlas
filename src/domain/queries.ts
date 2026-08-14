@@ -185,6 +185,8 @@ export interface SearchFacets {
   dietGroups?: DietGroup[];
   dietKinds?: DietKind[];
   meals?: MealOccasion[];
+  /** Culinary traditions — "Tamil", "Sichuan". Multi-select, OR within the group. */
+  cuisines?: string[];
 }
 
 /**
@@ -227,6 +229,7 @@ export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
     if (facets.ingredients.length && !d.ingredients.some((i) => facets.ingredients.includes(i))) return false;
     if (!matchesDiet(d.diet, facets.dietGroups ?? [], facets.dietKinds ?? [])) return false;
     if (!matchesMeal(d.meals, facets.meals ?? [])) return false;
+    if (facets.cuisines?.length && !(d.cuisine && facets.cuisines.includes(d.cuisine))) return false;
     if (!q) return true;
     return haystackFor(d).includes(q);
   });
@@ -257,6 +260,24 @@ export const allIngredients = (dishes: Dish[], cap = 10): string[] =>
 /** The kinds of dish present in the catalogue, for the search facet. */
 export const allCategories = (dishes: Dish[]): string[] =>
   [...new Set(dishes.map((d) => d.category).filter(Boolean))].sort();
+
+/**
+ * The culinary traditions present, most-recorded first.
+ *
+ * Ordered by how much of the atlas each one holds rather than alphabetically: with a
+ * hundred-odd cuisines, the ones a reader is most likely to want should not be
+ * somewhere past the fold. Capped for the same reason the ingredient facet is.
+ */
+export const allCuisines = (dishes: Dish[], cap = 24): string[] => {
+  const counts = new Map<string, number>();
+  for (const dish of dishes) {
+    if (dish.cuisine) counts.set(dish.cuisine, (counts.get(dish.cuisine) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, cap)
+    .map(([name]) => name);
+};
 
 /** A random at-risk tradition, for "Surprise me". */
 export const randomAtRisk = (dishes: Dish[]): Dish | undefined => {

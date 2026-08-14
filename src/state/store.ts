@@ -37,6 +37,8 @@ interface AppState {
   facetLevels: string[];
   facetCategories: string[];
   facetIngredients: string[];
+  /** Culinary traditions — separate from place, because a cuisine is not a country. */
+  facetCuisines: string[];
   sortBy: SortKey;
 
   setFilter: (filter: FilterKey) => void;
@@ -57,7 +59,10 @@ interface AppState {
   clearMeals: () => void;
 
   setQuery: (text: string) => void;
-  toggleFacet: (group: 'facetLevels' | 'facetCategories' | 'facetIngredients', value: string) => void;
+  toggleFacet: (
+    group: 'facetLevels' | 'facetCategories' | 'facetIngredients' | 'facetCuisines',
+    value: string,
+  ) => void;
   setSortBy: (sort: SortKey) => void;
   clearFacets: () => void;
 
@@ -103,6 +108,7 @@ export const useApp = create<AppState>((set) => ({
   facetLevels: [],
   facetCategories: [],
   facetIngredients: [],
+  facetCuisines: [],
   sortBy: 'authenticity',
 
   setFilter: (activeFilter) => set({ activeFilter }),
@@ -156,7 +162,8 @@ export const useApp = create<AppState>((set) => ({
 
   setSortBy: (sortBy) => set({ sortBy }),
 
-  clearFacets: () => set({ facetLevels: [], facetCategories: [], facetIngredients: [], query: '' }),
+  clearFacets: () =>
+    set({ facetLevels: [], facetCategories: [], facetIngredients: [], facetCuisines: [], query: '' }),
 
   // The Feed's empty state resets place and authenticity, but deliberately NOT the
   // dietary preference — that is a standing constraint on what the reader can eat,
