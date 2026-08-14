@@ -21,7 +21,7 @@
 
 import { assess } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
-import { registerContinents } from '../domain/continents';
+import { continentOf, registerContinents } from '../domain/continents';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
 import rawImported from './catalogue.json';
@@ -188,13 +188,15 @@ interface CuisineRow {
   prepSummary?: string;
 }
 
-/** A Wikibooks Cookbook recipe: no place, but a real method. */
+/** A Wikibooks Cookbook recipe: a real method, and a country from its categories. */
 interface CookbookRow {
   title: string;
   name: string;
   ingredients: string[];
   steps: string[];
   url: string;
+  /** Derived from "Category:Indian recipes" and the like. */
+  country?: string;
 }
 
 /** Match key for reconciling the same dish arriving from different sources. */
@@ -340,6 +342,87 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
   });
 
 /**
+ * Cookbook recipes as records in their own right.
+ *
+ * These carry the thing the atlas most lacked — an actual preparation, with
+ * ingredients and ordered steps — and their categories place them in a country. That
+ * makes them records rather than a lookup table matched by name, which reached only
+ * 330 of 13,000.
+ *
+ * **They are Modern Adaptations, and that is not a demotion.** A Cookbook page is a
+ * general-audience recipe: it documents how a dish is commonly made today, written
+ * for someone anywhere, which is precisely the brief's most-published version. It
+ * never becomes the authentic record by default. Holding them at `adaptation` is
+ * what lets the app show the modern preparation honestly beside the traditional one
+ * rather than quietly passing one off as the other — the comparison the app exists
+ * to make.
+ */
+const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
+  // The country must be a real one. Wikibooks files recipes under "Category:Easy
+  // recipes" and "Category:Boiled recipes" as readily as "Category:Indian recipes",
+  // so a naive read of the category made "Easy" the largest cuisine in the atlas.
+  // The continent map is the whitelist: anything it cannot place is not a country.
+  .filter((row) => row.country && row.steps?.length && continentOf(row.country) !== 'Elsewhere')
+  .map((row, index) => ({
+    id: 300_000 + index,
+    name: row.name,
+    category: 'Unclassified',
+    cuisine: '',
+    diet: {
+      group: 'unclassified' as const,
+      kinds: [],
+      contains: [],
+      basis: 'Recorded from a published recipe, which does not state a dietary classification.',
+    },
+    meals: { occasions: [], note: '' },
+    loc: { country: row.country!, region: '', province: '', city: '', village: '' },
+    breadcrumb: [row.country!],
+
+    badgeLevel: 'adaptation' as const,
+    badgeIcon: '🟠',
+    badgeLabel: 'Modern Adaptation',
+    badgeLabelFull: 'Modern Adaptation',
+    traditionalBadge: false,
+    atRisk: false,
+
+    blurb: `A published recipe for ${row.name}, written for a general audience rather than recorded in ${row.country}.`,
+
+    photo: '',
+    credit: '',
+    creditHref: '',
+    photoOrigin: 'No photograph on record',
+    photoVerified: false,
+
+    // Adaptations are not scored: the confidence score measures evidence that a
+    // preparation is the traditional one, and this record does not make that claim.
+    score: null,
+    breakdown: [],
+    views: '',
+
+    prepSummary: `Published method, ${row.steps.length} steps.`,
+    ingredients: row.ingredients ?? [],
+    equipment: [],
+    steps: row.steps,
+    adaptation: null,
+    popular: null,
+    videos: [],
+
+    sources: [
+      {
+        title: row.name,
+        publisher: 'Wikibooks Cookbook',
+        url: row.url,
+        note: 'A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place.',
+      },
+    ],
+    disclaimer:
+      'This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified ' +
+      'as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has ' +
+      'confirmed that this is how they make it.',
+    sourceLanguage: 'en',
+  }));
+
+/**
  * Reconcile Cookbook methods onto records that have none.
  *
  * The method arrives as `popular` — the most-published version — rather than as the
@@ -375,8 +458,18 @@ const withheld = importedRows.length - imported.length;
  * is dropped rather than taking the whole catalogue down — one bad record from an
  * upstream source should not stop the app from opening.
  */
+/**
+ * A Cookbook recipe that duplicates a dish already in the atlas is folded onto that
+ * record as its `popular` version instead of standing alongside it — the same dish
+ * appearing twice is a data bug, not a tradition and its adaptation.
+ */
+const cookbookDuplicates = new Set(
+  [...curated, ...imported, ...fromCuisines].map((d) => d.name.trim().toLowerCase()),
+);
+
 const validImported = [...imported, ...fromCuisines]
   .map(withCookbookMethod)
+  .concat(fromCookbook.filter((d) => !cookbookDuplicates.has(d.name.trim().toLowerCase())))
   .filter((dish) => findViolations(dish).length === 0);
 
 /** Everything the app can show. Curated records first, so they lead every list. */

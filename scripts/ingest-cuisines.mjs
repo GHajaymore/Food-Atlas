@@ -266,6 +266,36 @@ async function walk(root, maxDepth = 2) {
 }
 
 /** 'Kerala cuisine' -> 'Kerala'. Empty when the hint is not a place. */
+/**
+ * Merge into what is on disk now, rather than writing a snapshot held since startup.
+ *
+ * The enrichment passes add fields to these same rows — preparations, places,
+ * ingredients, at-risk evidence — and a wholesale write silently discards every one
+ * of them. That is exactly what happened: a full risk-detection pass was wiped by
+ * this script's next checkpoint. New rows are added, existing rows are only extended,
+ * so the two are safe to overlap.
+ */
+async function mergeWrite(path, rows) {
+  let current = [];
+  try {
+    current = JSON.parse(await readFile(path, 'utf8'));
+  } catch {
+    current = [];
+  }
+
+  const byTitle = new Map(current.map((r) => [r.title, r]));
+  for (const row of rows) {
+    const existing = byTitle.get(row.title);
+    // Never overwrite a field that already holds something richer.
+    if (existing) Object.assign(existing, { ...row, ...existing });
+    else byTitle.set(row.title, row);
+  }
+
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, JSON.stringify([...byTitle.values()]), 'utf8');
+  return byTitle.size;
+}
+
 const regionFrom = (hint) => {
   if (!hint) return '';
   const cleaned = hint
@@ -333,8 +363,7 @@ const main = async () => {
     }
 
     // Checkpoint every cuisine — this run is long and network-bound.
-    await mkdir(dirname(OUT), { recursive: true });
-    await writeFile(OUT, JSON.stringify([...byTitle.values()]), 'utf8');
+    await mergeWrite(OUT, [...byTitle.values()]);
     await sleep(1200);
   }
 

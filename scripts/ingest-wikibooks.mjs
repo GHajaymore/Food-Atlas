@@ -137,6 +137,83 @@ const chunk = (arr, size) => {
 /** 'Cookbook:Chicken Tikka Masala' -> 'Chicken Tikka Masala' */
 const displayName = (title) => title.replace(/^Cookbook:/, '').trim();
 
+/**
+ * Give each recipe a place, from its Cookbook categories.
+ *
+ * A recipe with a method but no country cannot be an atlas record — it has nowhere
+ * to sit and nothing to be authentic *to*. Wikibooks files recipes under
+ * "Category:Indian recipes", "Category:Cuisine of Japan" and the like, which is
+ * exactly the missing half. With it, 3,400 recipes that carry a real preparation
+ * become placed records rather than a lookup table matched by name.
+ */
+const CATEGORY_COUNTRY = [
+  [/^Category:(.+?) recipes$/i, 1],
+  [/^Category:Cuisine of (?:the\s+)?(.+)$/i, 1],
+  [/^Category:(.+?) cuisine$/i, 1],
+];
+
+/** Demonym to country, for the categories that name a people rather than a state. */
+const DEMONYM = {
+  Indian: 'India', Chinese: 'China', Japanese: 'Japan', Korean: 'South Korea', Thai: 'Thailand',
+  Vietnamese: 'Vietnam', Indonesian: 'Indonesia', Malaysian: 'Malaysia', Filipino: 'Philippines',
+  Pakistani: 'Pakistan', Bangladeshi: 'Bangladesh', 'Sri Lankan': 'Sri Lanka', Nepalese: 'Nepal',
+  Afghan: 'Afghanistan', Iranian: 'Iran', Persian: 'Iran', Turkish: 'Turkey', Lebanese: 'Lebanon',
+  Syrian: 'Syria', Iraqi: 'Iraq', Israeli: 'Israel', Egyptian: 'Egypt', Moroccan: 'Morocco',
+  Ethiopian: 'Ethiopia', Nigerian: 'Nigeria', Ghanaian: 'Ghana', Kenyan: 'Kenya', Senegalese: 'Senegal',
+  'South African': 'South Africa', Mexican: 'Mexico', Peruvian: 'Peru', Brazilian: 'Brazil',
+  Argentine: 'Argentina', Argentinian: 'Argentina', Colombian: 'Colombia', Chilean: 'Chile',
+  Cuban: 'Cuba', Jamaican: 'Jamaica', American: 'United States', Canadian: 'Canada', Italian: 'Italy',
+  French: 'France', Spanish: 'Spain', Portuguese: 'Portugal', German: 'Germany', Greek: 'Greece',
+  British: 'United Kingdom', English: 'United Kingdom', Scottish: 'United Kingdom', Irish: 'Ireland',
+  Polish: 'Poland', Russian: 'Russia', Ukrainian: 'Ukraine', Hungarian: 'Hungary', Romanian: 'Romania',
+  Swedish: 'Sweden', Norwegian: 'Norway', Danish: 'Denmark', Finnish: 'Finland', Dutch: 'Netherlands',
+  Belgian: 'Belgium', Austrian: 'Austria', Swiss: 'Switzerland', Australian: 'Australia',
+  'New Zealand': 'New Zealand', Icelandic: 'Iceland', Mongolian: 'Mongolia', Georgian: 'Georgia',
+  Armenian: 'Armenia', Uzbek: 'Uzbekistan', Kazakh: 'Kazakhstan',
+};
+
+function countryFromCategories(categories) {
+  for (const category of categories) {
+    for (const [pattern] of CATEGORY_COUNTRY) {
+      const match = category.match(pattern);
+      if (!match) continue;
+      const raw = match[1].trim();
+      const country = DEMONYM[raw] ?? raw;
+
+      /*
+       * Wikibooks files a recipe under its difficulty, its technique and its course
+       * as readily as under its cuisine — "Category:Easy recipes",
+       * "Category:Boiled recipes", "Category:Appetizer recipes" all match the same
+       * pattern. Read naively, "Easy" became the largest cuisine in the atlas with
+       * 883 dishes. Only a name that is actually a country or a known demonym is
+       * accepted; everything else is discarded rather than guessed at.
+       */
+      const known = new Set(Object.values(DEMONYM));
+      if (!known.has(country)) continue;
+      return country;
+    }
+  }
+  return '';
+}
+
+/** Categories for up to 50 pages per request. */
+async function fetchCategories(titles) {
+  const data = await api({
+    action: 'query',
+    prop: 'categories',
+    cllimit: 'max',
+    clshow: '!hidden',
+    titles: titles.join('|'),
+    redirects: '1',
+  });
+
+  const out = new Map();
+  for (const page of data?.query?.pages ?? []) {
+    if (page.title) out.set(page.title, (page.categories ?? []).map((c) => c.title));
+  }
+  return out;
+}
+
 const main = async () => {
   const limitArg = process.argv.indexOf('--limit');
   const limit = limitArg > -1 ? Number(process.argv[limitArg + 1]) : 0;
@@ -188,9 +265,39 @@ const main = async () => {
     await sleep(350);
   }
 
+  // Second pass: give each recipe a place, so it can be a record rather than a
+  // lookup table entry matched by name.
+  const needCountry = [...byTitle.values()].filter((r) => !r.countryChecked);
+  process.stdout.write(`\nPlacing ${needCountry.length} recipes from their categories…\n`);
+
+  let placed = 0;
+  for (const [i, batch] of chunk(needCountry, 50).entries()) {
+    try {
+      const categories = await fetchCategories(batch.map((r) => r.title));
+      for (const [title, cats] of categories) {
+        const row = byTitle.get(title);
+        if (!row) continue;
+        row.countryChecked = true;
+        const country = countryFromCategories(cats);
+        if (country) {
+          row.country = country;
+          placed += 1;
+        }
+      }
+    } catch (error) {
+      process.stdout.write(`  batch ${i + 1} failed (${error.message})\n`);
+    }
+    if (i % 10 === 0) {
+      process.stdout.write(`  batch ${i + 1}/${Math.ceil(needCountry.length / 50)} — ${placed} placed\n`);
+      await writeFile(OUT, JSON.stringify([...byTitle.values()]), 'utf8');
+    }
+    await sleep(300);
+  }
+
   const records = [...byTitle.values()];
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(records), 'utf8');
+  process.stdout.write(`  ${placed} recipes placed in a country.\n`);
 
   process.stdout.write(
     `\nWrote ${records.length} cookbook recipes to src/data/cookbook.json\n` +
