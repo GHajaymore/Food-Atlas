@@ -27,6 +27,7 @@ import type { Dish } from '../domain/types';
 import rawImported from './catalogue.json';
 import rawCookbook from './cookbook.json';
 import rawCuisines from './cuisines.json';
+import rawUnesco from './unesco.json';
 import { dishes as curated } from './seed';
 
 /**
@@ -422,6 +423,132 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     sourceLanguage: 'en',
   }));
 
+/** A UNESCO Intangible Cultural Heritage inscription. */
+interface UnescoRow {
+  reference: string;
+  name: string;
+  countries: string[];
+  country: string;
+  list: 'representative' | 'urgent-safeguarding' | 'best-practice';
+  url: string;
+}
+
+/**
+ * UNESCO inscriptions — the only imported records that reach Authentic.
+ *
+ * Everything else imported arrives Unclassified, and correctly so: nothing in
+ * Wikidata or Wikipedia evidences that a preparation is the traditional one. An ICH
+ * inscription is different in kind. An intergovernmental body has documented a
+ * living tradition, the community that practises it, and its transmission — which
+ * is the brief's "credible documentation" and its "recognised traditional
+ * preparation associated with a broader region" in one.
+ *
+ * They are `regional` rather than `local`: an inscription recognises a tradition
+ * across a country or several, not the way one village makes it.
+ *
+ * The Urgent Safeguarding List is a register of traditions assessed as needing
+ * urgent safeguarding — a sourced, authoritative statement of decline, and the only
+ * at-risk evidence in the catalogue that did not have to be hand-written.
+ */
+const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).map((row, index) => {
+  const urgent = row.list === 'urgent-safeguarding';
+  const shared = row.countries.length > 1;
+
+  return {
+    id: 500_000 + index,
+    name: row.name,
+    category: 'Unclassified',
+    cuisine: '',
+    diet: {
+      group: 'unclassified' as const,
+      kinds: [],
+      contains: [],
+      basis: 'An inscription documents a practice, not a recipe, so no dietary classification can be made from it.',
+    },
+    meals: { occasions: [], note: '' },
+    loc: { country: row.country, region: '', province: '', city: '', village: '' },
+    breadcrumb: [row.country],
+
+    badgeLevel: 'regional' as const,
+    badgeIcon: '🟢',
+    badgeLabel: 'Authentic — Regional',
+    badgeLabelFull: 'Authentic — Regional',
+    // Not set: the inscription evidences the tradition, not the absence of modern
+    // substitution in any particular preparation of it.
+    traditionalBadge: false,
+    atRisk: urgent,
+    atRiskEvidence: urgent
+      ? 'Inscribed on UNESCO’s List of Intangible Cultural Heritage in Need of Urgent Safeguarding.'
+      : undefined,
+
+    blurb: shared
+      ? `Inscribed by UNESCO as intangible cultural heritage, submitted jointly by ${row.countries.join(', ')}.`
+      : `Inscribed by UNESCO as intangible cultural heritage of ${row.country}.`,
+
+    photo: '',
+    credit: '',
+    creditHref: '',
+    photoOrigin: 'No photograph on record',
+    photoVerified: false,
+
+    /*
+     * Scored on what an inscription actually evidences. Geography and cultural
+     * documentation are strong; community validation is real but institutional
+     * rather than the app's own three confirmations, so it is credited partially.
+     * Ingredients and technique stay at zero — an inscription names a practice, it
+     * does not write down the method, and inventing one is the thing the brief
+     * forbids most plainly.
+     */
+    score: 62,
+    breakdown: [
+      ['Geographic connection', 85],
+      ['Traditional ingredients', 0],
+      ['Traditional technique', 0],
+      ['Local source', 80],
+      ['Cultural documentation', 95],
+      ['Community validation', 70],
+    ],
+    views: '',
+
+    prepSummary: '',
+    ingredients: [],
+    equipment: [],
+    steps: [],
+    adaptation: null,
+    popular: null,
+    videos: [],
+
+    sources: [
+      {
+        title: row.name,
+        publisher: 'UNESCO Intangible Cultural Heritage',
+        url: row.url,
+        note: `Inscription ${row.reference}${urgent ? ' — List in Need of Urgent Safeguarding' : ''}.`,
+      },
+    ],
+    disclaimer:
+      `UNESCO has inscribed this as intangible cultural heritage${shared ? `, submitted jointly by ${row.countries.join(', ')}` : ''}, ` +
+      'which documents the tradition, the community that practises it and how it is passed on. What the inscription ' +
+      'does not do is write down the method — so the ingredients and technique checks are still open, and nobody ' +
+      'here has recorded how it is actually cooked.',
+    sourceLanguage: 'en',
+    // Jointly-submitted inscriptions are one tradition claimed by several countries,
+    // which is what the origin model exists for rather than a reason to pick one.
+    originClaims: shared
+      ? row.countries.slice(0, 4).map((place) => ({
+          place,
+          claim: 'A submitting state on this joint inscription.',
+          source: {
+            title: row.name,
+            publisher: 'UNESCO Intangible Cultural Heritage',
+            url: row.url,
+            note: `Inscription ${row.reference}.`,
+          },
+        }))
+      : undefined,
+  } satisfies Dish;
+});
+
 /**
  * Reconcile Cookbook methods onto records that have none.
  *
@@ -470,6 +597,9 @@ const cookbookDuplicates = new Set(
 const validImported = [...imported, ...fromCuisines]
   .map(withCookbookMethod)
   .concat(fromCookbook.filter((d) => !cookbookDuplicates.has(d.name.trim().toLowerCase())))
+  // UNESCO records lead the imported tier: they are the only ones carrying evidence
+  // strong enough to be classified, so they should be the first thing a reader meets.
+  .concat(fromUnesco)
   .filter((dish) => findViolations(dish).length === 0);
 
 /** Everything the app can show. Curated records first, so they lead every list. */
