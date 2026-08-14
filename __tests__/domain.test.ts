@@ -32,6 +32,7 @@ import {
   routeDispute,
   siblingsOf,
 } from '../src/domain/traditions';
+import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
 import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
@@ -963,5 +964,54 @@ describe('video language handling never dubs over the cook', () => {
     const plan = planTranslation({}, 'en');
     expect(plan.route).toBe('unavailable');
     expect(plan.note).toMatch(/we can't promise/);
+  });
+});
+
+describe('the home shelves are doorways, not decoration', () => {
+  it('never shows the same tradition twice on one shelf', () => {
+    for (const shelf of buildShelves(dishes)) {
+      const ids = shelf.dishes.map((d) => d.id);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
+
+  it('never offers a shelf it cannot fill', () => {
+    for (const shelf of buildShelves(dishes)) {
+      expect(shelf.dishes.length).toBeGreaterThan(0);
+      expect(shelf.total).toBeGreaterThanOrEqual(shelf.dishes.length);
+    }
+  });
+
+  it('leads each rail with the records that have a photograph', () => {
+    for (const shelf of buildShelves(dishes)) {
+      const photos = shelf.dishes.map((d) => Boolean(d.photo));
+      // Once the rail runs out of pictures it must not go back to them.
+      expect(photos).toEqual([...photos].sort((a, b) => Number(b) - Number(a)));
+    }
+  });
+
+  it('opens a shelf onto exactly what the rail was showing', () => {
+    // The count on the shelf header is a promise about the list behind it. This is
+    // the check that the two cannot drift apart.
+    for (const shelf of buildShelves(dishes)) {
+      const match = shelfMatch(shelf.id);
+      expect(match).not.toBeNull();
+      expect(dishes.filter(match!).length).toBe(shelf.total);
+      for (const dish of shelf.dishes) expect(match!(dish)).toBe(true);
+    }
+  });
+
+  it('widens rather than empties when the shelf is unknown', () => {
+    // 'all' and a stale id must both land on the whole catalogue. A doorway that
+    // opens onto nothing is worse than one that opens onto everything.
+    expect(shelfMatch('all')).toBeNull();
+    expect(shelfMatch(null)).toBeNull();
+    expect(shelfTitle('all')).toBeNull();
+  });
+
+  it('names every shelf it can open', () => {
+    for (const shelf of buildShelves(dishes)) {
+      expect(shelfTitle(shelf.id)).toBe(shelf.title);
+    }
   });
 });

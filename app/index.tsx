@@ -8,7 +8,7 @@
  */
 
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { BRAND } from '../src/brand';
 import { Button, IconButton } from '../src/components/Button';
@@ -17,6 +17,7 @@ import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
 import { MealFilter } from '../src/components/MealFilter';
 import { Refine } from '../src/components/Refine';
+import { Shelf } from '../src/components/Shelf';
 import { MapPinIcon, SearchIcon } from '../src/components/icons';
 import { Photo } from '../src/components/Photo';
 import { Pressable } from '../src/components/Pressable';
@@ -28,6 +29,7 @@ import { FILTERS, filterDef } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, nextLevel } from '../src/domain/queries';
+import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
 import { settings, useApp } from '../src/state/store';
 
 /** Dish cards rendered per page of the feed. */
@@ -52,7 +54,25 @@ export default function Feed() {
   } = useApp();
 
   const diet = { groups: dietGroups, kinds: dietKinds };
-  const feed = feedFor(dishes, activeFilter, path, diet, meals);
+
+  /**
+   * `null` while the reader is browsing shelves; a shelf id (or 'all') once they
+   * have opened one. Any real narrowing — place, filter, diet, occasion — also
+   * counts as asking for a list, because someone who has picked a country is past
+   * being offered somewhere to start.
+   */
+  const [shelfView, setShelfView] = useState<string | null>(null);
+  const hasNarrowed =
+    path.length > 0 || activeFilter !== settings.defaultFilter || dietGroups.length > 0 || meals.length > 0;
+  const isBrowsing = shelfView === null && !hasNarrowed;
+
+  // The shelf narrows the same feed everything else narrows, so its list obeys the
+  // reader's diet and place exactly as the unshelved one does.
+  const shelfPredicate = shelfMatch(shelfView);
+  const scope = shelfPredicate ? dishes.filter(shelfPredicate) : dishes;
+  const feed = feedFor(scope, activeFilter, path, diet, meals);
+
+  const shelves = useMemo(() => (isBrowsing ? buildShelves(dishes) : []), [isBrowsing, dishes]);
 
   const [page, setPage] = useState(1);
   const visible = feed.slice(0, page * PAGE_SIZE);
@@ -63,7 +83,7 @@ export default function Feed() {
   // list never opens halfway down someone else's scroll position.
   useEffect(() => {
     setPage(1);
-  }, [activeFilter, path, dietGroups, dietKinds, meals]);
+  }, [activeFilter, path, dietGroups, dietKinds, meals, shelfView]);
   // Place counts follow the same narrowing, so a place never promises a record the
   // reader's dietary preference would hide.
   const next = nextLevel(path, feed);
@@ -77,9 +97,12 @@ export default function Feed() {
       : `Choose a country · ${next.options.length} recorded`
     : 'Deepest level recorded here';
 
-  const resultSummary = `${feed.length} ${feed.length === 1 ? 'tradition' : 'traditions'}${
-    path.length ? ` in ${place}` : ' worldwide'
-  }`;
+  // Says what the list is, in the reader's own terms: the shelf they opened, or the
+  // place they narrowed to, so a long list is never unexplained.
+  const openShelf = shelfTitle(shelfView);
+  const resultSummary = `${feed.length.toLocaleString()} ${feed.length === 1 ? 'tradition' : 'traditions'}${
+    path.length ? ` in ${place}` : openShelf ? '' : ' worldwide'
+  }${openShelf ? ` · ${openShelf}` : ''}`;
 
   // 'World' plus each chosen level; tapping any of them truncates the path there.
   const crumbs = [{ label: 'World' }, ...path.map((p) => ({ label: p.value }))];
@@ -167,7 +190,47 @@ export default function Feed() {
         <MealFilter selected={meals} onToggle={toggleMeal} onClear={clearMeals} />
       </Refine>
 
-      <Muted style={styles.resultCount}>{resultSummary}</Muted>
+      {/* Nothing narrowed yet: show doorways rather than 13,855 rows. A reader who
+          has not asked for anything specific is browsing, and a dump of whatever
+          loaded first is not browsing. The moment they narrow — a place, a filter, a
+          diet — the list is what they want, and it takes over. */}
+      {isBrowsing ? (
+        <>
+          {shelves.map((shelf) => (
+            <Shelf
+              key={shelf.id}
+              shelf={shelf}
+              onOpenDish={(id) => router.push(`/dish/${id}`)}
+              onOpenAll={(s) => setShelfView(s.id)}
+            />
+          ))}
+
+          <Button
+            label={`Browse all ${feed.length.toLocaleString()} traditions`}
+            variant="secondary"
+            block
+            onPress={() => setShelfView('all')}
+            style={styles.browseAll}
+          />
+        </>
+      ) : null}
+
+      {!isBrowsing ? (
+        <View style={styles.listHead}>
+          <Muted style={styles.resultCount}>{resultSummary}</Muted>
+          {/* The way back out of a list. Without it a shelf is a one-way door. */}
+          {shelfView !== null ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Back to the shelves"
+              tint="none"
+              onPress={() => setShelfView(null)}
+            >
+              <Muted style={styles.backLink}>← Shelves</Muted>
+            </Pressable>
+          ) : null}
+        </View>
+      ) : null}
 
       {feed.length === 0 ? (
         <Card style={styles.emptyCard}>
@@ -178,7 +241,16 @@ export default function Feed() {
             {path.length ? ` in ${place}` : ' anywhere in the atlas'}. That is an absence of records, not an absence
             of food — we&apos;d rather say we don&apos;t know.
           </CardBody>
-          <Button label="Reset the filters" onPress={resetFilters} block />
+          {/* The shelf is one of the things narrowing this list, so a reset that left
+              it in place would look like a button that does nothing. */}
+          <Button
+            label="Reset the filters"
+            onPress={() => {
+              setShelfView(null);
+              resetFilters();
+            }}
+            block
+          />
         </Card>
       ) : null}
 
@@ -188,12 +260,14 @@ export default function Feed() {
           a caption, which takes a card's worth of space to say a row's worth of
           thing — and most records have no image. */}
       <View style={styles.cards}>
-        {assessed.map((dish) => (
-          <DishCard key={dish.id} dish={dish} showViews={showViews} compact={!dish.photo} />
-        ))}
+        {!isBrowsing
+          ? assessed.map((dish) => (
+              <DishCard key={dish.id} dish={dish} showViews={showViews} compact={!dish.photo} />
+            ))
+          : null}
       </View>
 
-      {unassessed.length ? (
+      {!isBrowsing && unassessed.length ? (
         <View style={styles.unassessed}>
           {assessed.length ? (
             <>
@@ -212,7 +286,7 @@ export default function Feed() {
 
       {/* The atlas runs to thousands of records, so the feed pages rather than
           rendering everything. The count above always states the true total. */}
-      {feed.length > visible.length ? (
+      {!isBrowsing && feed.length > visible.length ? (
         <Button
           label={`Show more — ${feed.length - visible.length} left`}
           variant="secondary"
@@ -303,6 +377,9 @@ const styles = StyleSheet.create({
 
   emptyCard: { marginTop: 14 },
   cards: { gap: 16, marginTop: 8 },
+  browseAll: { marginTop: 26 },
+  listHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  backLink: { color: accentText },
   unassessed: { marginTop: 18 },
   unassessedHeading: { marginBottom: 4 },
   unassessedNote: { fontSize: 11, lineHeight: 11 * 1.5, marginBottom: 6 },
