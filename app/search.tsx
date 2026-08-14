@@ -26,6 +26,7 @@ import { catalogue as dishes } from '../src/data/catalogue';
 import { CLASSIFICATIONS } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { allCategories, allIngredients, randomAtRisk, searchResults } from '../src/domain/queries';
+import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
 import { useApp } from '../src/state/store';
@@ -242,14 +243,30 @@ export default function Search() {
         />
       ) : null}
 
+      {/* The absence is the recruiting moment, and the dish name is already typed.
+          Most people asking for a missing dish know how it is made, so the first
+          option is to record it — asking is the fallback, not the default. */}
       {results.length === 0 ? (
         <Card style={styles.emptyCard}>
           <CardKicker>No match</CardKicker>
           <CardBody>
-            Nothing in the atlas matches that yet. Absence here means no record, not no food — we&apos;d rather say
-            we don&apos;t know than guess.
+            Nothing in the atlas matches {query.trim() ? `“${query.trim()}”` : 'that'} yet. Absence here means no
+            record, not no food — we&apos;d rather say we don&apos;t know than guess.
           </CardBody>
-          <Button label="Add it yourself" onPress={() => router.push('/contribute')} block />
+          <Button label="I know how it's made — record it" onPress={() => router.push('/contribute')} block />
+
+          {canRequest() ? (
+            <Button
+              label="Ask for it instead"
+              variant="secondary"
+              block
+              onPress={() => openAtSource(requestUrl(query, ''))}
+            />
+          ) : (
+            <Muted style={styles.requestNote}>
+              Requests aren&apos;t open yet, so the only way a dish enters the atlas is someone recording it.
+            </Muted>
+          )}
         </Card>
       ) : null}
 
@@ -307,5 +324,6 @@ const styles = StyleSheet.create({
 
   showMore: { marginTop: 16 },
   emptyCard: { marginTop: 16 },
+  requestNote: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 6 },
   footer: { gap: space[2], marginTop: 22 },
 });

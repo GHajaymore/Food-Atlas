@@ -1,0 +1,205 @@
+/**
+ * Second source: the Wikibooks Cookbook.
+ *
+ *   node scripts/ingest-wikibooks.mjs [--limit 500]
+ *
+ * Wikidata turned out to be a poor primary source for a world atlas — it holds 4,693
+ * Italian food items against 173 Indian, which describes which national projects ran
+ * bulk imports rather than where the world's food is. It also carries no methods, so
+ * most imported records have nothing to show.
+ *
+ * The Wikibooks Cookbook is a genuinely separate corpus: ~3,800 recipes, CC BY-SA,
+ * each with an ingredient list and a procedure. That fills the gap Wikidata cannot.
+ *
+ * **How these records are classified, and why it matters.** A Cookbook page is a
+ * general-audience recipe written by a contributor. It is documentation of *how a
+ * dish is commonly made*, not evidence of how it is made in the place it comes from
+ * — which is precisely the brief's "most-published version": taken as the popular
+ * candidate, classified as an adaptation, and never promoted to the authentic record
+ * by default. So every record from this source lands as `🟠 Modern Adaptation` with
+ * its method attributed to Wikibooks, and it takes locality evidence — not more
+ * recipe text — to move it.
+ *
+ * That is also what makes these records useful to the product's argument: they are
+ * the "how it's made today" against which a documented tradition can be compared.
+ *
+ * Output merges into src/data/cookbook.json by page title; re-running is additive.
+ */
+
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const OUT = resolve(HERE, '../src/data/cookbook.json');
+
+const API = 'https://en.wikibooks.org/w/api.php';
+const USER_AGENT = 'GlobalTaste/1.0 (food atlas ingest; contact: via repository)';
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Polite client: back off on 429 and 5xx, which this API applies readily. */
+async function api(params, attempt = 1) {
+  const url = `${API}?${new URLSearchParams({ format: 'json', formatversion: '2', ...params })}`;
+  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+
+  if (res.status === 429 || res.status >= 500) {
+    if (attempt > 5) throw new Error(`HTTP ${res.status} after ${attempt} attempts`);
+    await sleep(4000 * attempt);
+    return api(params, attempt + 1);
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+/** Every page under Category:Recipes. */
+async function listRecipes(limit) {
+  const titles = [];
+  let cont;
+  do {
+    const data = await api({
+      action: 'query',
+      list: 'categorymembers',
+      cmtitle: 'Category:Recipes',
+      cmlimit: '500',
+      cmtype: 'page',
+      ...(cont ? { cmcontinue: cont } : {}),
+    });
+    for (const m of data?.query?.categorymembers ?? []) titles.push(m.title);
+    cont = data?.continue?.cmcontinue;
+    process.stdout.write(`  listed ${titles.length}\n`);
+    await sleep(400);
+  } while (cont && (!limit || titles.length < limit));
+
+  return limit ? titles.slice(0, limit) : titles;
+}
+
+/**
+ * Pull a named section's list items out of wikitext.
+ *
+ * Deliberately conservative: it reads bullet and numbered lines under a heading and
+ * strips markup. Anything it cannot parse cleanly is left out rather than guessed at
+ * — a half-parsed instruction is worse than a missing one.
+ */
+function section(wikitext, names) {
+  const pattern = new RegExp(`^==+\\s*(${names.join('|')})\\s*==+\\s*$`, 'im');
+  const start = wikitext.search(pattern);
+  if (start === -1) return [];
+
+  const after = wikitext.slice(start);
+  const body = after.slice(after.indexOf('\n') + 1);
+  const end = body.search(/^==+[^=]+==+\s*$/m);
+  const block = end === -1 ? body : body.slice(0, end);
+
+  return block
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => /^[*#]\s*\S/.test(line))
+    .map((line) =>
+      line
+        .replace(/^[*#]+\s*/, '')
+        .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2') // [[Link|text]] -> text
+        .replace(/\[\[([^\]]+)\]\]/g, '$1')
+        .replace(/\{\{[^}]*\}\}/g, '')
+        .replace(/'''?/g, '')
+        .replace(/<[^>]+>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    )
+    .filter((line) => line.length > 2 && line.length < 400);
+}
+
+/** Wikitext for up to 20 pages per request. */
+async function fetchWikitext(titles) {
+  const data = await api({
+    action: 'query',
+    prop: 'revisions',
+    rvprop: 'content',
+    rvslots: 'main',
+    titles: titles.join('|'),
+    redirects: '1',
+  });
+
+  const out = new Map();
+  for (const page of data?.query?.pages ?? []) {
+    const text = page?.revisions?.[0]?.slots?.main?.content;
+    if (page.title && text) out.set(page.title, text);
+  }
+  return out;
+}
+
+const chunk = (arr, size) => {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+};
+
+/** 'Cookbook:Chicken Tikka Masala' -> 'Chicken Tikka Masala' */
+const displayName = (title) => title.replace(/^Cookbook:/, '').trim();
+
+const main = async () => {
+  const limitArg = process.argv.indexOf('--limit');
+  const limit = limitArg > -1 ? Number(process.argv[limitArg + 1]) : 0;
+
+  let existing = [];
+  try {
+    existing = JSON.parse(await readFile(OUT, 'utf8'));
+  } catch {
+    existing = [];
+  }
+  const byTitle = new Map(existing.map((r) => [r.title, r]));
+  process.stdout.write(`${existing.length} cookbook records on disk.\nListing recipes…\n`);
+
+  const titles = await listRecipes(limit);
+  process.stdout.write(`${titles.length} recipe pages. Fetching wikitext…\n`);
+
+  let withMethod = 0;
+  const batches = chunk(titles, 20);
+
+  for (const [i, batch] of batches.entries()) {
+    try {
+      const texts = await fetchWikitext(batch);
+      for (const [title, wikitext] of texts) {
+        const ingredients = section(wikitext, ['Ingredients']);
+        const steps = section(wikitext, ['Procedure', 'Directions', 'Method', 'Preparation']);
+
+        // A page with no method is just a name we already have from Wikidata.
+        if (!steps.length) continue;
+
+        byTitle.set(title, {
+          title,
+          name: displayName(title),
+          ingredients: ingredients.slice(0, 20),
+          steps: steps.slice(0, 25),
+          url: `https://en.wikibooks.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`,
+        });
+        withMethod += 1;
+      }
+    } catch (error) {
+      process.stdout.write(`  batch ${i + 1} failed (${error.message})\n`);
+    }
+
+    if (i % 10 === 0) {
+      process.stdout.write(`  batch ${i + 1}/${batches.length} — ${withMethod} with a method\n`);
+      // Checkpoint, so a long run that dies still leaves progress behind.
+      await mkdir(dirname(OUT), { recursive: true });
+      await writeFile(OUT, JSON.stringify([...byTitle.values()]), 'utf8');
+    }
+    await sleep(350);
+  }
+
+  const records = [...byTitle.values()];
+  await mkdir(dirname(OUT), { recursive: true });
+  await writeFile(OUT, JSON.stringify(records), 'utf8');
+
+  process.stdout.write(
+    `\nWrote ${records.length} cookbook recipes to src/data/cookbook.json\n` +
+      `  ${records.filter((r) => r.ingredients.length).length} with an ingredient list\n` +
+      `  every one classified as a Modern Adaptation until locality evidence says otherwise.\n`,
+  );
+};
+
+main().catch((error) => {
+  process.stderr.write(`\nCookbook ingest failed: ${error.message}\n`);
+  process.exitCode = 1;
+});
