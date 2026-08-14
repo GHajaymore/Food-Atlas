@@ -8,7 +8,7 @@
  */
 
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { Children, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
@@ -295,7 +295,15 @@ export default function Search() {
   );
 }
 
+/**
+ * A facet group renders only when it has options.
+ *
+ * Cuisine, for one, is empty until the ingest has recorded a tradition for a record,
+ * and a heading with nothing under it is the same empty promise the detail screen
+ * was cleaned of — it reads as broken rather than as "not yet".
+ */
 function FacetGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  if (Children.count(children) === 0) return null;
   return (
     <View>
       <H6 style={styles.facetLabel}>{label}</H6>
