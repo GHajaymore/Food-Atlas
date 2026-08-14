@@ -66,6 +66,60 @@ const IMPORT_DIET_BASIS =
  */
 const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').trim();
 
+/** The photograph fields an enrichment pass may have written onto a source row. */
+interface PhotoRow {
+  photo?: string;
+  credit?: string;
+  licence?: string;
+}
+
+/**
+ * Readership as a display string, or empty for "we do not know".
+ *
+ * `scripts/ingest-pageviews.mjs` writes a number; absent and zero are different
+ * states and stay different, because a record nobody looked up is a fact and a
+ * record this pass never reached is not.
+ */
+function viewsLabel(views: number | undefined): string {
+  if (typeof views !== 'number') return '';
+  if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M readers`;
+  return `${views.toLocaleString()} readers`;
+}
+
+/**
+ * The photograph fields for an imported record.
+ *
+ * Every image on an imported record was found by searching Commons for the dish's
+ * name, which returns a plausible match and not a confirmed one — a search for
+ * Al-Man'ouche returned an Israeli zaatar manakeesh, a related bread from a
+ * different place. So `photoVerified` is false without exception here, and
+ * `photoOrigin` says how the picture was found rather than implying it was checked.
+ *
+ * The artist and licence travel with the image because Commons files carry their own
+ * terms, several of them CC BY-SA, and attribution is a condition of use rather than
+ * a courtesy.
+ */
+function photoFields(row: PhotoRow) {
+  if (!row.photo) {
+    return {
+      photo: '',
+      credit: '',
+      creditHref: '',
+      photoOrigin: 'No photograph on record',
+      photoVerified: false,
+    };
+  }
+
+  const artist = row.credit?.trim() || 'Wikimedia Commons';
+  return {
+    photo: row.photo,
+    credit: row.licence ? `${artist} · ${row.licence}` : artist,
+    creditHref: row.photo,
+    photoOrigin: 'Matched by name on Wikimedia Commons — the subject is not confirmed',
+    photoVerified: false,
+  };
+}
+
 /**
  * A region has to be *below* the country to mean anything.
  *
@@ -126,11 +180,7 @@ function expand(row: ImportedRow): Dish {
       row.blurb ||
       `Recorded in the atlas as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
-    photo: row.photo,
-    credit: row.photo ? 'Wikimedia Commons' : '',
-    creditHref: row.photo,
-    photoOrigin: 'Shooting location not recorded in the source',
-    photoVerified: false,
+    ...photoFields(row),
 
     score: assessment.score,
     breakdown: assessment.breakdown,
@@ -169,7 +219,9 @@ function expand(row: ImportedRow): Dish {
  * encyclopaedia article by construction, which is both why it is worth showing and
  * the only evidence it arrives with.
  */
-interface CuisineRow {
+interface CuisineRow extends PhotoRow {
+  /** Twelve-month English Wikipedia readership, once the pageviews pass has run. */
+  views?: number;
   title: string;
   name: string;
   country: string;
@@ -190,7 +242,7 @@ interface CuisineRow {
 }
 
 /** A Wikibooks Cookbook recipe: a real method, and a country from its categories. */
-interface CookbookRow {
+interface CookbookRow extends PhotoRow {
   title: string;
   name: string;
   ingredients: string[];
@@ -308,15 +360,11 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         ? prepSummary.slice(0, 220)
         : `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
-      photo: '',
-      credit: '',
-      creditHref: '',
-      photoOrigin: 'No photograph on record',
-      photoVerified: false,
+      ...photoFields(row),
 
       score: assessment.score,
       breakdown: assessment.breakdown,
-      views: '',
+      views: viewsLabel(row.views),
 
       prepSummary,
       ingredients,
@@ -388,11 +436,7 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
 
     blurb: `A published recipe for ${row.name}, written for a general audience rather than recorded in ${row.country}.`,
 
-    photo: '',
-    credit: '',
-    creditHref: '',
-    photoOrigin: 'No photograph on record',
-    photoVerified: false,
+    ...photoFields(row),
 
     // Adaptations are not scored: the confidence score measures evidence that a
     // preparation is the traditional one, and this record does not make that claim.
@@ -424,7 +468,7 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
   }));
 
 /** A UNESCO Intangible Cultural Heritage inscription. */
-interface UnescoRow {
+interface UnescoRow extends PhotoRow {
   reference: string;
   name: string;
   countries: string[];
@@ -485,11 +529,7 @@ const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).map((row, index) => {
       ? `Inscribed by UNESCO as intangible cultural heritage, submitted jointly by ${row.countries.join(', ')}.`
       : `Inscribed by UNESCO as intangible cultural heritage of ${row.country}.`,
 
-    photo: '',
-    credit: '',
-    creditHref: '',
-    photoOrigin: 'No photograph on record',
-    photoVerified: false,
+    ...photoFields(row),
 
     /*
      * Scored on what an inscription actually evidences. Geography and cultural

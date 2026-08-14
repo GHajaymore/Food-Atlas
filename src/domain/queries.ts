@@ -246,12 +246,24 @@ export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
 }
 
 /**
- * The "Most popular worldwide" rail — top 4 by views, ignoring the active filters.
- * It exists to be contradicted: the most-viewed record here is a fusion invention,
- * and the rail says so.
+ * The most-read rail — ignoring the active filters, as a counterpoint to them.
+ * It exists to be contradicted: the most-read record is often not the most
+ * authentic one, and the rail says so.
+ *
+ * Only records that carry a real readership figure are eligible. The app shipped
+ * ranking seven records — not seven of the best, seven in total, the design
+ * handoff's demo entries with invented counts like "2.1M views" — while the other
+ * 13,848 tied at zero and could never appear. A record with no count is unknown, not
+ * unpopular, and unknown does not belong in a ranking.
+ *
+ * A photograph is required for the same reason it is required on the home shelves:
+ * this is a rail, and a rail of blank cards invites nobody.
  */
 export const mostPopular = (dishes: Dish[], take = 4): Dish[] =>
-  [...dishes].sort((a, b) => viewsNumber(b.views) - viewsNumber(a.views)).slice(0, take);
+  dishes
+    .filter((d) => d.photo && viewsNumber(d.views) > 0)
+    .sort((a, b) => viewsNumber(b.views) - viewsNumber(a.views))
+    .slice(0, take);
 
 /** The union of every traditional ingredient, for the search facet. */
 export const allIngredients = (dishes: Dish[], cap = 10): string[] =>

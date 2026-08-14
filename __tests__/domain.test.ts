@@ -110,10 +110,37 @@ describe('fusion is never presented as authentic', () => {
 });
 
 describe('popularity and authenticity stay separate', () => {
-  it('ranks the popularity rail by views alone, ignoring classification', () => {
-    // The most-viewed record in the catalogue is the fusion invention. That is the
-    // point of the rail, and the copy underneath it says so.
-    expect(mostPopular(dishes)[0].id).toBe(hawaiian().id);
+  /**
+   * Readership on top of the curated records.
+   *
+   * These tests used to lean on the seed's own view counts, which were the design
+   * handoff's invented figures — "2.1M views" on the fusion record. Those are gone,
+   * so the numbers a ranking test needs are supplied here, where they are visibly
+   * fixtures rather than data the app might ship.
+   */
+  const read = (counts: Record<number, string>) =>
+    dishes.map((d) => ({ ...d, views: counts[d.id] ?? d.views }));
+
+  it('ranks the rail by readership alone, ignoring classification', () => {
+    // The most-read record is allowed to be the fusion invention. That is the point
+    // of the rail, and the copy underneath it says so.
+    const withCounts = read({ [hawaiian().id]: '2,100,000 readers', [halwa().id]: '3,400 readers' });
+    expect(mostPopular(withCounts)[0].id).toBe(hawaiian().id);
+  });
+
+  it('ranks nothing when nothing has a real readership figure', () => {
+    // The app shipped ranking seven records with invented counts while 13,848 others
+    // tied at zero. A record with no count is unknown, not unpopular, and the rail
+    // shows nothing rather than presenting the fixtures as a chart.
+    expect(dishes.every((d) => d.views === '')).toBe(true);
+    expect(mostPopular(dishes)).toEqual([]);
+  });
+
+  it('will not put a record with no photograph on the rail', () => {
+    const blind = read({ [hawaiian().id]: '9,000,000 readers' }).map((d) =>
+      d.id === hawaiian().id ? { ...d, photo: '' } : d,
+    );
+    expect(mostPopular(blind).map((d) => d.id)).not.toContain(hawaiian().id);
   });
 
   it('does not let views influence the default search ordering', () => {
@@ -126,11 +153,11 @@ describe('popularity and authenticity stay separate', () => {
     });
     const scores = byAuthenticity.map((d) => d.score ?? 0);
     expect([...scores]).toEqual([...scores].sort((a, b) => b - a));
-    expect(byAuthenticity[0].id).toBe(halwa().id); // 94, on 3,400 views
+    expect(byAuthenticity[0].id).toBe(halwa().id); // 94, the strongest evidence
   });
 
   it('orders by views only when popularity is explicitly chosen', () => {
-    const byViews = searchResults(dishes, {
+    const byViews = searchResults(read({ [hawaiian().id]: '2,100,000 readers' }), {
       query: '',
       levels: [],
       categories: [],
@@ -1019,7 +1046,19 @@ describe('the home shelves are doorways, not decoration', () => {
   it('opens the browsing shelf on a different country every card', () => {
     // The imports arrive grouped by country, so ranking alone left this rail showing
     // six dishes from one place — an atlas that looks like it only knows about Canada.
-    const shelf = buildShelves(dishes).find((s) => s.id === 'illustrated');
+    // Built from a catalogue big enough to reach the shelf: the seven curated
+    // records are consumed by the shelves above it, which is the rule working.
+    const spread = Array.from({ length: 40 }, (_, i) => ({
+      ...dishes[i % dishes.length],
+      id: 90_000 + i,
+      atRisk: false,
+      steps: [],
+      badgeLevel: 'unverified' as const,
+      photo: 'https://example.test/p.jpg',
+      loc: { ...dishes[0].loc, country: `Country ${i % 20}` },
+    }));
+
+    const shelf = buildShelves([...dishes, ...spread]).find((s) => s.id === 'illustrated');
     expect(shelf).toBeDefined();
     const countries = shelf!.dishes.map((d) => d.loc.country);
     expect(new Set(countries).size).toBe(countries.length);

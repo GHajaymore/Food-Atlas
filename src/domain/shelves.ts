@@ -67,22 +67,33 @@ const CLASS_RANK: Record<Level, number> = {
 const substance = (d: Dish) => d.steps.length * 2 + d.ingredients.length + d.breadcrumb.length;
 
 /**
+ * The fewest cards a rail may carry.
+ *
+ * Below this a shelf reads as broken rather than short — a heading, a sentence of
+ * copy and one lonely card is worse than not offering the shelf at all. The records
+ * are not lost: they are still in the feed, still counted, still reachable through
+ * the filters.
+ */
+const MIN_RAIL = 4;
+
+/**
  * The order a rail is read in, strongest first.
  *
  * A rail is scanned left to right and only its first few cards are ever seen, so
- * this decides what the app appears to be. Pictures lead because a card without one
- * is a weak invitation; then classification, because a Fusion record is not what
- * someone opening this app came for; then score; then how much the record actually
- * contains.
+ * this decides what the app appears to be. Classification leads, because a Fusion
+ * record is not what someone opening this app came for; then score; then how much
+ * the record actually contains.
  *
- * A shelf with fewer photographs than slots still fills — an empty gap says less
- * than a plain card does.
+ * Only photographed records reach a rail at all. A monogram placeholder is honest in
+ * a list, where the name and the place carry the row, but on a browsing shelf it is
+ * a card that gives the reader nothing to look at, and a rail of them makes the
+ * catalogue look empty when it is not.
  */
 const railOrder = (dishes: Dish[], take: number) =>
-  [...dishes]
+  dishes
+    .filter((d) => d.photo)
     .sort(
       (a, b) =>
-        Number(Boolean(b.photo)) - Number(Boolean(a.photo)) ||
         CLASS_RANK[b.badgeLevel] - CLASS_RANK[a.badgeLevel] ||
         (b.score ?? 0) - (a.score ?? 0) ||
         substance(b) - substance(a),
@@ -204,8 +215,8 @@ export function buildShelves(dishes: Dish[], perShelf = 12): Shelf[] {
         total: matching.length,
       };
     })
-      // A shelf with nothing on it is a promise the catalogue cannot keep.
-      .filter((shelf) => shelf.dishes.length > 0)
+      // A shelf too thin to look like a shelf is a promise the catalogue cannot keep.
+      .filter((shelf) => shelf.dishes.length >= MIN_RAIL)
   );
 }
 

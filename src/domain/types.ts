@@ -218,8 +218,15 @@ export interface Dish {
   score: number | null;
   breakdown: BreakdownRow[];
   /**
-   * Popularity. Deliberately a display string, and deliberately a separate field
-   * from `score`: the two are never combined into one ranking.
+   * Readership: how many people read this dish's English Wikipedia article over the
+   * last twelve months, from `scripts/ingest-pageviews.mjs`.
+   *
+   * Deliberately a display string, and deliberately a separate field from `score` —
+   * the two are never combined into one ranking. Empty means unknown, which is not
+   * the same as unread, and an unknown record is never ranked.
+   *
+   * It measures interest and not consumption, and only among people reading English.
+   * Wherever it is shown, it is shown with that qualification.
    */
   views: string;
 

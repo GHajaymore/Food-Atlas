@@ -296,11 +296,14 @@ export default function Feed() {
         />
       ) : null}
 
-      {/* Popularity, demoted to the bottom and labelled for what it is. */}
+      {/* Readership, demoted to the bottom and labelled for what it is. Absent
+          entirely when nothing has a real count — an empty rail under a confident
+          heading is how the fabricated version looked. */}
+      {popular.length ? (
       <View style={styles.popularSection}>
         <View style={styles.popularHeader}>
-          <H6>Most popular worldwide</H6>
-          <Muted style={styles.byViews}>by views only</Muted>
+          <H6>Most looked up</H6>
+          <Muted style={styles.byViews}>Wikipedia readers</Muted>
         </View>
 
         <ScrollView
@@ -332,10 +335,12 @@ export default function Feed() {
         </ScrollView>
 
         <Muted style={styles.popularNote}>
-          Popularity is not authenticity — the most-viewed dish here is a fusion invention. Tap through for each
-          one&apos;s classification.
+          How many people read about each dish on English Wikipedia over the last year. That is interest, not
+          authenticity and not how widely a dish is eaten — and it favours what English speakers look up. Tap
+          through for each one&apos;s classification.
         </Muted>
       </View>
+      ) : null}
     </Screen>
   );
 }

@@ -57,7 +57,7 @@ const SEED: Dish[] = [
     photoOrigin: 'Kozhikode halwa — shooting location not recorded in the source',
     photoVerified: false,
     score: 94,
-    views: '3,400 views',
+    views: '',
     breakdown: [
       ['Geographic connection', 98],
       ['Traditional ingredients', 95],
@@ -184,7 +184,7 @@ const SEED: Dish[] = [
     // Lower than Kozhikode's 94: fewer independent sources describe this version,
     // and the fork is recent. The number reflects the evidence, not the ranking.
     score: 81,
-    views: '900 views',
+    views: '',
     breakdown: [
       ['Geographic connection', 92],
       ['Traditional ingredients', 88],
@@ -268,7 +268,7 @@ const SEED: Dish[] = [
     photoOrigin: 'Photographed in Oaxaca, Mexico',
     photoVerified: true,
     score: 88,
-    views: '18,900 views',
+    views: '',
     breakdown: [
       ['Geographic connection', 92],
       ['Traditional ingredients', 90],
@@ -390,7 +390,7 @@ const SEED: Dish[] = [
     photoOrigin: 'Photographed in Naples, Italy',
     photoVerified: true,
     score: 91,
-    views: '41,200 views',
+    views: '',
     breakdown: [
       ['Geographic connection', 95],
       ['Traditional ingredients', 93],
@@ -487,7 +487,7 @@ const SEED: Dish[] = [
     photoOrigin: 'Shooting location not recorded in the source',
     photoVerified: false,
     score: null,
-    views: '2.1M views',
+    views: '',
     breakdown: [],
     prepSummary: '',
     ingredients: [],
@@ -534,7 +534,7 @@ const SEED: Dish[] = [
     photoOrigin: 'Photographed at Bjarnarhöfn, Iceland',
     photoVerified: true,
     score: 90,
-    views: '1,200 views',
+    views: '',
     breakdown: [
       ['Geographic connection', 94],
       ['Traditional ingredients', 92],
@@ -634,7 +634,7 @@ const SEED: Dish[] = [
     photoOrigin: 'Photographed in Mongolia',
     photoVerified: true,
     score: 85,
-    views: '6,700 views',
+    views: '',
     breakdown: [
       ['Geographic connection', 88],
       ['Traditional ingredients', 90],
