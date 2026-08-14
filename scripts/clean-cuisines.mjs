@@ -47,12 +47,56 @@ const isDish = (row) => {
   return !NOT_A_DISH.some((pattern) => pattern.test(name));
 };
 
+/**
+ * Demonyms that name a country, not a region inside the one we filed the dish under.
+ *
+ * These leak in because cuisine trees cross-list: "Afghan cuisine" sits under Indian
+ * cuisine, so an Afghan dish arrives labelled as an Indian region. A record claiming
+ * "India › Afghan" asserts a geography that does not exist.
+ */
+const FOREIGN_DEMONYM =
+  /^(afghan|burmese|bolivian|cambodian|nepalese|tibetan|thai|chinese|japanese|korean|persian|iranian|arab|turkish|jewish|portuguese|british|french|italian|mexican|caribbean|indo-caribbean|anglo-indian|american|african|european|asian)$/i;
+
+/** Region strings that describe a kind of food, an artefact, or nowhere in particular. */
+const BAD_REGION = [
+  /\b(cuisine|dish|dishes|food|foods|beverage|beverages|alcoholic|vegetarian|vegan|snack|sweet|bread|dessert|drink)\b/i,
+  // "Vegetarianof India" — the old regionFrom stripped " cuisine " from mid-string.
+  /[a-z]of\s/i,
+  /^(south|north|east|west|central)?\s*(asia|africa|europe|america|subcontinent)$/i,
+];
+
+/**
+ * A region has to name somewhere inside the country it is filed under.
+ * Wrong geography is worse than none, so anything doubtful is cleared rather than kept.
+ */
+function cleanRegion(row) {
+  const region = (row.region || '').trim();
+  if (!region) return '';
+  if (region.toLowerCase() === (row.country || '').toLowerCase()) return '';
+  if (FOREIGN_DEMONYM.test(region)) return '';
+  if (BAD_REGION.some((pattern) => pattern.test(region))) return '';
+  if (region.length < 3 || region.length > 40) return '';
+  return region;
+}
+
 const main = async () => {
   const dry = process.argv.includes('--dry');
   const rows = JSON.parse(await readFile(CUISINES, 'utf8'));
 
+  let regionsCleared = 0;
+  for (const row of rows) {
+    const cleaned = cleanRegion(row);
+    if (cleaned !== (row.region || '')) {
+      regionsCleared += 1;
+      row.region = cleaned;
+      // Let the category pass have another go at it.
+      delete row.categoriesChecked;
+    }
+  }
+
   const kept = rows.filter(isDish);
   const dropped = rows.filter((r) => !isDish(r));
+  process.stdout.write(`${regionsCleared} bogus regions cleared\n`);
 
   process.stdout.write(`${rows.length} rows → ${kept.length} kept, ${dropped.length} dropped\n\n`);
   process.stdout.write('dropped sample:\n');
