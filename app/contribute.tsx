@@ -22,6 +22,8 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
+import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
+import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
 const STEP_LABELS = ['Submit', 'What exists', 'Assessment', 'Validation'];
@@ -84,6 +86,11 @@ const VALIDATORS = [
 export default function Contribute() {
   const [step, setStep] = useState(1);
 
+  // Judged as it is typed, so someone pasting an Instagram link learns immediately
+  // that the photograph is theirs to publish rather than after submitting the form.
+  const [photoInput, setPhotoInput] = useState('');
+  const photoResult = photoInput.trim() ? parsePhotoReference(photoInput) : null;
+
   // Back steps through the flow first, and only then out to the Atlas.
   // The fallback matters: opened directly — a deep link, or a refresh on the web
   // build — there is no history to pop, and a bare router.back() would leave the
@@ -132,9 +139,51 @@ export default function Contribute() {
               defaultValue="Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers"
             />
           </Field>
-          <Field label="Your connection to the place" style={styles.fieldLast}>
+          <Field label="Your connection to the place" style={styles.field}>
             <Input defaultValue="Born and cooking in Kozhikode" />
           </Field>
+
+          {/* A photograph is the one contribution the automated sources cannot make:
+              they only reach food someone has already documented, and the food this
+              app most wants to show is the food nobody has. */}
+          <Block style={styles.photoBlock}>
+            <T style={styles.photoTitle}>A photograph of it, if you have one</T>
+            <Muted style={styles.photoNote}>
+              Publish your own photograph to Wikimedia Commons, then paste its file name here. It stays yours, you
+              are credited everywhere it appears, and it costs neither of us anything. We cannot take one from
+              Instagram or TikTok — a photograph there is its author&apos;s copyright, and a credit line is not
+              permission.
+            </Muted>
+
+            <Button
+              label="Publish a photograph on Commons"
+              variant="secondary"
+              block
+              onPress={() => openAtSource(COMMONS_UPLOAD_URL)}
+              style={styles.photoButton}
+            />
+
+            <Field label="Commons file name or link" style={styles.photoField}>
+              <Input value={photoInput} onChangeText={setPhotoInput} placeholder="Kaipola.jpg" />
+            </Field>
+
+            {photoResult ? (
+              isRejection(photoResult) ? (
+                <View style={styles.photoFeedback}>
+                  <T style={styles.photoBad}>{photoResult.reason}</T>
+                  <Muted style={styles.photoFix}>{photoResult.fix}</Muted>
+                </View>
+              ) : (
+                <View style={styles.photoFeedback}>
+                  <T style={styles.photoGood}>{photoResult.file}</T>
+                  <Muted style={styles.photoFix}>
+                    Checked against Commons when the record is submitted, and shown with its photographer and
+                    licence. It stays Unverified until the community confirms it, exactly as the method does.
+                  </Muted>
+                </View>
+              )
+            ) : null}
+          </Block>
 
           <Muted style={styles.walkthroughNote}>Fields are filled in for this walkthrough.</Muted>
           <Button label="Check what already exists online" block onPress={() => setStep(2)} />
@@ -254,8 +303,17 @@ const styles = StyleSheet.create({
   stepHeading: { marginBottom: 4 },
 
   field: { marginBottom: 12 },
-  fieldLast: { marginBottom: 16 },
   walkthroughNote: { fontSize: 11, marginBottom: 14 },
+
+  photoBlock: { padding: 12, marginBottom: 16 },
+  photoTitle: { fontSize: 13, fontFamily: font.medium },
+  photoNote: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 6 },
+  photoButton: { marginTop: 12 },
+  photoField: { marginTop: 12 },
+  photoFeedback: { marginTop: 10 },
+  photoGood: { fontSize: 12, fontFamily: font.medium, color: accentText },
+  photoBad: { fontSize: 12, fontFamily: font.medium },
+  photoFix: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 4 },
 
   list: { gap: 10, marginBottom: 16 },
   findingBlock: { padding: 10 },

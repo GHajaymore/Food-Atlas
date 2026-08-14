@@ -32,6 +32,12 @@ import {
   routeDispute,
   siblingsOf,
 } from '../src/domain/traditions';
+import {
+  isFreeLicence,
+  isRejection,
+  parsePhotoReference,
+  type PhotoRejection,
+} from '../src/domain/photoSubmission';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
 import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
@@ -1101,5 +1107,71 @@ describe('the home shelves are doorways, not decoration', () => {
     for (const shelf of buildShelves(dishes)) {
       expect(shelfTitle(shelf.id)).toBe(shelf.title);
     }
+  });
+});
+
+describe('contributed photographs stay free and lawful', () => {
+  it('refuses a social link and says what to do with it instead', () => {
+    // The point is not to reject the paste. It is to tell someone holding their own
+    // photograph how to publish it — which is the whole reason this route exists.
+    for (const link of [
+      'https://www.instagram.com/p/Cabc123/',
+      'https://www.tiktok.com/@cook/video/123',
+      'https://x.com/cook/status/123',
+    ]) {
+      const result = parsePhotoReference(link);
+      expect(isRejection(result)).toBe(true);
+      const rejection = result as PhotoRejection;
+      expect(rejection.reason).toMatch(/no right to publish a photograph from there/);
+      expect(rejection.fix).toMatch(/upload it to Wikimedia Commons/);
+    }
+  });
+
+  it('reads a Commons file out of every shape people paste', () => {
+    const shapes = [
+      'Kaipola.jpg',
+      'File:Kaipola.jpg',
+      'https://commons.wikimedia.org/wiki/File:Kaipola.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/a/ab/Kaipola.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Kaipola.jpg',
+    ];
+    for (const shape of shapes) {
+      const result = parsePhotoReference(shape);
+      expect(isRejection(result)).toBe(false);
+      expect((result as { file: string }).file).toBe('Kaipola.jpg');
+    }
+  });
+
+  it('turns underscores back into spaces, as Commons titles do', () => {
+    expect(parsePhotoReference('File:Bowl_of_Ukrainian_Borscht.jpg')).toEqual({
+      file: 'Bowl of Ukrainian Borscht.jpg',
+    });
+  });
+
+  it('refuses a link that is simply not on Commons', () => {
+    const result = parsePhotoReference('https://example.com/my-photo.jpg');
+    expect(isRejection(result)).toBe(true);
+    expect((result as PhotoRejection).reason).toMatch(/not on Wikimedia Commons/);
+  });
+
+  it('refuses anything that is not a photograph', () => {
+    for (const file of ['Kaipola.svg', 'Kaipola.pdf', 'Kaipola']) {
+      expect(isRejection(parsePhotoReference(file))).toBe(true);
+    }
+  });
+
+  it('accepts the free licences and refuses the ones that only look free', () => {
+    for (const free of ['CC BY-SA 4.0', 'CC-BY-3.0', 'CC0', 'Public domain', 'GFDL', 'cc by sa 4.0']) {
+      expect(isFreeLicence(free)).toBe(true);
+    }
+    // NonCommercial and NoDerivatives are not free licences, and both contain a
+    // substring that matches the pattern for one that is.
+    for (const unfree of ['CC BY-NC 4.0', 'CC BY-NC-SA 3.0', 'CC BY-ND 4.0', 'Fair use', '']) {
+      expect(isFreeLicence(unfree)).toBe(false);
+    }
+  });
+
+  it('refuses a licence it does not recognise rather than assuming it is free', () => {
+    expect(isFreeLicence('Some bespoke permission, see talk page')).toBe(false);
   });
 });
