@@ -975,6 +975,19 @@ describe('the home shelves are doorways, not decoration', () => {
     }
   });
 
+  it('never shows the same tradition on two shelves', () => {
+    // The predicates overlap heavily — the best-evidenced photographed records are
+    // at risk and authenticated and cookable at once. Without holding them back the
+    // top three rails were literally the same three cards.
+    const seen = new Set<number>();
+    for (const shelf of buildShelves(dishes)) {
+      for (const dish of shelf.dishes) {
+        expect(seen.has(dish.id)).toBe(false);
+        seen.add(dish.id);
+      }
+    }
+  });
+
   it('never offers a shelf it cannot fill', () => {
     for (const shelf of buildShelves(dishes)) {
       expect(shelf.dishes.length).toBeGreaterThan(0);
@@ -987,6 +1000,42 @@ describe('the home shelves are doorways, not decoration', () => {
       const photos = shelf.dishes.map((d) => Boolean(d.photo));
       // Once the rail runs out of pictures it must not go back to them.
       expect(photos).toEqual([...photos].sort((a, b) => Number(b) - Number(a)));
+    }
+  });
+
+  it('orders each rail by classification, never by whatever loaded first', () => {
+    // Ordering on score alone left thousands of unscored records tied, so the rail
+    // fell back to catalogue order — which is alphabetical, and put "A Nice Cup of
+    // Tea" and a Fusion Hawaiian pizza on the front page.
+    const rank = (l: string) =>
+      ({ local: 5, regional: 4, variation: 3, adaptation: 2, unverified: 1, fusion: 0 })[l] ?? -1;
+    for (const shelf of buildShelves(dishes)) {
+      // Photographed cards lead the rail, so compare classification within that half.
+      const ranks = shelf.dishes.filter((d) => d.photo).map((d) => rank(d.badgeLevel));
+      expect(ranks).toEqual([...ranks].sort((a, b) => b - a));
+    }
+  });
+
+  it('opens the browsing shelf on a different country every card', () => {
+    // The imports arrive grouped by country, so ranking alone left this rail showing
+    // six dishes from one place — an atlas that looks like it only knows about Canada.
+    const shelf = buildShelves(dishes).find((s) => s.id === 'illustrated');
+    expect(shelf).toBeDefined();
+    const countries = shelf!.dishes.map((d) => d.loc.country);
+    expect(new Set(countries).size).toBe(countries.length);
+  });
+
+  it('never puts a fusion record ahead of a stronger one on the same rail', () => {
+    // Not "never shows fusion" — on a small catalogue a shelf can have nothing else
+    // left, and one honest card beats an empty rail. The rule is about order.
+    for (const shelf of buildShelves(dishes)) {
+      if (shelf.id === 'illustrated') continue; // ordered for variety, not rank
+      const half = (withPhoto: boolean) => shelf.dishes.filter((d) => Boolean(d.photo) === withPhoto);
+      for (const cards of [half(true), half(false)]) {
+        const firstFusion = cards.findIndex((d) => d.badgeLevel === 'fusion');
+        if (firstFusion === -1) continue;
+        expect(cards.slice(firstFusion).every((d) => d.badgeLevel === 'fusion')).toBe(true);
+      }
     }
   });
 

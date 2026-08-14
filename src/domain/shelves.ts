@@ -24,7 +24,7 @@
  */
 
 import { isAuthentic } from './authenticity';
-import type { Dish } from './types';
+import type { Dish, Level } from './types';
 
 export interface Shelf {
   id: string;
@@ -37,18 +37,90 @@ export interface Shelf {
   total: number;
 }
 
-/** Best evidence first, so a shelf leads with its strongest record. */
-const byScore = (a: Dish, b: Dish) => (b.score ?? 0) - (a.score ?? 0);
+/**
+ * How close a record is to the thing the app is actually about.
+ *
+ * Most of the catalogue is unscored, so ordering on score alone leaves thousands
+ * tied at nothing and the rail falls back to whatever order the catalogue loaded —
+ * which is alphabetical, and put "A Nice Cup of Tea" on the front page.
+ */
+const CLASS_RANK: Record<Level, number> = {
+  local: 5,
+  regional: 4,
+  variation: 3,
+  adaptation: 2,
+  unverified: 1,
+  // Last on purpose. A fusion record is a legitimate entry and a poor front page:
+  // it is the one thing someone opening an atlas of traditions did not come for.
+  fusion: 0,
+};
 
 /**
- * Photographed records first, then the rest, each half strongest-first.
+ * How much a record has to say.
  *
- * A rail is read left to right and a card without an image is a weak invitation,
- * so pictures lead — but a shelf that has fewer photographs than slots still fills,
- * because an empty gap says less than a plain card does.
+ * The last tiebreak, and the one that does the most work: whole shelves are a single
+ * classification with no scores, so without it they order alphabetically and open on
+ * "A Nice Cup of Tea" and "Acid Drops". Counting what a record actually contains —
+ * steps, ingredients, how precisely it is placed — puts a documented dish ahead of a
+ * stub with a title. It is a measure of the entry, not a judgement of the food.
+ */
+const substance = (d: Dish) => d.steps.length * 2 + d.ingredients.length + d.breadcrumb.length;
+
+/**
+ * The order a rail is read in, strongest first.
+ *
+ * A rail is scanned left to right and only its first few cards are ever seen, so
+ * this decides what the app appears to be. Pictures lead because a card without one
+ * is a weak invitation; then classification, because a Fusion record is not what
+ * someone opening this app came for; then score; then how much the record actually
+ * contains.
+ *
+ * A shelf with fewer photographs than slots still fills — an empty gap says less
+ * than a plain card does.
  */
 const railOrder = (dishes: Dish[], take: number) =>
-  [...dishes].sort((a, b) => Number(Boolean(b.photo)) - Number(Boolean(a.photo)) || byScore(a, b)).slice(0, take);
+  [...dishes]
+    .sort(
+      (a, b) =>
+        Number(Boolean(b.photo)) - Number(Boolean(a.photo)) ||
+        CLASS_RANK[b.badgeLevel] - CLASS_RANK[a.badgeLevel] ||
+        (b.score ?? 0) - (a.score ?? 0) ||
+        substance(b) - substance(a),
+    )
+    .slice(0, take);
+
+/**
+ * One record per country before any country repeats.
+ *
+ * For a shelf that exists to be browsed rather than ranked, variety is the ordering.
+ * The imported records arrive grouped by country, so ranking them leaves the rail
+ * showing six dishes from one place — an atlas that looks like it only knows about
+ * Canada. Taking a round of one-per-country first makes the same twelve cards read
+ * as the world.
+ *
+ * Deterministic: it consumes an already-sorted list and preserves that order within
+ * each country, so the strongest record still represents its place.
+ */
+function spreadByPlace(dishes: Dish[], take: number): Dish[] {
+  const byCountry = new Map<string, Dish[]>();
+  for (const dish of dishes) {
+    const key = dish.loc.country;
+    const bucket = byCountry.get(key);
+    if (bucket) bucket.push(dish);
+    else byCountry.set(key, [dish]);
+  }
+
+  const out: Dish[] = [];
+  const queues = [...byCountry.values()];
+  while (out.length < take && queues.some((q) => q.length)) {
+    for (const queue of queues) {
+      if (out.length >= take) break;
+      const next = queue.shift();
+      if (next) out.push(next);
+    }
+  }
+  return out;
+}
 
 /**
  * The definition of every shelf: its copy and the one predicate that defines it.
@@ -58,7 +130,14 @@ const railOrder = (dishes: Dish[], take: number) =>
  * when the reader opens the shelf in full. One definition means "See all 70" cannot
  * drift away from what the rail was showing.
  */
-export const SHELF_DEFS: { id: string; title: string; note: string; match: (d: Dish) => boolean }[] = [
+export const SHELF_DEFS: {
+  id: string;
+  title: string;
+  note: string;
+  match: (d: Dish) => boolean;
+  /** Order the rail for variety instead of rank. See `spreadByPlace`. */
+  spread?: boolean;
+}[] = [
   {
     id: 'at-risk',
     title: 'Disappearing',
@@ -82,6 +161,7 @@ export const SHELF_DEFS: { id: string; title: string; note: string; match: (d: D
     title: 'Worth looking at',
     note: 'Photographed traditions, for browsing rather than searching.',
     match: (d) => Boolean(d.photo),
+    spread: true,
   },
 ];
 
@@ -92,14 +172,35 @@ export const SHELF_DEFS: { id: string; title: string; note: string; match: (d: D
  * show enough to be worth opening and then get out of the way.
  */
 export function buildShelves(dishes: Dish[], perShelf = 12): Shelf[] {
+  /**
+   * A record already shown above is not shown again further down.
+   *
+   * The shelves overlap heavily — the best-evidenced photographed traditions are at
+   * risk *and* authenticated *and* cookable — so without this the top three rails
+   * were the same three cards, and four shelves read as one. Holding a record back
+   * costs nothing: the shelf's count and the list behind it still include it, so the
+   * rail is a sample of what is there rather than the whole of it.
+   *
+   * SHELF_DEFS runs narrowest first for this reason. The scarce shelves take their
+   * best records and the broad ones still have thousands to draw from.
+   */
+  const shown = new Set<number>();
+
   return (
     SHELF_DEFS.map((def) => {
       const matching = dishes.filter(def.match);
+      const available = matching.filter((d) => !shown.has(d.id));
+      const rail = def.spread
+        ? spreadByPlace(railOrder(available, available.length), perShelf)
+        : railOrder(available, perShelf);
+      for (const dish of rail) shown.add(dish.id);
+
       return {
         id: def.id,
         title: def.title,
         note: def.note,
-        dishes: railOrder(matching, perShelf),
+        dishes: rail,
+        // The count is of everything that matches, not of what fits on the rail.
         total: matching.length,
       };
     })
