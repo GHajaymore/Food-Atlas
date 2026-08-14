@@ -526,6 +526,8 @@ const SEED: Dish[] = [
     traditionalBadge: true,
     atRisk: true,
     blurb: 'Greenland shark fermented for months and hung to dry — a tradition fewer farms still keep.',
+    atRiskEvidence:
+      'Only a handful of family farms in the Westfjords and Snæfellsnes still cure hákarl the traditional way.',
     photo: commons('Hakarl_near_Bjarnah%C3%B6fn_in_Iceland.JPG'),
     credit: 'Wikimedia Commons',
     creditHref: commonsPage('Hakarl_near_Bjarnah%C3%B6fn_in_Iceland.JPG'),
@@ -624,6 +626,8 @@ const SEED: Dish[] = [
     atRisk: true,
     blurb:
       "Fermented mare's milk churned by hand through the day — tied to a herding life fewer families still lead.",
+    atRiskEvidence:
+      'The method is consistent across herding families, though fewer households now keep mares for it.',
     photo: commons('Airag_1.JPG'),
     credit: 'Wikimedia Commons',
     creditHref: commonsPage('Airag_1.JPG'),

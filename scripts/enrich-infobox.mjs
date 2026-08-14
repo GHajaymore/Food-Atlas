@@ -168,6 +168,81 @@ function preparationProse(wikitext) {
   return lastStop > 200 ? trimmed.slice(0, lastStop + 1) : trimmed;
 }
 
+/**
+ * The article's intro and history, which is where decline is actually described.
+ *
+ * The preparation section says how a dish is cooked; whether anyone still cooks it
+ * belongs to the lead paragraph or a History section. Scanning the preparation text
+ * for it found nothing across 472 records, which was a bug in where I looked rather
+ * than a fact about the world.
+ */
+function narrativeText(wikitext) {
+  const firstHeading = wikitext.search(/^==+[^=\n]+==+\s*$/m);
+  const intro = firstHeading === -1 ? wikitext.slice(0, 4000) : wikitext.slice(0, firstHeading);
+
+  const historyMatch = wikitext.match(
+    /^==+\s*[^=\n]*(history|origin|origins|background|tradition|decline)[^=\n]*==+\s*$/im,
+  );
+  let history = '';
+  if (historyMatch) {
+    const start = wikitext.indexOf(historyMatch[0]);
+    const body = wikitext.slice(start + historyMatch[0].length);
+    const end = body.search(/^==+[^=\n]+==+\s*$/m);
+    history = end === -1 ? body.slice(0, 4000) : body.slice(0, end);
+  }
+
+  return clean(`${intro}\n${history}`.replace(/\{\|[\s\S]*?\|\}/g, ''));
+}
+
+/**
+ * At-risk detection.
+ *
+ * These lists mirror `src/domain/atRisk.ts`, which is the source of truth for the
+ * rules; a test asserts the two agree. Duplicated here only because a .mjs script
+ * cannot import the TypeScript module.
+ */
+const RISK_STATED = [
+  'at risk of disappearing', 'risk of being lost', 'risk of dying out', 'verge of extinction',
+  'brink of extinction', 'nearly extinct', 'almost extinct', 'dying out', 'died out', 'dying tradition',
+  'endangered tradition', 'no longer made', 'no longer produced', 'no longer prepared', 'last remaining',
+  'few remaining', 'only a handful', 'threatened with extinction', 'in danger of disappearing',
+  'largely forgotten', 'nearly forgotten', 'fallen out of use',
+];
+const RISK_IMPLIED = [
+  'increasingly rare', 'becoming rare', 'now rare', 'rarely made', 'rarely prepared', 'rarely found',
+  'seldom made', 'seldom prepared', 'in decline', 'declining', 'fewer and fewer', 'fewer households',
+  'once common', 'once widespread', 'no longer common', 'no longer widely', 'being revived', 'revival of',
+];
+const RISK_FALSE_FRIENDS = [
+  'endangered species', 'endangered animal', 'endangered fish', 'critically endangered species',
+  'declining population of',
+  // A business closing is not a tradition ending.
+  'still in business', 'went out of business', 'chain', 'franchise', 'outlets', 'branches',
+  'restaurants remain', 'stores remain', 'declining sales', 'sales declined', 'market share',
+];
+
+function detectRisk(text) {
+  if (!text || text.length < 40) return null;
+  const sentences = text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/);
+
+  for (const [phrases, strength] of [
+    [RISK_STATED, 'stated'],
+    [RISK_IMPLIED, 'implied'],
+  ]) {
+    for (const sentence of sentences) {
+      const lower = sentence.toLowerCase();
+      if (RISK_FALSE_FRIENDS.some((f) => lower.includes(f))) continue;
+      if (phrases.some((p) => lower.includes(p))) {
+        return {
+          evidence: sentence.length > 300 ? `${sentence.slice(0, 297)}…` : sentence,
+          strength,
+        };
+      }
+    }
+  }
+  return null;
+}
+
 const listFrom = (value) =>
   (value || '')
     .split(/[,;]| and /)
@@ -216,7 +291,9 @@ const main = async () => {
   const cuisines = JSON.parse(await readFile(CUISINES, 'utf8'));
 
   // Only rows that still lack a real place are worth the fetch.
-  const pending = cuisines.filter((r) => !r.infobox);
+  // `riskChecked` was added after the first pass, so rows enriched before it still
+  // need fetching even though they already have an infobox.
+  const pending = cuisines.filter((r) => !r.infobox || !r.riskChecked);
   const targets = limit ? pending.slice(0, limit) : pending;
   process.stdout.write(`${cuisines.length} cuisine rows, ${targets.length} to enrich.\n`);
 
@@ -226,6 +303,7 @@ const main = async () => {
   let gainedPlace = 0;
   let gainedIngredients = 0;
   let gainedPrep = 0;
+  let gainedRisk = 0;
 
   const batches = chunk(targets, 20);
   for (const [i, batch] of batches.entries()) {
@@ -251,6 +329,15 @@ const main = async () => {
           if (prose) {
             patch.prepSummary = prose;
             gainedPrep += 1;
+          }
+
+          // Decline is described in the lead and the history, not in the recipe.
+          const risk = detectRisk(narrativeText(text));
+          patch.riskChecked = true;
+          if (risk) {
+            patch.atRiskEvidence = risk.evidence;
+            patch.atRiskStrength = risk.strength;
+            gainedRisk += 1;
           }
         }
 

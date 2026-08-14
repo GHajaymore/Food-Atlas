@@ -198,6 +198,13 @@ export interface Dish {
   traditionalBadge: boolean;
   /** 🕯️ — the tradition is at risk of being lost. */
   atRisk: boolean;
+  /**
+   * The sentence that produced the at-risk flag, so the claim is checkable.
+   *
+   * Present on every flagged record. A badge without its evidence is exactly the
+   * unexplained assertion this app refuses to make anywhere else.
+   */
+  atRiskEvidence?: string;
 
   blurb: string;
   photo: string;

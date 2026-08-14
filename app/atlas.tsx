@@ -72,8 +72,10 @@ export default function Atlas() {
                 style={[styles.groupHeader, open ? styles.groupHeaderOpen : null]}
               >
                 <H6 style={[styles.groupLabel, open ? styles.groupLabelOpen : null]}>{group.label}</H6>
+                {/* Both numbers named. "36 countries · 297" left the reader to
+                    guess what 297 counted. */}
                 <Muted style={styles.groupCount}>
-                  {group.countries.length} countries · {dishCount.toLocaleString()}
+                  {group.countries.length} countries · {dishCount.toLocaleString()} traditions
                 </Muted>
                 <View style={open ? styles.caretOpen : undefined}>
                   <CaretDownIcon size={14} color={open ? color.accent : color.neutral[400]} />

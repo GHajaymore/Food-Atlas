@@ -20,6 +20,7 @@
  */
 
 import { assess } from '../domain/assess';
+import { detectAtRisk } from '../domain/atRisk';
 import { registerContinents } from '../domain/continents';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
@@ -258,6 +259,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = row.ingredients ?? [];
     const prepSummary = row.prepSummary ?? '';
+    // The article's account is the only text we hold for these records, so it is
+    // also the only place a claim of decline could come from.
+    const risk = detectAtRisk(prepSummary);
 
     const assessment = assess({
       hasCountry: true,
@@ -293,7 +297,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       badgeLabel: assessment.badgeLabel,
       badgeLabelFull: assessment.badgeLabelFull,
       traditionalBadge: false,
-      atRisk: false,
+      // Read from the article's own words, with the sentence kept as evidence.
+      atRisk: risk.atRisk,
+      atRiskEvidence: risk.evidence || undefined,
 
       blurb: prepSummary
         ? prepSummary.slice(0, 220)
