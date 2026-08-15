@@ -13,10 +13,13 @@
  * these ratios want. Values wear text tokens, never the fill colour.
  */
 
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
+import type { MetricNote } from '../domain/metricNotes';
 import type { CoverageRow, Ratio, Trend } from '../domain/metrics';
 import { accentText, color, font, space } from '../theme/tokens';
+import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
 
 /**
@@ -50,15 +53,55 @@ function Sparkline({ points }: { points: number[] }) {
   );
 }
 
+/**
+ * The method behind a figure, opened on demand.
+ *
+ * Closed by default because a page of numbers each carrying three paragraphs is a
+ * page nobody reads, and shown in full when asked because a number whose derivation
+ * is unavailable is a number the reader has to take on trust — which is the one
+ * thing this app asks of nobody.
+ *
+ * The caveat is last and is styled no more quietly than the rest. It is where a
+ * flattering figure gets contradicted, and burying it would defeat the purpose.
+ */
+export function Explain({ note }: { note?: MetricNote }) {
+  const [open, setOpen] = useState(false);
+  if (!note) return null;
+
+  return (
+    <View style={styles.explain}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ expanded: open }}
+        accessibilityLabel={`How ${note.title} is counted`}
+        tint="none"
+        onPress={() => setOpen(!open)}
+      >
+        <Muted style={styles.explainLink}>{open ? 'Hide how this is counted' : 'How is this counted?'}</Muted>
+      </Pressable>
+
+      {open ? (
+        <View style={styles.explainBody}>
+          <Muted style={styles.explainPara}>{note.counts}</Muted>
+          <Muted style={styles.explainPara}>{note.method}</Muted>
+          <Muted style={styles.explainPara}>{note.caveat}</Muted>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 /** A headline count, optionally with its direction. The number is the chart. */
 export function StatTile({
   value,
   label,
   trend,
+  note,
 }: {
   value: string;
   label: string;
   trend?: Trend | null;
+  note?: MetricNote;
 }) {
   return (
     <View style={styles.tile}>
@@ -76,12 +119,13 @@ export function StatTile({
       ) : null}
 
       <Muted style={styles.tileLabel}>{label}</Muted>
+      <Explain note={note} />
     </View>
   );
 }
 
 /** A single ratio against its whole, with the caveat that belongs to it. */
-export function Meter({ ratio }: { ratio: Ratio }) {
+export function Meter({ ratio, note }: { ratio: Ratio; note?: MetricNote }) {
   return (
     <View style={styles.meter} accessibilityLabel={`${ratio.label}: ${ratio.count} of ${ratio.total}`}>
       <View style={styles.meterHead}>
@@ -94,12 +138,21 @@ export function Meter({ ratio }: { ratio: Ratio }) {
         <View style={[styles.fill, { width: `${Math.max(ratio.percent, 0.6)}%` }]} />
       </View>
       <Muted style={styles.meterNote}>{ratio.note}</Muted>
+      <Explain note={note} />
     </View>
   );
 }
 
 /** Seven-plus classes: a table, not seven colours. */
-export function CoverageTable({ title, rows }: { title: string; rows: CoverageRow[] }) {
+export function CoverageTable({
+  title,
+  rows,
+  note,
+}: {
+  title: string;
+  rows: CoverageRow[];
+  note?: MetricNote;
+}) {
   return (
     <View style={styles.table}>
       <H6 style={styles.tableTitle}>{title}</H6>
@@ -111,6 +164,7 @@ export function CoverageTable({ title, rows }: { title: string; rows: CoverageRo
           <Muted style={styles.rowPercent}>{row.percent}%</Muted>
         </View>
       ))}
+      <Explain note={note} />
     </View>
   );
 }
@@ -122,6 +176,11 @@ const styles = StyleSheet.create({
   trendRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 },
   delta: { fontSize: 10, fontVariant: ['tabular-nums'] },
   spark: { flexShrink: 0 },
+
+  explain: { marginTop: 6 },
+  explainLink: { fontSize: 11, color: accentText },
+  explainBody: { gap: 6, marginTop: 6, paddingLeft: 10, borderLeftWidth: 1, borderLeftColor: color.divider },
+  explainPara: { fontSize: 11, lineHeight: 11 * 1.55 },
 
   meter: { marginBottom: 16 },
   meterHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },

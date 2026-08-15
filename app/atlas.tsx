@@ -18,7 +18,8 @@ import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CaretDownIcon } from '../src/components/icons';
-import { CoverageTable, Meter, StatTile } from '../src/components/Metrics';
+import { CoverageTable, Explain, Meter, StatTile } from '../src/components/Metrics';
+import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
 import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics';
 import { atlasCoverage, buildAtlas } from '../src/domain/queries';
@@ -121,9 +122,15 @@ export default function Atlas() {
             value={metrics.total.toLocaleString()}
             label="traditions recorded"
             trend={trendFor(history, 'total')}
+            note={metricNote('total')}
           />
-          <StatTile value={String(metrics.countries)} label="countries" trend={trendFor(history, 'countries')} />
-          <StatTile value={String(metrics.atRisk)} label="at-risk traditions" />
+          <StatTile
+            value={String(metrics.countries)}
+            label="countries"
+            trend={trendFor(history, 'countries')}
+            note={metricNote('countries')}
+          />
+          <StatTile value={String(metrics.atRisk)} label="at-risk traditions" note={metricNote('atRisk')} />
         </View>
 
         <Muted style={styles.concentration}>
@@ -131,15 +138,16 @@ export default function Atlas() {
           reflects which countries have been catalogued in the open sources this is built from — not where the
           world&apos;s food is.
         </Muted>
+        <Explain note={metricNote('concentration')} />
 
-        <Meter ratio={metrics.documented} />
-        <Meter ratio={metrics.located} />
-        <Meter ratio={metrics.assessed} />
-        <Meter ratio={metrics.illustrated} />
-        <Meter ratio={metrics.filmed} />
+        <Meter ratio={metrics.documented} note={metricNote('documented')} />
+        <Meter ratio={metrics.located} note={metricNote('located')} />
+        <Meter ratio={metrics.assessed} note={metricNote('assessed')} />
+        <Meter ratio={metrics.illustrated} note={metricNote('illustrated')} />
+        <Meter ratio={metrics.filmed} note={metricNote('filmed')} />
 
-        <CoverageTable title="Where the records are" rows={metrics.byContinent} />
-        <CoverageTable title="Confidence" rows={metrics.confidence} />
+        <CoverageTable title="Where the records are" rows={metrics.byContinent} note={metricNote('byContinent')} />
+        <CoverageTable title="Confidence" rows={metrics.confidence} note={metricNote('confidence')} />
       </View>
 
       <Card style={styles.grow}>

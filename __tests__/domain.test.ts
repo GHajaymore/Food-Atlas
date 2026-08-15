@@ -19,6 +19,7 @@ import {
   tidyTerm,
 } from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
+import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import {
   coverageOf,
@@ -1299,5 +1300,49 @@ describe('a language is offered only when the catalogue can fill it', () => {
       expect(language.label.trim().length).toBeGreaterThan(0);
     }
     expect(new Set(LANGUAGES.map((l) => l.code)).size).toBe(LANGUAGES.length);
+  });
+});
+
+describe('every headline number can be checked by the reader', () => {
+  it('explains each figure the atlas puts on screen', () => {
+    // The atlas asks nobody to take a dish's authenticity on trust. It cannot then
+    // print a number in large type and decline to say what was counted.
+    const shown = [
+      'total',
+      'countries',
+      'atRisk',
+      'documented',
+      'located',
+      'illustrated',
+      'filmed',
+      'assessed',
+      'concentration',
+      'confidence',
+      'byContinent',
+    ];
+    for (const key of shown) expect(metricNote(key)).toBeDefined();
+  });
+
+  it('gives every figure a unit, a method and a caveat', () => {
+    for (const [key, note] of Object.entries(METRIC_NOTES)) {
+      expect({ key, title: note.title.length > 0 }).toEqual({ key, title: true });
+      expect({ key, counts: note.counts.length > 40 }).toEqual({ key, counts: true });
+      expect({ key, method: note.method.length > 40 }).toEqual({ key, method: true });
+      // The caveat is the point. A figure that flatters the atlas stops here.
+      expect({ key, caveat: note.caveat.length > 40 }).toEqual({ key, caveat: true });
+    }
+  });
+
+  it('says plainly that the at-risk count is a floor and not a census', () => {
+    // This is the number a reader is most likely to misread as reassuring.
+    const note = metricNote('atRisk')!;
+    expect(note.caveat).toMatch(/floor, not a census/);
+    expect(note.caveat).toMatch(/Ark of Taste/);
+    expect(note.method).toMatch(/evidence/);
+  });
+
+  it('refuses to let the total imply the atlas knows more than it does', () => {
+    expect(metricNote('total')!.caveat).toMatch(/not a count of the world/);
+    expect(metricNote('countries')!.caveat).toMatch(/Coverage is not depth/);
   });
 });
