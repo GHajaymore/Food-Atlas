@@ -258,6 +258,25 @@ export interface Dish {
   translations?: Record<string, DishTranslation>;
 
   /**
+   * Languages this dish has its own Wikipedia article in, from
+   * `scripts/ingest-langlinks.mjs`.
+   *
+   * Not a translation of *this* record — the other article is its own text, by its
+   * own editors. It means a reader of that language has somewhere real to go, and it
+   * is what `offeredLanguages` counts when deciding whether a language is ready.
+   */
+  readableIn?: string[];
+
+  /**
+   * What each of those languages calls this dish, keyed by BCP-47 code.
+   *
+   * An endonym, not a translation: it is the name speakers actually use, sourced
+   * rather than generated. Shown beside the original name and never instead of it —
+   * the same rule the glossary follows.
+   */
+  localNames?: Record<string, string>;
+
+  /**
    * Groups sibling records that are the same dish as made in different places or by
    * different communities. Records sharing a `traditionId` are peers: none of them is
    * the canonical one, which is the whole point of "Multiple Authentic Traditions".

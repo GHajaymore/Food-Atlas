@@ -20,7 +20,15 @@ import {
 } from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
-import { planTranslation, withLanguage } from '../src/domain/language';
+import {
+  coverageOf,
+  LANGUAGES,
+  languageProgress,
+  MIN_RECORDS_PER_LANGUAGE,
+  offeredLanguages,
+  planTranslation,
+  withLanguage,
+} from '../src/domain/language';
 import {
   allCuisines,
   allIngredients,
@@ -1236,5 +1244,60 @@ describe('correcting a contribution never tidies away the food', () => {
     expect(EDITORIAL_RULE).toMatch(/Fix our writing freely/);
     expect(EDITORIAL_RULE).toMatch(/accents and all/);
     expect(EDITORIAL_RULE).toMatch(/two communities rather than a mistake/);
+  });
+});
+
+describe('a language is offered only when the catalogue can fill it', () => {
+  it('knows far more languages than it offers', () => {
+    // Wide on purpose: a short list tells most of the world their food is welcome
+    // but their reading is not.
+    expect(LANGUAGES.length).toBeGreaterThan(70);
+    expect(offeredLanguages({}).length).toBe(1);
+  });
+
+  it('always offers English, which needs no coverage to be honest', () => {
+    expect(offeredLanguages({}).map((l) => l.code)).toEqual(['en']);
+    expect(offeredLanguages({ ml: 9_999 }).map((l) => l.code)).toContain('en');
+  });
+
+  it('opens a language once it clears the floor and not before', () => {
+    const justUnder = offeredLanguages({ ml: MIN_RECORDS_PER_LANGUAGE - 1 });
+    expect(justUnder.map((l) => l.code)).not.toContain('ml');
+
+    const justOver = offeredLanguages({ ml: MIN_RECORDS_PER_LANGUAGE });
+    expect(justOver.map((l) => l.code)).toContain('ml');
+  });
+
+  it('lets the floor move, because it is a starting point and not a law', () => {
+    expect(offeredLanguages({ ta: 40 }, 25).map((l) => l.code)).toContain('ta');
+    expect(offeredLanguages({ ta: 40 }, 500).map((l) => l.code)).not.toContain('ta');
+  });
+
+  it('shows a reader their language coming rather than simply missing', () => {
+    const progress = languageProgress({ ta: 200, ka: 10 });
+    const tamil = progress.find((p) => p.language.code === 'ta');
+    expect(tamil).toEqual({ language: expect.objectContaining({ code: 'ta' }), records: 200, needed: 50 });
+    // Nearest first, so the next language to open is the one named at the top.
+    expect(progress[0].language.code).toBe('ta');
+  });
+
+  it('counts an article and a translation alike, and a record only once', () => {
+    const coverage = coverageOf([
+      { readableIn: ['ml', 'ta'] },
+      // Reachable both ways — still one record for Malayalam.
+      { readableIn: ['ml'], translations: { ml: {}, fr: {} } },
+      {},
+    ]);
+    expect(coverage).toEqual({ ml: 2, ta: 1, fr: 1 });
+  });
+
+  it('carries an endonym for every language it claims a record is readable in', () => {
+    // The name in another language is shown beside the original, never instead, so
+    // every offered language needs its own script to be recognisable in the picker.
+    for (const language of LANGUAGES) {
+      expect(language.endonym.trim().length).toBeGreaterThan(0);
+      expect(language.label.trim().length).toBeGreaterThan(0);
+    }
+    expect(new Set(LANGUAGES.map((l) => l.code)).size).toBe(LANGUAGES.length);
   });
 });

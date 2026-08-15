@@ -22,6 +22,7 @@
 import { assess } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
 import { continentOf, registerContinents } from '../domain/continents';
+import { coverageOf } from '../domain/language';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
 import rawImported from './catalogue.json';
@@ -222,6 +223,9 @@ function expand(row: ImportedRow): Dish {
 interface CuisineRow extends PhotoRow {
   /** Twelve-month English Wikipedia readership, once the pageviews pass has run. */
   views?: number;
+  /** Other Wikipedia editions this dish has an article in, and its name in each. */
+  langs?: string[];
+  langNames?: Record<string, string>;
   title: string;
   name: string;
   country: string;
@@ -365,6 +369,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       score: assessment.score,
       breakdown: assessment.breakdown,
       views: viewsLabel(row.views),
+
+      readableIn: row.langs,
+      localNames: row.langNames,
 
       prepSummary,
       ingredients,
@@ -647,6 +654,14 @@ export const catalogue: Dish[] = [...curated, ...validImported];
 
 export const dishById = (id: number | null | undefined): Dish | undefined =>
   catalogue.find((d) => d.id === id);
+
+/**
+ * How many records the catalogue can serve in each language.
+ *
+ * Computed once at module load rather than per render: it is a pass over ~14,000
+ * records and the answer only changes when the data does.
+ */
+export const languageCoverage = coverageOf(catalogue);
 
 export const catalogueStats = {
   total: catalogue.length,

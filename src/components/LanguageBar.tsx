@@ -8,7 +8,8 @@
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import type { ReadableDish } from '../domain/translate';
-import { LANGUAGES } from '../domain/language';
+import { languageCoverage } from '../data/catalogue';
+import { LANGUAGES, languageProgress, offeredLanguages } from '../domain/language';
 import { accentText, color, radius, space } from '../theme/tokens';
 import { Button } from './Button';
 import { Block } from './Card';
@@ -37,12 +38,25 @@ export function LanguageBar({
   canTranslate,
   onTranslate,
 }: Props) {
+  /**
+   * Only languages the catalogue can actually meet. The reader's current choice is
+   * always kept, so a language that falls below the floor after they picked it does
+   * not silently vanish from under them.
+   */
+  const ready = offeredLanguages(languageCoverage);
+  const offered = ready.some((l) => l.code === language)
+    ? ready
+    : [...ready, ...LANGUAGES.filter((l) => l.code === language)];
+
+  // Named so a reader whose language is missing sees it coming rather than absent.
+  const nextUp = languageProgress(languageCoverage)[0];
+
   return (
     <View style={styles.wrap}>
       <H6 style={styles.heading}>Read this in</H6>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
-        {LANGUAGES.map((lang) => (
+        {offered.map((lang) => (
           <Tag
             key={lang.code}
             // The endonym, so a speaker recognises their own language on the chip.
@@ -56,6 +70,9 @@ export function LanguageBar({
 
       <Muted style={styles.legend}>
         A dot marks a language this record has already been translated into.
+        {nextUp
+          ? ` ${nextUp.language.label} opens once ${nextUp.needed.toLocaleString()} more records can be read in it.`
+          : ''}
       </Muted>
 
       {reading.status !== 'original' ? (
