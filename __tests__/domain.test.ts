@@ -11,6 +11,13 @@ import { dishes } from '../src/data/seed';
 import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
 import { assess } from '../src/domain/assess';
 import { dietLabel, traceLabels } from '../src/domain/diet';
+import {
+  EDITORIAL_RULE,
+  nearbyNames,
+  reviewProse,
+  tidyProse,
+  tidyTerm,
+} from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import { planTranslation, withLanguage } from '../src/domain/language';
@@ -1173,5 +1180,61 @@ describe('contributed photographs stay free and lawful', () => {
 
   it('refuses a licence it does not recognise rather than assuming it is free', () => {
     expect(isFreeLicence('Some bespoke permission, see talk page')).toBe(false);
+  });
+});
+
+describe('correcting a contribution never tidies away the food', () => {
+  it('strips invisible characters from a name and changes nothing else', () => {
+    // A zero-width joiner makes a name unsearchable while looking identical, so it
+    // goes. Every visible mark stays exactly as the cook wrote it.
+    expect(tidyTerm('Hák\u200Barl')).toBe('Hákarl');
+    for (const name of ['Hákarl', "Al-Man'ouché", 'peanut butter', 'Kozhikode Halwa', 'ايس كريم']) {
+      expect(tidyTerm(name)).toBe(name);
+    }
+  });
+
+  it('never strips an accent, changes case, or rewrites an apostrophe', () => {
+    // Each of these would look like a tidy-up in a diff and would be a different word.
+    expect(tidyTerm('Hákarl')).not.toBe('Hakarl');
+    expect(tidyTerm('peanut butter')).not.toBe('Peanut Butter');
+    expect(tidyTerm("Al-Man'ouché")).not.toBe('Al-Manouche');
+  });
+
+  it('collapses accidental whitespace in prose, which carries no meaning', () => {
+    expect(tidyProse('Cooked  slowly\u00A0over\n embers.')).toBe('Cooked slowly over embers.');
+  });
+
+  it('asks a human about a near-identical name instead of merging it', () => {
+    // The app cannot tell a typo from a second community's spelling, and guessing
+    // wrong in the merging direction destroys a tradition silently.
+    const advisories = nearbyNames('Kozhikode Halwa', 'India', [
+      { ...halwa(), name: 'Kozhikode Halva' },
+    ] as Dish[]);
+    expect(advisories).toHaveLength(1);
+    expect(advisories[0].consider).toMatch(/do not merge the spellings/);
+  });
+
+  it('reads a close name in another country as a sibling, not an error', () => {
+    const advisories = nearbyNames('Baklawa', 'Lebanon', [
+      { ...halwa(), name: 'Baklava', loc: { ...halwa().loc, country: 'Turkey' } },
+    ] as Dish[]);
+    expect(advisories[0].note).toMatch(/Turkey/);
+    expect(advisories[0].consider).toMatch(/siblings rather than choosing one spelling/);
+  });
+
+  it('says nothing about names that are merely both food', () => {
+    expect(nearbyNames('Kaipola', 'India', [halwa(), pizza(), hawaiian()])).toEqual([]);
+  });
+
+  it('flags shouting and stuck keys in prose, and applies neither fix', () => {
+    expect(reviewProse('COOKED OVER EMBERS', 'blurb')[0].note).toMatch(/capitals/);
+    expect(reviewProse('Cooked over embersssss.', 'blurb')[0].note).toMatch(/repeats/);
+    expect(reviewProse('Fry it.', 'method')[0].consider).toMatch(/including the waiting/);
+  });
+
+  it('tells the reviewer the rule in the app s own voice', () => {
+    expect(EDITORIAL_RULE).toMatch(/Fix our writing freely/);
+    expect(EDITORIAL_RULE).toMatch(/accents and all/);
+    expect(EDITORIAL_RULE).toMatch(/two communities rather than a mistake/);
   });
 });

@@ -22,6 +22,7 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
+import { EDITORIAL_RULE } from '../src/domain/editorial';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
@@ -123,6 +124,13 @@ export default function Contribute() {
             Record it as it is made where you are. Nothing is published from this form alone — it goes through
             assessment and community validation first.
           </Muted>
+
+          {/* Said before the fields rather than after, because the instinct to tidy a
+              name is strongest while typing it. */}
+          <Block style={styles.ruleBlock}>
+            <T style={styles.ruleTitle}>Write the food&apos;s name the way you write it</T>
+            <Muted style={styles.ruleNote}>{EDITORIAL_RULE}</Muted>
+          </Block>
 
           <Field label="Dish, in its own language if possible" style={styles.field}>
             <Input defaultValue="Kaipola" />
@@ -304,6 +312,10 @@ const styles = StyleSheet.create({
 
   field: { marginBottom: 12 },
   walkthroughNote: { fontSize: 11, marginBottom: 14 },
+
+  ruleBlock: { padding: 12, marginBottom: 16 },
+  ruleTitle: { fontSize: 13, fontFamily: font.medium },
+  ruleNote: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 6 },
 
   photoBlock: { padding: 12, marginBottom: 16 },
   photoTitle: { fontSize: 13, fontFamily: font.medium },
