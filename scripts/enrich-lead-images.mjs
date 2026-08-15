@@ -44,6 +44,23 @@ const USER_AGENT = 'GlobalTaste/1.0 (food atlas lead-image ingest; contact: via 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const strip = (html) => (html ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
+/**
+ * How long to wait after being throttled.
+ *
+ * Wikimedia says so in `Retry-After`, and it is a much smaller number than it looks
+ * like from outside — typically four seconds, not the minutes an escalating backoff
+ * assumes. Guessing instead of reading it made a four-second pause look like a
+ * permanent cooldown and stalled a whole run.
+ *
+ * The limit is per IP across all Wikimedia APIs, so a pass against Wikipedia spends
+ * the budget a Commons request then needs. That is a reason to run one at a time,
+ * not a reason to wait longer.
+ */
+const retryAfter = (res, attempt) => {
+  const header = Number(res.headers.get('retry-after'));
+  return Number.isFinite(header) && header > 0 ? header * 1000 + 250 : 2000 * attempt;
+};
+
 /** The article title out of a Wikipedia URL, still percent-encoded as the API wants. */
 const titleFrom = (url) => /\/wiki\/(.+)$/.exec(url ?? '')?.[1] ?? null;
 
@@ -62,7 +79,7 @@ async function leadImage(title, attempt = 1) {
     // hard is cheaper than being throttled for the rest of the run.
     if (res.status === 429 || res.status >= 500) {
       if (attempt > 5) return null;
-      await sleep(5000 * attempt);
+      await sleep(retryAfter(res, attempt));
       return leadImage(title, attempt + 1);
     }
     if (!res.ok) return null;
@@ -109,7 +126,7 @@ async function credits(files, attempt = 1) {
     const res = await fetch(`${COMMONS}?${params}`, { headers: { 'User-Agent': USER_AGENT } });
     if (res.status === 429 || res.status >= 500) {
       if (attempt > 5) return new Map();
-      await sleep(8000 * attempt);
+      await sleep(retryAfter(res, attempt));
       return credits(files, attempt + 1);
     }
     if (!res.ok) return new Map();

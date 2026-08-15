@@ -46,6 +46,18 @@ const USER_AGENT = 'GlobalTaste/1.0 (food atlas language coverage; contact: via 
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/**
+ * How long to wait after being throttled — as the server states it, not as we guess.
+ *
+ * Wikimedia answers a 429 with `Retry-After`, and it is typically four seconds. An
+ * escalating backoff invented locally turned that four-second pause into what looked
+ * like a permanent cooldown and stalled an entire run.
+ */
+const retryAfter = (res, attempt) => {
+  const header = Number(res.headers.get('retry-after'));
+  return Number.isFinite(header) && header > 0 ? header * 1000 + 250 : 2000 * attempt;
+};
+
 /** The article title out of a Wikipedia URL, decoded — the API wants plain text here. */
 function titleFrom(url) {
   const match = /\/wiki\/(.+)$/.exec(url ?? '');
@@ -79,7 +91,7 @@ async function langlinks(titles, attempt = 1) {
     const res = await fetch(`${API}?${params}`, { headers: { 'User-Agent': USER_AGENT } });
     if (res.status === 429 || res.status >= 500) {
       if (attempt > 5) return new Map();
-      await sleep(6000 * attempt);
+      await sleep(retryAfter(res, attempt));
       return langlinks(titles, attempt + 1);
     }
     if (!res.ok) return new Map();

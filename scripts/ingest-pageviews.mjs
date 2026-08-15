@@ -53,6 +53,18 @@ const WINDOW = (() => {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/**
+ * How long to wait after being throttled — as the server states it, not as we guess.
+ *
+ * Wikimedia answers a 429 with `Retry-After`, and it is typically four seconds. An
+ * escalating backoff invented locally turned that four-second pause into what looked
+ * like a permanent cooldown and stalled an entire run.
+ */
+const retryAfter = (res, attempt) => {
+  const header = Number(res.headers.get('retry-after'));
+  return Number.isFinite(header) && header > 0 ? header * 1000 + 250 : 2000 * attempt;
+};
+
 /** The article title out of a Wikipedia URL, still percent-encoded as the API wants. */
 function titleFrom(url) {
   const match = /\/wiki\/(.+)$/.exec(url ?? '');
@@ -76,7 +88,7 @@ async function readership(title, attempt = 1) {
     // hard is cheaper than being throttled for the rest of the run.
     if (res.status === 429 || res.status >= 500) {
       if (attempt > 5) return null;
-      await sleep(5000 * attempt);
+      await sleep(retryAfter(res, attempt));
       return readership(title, attempt + 1);
     }
     if (res.status === 404) return 0;
