@@ -20,6 +20,7 @@ import {
   tidyTerm,
 } from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
+import { notAFood } from '../src/domain/isDish';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import {
@@ -1375,6 +1376,48 @@ describe('the catalogue holds food, under the names people use', () => {
   it('leaves every name with something to show', () => {
     for (const dish of catalogue) {
       expect({ id: dish.id, empty: dish.name.trim().length === 0 }).toEqual({ id: dish.id, empty: false });
+    }
+  });
+});
+
+describe('only food reaches the catalogue', () => {
+  it('refuses companies, venues, people and reference articles', () => {
+    const cases: [string, RegExp][] = [
+      ['Kerala State Beverages Corporation', /company/],
+      ['Murree Brewery', /company/],
+      ['Nine Rivers Distillery', /company/],
+      ['Annapurna Cafe', /place that serves food/],
+      ['Dindigul Thalappakatti Restaurant', /place that serves food/],
+      ['Douglas Wright (cricketer, born 1894)', /labels it as something other than a food/],
+      ['Glossary of sake terms', /reference article/],
+      ['History of Chinese cuisine', /reference article/],
+      ['Hunan cuisine', /whole cuisine/],
+      ['Dishoom (restaurant)', /labels it as something other than a food/],
+    ];
+    for (const [name, reason] of cases) {
+      expect({ name, why: notAFood(name) ?? 'kept' }).toEqual({ name, why: expect.stringMatching(reason) });
+    }
+  });
+
+  it('keeps the foods that look like the things it refuses', () => {
+    // Each of these was deleted by an earlier draft of the rules, and each is real.
+    const keep = [
+      'Simple Restaurant Miso Soup', // "restaurant" mid-name; a Cookbook recipe
+      'Chacha (brandy)', // "brand" is a prefix of "brandy"
+      'Cod, Olive Oil, and Cream Sauce (Brandade de Morue)',
+      'Culture of Ukrainian borscht cooking', // UNESCO phrasing for a real tradition
+      'Practices and meanings associated with the preparation and consumption of ceviche, an expression of Peruvian traditional cuisine',
+    ];
+    for (const name of keep) expect({ name, why: notAFood(name) }).toEqual({ name, why: null });
+  });
+
+  it('lets nothing with a method or real evidence be refused', () => {
+    // The asymmetry that shapes these rules: deleting a real tradition is silent and
+    // permanent, keeping a brewery merely looks foolish.
+    for (const dish of catalogue) {
+      if (dish.steps.length > 0 || dish.atRisk || isAuthentic(dish.badgeLevel)) {
+        expect({ name: dish.name, why: notAFood(dish.name) }).toEqual({ name: dish.name, why: null });
+      }
     }
   });
 });

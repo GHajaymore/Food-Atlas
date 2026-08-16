@@ -22,6 +22,7 @@
 import { assess } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
 import { continentOf, registerContinents } from '../domain/continents';
+import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
@@ -59,13 +60,6 @@ const IMPORT_DIET_BASIS =
   'the method is documented.';
 
 /**
- * Wikidata labels sometimes carry a register's tag rather than the food's name —
- * Italy's ~4,400 Prodotti Agroalimentari Tradizionali all end in " PAT". That suffix
- * belongs to the registry, not to the dish, and showing it would put a bureaucratic
- * acronym where the tradition's name should be. The Wikidata link on the record still
- * points at the registered entry, so nothing is lost by dropping it from the label.
- */
-/**
  * Wikipedia's parenthetical disambiguator, where it names a kind of food.
  *
  * "Momo (food)" and "Kulfi (dessert)" are titles doing Wikipedia's job of separating
@@ -82,19 +76,14 @@ const FOOD_DISAMBIGUATOR =
   /\s*\((food|dish|drink|beverage|soft drink|bread|pastry|dessert|sweet|snack|soup|sauce|cheese|wine|beer|cocktail|confectionery|candy|cake|biscuit|fruit|vegetable|spice|herb|plant|grain|cuisine)\)\s*$/i;
 
 /**
- * Titles that mean the article is not a food at all.
+ * The dish's own name, with the source's indexing artefacts taken off.
  *
- * A category walk through "Indian cuisine" reaches the restaurants that serve it,
- * the companies that sell it, and the films named after it — "Dishoom (restaurant)",
- * "Rasam (film)", "Magic Chef (TV series)". Wikipedia's own disambiguator is the
- * clearest signal available that the subject is a business or a work rather than a
- * tradition, and a record for a restaurant chain in an atlas of how food is made is
- * simply wrong.
+ * Wikidata labels sometimes carry a register's tag rather than the food's name —
+ * Italy's ~4,400 Prodotti Agroalimentari Tradizionali all end in " PAT". That suffix
+ * belongs to the registry, not to the dish, and showing it would put a bureaucratic
+ * acronym where the tradition's name should be. The Wikidata link on the record still
+ * points at the registered entry, so nothing is lost by dropping it from the label.
  */
-const NOT_A_FOOD =
-  /\((restaurant|restaurant chain|company|brand|band|film|movie|song|album|TV series|television series|book|novel|video game|magazine|newspaper|hotel|supermarket|retailer)\)\s*$/i;
-
-/** The dish's own name, with the source's indexing artefacts taken off. */
 const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim();
 
 /** The photograph fields an enrichment pass may have written onto a source row. */
@@ -322,7 +311,7 @@ registerContinents(importedRows.map((row) => [row.country, row.continent] as [st
  * ingredients, a heritage designation, an encyclopaedia article, or a photograph.
  */
 const hasSomethingToShow = (row: ImportedRow): boolean =>
-  !NOT_A_FOOD.test(row.name) &&
+  isFood(cleanName(row.name)) &&
   (!!row.blurb?.trim() ||
     !!row.evidence?.ingredients?.length ||
     !!row.evidence?.heritage?.length ||
@@ -343,7 +332,7 @@ const alreadyPresent = new Set([...curated, ...imported].map((d) => key(d.name, 
 const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
   .filter(
     (row) =>
-      row.name && row.country && !NOT_A_FOOD.test(row.name) && !alreadyPresent.has(key(row.name, row.country)),
+      row.name && row.country && isFood(cleanName(row.name)) && !alreadyPresent.has(key(row.name, row.country)),
   )
   .map((row, index) => {
     const region = cleanRegion(row.region ?? '', row.country);
@@ -452,7 +441,10 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
   // recipes" and "Category:Boiled recipes" as readily as "Category:Indian recipes",
   // so a naive read of the category made "Easy" the largest cuisine in the atlas.
   // The continent map is the whitelist: anything it cannot place is not a country.
-  .filter((row) => row.country && row.steps?.length && continentOf(row.country) !== 'Elsewhere')
+  .filter(
+    (row) =>
+      row.country && row.steps?.length && continentOf(row.country) !== 'Elsewhere' && isFood(cleanName(row.name)),
+  )
   .map((row, index) => ({
     id: 300_000 + index,
     name: cleanName(row.name),
@@ -535,7 +527,7 @@ interface UnescoRow extends PhotoRow {
  * urgent safeguarding — a sourced, authoritative statement of decline, and the only
  * at-risk evidence in the catalogue that did not have to be hand-written.
  */
-const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).map((row, index) => {
+const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).filter((row) => isFood(cleanName(row.name))).map((row, index) => {
   const urgent = row.list === 'urgent-safeguarding';
   const shared = row.countries.length > 1;
 
