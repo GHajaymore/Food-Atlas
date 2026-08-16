@@ -130,6 +130,19 @@ const isQid = (value) => /^Q\d+$/.test(value ?? '');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
+ * How long to wait after being throttled — as the server states it, not as we guess.
+ *
+ * Wikimedia answers a 429 with `Retry-After`, and it is typically four seconds. An
+ * escalating backoff invented locally turns that into what looks like a permanent
+ * cooldown: it cost this repository six lost batches and an hour of misdiagnosis.
+ */
+const retryAfter = (res, attempt) => {
+  const header = Number(res.headers.get('retry-after'));
+  return Number.isFinite(header) && header > 0 ? header * 1000 + 250 : 2000 * attempt;
+};
+
+
+/**
  * One SPARQL request. A timed-out query returns a 200 with a truncated body, so a
  * JSON parse failure is treated as a retryable timeout rather than a crash.
  */
@@ -140,7 +153,7 @@ async function runQuery(query, attempt = 1) {
       headers: { Accept: 'application/sparql-results+json', 'User-Agent': USER_AGENT },
     });
     if (response.status === 429) {
-      await sleep(5000 * attempt);
+      await sleep(retryAfter(res, attempt));
       if (attempt < 4) return runQuery(query, attempt + 1);
       throw new Error('rate limited by Wikidata');
     }

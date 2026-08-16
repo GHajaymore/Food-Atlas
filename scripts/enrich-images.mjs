@@ -53,6 +53,19 @@ const USER_AGENT = 'GlobalTaste/1.0 (food atlas ingest; contact: via repository)
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/**
+ * How long to wait after being throttled — as the server states it, not as we guess.
+ *
+ * Wikimedia answers a 429 with `Retry-After`, and it is typically four seconds. An
+ * escalating backoff invented locally turns that into what looks like a permanent
+ * cooldown: it cost this repository six lost batches and an hour of misdiagnosis.
+ */
+const retryAfter = (res, attempt) => {
+  const header = Number(res.headers.get('retry-after'));
+  return Number.isFinite(header) && header > 0 ? header * 1000 + 250 : 2000 * attempt;
+};
+
+
 const strip = (html) => (html ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
 /**
@@ -132,7 +145,7 @@ async function findImage(name, country, attempt = 1) {
     const res = await fetch(`${API}?${params}`, { headers: { 'User-Agent': USER_AGENT } });
     if (res.status === 429 || res.status >= 500) {
       if (attempt > 4) return null;
-      await sleep(4000 * attempt);
+      await sleep(retryAfter(res, attempt));
       return findImage(name, country, attempt + 1);
     }
     if (!res.ok) return null;

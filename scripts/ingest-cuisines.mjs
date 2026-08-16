@@ -34,6 +34,19 @@ const USER_AGENT = 'GlobalTaste/1.0 (food atlas ingest; contact: via repository)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
+ * How long to wait after being throttled — as the server states it, not as we guess.
+ *
+ * Wikimedia answers a 429 with `Retry-After`, and it is typically four seconds. An
+ * escalating backoff invented locally turns that into what looks like a permanent
+ * cooldown: it cost this repository six lost batches and an hour of misdiagnosis.
+ */
+const retryAfter = (res, attempt) => {
+  const header = Number(res.headers.get('retry-after'));
+  return Number.isFinite(header) && header > 0 ? header * 1000 + 250 : 2000 * attempt;
+};
+
+
+/**
  * The cuisines to walk, and the place each maps to.
  *
  * Weighted to Asia and to the oldest continuous traditions — the Indian
@@ -210,7 +223,7 @@ async function api(params, attempt = 1) {
 
   if (res.status === 429 || res.status >= 500) {
     if (attempt > 5) throw new Error(`HTTP ${res.status} after ${attempt} attempts`);
-    await sleep(5000 * attempt);
+    await sleep(retryAfter(res, attempt));
     return api(params, attempt + 1);
   }
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
