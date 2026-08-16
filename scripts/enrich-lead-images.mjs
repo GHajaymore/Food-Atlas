@@ -65,6 +65,39 @@ const retryAfter = (res, attempt) => {
 const titleFrom = (url) => /\/wiki\/(.+)$/.exec(url ?? '')?.[1] ?? null;
 
 /**
+ * The Commons file name inside an image URL.
+ *
+ * Two things have to come off, and missing either makes every subsequent lookup ask
+ * Commons for a file that does not exist:
+ *
+ *   - **The query string.** Wikimedia now appends UTM tracking parameters to the
+ *     URLs its REST API returns, so the last path segment ends
+ *     `...jpg?utm_source=en.wikipedia.org&utm_campaign=api`. That silently turned
+ *     4,085 valid files into 4,085 misses.
+ *   - **The thumbnail width prefix.** A rendering is served as `960px-Name.jpg`;
+ *     the file itself is `Name.jpg`.
+ */
+/**
+ * One spelling of a file name, for matching a request to its answer.
+ *
+ * MediaWiki treats underscores and spaces as the same character in a title, and
+ * hands back the space form regardless of which was asked for. Comparing the two
+ * literally is why an earlier run attributed 964 files out of 4,085 and reported the
+ * rest as missing when Commons had every one of them.
+ */
+const fileKey = (file) => (file ?? '').replace(/_/g, ' ').trim();
+
+function commonsFile(source) {
+  const last = (source ?? '').split('/').pop() ?? '';
+  const withoutQuery = last.split('?')[0];
+  try {
+    return decodeURIComponent(withoutQuery).replace(/^\d+px-/, '');
+  } catch {
+    return withoutQuery.replace(/^\d+px-/, '');
+  }
+}
+
+/**
  * Wikipedia's own illustration for an article, at a usable width.
  *
  * `thumbnail` is capped small, so the original is preferred and Commons is asked for
@@ -88,10 +121,12 @@ async function leadImage(title, attempt = 1) {
     const source = data?.originalimage?.source ?? data?.thumbnail?.source;
     if (!source) return null;
 
+    const file = commonsFile(source);
+    if (!file) return null;
+
     // Some leads are a map, a coat of arms or a portrait of the person a dish is
     // named after. Those are not photographs of food, and a diagram on a food card
     // is worse than no card.
-    const file = decodeURIComponent(source.split('/').pop() ?? '');
     if (/\.svg$/i.test(file) || /coat_of_arms|flag_of|\bmap\b|locator/i.test(file)) return null;
 
     return { file, source };
@@ -136,8 +171,10 @@ async function credits(files, attempt = 1) {
     for (const page of data?.query?.pages ?? []) {
       const info = page?.imageinfo?.[0];
       if (!info?.thumburl) continue;
-      // Keyed by the bare filename, which is how the caller knows it.
-      out.set(page.title.replace(/^File:/, ''), {
+      // Keyed the way the caller will ask. MediaWiki titles use spaces where URLs
+      // use underscores, and the two are the same file — matching them literally
+      // silently lost three quarters of a run.
+      out.set(fileKey(page.title.replace(/^File:/, '')), {
         photo: info.thumburl,
         credit: strip(info.extmetadata?.Artist?.value) || 'Wikimedia Commons',
         licence: strip(info.extmetadata?.LicenseShortName?.value) || 'see Commons',
@@ -189,7 +226,7 @@ const main = async () => {
       const priced = await credits([...new Set(batch.map((r) => r.leadFile))]);
 
       for (const row of batch) {
-        const image = priced.get(row.leadFile);
+        const image = priced.get(fileKey(row.leadFile));
         if (image) done.set(row[target.key], image);
       }
       process.stdout.write(`  ${start + batch.length}/${waiting.length} — ${done.size} attributed\n`);
