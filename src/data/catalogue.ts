@@ -65,7 +65,37 @@ const IMPORT_DIET_BASIS =
  * acronym where the tradition's name should be. The Wikidata link on the record still
  * points at the registered entry, so nothing is lost by dropping it from the label.
  */
-const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').trim();
+/**
+ * Wikipedia's parenthetical disambiguator, where it names a kind of food.
+ *
+ * "Momo (food)" and "Kulfi (dessert)" are titles doing Wikipedia's job of separating
+ * an article from a film or a place of the same name. The parenthesis belongs to the
+ * encyclopaedia's index, not to the dish — nobody calls it "momo food" — so it comes
+ * off for the same reason Italy's " PAT" registry tag does.
+ *
+ * Only this closed list is removed. Plenty of parentheses in these names are the
+ * source explaining itself — "Abacha Mmiri (Soaked Cassava Flakes)", "Aadun
+ * (Nigerian Corn Flour with Palm Oil)" — and those are a gloss the reader wants,
+ * not an index artefact. Stripping every bracket would delete them.
+ */
+const FOOD_DISAMBIGUATOR =
+  /\s*\((food|dish|drink|beverage|soft drink|bread|pastry|dessert|sweet|snack|soup|sauce|cheese|wine|beer|cocktail|confectionery|candy|cake|biscuit|fruit|vegetable|spice|herb|plant|grain|cuisine)\)\s*$/i;
+
+/**
+ * Titles that mean the article is not a food at all.
+ *
+ * A category walk through "Indian cuisine" reaches the restaurants that serve it,
+ * the companies that sell it, and the films named after it — "Dishoom (restaurant)",
+ * "Rasam (film)", "Magic Chef (TV series)". Wikipedia's own disambiguator is the
+ * clearest signal available that the subject is a business or a work rather than a
+ * tradition, and a record for a restaurant chain in an atlas of how food is made is
+ * simply wrong.
+ */
+const NOT_A_FOOD =
+  /\((restaurant|restaurant chain|company|brand|band|film|movie|song|album|TV series|television series|book|novel|video game|magazine|newspaper|hotel|supermarket|retailer)\)\s*$/i;
+
+/** The dish's own name, with the source's indexing artefacts taken off. */
+const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim();
 
 /** The photograph fields an enrichment pass may have written onto a source row. */
 interface PhotoRow {
@@ -292,11 +322,12 @@ registerContinents(importedRows.map((row) => [row.country, row.continent] as [st
  * ingredients, a heritage designation, an encyclopaedia article, or a photograph.
  */
 const hasSomethingToShow = (row: ImportedRow): boolean =>
-  !!row.blurb?.trim() ||
-  !!row.evidence?.ingredients?.length ||
-  !!row.evidence?.heritage?.length ||
-  !!row.evidence?.hasArticle ||
-  !!row.photo;
+  !NOT_A_FOOD.test(row.name) &&
+  (!!row.blurb?.trim() ||
+    !!row.evidence?.ingredients?.length ||
+    !!row.evidence?.heritage?.length ||
+    !!row.evidence?.hasArticle ||
+    !!row.photo);
 
 const imported: Dish[] = importedRows.filter(hasSomethingToShow).map(expand);
 
@@ -310,7 +341,10 @@ const imported: Dish[] = importedRows.filter(hasSomethingToShow).map(expand);
 const alreadyPresent = new Set([...curated, ...imported].map((d) => key(d.name, d.loc.country)));
 
 const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
-  .filter((row) => row.name && row.country && !alreadyPresent.has(key(row.name, row.country)))
+  .filter(
+    (row) =>
+      row.name && row.country && !NOT_A_FOOD.test(row.name) && !alreadyPresent.has(key(row.name, row.country)),
+  )
   .map((row, index) => {
     const region = cleanRegion(row.region ?? '', row.country);
     const breadcrumb = [row.country, region].filter(Boolean);
@@ -335,7 +369,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
 
     return {
       id: 100_000 + index,
-      name: row.name,
+      name: cleanName(row.name),
       category: 'Unclassified',
       // Rows ingested before the cuisine label was recorded fall back to the
       // country's own adjective, which is right for the national cuisines and
@@ -421,7 +455,7 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
   .filter((row) => row.country && row.steps?.length && continentOf(row.country) !== 'Elsewhere')
   .map((row, index) => ({
     id: 300_000 + index,
-    name: row.name,
+    name: cleanName(row.name),
     category: 'Unclassified',
     cuisine: '',
     diet: {
@@ -507,7 +541,7 @@ const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).map((row, index) => {
 
   return {
     id: 500_000 + index,
-    name: row.name,
+    name: cleanName(row.name),
     category: 'Unclassified',
     cuisine: '',
     diet: {

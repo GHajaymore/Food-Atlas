@@ -7,6 +7,7 @@
  * a renderer and stays true when the screens change.
  */
 
+import { catalogue } from '../src/data/catalogue';
 import { dishes } from '../src/data/seed';
 import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
 import { assess } from '../src/domain/assess';
@@ -1344,5 +1345,36 @@ describe('every headline number can be checked by the reader', () => {
   it('refuses to let the total imply the atlas knows more than it does', () => {
     expect(metricNote('total')!.caveat).toMatch(/not a count of the world/);
     expect(metricNote('countries')!.caveat).toMatch(/Coverage is not depth/);
+  });
+});
+
+describe('the catalogue holds food, under the names people use', () => {
+  it('admits no restaurant, company or film', () => {
+    // A category walk through "Indian cuisine" reaches the restaurants that serve it
+    // and the films named after it. A record for a restaurant chain in an atlas of
+    // how food is made is simply wrong.
+    const notFood = catalogue.filter((d) =>
+      /\((restaurant|restaurant chain|company|brand|film|movie|TV series|album|song)\)\s*$/i.test(d.name),
+    );
+    expect(notFood.map((d) => d.name)).toEqual([]);
+  });
+
+  it("strips the encyclopaedia's disambiguator but keeps the source's own gloss", () => {
+    // "(food)" is Wikipedia separating an article from a film of the same name —
+    // nobody calls it "momo food". "(Soaked Cassava Flakes)" is the source telling
+    // the reader what the dish is, and that is worth keeping.
+    const indexed = catalogue.filter((d) =>
+      /\((food|dish|drink|dessert|bread|pastry|snack|soup|cheese|wine)\)\s*$/i.test(d.name),
+    );
+    expect(indexed.map((d) => d.name)).toEqual([]);
+
+    const glossed = catalogue.filter((d) => /\([^)]{12,}\)\s*$/.test(d.name));
+    expect(glossed.length).toBeGreaterThan(0);
+  });
+
+  it('leaves every name with something to show', () => {
+    for (const dish of catalogue) {
+      expect({ id: dish.id, empty: dish.name.trim().length === 0 }).toEqual({ id: dish.id, empty: false });
+    }
   });
 });
