@@ -19,6 +19,7 @@ import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
 import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { LanguageBar } from '../../src/components/LanguageBar';
+import { LocalNames } from '../../src/components/LocalNames';
 import { NavRow } from '../../src/components/NavRow';
 import { Photo } from '../../src/components/Photo';
 import { Pressable } from '../../src/components/Pressable';
@@ -142,6 +143,11 @@ export default function DishDetail() {
       </View>
 
       <H2 style={styles.title}>{dish.name}</H2>
+
+      {/* Directly under the name, because that is what these are about, and above
+          everything else because a reader looking for their own language should not
+          have to scroll past the method to find out the app knows it. */}
+      <LocalNames names={dish.localNames} original={dish.name} />
 
       <View style={styles.breadcrumb}>
         {dish.breadcrumb.map((part, i) => (
