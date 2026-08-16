@@ -86,6 +86,18 @@ export default function DishDetail() {
   // Imported records carry a name and a place and nothing else. The sections below
   // describe a preparation, so they only render where there is one.
   const isDocumented = dish.steps.length > 0;
+
+  /**
+   * Whether there is prose here worth translating.
+   *
+   * Deliberately wider than `isDocumented`. An ordered method is not the only thing
+   * worth reading in another language — an article's account of how a dish is made
+   * is prose too, and the infobox pass gave that to well over a thousand records
+   * that will never have numbered steps. Gating translation on `steps` left every
+   * one of them readable only in English while the screen displayed a paragraph of
+   * preparation right underneath.
+   */
+  const hasProse = dish.steps.length > 0 || Boolean(dish.prepSummary?.trim());
   /** An adaptation documents how a dish is made today, not how its tradition makes it. */
   const isAdaptation = dish.badgeLevel === 'adaptation';
 
@@ -180,10 +192,11 @@ export default function DishDetail() {
         </>
       ) : (
         <>
-          {/* Translation is offered where there is prose worth translating. An
-              undocumented record has only its one-line blurb, so the control would
-              be a promise of substance the record does not have. */}
-          {isDocumented ? (
+          {/* Translation is offered where there is prose worth translating — a
+              method or an article's account of one. A record with only its one-line
+              blurb gets no control, because that would promise a substance it does
+              not have. */}
+          {hasProse ? (
             <LanguageBar
               language={language}
               onSelect={setLanguage}
