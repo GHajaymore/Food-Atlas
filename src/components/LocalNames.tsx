@@ -19,6 +19,7 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { languageByCode } from '../domain/language';
+import { openAtSource } from '../domain/video';
 import { accentText, color, font, radius, space } from '../theme/tokens';
 import { Block } from './Card';
 import { Pressable } from './Pressable';
@@ -33,6 +34,17 @@ interface Props {
 
 /** How many to show before asking. Enough to feel worldwide, few enough to scan. */
 const PREVIEW = 6;
+
+/**
+ * The article this name came from, in its own language's Wikipedia.
+ *
+ * The point of collecting these was that a reader of another language has somewhere
+ * real to go, and a name they cannot follow is not somewhere to go. It opens at the
+ * source rather than in the app: that article belongs to its own editors, and
+ * reframing their work inside our chrome would take credit for it.
+ */
+const articleUrl = (code: string, title: string) =>
+  `https://${code}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
 
 export function LocalNames({ names, original }: Props) {
   const [open, setOpen] = useState(false);
@@ -57,13 +69,20 @@ export function LocalNames({ names, original }: Props) {
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
         {shown.map(([code, name]) => (
-          <View key={code} style={styles.chip}>
+          <Pressable
+            key={code}
+            accessibilityRole="link"
+            accessibilityLabel={`Read about ${name} in ${languageByCode(code)!.label} on Wikipedia`}
+            tint="none"
+            onPress={() => openAtSource(articleUrl(code, name))}
+            style={styles.chip}
+          >
             <T style={styles.name} numberOfLines={1}>
               {name}
             </T>
             {/* The language in its own script, so a speaker finds theirs by sight. */}
             <Muted style={styles.lang}>{languageByCode(code)!.endonym}</Muted>
-          </View>
+          </Pressable>
         ))}
       </ScrollView>
 
@@ -80,7 +99,7 @@ export function LocalNames({ names, original }: Props) {
 
       <Muted style={styles.note}>
         Each is the name used in that language&apos;s own encyclopaedia article — not a translation of ours, and
-        never a replacement for the name above.
+        never a replacement for the name above. Tap one to read it there.
       </Muted>
     </Block>
   );
