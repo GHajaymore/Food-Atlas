@@ -240,6 +240,15 @@ function expand(row: ImportedRow): Dish {
  * the only evidence it arrives with.
  */
 interface CuisineRow extends PhotoRow {
+  /**
+   * Why Wikidata says this is not a food — "a person", "a taxon", "a restaurant".
+   *
+   * Set by `scripts/resolve-wikidata.mjs` from the item's `instance of` statement.
+   * It catches what no rule written against a name can: the most-read record in the
+   * catalogue was Yao Ming, who reached an atlas of food through a category of
+   * Chinese winemakers and whose name looks exactly like a dish.
+   */
+  notFood?: string;
   /** Twelve-month English Wikipedia readership, once the pageviews pass has run. */
   views?: number;
   /** Other Wikipedia editions this dish has an article in, and its name in each. */
@@ -332,7 +341,14 @@ const alreadyPresent = new Set([...curated, ...imported].map((d) => key(d.name, 
 const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
   .filter(
     (row) =>
-      row.name && row.country && isFood(cleanName(row.name)) && !alreadyPresent.has(key(row.name, row.country)),
+      row.name &&
+      row.country &&
+      // Wikidata's own verdict, where it has one. It outranks the name rules
+      // because it is a statement about the subject rather than a reading of its
+      // title, and it is the only thing that catches a person named like a dish.
+      !row.notFood &&
+      isFood(cleanName(row.name)) &&
+      !alreadyPresent.has(key(row.name, row.country)),
   )
   .map((row, index) => {
     const region = cleanRegion(row.region ?? '', row.country);

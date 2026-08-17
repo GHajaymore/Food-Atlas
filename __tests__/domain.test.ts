@@ -1420,4 +1420,30 @@ describe('only food reaches the catalogue', () => {
       }
     }
   });
+  it("honours Wikidata's verdict on what is not a food", () => {
+    // The catch that no rule written against a name can make: the most-read record
+    // in the catalogue was a basketball player, reached through a category of
+    // Chinese winemakers, whose name looks exactly like a dish.
+    for (const forbidden of ['Yao Ming', 'Moringa oleifera', 'Guinea pig', 'Mantis shrimp']) {
+      expect({ forbidden, present: catalogue.some((d) => d.name === forbidden) }).toEqual({
+        forbidden,
+        present: false,
+      });
+    }
+  });
+
+  it('places the best-known dishes where they come from', () => {
+    // Each of these was filed under the country that eats it rather than the one it
+    // is from, because a dish sits in every cuisine category that serves it.
+    const expected: Record<string, string> = {
+      Pierogi: 'Poland',
+      Borscht: 'Ukraine',
+      'Chicken tikka masala': 'United Kingdom',
+      Falafel: 'Egypt',
+    };
+    for (const [name, country] of Object.entries(expected)) {
+      const dish = catalogue.find((d) => d.name === name);
+      expect({ name, country: dish?.loc.country }).toEqual({ name, country });
+    }
+  });
 });
