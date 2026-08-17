@@ -30,6 +30,38 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const CUISINES = resolve(HERE, '../src/data/cuisines.json');
 const CATALOGUE = resolve(HERE, '../src/data/catalogue.json');
 
+/**
+ * The two sources this pass can read, and how a row in each names its article.
+ *
+ * The cuisine rows were walked out of Wikipedia categories and carry the article
+ * title as their identity. The Wikidata rows carry a Q-number, and their article
+ * URL is filled in by resolve-article-urls.mjs — which is why 59% of the catalogue
+ * had no ingredients and no preparation until now: this pass had no way to find
+ * their articles, so it never read one.
+ */
+const articleTitle = (url) => {
+  try {
+    return decodeURIComponent((url ?? '').split('/wiki/')[1] ?? '').replace(/_/g, ' ');
+  } catch {
+    return '';
+  }
+};
+
+const TARGETS = {
+  cuisines: {
+    path: CUISINES,
+    key: (r) => r.title,
+    title: (r) => r.title,
+    pending: (r) => !r.infobox || !r.riskChecked,
+  },
+  catalogue: {
+    path: CATALOGUE,
+    key: (r) => r.id,
+    title: (r) => articleTitle(r.url),
+    pending: (r) => r.url && !r.infobox,
+  },
+};
+
 const API = 'https://en.wikipedia.org/w/api.php';
 const USER_AGENT = 'GlobalTaste/1.0 (food atlas ingest; contact: via repository)';
 
@@ -278,7 +310,7 @@ const chunk = (arr, size) => {
  * run of this script, losing 65 places and 82 ingredient lists. Re-reading before
  * each write makes the two safe to overlap.
  */
-async function mergeWrite(path, updates) {
+async function mergeWrite(path, updates, target) {
   let current = [];
   try {
     current = JSON.parse(await readFile(path, 'utf8'));
@@ -286,31 +318,38 @@ async function mergeWrite(path, updates) {
     current = [];
   }
 
-  const byTitle = new Map(current.map((r) => [r.title, r]));
-  for (const [title, patch] of updates) {
-    const existing = byTitle.get(title);
+  const byKey = new Map(current.map((r) => [target.key(r), r]));
+  for (const [id, patch] of updates) {
+    const existing = byKey.get(id);
+    // Never invent a row: a patch whose row has gone is dropped, not appended.
     if (existing) Object.assign(existing, patch);
-    else byTitle.set(title, patch);
   }
 
-  await writeFile(path, JSON.stringify([...byTitle.values()]), 'utf8');
-  return byTitle.size;
+  await writeFile(path, JSON.stringify([...byKey.values()]), 'utf8');
+  return byKey.size;
 }
 
 const main = async () => {
   const limitArg = process.argv.indexOf('--limit');
   const limit = limitArg > -1 ? Number(process.argv[limitArg + 1]) : 0;
 
-  const cuisines = JSON.parse(await readFile(CUISINES, 'utf8'));
+  const fileArg = process.argv.indexOf('--file');
+  const name = fileArg > -1 ? process.argv[fileArg + 1] : 'cuisines';
+  const target = TARGETS[name];
+  if (!target) throw new Error(`unknown --file ${name}; expected ${Object.keys(TARGETS).join(', ')}`);
 
-  // Only rows that still lack a real place are worth the fetch.
-  // `riskChecked` was added after the first pass, so rows enriched before it still
-  // need fetching even though they already have an infobox.
-  const pending = cuisines.filter((r) => !r.infobox || !r.riskChecked);
+  const rows = JSON.parse(await readFile(target.path, 'utf8'));
+
+  // Only rows that still lack a real place are worth the fetch. `riskChecked` was
+  // added after the first pass, so rows enriched before it still need fetching even
+  // though they already have an infobox.
+  const pending = rows.filter(target.pending).filter((r) => target.title(r));
   const targets = limit ? pending.slice(0, limit) : pending;
-  process.stdout.write(`${cuisines.length} cuisine rows, ${targets.length} to enrich.\n`);
+  process.stdout.write(`${name}: ${rows.length} rows, ${targets.length} to enrich.\n`);
 
-  const byTitle = new Map(cuisines.map((r) => [r.title, r]));
+  // Keyed by article title, which is how the API answers. The patch is then filed
+  // under the row's own key so the merge can find it again.
+  const byTitle = new Map(rows.map((r) => [target.title(r), r]));
   /** Only what this pass established, so a merge never rewrites another writer's rows. */
   const updates = new Map();
   let gainedPlace = 0;
@@ -326,7 +365,7 @@ const main = async () => {
         prop: 'revisions',
         rvprop: 'content',
         rvslots: 'main',
-        titles: batch.map((r) => r.title).join('|'),
+        titles: batch.map(target.title).join('|'),
         redirects: '1',
       });
 
@@ -374,7 +413,7 @@ const main = async () => {
         }
 
         Object.assign(row, patch);
-        updates.set(page.title, patch);
+        updates.set(target.key(row), patch);
       }
     } catch (error) {
       process.stdout.write(`  batch ${i + 1} failed (${error.message})\n`);
@@ -384,16 +423,16 @@ const main = async () => {
       process.stdout.write(
         `  batch ${i + 1}/${batches.length} — ${gainedPrep} preparations, ${gainedPlace} places, ${gainedIngredients} ingredients\n`,
       );
-      await mergeWrite(CUISINES, updates);
+      await mergeWrite(target.path, updates, target);
     }
     // Slower than the ingest's own pacing: when both run, they share one quota.
     await sleep(400);
   }
 
-  const finalCount = await mergeWrite(CUISINES, updates);
+  const finalCount = await mergeWrite(target.path, updates, target);
   process.stdout.write(`\n${finalCount} rows on disk after merge.\n`);
 
-  const places = new Set(cuisines.filter((r) => r.region).map((r) => `${r.country}|${r.region}`));
+  const places = new Set(rows.filter((r) => r.region).map((r) => `${r.country}|${r.region}`));
   process.stdout.write(
     `\nEnriched. ${gainedPrep} rows gained a described preparation, ` +
       `${gainedPlace} a real place, ${gainedIngredients} ingredients.\n` +

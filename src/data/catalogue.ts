@@ -37,23 +37,6 @@ import { dishes as curated } from './seed';
  * records is applied here instead of being repeated 7,900 times in the JSON — that
  * difference is several megabytes of app bundle.
  */
-interface ImportedRow {
-  id: number;
-  name: string;
-  country: string;
-  region: string;
-  continent: string;
-  qid: string;
-  blurb: string;
-  photo: string;
-  /** Present once `scripts/enrich-wikipedia.mjs` has run over the row. */
-  evidence?: {
-    ingredients: string[];
-    heritage: string[];
-    hasArticle: boolean;
-    extractLength: number;
-  };
-}
 
 const IMPORT_DIET_BASIS =
   'Imported from Wikidata, which does not record the preparation. No dietary classification can be made until ' +
@@ -91,6 +74,44 @@ interface PhotoRow {
   photo?: string;
   credit?: string;
   licence?: string;
+}
+
+interface ImportedRow extends PhotoRow {
+  id: number;
+  name: string;
+  country: string;
+  region: string;
+  continent: string;
+  qid: string;
+  blurb: string;
+  photo: string;
+  /** Present once `scripts/enrich-wikipedia.mjs` has run over the row. */
+  evidence?: {
+    ingredients: string[];
+    heritage: string[];
+    hasArticle: boolean;
+    extractLength: number;
+  };
+
+  /**
+   * Written by `scripts/enrich-infobox.mjs --file catalogue`.
+   *
+   * These 7,870 records were the emptiest part of the atlas — a name, a country and
+   * a Q-number — because this pass had no way to find their articles until
+   * `resolve-article-urls.mjs` filled in the URL. The fields sit at the top level
+   * rather than under `evidence` because they come from the article's infobox and
+   * prose, which is a different reading from the Wikidata claims `evidence` holds.
+   */
+  url?: string;
+  infobox?: boolean;
+  ingredients?: string[];
+  prepSummary?: string;
+  course?: string;
+  atRiskEvidence?: string;
+  langs?: string[];
+  langNames?: Record<string, string>;
+  views?: number;
+  notFood?: string;
 }
 
 /**
@@ -166,16 +187,28 @@ function expand(row: ImportedRow): Dish {
   const breadcrumb = [row.country, region].filter(Boolean);
   const name = cleanName(row.name);
 
+  // The infobox pass reads the article itself; `evidence` holds what Wikidata
+  // claimed. Either counts, and a record enriched by the newer pass is not made to
+  // look unassessed because it arrived by the other route.
+  const ingredients = row.ingredients?.length ? row.ingredients : (row.evidence?.ingredients ?? []);
+  const prepSummary = row.prepSummary?.trim() ?? '';
+
   // Classification is earned from the evidence gathered by the enrichment pass, not
   // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
   const assessment = assess({
     hasCountry: !!row.country,
     hasRegion: !!row.region,
-    ingredients: row.evidence?.ingredients ?? [],
+    ingredients,
     heritage: row.evidence?.heritage ?? [],
-    hasArticle: row.evidence?.hasArticle ?? false,
-    extractLength: row.evidence?.extractLength ?? 0,
+    // Having read the article is itself the evidence that one exists.
+    hasArticle: row.evidence?.hasArticle ?? Boolean(row.infobox && row.url),
+    extractLength: row.evidence?.extractLength ?? prepSummary.length,
   });
+
+  // The article's own account of how it is made, where there is one. Deliberately
+  // not promoted to `steps`: prose describing how a dish is generally made is a
+  // description, and numbering it would claim a precision it does not have.
+  const risk = detectAtRisk(prepSummary);
 
   return {
     id: row.id,
@@ -194,7 +227,8 @@ function expand(row: ImportedRow): Dish {
     // Never set on an import: it certifies that no modern substitution was found,
     // and nothing here has looked at the preparation.
     traditionalBadge: false,
-    atRisk: false,
+    atRisk: risk.atRisk,
+    atRiskEvidence: risk.evidence || undefined,
 
     blurb:
       row.blurb ||
@@ -204,12 +238,15 @@ function expand(row: ImportedRow): Dish {
 
     score: assessment.score,
     breakdown: assessment.breakdown,
-    views: '',
+    views: viewsLabel(row.views),
 
-    prepSummary: '',
+    readableIn: row.langs,
+    localNames: row.langNames,
+
+    prepSummary,
     // From Wikidata's "made from material". Traditional ingredients only — there is
     // no substitute list on an import, so nothing can leak between the two.
-    ingredients: row.evidence?.ingredients ?? [],
+    ingredients,
     equipment: [],
     steps: [],
     adaptation: null,
