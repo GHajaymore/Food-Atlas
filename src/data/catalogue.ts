@@ -268,6 +268,16 @@ function expand(row: ImportedRow): Dish {
  */
 interface CuisineRow extends PhotoRow {
   /**
+   * The language the account on this record was read in.
+   *
+   * Most were read in English; 2,253 were read in the language of the place the dish
+   * comes from, because that is where the better article usually is. The field is not
+   * decoration — the translation layer keys off it, and without it Hindi prose would
+   * be presented as though it were the English record.
+   */
+  sourceLanguage?: string;
+  ingredientsLanguage?: string;
+  /**
    * Why Wikidata says this is not a food — "a person", "a taxon", "a restaurant".
    *
    * Set by `scripts/resolve-wikidata.mjs` from the item's `instance of` statement.
@@ -459,7 +469,10 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         },
       ],
       disclaimer: assessment.disclaimer,
-      sourceLanguage: 'en',
+      // The article this record's account came from, which is often not the English
+      // one: a dish is described best in the language of the people who cook it. The
+      // reader is told, and the translation layer is given something true to work from.
+      sourceLanguage: row.sourceLanguage ?? 'en',
     } satisfies Dish;
   });
 
