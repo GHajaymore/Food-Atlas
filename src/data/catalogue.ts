@@ -24,6 +24,7 @@ import { detectAtRisk } from '../domain/atRisk';
 import { continentOf, registerContinents } from '../domain/continents';
 import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
+import { placeBelow } from '../domain/place';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
 import rawImported from './catalogue.json';
@@ -169,18 +170,7 @@ function photoFields(row: PhotoRow) {
  * China" as a region, which the atlas then presented as geographic depth it does not
  * have. An empty region is the honest answer there.
  */
-function cleanRegion(region: string, country: string): string {
-  const r = region.trim();
-  if (!r) return '';
-
-  const normalise = (s: string) =>
-    s
-      .toLowerCase()
-      .replace(/^(the\s+)?(people's\s+)?(republic|kingdom|state|union|federation)\s+of\s+/, '')
-      .replace(/[^a-z]/g, '');
-
-  return normalise(r) === normalise(country) ? '' : r;
-}
+const cleanRegion = (region: string, country: string): string => placeBelow(region ?? '', country);
 
 function expand(row: ImportedRow): Dish {
   const region = cleanRegion(row.region ?? '', row.country);

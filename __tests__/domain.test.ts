@@ -21,6 +21,7 @@ import {
 } from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { notAFood } from '../src/domain/isDish';
+import { notAPlaceBelow } from '../src/domain/place';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import {
@@ -1444,6 +1445,99 @@ describe('only food reaches the catalogue', () => {
     for (const [name, country] of Object.entries(expected)) {
       const dish = catalogue.find((d) => d.name === name);
       expect({ name, country: dish?.loc.country }).toEqual({ name, country });
+    }
+  });
+});
+
+describe('a region is a place, and a place below its country', () => {
+  it('refuses a category label dressed as geography', () => {
+    // The cuisine ingest filled this field from Wikipedia subcategories, which are
+    // shelves in a library rather than somewhere you can go.
+    for (const [region, country] of [
+      ['Japanese rice', 'Japan'],
+      ['Korean tea', 'South Korea'],
+      ['Chinese alcoholic beverages', 'China'],
+      ['Indian snack foods', 'India'],
+      ['Wineries of South Africa', 'South Africa'],
+      ['South Indian cuisine', 'India'],
+    ] as const) {
+      expect({ region, why: notAPlaceBelow(region, country) }).toEqual({
+        region,
+        why: expect.stringMatching(/category of food/),
+      });
+    }
+  });
+
+  it('refuses an area that contains the country rather than sitting inside it', () => {
+    // "Thailand › Southeast Asia" tells the reader the world is the wrong way round.
+    for (const [region, country] of [
+      ['Southeast Asia', 'Thailand'],
+      ['Indian subcontinent', 'India'],
+      ['East Asia', 'China'],
+      ['Middle East', 'Lebanon'],
+    ] as const) {
+      expect({ region, why: notAPlaceBelow(region, country) }).toEqual({
+        region,
+        why: expect.stringMatching(/larger than the country/),
+      });
+    }
+  });
+
+  it('keeps real places, including the ones named "X of Y"', () => {
+    // An earlier draft rejected every "of" phrase as a category title and removed
+    // 282 genuine provinces with it. Places are named that way more often than
+    // shelves are.
+    for (const [region, country] of [
+      ['Kerala', 'India'],
+      ['Campania', 'Italy'],
+      ['Province of Chieti', 'Italy'],
+      ['Autonomous Republic of Crimea', 'Ukraine'],
+      ['County of Savoy', 'Holy Roman Empire'],
+      ['Mar del Plata', 'Argentina'],
+    ] as const) {
+      expect({ region, why: notAPlaceBelow(region, country) }).toEqual({ region, why: null });
+    }
+  });
+
+  it('refuses a nationality standing in for a region', () => {
+    // The class that survived every other rule. 'Northeastern Chinese' holds no food
+    // word and no continent, so it read as a region of Ukraine on the borscht record
+    // — one country's nationality filed inside another.
+    for (const [region, country] of [
+      ['Northeastern Chinese', 'Ukraine'],
+      ['American Chinese', 'China'],
+      ['South Indian', 'India'],
+      ['Kurdish', 'Iran'],
+    ]) {
+      expect({ region, why: notAPlaceBelow(region, country) }).toEqual({
+        region,
+        why: expect.stringMatching(/nationality, not a place/),
+      });
+    }
+  });
+
+  it('keeps places that merely contain a nationality', () => {
+    // Only a bare nationality is refused. 'Chinese Camp' is a town in California and
+    // 'Western Iceland' is a region, because 'camp' and 'Iceland' are not demonyms.
+    for (const [region, country] of [
+      ['Chinese Camp', 'United States'],
+      ['Western Iceland', 'Iceland'],
+      ['South Australia', 'Australia'],
+    ]) {
+      expect({ region, why: notAPlaceBelow(region, country) }).toEqual({ region, why: null });
+    }
+  });
+
+  it('still refuses a region that merely repeats its country', () => {
+    expect(notAPlaceBelow("People's Republic of China", 'China')).toMatch(/repeats the country/);
+  });
+
+  it('leaves no category label in any breadcrumb', () => {
+    for (const dish of catalogue) {
+      if (!dish.loc.region) continue;
+      expect({ crumb: `${dish.loc.country} › ${dish.loc.region}`, why: notAPlaceBelow(dish.loc.region, dish.loc.country) }).toEqual(
+        { crumb: `${dish.loc.country} › ${dish.loc.region}`, why: null },
+      );
     }
   });
 });
