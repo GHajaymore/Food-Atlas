@@ -40,7 +40,21 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const CUISINES = resolve(HERE, '../src/data/cuisines.json');
+const DATA = (name) => resolve(HERE, `../src/data/${name}.json`);
+
+/**
+ * Both imported sources, and how a row in each finds its Wikidata item.
+ *
+ * The cuisine rows carry an article URL and the item has to be looked up through it.
+ * The Wikidata rows *are* Wikidata — they have carried a Q-number since the day they
+ * were imported — so for them the lookup is free, which makes it all the more
+ * pointed that they had never been checked: 7,870 records, no country of origin and
+ * no test of whether they are food.
+ */
+const TARGETS = {
+  cuisines: { path: DATA('cuisines'), qid: null },
+  catalogue: { path: DATA('catalogue'), qid: (row) => row.qid },
+};
 
 const WIKIPEDIA = 'https://en.wikipedia.org/w/api.php';
 const WIKIDATA = 'https://www.wikidata.org/w/api.php';
@@ -208,8 +222,13 @@ const main = async () => {
   const i = process.argv.indexOf('--limit');
   const limit = i > -1 ? Number(process.argv[i + 1]) : 0;
 
-  const rows = JSON.parse(await readFile(CUISINES, 'utf8'));
-  const pending = rows.filter((r) => r.url && !r.wikidataChecked);
+  const fileArg = process.argv.indexOf('--file');
+  const name = fileArg > -1 ? process.argv[fileArg + 1] : 'cuisines';
+  const target = TARGETS[name];
+  if (!target) throw new Error(`unknown --file ${name}; expected ${Object.keys(TARGETS).join(', ')}`);
+
+  const rows = JSON.parse(await readFile(target.path, 'utf8'));
+  const pending = rows.filter((r) => (target.qid ? target.qid(r) : r.url) && !r.wikidataChecked);
   const targets = limit ? pending.slice(0, limit) : pending;
   process.stdout.write(`${targets.length} records to classify.\n`);
 
@@ -235,11 +254,16 @@ const main = async () => {
     const batch = targets.slice(start, start + 50);
     const byTitle = new Map();
     for (const row of batch) {
-      const title = titleFrom(row.url);
-      if (title) byTitle.set(title, row);
+      const key = target.qid ? target.qid(row) : titleFrom(row.url);
+      if (key) byTitle.set(key, row);
     }
 
-    const items = byTitle.size ? await itemsFor([...byTitle.keys()]) : new Map();
+    // A source that already knows its Q-number does not need the article lookup.
+    const items = target.qid
+      ? new Map(batch.map((r) => [target.qid(r), target.qid(r)]).filter(([q]) => q))
+      : byTitle.size
+        ? await itemsFor([...byTitle.keys()])
+        : new Map();
     const qids = [...new Set(items.values())];
     const claims = qids.length ? await claimsFor(qids) : new Map();
 
@@ -300,12 +324,12 @@ const main = async () => {
       }
     }
 
-    if (!dry) await writeFile(CUISINES, JSON.stringify(rows), 'utf8');
+    if (!dry) await writeFile(target.path, JSON.stringify(rows), 'utf8');
     process.stdout.write(`  ${start + batch.length}/${targets.length} — ${refused.length} not food, ${moved.length} moved\n`);
     await sleep(300);
   }
 
-  if (!dry) await writeFile(CUISINES, JSON.stringify(rows), 'utf8');
+  if (!dry) await writeFile(target.path, JSON.stringify(rows), 'utf8');
 
   process.stdout.write(
     `\nclassified ${classified}.\n\n${refused.length} are not food:\n` +
