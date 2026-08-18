@@ -113,6 +113,11 @@ interface ImportedRow extends PhotoRow {
   langNames?: Record<string, string>;
   views?: number;
   notFood?: string;
+  /** Set by scripts/ingest-pat-register.mjs when a regional register supplied the account. */
+  patRegion?: string;
+  patAttribution?: string;
+  equipment?: string;
+  sourceLanguage?: string;
 }
 
 /**
@@ -237,7 +242,9 @@ function expand(row: ImportedRow): Dish {
     // From Wikidata's "made from material". Traditional ingredients only — there is
     // no substitute list on an import, so nothing can leak between the two.
     ingredients,
-    equipment: [],
+    // The register lists the equipment a product is made with, which no other
+    // source here does. Kept as one line because that is how it is published.
+    equipment: row.equipment ? [row.equipment] : [],
     steps: [],
     adaptation: null,
     popular: null,
@@ -250,11 +257,28 @@ function expand(row: ImportedRow): Dish {
         title: row.name,
         publisher: 'Wikidata',
         url: `https://www.wikidata.org/wiki/${row.qid}`,
-        note: 'Imported record. Place and name only — no preparation is claimed.',
+        note: row.patRegion
+          ? 'Imported record. The account below comes from the regional register, not from here.'
+          : 'Imported record. Place and name only — no preparation is claimed.',
       },
+      // Attribution is a condition of the CC BY licence these registers carry, not a
+      // courtesy, so the region is credited on the record itself rather than in a
+      // note somewhere about the project.
+      ...(row.patRegion
+        ? [
+            {
+              title: `Prodotti Agroalimentari Tradizionali — ${row.patRegion}`,
+              publisher: row.patAttribution ?? row.patRegion,
+              url: 'https://www.dati.gov.it/',
+              note:
+                'The official register entry: what the product is, how it is made and kept, and the ' +
+                'equipment it is made with. Published as open data by the region.',
+            },
+          ]
+        : []),
     ],
     disclaimer: assessment.disclaimer,
-    sourceLanguage: 'en',
+    sourceLanguage: row.sourceLanguage ?? 'en',
   };
 }
 
