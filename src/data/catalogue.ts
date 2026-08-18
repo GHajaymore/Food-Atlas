@@ -343,6 +343,18 @@ interface CookbookRow extends PhotoRow {
   url: string;
   /** Derived from "Category:Indian recipes" and the like. */
   country?: string;
+  /**
+   * The cookbook this recipe was written in.
+   *
+   * The English Cookbook is not the only one: Italian, French, German, Spanish and
+   * Portuguese Wikibooks each keep their own, and a Roman recipe written by Italians
+   * is a better record than an English account of it. The method is stored in that
+   * language, so the app has to say which — otherwise it presents Italian as English
+   * and the translation layer never offers to translate it.
+   */
+  sourceLanguage?: string;
+  /** A region the recipe names for itself, where the cookbook records one. */
+  region?: string;
 }
 
 /** Match key for reconciling the same dish arriving from different sources. */
@@ -537,8 +549,8 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
       basis: 'Recorded from a published recipe, which does not state a dietary classification.',
     },
     meals: { occasions: [], note: '' },
-    loc: { country: row.country!, region: '', province: '', city: '', village: '' },
-    breadcrumb: [row.country!],
+    loc: { country: row.country!, region: row.region ?? '', province: '', city: '', village: '' },
+    breadcrumb: [row.country!, row.region ?? ''].filter(Boolean),
 
     badgeLevel: 'adaptation' as const,
     badgeIcon: '🟠',
@@ -577,7 +589,7 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
       'This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified ' +
       'as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has ' +
       'confirmed that this is how they make it.',
-    sourceLanguage: 'en',
+    sourceLanguage: row.sourceLanguage ?? 'en',
   }));
 
 /** A UNESCO Intangible Cultural Heritage inscription. */
