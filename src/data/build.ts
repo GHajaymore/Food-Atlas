@@ -105,6 +105,7 @@ interface ImportedRow extends PhotoRow {
   prepSummary?: string;
   course?: string;
   atRiskEvidence?: string;
+  originClaims?: string[];
   langs?: string[];
   langNames?: Record<string, string>;
   views?: number;
@@ -275,6 +276,7 @@ function expand(row: ImportedRow): Dish {
         : []),
     ],
     disclaimer: assessment.disclaimer,
+    originClaims: originClaimsFrom(row.originClaims, row.url),
     sourceLanguage: row.sourceLanguage ?? 'en',
   };
 }
@@ -290,6 +292,8 @@ function expand(row: ImportedRow): Dish {
 interface CuisineRow extends PhotoRow {
   /** A sentence from the article stating the tradition is in decline. */
   atRiskEvidence?: string;
+  /** Countries the article names as origins, where it names more than one. */
+  originClaims?: string[];
   /**
    * The language the account on this record was read in.
    *
@@ -533,6 +537,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       // The article this record's account came from, which is often not the English
       // one: a dish is described best in the language of the people who cook it. The
       // reader is told, and the translation layer is given something true to work from.
+      originClaims: originClaimsFrom(row.originClaims, row.url),
       sourceLanguage: row.sourceLanguage ?? 'en',
     } satisfies Dish;
   });
@@ -815,4 +820,36 @@ export interface CatalogueStats {
   /** Rows on disk with nothing to show yet, awaiting enrichment. */
   withheld: number;
   countries: number;
+}
+
+/**
+ * A contested origin, as the correction passes record it.
+ *
+ * `fix-origin-country.mjs` and `resolve-wikidata.mjs` both refuse to pick a winner
+ * when a dish's article names several countries of origin — baklava is claimed by
+ * Turkey, Greece, Iran and the Levant, and choosing between them would be inventing
+ * a finding. They store every claim instead.
+ *
+ * Those 118 findings were written and never shown. The app has had a display for a
+ * contested origin since the first curated record, and the scripts were writing a
+ * plain list of country names into a field typed for sourced claims, so the build
+ * dropped them silently.
+ *
+ * The claim text is deliberately thin. A curated origin claim carries an argument
+ * and a citation; this carries only what the article stated, and says so, because
+ * the alternative is writing an argument nobody made.
+ */
+function originClaimsFrom(countries: string[] | undefined, articleUrl: string | undefined) {
+  if (!countries || countries.length < 2) return undefined;
+
+  return countries.map((place) => ({
+    place,
+    claim: `Named as a country of origin by this dish's encyclopaedia entry.`,
+    source: {
+      title: 'Country of origin',
+      publisher: 'Wikipedia / Wikidata',
+      url: articleUrl ?? '',
+      note: 'Recorded as one of several claims. No source here settles which is first.',
+    },
+  }));
 }
