@@ -21,6 +21,7 @@ import {
 } from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { notAFood } from '../src/domain/isDish';
+import { canonicalCountry } from '../src/domain/countryNames';
 import { notAPlaceBelow } from '../src/domain/place';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
@@ -1558,5 +1559,54 @@ describe('a region is a place, and a place below its country', () => {
         { crumb: `${dish.loc.country} › ${dish.loc.region}`, why: null },
       );
     }
+  });
+});
+
+describe('one country, one name', () => {
+  it('merges the conventions the sources disagree on', () => {
+    // The picker showed China 705 beside People's Republic of China 120, with no
+    // way for a reader to tell the smaller one was not a different country.
+    for (const [given, expected] of [
+      ["People's Republic of China", 'China'],
+      ['Türkiye', 'Turkey'],
+      ['Ivory Coast', "Côte d'Ivoire"],
+      ['Holland', 'Netherlands'],
+      ['Burma', 'Myanmar'],
+      ['Kingdom of France', 'France'],
+      ['USA', 'United States'],
+    ] as const) {
+      expect({ given, is: canonicalCountry(given) }).toEqual({ given, is: expected });
+    }
+  });
+
+  it('keeps Taiwan and North Korea out of their larger neighbours', () => {
+    // Any rule that strips "Republic of" folds these onto China and South Korea,
+    // which would be a political claim made by accident. The Republic of China is
+    // Taiwan's own name, and that is where it goes.
+    expect(canonicalCountry('Republic of China')).toBe('Taiwan');
+    expect(canonicalCountry("Democratic People's Republic of Korea")).toBe('North Korea');
+    expect(canonicalCountry('Taiwan')).not.toBe('China');
+    expect(canonicalCountry('North Korea')).not.toBe('South Korea');
+  });
+
+  it('leaves a historical state alone', () => {
+    // The Byzantine Empire is not modern Turkey, and a dish attributed to it is
+    // telling the reader something true.
+    for (const name of ['Byzantine Empire', 'Ottoman Empire', 'Czechoslovakia', 'Austrian Empire']) {
+      expect(canonicalCountry(name)).toBe(name);
+    }
+  });
+
+  it('lists no country twice in the catalogue', () => {
+    const seen = new Map<string, string>();
+    for (const dish of catalogue) {
+      const canonical = canonicalCountry(dish.loc.country);
+      expect({ country: dish.loc.country, canonical }).toEqual({
+        country: dish.loc.country,
+        canonical: dish.loc.country,
+      });
+      seen.set(canonical, dish.loc.country);
+    }
+    expect(seen.size).toBeGreaterThan(150);
   });
 });

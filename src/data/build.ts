@@ -22,6 +22,7 @@
 import { assess } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
 import { continentOf, registerContinents } from '../domain/continents';
+import { canonicalCountry } from '../domain/countryNames';
 import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
 import { placeBelow } from '../domain/place';
@@ -175,8 +176,9 @@ function photoFields(row: PhotoRow) {
 const cleanRegion = (region: string, country: string): string => placeBelow(region ?? '', country);
 
 function expand(row: ImportedRow): Dish {
-  const region = cleanRegion(row.region ?? '', row.country);
-  const breadcrumb = [row.country, region].filter(Boolean);
+  const country = canonicalCountry(row.country);
+  const region = cleanRegion(row.region ?? '', country);
+  const breadcrumb = [country, region].filter(Boolean);
   const name = cleanName(row.name);
 
   // The infobox pass reads the article itself; `evidence` holds what Wikidata
@@ -188,7 +190,7 @@ function expand(row: ImportedRow): Dish {
   // Classification is earned from the evidence gathered by the enrichment pass, not
   // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
   const assessment = assess({
-    hasCountry: !!row.country,
+    hasCountry: !!country,
     hasRegion: !!row.region,
     ingredients,
     heritage: row.evidence?.heritage ?? [],
@@ -210,7 +212,7 @@ function expand(row: ImportedRow): Dish {
     diet: { group: 'unclassified', kinds: [], contains: [], basis: IMPORT_DIET_BASIS },
     // Not recorded — never "probably dinner".
     meals: { occasions: [], note: '' },
-    loc: { country: row.country, region, province: '', city: '', village: '' },
+    loc: { country: country, region, province: '', city: '', village: '' },
     breadcrumb,
 
     badgeLevel: assessment.level,
@@ -502,11 +504,12 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       // title, and it is the only thing that catches a person named like a dish.
       !row.notFood &&
       isFood(cleanName(row.name)) &&
-      !alreadyPresent.has(key(row.name, row.country)),
+      !alreadyPresent.has(key(row.name, canonicalCountry(row.country))),
   )
   .map((row, index) => {
-    const region = cleanRegion(row.region ?? '', row.country);
-    const breadcrumb = [row.country, region].filter(Boolean);
+    const country = canonicalCountry(row.country);
+    const region = cleanRegion(row.region ?? '', country);
+    const breadcrumb = [country, region].filter(Boolean);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = row.ingredients ?? [];
@@ -552,7 +555,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         basis: IMPORT_DIET_BASIS,
       },
       meals: { occasions: [], note: '' },
-      loc: { country: row.country, region, province: '', city: '', village: '' },
+      loc: { country: country, region, province: '', city: '', village: '' },
       breadcrumb,
 
       badgeLevel: assessment.level,
@@ -642,8 +645,8 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
       basis: 'Recorded from a published recipe, which does not state a dietary classification.',
     },
     meals: { occasions: [], note: '' },
-    loc: { country: row.country!, region: row.region ?? '', province: '', city: '', village: '' },
-    breadcrumb: [row.country!, row.region ?? ''].filter(Boolean),
+    loc: { country: canonicalCountry(row.country!), region: row.region ?? '', province: '', city: '', village: '' },
+    breadcrumb: [canonicalCountry(row.country!), row.region ?? ''].filter(Boolean),
 
     badgeLevel: 'adaptation' as const,
     badgeIcon: '🟠',
@@ -727,8 +730,8 @@ const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).filter((row) => isFood(cle
       basis: 'An inscription documents a practice, not a recipe, so no dietary classification can be made from it.',
     },
     meals: { occasions: [], note: '' },
-    loc: { country: row.country, region: '', province: '', city: '', village: '' },
-    breadcrumb: [row.country],
+    loc: { country: canonicalCountry(row.country), region: '', province: '', city: '', village: '' },
+    breadcrumb: [canonicalCountry(row.country)],
 
     badgeLevel: 'regional' as const,
     badgeIcon: '🟢',
