@@ -924,6 +924,25 @@ describe('translation preserves the identity of the food', () => {
   });
 });
 
+describe('an untranslated account says which language it is in', () => {
+  it('names the language rather than alluding to it', () => {
+    // 'Shown in the language it was documented in' was true and useless once the
+    // atlas began reading dishes in the language of the place they come from. A
+    // reader who cannot read the script cannot tell Hindi from Marathi.
+    const foreign: Dish = { ...halwa(), sourceLanguage: 'hi', translations: undefined };
+    const reading = readDish(foreign, 'en');
+    expect(reading.status).toBe('missing');
+    expect(reading.note).toMatch(/shown in Hindi/);
+  });
+
+  it('says nothing at all when the reader already has the original', () => {
+    const foreign: Dish = { ...halwa(), sourceLanguage: 'hi' };
+    const reading = readDish(foreign, 'hi');
+    expect(reading.status).toBe('original');
+    expect(reading.note).toBe('');
+  });
+});
+
 describe('the translation provider is held to the preservation rules', () => {
   const target = () => ({ ...halwa() });
 

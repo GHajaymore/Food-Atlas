@@ -21,6 +21,7 @@
  *      corrupted record, not a rough edge.
  */
 
+import { languageName } from './language';
 import type { Dish, DishTranslation } from './types';
 
 export type TranslationStatus = 'original' | 'human' | 'machine' | 'missing';
@@ -87,9 +88,20 @@ export function readDish(dish: Dish, preferred: string): ReadableDish {
       disclaimer: dish.disclaimer,
       glossary: {},
       status: 'missing',
+      /*
+       * The language is named, not alluded to.
+       *
+       * "Shown in the language it was documented in" was true and useless once the
+       * atlas started reading dishes in the language of the place they come from:
+       * five thousand records now have an account in Hindi, Chinese, Korean or
+       * Indonesian, and a reader who cannot read the script cannot tell which. Being
+       * told it is Hindi is the difference between an unreadable page and a page in
+       * a language you know you do not have.
+       */
       note:
-        'No translation of this method has been recorded yet, so it is shown in the language it was documented ' +
-        "in. We'd rather show you the original than a machine's guess at a fermentation time.",
+        `No translation of this account has been recorded yet, so it is shown in ` +
+        `${languageName(dish.sourceLanguage)}, the language it was documented in. ` +
+        "We'd rather show you the original than a machine's guess at a fermentation time.",
     };
   }
 
