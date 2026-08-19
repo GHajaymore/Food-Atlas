@@ -185,3 +185,39 @@ describe('what the scripts write reaches the reader', () => {
     expect(unaccounted).toEqual([]);
   });
 });
+
+describe('a recipe says truthfully where it was published', () => {
+  const find = (name: string) => catalogue.find((d) => d.name === name);
+
+  it('does not tell a country its own cookbook is foreign to it', () => {
+    // The copy was written when the only cookbook was English. Reading five more
+    // made it false: the Italian Cookbook's amatriciana told the reader it was
+    // 'written for a general audience rather than recorded in Italy', when it was
+    // written in Italian, in Italy, by Italians.
+    const amatriciana = find('Amatriciana');
+    expect(amatriciana?.loc.country).toBe('Italy');
+    expect(amatriciana?.blurb).toMatch(/written in Italian in the cookbook of Italy/);
+    expect(amatriciana?.blurb).not.toMatch(/rather than recorded in/);
+  });
+
+  it('still says so when the cookbook is not the dish s own', () => {
+    // A Swiss dish in the French cookbook is exactly the case the original copy
+    // was written for, and it has to keep it.
+    const foreign = catalogue.find(
+      (d) => d.sourceLanguage === 'fr' && d.steps.length > 0 && d.loc.country !== 'France',
+    );
+    expect(foreign?.blurb).toMatch(/for a general audience rather than recorded in/);
+  });
+
+  it('classifies both as Modern Adaptation with no score', () => {
+    // Where it was published changes the sentence, never the standing: a published
+    // recipe is still not one household's tradition.
+    for (const d of catalogue.filter((x) => x.sourceLanguage && x.sourceLanguage !== 'en' && x.steps.length)) {
+      expect({ name: d.name, level: d.badgeLevel, score: d.score }).toEqual({
+        name: d.name,
+        level: 'adaptation',
+        score: null,
+      });
+    }
+  });
+});

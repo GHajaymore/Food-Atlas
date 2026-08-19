@@ -360,6 +360,69 @@ interface CookbookRow extends PhotoRow {
   region?: string;
 }
 
+
+/**
+ * The cookbook a recipe came from, and whether it is the country's own.
+ *
+ * This distinction did not exist while the only cookbook was English. Reading the
+ * Italian, French, German, Spanish and Portuguese cookbooks made it matter, because
+ * the copy written for the English one is false about the other five: the Italian
+ * Cookbook's amatriciana told the reader it was "written for a general audience
+ * rather than recorded in Italy", when it was written in Italian, in Italy, by
+ * Italians.
+ *
+ * It is still a published recipe rather than a household's tradition — that is why
+ * these records stay Modern Adaptation and carry no score — but "not from there" and
+ * "not one family's version" are different claims, and only the second is true.
+ */
+const COOKBOOK_COUNTRY: Record<string, string> = {
+  it: 'Italy',
+  fr: 'France',
+  de: 'Germany',
+  es: 'Spain',
+  pt: 'Portugal',
+};
+
+const COOKBOOK_LANGUAGE: Record<string, string> = {
+  it: 'Italian',
+  fr: 'French',
+  de: 'German',
+  es: 'Spanish',
+  pt: 'Portuguese',
+};
+
+/** True when the recipe was published in the cookbook of the country it is from. */
+function nativeCookbook(row: CookbookRow): boolean {
+  const lang = row.sourceLanguage;
+  return Boolean(lang && lang !== 'en' && COOKBOOK_COUNTRY[lang] === row.country);
+}
+
+function cookbookBlurb(row: CookbookRow): string {
+  const lang = row.sourceLanguage;
+  if (nativeCookbook(row)) {
+    return `A published recipe for ${row.name}, written in ${COOKBOOK_LANGUAGE[lang!]} in the cookbook of ${row.country} — a common version rather than one household's.`;
+  }
+  if (lang && lang !== 'en') {
+    return `A published recipe for ${row.name}, written in ${COOKBOOK_LANGUAGE[lang] ?? lang} for a general audience rather than recorded in ${row.country}.`;
+  }
+  return `A published recipe for ${row.name}, written for a general audience rather than recorded in ${row.country}.`;
+}
+
+function cookbookDisclaimer(row: CookbookRow): string {
+  if (nativeCookbook(row)) {
+    return (
+      'This is a published recipe from the cookbook of the country the dish comes from. It records a common ' +
+      'version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no ' +
+      'authenticity score — nobody from the place has confirmed it as their own.'
+    );
+  }
+  return (
+    'This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified ' +
+    'as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has ' +
+    'confirmed that this is how they make it.'
+  );
+}
+
 /** Match key for reconciling the same dish arriving from different sources. */
 const key = (name: string, country = '') => `${name.trim().toLowerCase()}|${country.trim().toLowerCase()}`;
 
@@ -589,7 +652,7 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     traditionalBadge: false,
     atRisk: false,
 
-    blurb: `A published recipe for ${row.name}, written for a general audience rather than recorded in ${row.country}.`,
+    blurb: cookbookBlurb(row),
 
     ...photoFields(row),
 
@@ -612,13 +675,12 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
         title: row.name,
         publisher: 'Wikibooks Cookbook',
         url: row.url,
-        note: 'A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place.',
+        note: nativeCookbook(row)
+          ? 'A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household s tradition.'
+          : 'A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place.',
       },
     ],
-    disclaimer:
-      'This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified ' +
-      'as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has ' +
-      'confirmed that this is how they make it.',
+    disclaimer: cookbookDisclaimer(row),
     sourceLanguage: row.sourceLanguage ?? 'en',
   }));
 
