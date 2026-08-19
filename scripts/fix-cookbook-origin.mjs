@@ -53,12 +53,18 @@ const main = async () => {
   /**
    * Countries the researched sources have settled on, by folded name.
    *
-   * Wikidata rows first and cuisine rows second, because the former have been
-   * through the country-of-origin claims and the latter only through a category
-   * walk. A name already claimed is not overwritten by the weaker source.
+   * Cuisine rows first. Both sources have now been through Wikidata's country-of-
+   * origin claims, but a cuisine row also carries an article, its infobox and its
+   * prose, and its country has additionally been checked against the article's own
+   * place-of-origin field. A Wikidata row that never had an article has none of
+   * that.
+   *
+   * The ordering is not academic: both files hold a record for pierogi, the cuisine
+   * one says Poland and the Wikidata one says China, and reading them the other way
+   * round moved every French cookbook pierogi to China.
    */
   const origin = new Map();
-  for (const row of [...wikidata, ...cuisines]) {
+  for (const row of [...cuisines, ...wikidata]) {
     if (!row.name || !row.country) continue;
     const key = fold(row.name);
     if (key.length > 3 && !origin.has(key)) origin.set(key, row.country);
