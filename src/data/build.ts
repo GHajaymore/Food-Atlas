@@ -197,6 +197,7 @@ function expand(row: ImportedRow): Dish {
     // Having read the article is itself the evidence that one exists.
     hasArticle: row.evidence?.hasArticle ?? Boolean(row.infobox && row.url),
     extractLength: row.evidence?.extractLength ?? prepSummary.length,
+    hasAccount: prepSummary.length > 0,
   });
 
   // Same rule as the cuisine source: a stored finding came from the article's

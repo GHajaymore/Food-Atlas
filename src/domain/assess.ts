@@ -50,6 +50,15 @@ export interface Evidence {
   hasArticle: boolean;
   /** Length of the article extract, as a crude proxy for how much is documented. */
   extractLength: number;
+  /**
+   * Some source describes how this is made, even where no encyclopaedia does.
+   *
+   * Added for Italy's PAT register, which publishes an official production method
+   * for products that have no article anywhere. Without it those records were told
+   * "only the name and the place are recorded" on a page that was displaying the
+   * method directly underneath — a statement the reader could see was false.
+   */
+  hasAccount?: boolean;
 }
 
 export interface Assessment {
@@ -110,7 +119,7 @@ export function assess(e: Evidence): Assessment {
   const score = clamp(breakdown.reduce((sum, [, v]) => sum + v, 0) / breakdown.length);
 
   // Nothing but a name and a place: no score at all, rather than a misleading number.
-  if (!e.ingredients.length && !e.heritage.length && !e.hasArticle) {
+  if (!e.ingredients.length && !e.heritage.length && !e.hasArticle && !e.hasAccount) {
     return {
       ...CLASSIFICATION.unverified,
       score: null,
@@ -118,6 +127,20 @@ export function assess(e: Evidence): Assessment {
       disclaimer:
         'Only the name and the place are recorded. Nothing documents how this is made, so it carries no score and ' +
         'stays Unverified until someone from the place records the preparation.',
+    };
+  }
+
+  // An account of the preparation and nothing else. True of the register records,
+  // whose official sheet describes the method for products no encyclopaedia covers.
+  if (!e.ingredients.length && !e.heritage.length && !e.hasArticle) {
+    return {
+      ...CLASSIFICATION.unverified,
+      score: null,
+      breakdown: [],
+      disclaimer:
+        'A published account describes how this is made, but nothing here confirms it is how the people of the ' +
+        'place make it. No ingredients are recorded and nobody from the community has checked it, so it carries ' +
+        'no score and stays Unverified.',
     };
   }
 

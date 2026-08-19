@@ -221,3 +221,39 @@ describe('a recipe says truthfully where it was published', () => {
     }
   });
 });
+
+describe('a record never contradicts what it is showing', () => {
+  it('does not say nothing documents a dish it is describing', () => {
+    // Anguilla del Trasimeno carries 899 characters of the Italian register's own
+    // production method and told the reader "Only the name and the place are
+    // recorded. Nothing documents how this is made" — directly above the method.
+    const contradicting = catalogue.filter(
+      (d) => d.prepSummary.trim() && /Nothing documents how this is made/.test(d.disclaimer),
+    );
+    expect(contradicting.map((d) => d.name)).toEqual([]);
+  });
+
+  it('never tells a reader a preparation is recorded when none is', () => {
+    /*
+     * The inverse of the case above, and the reason the fix had to be narrow.
+     *
+     * Loosening the 'nothing is documented' branch could easily have made every
+     * record claim an account. What matters is not which sentence is used but that
+     * no record without a preparation says one exists — the atlas's own measure of
+     * itself is the share that has one.
+     */
+    const claiming = catalogue.filter(
+      (d) =>
+        !d.prepSummary.trim() &&
+        !d.steps.length &&
+        /A published account describes how this is made|the method is recorded/i.test(d.disclaimer),
+    );
+    expect(claiming.map((d) => d.name)).toEqual([]);
+  });
+
+  it('never claims an equipment list it does not have', () => {
+    for (const d of catalogue) {
+      if (/equipment it is made with/.test(d.disclaimer)) expect(d.equipment.length).toBeGreaterThan(0);
+    }
+  });
+});
