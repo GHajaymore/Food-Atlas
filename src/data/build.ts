@@ -196,10 +196,11 @@ function expand(row: ImportedRow): Dish {
     extractLength: row.evidence?.extractLength ?? prepSummary.length,
   });
 
-  // The article's own account of how it is made, where there is one. Deliberately
-  // not promoted to `steps`: prose describing how a dish is generally made is a
-  // description, and numbering it would claim a precision it does not have.
-  const risk = detectAtRisk(prepSummary);
+  // Same rule as the cuisine source: a stored finding came from the article's
+  // opening and history, which is where decline is actually stated.
+  const risk = row.atRiskEvidence
+    ? { atRisk: true, evidence: row.atRiskEvidence }
+    : detectAtRisk(prepSummary);
 
   return {
     id: row.id,
@@ -287,6 +288,8 @@ function expand(row: ImportedRow): Dish {
  * the only evidence it arrives with.
  */
 interface CuisineRow extends PhotoRow {
+  /** A sentence from the article stating the tradition is in decline. */
+  atRiskEvidence?: string;
   /**
    * The language the account on this record was read in.
    *
@@ -441,9 +444,20 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = row.ingredients ?? [];
     const prepSummary = row.prepSummary ?? '';
-    // The article's account is the only text we hold for these records, so it is
-    // also the only place a claim of decline could come from.
-    const risk = detectAtRisk(prepSummary);
+    /**
+     * Decline is stated in an article's opening and its history, not in its recipe.
+     *
+     * `enrich-infobox.mjs` reads those sections and stores the sentence it found.
+     * This used to ignore that and re-derive the finding from `prepSummary`, which
+     * is the preparation — the one section that describes how a dish is made rather
+     * than whether anyone still makes it. Thirty records carried real evidence of
+     * decline while the shelf showed six.
+     *
+     * The stored finding wins; the local scan remains for records no pass has read.
+     */
+    const risk = row.atRiskEvidence
+      ? { atRisk: true, evidence: row.atRiskEvidence }
+      : detectAtRisk(prepSummary);
 
     const assessment = assess({
       hasCountry: true,
