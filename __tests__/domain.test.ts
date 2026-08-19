@@ -7,7 +7,7 @@
  * a renderer and stays true when the screens change.
  */
 
-import { catalogue } from '../src/data/catalogue';
+import { catalogue } from './catalogue';
 import { dishes } from '../src/data/seed';
 import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
 import { assess } from '../src/domain/assess';
