@@ -27,10 +27,10 @@ import { coverageOf } from '../domain/language';
 import { placeBelow } from '../domain/place';
 import { findViolations } from '../domain/invariants';
 import type { Dish } from '../domain/types';
-import rawImported from './catalogue.json';
-import rawCookbook from './cookbook.json';
-import rawCuisines from './cuisines.json';
-import rawUnesco from './unesco.json';
+import rawImported from './catalogue.min.json';
+import rawCookbook from './cookbook.min.json';
+import rawCuisines from './cuisines.min.json';
+import rawUnesco from './unesco.min.json';
 import { dishes as curated } from './seed';
 
 /**
