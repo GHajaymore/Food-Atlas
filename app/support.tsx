@@ -25,7 +25,14 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { catalogueStats } from '../src/data/catalogue';
-import { canAcceptDonations, DONATION_URL, FUNDING_NEEDS, NOT_FOR_SALE } from '../src/domain/support';
+import {
+  canAcceptDonations,
+  CURRENCY,
+  DONATION_URL,
+  FUNDING_NEEDS,
+  LEDGER_URL,
+  NOT_FOR_SALE,
+} from '../src/domain/support';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
@@ -42,7 +49,7 @@ export default function Support() {
       <Muted style={styles.lead}>
         {catalogueStats.total.toLocaleString()} traditions, built entirely from sources that are free to read and
         openly licensed. No advertising, no tracking, and nothing behind a payment. Here is what that actually
-        costs, including the parts that cost nothing.
+        costs, including the parts that cost nothing. Figures are in {CURRENCY}.
       </Muted>
 
       {FUNDING_NEEDS.map((need) => (
@@ -67,11 +74,22 @@ export default function Support() {
 
       {canAcceptDonations() ? (
         <>
-          <Button label="Contribute to the running costs" block onPress={() => openAtSource(DONATION_URL)} />
+          <Button label="Contribute on Open Collective" block onPress={() => openAtSource(DONATION_URL)} />
           <Muted style={styles.footnote}>
-            Opens at the donation page. Nothing is collected here — this app holds no payment details of yours and
+            Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and
             never will.
           </Muted>
+          {/* The reason for choosing this platform, offered rather than claimed. An
+              app that publishes its own coverage gaps should let anyone read the
+              ledger too, and that promise is kept by the platform rather than by us
+              remembering to update a paragraph. */}
+          <Button
+            label="Read the ledger — every contribution and expense"
+            variant="secondary"
+            block
+            onPress={() => openAtSource(LEDGER_URL)}
+            style={styles.ledger}
+          />
         </>
       ) : (
         /* No destination, no button. A donate control pointing nowhere spends a
@@ -79,8 +97,8 @@ export default function Support() {
         <Card style={styles.pending}>
           <CardKicker>Not open for donations yet</CardKicker>
           <CardBody>
-            There is nowhere to send money to. When there is, the link will appear here and this page will say what
-            has actually been spent.
+            There is nowhere to send money to. It will be an Open Collective when there is, so that every
+            contribution and every expense is public and anyone can check this page against the ledger.
           </CardBody>
         </Card>
       )}
@@ -113,6 +131,7 @@ const styles = StyleSheet.create({
   list: { gap: 8, marginBottom: 20 },
   notForSale: { fontSize: 11, lineHeight: 11 * 1.55, borderLeftWidth: 1, borderLeftColor: color.divider, paddingLeft: 10 },
 
+  ledger: { marginTop: 10 },
   pending: { marginBottom: 16 },
   footnote: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 12 },
   contribute: { marginTop: 12 },

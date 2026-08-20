@@ -16,6 +16,15 @@
  * genuinely blocked on it.
  */
 
+/**
+ * The currency every figure on this page is quoted in.
+ *
+ * Named once rather than written into each sentence, so a page about being honest
+ * with money cannot end up quoting two currencies and meaning neither. US dollars,
+ * which is also what Open Collective will report the ledger in.
+ */
+export const CURRENCY = 'USD';
+
 /** Something money would change, and what it costs. Nothing here is aspirational. */
 export interface FundingNeed {
   title: string;
@@ -38,7 +47,7 @@ export const FUNDING_NEEDS: FundingNeed[] = [
       'It is the only part of this project that costs money. Translating on demand needs a model behind a key, ' +
       'and the rules it has to follow are already written and tested: no ingredient renamed, no number altered, ' +
       'and the result labelled as machine-made until somebody from the place checks it.',
-    cost: 'Tens of pounds a month at real usage, because a translation is done once and then kept.',
+    cost: 'Tens of dollars a month at real usage, because a translation is done once and then kept.',
   },
   {
     title: 'Hosting',
@@ -71,13 +80,32 @@ export const NOT_FOR_SALE = [
 ];
 
 /**
- * Where to give.
+ * Where to give: an Open Collective.
  *
- * Deliberately empty until a real destination exists. An app that shows a donate
- * button pointing nowhere is worse than one that shows none: it takes a reader's
- * goodwill and spends it on a dead link.
+ * Chosen for the reason the rest of this page exists. Open Collective publishes the
+ * ledger — every contribution received and every expense paid, itemised and public —
+ * so the promise this page makes about naming what was actually spent is kept by the
+ * platform rather than by us remembering to update a paragraph.
+ *
+ * A slug rather than a URL, so there is one place the destination can be wrong and
+ * it is obvious when it is.
  */
-export const DONATION_URL = process.env.EXPO_PUBLIC_DONATION_URL ?? '';
+export const OPEN_COLLECTIVE_SLUG = process.env.EXPO_PUBLIC_OPENCOLLECTIVE ?? '';
 
-/** True when there is somewhere real to send a reader. */
+export const DONATION_URL = OPEN_COLLECTIVE_SLUG
+  ? `https://opencollective.com/${OPEN_COLLECTIVE_SLUG}`
+  : '';
+
+/** The public ledger, which is the point of choosing this platform. */
+export const LEDGER_URL = OPEN_COLLECTIVE_SLUG
+  ? `https://opencollective.com/${OPEN_COLLECTIVE_SLUG}/transactions`
+  : '';
+
+/**
+ * True when there is somewhere real to send a reader.
+ *
+ * Deliberately false until a collective exists. An app that shows a donate button
+ * pointing nowhere is worse than one that shows none: it takes a reader's goodwill
+ * and spends it on a dead link.
+ */
 export const canAcceptDonations = (): boolean => DONATION_URL.length > 0;

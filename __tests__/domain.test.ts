@@ -22,7 +22,14 @@ import {
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { notAFood } from '../src/domain/isDish';
 import { canonicalCountry } from '../src/domain/countryNames';
-import { canAcceptDonations, DONATION_URL, FUNDING_NEEDS, NOT_FOR_SALE } from '../src/domain/support';
+import {
+  canAcceptDonations,
+  DONATION_URL,
+  FUNDING_NEEDS,
+  LEDGER_URL,
+  NOT_FOR_SALE,
+  OPEN_COLLECTIVE_SLUG,
+} from '../src/domain/support';
 import { notAPlaceBelow } from '../src/domain/place';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
@@ -1633,6 +1640,17 @@ describe('the donation page does not invent a budget', () => {
     // to know the money does not move a badge.
     expect(NOT_FOR_SALE.join(' ')).toMatch(/cannot be made Authentic by paying/);
     expect(NOT_FOR_SALE.join(' ')).toMatch(/no reader is tracked/);
+  });
+
+  it('builds an Open Collective destination from a slug, not a pasted URL', () => {
+    // One place the destination can be wrong, and it is obvious when it is.
+    if (!OPEN_COLLECTIVE_SLUG) {
+      expect(DONATION_URL).toBe('');
+      expect(LEDGER_URL).toBe('');
+      return;
+    }
+    expect(DONATION_URL).toBe(`https://opencollective.com/${OPEN_COLLECTIVE_SLUG}`);
+    expect(LEDGER_URL).toBe(`${DONATION_URL}/transactions`);
   });
 
   it('shows no donate button until there is somewhere to send money', () => {
