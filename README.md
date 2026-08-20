@@ -1,4 +1,4 @@
-# Global Taste
+# WikiFoodia
 
 **Taste the world, authentically.**
 

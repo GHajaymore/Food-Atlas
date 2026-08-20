@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "Global Taste",
-    "slug": "global-taste",
+    "name": "WikiFoodia",
+    "slug": "wikifoodia",
     "version": "1.0.0",
-    "scheme": "globaltaste",
+    "scheme": "wikifoodia",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -11,10 +11,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.globaltaste.app"
+      "bundleIdentifier": "com.wikifoodia.app"
     },
     "android": {
-      "package": "com.globaltaste.app",
+      "package": "com.wikifoodia.app",
       "adaptiveIcon": {
         "backgroundColor": "#161826",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -25,7 +25,8 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "WikiFoodia"
     },
     "plugins": [
       "expo-router",

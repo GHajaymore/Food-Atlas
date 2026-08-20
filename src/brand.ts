@@ -9,7 +9,7 @@
  */
 
 export const BRAND = {
-  name: 'Global Taste',
+  name: 'WikiFoodia',
   /** The Feed subtitle, under the title. */
   tagline: 'Taste the world, authentically.',
   /** The positioning line from the source brief. */
