@@ -10,8 +10,20 @@
 
 export const BRAND = {
   name: 'WikiFoodia',
-  /** The Feed subtitle, under the title. */
-  tagline: 'Taste the world, authentically.',
+  /**
+   * The Feed subtitle, under the title.
+   *
+   * The name already says open, collective and encyclopaedic, so the tagline does
+   * not repeat it. What the name does not say is why a reader should trust this over
+   * a recipe site, and "actually" is the word carrying that: most food writing gives
+   * you a convenient version, and this one tries to give you what people really do.
+   *
+   * It is also the only line here that stays true as the app grows. "Written down by
+   * the people who cook it" describes the community model, which has no contributions
+   * yet; "before it's lost" leads with preservation, which is 31 records of 16,550.
+   * A tagline should not promise what the atlas has not got.
+   */
+  tagline: 'How the world actually cooks.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;

@@ -22,6 +22,7 @@ import {
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { notAFood } from '../src/domain/isDish';
 import { canonicalCountry } from '../src/domain/countryNames';
+import { canAcceptDonations, DONATION_URL, FUNDING_NEEDS, NOT_FOR_SALE } from '../src/domain/support';
 import { notAPlaceBelow } from '../src/domain/place';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
@@ -1608,5 +1609,34 @@ describe('one country, one name', () => {
       seen.set(canonical, dish.loc.country);
     }
     expect(seen.size).toBeGreaterThan(150);
+  });
+});
+
+describe('the donation page does not invent a budget', () => {
+  it('says plainly that most of it costs nothing', () => {
+    // "Support our servers" is the standard line and it is false for most small
+    // projects. An app that deletes fabricated view counts cannot invent a budget.
+    const free = FUNDING_NEEDS.filter((n) => /nothing/i.test(n.cost));
+    expect(free.length).toBeGreaterThanOrEqual(2);
+    expect(FUNDING_NEEDS.some((n) => /Wikipedia|Wikidata|Commons/.test(n.why))).toBe(true);
+  });
+
+  it('names the one thing that actually costs money', () => {
+    const translation = FUNDING_NEEDS.find((n) => n.title === 'Translation')!;
+    expect(translation.why).toMatch(/only part of this project that costs money/);
+    expect(translation.cost).not.toMatch(/nothing/i);
+  });
+
+  it('tells a reader what money cannot buy', () => {
+    // Said because the product's claim is that classification comes from evidence
+    // and from people who cook the food. Somebody just asked for money is entitled
+    // to know the money does not move a badge.
+    expect(NOT_FOR_SALE.join(' ')).toMatch(/cannot be made Authentic by paying/);
+    expect(NOT_FOR_SALE.join(' ')).toMatch(/no reader is tracked/);
+  });
+
+  it('shows no donate button until there is somewhere to send money', () => {
+    // A control pointing nowhere spends a reader's goodwill on a dead link.
+    expect(canAcceptDonations()).toBe(DONATION_URL.length > 0);
   });
 });

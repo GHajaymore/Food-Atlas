@@ -158,6 +158,18 @@ export default function Atlas() {
         </CardBody>
         <Button label="Add a tradition from your area" block onPress={() => router.push('/contribute')} />
       </Card>
+
+      {/* Placed under the coverage figures on purpose. The honest argument for
+          supporting this is the gap the numbers above have just shown, so the ask
+          reads as a consequence of them rather than an interruption. */}
+      <Card style={styles.grow}>
+        <CardKicker>Keeping it free</CardKicker>
+        <CardBody>
+          Everything here is built from sources that cost nothing and stay that way. One thing does cost money, and
+          it is switched off until it can be paid for.
+        </CardBody>
+        <Button label="What it costs to run" variant="secondary" block onPress={() => router.push('/support')} />
+      </Card>
     </Screen>
   );
 }

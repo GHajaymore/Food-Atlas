@@ -1,6 +1,6 @@
 # WikiFoodia
 
-**Taste the world, authentically.**
+**How the world actually cooks.**
 
 A phone-first app for discovering traditional food *as it is actually prepared in the place it comes from*. Built from the `design_handoff_provenance` bundle (the design ships under the working name "Provenance") and the `authenticity-first-food-standard` brief.
 
