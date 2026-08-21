@@ -77,6 +77,35 @@ const CONTINENTS = new Map<string, string>([
   ]),
 ]);
 
+/**
+ * States that no longer exist.
+ *
+ * Every one of these is deliberately in the map above, and should stay there: a dish
+ * recorded as Ottoman or Joseon needs a continent or it becomes unreachable, and it is
+ * no less placed for having outlived its state.
+ *
+ * What they are not is countries, and the atlas counts countries. Fourteen of them
+ * carry records, so the headline said 170 while the honest figure was 156. Listed
+ * again rather than parsed out of the map because a comment reading `// Historical`
+ * is a note to a person; this is the same knowledge in a form the code can use, and
+ * the test below keeps the two from drifting apart.
+ */
+const HISTORICAL = new Set([
+  // Asia
+  'Ottoman Empire', 'Joseon', 'Goryeo', 'Yuan dynasty', 'Ming dynasty', 'Qing dynasty', 'Song dynasty',
+  'Tang dynasty', 'Han dynasty', 'Mughal Empire', 'Persia', 'Safavid Iran', 'Abbasid Caliphate', 'Silla',
+  'Ryukyu Kingdom', 'Siam', 'Ceylon',
+  // Europe
+  'Soviet Union', 'Czechoslovakia', 'Yugoslavia', 'Holy Roman Empire', 'Austrian Empire', 'Austria-Hungary',
+  'Ancient Rome', 'Ancient Greece', "Kievan Rus'", 'Grand Duchy of Lithuania', 'Prussia', 'East Germany',
+  'Republic of Venice', 'Kingdom of Naples', 'Byzantine Empire', 'Roman Empire',
+  // The Americas
+  'Aztec Empire', 'Maya civilization', 'New France', 'Inca Empire',
+]);
+
+/** Whether an origin names a state that has since ended. */
+export const isHistoricalState = (country: string): boolean => HISTORICAL.has(country);
+
 /** Merge in mappings discovered by the importer. Existing entries win. */
 export function registerContinents(entries: Iterable<[string, string]>): void {
   for (const [country, continent] of entries) {
@@ -111,6 +140,7 @@ export const continentOf = (country: string): string => CONTINENTS.get(country) 
  * changed nothing on the screen.
  */
 export const isCountry = (country: string): boolean => {
+  if (isHistoricalState(country)) return false;
   const continent = CONTINENTS.get(country);
   return Boolean(continent) && continent !== 'Elsewhere';
 };

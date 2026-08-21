@@ -37,6 +37,7 @@ import {
   REQUIRED,
   WALKTHROUGH_NOTE,
 } from '../src/domain/contribution';
+import { continentOf, isCountry, isHistoricalState } from '../src/domain/continents';
 import { confirmAsk } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { notAPlaceBelow } from '../src/domain/place';
@@ -438,6 +439,47 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe('what counts as a country', () => {
+  it('places a dish that outlived its state, and still does not call it a country', () => {
+    // Both halves matter. Without a continent an Ottoman dish becomes unreachable;
+    // counted as a country it puts fourteen states that no longer exist into a
+    // headline whose whole job is to be honest.
+    for (const state of ['Ottoman Empire', 'Joseon', 'Soviet Union', 'Byzantine Empire']) {
+      expect(continentOf(state)).not.toBe('Elsewhere');
+      expect(isHistoricalState(state)).toBe(true);
+      expect(isCountry(state)).toBe(false);
+    }
+  });
+
+  it('keeps the historical list in step with the continent map', () => {
+    // The map holds these under a // Historical comment, which is a note to a person.
+    // If one is added there and not here it silently becomes a country again.
+    for (const state of ['Qing dynasty', 'Czechoslovakia', 'Aztec Empire', 'Inca Empire']) {
+      expect(continentOf(state)).not.toBe('Elsewhere');
+      expect(isCountry(state)).toBe(false);
+    }
+  });
+
+  it('still calls a real country a country', () => {
+    for (const name of ['India', 'Turkey', 'South Korea', 'Mexico']) {
+      expect(isCountry(name)).toBe(true);
+    }
+  });
+
+  it('is asked about canonical names, which is what the records carry', () => {
+    // `isCountry` reads the continent map, and that map is keyed by one spelling per
+    // country. "Türkiye" is not in it; `canonicalCountry` turns it into "Turkey"
+    // before a record ever stores it, so every caller passes the canonical form. This
+    // test exists because the first version of the one above did not, and read like a
+    // bug in the atlas rather than in itself.
+    expect(isCountry('Türkiye')).toBe(false);
+    expect(isCountry(canonicalCountry('Türkiye'))).toBe(true);
+    for (const dish of catalogue) {
+      expect(dish.loc.country).toBe(canonicalCountry(dish.loc.country));
+    }
   });
 });
 
