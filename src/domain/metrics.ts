@@ -120,6 +120,20 @@ export function trendFor(history: Snapshot[], key: keyof Omit<Snapshot, 'date'>)
   };
 }
 
+/**
+ * A percentage as a reader should see it.
+ *
+ * Rounding turns 44 records out of 16,489 into "0%", and "0% · 44" reads as a
+ * contradiction — most people take the percentage and conclude there are none. The
+ * classified-as-authentic meter is exactly this case, and it is the one figure on the
+ * screen a reader is most likely to be checking.
+ *
+ * "<1%" is the honest rendering: it is small, it is not zero, and the count beside it
+ * says how small. Zero stays "0%", because zero is a different fact.
+ */
+export const percentLabel = (count: number, percent: number): string =>
+  count > 0 && percent === 0 ? '<1%' : `${percent}%`;
+
 const ratio = (label: string, count: number, total: number, note: string): Ratio => ({
   label,
   count,

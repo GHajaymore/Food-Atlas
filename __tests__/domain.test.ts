@@ -51,7 +51,7 @@ import {
   type RecordFacts,
 } from '../src/domain/sourceFinding';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
-import { catalogueMetrics, trendFor } from '../src/domain/metrics';
+import { catalogueMetrics, percentLabel, trendFor } from '../src/domain/metrics';
 import {
   coverageOf,
   LANGUAGES,
@@ -439,6 +439,25 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("a rounded percentage that hides a real number", () => {
+  it("does not print 0% next to a count that is not zero", () => {
+    // "0% · 44" reads as a contradiction, and most people take the percentage and
+    // conclude there are none. The classified-as-authentic meter is exactly this
+    // case, and it is the figure a sceptical reader checks first.
+    expect(percentLabel(44, 0)).toBe("<1%");
+    expect(percentLabel(5, 0)).toBe("<1%");
+  });
+
+  it("keeps zero as zero, because zero is a different fact", () => {
+    expect(percentLabel(0, 0)).toBe("0%");
+  });
+
+  it("leaves every other percentage alone", () => {
+    expect(percentLabel(4621, 28)).toBe("28%");
+    expect(percentLabel(16489, 100)).toBe("100%");
   });
 });
 

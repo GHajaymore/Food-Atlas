@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
 import type { MetricNote } from '../domain/metricNotes';
-import type { CoverageRow, Ratio, Trend } from '../domain/metrics';
+import { percentLabel, type CoverageRow, type Ratio, type Trend } from '../domain/metrics';
 import { accentText, color, font, space } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
@@ -131,7 +131,7 @@ export function Meter({ ratio, note }: { ratio: Ratio; note?: MetricNote }) {
       <View style={styles.meterHead}>
         <T style={styles.meterLabel}>{ratio.label}</T>
         <Muted style={styles.meterValue}>
-          {ratio.percent}% · {ratio.count.toLocaleString()}
+          {percentLabel(ratio.count, ratio.percent)} · {ratio.count.toLocaleString()}
         </Muted>
       </View>
       <View style={styles.track}>
@@ -161,7 +161,7 @@ export function CoverageTable({
           <T style={styles.rowLabel}>{row.label}</T>
           {/* Aligned columns: tabular figures belong here, unlike on the tiles. */}
           <Muted style={styles.rowCount}>{row.count.toLocaleString()}</Muted>
-          <Muted style={styles.rowPercent}>{row.percent}%</Muted>
+          <Muted style={styles.rowPercent}>{percentLabel(row.count, row.percent)}</Muted>
         </View>
       ))}
       <Explain note={note} />
