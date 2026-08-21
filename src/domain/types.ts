@@ -194,7 +194,19 @@ export interface Dish {
   badgeLabelFull: string;
   /** 🟢 🟡 🟠 🔴 ⚪ — classification colour is carried by the glyph only. */
   badgeIcon: string;
-  /** 🏺 — set only where no modern substitutions have been identified. */
+  /**
+   * 🏺 — this record's own preparation uses nothing modern.
+   *
+   * Not the same as "no substitution is known anywhere". Four of the seven curated
+   * records carry the badge *and* an `adaptation`, and that is correct: the badge is
+   * about the method written down here, while `adaptation` names what other people
+   * reach for when an ingredient is unavailable. The earlier wording — "set only where
+   * no modern substitutions have been identified" — read as though the two were
+   * mutually exclusive, and produced an invariant that flagged Kozhikode Halwa,
+   * Neapolitan Pizza Margherita and Hákarl as self-contradictory.
+   *
+   * The constraint that does hold: the badge belongs only to authentic records.
+   */
   traditionalBadge: boolean;
   /** 🕯️ — the tradition is at risk of being lost. */
   atRisk: boolean;

@@ -201,6 +201,59 @@ export function findCatalogueViolations(dishes: Dish[]): string[] {
 
   problems.push(...findRawMarkup(dishes));
   problems.push(...findUnaddedScores(dishes));
+  problems.push(...findSelfContradictions(dishes));
+
+  return problems;
+}
+
+/**
+ * Records that contradict themselves on screen.
+ *
+ * The prose on a record is assembled separately from the fields it describes, so the
+ * two can disagree — and when they do the reader sees both at once. This project has
+ * already shipped a record printing "Nothing documents how this is made" directly
+ * above 899 characters of its own method.
+ *
+ * Each rule below is a promise the app makes somewhere in its own comments, checked
+ * against what the records actually hold rather than trusted to stay true.
+ */
+function findSelfContradictions(dishes: Dish[]): string[] {
+  const problems: string[] = [];
+
+  for (const dish of dishes) {
+    // `atRiskEvidence` exists because "a badge without its evidence is exactly the
+    // unexplained assertion this app refuses to make anywhere else".
+    if (dish.atRisk && !dish.atRiskEvidence?.trim()) {
+      problems.push(`${dish.name}: flagged at-risk with no sentence saying why.`);
+    }
+
+    /*
+     * There is deliberately no rule here pairing 🏺 against `adaptation`.
+     *
+     * The type calls the badge "set only where no modern substitutions have been
+     * identified", which reads as though the two cannot coexist. They can, and on four
+     * of the seven curated records they do: the badge describes *this record's*
+     * preparation, which uses nothing modern, while `adaptation` names what other
+     * people substitute when an ingredient is unavailable — kept deliberately out of
+     * `ingredients` and shown in its own disclosure, labelled as not the authentic
+     * version. A rule flagging the pair would have "found" Kozhikode Halwa, Neapolitan
+     * Pizza Margherita and Hákarl, and the fix would have been to delete true and
+     * useful content. The comment was wrong, not the records; it now says so.
+     *
+     * The real constraint — the badge belongs only to authentic records — is checked in
+     * `findViolations` above.
+     */
+
+    // The disclaimer for an empty record says so in as many words. If the record then
+    // has a method, one of the two is lying to the reader.
+    const claimsNothingRecorded = /only the name and the place are recorded|nothing documents how this is made/i;
+    if (claimsNothingRecorded.test(dish.disclaimer) && (dish.steps.length > 0 || dish.prepSummary.trim())) {
+      problems.push(
+        `${dish.name}: says nothing is recorded about how it is made, directly above ` +
+          `${dish.steps.length} steps and ${dish.prepSummary.trim().length} characters of preparation.`,
+      );
+    }
+  }
 
   return problems;
 }

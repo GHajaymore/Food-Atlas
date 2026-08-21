@@ -800,6 +800,33 @@ describe('disagreement forks the record rather than picking a winner', () => {
     );
   });
 
+  it("catches a record that contradicts itself", () => {
+    // The two rules here find nothing in the catalogue today, which is only worth
+    // knowing if they can find anything at all. This project has shipped a record
+    // printing "Nothing documents how this is made" above 899 characters of its own
+    // method, so the check exists precisely because the prose and the fields it
+    // describes are assembled separately.
+    const badged: Dish = { ...halwa(), id: 96, atRisk: true, atRiskEvidence: undefined };
+    expect(findCatalogueViolations([badged]).join(" ")).toMatch(/no sentence saying why/);
+
+    const lying: Dish = {
+      ...halwa(),
+      id: 97,
+      disclaimer: "Only the name and the place are recorded.",
+    };
+    expect(findCatalogueViolations([lying]).join(" ")).toMatch(/says nothing is recorded/);
+  });
+
+  it("does not treat a documented substitute as a contradiction", () => {
+    // Four curated records carry the traditional badge and an adaptation, and that is
+    // correct: the badge describes this record’s method, the adaptation names what
+    // other people substitute. A rule pairing them would have deleted true content.
+    const withBoth: Dish = { ...halwa(), id: 98 };
+    expect(withBoth.traditionalBadge).toBe(true);
+    expect(withBoth.adaptation).not.toBeNull();
+    expect(findCatalogueViolations([withBoth])).toEqual([]);
+  });
+
   it('catches wiki markup that reached a reader', () => {
     // 312 records shipped with "right|thumb|300px|" at the front of their prose,
     // because the File namespace is called Berkas in Indonesian and Tap tin in
