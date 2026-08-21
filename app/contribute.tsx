@@ -19,7 +19,7 @@
  * atlas has exhausted what it can scrape, so this form is how it grows from here.
  */
 
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
@@ -106,6 +106,9 @@ export default function Contribute() {
   const [photoInput, setPhotoInput] = useState('');
   const photoResult = photoInput.trim() ? parsePhotoReference(photoInput) : null;
 
+  /** The dish a fruitless search was for, where the reader arrived from one. */
+  const { dish: askedFor } = useLocalSearchParams<{ dish?: string }>();
+
   /**
    * What the reader actually typed.
    *
@@ -115,7 +118,9 @@ export default function Contribute() {
    * submits its own sample data is worse than one that submits nothing.
    */
   const [entry, setEntry] = useState<Contribution>({
-    dish: '',
+    // Seeded from the search that found nothing. Somebody who has just been told the
+    // atlas does not have their food should not then be asked to type its name again.
+    dish: typeof askedFor === 'string' ? askedFor : '',
     place: '',
     cooks: '',
     ingredients: '',

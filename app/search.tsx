@@ -270,7 +270,15 @@ export default function Search() {
             Nothing in the atlas matches {query.trim() ? `“${query.trim()}”` : 'that'} yet. Absence here means no
             record, not no food — we&apos;d rather say we don&apos;t know than guess.
           </CardBody>
-          <Button label="I know how it's made — record it" onPress={() => router.push('/contribute')} block />
+          {/* The name travels with them. It is already typed, and asking someone to
+              type it a second time is the friction that kills this kind of capture —
+              the reasoning `requests.ts` writes down for asking, applied to recording,
+              which is the path this screen actually leads with. */}
+          <Button
+            label="I know how it's made — record it"
+            onPress={() => router.push({ pathname: '/contribute', params: { dish: query.trim() } })}
+            block
+          />
 
           {canRequest() ? (
             <Button
