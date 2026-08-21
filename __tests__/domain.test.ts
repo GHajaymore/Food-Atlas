@@ -30,6 +30,13 @@ import {
   NOT_FOR_SALE,
   OPEN_COLLECTIVE_SLUG,
 } from '../src/domain/support';
+import {
+  canContribute,
+  contributionUrl,
+  missingFrom,
+  REQUIRED,
+  WALKTHROUGH_NOTE,
+} from '../src/domain/contribution';
 import { confirmAsk } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { notAPlaceBelow } from '../src/domain/place';
@@ -431,6 +438,38 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe('sending a tradition in', () => {
+  it('requires only what makes a submission assessable', () => {
+    // A dish and a place, because a name with nowhere attached cannot be assessed;
+    // and a connection, which is the whole difference between this and copying a
+    // recipe off the internet.
+    expect(REQUIRED).toEqual(['dish', 'place', 'connection']);
+    expect(missingFrom({ dish: '', place: '', cooks: '', ingredients: '', connection: '', photo: '' })).toEqual(['dish', 'place', 'connection']);
+    expect(missingFrom({ dish: 'Kaipola', place: 'Kozhikode', cooks: 'households', ingredients: 'nendran banana', connection: 'born there', photo: 'K.jpg' })).toEqual([]);
+  });
+
+  it('does not count whitespace as an answer', () => {
+    expect(missingFrom({ ...{ dish: 'Kaipola', place: 'Kozhikode', cooks: 'households', ingredients: 'nendran banana', connection: 'born there', photo: 'K.jpg' }, dish: '   ' })).toEqual(['dish']);
+  });
+
+  it('builds no link until there is somewhere to send it', () => {
+    // The rule the donate button follows: a control that goes nowhere spends a
+    // reader's goodwill on a dead link, and this reader has just typed out a recipe.
+    if (!canContribute()) {
+      expect(contributionUrl({ dish: 'Kaipola', place: 'Kozhikode', cooks: 'households', ingredients: 'nendran banana', connection: 'born there', photo: 'K.jpg' })).toBe('');
+      return;
+    }
+    expect(contributionUrl({ dish: 'Kaipola', place: 'Kozhikode', cooks: 'households', ingredients: 'nendran banana', connection: 'born there', photo: 'K.jpg' })).toContain('Kaipola');
+  });
+
+  it('says on the screen that the later steps are an example', () => {
+    // Not only in a comment. A worked example presented as a result is the same
+    // untruth as a score that does not match its own breakdown.
+    expect(WALKTHROUGH_NOTE).toMatch(/worked example/i);
+    expect(WALKTHROUGH_NOTE).toMatch(/not from what you have just typed/i);
   });
 });
 

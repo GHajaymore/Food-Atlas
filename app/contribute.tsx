@@ -9,7 +9,14 @@
  *
  * The findings, checks and validators shown from step 2 on are the walkthrough's
  * fixture content, as in the design. In production they come from the discovery and
- * validation pipeline.
+ * validation pipeline — and until they do, the app says so on the screen rather than
+ * only here: a worked example presented as a result is the same untruth as a score
+ * that does not match its own breakdown.
+ *
+ * Step one's fields were `defaultValue` demonstrations filled in with Kaipola, and
+ * nothing typed into them was read by anything. They are real inputs now, and the last
+ * step offers a real destination — or says plainly that there is not one yet. The
+ * atlas has exhausted what it can scrape, so this form is how it grows from here.
  */
 
 import { router } from 'expo-router';
@@ -22,6 +29,13 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
+import {
+  canContribute,
+  contributionUrl,
+  missingFrom,
+  WALKTHROUGH_NOTE,
+  type Contribution,
+} from '../src/domain/contribution';
 import { EDITORIAL_RULE } from '../src/domain/editorial';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
 import { openAtSource } from '../src/domain/video';
@@ -92,6 +106,27 @@ export default function Contribute() {
   const [photoInput, setPhotoInput] = useState('');
   const photoResult = photoInput.trim() ? parsePhotoReference(photoInput) : null;
 
+  /**
+   * What the reader actually typed.
+   *
+   * These were `defaultValue` demonstrations — the form was filled in with Kaipola and
+   * nothing it held was ever read. The examples moved to placeholders so the fields
+   * still show what a good answer looks like while starting empty, because a form that
+   * submits its own sample data is worse than one that submits nothing.
+   */
+  const [entry, setEntry] = useState<Contribution>({
+    dish: '',
+    place: '',
+    cooks: '',
+    ingredients: '',
+    connection: '',
+    photo: '',
+  });
+  const set = (field: keyof Contribution) => (value: string) =>
+    setEntry((current) => ({ ...current, [field]: value }));
+
+  const missing = missingFrom({ ...entry, photo: photoInput });
+
   // Back steps through the flow first, and only then out to the Atlas.
   // The fallback matters: opened directly — a deep link, or a refresh on the web
   // build — there is no history to pop, and a bare router.back() would leave the
@@ -133,22 +168,24 @@ export default function Contribute() {
           </Block>
 
           <Field label="Dish, in its own language if possible" style={styles.field}>
-            <Input defaultValue="Kaipola" />
+            <Input value={entry.dish} onChangeText={set('dish')} placeholder="Kaipola" />
           </Field>
           <Field label="Where is it made this way?" style={styles.field}>
-            <Input defaultValue="India › Kerala › Malabar › Kozhikode" />
+            <Input value={entry.place} onChangeText={set('place')} placeholder="India › Kerala › Malabar › Kozhikode" />
           </Field>
           <Field label="Who prepares it" style={styles.field}>
-            <Input defaultValue="Malabar households, made for iftar and family occasions" />
+            <Input value={entry.cooks} onChangeText={set('cooks')} placeholder="Malabar households, made for iftar and family occasions" />
           </Field>
           <Field label="Traditional ingredients and equipment" style={styles.field}>
             <Input
               multiline
-              defaultValue="Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers"
+              value={entry.ingredients}
+              onChangeText={set('ingredients')}
+              placeholder="Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers"
             />
           </Field>
           <Field label="Your connection to the place" style={styles.field}>
-            <Input defaultValue="Born and cooking in Kozhikode" />
+            <Input value={entry.connection} onChangeText={set('connection')} placeholder="Born and cooking in Kozhikode" />
           </Field>
 
           {/* A photograph is the one contribution the automated sources cannot make:
@@ -193,7 +230,7 @@ export default function Contribute() {
             ) : null}
           </Block>
 
-          <Muted style={styles.walkthroughNote}>Fields are filled in for this walkthrough.</Muted>
+          <Muted style={styles.walkthroughNote}>{WALKTHROUGH_NOTE}</Muted>
           <Button label="Check what already exists online" block onPress={() => setStep(2)} />
         </>
       ) : null}
@@ -288,13 +325,54 @@ export default function Contribute() {
           <Block accent style={styles.publishedBlock}>
             <Tag label="🟢 Authentic — Local · 78/100" variant="neutral" fontSize={10} />
             <Muted style={styles.publishedNote}>
-              Published with its evidence visible, its open checks named, and every claim traceable to who said it.
+              That is where the example record ends up: published with its evidence visible, its open checks named,
+              and every claim traceable to who said it.
             </Muted>
           </Block>
 
+          {/* The real thing, at the end of the explanation of it. Until this the flow
+              finished by describing a published record, which a reader who had just
+              filled the form in could fairly read as their own. */}
+          {canContribute() ? (
+            <Card style={styles.sendCard}>
+              <CardKicker>Now send yours</CardKicker>
+              <CardBody>
+                {missing.length
+                  ? `Still needed: ${missing.join(', ')}. Everything else is welcome and none of it is required — ` +
+                    `knowing where a food is from and that nobody has written it down is already more than any ` +
+                    `source here holds.`
+                  : `It opens the form at its source with what you have written already filled in. Nothing about ` +
+                    `you is collected by this app, and nothing is published until people from the place confirm it.`}
+              </CardBody>
+              <Button
+                label="Send this tradition"
+                block
+                onPress={() => openAtSource(contributionUrl({ ...entry, photo: photoInput }))}
+              />
+            </Card>
+          ) : (
+            /* No destination, no button — the rule the donate page follows. A control
+               that goes nowhere spends a reader's goodwill on a dead link, and this
+               reader has just typed out a recipe. */
+            <Card style={styles.sendCard}>
+              <CardKicker>Submissions are not open yet</CardKicker>
+              <CardBody>
+                There is nowhere to send this to. The atlas has read everything the free sources hold, so what is
+                missing now is food nobody has written down — which means this form is how it grows, and it will be
+                switched on as soon as there is somewhere for it to go.
+              </CardBody>
+            </Card>
+          )}
+
           {/* Deterministic rather than a history pop: the label promises the atlas,
               and the flow can be entered from Search as well as from the Atlas. */}
-          <Button label="Back to the atlas" block onPress={() => router.replace('/atlas')} />
+          <Button
+            label="Back to the atlas"
+            variant="secondary"
+            block
+            onPress={() => router.replace('/atlas')}
+            style={styles.backToAtlas}
+          />
         </>
       ) : null}
     </Screen>
@@ -321,6 +399,8 @@ const styles = StyleSheet.create({
   photoTitle: { fontSize: 13, fontFamily: font.medium },
   photoNote: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 6 },
   photoButton: { marginTop: 12 },
+  sendCard: { marginTop: 20 },
+  backToAtlas: { marginTop: 12 },
   photoField: { marginTop: 12 },
   photoFeedback: { marginTop: 10 },
   photoGood: { fontSize: 12, fontFamily: font.medium, color: accentText },
