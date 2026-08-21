@@ -135,3 +135,21 @@ export function confirmAsk(hasMethod: boolean): ConfirmAsk {
     no: 'No — it’s from somewhere else',
   };
 }
+
+/**
+ * The line under a contested record's place.
+ *
+ * A record with several documented origins still has to be filed under one country,
+ * because the atlas is navigated by place and a record with nowhere is a record nobody
+ * finds. What it must not do is present that filing as the answer. "Pierogi / China"
+ * sat in the largest text on the page above a section explaining that no claim here is
+ * the winner, and a reader who read only the top of the screen took the opposite
+ * meaning from the one the page intended.
+ *
+ * Deliberately does not name which country the record is filed under, or rank the
+ * claims: they are listed in full lower down, each with its source, in the order the
+ * source gave them.
+ */
+export const contestedNote = (claims: number): string =>
+  `Filed here for navigation. ${claims} places have a documented claim to this dish — ` +
+  `none of them is settled, and they are all listed below.`;

@@ -31,6 +31,7 @@ import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
 import {
   confirmAsk,
+  contestedNote,
   forkedDisputes,
   ORIGIN_DISCLAIMER,
   openDisputes,
@@ -173,6 +174,17 @@ export default function DishDetail() {
           </Muted>
         ))}
       </View>
+
+      {/* A record with several documented origins still has to be filed under one
+          country — the atlas is navigated by place, and a record with nowhere is a
+          record nobody finds. But printing that one country under the title, alone,
+          states the thing the page says lower down it will not state: Pierogi read
+          "China" in the largest text on the screen, above a section explaining that no
+          claim here is the winner. The line below is the correction, and it is placed
+          where the claim was rather than left to the reader to find. */}
+      {dish.originClaims && dish.originClaims.length > 1 ? (
+        <Muted style={styles.contested}>{contestedNote(dish.originClaims.length)}</Muted>
+      ) : null}
 
       {isFusion ? (
         <>
@@ -574,6 +586,7 @@ const styles = StyleSheet.create({
   unverified: { opacity: 0.75 },
 
   title: { marginBottom: 6 },
+  contested: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 6, marginBottom: 2 },
   breadcrumb: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 22 },
   breadcrumbText: { fontSize: 13, lineHeight: 13 * 1.5 },
   deepest: { color: accentText },

@@ -38,7 +38,7 @@ import {
   WALKTHROUGH_NOTE,
 } from '../src/domain/contribution';
 import { continentOf, isCountry, isHistoricalState, placeKind } from '../src/domain/continents';
-import { confirmAsk } from '../src/domain/traditions';
+import { confirmAsk, contestedNote } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { notAPlaceBelow } from '../src/domain/place';
 import {
@@ -440,6 +440,26 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("a record filed under one of several claimed origins", () => {
+  it("does not present the filing as the answer", () => {
+    // Pierogi read "China" in the largest text on the page, above a section saying
+    // no claim here is the winner. A reader who read only the top took the opposite
+    // meaning from the one the page intended.
+    const note = contestedNote(3);
+    expect(note).toMatch(/for navigation/i);
+    expect(note).toMatch(/none of them is settled/i);
+    expect(note).toMatch(/3 places/);
+  });
+
+  it("names no country and ranks nothing", () => {
+    // The claims are listed in full lower down, each with its source, in the order
+    // the source gave them. This line must not pre-empt that.
+    for (const country of ["China", "Poland", "Ukraine"]) {
+      expect(contestedNote(3)).not.toContain(country);
+    }
   });
 });
 
