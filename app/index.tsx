@@ -28,7 +28,7 @@ import { catalogue as dishes } from '../src/data/catalogue';
 import { FILTERS, filterDef } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
-import { feedFor, mostPopular, nextLevel } from '../src/domain/queries';
+import { feedFor, mostPopular, narrowingSummary, nextLevel } from '../src/domain/queries';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
 import { settings, useApp } from '../src/state/store';
 
@@ -107,13 +107,13 @@ export default function Feed() {
   // 'World' plus each chosen level; tapping any of them truncates the path there.
   const crumbs = [{ label: 'World' }, ...path.map((p) => ({ label: p.value }))];
 
-  // The empty state names the dietary preference too, so the reader can see which of
-  // their choices emptied the list rather than guessing at it.
+  // The empty state names every choice that narrowed the list, so the reader can see
+  // which of them emptied it rather than guessing — and, more importantly, so the
+  // sentence is not a false statement about the atlas. See `narrowingSummary`.
   const dietNames = [
     ...dietGroups.map((g) => GROUP_LABELS[g].toLowerCase()),
     ...dietKinds.map((k) => KIND_LABELS[k].toLowerCase()),
   ];
-  const dietSuffix = dietNames.length ? ` and ${dietNames.join(' or ')}` : '';
 
   // What the collapsed Refine row says, so an active constraint stays visible even
   // when its controls are folded away.
@@ -236,8 +236,10 @@ export default function Feed() {
         <Card style={styles.emptyCard}>
           <CardKicker>Nothing recorded here yet</CardKicker>
           <CardBody>
-            Nothing classified as {filterDef(activeFilter).label}
-            {dietSuffix}
+            {narrowingSummary(filterDef(activeFilter).label, activeFilter === settings.defaultFilter, [
+              ...dietNames,
+              ...meals.map((m) => MEAL_LABELS[m].toLowerCase()),
+            ])}
             {path.length ? ` in ${place}` : ' anywhere in the atlas'}. That is an absence of records, not an absence
             of food — we&apos;d rather say we don&apos;t know.
           </CardBody>

@@ -304,3 +304,27 @@ export const atlasCoverage = (dishes: Dish[]): string =>
   `${dishes.length} traditions documented across ` +
   `${new Set(dishes.map((d) => d.loc.country).filter(isCountry)).size} countries. ` +
   `Coverage is stated honestly: a country absent here has nothing recorded yet, not nothing to record.`;
+
+/**
+ * What the reader asked for, said back to them when nothing matches.
+ *
+ * An empty feed has to name **every** constraint that produced it, because the reader
+ * will take the sentence as a fact about the atlas. Filtering to vegan *and* breakfast
+ * gave "Nothing classified as All and vegan anywhere in the atlas" — the occasion was
+ * missing, so the sentence said there is no vegan food here at all. There are records;
+ * none of them is also breakfast.
+ *
+ * The authenticity filter is dropped when it is the permissive one. "Classified as All"
+ * is not a classification, and naming it as the reason nothing matched is misleading in
+ * the other direction — it implies a narrowing the reader never applied.
+ */
+export function narrowingSummary(
+  filterLabel: string,
+  isDefaultFilter: boolean,
+  constraints: string[],
+): string {
+  const parts = [...(isDefaultFilter ? [] : [filterLabel]), ...constraints].filter(Boolean);
+  if (!parts.length) return 'Nothing recorded';
+  if (parts.length === 1) return `Nothing recorded as ${parts[0]}`;
+  return `Nothing recorded as ${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+}

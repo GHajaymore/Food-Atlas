@@ -67,6 +67,7 @@ import {
   buildAtlas,
   feedFor,
   mostPopular,
+  narrowingSummary,
   nextLevel,
   placeGroups,
   searchResults,
@@ -439,6 +440,31 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("the sentence shown when nothing matches", () => {
+  it("names every constraint, so it is not a false claim about the atlas", () => {
+    // Vegan plus breakfast produced "Nothing classified as All and vegan anywhere in
+    // the atlas". The occasion was missing, so the sentence said there is no vegan
+    // food here at all. There is; none of it is also breakfast.
+    expect(narrowingSummary("All", true, ["vegan", "breakfast"])).toBe(
+      "Nothing recorded as vegan and breakfast",
+    );
+    expect(narrowingSummary("Fusion", false, ["vegan", "breakfast"])).toBe(
+      "Nothing recorded as Fusion, vegan and breakfast",
+    );
+  });
+
+  it("does not name the permissive filter as a reason", () => {
+    // "Classified as All" is not a classification, and offering it as the reason
+    // nothing matched implies a narrowing the reader never applied.
+    expect(narrowingSummary("All", true, ["vegan"])).toBe("Nothing recorded as vegan");
+    expect(narrowingSummary("All", true, [])).toBe("Nothing recorded");
+  });
+
+  it("names the filter when the reader did choose one", () => {
+    expect(narrowingSummary("Fusion", false, [])).toBe("Nothing recorded as Fusion");
   });
 });
 
