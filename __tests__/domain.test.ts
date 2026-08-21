@@ -31,6 +31,15 @@ import {
   OPEN_COLLECTIVE_SLUG,
 } from '../src/domain/support';
 import { notAPlaceBelow } from '../src/domain/place';
+import {
+  considerSource,
+  describesMethod,
+  sourceNote,
+  worthCiting,
+  FINDER_MAY_WRITE,
+  FINDER_MAY_NEVER_WRITE,
+  type RecordFacts,
+} from '../src/domain/sourceFinding';
 import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, trendFor } from '../src/domain/metrics';
 import {
@@ -423,6 +432,17 @@ describe('an imported record earns its classification', () => {
   });
 });
 
+describe('the real catalogue holds its invariants', () => {
+  it('ships no record whose prose still contains wiki markup', () => {
+    // Run against the whole catalogue, not a fixture. The 312 records that shipped
+    // with "right|thumb|300px|" in their opening sentence were invisible to every
+    // test here, because every test built its own two-record pool. A fixture only
+    // ever proves the fixture.
+    const problems = findCatalogueViolations(catalogue);
+    expect(problems.slice(0, 5)).toEqual([]);
+  });
+});
+
 describe('discovered videos must be high-quality originals', () => {
   const ok = {
     id: 'x',
@@ -566,6 +586,20 @@ describe('disagreement forks the record rather than picking a winner', () => {
     expect(findCatalogueViolations([...dishes, duplicate]).join(' ')).toMatch(
       /both claim thalassery.*adjudicated, not forked/i,
     );
+  });
+
+  it('catches wiki markup that reached a reader', () => {
+    // 312 records shipped with "right|thumb|300px|" at the front of their prose,
+    // because the File namespace is called Berkas in Indonesian and Tap tin in
+    // Vietnamese and the prefix list only had the editions somebody thought of.
+    // Checking the output rather than the stripper catches the next missed alias.
+    const soupy: Dish = { ...halwa(), id: 94, prepSummary: 'right|thumb|300px| and then the prose' };
+    expect(findCatalogueViolations([soupy]).join(' ')).toMatch(/still contains wiki markup/);
+
+    const linky: Dish = { ...halwa(), id: 95, blurb: 'A sweet from [[Kerala]], made with ghee.' };
+    expect(findCatalogueViolations([linky]).join(' ')).toMatch(/still contains wiki markup/);
+
+    expect(findCatalogueViolations([halwa()])).toEqual([]);
   });
 
   it('leaves an open dispute visible without touching the score', () => {
@@ -1656,5 +1690,146 @@ describe('the donation page does not invent a budget', () => {
   it('shows no donate button until there is somewhere to send money', () => {
     // A control pointing nowhere spends a reader's goodwill on a dead link.
     expect(canAcceptDonations()).toBe(DONATION_URL.length > 0);
+  });
+});
+
+describe('finding sources without judging them', () => {
+  const arisa: RecordFacts = {
+    name: 'Arisa',
+    country: 'Malaysia',
+    region: '',
+    cuisine: 'Malay',
+    ingredients: ['chicken', 'rice'],
+  };
+
+  it('refuses the match that actually happened — a dish name that is also a singer', () => {
+    // The real failure: searching by name illustrated this Malaysian chicken dish
+    // with an Italian singer at Sanremo. The page says "Arisa" and nothing else the
+    // record knows, which is two things sharing a word, not a source.
+    const sanremo = {
+      title: 'Arisa',
+      publisher: 'Wikisource',
+      url: 'https://example.org/arisa',
+      text: 'Arisa is an Italian singer who won the Sanremo Music Festival.',
+    };
+    expect(considerSource(sanremo, arisa)).toEqual({ refused: 'NO_CORROBORATION' });
+  });
+
+  it('accepts a source that corroborates something the record already knows', () => {
+    const real = {
+      title: 'Malay Cookery',
+      publisher: 'Wikisource',
+      url: 'https://example.org/malay-cookery',
+      text: 'Arisa, as made in Malaysia, is prepared with chicken and rice.',
+    };
+    const result = considerSource(real, arisa);
+    expect('accepted' in result).toBe(true);
+    if (!('accepted' in result)) return;
+    expect(result.accepted.corroborates).toContain('Malaysia');
+    expect(result.accepted.corroborates).toContain('chicken');
+  });
+
+  it('refuses a name that is an ordinary English word, however well corroborated', () => {
+    // A Victorian cookbook mentions "bread" and "India" on most pages without the
+    // two having anything to do with each other. Full-text search cannot identify
+    // these records at all, and saying so is better than filtering harder.
+    const facts: RecordFacts = {
+      name: 'Bread',
+      country: 'India',
+      region: 'Punjab',
+      cuisine: '',
+      ingredients: ['flour'],
+    };
+    const cookbook = {
+      title: 'The Book of Household Management',
+      publisher: 'Wikisource',
+      url: 'https://example.org/beeton',
+      text: 'Bread of every kind. Flour from India, Punjab and elsewhere, boiled and baked.',
+    };
+    expect(considerSource(cookbook, facts)).toEqual({ refused: 'NAME_IS_A_COMMON_WORD' });
+  });
+
+  it('does not match a name inside a longer word', () => {
+    const facts: RecordFacts = { name: 'Ugali', country: 'Kenya', region: '', cuisine: '', ingredients: [] };
+    const wrong = {
+      title: 'Elsewhere',
+      publisher: 'Wikisource',
+      url: 'https://example.org/x',
+      text: 'The Ugalimwana river in Kenya.',
+    };
+    expect(considerSource(wrong, facts)).toEqual({ refused: 'NAME_ABSENT' });
+  });
+
+  it('compares across accents, so an unaccented corpus still matches', () => {
+    const facts: RecordFacts = {
+      name: 'Bánh mì',
+      country: 'Vietnam',
+      region: '',
+      cuisine: '',
+      ingredients: [],
+    };
+    const text = {
+      title: 'Indochina',
+      publisher: 'Wikisource',
+      url: 'https://example.org/i',
+      text: 'Banh mi is sold on the streets of Vietnam.',
+    };
+    expect('accepted' in considerSource(text, facts)).toBe(true);
+  });
+
+  it('calls a text a method only when it reads as instructions', () => {
+    expect(describesMethod('It is served with rice.')).toBe(false);
+    expect(describesMethod('Boil the rice, add salt, stir, and cover for ten minutes.')).toBe(true);
+  });
+
+  it('says in the note what it established and what it did not', () => {
+    const accepted = {
+      candidate: { title: 'T', publisher: 'P', url: 'u', text: 't' },
+      corroborates: ['Malaysia'],
+      describesMethod: false,
+    };
+    expect(sourceNote(accepted)).toMatch(/Found by searching open archives/);
+    expect(sourceNote(accepted)).toMatch(/does not describe how the dish is made/);
+    expect(sourceNote({ ...accepted, describesMethod: true })).toMatch(/nobody has confirmed/);
+  });
+
+  it("refuses to cite a source that never describes cooking", () => {
+    // Presidential Proclamation 7235, a tariff schedule, was the only candidate
+    // Wikisource ever yielded. It names peanut butter and it names the United
+    // States, so it passes every corroboration check honestly — and it says nothing
+    // about how anyone makes peanut butter, which is what the record is missing.
+    const tariff = {
+      candidate: { title: "Proclamation 7235", publisher: "Wikisource", url: "u", text: "t" },
+      corroborates: ["United States", "Peanuts"],
+      describesMethod: false,
+    };
+    expect(worthCiting(tariff)).toBe(false);
+    expect(worthCiting({ ...tariff, describesMethod: true })).toBe(true);
+  });
+
+  it('never permits the finder to write a field that would raise a classification', () => {
+    // The containment that makes this safe to run at scale. If someone adds
+    // 'heritage' to what the finder may write, a book claiming a food is traditional
+    // starts producing Authentic — Regional badges, and this test is the tripwire.
+    for (const field of ['heritage', 'badgeLevel', 'score', 'breakdown']) {
+      expect(FINDER_MAY_WRITE).not.toContain(field);
+      expect(FINDER_MAY_NEVER_WRITE).toContain(field);
+    }
+  });
+
+  it('cannot raise a record above Unverified, even when every check passes', () => {
+    // The proof of the paragraph above, run through assess() rather than asserted.
+    // An account is the strongest thing a found source can contribute.
+    const withAccount = assess({
+      hasCountry: true,
+      hasRegion: true,
+      ingredients: [],
+      heritage: [],
+      hasArticle: false,
+      extractLength: 0,
+      hasAccount: true,
+    });
+    expect(withAccount.level).toBe('unverified');
+    expect(withAccount.score).toBeNull();
   });
 });
