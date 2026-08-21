@@ -21,6 +21,7 @@
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
+import { rowsFor } from './lib/mediawiki.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -160,9 +161,11 @@ const main = async () => {
         redirects: '1',
       });
 
+      // Every row that asked for this page. With redirects=1 the answer is titled
+      // differently from the question, and a row filed under the answer is never
+      // found — so it is never marked, and is re-fetched on every run after this one.
       for (const page of data?.query?.pages ?? []) {
-        const row = byTitle.get(page.title);
-        if (!row) continue;
+        for (const row of rowsFor(data, page, (t) => byTitle.get(t))) {
 
         const patch = { categoriesChecked: true };
         for (const category of page.categories ?? []) {
@@ -174,7 +177,10 @@ const main = async () => {
           }
         }
         Object.assign(row, patch);
-        updates.set(page.title, patch);
+        // Keyed by the row's own title, not the page's. They differ whenever a
+        // redirect was followed, and the merge looks rows up by their own key.
+        updates.set(row.title, patch);
+        }
       }
     } catch (error) {
       process.stdout.write(`  batch ${i + 1} failed (${error.message})\n`);

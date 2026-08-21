@@ -23,6 +23,7 @@
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
+import { requestedTitles } from './lib/mediawiki.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -96,8 +97,13 @@ async function api(params, attempt = 1) {
 /** Strip wiki markup down to plain text. */
 const clean = (value) =>
   value
-    .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2')
-    .replace(/\[\[([^\]]+)\]\]/g, '$1')
+    // Image links go whole. `[[File:Sheet pan.jpg|thumb|Large Sheet pan|baking...]]`
+    // through the old rule below became "thumb|Large Sheet pan|baking..." and opened
+    // Baklava's blurb with it. The file extension identifies these in every language;
+    // the namespace prefix does not.
+    .replace(/\[\[[^\]]*\.(?:jpe?g|png|svg|gif|webp)[^\]]*\]\]/gi, '')
+    // Then the LAST pipe segment. Keeping everything after the first was the bug.
+    .replace(/\[\[([^\]]*)\]\]/g, (_, inner) => inner.split('|').pop())
     .replace(/\{\{(?:nowrap|nobold|small)\|([^}]*)\}\}/gi, '$1')
     .replace(/\{\{[^}]*\}\}/g, '')
     .replace(/<ref[^>]*>[\s\S]*?<\/ref>/gi, '')
@@ -208,6 +214,12 @@ function preparationProse(wikitext) {
 
   // Too short to be an account of anything; too long to belong on a card.
   if (prose.length < 120) return '';
+
+  // The structural guard, checked on the output rather than trusted to the stripper
+  // above. Running prose has no pipe, bracket, brace or bare URL — in any language,
+  // which is the point: enumerating what each edition calls "thumb" is a list of the
+  // editions somebody thought of, and there are three hundred of them.
+  if (/[|[\]{}]|https?:\/\//.test(prose)) return '';
   const trimmed = prose.slice(0, 700);
   const lastStop = trimmed.lastIndexOf('. ');
   return lastStop > 200 ? trimmed.slice(0, lastStop + 1) : trimmed;
@@ -369,11 +381,23 @@ const main = async () => {
         redirects: '1',
       });
 
+      // The title that comes back is not always the title asked for. `redirects=1`
+      // means "Curry leaves" is answered as "Curry tree", and looking the row up by
+      // the answer misses it — so the row was never marked, and was re-fetched on
+      // every run since. 145 rows had been in that loop, spending requests forever
+      // and reporting as "still pending" rather than as an error.
+      const asked = requestedTitles(data);
+
       for (const page of data?.query?.pages ?? []) {
         const text = page?.revisions?.[0]?.slots?.main?.content;
-        const row = byTitle.get(page.title);
-        if (!row) continue;
+        // Every row that asked for this page, not just the first. The place is read
+        // per row because `placeFrom` weighs the infobox against that row's own
+        // country, and two records sharing an article need not share a country.
+        const rows = (asked.get(page.title) ?? [page.title])
+          .map((title) => byTitle.get(title))
+          .filter(Boolean);
 
+        for (const row of rows) {
         const patch = { infobox: true }; // fetched, whether or not it had one
 
         if (text) {
@@ -414,6 +438,7 @@ const main = async () => {
 
         Object.assign(row, patch);
         updates.set(target.key(row), patch);
+        }
       }
     } catch (error) {
       process.stdout.write(`  batch ${i + 1} failed (${error.message})\n`);

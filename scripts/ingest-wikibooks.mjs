@@ -27,6 +27,7 @@
  */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { requestedTitles } from './lib/mediawiki.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -150,10 +151,15 @@ async function fetchWikitext(titles) {
     redirects: '1',
   });
 
+  // Keyed by the title that was ASKED for, not the one that came back. With
+  // redirects=1 those differ, and a caller looking up its own title finds nothing —
+  // which here would silently create a second record under the redirect's target
+  // rather than fill in the one that already exists.
   const out = new Map();
   for (const page of data?.query?.pages ?? []) {
     const text = page?.revisions?.[0]?.slots?.main?.content;
-    if (page.title && text) out.set(page.title, text);
+    if (!page.title || !text) continue;
+    for (const asked of requestedTitles(data).get(page.title) ?? [page.title]) out.set(asked, text);
   }
   return out;
 }
@@ -239,7 +245,9 @@ async function fetchCategories(titles) {
 
   const out = new Map();
   for (const page of data?.query?.pages ?? []) {
-    if (page.title) out.set(page.title, (page.categories ?? []).map((c) => c.title));
+    if (!page.title) continue;
+    const cats = (page.categories ?? []).map((c) => c.title);
+    for (const asked of requestedTitles(data).get(page.title) ?? [page.title]) out.set(asked, cats);
   }
   return out;
 }
