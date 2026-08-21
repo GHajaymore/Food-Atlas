@@ -106,6 +106,18 @@ const HISTORICAL = new Set([
 /** Whether an origin names a state that has since ended. */
 export const isHistoricalState = (country: string): boolean => HISTORICAL.has(country);
 
+/**
+ * What an origin is, where it is not a country — three words for a list row.
+ *
+ * Said rather than hidden. The alternative is a country picker that lists Byzantine
+ * Empire between Bulgaria and Croatia and lets the reader work it out.
+ */
+export function placeKind(origin: string): string {
+  if (isHistoricalState(origin)) return 'former state';
+  if (isCountry(origin)) return '';
+  return 'wider region';
+}
+
 /** Merge in mappings discovered by the importer. Existing entries win. */
 export function registerContinents(entries: Iterable<[string, string]>): void {
   for (const [country, continent] of entries) {

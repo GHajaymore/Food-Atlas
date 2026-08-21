@@ -15,6 +15,7 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
+import { placeKind } from '../src/domain/continents';
 import { feedFor, nextLevel, placeGroups } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { accentText, color, space } from '../src/theme/tokens';
@@ -73,19 +74,36 @@ export default function PlacePicker() {
       {groups.map((group, i) => (
         <View key={group.label || `group-${i}`} style={styles.group}>
           {group.showLabel ? <H6 style={styles.groupLabel}>{group.label}</H6> : null}
-          {group.options.map((option) => (
-            <Pressable
-              key={option.label}
-              accessibilityRole="button"
-              accessibilityLabel={`${option.label}, ${option.count} recorded`}
-              tint="neutral"
-              onPress={() => choose(option.label)}
-              style={styles.row}
-            >
-              <T style={styles.optionLabel}>{option.label}</T>
-              <Muted style={styles.count}>{option.count}</Muted>
-            </Pressable>
-          ))}
+          {group.options.map((option) => {
+            /*
+             * Some of these are not countries, and the list should say so.
+             *
+             * "Ancient Greece", "Byzantine Empire", "Kievan Rus'" and "Soviet Union"
+             * sit between Albania and Austria under a heading that reads "Choose a
+             * country". They belong here — a dish recorded as Ottoman has to be
+             * reachable, and it is no less placed for having outlived its state — but
+             * presented as peers of Austria they read as an error in the data.
+             *
+             * Only shown at country level. Deeper down the options are regions and
+             * cities, where the question does not arise.
+             */
+            const note = next?.key === 'country' ? placeKind(option.label) : '';
+
+            return (
+              <Pressable
+                key={option.label}
+                accessibilityRole="button"
+                accessibilityLabel={`${option.label}${note ? `, ${note}` : ''}, ${option.count} recorded`}
+                tint="neutral"
+                onPress={() => choose(option.label)}
+                style={styles.row}
+              >
+                <T style={styles.optionLabel}>{option.label}</T>
+                {note ? <Muted style={styles.kind}>{note}</Muted> : null}
+                <Muted style={styles.count}>{option.count}</Muted>
+              </Pressable>
+            );
+          })}
         </View>
       ))}
 
@@ -117,6 +135,9 @@ const styles = StyleSheet.create({
   anywhere: { fontSize: 13, color: accentText },
   optionLabel: { fontSize: 14, flex: 1 },
   count: { fontSize: 12 },
+  // Sits between the name and the count, quiet enough to read as a note rather than
+  // as part of the place name.
+  kind: { fontSize: 10, flexShrink: 0, marginRight: space[2], opacity: 0.75 },
 
   group: { marginTop: 18 },
   groupLabel: { marginBottom: 6 },

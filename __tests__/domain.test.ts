@@ -37,7 +37,7 @@ import {
   REQUIRED,
   WALKTHROUGH_NOTE,
 } from '../src/domain/contribution';
-import { continentOf, isCountry, isHistoricalState } from '../src/domain/continents';
+import { continentOf, isCountry, isHistoricalState, placeKind } from '../src/domain/continents';
 import { confirmAsk } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { notAPlaceBelow } from '../src/domain/place';
@@ -467,6 +467,21 @@ describe('what counts as a country', () => {
     for (const name of ['India', 'Turkey', 'South Korea', 'Mexico']) {
       expect(isCountry(name)).toBe(true);
     }
+  });
+
+  it("names what a picker row is, where it is not a country", () => {
+    // The alternative is a list headed "Choose a country" that puts Byzantine Empire
+    // between Bulgaria and Croatia and lets the reader work it out.
+    expect(placeKind("Byzantine Empire")).toBe("former state");
+    expect(placeKind("Levant")).toBe("wider region");
+    expect(placeKind("France")).toBe("");
+  });
+
+  it("folds a formal state name into the country", () => {
+    // Wikidata says "Kingdom of the Netherlands", which listed three Dutch dishes
+    // outside the Netherlands and outside Europe.
+    expect(canonicalCountry("Kingdom of the Netherlands")).toBe("Netherlands");
+    expect(isCountry(canonicalCountry("Kingdom of the Netherlands"))).toBe(true);
   });
 
   it('is asked about canonical names, which is what the records carry', () => {

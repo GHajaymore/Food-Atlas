@@ -61,6 +61,10 @@ const ALIASES: Record<string, string> = {
   'Ivory Coast': "Côte d'Ivoire",
   Holland: 'Netherlands',
   'The Netherlands': 'Netherlands',
+  // The state's formal name, which Wikidata uses. Without this the country picker
+  // listed it separately under "Elsewhere", so three Dutch dishes sat outside the
+  // Netherlands and outside Europe.
+  'Kingdom of the Netherlands': 'Netherlands',
   'United States of America': 'United States',
   USA: 'United States',
   'U.S.': 'United States',
