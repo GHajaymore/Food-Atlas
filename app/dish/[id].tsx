@@ -30,7 +30,7 @@ import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
 import {
-  CONFIRM_PROMPT,
+  confirmAsk,
   forkedDisputes,
   ORIGIN_DISCLAIMER,
   openDisputes,
@@ -100,6 +100,8 @@ export default function DishDetail() {
   const hasProse = dish.steps.length > 0 || Boolean(dish.prepSummary?.trim());
   /** An adaptation documents how a dish is made today, not how its tradition makes it. */
   const isAdaptation = dish.badgeLevel === 'adaptation';
+  // What we can honestly ask this reader depends on what the record holds.
+  const ask = confirmAsk(isDocumented);
 
   const siblings = siblingsOf(dish, catalogue);
   const forked = forkedDisputes(dish);
@@ -550,13 +552,10 @@ export default function DishDetail() {
               correcting your own food is a far stronger motive than filling in a
               blank submission, and it is what actually feeds the pipeline. */}
           <Card style={styles.confirm}>
-            <CardKicker>{CONFIRM_PROMPT}</CardKicker>
-            <CardBody>
-              If you cook this where it comes from, confirming or correcting it is what moves a record out of
-              Unverified. Where your version differs, it is recorded alongside — not instead of — this one.
-            </CardBody>
-            <Button label="Yes — this matches" variant="secondary" block onPress={() => router.push('/contribute')} />
-            <Button label="It's made differently where I'm from" block onPress={() => router.push('/contribute')} />
+            <CardKicker>{ask.kicker}</CardKicker>
+            <CardBody>{ask.body}</CardBody>
+            <Button label={ask.yes} variant="secondary" block onPress={() => router.push('/contribute')} />
+            <Button label={ask.no} block onPress={() => router.push('/contribute')} />
           </Card>
         </>
       )}

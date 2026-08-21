@@ -28,7 +28,7 @@ import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
 import { placeBelow } from '../domain/place';
 import { findViolations } from '../domain/invariants';
-import type { Dish } from '../domain/types';
+import type { BreakdownRow, Dish } from '../domain/types';
 import { dishes as curated } from './seed';
 
 /**
@@ -706,6 +706,24 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     sourceLanguage: row.sourceLanguage ?? 'en',
   }));
 
+/**
+ * What an inscription evidences, dimension by dimension.
+ *
+ * Named once and shared by every inscription record, so the score below it cannot
+ * drift away from it. See the note at `score` for what happened when it could.
+ */
+const UNESCO_BREAKDOWN: BreakdownRow[] = [
+  ['Geographic connection', 85],
+  ['Traditional ingredients', 0],
+  ['Traditional technique', 0],
+  ['Local source', 80],
+  ['Cultural documentation', 95],
+  ['Community validation', 70],
+];
+
+const meanOf = (rows: readonly BreakdownRow[]): number =>
+  Math.round(rows.reduce((sum, [, value]) => sum + value, 0) / rows.length);
+
 /** A UNESCO Intangible Cultural Heritage inscription. */
 interface UnescoRow extends PhotoRow {
   reference: string;
@@ -797,16 +815,17 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
      * Ingredients and technique stay at zero — an inscription names a practice, it
      * does not write down the method, and inventing one is the thing the brief
      * forbids most plainly.
+     *
+     * The score is the mean of those six, computed rather than written down. It was
+     * written down — as 62, while the dimensions printed directly beneath it averaged
+     * 55 — and a reader who added up the numbers the app showed them got a different
+     * answer from the one on the card. In an atlas whose argument is that its figures
+     * can be checked, that is the worst kind of small error.
      */
-    score: 62,
-    breakdown: [
-      ['Geographic connection', 85],
-      ['Traditional ingredients', 0],
-      ['Traditional technique', 0],
-      ['Local source', 80],
-      ['Cultural documentation', 95],
-      ['Community validation', 70],
-    ],
+    score: meanOf(UNESCO_BREAKDOWN),
+    // A copy per record: the array is mutable by its type, and one shared instance
+    // handed to thirty-seven records is a bug waiting for the first thing that sorts it.
+    breakdown: [...UNESCO_BREAKDOWN],
     views: '',
 
     prepSummary: '',

@@ -91,3 +91,47 @@ export const ORIGIN_DISCLAIMER =
 
 /** The prompt that turns a reader into a validator. Two taps, not a form. */
 export const CONFIRM_PROMPT = 'Is this how it’s made where you’re from?';
+
+/**
+ * What to ask a reader about *this* record, given what it actually contains.
+ *
+ * The prompt above assumes there is a method on the page to agree or disagree with.
+ * On most records there is not: 12,000 of them say "Nobody has recorded how this is
+ * made" and then asked "Is this how it's made where you're from?" with a button
+ * marked **Yes — this matches**. There was nothing to match. A reader who tapped it
+ * would be confirming a blank.
+ *
+ * So where no method is recorded, the question moves to the thing the record does
+ * assert — the place — which a reader from Charente can answer about cagouilles even
+ * though nobody has written the recipe down. It is a real question with a real answer,
+ * and answering it is worth something: place is one of the six evidence dimensions.
+ */
+export interface ConfirmAsk {
+  kicker: string;
+  body: string;
+  /** The affirmative. Never offered where there is nothing to affirm. */
+  yes: string;
+  no: string;
+}
+
+export function confirmAsk(hasMethod: boolean): ConfirmAsk {
+  if (hasMethod) {
+    return {
+      kicker: CONFIRM_PROMPT,
+      body:
+        'If you cook this where it comes from, confirming or correcting it is what moves a record out of ' +
+        'Unverified. Where your version differs, it is recorded alongside — not instead of — this one.',
+      yes: 'Yes — this matches',
+      no: 'It’s made differently where I’m from',
+    };
+  }
+
+  return {
+    kicker: 'Is this dish from where we say it is?',
+    body:
+      'Nobody has written down how this one is made, so there is nothing here to agree with yet. The place is ' +
+      'what this record claims, and that is worth confirming on its own — it is one of the six evidence checks.',
+    yes: 'Yes — it’s from here',
+    no: 'No — it’s from somewhere else',
+  };
+}

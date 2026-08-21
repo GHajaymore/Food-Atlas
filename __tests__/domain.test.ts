@@ -30,6 +30,7 @@ import {
   NOT_FOR_SALE,
   OPEN_COLLECTIVE_SLUG,
 } from '../src/domain/support';
+import { confirmAsk } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { notAPlaceBelow } from '../src/domain/place';
 import {
@@ -430,6 +431,32 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe('what a reader can honestly be asked', () => {
+  it('does not ask a reader to confirm a method that is not there', () => {
+    // 12,000 records said "Nobody has recorded how this is made" and then offered a
+    // button marked "Yes — this matches". There was nothing to match.
+    const blank = confirmAsk(false);
+    expect(blank.yes).not.toMatch(/matches/i);
+    expect(blank.kicker).toMatch(/from where we say it is/i);
+    expect(blank.body).toMatch(/nothing here to agree with/i);
+  });
+
+  it('asks about the method where there is one', () => {
+    const documented = confirmAsk(true);
+    expect(documented.yes).toMatch(/matches/i);
+    expect(documented.kicker).toMatch(/how it’s made/i);
+  });
+
+  it('always offers a way to disagree', () => {
+    // The correction path is the one that actually feeds the pipeline, so it is
+    // present whatever the record holds.
+    for (const ask of [confirmAsk(true), confirmAsk(false)]) {
+      expect(ask.no.length).toBeGreaterThan(0);
+      expect(ask.yes.length).toBeGreaterThan(0);
+    }
   });
 });
 

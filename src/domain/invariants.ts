@@ -200,7 +200,34 @@ export function findCatalogueViolations(dishes: Dish[]): string[] {
   }
 
   problems.push(...findRawMarkup(dishes));
+  problems.push(...findUnaddedScores(dishes));
 
+  return problems;
+}
+
+/**
+ * A score that does not equal its own breakdown.
+ *
+ * The confidence figure is shown directly above the six dimensions it is made of, and
+ * the app's whole claim is that its numbers can be checked. A reader who adds up the
+ * dimensions and divides by six should get the number printed above them — and on the
+ * UNESCO records they got 55 while the card said 62, because that score was written by
+ * hand and the breakdown beside it was written separately.
+ *
+ * Rounding is allowed a point of slack, since `assess` rounds once at the end.
+ */
+function findUnaddedScores(dishes: Dish[]): string[] {
+  const problems: string[] = [];
+  for (const dish of dishes) {
+    if (dish.score === null || !dish.breakdown.length) continue;
+    const mean = dish.breakdown.reduce((sum, [, value]) => sum + value, 0) / dish.breakdown.length;
+    if (Math.abs(mean - dish.score) > 1) {
+      problems.push(
+        `${dish.name}: shows ${dish.score}/100 above a breakdown that averages ${Math.round(mean)}. ` +
+          `A reader who adds these up gets a different number from the one on the card.`,
+      );
+    }
+  }
   return problems;
 }
 
