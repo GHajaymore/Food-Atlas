@@ -8,7 +8,7 @@
  */
 
 import { filterDef, GEO_LEVELS, viewsNumber } from './authenticity';
-import { continentOf, continentRank } from './continents';
+import { continentOf, continentRank, isCountry } from './continents';
 import { matchesDiet, type DietGroup, type DietKind } from './diet';
 import { matchesMeal, type MealOccasion } from './meals';
 import type { Dish, FilterKey, LevelKey, PathStep, SortKey } from './types';
@@ -299,5 +299,8 @@ export const randomAtRisk = (dishes: Dish[]): Dish | undefined => {
 
 /** '6 traditions documented across 6 countries…' — coverage, stated honestly. */
 export const atlasCoverage = (dishes: Dish[]): string =>
-  `${dishes.length} traditions documented across ${new Set(dishes.map((d) => d.loc.country)).size} countries. ` +
+  // Countries, counted as countries. An origin recorded as "Levant" or "Mesoamerica"
+  // is kept on its record and is not one of these.
+  `${dishes.length} traditions documented across ` +
+  `${new Set(dishes.map((d) => d.loc.country).filter(isCountry)).size} countries. ` +
   `Coverage is stated honestly: a country absent here has nothing recorded yet, not nothing to record.`;

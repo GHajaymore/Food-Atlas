@@ -30,6 +30,7 @@ import {
   NOT_FOR_SALE,
   OPEN_COLLECTIVE_SLUG,
 } from '../src/domain/support';
+import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { notAPlaceBelow } from '../src/domain/place';
 import {
   considerSource,
@@ -429,6 +430,75 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe('a region must name somewhere', () => {
+  it('refuses an infobox that hedges instead of naming a place', () => {
+    // "Primarily Central Europe" was truncated to "Primarily Central" and printed
+    // under Kompot where a reader expects a town.
+    expect(notAPlaceBelow('Primarily Central', 'Poland')).toMatch(/hedges/);
+    expect(notAPlaceBelow('Various claims', 'China')).toMatch(/hedges/);
+    expect(notAPlaceBelow('Throughout Indonesia', 'Indonesia')).toMatch(/hedges/);
+  });
+
+  it('still accepts a real place that happens to start with a similar word', () => {
+    expect(notAPlaceBelow('Central Java', 'Indonesia')).toBeNull();
+    expect(notAPlaceBelow('Kozhikode', 'India')).toBeNull();
+  });
+});
+
+describe('a UNESCO inscription is not a dish name', () => {
+  it('lifts the dish out of the inscription', () => {
+    // The listing for ceviche is titled for the practice, which is correct of UNESCO
+    // and useless on a card. Nothing is lost: the official title stays as the source.
+    expect(dishFromInscription(
+      'Practices and meanings associated with the preparation and consumption of ceviche, an expression of Peruvian traditional cuisine',
+    )).toEqual({ name: 'ceviche' });
+    expect(dishFromInscription('Culture of Ukrainian borscht cooking')).toEqual({ name: 'Ukrainian borscht' });
+    expect(dishFromInscription('Al-Mansaf in Jordan, a festive banquet and its social and cultural meanings')).toEqual({
+      name: 'Al-Mansaf',
+    });
+  });
+
+  it('leaves a title that is already a name alone', () => {
+    for (const name of ['Commandaria wine', 'Joumou soup', 'Mediterranean diet']) {
+      expect(dishFromInscription(name)).toEqual({ name });
+    }
+  });
+
+  it('refuses the inscriptions that are not food, with the reason', () => {
+    // These were all showing as Authentic - Regional at 62/100, which is the slot
+    // the atlas reserves for its best evidence. A carillon is a set of church bells.
+    expect(dishFromInscription('Safeguarding the carillon culture: preservation, transmission')).toEqual({
+      refused: 'NOT_FOOD_AT_ALL',
+    });
+    expect(dishFromInscription('Transhumance, the seasonal droving of livestock')).toEqual({
+      refused: 'A_LIVELIHOOD',
+    });
+    expect(dishFromInscription('Feast of the Holy Forty Martyrs in Štip')).toEqual({ refused: 'A_GATHERING' });
+    expect(dishFromInscription('Italian cooking, between sustainability and biocultural diversity')).toEqual({
+      refused: 'A_WHOLE_CUISINE',
+    });
+  });
+
+  it('does not refuse a dish for a word in its title', () => {
+    // Keskek is a wheat and meat dish. A rule that refused it for "Ceremonial" would
+    // be the over-reach the module warns about.
+    expect(dishFromInscription('Ceremonial Keşkek tradition')).toEqual({ name: 'Keşkek' });
+  });
+
+  it('refuses rather than truncating when no shape matches', () => {
+    // A truncated paragraph reads as a dish name, which is worse than no record.
+    const invented = 'Assorted observances of a kind nobody has written a pattern for anywhere at all';
+    expect(dishFromInscription(invented)).toEqual({ refused: 'NO_DISH_NAMED' });
+  });
+
+  it('never lets a sentence reach a card', () => {
+    for (const dish of catalogue) {
+      if (dish.id < 500_000 || dish.id >= 600_000) continue;
+      expect(dish.name.length).toBeLessThanOrEqual(MAX_NAME);
+    }
   });
 });
 

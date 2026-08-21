@@ -40,7 +40,7 @@ export const METRIC_NOTES: Record<string, MetricNote> = {
     title: 'Countries',
     counts: 'Distinct countries named across all records, after the import’s place names are resolved.',
     method:
-      'The country field of every record, de-duplicated. Historical and supra-national entries a source used — the Ottoman Empire, the Levant — are kept as recorded rather than reassigned to a modern state we would have to guess at.',
+      'The country field of every record, de-duplicated, counting only origins that are countries. Historical and supra-national entries a source used — the Ottoman Empire, the Levant, Mesoamerica — are kept on their records rather than reassigned to a modern state we would have to guess at, and they are not counted here. Counting them added thirty-two to this figure and every one of them was imaginary.',
     caveat:
       'Coverage is not depth. A country appears here on the strength of a single record, so this counts where the atlas has been rather than where it is any good. Read it next to the concentration figure below, which says how lopsided the total is.',
   },

@@ -86,6 +86,35 @@ export function registerContinents(entries: Iterable<[string, string]>): void {
 
 export const continentOf = (country: string): string => CONTINENTS.get(country) ?? 'Elsewhere';
 
+/**
+ * Whether this origin is a country, as opposed to something broader or older.
+ *
+ * Wikidata's "country of origin" is not always a country. Seventy-nine records in this
+ * atlas are filed under Levant, Asia, Mesoamerica, the Maghreb, the Ottoman Empire,
+ * the Polish–Lithuanian Commonwealth and twenty-seven more of the same kind. Each was
+ * being counted as a country, which put "32 countries" in the Elsewhere group and
+ * added them to the headline: the atlas claimed 202 countries and had about 170.
+ *
+ * That number is the one the coverage screen exists to state honestly, so it is the
+ * one that must not be inflated by a value that is not a country.
+ *
+ * The records themselves are kept and so is the origin as the source states it. Sixty
+ * of them are the only record of that dish — gefilte fish, kugel, aşure, popcorn — and
+ * a broader origin is a fact about the dish, not a reason to delete it. Nor is one
+ * guessed at: "Levant" is not narrowed to a country here, because choosing which one
+ * is exactly the argument this atlas refuses to settle on a reader's behalf.
+ *
+ * Tested by whether the origin sits on a continent, **not** by whether the map has
+ * heard of it. `registerContinents` adds every pair the import carries, and the import
+ * carries `["Levant", "Elsewhere"]` — so a membership test says yes to exactly the
+ * values this is meant to exclude. That is the shape of the first attempt, and it
+ * changed nothing on the screen.
+ */
+export const isCountry = (country: string): boolean => {
+  const continent = CONTINENTS.get(country);
+  return Boolean(continent) && continent !== 'Elsewhere';
+};
+
 /** Continent display order — the atlas reads better geographically than alphabetically. */
 export const CONTINENT_ORDER = [
   'Africa',

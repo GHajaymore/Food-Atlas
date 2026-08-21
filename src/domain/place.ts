@@ -106,6 +106,20 @@ function isBareDemonym(value: string): boolean {
 }
 
 /**
+ * An infobox field that hedges instead of naming somewhere.
+ *
+ * These come out of `place_of_origin` when the article is honest about not knowing:
+ * "Various claims", "Various places", "Throughout Indonesia", "Primarily Central
+ * Europe" — which the infobox reader then truncated to "Primarily Central" and printed
+ * under Kompot as though it were a region.
+ *
+ * The hedge is the useful part of what the source said, and dropping it is right: the
+ * app already has a way to say a dish's place is not recorded, and it does not involve
+ * putting the word "Various" where a reader expects a town.
+ */
+const HEDGED = /^(various|primarily|mainly|mostly|widely|throughout|across|all over|worldwide|global)\b/i;
+
+/**
  * Why this region is not a place beneath that country, or null if it is fine.
  *
  * Returns the reason rather than a boolean so a rejection can be explained and
@@ -129,6 +143,7 @@ export function notAPlaceBelow(region: string, country: string): string | null {
   // true one — it is shown to whoever comes to argue with it.
   if (CATEGORY_WORDS.test(value)) return 'names a category of food, not a place';
   if (SUPRA_NATIONAL.test(value)) return 'names an area larger than the country';
+  if (HEDGED.test(value)) return 'hedges rather than naming a place';
 
   return null;
 }

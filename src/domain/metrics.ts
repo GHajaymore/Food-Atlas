@@ -12,7 +12,7 @@
  * including where the evidence is thin. Hiding these would be off-mission.
  */
 
-import { continentOf } from './continents';
+import { continentOf, isCountry } from './continents';
 import { isAuthentic } from './authenticity';
 import type { Dish } from './types';
 
@@ -161,7 +161,10 @@ export function catalogueMetrics(dishes: Dish[]): CatalogueMetrics {
 
   return {
     total,
-    countries: countries.size,
+    // Only origins that are actually countries. Levant, Mesoamerica, the Maghreb and
+    // the Ottoman Empire are origins this atlas records and none of them is a country;
+    // counting them added thirty-two to a headline whose whole job is to be honest.
+    countries: [...countries.keys()].filter(isCountry).length,
     continents: continents.size,
 
     documented: ratio(

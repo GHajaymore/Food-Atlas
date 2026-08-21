@@ -21,8 +21,9 @@
 
 import { assess } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
-import { continentOf, registerContinents } from '../domain/continents';
+import { continentOf, isCountry, registerContinents } from '../domain/continents';
 import { canonicalCountry } from '../domain/countryNames';
+import { dishFromInscription } from '../domain/inscription';
 import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
 import { placeBelow } from '../domain/place';
@@ -65,7 +66,24 @@ const FOOD_DISAMBIGUATOR =
  * acronym where the tradition's name should be. The Wikidata link on the record still
  * points at the registered entry, so nothing is lost by dropping it from the label.
  */
-const cleanName = (name: string): string => name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim();
+/**
+ * Sentence-case a name that arrives lowercase.
+ *
+ * Wikidata labels common nouns in lower case — "popcorn", "pea soup", "chimichurri" —
+ * and UNESCO writes its dish inside a sentence, so "ceviche" and "tea" came out of the
+ * inscriptions in lower case too. 1,368 records were affected, and on a shelf beside
+ * "Kozhikode Halwa" and "Neapolitan Pizza Margherita" they read as a mistake rather
+ * than as a convention.
+ *
+ * Only the first letter, and only when it is a lower-case letter: nothing else about
+ * the name is touched. "il-Ftira" becomes "Il-Ftira"; a name in a non-Latin script has
+ * no case and is returned unchanged.
+ */
+const sentenceCase = (name: string): string =>
+  /^\p{Ll}/u.test(name) ? name[0].toUpperCase() + name.slice(1) : name;
+
+const cleanName = (name: string): string =>
+  sentenceCase(name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim());
 
 /** The photograph fields an enrichment pass may have written onto a source row. */
 interface PhotoRow {
@@ -715,13 +733,33 @@ interface UnescoRow extends PhotoRow {
  * urgent safeguarding — a sourced, authoritative statement of decline, and the only
  * at-risk evidence in the catalogue that did not have to be hand-written.
  */
-const fromUnesco: Dish[] = (rawUnesco as UnescoRow[]).filter((row) => isFood(cleanName(row.name))).map((row, index) => {
+/**
+ * The dish each inscription is about, keeping only the ones that name a food.
+ *
+ * UNESCO titles the *practice*, so the listing for ceviche is called "Practices and
+ * meanings associated with the preparation and consumption of ceviche, an expression
+ * of Peruvian traditional cuisine". Used as a dish name that filled the front page
+ * with paragraphs — and these are the only imported records that reach Authentic —
+ * Regional, so they lead every shelf on it.
+ *
+ * The same pass drops the inscriptions that are not food: a livestock market, a
+ * seasonal cattle drive, several saints' feasts, a fishing rite, and the preservation
+ * of carillon culture, which is church bells. Each was showing as authenticated food
+ * at 62/100. The official title survives as the record's source, which is what the
+ * reader follows to UNESCO.
+ */
+const inscriptions = (rawUnesco as UnescoRow[])
+  .map((row) => ({ row, dish: dishFromInscription(row.name) }))
+  .filter((entry): entry is { row: UnescoRow; dish: { name: string } } => 'name' in entry.dish)
+  .filter((entry) => isFood(entry.dish.name));
+
+const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
   const urgent = row.list === 'urgent-safeguarding';
   const shared = row.countries.length > 1;
 
   return {
     id: 500_000 + index,
-    name: cleanName(row.name),
+    name: cleanName(dish.name),
     category: 'Unclassified',
     cuisine: '',
     diet: {
@@ -855,7 +893,43 @@ const cookbookDuplicates = new Set(
   [...curated, ...imported, ...fromCuisines].map((d) => d.name.trim().toLowerCase()),
 );
 
-const validImported = [...imported, ...fromCuisines]
+/**
+ * The same dish, once under a country and once under something that is not one.
+ *
+ * Wikidata's country of origin is sometimes a region or a former state, so falafel
+ * arrives twice: once from the cuisine tree as Egypt, and once from the Wikidata rows
+ * as "Middle Eastern empires". The reconciliation key is name-plus-country, so the two
+ * never met — and the second is not a second tradition, it is the same dish with a
+ * vaguer answer to the same question.
+ *
+ * Only ever dropped in favour of a record that has a real country. Where a broad
+ * origin is all anybody recorded, the record stays exactly as it is: sixty dishes here
+ * are known only that way, and "Levant" is a fact about gefilte fish, not a defect.
+ */
+const placedNames = new Set(
+  [...curated, ...imported, ...fromCuisines]
+    .filter((d) => isCountry(d.loc.country))
+    .map((d) => d.name.trim().toLowerCase()),
+);
+
+const isVaguerDuplicate = (dish: Dish): boolean =>
+  !isCountry(dish.loc.country) && placedNames.has(dish.name.trim().toLowerCase());
+
+/**
+ * Cuisine-tree records lead the Wikidata rows.
+ *
+ * Not a judgement about origin — where the same dish is recorded in two countries both
+ * records stay, both origin claims stay visible, and nothing here settles which is
+ * first. It is a judgement about *documentation*: a cuisine row was read from an
+ * article and carries a preparation, an infobox, ingredients and usually a photograph,
+ * where the Wikidata row is a label and a Q-number.
+ *
+ * The ordering became visible when names were sentence-cased and "pierogi" met
+ * "Pierogi": the atlas held both, and the thinner of the two — filed under China, one
+ * of three claims its own article lists — was the one a lookup reached first.
+ */
+const validImported = [...fromCuisines, ...imported]
+  .filter((d) => !isVaguerDuplicate(d))
   .map(withCookbookMethod)
   .concat(fromCookbook.filter((d) => !cookbookDuplicates.has(d.name.trim().toLowerCase())))
   // UNESCO records lead the imported tier: they are the only ones carrying evidence
@@ -872,7 +946,9 @@ const validImported = [...imported, ...fromCuisines]
   imported: validImported.length,
   /** Rows on disk with nothing to show yet, awaiting enrichment. */
   withheld,
-  countries: new Set(catalogue.map((d) => d.loc.country)).size,
+  // Countries only. An origin recorded as a region or a former state is kept on the
+  // record and is not counted as a country here — see `isCountry`.
+  countries: new Set(catalogue.map((d) => d.loc.country).filter(isCountry)).size,
 };
 
   return { catalogue, stats };

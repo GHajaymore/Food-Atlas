@@ -18,6 +18,7 @@ import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CaretDownIcon } from '../src/components/icons';
+import { isCountry } from '../src/domain/continents';
 import { CoverageTable, Explain, Meter, StatTile } from '../src/components/Metrics';
 import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
@@ -56,13 +57,18 @@ export default function Atlas() {
         {atlas.map((group) => {
           const open = expanded === group.label;
           const dishCount = group.countries.reduce((sum, c) => sum + c.count, 0);
+          // "Elsewhere" holds origins recorded as a region or a former state — Levant,
+          // Mesoamerica, the Ottoman Empire. Calling those countries put thirty-two
+          // imaginary ones on the screen, in the group least likely to be checked.
+          const realCountries = group.countries.filter((c) => isCountry(c.name)).length;
+          const placeWord = realCountries === group.countries.length ? 'countries' : 'origins';
 
           return (
             <View key={group.label}>
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ expanded: open }}
-                accessibilityLabel={`${group.label}, ${group.countries.length} countries, ${dishCount} traditions`}
+                accessibilityLabel={`${group.label}, ${group.countries.length} ${placeWord}, ${dishCount} traditions`}
                 tint="neutral"
                 onPress={() => {
                   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -76,7 +82,7 @@ export default function Atlas() {
                 {/* Both numbers named. "36 countries · 297" left the reader to
                     guess what 297 counted. */}
                 <Muted style={styles.groupCount}>
-                  {group.countries.length} countries · {dishCount.toLocaleString()} traditions
+                  {group.countries.length} {placeWord} · {dishCount.toLocaleString()} traditions
                 </Muted>
                 <View style={open ? styles.caretOpen : undefined}>
                   <CaretDownIcon size={14} color={open ? color.accent : color.neutral[400]} />
