@@ -19,6 +19,19 @@
  */
 
 /**
+ * How the source data is written back, and why it is not pretty-printed.
+ *
+ * Every writer under `scripts/` uses `JSON.stringify(rows)` with no indent. Two
+ * repair scripts written in a hurry used `null, 1` instead, and the result was that
+ * whichever script ran last decided the file's format — so an ordinary enrichment run
+ * produced a 400,000-line diff that was entirely whitespace and hid the twenty lines
+ * that actually changed.
+ *
+ * Pick either, but pick one. This is the one already in use.
+ */
+export const writeRows = (rows) => JSON.stringify(rows);
+
+/**
  * Map each title MediaWiki answers with back to the titles that asked for it.
  *
  * Returns a list per answer, because one answer can belong to several askers:

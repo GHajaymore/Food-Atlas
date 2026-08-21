@@ -233,12 +233,12 @@ const main = async () => {
 
     if (i % 10 === 0) {
       console.log(`  batch ${i + 1}/${batches.length} — ${repaired} repaired`);
-      if (!DRY) await writeFile(OUT, JSON.stringify([...byTitle.values()], null, 1), 'utf8');
+      if (!DRY) await writeFile(OUT, JSON.stringify([...byTitle.values()]), 'utf8');
     }
     await sleep(350);
   }
 
-  if (!DRY) await writeFile(OUT, JSON.stringify([...byTitle.values()], null, 1), 'utf8');
+  if (!DRY) await writeFile(OUT, JSON.stringify([...byTitle.values()]), 'utf8');
 
   const left = [...byTitle.values()].filter(dirty).length;
   console.log(`\n${repaired} recipes re-read and cleaned.`);
