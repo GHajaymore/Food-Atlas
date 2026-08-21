@@ -298,8 +298,16 @@ export default function Feed() {
 
       {/* Readership, demoted to the bottom and labelled for what it is. Absent
           entirely when nothing has a real count — an empty rail under a confident
-          heading is how the fabricated version looked. */}
-      {popular.length ? (
+          heading is how the fabricated version looked.
+
+          Also absent once the reader has narrowed, for the reason the shelves are:
+          this rail is an offer of somewhere to start, and someone who has chosen
+          Fusion is past being offered. It read worse than useless there — the feed
+          said "1 tradition worldwide" and the rail underneath showed four dishes that
+          were not fusion, because it is computed from the whole catalogue and never
+          saw the filter. Narrowing it instead would empty it, which is the wrong
+          answer for a rail that measures readership rather than the reader's query. */}
+      {isBrowsing && popular.length ? (
       <View style={styles.popularSection}>
         <View style={styles.popularHeader}>
           <H6>Most looked up</H6>
