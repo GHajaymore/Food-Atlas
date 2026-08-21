@@ -38,7 +38,7 @@
  * them under drinks — a brewery is not a drink any more than a bakery is a loaf.
  */
 const BUSINESS =
-  /\b(corporation|corp\.?|company|companies|co\.,? ?ltd\.?|ltd\.?|limited|inc\.?|plc|gmbh|brewery|brewing (company|group)|distillery|winery|joint venture|beverages?)$/i;
+  /\b(corporation|corp\.?|company|companies|co\.,? ?ltd\.?|ltd\.?|limited|inc\.?|plc|gmbh|brewery|brewing (company|group)|distillery|winery|joint venture|beverages?|group|group of industries|holdings|industries|enterprises)$/i;
 
 /** Places that serve food, as opposed to food. Anchored for the same reason. */
 const VENUE = /\b(restaurant|café|cafe|bistro|diner|tavern|brasserie|canteen|food court)$/i;

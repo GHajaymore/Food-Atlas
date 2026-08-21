@@ -199,13 +199,37 @@ function stripTemplates(text) {
   return out;
 }
 
+/**
+ * Image links, in every language at once.
+ *
+ * Each Wikipedia names the File namespace itself — Berkas, Ficheiro, Tập tin, Datei,
+ * Файл — so a list of prefixes is a list of the editions somebody remembered. Twelve
+ * records were written with "jmpl|Onde-onde biasa (kuning)" and "300px|nhỏ|phải|Bánh
+ * rán" sitting at the front of their prose because Indonesian and Vietnamese were not
+ * on that list.
+ *
+ * The file extension is the part that does not change between editions, so match on
+ * that instead and delete the whole link.
+ */
+const IMAGE_LINK = /\[\[[^\]]*\.(?:jpe?g|png|svg|gif|webp|tiff?|ogg|ogv|webm)[^\]]*\]\]/gi;
+
 const strip = (value) =>
   (value ?? '')
-    .replace(/\[\[([^\]|]*\|)?([^\]]*)\]\]/g, '$2')
+    .replace(IMAGE_LINK, '')
+    // Take the text after the LAST pipe, not the first. A link with several pipes is
+    // an image with parameters, and keeping everything after the first pipe is what
+    // put "thumb|200px|direita|" into a Portuguese record's opening sentence.
+    .replace(/\[\[([^\]]*)\]\]/g, (_, inner) => inner.split('|').pop())
     .replace(/\{\{[^}]*\}\}/g, '')
     .replace(/<ref[^>]*>[\s\S]*?<\/ref>|<ref[^>]*\/>/gi, '')
     .replace(/<[^>]+>/g, '')
     .replace(/'{2,}/g, '')
+    // Brackets left empty by a removed template — "Хлеб 10 вон ()". Both the ASCII
+    // pair and the full-width one CJK editions use, which is most of where this shows.
+    .replace(/[(（]\s*[)）]/g, '')
+    // Only the comma and full stop. French puts a space before ; : ! ? on purpose,
+    // and "correcting" it would be this app flattening someone's language again.
+    .replace(/\s+([,.])/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -250,6 +274,31 @@ function leadProse(text) {
   // prose. Requiring it to start like a sentence is a cheap check that the stripping
   // actually worked.
   if (prose.length < 120 || /^[|=*#:.,)\]]/.test(prose)) return '';
+
+  // A closing bracket with nothing opening it means the stripping ate the middle of
+  // a sentence. The French lead for Shirataki came through as "Les , souvent écrit en
+  // hiragana )" — long enough to pass the length check, and not a sentence.
+  const opens = (prose.match(/\(/g) ?? []).length;
+  const closes = (prose.match(/\)/g) ?? []).length;
+  if (closes > opens) return '';
+
+  /**
+   * The structural guard, and the reason it is structural.
+   *
+   * The first fix here listed the File-namespace aliases, missed Berkas and Tập tin,
+   * and shipped 312 records with markup in their prose. The second matched `300px`
+   * and missed `300x300पिक्सेल` and `300x300پ`, because Hindi and Persian write the
+   * pixel width in their own scripts — as they write "thumb" as अंगूठाकार and
+   * بندانگشتی. Every version of that list is a list of the editions somebody happened
+   * to think of, and there are three hundred editions.
+   *
+   * So this matches on shape rather than vocabulary: a pipe, a bracket, a brace or a
+   * bare URL is markup residue in every language, and running prose has none of them.
+   * A handful of genuine leads will be refused for containing a stray bracket. No
+   * account is better than an account that opens with "right|thumb|300px|".
+   */
+  if (/[|[\]{}]|https?:\/\//.test(prose)) return '';
+
   return prose.slice(0, 600);
 }
 
@@ -270,7 +319,15 @@ const main = async () => {
 
   const rows = JSON.parse(await readFile(CUISINES, 'utf8'));
   const pending = rows.filter(
-    (r) => !r.prepSummary && !r.nativeChecked && r.langNames && Object.keys(r.langNames).length,
+    (r) =>
+      !r.prepSummary &&
+      !r.nativeChecked &&
+      // Already known not to be food — a taxon, a person, a restaurant chain. The
+      // build drops these, so reading a Wikipedia article about each one in its own
+      // language was 270 records' worth of requests spent on rows nobody will see.
+      !r.notFood &&
+      r.langNames &&
+      Object.keys(r.langNames).length,
   );
   const targets = limit ? pending.slice(0, limit) : pending;
   process.stdout.write(`${targets.length} records with no preparation and an article elsewhere.\n`);

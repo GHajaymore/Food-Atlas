@@ -111,15 +111,32 @@ function section(wikitext, names) {
     .map((line) =>
       line
         .replace(/^[*#]+\s*/, '')
-        .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2') // [[Link|text]] -> text
-        .replace(/\[\[([^\]]+)\]\]/g, '$1')
+        // Image links go entirely, caption and all. `[[File:x.jpg|thumb|Caption]]`
+        // used to be rewritten to "thumb|Caption" by the rule below, which then got
+        // glued onto the end of the previous step: 1,158 recipes carried lines like
+        // "...lumps start to form in the smooth cream.thumb|Overwhipped cream". The
+        // file extension identifies these in every language, unlike the namespace
+        // prefix, which each Wikibooks edition names for itself.
+        .replace(/\[\[[^\]]*\.(?:jpe?g|png|svg|gif|webp)[^\]]*\]\]/gi, '')
+        // Then the LAST pipe segment, not the first. A surviving multi-pipe link is
+        // an image with parameters, and keeping the first segment kept the parameters.
+        .replace(/\[\[([^\]]*)\]\]/g, (_, inner) => inner.split('|').pop())
+        // External links: `[https://url label]` keeps the label, a bare URL goes.
+        .replace(/\[(?:https?:)\/\/\S+\s+([^\]]*)\]/gi, '$1')
+        .replace(/https?:\/\/\S+/gi, '')
+        // Templates, including an unclosed `{{Recipe summary` at the end of a step,
+        // which the old `\{\{[^}]*\}\}` could not match for want of a closing brace.
         .replace(/\{\{[^}]*\}\}/g, '')
+        .replace(/\{\{[\s\S]*$/, '')
         .replace(/'''?/g, '')
         .replace(/<[^>]+>/g, '')
+        .replace(/\s+([,.])/g, '$1')
         .replace(/\s+/g, ' ')
         .trim(),
     )
-    .filter((line) => line.length > 2 && line.length < 400);
+    // A line still carrying a pipe or a brace is markup this did not understand, and
+    // a reader should not be the one to discover that. Dropped rather than shipped.
+    .filter((line) => line.length > 2 && line.length < 400 && !/[|{}]/.test(line));
 }
 
 /** Wikitext for up to 20 pages per request. */
@@ -256,7 +273,12 @@ const main = async () => {
         // A page with no method is just a name we already have from Wikidata.
         if (!steps.length) continue;
 
+        // Merged onto whatever is already there, not written over it. A plain
+        // `set` here would silently drop the country, the photograph, its credit and
+        // its licence every time this script was re-run — six later passes' work,
+        // deleted by re-reading the same page.
         byTitle.set(title, {
+          ...(byTitle.get(title) ?? {}),
           title,
           name: displayName(title),
           ingredients: ingredients.slice(0, 20),

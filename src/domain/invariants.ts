@@ -199,6 +199,55 @@ export function findCatalogueViolations(dishes: Dish[]): string[] {
     }
   }
 
+  problems.push(...findRawMarkup(dishes));
+
+  return problems;
+}
+
+/**
+ * Wiki markup that reached a reader.
+ *
+ * Every account in this atlas is lifted from a wiki, so every one of them passes
+ * through a stripper, and when a stripper misses a case the result is not a crash —
+ * it is a record whose opening sentence reads "right|thumb|300px|" and then some
+ * Hindi. 312 records shipped like that, because the File namespace is called Berkas
+ * in Indonesian and Tập tin in Vietnamese and the prefix list only had the editions
+ * somebody thought of.
+ *
+ * So the check is on the output rather than on the stripper: no reader-facing prose
+ * may contain image parameters or link syntax, whatever produced them.
+ */
+const MARKUP_IN_PROSE = /\b\d{2,4}(x\d{2,4})?px\b|\bthumb\b\||\bjmpl\b\||\[\[|\{\{/;
+
+function findRawMarkup(dishes: Dish[]): string[] {
+  const problems: string[] = [];
+  const flag = (dish: Dish, field: string, value: string) =>
+    problems.push(
+      `${dish.name}: ${field} still contains wiki markup — "${value.slice(0, 60)}". ` +
+        `A stripper missed a case, and this is what the reader sees.`,
+    );
+
+  for (const dish of dishes) {
+    for (const [field, value] of [
+      ['blurb', dish.blurb],
+      ['prepSummary', dish.prepSummary],
+    ] as const) {
+      if (value && MARKUP_IN_PROSE.test(value)) flag(dish, field, value);
+    }
+
+    // The recipe itself, which is the product. Checked separately because these are
+    // lists, and because the first version of this check looked only at prose — while
+    // 1,158 recipes carried "thumb|Overwhipped cream" inside their *steps*.
+    for (const [field, values] of [
+      ['ingredients', dish.ingredients],
+      ['steps', dish.steps],
+      ['equipment', dish.equipment],
+    ] as const) {
+      for (const value of values ?? []) {
+        if (MARKUP_IN_PROSE.test(value)) flag(dish, field, value);
+      }
+    }
+  }
   return problems;
 }
 
