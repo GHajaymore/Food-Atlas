@@ -88,7 +88,7 @@ import {
   parsePhotoReference,
   type PhotoRejection,
 } from '../src/domain/photoSubmission';
-import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
+import { buildShelves, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
 import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
@@ -442,6 +442,41 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("the front page moves", () => {
+  const railFor = (turn: number) => {
+    // "cookable" rather than "authentic": the authenticated shelf has only twelve
+    // photographed records to draw on, so it cannot rotate and should not pretend to.
+    const shelf = buildShelves(catalogue, 12, turn).find((s) => s.id === "cookable");
+    return (shelf?.dishes ?? []).map((d) => d.id);
+  };
+
+  it("shows a different rail on a different day", () => {
+    // Ranking is deterministic, so every visit met the same twelve cards for ever.
+    // An atlas of sixteen thousand traditions showing the same three every day is
+    // not describing what it holds.
+    expect(railFor(0)).not.toEqual(railFor(1));
+  });
+
+  it("shows the same rail twice on the same day", () => {
+    // The page has to be a stable object while it is being used: reshuffling per
+    // render would move the card a reader was about to tap.
+    expect(railFor(7)).toEqual(railFor(7));
+  });
+
+  it("rotates within a pool of equals, never onto weaker records", () => {
+    // Variety bought by showing the second-best of everything is not worth having.
+    // Whatever the turn, every card comes from the strongest few railfuls.
+    const strongest = new Set(railFor(0).concat(railFor(1), railFor(2), railFor(3)));
+    const ranked = buildShelves(catalogue, 12 * 3, 0).find((s) => s.id === "cookable");
+    const pool = new Set((ranked?.dishes ?? []).map((d) => d.id));
+    for (const id of strongest) expect(pool.has(id)).toBe(true);
+  });
+
+  it("counts a turn as a day", () => {
+    expect(today()).toBe(Math.floor(Date.now() / 86_400_000));
   });
 });
 

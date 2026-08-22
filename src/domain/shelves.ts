@@ -101,6 +101,83 @@ const railOrder = (dishes: Dish[], take: number) =>
     .slice(0, take);
 
 /**
+ * The front page moves, without getting worse.
+ *
+ * Ranking is deterministic, so every visit met the same twelve cards for ever. An
+ * atlas of sixteen thousand traditions that shows the same three every day is not
+ * describing what it holds, and gives a returning reader no reason to come back.
+ *
+ * The rotation is over a **pool of equals**, never over the whole shelf. Records
+ * ranked past the strongest few railfuls are genuinely thinner — unscored, less
+ * documented, worse illustrated — and rotating them onto the rail would be variety
+ * bought by showing a reader the second-best of everything.
+ *
+ * Applied to the finished list rather than inside the ranking, because the shelves
+ * that spread by country build their order in two steps: rotating before the spread
+ * moved the list by one place and the spread put almost the same countries back.
+ */
+function rotate<T>(pool: T[], take: number, turn: number): T[] {
+  if (pool.length <= take) return pool.slice(0, take);
+  const offset = ((turn % pool.length) + pool.length) % pool.length;
+  return [...pool.slice(offset), ...pool.slice(0, offset)].slice(0, take);
+}
+
+/**
+ * How many railfuls of equally-strong records the rotation draws from.
+ *
+ * Three is a compromise with a reason on each side. One is no rotation at all; ten
+ * would reach records that are visibly thinner than the ones above them, and the rail
+ * would look worse on most days than it does today.
+ */
+const POOL_RAILS = 3;
+
+/**
+ * Which turn it is — the day, counted from the epoch.
+ *
+ * A day rather than a render, and this is the whole design. Reshuffling on every
+ * render would rearrange the page under a reader's thumb as they scrolled, and make
+ * the record they were about to tap move; reshuffling per session would mean the back
+ * button led somewhere else. A day is long enough that the page is a stable object
+ * while you use it, and short enough that coming back tomorrow shows you the atlas
+ * again rather than the same twelve cards.
+ *
+ * It is also why the turn is an argument with a default rather than read inside the
+ * ordering: a test can ask for turn 0, 1 and 2 and get three known answers.
+ */
+export const today = (): number => Math.floor(Date.now() / 86_400_000);
+
+/**
+ * The records that most need someone to write them down, first.
+ *
+ * Every other rail leads with its strongest record, because a rail is a shop window.
+ * The Disappearing shelf is not a shop window — it is the argument the atlas is built
+ * on — and there the **weakest** record is the most urgent. A tradition a source calls
+ * declining, with nothing recorded about how it is made, is the one that actually
+ * goes: five of the fifteen are in exactly that state.
+ *
+ * A record with a method is already saved in the only way this app can save anything.
+ * A record without one is the ask, so it leads.
+ *
+ * Photographed still, like every rail — a card with nothing to look at recruits nobody,
+ * and recruiting is the entire point of putting these first.
+ */
+function urgentOrder(dishes: Dish[], take: number): Dish[] {
+  const documented = (d: Dish) => (d.steps.length ? 2 : d.prepSummary.trim() ? 1 : 0);
+
+  return dishes
+    .filter((d) => d.photo)
+    .sort(
+      (a, b) =>
+        documented(a) - documented(b) ||
+        // Then the usual reading order, so within "equally undocumented" the record
+        // that carries the most is still the one shown.
+        CLASS_RANK[b.badgeLevel] - CLASS_RANK[a.badgeLevel] ||
+        substance(b) - substance(a),
+    )
+    .slice(0, take);
+}
+
+/**
  * One record per country before any country repeats.
  *
  * For a shelf that exists to be browsed rather than ranked, variety is the ordering.
@@ -148,12 +225,28 @@ export const SHELF_DEFS: {
   match: (d: Dish) => boolean;
   /** Order the rail for variety instead of rank. See `spreadByPlace`. */
   spread?: boolean;
+  /** Put the records that most need a contribution first. See the at-risk shelf. */
+  urgentFirst?: boolean;
 }[] = [
   {
     id: 'at-risk',
     title: 'Disappearing',
-    note: 'Traditions a source describes as declining. The reason this atlas exists.',
+    note: 'Traditions a source describes as declining — the undocumented ones first, because those are the ones that go.',
     match: (d) => Boolean(d.atRisk),
+    /*
+     * Undocumented first, which is the opposite of every other shelf.
+     *
+     * Everywhere else the strongest record leads, because a rail is a shop window.
+     * This shelf is not a shop window: it is the argument the atlas is built on, and
+     * on it the *weakest* record is the most urgent one. A declining tradition whose
+     * method nobody has written down is the one that actually disappears — five of
+     * the fifteen here have a source saying they are in decline and nothing at all
+     * saying how they are made.
+     *
+     * A record with a method is already saved in the only way this app can save
+     * anything. A record without one is the ask.
+     */
+    urgentFirst: true,
   },
   {
     id: 'authentic',
@@ -182,7 +275,7 @@ export const SHELF_DEFS: {
  * `perShelf` is small on purpose. A shelf is a doorway, not a list — its job is to
  * show enough to be worth opening and then get out of the way.
  */
-export function buildShelves(dishes: Dish[], perShelf = 12): Shelf[] {
+export function buildShelves(dishes: Dish[], perShelf = 12, turn = today()): Shelf[] {
   /**
    * A record already shown above is not shown again further down.
    *
@@ -211,7 +304,7 @@ export function buildShelves(dishes: Dish[], perShelf = 12): Shelf[] {
   const shownPhotos = new Set<string>();
 
   return (
-    SHELF_DEFS.map((def) => {
+    SHELF_DEFS.map((def, index) => {
       const matching = dishes.filter(def.match);
       // Both directions: against what earlier shelves used, and against itself, since
       // two records sharing a picture are just as likely to land on one rail as on two.
@@ -223,9 +316,16 @@ export function buildShelves(dishes: Dish[], perShelf = 12): Shelf[] {
         usedHere.add(d.photo);
         return true;
       });
-      const rail = def.spread
-        ? spreadByPlace(railOrder(available, available.length), perShelf)
-        : railOrder(available, perShelf);
+      const pool = def.urgentFirst
+        ? urgentOrder(available, perShelf * POOL_RAILS)
+        : def.spread
+        // A pool of equally strong records, then today's slice of it. Each shelf turns
+        // by a different amount so they do not all change together and then all sit
+        // still together.
+        ? spreadByPlace(railOrder(available, available.length), perShelf * POOL_RAILS)
+        : railOrder(available, perShelf * POOL_RAILS);
+      const rail = rotate(pool, perShelf, turn + index);
+
       for (const dish of rail) {
         shown.add(dish.id);
         if (dish.photo) shownPhotos.add(dish.photo);
