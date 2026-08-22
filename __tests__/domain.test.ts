@@ -446,6 +446,42 @@ describe('an imported record earns its classification', () => {
   });
 });
 
+describe("a language in the picker is a promise", () => {
+  const coverage = coverageOf(catalogue);
+
+  it("offers only languages the catalogue can actually meet", () => {
+    // "Offering eighty when seventy of them would return the English text unchanged
+    // breaks that promise eighty times over." English is exempt: it is the language
+    // the catalogue is written in.
+    for (const lang of offeredLanguages(coverage)) {
+      if (lang.code === "en") continue;
+      expect({ code: lang.code, meets: (coverage[lang.code] ?? 0) >= MIN_RECORDS_PER_LANGUAGE }).toEqual({
+        code: lang.code,
+        meets: true,
+      });
+    }
+  });
+
+  it("reports every language it is not yet offering, and how far off", () => {
+    // A reader whose language is missing should see it coming rather than conclude
+    // the app does not care about it. The arithmetic is shown on screen -- "Hungarian
+    // opens once 21 more records can be read in it" -- so it has to be right.
+    const offered = new Set(offeredLanguages(coverage).map((l) => l.code));
+    for (const p of languageProgress(coverage)) {
+      expect(offered.has(p.language.code)).toBe(false);
+      expect(p.records + p.needed).toBe(MIN_RECORDS_PER_LANGUAGE);
+    }
+  });
+
+  it("accounts for every language exactly once", () => {
+    // Offered plus pending must be the whole list: a language in neither would be
+    // invisible to a reader and to us.
+    const offered = offeredLanguages(coverage).length;
+    const pending = languageProgress(coverage).length;
+    expect(offered + pending).toBe(LANGUAGES.length);
+  });
+});
+
 describe("the place selector agrees with the coverage screen", () => {
   const opt = (label: string) => ({ label, count: 1, level: "country" as const });
 
