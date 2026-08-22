@@ -49,9 +49,6 @@ const STATED = [
   'no longer made',
   'no longer produced',
   'no longer prepared',
-  'last remaining',
-  'few remaining',
-  'only a handful',
   'threatened with extinction',
   'in danger of disappearing',
   'largely forgotten',
@@ -68,6 +65,12 @@ const STATED = [
  * two can be told apart, and so a reviewer can audit the softer half first.
  */
 const IMPLIED = [
+  // Counts, moved down from STATED. "Few remaining" is not decline language at all
+  // on its own: it flagged an article on wartime Japan over "the few remaining items
+  // on the bookshelf". Down here it has to be shown to be about the dish.
+  'last remaining',
+  'few remaining',
+  'only a handful',
   'increasingly rare',
   'becoming rare',
   'now rare',
@@ -84,8 +87,6 @@ const IMPLIED = [
   'once widespread',
   'no longer common',
   'no longer widely',
-  'being revived',
-  'revival of',
 ];
 
 /**
@@ -118,7 +119,75 @@ const FALSE_FRIENDS = [
   'declining sales',
   'sales declined',
   'market share',
+
+  /*
+   * A revival is the opposite of the claim the badge makes.
+   *
+   * "being revived" and "revival of" used to sit in IMPLIED, on the reasoning that
+   * something revived must first have declined. Perhaps — but the sentence is then
+   * shown to the reader as the evidence, and it said the opposite of the badge above
+   * it. Hoppy carried 🕯️ At-Risk Tradition over "it is still a staple among some Tokyo
+   * residents, and has experienced a retro revival of late"; Korean royal court cuisine
+   * over "there has been a revival of this cookery style in the 21st century"; dalgona
+   * over a sentence about a television show making it internationally popular.
+   *
+   * The shelf these records lead is headed "Traditions a source describes as
+   * declining". None of those sources does. If a tradition is both revived and still
+   * fragile, the decline has its own sentence, and that sentence is what should carry
+   * the badge.
+   */
+  'revival',
+  'revived',
+  'reviving',
+  'renewed interest',
+  'renewed popularity',
+  'regained popularity',
+  'growing popularity',
+  'rise in popularity',
+  'increasingly popular',
+
+  /*
+   * Counting premises is counting businesses, which the block above already refuses
+   * for chains and franchises. "Only a handful of restaurants still serve it" is a
+   * fact about menus; almond pressed duck was flagged on exactly that sentence.
+   */
+  'handful of restaurants',
+  'handful of shops',
+  'handful of establishments',
 ];
+
+/**
+ * Whether a sentence is talking about this dish.
+ *
+ * Generous on purpose. It matches the dish's longest word rather than its whole name,
+ * so "kippers" answers for "Kipper" and "docang" for "Docang" — an article rarely
+ * repeats a multi-word title verbatim, and demanding it would refuse most true
+ * positives. A parenthetical qualifier is dropped first: the article about
+ * "Hoppy (drink)" never writes the bracket.
+ */
+function mentions(sentence: string, subject: string): boolean {
+  const words = subject
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((w) => w.length > 3);
+
+  if (!words.length) return true;
+
+  /*
+   * Every significant word, not any one of them.
+   *
+   * "Nata de coco" was flagged on a sentence about *nata de piña* being seasonal,
+   * because "nata" was enough. Requiring "coco" too costs nothing here and is the
+   * difference between a sentence that mentions the dish and one that mentions its
+   * cousin.
+   *
+   * Prefix-tolerant on each word, since plurals and inflections are the common case —
+   * "kippers" has to answer for "Kipper" — and the four-character floor keeps that
+   * from matching everything.
+   */
+  return words.every((w) => sentence.includes(w) || sentence.includes(w.slice(0, -1)));
+}
 
 /** Split on sentence ends, keeping enough context to be readable as evidence. */
 const sentences = (text: string): string[] =>
@@ -134,7 +203,7 @@ const sentences = (text: string): string[] =>
  * Returns the first sentence that makes one. Stated language wins over implied, so
  * the strongest available evidence is what the record carries.
  */
-export function detectAtRisk(text: string): RiskFinding {
+export function detectAtRisk(text: string, subject = ''): RiskFinding {
   const none: RiskFinding = { atRisk: false, evidence: '', strength: null, matched: '' };
   if (!text || text.length < 40) return none;
 
@@ -151,6 +220,24 @@ export function detectAtRisk(text: string): RiskFinding {
       if (FALSE_FRIENDS.some((f) => lower.includes(f))) continue;
 
       const matched = phrases.find((phrase) => lower.includes(phrase));
+
+      /*
+       * Weak language has to be shown to be about *this* dish.
+       *
+       * The recurring failure was never the vocabulary, it was the subject. Bosnian
+       * pot was flagged because fireplaces are in decline; nata de coco because
+       * pineapples are seasonal; Reblochon because an Italian imitation sold in
+       * declining quantities. Each sentence really does contain decline language, and
+       * none of them is about the food the badge was attached to.
+       *
+       * Stated language is exempt. "Almost extinct", "dying out" and "no longer made"
+       * are assertions somebody wrote deliberately, and requiring them to repeat the
+       * dish's name would lose Sendango — "though once common, the knowledge to make
+       * the food product is slowly dying out" — which is exactly the record this
+       * feature exists for.
+       */
+      if (matched && strength === 'implied' && subject && !mentions(lower, subject)) continue;
+
       if (matched) {
         return {
           atRisk: true,

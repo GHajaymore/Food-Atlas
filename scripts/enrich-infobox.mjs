@@ -24,6 +24,7 @@
 
 import { readFile, writeFile } from 'node:fs/promises';
 import { requestedTitles } from './lib/mediawiki.mjs';
+import { detectAtRisk } from '../src/domain/atRisk.ts';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -252,53 +253,17 @@ function narrativeText(wikitext) {
 }
 
 /**
- * At-risk detection.
+ * At-risk detection — imported, not copied.
  *
- * These lists mirror `src/domain/atRisk.ts`, which is the source of truth for the
- * rules; a test asserts the two agree. Duplicated here only because a .mjs script
- * cannot import the TypeScript module.
+ * This file used to hold its own STATED / IMPLIED / FALSE_FRIENDS lists, kept in step
+ * with  by hand. They drifted, which is how records reached the
+ * app flagged 🕯️ At-Risk Tradition over sentences about a revival. Node strips the
+ * types, so the script now runs the same rules the app is tested against.
  */
-const RISK_STATED = [
-  'at risk of disappearing', 'risk of being lost', 'risk of dying out', 'verge of extinction',
-  'brink of extinction', 'nearly extinct', 'almost extinct', 'dying out', 'died out', 'dying tradition',
-  'endangered tradition', 'no longer made', 'no longer produced', 'no longer prepared', 'last remaining',
-  'few remaining', 'only a handful', 'threatened with extinction', 'in danger of disappearing',
-  'largely forgotten', 'nearly forgotten', 'fallen out of use',
-];
-const RISK_IMPLIED = [
-  'increasingly rare', 'becoming rare', 'now rare', 'rarely made', 'rarely prepared', 'rarely found',
-  'seldom made', 'seldom prepared', 'in decline', 'declining', 'fewer and fewer', 'fewer households',
-  'once common', 'once widespread', 'no longer common', 'no longer widely', 'being revived', 'revival of',
-];
-const RISK_FALSE_FRIENDS = [
-  'endangered species', 'endangered animal', 'endangered fish', 'critically endangered species',
-  'declining population of',
-  // A business closing is not a tradition ending.
-  'still in business', 'went out of business', 'chain', 'franchise', 'outlets', 'branches',
-  'restaurants remain', 'stores remain', 'declining sales', 'sales declined', 'market share',
-];
-
-function detectRisk(text) {
-  if (!text || text.length < 40) return null;
-  const sentences = text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/);
-
-  for (const [phrases, strength] of [
-    [RISK_STATED, 'stated'],
-    [RISK_IMPLIED, 'implied'],
-  ]) {
-    for (const sentence of sentences) {
-      const lower = sentence.toLowerCase();
-      if (RISK_FALSE_FRIENDS.some((f) => lower.includes(f))) continue;
-      if (phrases.some((p) => lower.includes(p))) {
-        return {
-          evidence: sentence.length > 300 ? `${sentence.slice(0, 297)}…` : sentence,
-          strength,
-        };
-      }
-    }
-  }
-  return null;
-}
+const detectRisk = (text, subject) => {
+  const found = detectAtRisk(text, subject);
+  return found.atRisk ? { evidence: found.evidence, strength: found.strength } : null;
+};
 
 const listFrom = (value) =>
   (value || '')
@@ -408,7 +373,9 @@ const main = async () => {
           }
 
           // Decline is described in the lead and the history, not in the recipe.
-          const risk = detectRisk(narrativeText(text));
+          // The dish name goes in, so weak decline language has to be shown to be
+          // about this food rather than about fireplaces, pineapples or a bookshelf.
+          const risk = detectRisk(narrativeText(text), row.name || '');
           patch.riskChecked = true;
           if (risk) {
             patch.atRiskEvidence = risk.evidence;

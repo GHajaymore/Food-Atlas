@@ -11,6 +11,7 @@ import { catalogue } from './catalogue';
 import { dishes } from '../src/data/seed';
 import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
 import { assess } from '../src/domain/assess';
+import { detectAtRisk } from '../src/domain/atRisk';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import {
   EDITORIAL_RULE,
@@ -440,6 +441,36 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("the at-risk flag", () => {
+  it("refuses a sentence about a revival", () => {
+    // The shelf these records lead is headed "Traditions a source describes as
+    // declining". Hoppy carried the badge over "has experienced a retro revival of
+    // late", which is the opposite claim shown as its own evidence.
+    expect(detectAtRisk("It is still a staple among some Tokyo residents, and has experienced a retro revival of late.", "Hoppy").atRisk).toBe(false);
+    expect(detectAtRisk("There has been a revival of this cookery style in the 21st century.", "Korean royal court cuisine").atRisk).toBe(false);
+  });
+
+  it("requires weak decline language to be about the dish", () => {
+    // Bosnian pot was flagged because fireplaces are in decline; nata de coco because
+    // nata de pina is seasonal. Both sentences really do contain decline language.
+    expect(detectAtRisk("Today, with the declining availability of fireplaces for cooking, many cooks use a regular pot instead.", "Bosnian pot").atRisk).toBe(false);
+    expect(detectAtRisk("The consumption of kompot has been declining since the 1980s.", "Kompot").atRisk).toBe(true);
+  });
+
+  it("lets a stated claim stand without repeating the name", () => {
+    // "Though once common, the knowledge to make the food product is slowly dying
+    // out" never says Sendango, and is exactly the record this feature exists for.
+    const found = detectAtRisk("Though once common, the knowledge to make the food product is slowly dying out.", "Sendango");
+    expect(found.atRisk).toBe(true);
+    expect(found.strength).toBe("stated");
+  });
+
+  it("keeps the sentence that produced the flag", () => {
+    const found = detectAtRisk("In 2009, Balichao is described as an almost extinct condiment, as people look elsewhere.", "Balichao");
+    expect(found.evidence).toMatch(/almost extinct/);
   });
 });
 
