@@ -51,7 +51,7 @@ export const dishById = (id: number | null | undefined): Dish | undefined =>
  */
 const BASE = process.env.EXPO_PUBLIC_DATA_URL ?? '';
 
-const SOURCES = ['catalogue', 'cuisines', 'cookbook', 'unesco'] as const;
+const SOURCES = ['catalogue', 'cuisines', 'cookbook', 'unesco', 'gi'] as const;
 
 let pending: Promise<void> | null = null;
 
@@ -64,7 +64,7 @@ let pending: Promise<void> | null = null;
  */
 export function loadCatalogue(): Promise<void> {
   pending ??= (async () => {
-    const [imported, cuisines, cookbook, unesco] = await Promise.all(
+    const [imported, cuisines, cookbook, unesco, gi] = await Promise.all(
       SOURCES.map(async (name) => {
         const response = await fetch(`${BASE}/data/${name}.json`);
         if (!response.ok) throw new Error(`Could not load ${name}.json (${response.status}).`);
@@ -72,7 +72,7 @@ export function loadCatalogue(): Promise<void> {
       }),
     );
 
-    const built = buildCatalogue(imported, cuisines, cookbook, unesco);
+    const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi);
     catalogue = built.catalogue;
     catalogueStats = built.stats;
     languageCoverage = coverageOf(catalogue);

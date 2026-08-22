@@ -40,6 +40,7 @@ const sources = {
   cuisines: read('cuisines'),
   cookbook: read('cookbook'),
   unesco: read('unesco'),
+  gi: read('gi'),
 };
 
 const { catalogue } = buildCatalogue(
@@ -47,6 +48,7 @@ const { catalogue } = buildCatalogue(
   sources.cuisines,
   sources.cookbook,
   sources.unesco,
+  sources.gi,
 );
 
 const filled = (value: unknown) => {
@@ -119,6 +121,16 @@ const PLUMBING: { field: string; shows: string; reaches: (d: Dish) => boolean }[
     field: 'patRegion',
     shows: 'the register credited as a source',
     reaches: (d) => d.sources.some((s) => s.title.startsWith('Prodotti Agroalimentari')),
+  },
+  {
+    field: 'heritage',
+    shows: 'the protected designation, credited to the register that holds it',
+    reaches: (d) => d.sources.some((s) => s.title.startsWith('EU register of geographical indications')),
+  },
+  {
+    field: 'designation',
+    shows: 'a record for a protected name the atlas did not already hold',
+    reaches: (d) => d.sources.some((s) => /eAmbrosia/.test(s.publisher)),
   },
   {
     field: 'originClaims',
@@ -235,6 +247,12 @@ describe('what the scripts write reaches the reader', () => {
     const STRUCTURAL = new Set([
       'id', 'qid', 'name', 'title', 'country', 'countries', 'region', 'continent',
       'url', 'blurb', 'credit', 'course', 'list', 'reference', 'patAttribution',
+      // The GI register's own columns. `designation` is the one the reader meets and
+      // is asserted above; these are the apparatus around it — the licence credit, the
+      // file reference, the class, the date, and the register's other lawful spellings
+      // of the same protected name.
+      'giReference', 'giAttribution', 'attribution', 'designationCode', 'category',
+      'registered', 'alsoKnownAs',
     ]);
 
     const declared = new Set([...PLUMBING.map((p) => p.field), ...BOOKKEEPING, ...STRUCTURAL, ...PHOTO_PROVENANCE]);

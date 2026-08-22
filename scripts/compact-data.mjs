@@ -30,6 +30,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DATA = (name) => resolve(HERE, `../src/data/${name}.json`);
+const PUBLIC = (name) => resolve(HERE, `../public/data/${name}.json`);
 
 /**
  * What `catalogue.ts` reads out of each source.
@@ -45,6 +46,7 @@ const KEEP = {
     'photo', 'credit', 'licence', 'leadFile',
     'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
     'atRiskEvidence', 'originClaims',
+    'heritage', 'giReference', 'giAttribution',
   ],
   cookbook: [
     'title', 'name', 'ingredients', 'steps', 'url', 'country', 'region',
@@ -56,8 +58,13 @@ const KEEP = {
     'ingredients', 'prepSummary', 'course', 'equipment',
     'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
     'patRegion', 'patAttribution', 'atRiskEvidence', 'originClaims',
+    'heritage', 'giReference', 'giAttribution',
   ],
   unesco: ['reference', 'name', 'countries', 'country', 'list', 'url', 'photo', 'credit', 'licence'],
+  gi: [
+    'reference', 'name', 'alsoKnownAs', 'country',
+    'designation', 'designationCode', 'category', 'registered', 'url', 'attribution',
+  ],
 };
 
 /**
@@ -109,7 +116,20 @@ const main = async () => {
     before += from;
     after += to;
 
-    if (!dry) await writeFile(DATA(`${name}.min`), JSON.stringify(compact), 'utf8');
+    /*
+     * Written to both places, because there is no third step.
+     *
+     * `src/data/*.min.json` is the compaction's output and `public/data/*.json` is
+     * what the app actually fetches, and until now the second was produced by copying
+     * the first by hand. A hand copy that is skipped leaves the app serving the
+     * previous run's data while every file on disk says the pass succeeded — the
+     * quietest kind of wrong. One write each, same bytes, no step to remember.
+     */
+    if (!dry) {
+      const json = JSON.stringify(compact);
+      await writeFile(DATA(`${name}.min`), json, 'utf8');
+      await writeFile(PUBLIC(name), json, 'utf8');
+    }
     process.stdout.write(
       `${name.padEnd(11)} ${(from / 1048576).toFixed(1)} MB -> ${(to / 1048576).toFixed(1)} MB` +
         `  (${Math.round((1 - to / from) * 100)}% smaller)\n`,

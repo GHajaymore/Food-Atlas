@@ -211,7 +211,27 @@ function haystackFor(dish: Dish): string {
   const cached = haystacks.get(dish);
   if (cached !== undefined) return cached;
 
-  const built = [dish.name, dish.category, ...Object.values(dish.loc), ...dish.ingredients, ...dish.equipment]
+  /*
+   * The dish's name in every language we hold it in, not only the one on the card.
+   *
+   * An atlas that shows a record in thirty-four languages and can only be searched in
+   * the one it happens to be filed under is asking the reader to know the English for
+   * a food they know perfectly well by another name. `localNames` is already loaded
+   * and already displayed; leaving it out of the haystack was the gap.
+   *
+   * It matters most for the records that need it most. The EU register writes a
+   * protected name in its own script — 龙井茶, ម្រេចកំពត, ข้าวหอมมะลิทุ่งกุลาร้องไห้ —
+   * and keeps the romanisation as an alternate. All 237 of those were unreachable by
+   * anything a reader was likely to type.
+   */
+  const built = [
+    dish.name,
+    ...Object.values(dish.localNames ?? {}),
+    dish.category,
+    ...Object.values(dish.loc),
+    ...dish.ingredients,
+    ...dish.equipment,
+  ]
     .filter(Boolean)
     .join(' ')
     .toLowerCase();

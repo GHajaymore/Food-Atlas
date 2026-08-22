@@ -18,7 +18,13 @@ import { buildCatalogue } from '../src/data/build';
 const read = (name: string) =>
   JSON.parse(readFileSync(resolve(__dirname, `../public/data/${name}.json`), 'utf8')) as unknown[];
 
-const built = buildCatalogue(read('catalogue'), read('cuisines'), read('cookbook'), read('unesco'));
+const built = buildCatalogue(
+  read('catalogue'),
+  read('cuisines'),
+  read('cookbook'),
+  read('unesco'),
+  read('gi'),
+);
 
 export const catalogue = built.catalogue;
 export const catalogueStats = built.stats;

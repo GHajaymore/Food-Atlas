@@ -226,6 +226,14 @@ interface ImportedRow extends PhotoRow {
   /** Set by scripts/ingest-pat-register.mjs when a regional register supplied the account. */
   patRegion?: string;
   patAttribution?: string;
+  /**
+   * Set by `scripts/ingest-eu-gi-register.mjs` when the EU register holds a protected
+   * designation under this name. `giAttribution` is not decoration: CC BY 4.0 is the
+   * licence the register is published under, and crediting it is a condition of use.
+   */
+  heritage?: string[];
+  giReference?: string;
+  giAttribution?: string;
   equipment?: string;
   sourceLanguage?: string;
 }
@@ -336,7 +344,10 @@ function expand(row: ImportedRow): Dish {
     hasCountry: !!country,
     hasRegion: !!row.region,
     ingredients,
-    heritage: row.evidence?.heritage ?? [],
+    // Two passes write heritage and neither knows about the other: `evidence` is what
+    // the Wikidata read found, `heritage` is what the EU register matched onto this
+    // row by name. A record may legitimately hold both.
+    heritage: [...(row.evidence?.heritage ?? []), ...(row.heritage ?? [])],
     // Having read the article is itself the evidence that one exists.
     hasArticle: row.evidence?.hasArticle ?? Boolean(row.infobox && row.url),
     extractLength: row.evidence?.extractLength ?? prepSummary.length,
@@ -421,11 +432,41 @@ function expand(row: ImportedRow): Dish {
             },
           ]
         : []),
+      ...giSource(row),
     ],
     disclaimer: assessment.disclaimer,
     originClaims: originClaimsFrom(row.originClaims, row.url),
     sourceLanguage: row.sourceLanguage ?? 'en',
   };
+}
+
+/**
+ * The EU register, credited on any record it gave a designation to.
+ *
+ * Attribution is the condition eAmbrosia is published under — CC BY 4.0, by
+ * Commission Decision 2011/833/EU — so this is not a courtesy and is not optional.
+ * The file reference is carried in the note because the register's own detail pages
+ * are a single-page app with no linkable address per entry: quoting "PDO-FR-A0994"
+ * is what actually lets a reader find the entry again.
+ *
+ * The designation is stated in words and never as a logo. The PDO and PGI marks are
+ * EU trade marks with their own rules about who may display them, and a record here
+ * is not entitled to wear one.
+ */
+function giSource(row: { heritage?: string[]; giReference?: string; giAttribution?: string }) {
+  if (!row.heritage?.length) return [];
+
+  return [
+    {
+      title: `EU register of geographical indications${row.giReference ? ` — ${row.giReference}` : ''}`,
+      publisher: row.giAttribution ?? 'European Commission — eAmbrosia',
+      url: 'https://ec.europa.eu/agriculture/eambrosia/geographical-indications-register/',
+      note:
+        'The protected name is registered against a published specification, which ties it to its place ' +
+        'in law. The register records the designation, not the method — nobody here has written down how ' +
+        'it is made.',
+    },
+  ];
 }
 
 /**
@@ -469,6 +510,10 @@ interface CuisineRow extends PhotoRow {
   /** Other Wikipedia editions this dish has an article in, and its name in each. */
   langs?: string[];
   langNames?: Record<string, string>;
+  /** From `scripts/ingest-eu-gi-register.mjs` — see the note on `ImportedRow`. */
+  heritage?: string[];
+  giReference?: string;
+  giAttribution?: string;
   title: string;
   name: string;
   country: string;
@@ -594,6 +639,7 @@ export function buildCatalogue(
   rawCuisines: unknown[],
   rawCookbook: unknown[],
   rawUnesco: unknown[],
+  rawGi: unknown[] = [],
 ): { catalogue: Dish[]; stats: CatalogueStats } {
 /**
  * Cookbook recipes carry a method but no place, so they cannot stand as atlas
@@ -686,7 +732,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       hasCountry: true,
       hasRegion: !!region,
       ingredients,
-      heritage: [],
+      // From `ingest-eu-gi-register.mjs`. A cuisine-tree record can hold a protected
+      // designation as readily as a Wikidata one — Époisses arrived by this route.
+      heritage: row.heritage ?? [],
       hasArticle: true,
       // A described preparation is more of the article than a bare stub, and the
       // assessment reads length as a proxy for how much is actually documented.
@@ -753,6 +801,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
             ? 'The preparation below is quoted from this article, not from someone cooking it in the place.'
             : 'Found in this cuisine’s category. Place and name only — no preparation is claimed.',
         },
+        ...giSource(row),
       ],
       disclaimer: assessment.disclaimer,
       // The article this record's account came from, which is often not the English
@@ -1008,6 +1057,118 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
 });
 
 /**
+ * A protected name from the EU register that this atlas did not already hold.
+ *
+ * 1,519 of them, written by `scripts/ingest-eu-gi-register.mjs`. Their value is not
+ * that they are numerous — it is where they are. 98 are Chinese, and the rest of the
+ * non-EU entries come from Cambodia, Cameroon, Niger, Sri Lanka, Viet Nam, Thailand,
+ * Mongolia, Indonesia and São Tomé and Príncipe. Those are the places the
+ * encyclopaedia sources serve worst, and a register does not require anybody to have
+ * written an article first.
+ */
+interface GiRow {
+  reference: string;
+  name: string;
+  alsoKnownAs?: string[];
+  country: string;
+  designation: string;
+  designationCode: string;
+  category: string;
+  registered: string;
+  url: string;
+  attribution: string;
+}
+
+const fromGiRegister: Dish[] = (rawGi as GiRow[])
+  .filter((row) => isFood(cleanName(row.name)))
+  .map((row, index) => {
+    const country = canonicalCountry(row.country);
+    const heritage = [`${row.designation}, European Union register`];
+
+    /*
+     * Scored by the same model as everything else, rather than given a badge.
+     *
+     * It would be easy to write "🟢 Authentic" here on the grounds that a PDO is a
+     * legal guarantee of origin, and it would be wrong: the designation says where a
+     * name belongs, not that anybody has recorded how the thing is made. `assess`
+     * already knows the difference — a heritage designation with no ingredients and
+     * no account does not reach the top badge — so asking it is both more honest and
+     * one fewer place for the rules to drift apart.
+     */
+    const assessment = assess({
+      hasCountry: !!country,
+      hasRegion: false,
+      ingredients: [],
+      heritage,
+      hasArticle: false,
+      extractLength: 0,
+      hasAccount: false,
+    });
+
+    return {
+      id: 700_000 + index,
+      name: cleanName(row.name),
+      category: 'Unclassified',
+      cuisine: '',
+      diet: {
+        group: 'unclassified' as const,
+        kinds: [],
+        contains: [],
+        basis: 'A register entry protects a name, and states no dietary classification.',
+      },
+      meals: { occasions: [], note: '' },
+      loc: { country, region: '', province: '', city: '', village: '' },
+      breadcrumb: [country].filter(Boolean),
+
+      badgeLevel: assessment.level,
+      badgeIcon: assessment.badgeIcon,
+      badgeLabel: assessment.badgeLabel,
+      badgeLabelFull: assessment.badgeLabelFull,
+      traditionalBadge: false,
+      atRisk: false,
+
+      blurb: row.category
+        ? `${row.designationCode || row.designation} of ${country}. ${row.category.replace(/^Class [\d.]+\.?\s*/, '')}.`
+        : `${row.designationCode || row.designation} of ${country}.`,
+
+      photo: '',
+      credit: '',
+      creditHref: '',
+      photoOrigin: 'No photograph has been found for this record.',
+      photoVerified: false,
+
+      score: assessment.score,
+      breakdown: assessment.breakdown,
+      views: '',
+
+      prepSummary: '',
+      ingredients: [],
+      equipment: [],
+      steps: [],
+      adaptation: null,
+      popular: null,
+      videos: [],
+
+      // The register's own alternative spellings, which are lawful names for the same
+      // product rather than translations — "Cantal / Fourme de Cantal".
+      localNames: Object.fromEntries((row.alsoKnownAs ?? []).map((n, i) => [`alt${i}`, n])),
+
+      sources: [
+        {
+          title: `${row.name}${row.reference ? ` — ${row.reference}` : ''}`,
+          publisher: row.attribution,
+          url: row.url,
+          note:
+            `Registered as a ${row.designation}${row.registered ? ` on ${row.registered}` : ''}. ` +
+            'The register protects the name against a published specification; it does not record a method.',
+        },
+      ],
+      disclaimer: assessment.disclaimer,
+      sourceLanguage: 'en',
+    } satisfies Dish;
+  });
+
+/**
  * Reconcile Cookbook methods onto records that have none.
  *
  * The method arrives as `popular` — the most-published version — rather than as the
@@ -1094,6 +1255,11 @@ const validImported = [...fromCuisines, ...imported]
   // UNESCO records lead the imported tier: they are the only ones carrying evidence
   // strong enough to be classified, so they should be the first thing a reader meets.
   .concat(fromUnesco)
+  // Register entries come last. They carry provenance and nothing else, so a reader
+  // scanning a list should meet the documented records before the bare protected
+  // names — and the duplicate guard runs against everything already assembled, since
+  // a protected name the atlas holds under a different source is not a second food.
+  .concat(fromGiRegister.filter((d) => !alreadyPresent.has(key(d.name, d.loc.country))))
   .filter((dish) => findViolations(dish).length === 0);
 
   /** Everything the app can show. Curated records first, so they lead every list. */

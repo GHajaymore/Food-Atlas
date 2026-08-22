@@ -326,7 +326,23 @@ export function buildShelves(dishes: Dish[], perShelf = 12, turn = today()): She
         : railOrder(available, perShelf * POOL_RAILS);
       const rail = rotate(pool, perShelf, turn + index);
 
-      for (const dish of rail) {
+      /*
+       * A shelf claims its whole pool, not the twelve records it is showing today.
+       *
+       * Claiming only the rail made every later shelf's pool depend on what the
+       * earlier ones happened to be showing *that day*, and that quantity drifts as
+       * they rotate: on one run the shelves above the cookable rail took 4 of its
+       * records on day 0, 3 on day 1 and 2 on day 2. So its pool slid forward by one
+       * record a day — which is exactly what the rotation was adding — and the two
+       * cancelled. The rail sat frozen for three days at a time while every part of
+       * the machinery looked correct, which is the kind of fault nobody finds without
+       * looking at the front page two days running.
+       *
+       * Reserving the pool makes what a shelf leaves behind the same on every day, so
+       * the rotation is the only thing that moves. It costs the shelves below a few
+       * dozen candidates out of thousands, and buys a front page that turns.
+       */
+      for (const dish of pool) {
         shown.add(dish.id);
         if (dish.photo) shownPhotos.add(dish.photo);
       }
