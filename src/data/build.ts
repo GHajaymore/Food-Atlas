@@ -28,6 +28,7 @@ import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
 import { isPhotograph, photoOriginLine, tidyCredit, type PhotoSource } from '../domain/photoProvenance';
 import { placeBelow } from '../domain/place';
+import { decodeEntities } from '../domain/text';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
 import { dishes as curated } from './seed';
@@ -106,7 +107,9 @@ const closeBracket = (name: string): string => {
 };
 
 const cleanName = (name: string): string =>
-  sentenceCase(closeBracket(name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim()));
+  sentenceCase(
+    closeBracket(decodeEntities(name).replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim()),
+  );
 
 /**
  * The line under a dish's name, as a line rather than as a database field.
@@ -146,18 +149,33 @@ const LEADING_IMAGE_PARAM =
 const LOST_SUBJECT = /^(is|are|was|were|refers to|consists of)\b/;
 
 const cleanProse = (text: string, name: string): string => {
-  const prose = text.replace(LEADING_IMAGE_PARAM, '').replace(/\s+/g, ' ').trim();
+  const prose = decodeEntities(text).replace(LEADING_IMAGE_PARAM, '').replace(/\s+/g, ' ').trim();
   if (!prose) return '';
   return LOST_SUBJECT.test(prose) ? `${name.trim()} ${prose}` : prose;
 };
 
 const cleanBlurb = (blurb: string, name: string): string => {
-  const text = blurb.replace(/\s+/g, ' ').trim().replace(/[,;:]$/, '');
+  const text = decodeEntities(blurb).replace(/\s+/g, ' ').trim().replace(/[,;:]$/, '');
   if (!text) return '';
   if (text.toLowerCase() === name.trim().toLowerCase()) return '';
   if (GENERIC_BLURB.test(text)) return '';
   return sentenceCase(text);
 };
+
+/**
+ * The lines of an ingredient list or a method, made readable.
+ *
+ * 320 of them arrive holding HTML entities, and in this field that is not a
+ * blemish — it is the measurement. A reader met `&frac34; pounds (330 g) peeled
+ * cooking apples`, `1 large (2.5&nbsp;kg / 5 lb) fresh cabbage`, and oven
+ * temperatures written `180&deg;C`. The quantity is the whole point of the line, so
+ * an unreadable one is worse here than anywhere else on the record.
+ *
+ * Empty lines are dropped at the same time. They come from the same source markup
+ * and render as a bullet with nothing beside it.
+ */
+const cleanLines = (lines: string[] | undefined): string[] =>
+  (lines ?? []).map((line) => decodeEntities(line).replace(/\s+/g, ' ').trim()).filter(Boolean);
 
 /** The photograph fields an enrichment pass may have written onto a source row. */
 interface PhotoRow {
@@ -305,7 +323,9 @@ function expand(row: ImportedRow): Dish {
   // The infobox pass reads the article itself; `evidence` holds what Wikidata
   // claimed. Either counts, and a record enriched by the newer pass is not made to
   // look unassessed because it arrived by the other route.
-  const ingredients = row.ingredients?.length ? row.ingredients : (row.evidence?.ingredients ?? []);
+  const ingredients = cleanLines(
+    row.ingredients?.length ? row.ingredients : (row.evidence?.ingredients ?? []),
+  );
   const prepSummary = cleanProse(row.prepSummary ?? '', name);
 
   // Classification is earned from the evidence gathered by the enrichment pass, not
@@ -367,7 +387,7 @@ function expand(row: ImportedRow): Dish {
     ingredients,
     // The register lists the equipment a product is made with, which no other
     // source here does. Kept as one line because that is how it is published.
-    equipment: row.equipment ? [row.equipment] : [],
+    equipment: cleanLines(row.equipment ? [row.equipment] : []),
     steps: [],
     adaptation: null,
     popular: null,
@@ -643,7 +663,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     const breadcrumb = [country, region].filter(Boolean);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
-    const ingredients = row.ingredients ?? [];
+    const ingredients = cleanLines(row.ingredients);
     const prepSummary = cleanProse(row.prepSummary ?? '', name);
     /**
      * Decline is stated in an article's opening and its history, not in its recipe.
@@ -801,9 +821,9 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     views: '',
 
     prepSummary: `Published method, ${row.steps.length} steps.`,
-    ingredients: row.ingredients ?? [],
+    ingredients: cleanLines(row.ingredients),
     equipment: [],
-    steps: row.steps,
+    steps: cleanLines(row.steps),
     adaptation: null,
     popular: null,
     videos: [],

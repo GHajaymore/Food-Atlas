@@ -28,6 +28,8 @@
  * picture came from, which is a different and smaller claim than saying it is right.
  */
 
+import { decodeEntities } from './text';
+
 /** How a photograph came to be on a record. */
 export type PhotoSource =
   /** The image property of the dish's own Wikidata item. */
@@ -83,16 +85,6 @@ export const wasChosenForThisSubject = (source: PhotoSource): boolean =>
  * which is ugly and is what the photographer asked for. Seventeen are nothing but a
  * URL, which is all Commons holds for them. Neither is ours to edit down.
  */
-const ENTITIES: Record<string, string> = {
-  '&amp;': '&',
-  '&quot;': '"',
-  '&#39;': "'",
-  '&apos;': "'",
-  '&lt;': '<',
-  '&gt;': '>',
-  '&nbsp;': ' ',
-};
-
 /** "No machine-readable author provided. X assumed (based on copyright claims)." */
 const COMMONS_BOILERPLATE =
   /^no machine-readable author provided\.\s*(.+?)\s*assumed\s*\(based on copyright claims\)\.?$/i;
@@ -120,8 +112,7 @@ export function tidyCredit(raw: string): string {
   const original = (raw ?? '').trim();
   if (!original) return '';
 
-  let credit = original;
-  for (const [entity, char] of Object.entries(ENTITIES)) credit = credit.split(entity).join(char);
+  let credit = decodeEntities(original);
 
   const boilerplate = COMMONS_BOILERPLATE.exec(credit);
   if (boilerplate?.[1]) credit = boilerplate[1];

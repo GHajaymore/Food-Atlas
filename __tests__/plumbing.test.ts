@@ -317,3 +317,48 @@ describe('a record never contradicts what it is showing', () => {
     }
   });
 });
+
+describe('what the reader is shown, as text', () => {
+  /**
+   * Every string on a record that ends up in front of somebody, paired with the field
+   * name so a failure says where to look. Deliberately not the URLs: an `&amp;` inside
+   * a query string is part of the address, and "fixing" it would break the link.
+   */
+  const readable = (d: (typeof catalogue)[number]): [string, string][] => [
+    ['name', d.name],
+    ['blurb', d.blurb ?? ''],
+    ['prepSummary', d.prepSummary],
+    ...d.ingredients.map((v, i): [string, string] => [`ingredients[${i}]`, v]),
+    ...d.steps.map((v, i): [string, string] => [`steps[${i}]`, v]),
+    ...d.equipment.map((v, i): [string, string] => [`equipment[${i}]`, v]),
+    ['credit', d.credit],
+    ['photoOrigin', d.photoOrigin],
+  ];
+
+  it('never prints an HTML entity where a character belongs', () => {
+    /*
+     * `&frac12;` and `&deg;` reached 320 ingredient and method lines, which is the
+     * worst field for it: the entity *is* the quantity. A cook read "&frac34; pounds
+     * of apples" and "180&deg;C".
+     *
+     * The pattern deliberately matches the shape of an entity rather than a list of
+     * them, so an entity nobody has seen yet fails here rather than shipping.
+     */
+    const ENTITY = /&(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]{1,9});/i;
+
+    const found = catalogue.flatMap((d) =>
+      readable(d)
+        .filter(([, value]) => ENTITY.test(value))
+        .map(([field, value]) => `${d.name} · ${field}: ${value.slice(0, 70)}`),
+    );
+
+    expect(found).toEqual([]);
+  });
+
+  it('never shows a bullet with nothing beside it', () => {
+    const blank = catalogue.flatMap((d) =>
+      [...d.ingredients, ...d.steps, ...d.equipment].some((line) => !line.trim()) ? [d.name] : [],
+    );
+    expect(blank).toEqual([]);
+  });
+});
