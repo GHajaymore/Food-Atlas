@@ -157,6 +157,20 @@ describe('what the scripts write reaches the reader', () => {
     });
   });
 
+  it("ships no image a browser would refuse to load", () => {
+    // Wikidata returns its image property over plain http, so 3,055 photographs were
+    // stored as http:// while every other source stored https. It works on the dev
+    // server, which is itself http. Served over https -- every real deployment -- a
+    // browser blocks an http image as mixed content and renders nothing, so thirty
+    // per cent of the atlas would have been blank in production and fine in every
+    // check made here.
+    const insecure = catalogue.filter((d) => d.photo.startsWith("http://"));
+    expect(insecure.map((d) => d.name).slice(0, 5)).toEqual([]);
+
+    // The credit link goes to the same file, and would be flagged the same way.
+    expect(catalogue.filter((d) => d.creditHref.startsWith("http://")).length).toBe(0);
+  });
+
   it("tells the reader where a photograph actually came from", () => {
     // Every imported record used to say "Matched by name on Wikimedia Commons — the
     // subject is not confirmed". True of about three thousand photographs, false for

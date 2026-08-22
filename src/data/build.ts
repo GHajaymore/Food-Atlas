@@ -151,6 +151,22 @@ function viewsLabel(views: number | undefined): string {
 }
 
 /**
+ * Force an image URL to https.
+ *
+ * Wikidata returns its image property over plain http, so all 3,055 photographs from
+ * that source were stored as `http://commons.wikimedia.org/…` while every other source
+ * stored https. It works perfectly on the dev server, which is itself http. Served
+ * over https — which is every real deployment — a browser blocks an http image as
+ * mixed content and renders nothing, so **thirty per cent of the atlas's photographs
+ * would have been invisible in production and fine in every check made here.**
+ *
+ * Applied at the build rather than fixed once in the data, because the next Wikidata
+ * ingest would put them straight back. Commons serves the same files over https, so
+ * the rewrite costs nothing and loses nothing.
+ */
+const secure = (url: string): string => url.replace(/^http:\/\//i, 'https://');
+
+/**
  * The photograph fields for an imported record.
  *
  * The line under the picture says where it came from, and the four sources are not
@@ -182,9 +198,9 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
 
   const artist = row.credit?.trim() || 'Wikimedia Commons';
   return {
-    photo: row.photo,
+    photo: secure(row.photo),
     credit: row.licence ? `${artist} · ${row.licence}` : artist,
-    creditHref: row.photo,
+    creditHref: secure(row.photo),
     photoOrigin: photoOriginLine(source),
     // False for every source, deliberately. Knowing a picture was attached to the
     // right subject is not knowing it shows the dish as made in the place.
