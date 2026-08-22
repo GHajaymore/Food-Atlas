@@ -83,8 +83,30 @@ const FOOD_DISAMBIGUATOR =
 const sentenceCase = (name: string): string =>
   /^\p{Ll}/u.test(name) ? name[0].toUpperCase() + name.slice(1) : name;
 
+/**
+ * Close a bracket the source left open.
+ *
+ * Seven Italian register entries reach us as "Coppa (viterbese PAT", "Lardo (di
+ * Leonessa PAT", "Salsiccia al coriandolo di Monte San Biagio (fresca PAT". The labels
+ * are malformed **at Wikidata** — checked against the live API rather than assumed —
+ * where a bulk import appended " PAT" and lost the closing bracket. Stripping the
+ * suffix then leaves "Coppa (viterbese" on the card.
+ *
+ * Closing it is the smaller repair. The alternative is dropping the parenthetical,
+ * which would turn seven distinct registered products into "Coppa", "Lardo" and
+ * "Prosciutto" — the qualifier is the part that says *which* one.
+ *
+ * Deliberately narrow: exactly one unmatched opener, and not a name that ends on the
+ * bracket, so nothing is invented where the source merely used a bracket oddly.
+ */
+const closeBracket = (name: string): string => {
+  const opens = (name.match(/\(/g) ?? []).length;
+  const closes = (name.match(/\)/g) ?? []).length;
+  return opens === closes + 1 && !name.endsWith('(') ? `${name})` : name;
+};
+
 const cleanName = (name: string): string =>
-  sentenceCase(name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim());
+  sentenceCase(closeBracket(name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim()));
 
 /** The photograph fields an enrichment pass may have written onto a source row. */
 interface PhotoRow {

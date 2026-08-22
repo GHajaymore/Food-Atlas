@@ -157,6 +157,18 @@ describe('what the scripts write reaches the reader', () => {
     });
   });
 
+  it("ships no name with a bracket left open", () => {
+    // Seven Italian register labels are malformed at Wikidata itself -- a bulk import
+    // appended " PAT" and lost the closing bracket -- so stripping the suffix left
+    // "Coppa (viterbese" on the card.
+    const unbalanced = catalogue.filter((d) => {
+      const opens = (d.name.match(/[(]/g) ?? []).length;
+      const closes = (d.name.match(/[)]/g) ?? []).length;
+      return opens !== closes;
+    });
+    expect(unbalanced.map((d) => d.name).slice(0, 5)).toEqual([]);
+  });
+
   it("ships no image a browser would refuse to load", () => {
     // Wikidata returns its image property over plain http, so 3,055 photographs were
     // stored as http:// while every other source stored https. It works on the dev
