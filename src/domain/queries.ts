@@ -328,3 +328,24 @@ export function narrowingSummary(
   if (parts.length === 1) return `Nothing recorded as ${parts[0]}`;
   return `Nothing recorded as ${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
 }
+
+/**
+ * What the place selector promises, counted the way the atlas counts.
+ *
+ * The feed said "Choose a country · 194 recorded" while the coverage screen said
+ * "156 countries", from the same catalogue on the same load. Both numbers were right
+ * and they were counting different things: the picker offers every origin a record
+ * carries, and 38 of those are not countries — Levant, Mesoamerica, the Ottoman
+ * Empire. A reader who noticed both would have no way to tell which was wrong.
+ *
+ * So the line names the two. The broader origins stay in the picker, because a dish
+ * recorded as Ottoman has to remain reachable, and each is labelled there for what it
+ * is — this sentence is the same admission, one screen earlier.
+ */
+export function placeChoiceHint(options: PlaceOption[]): string {
+  const countries = options.filter((o) => isCountry(o.label)).length;
+  const broader = options.length - countries;
+
+  if (!broader) return `Choose a country · ${countries} recorded`;
+  return `Choose a country · ${countries} recorded, and ${broader} broader origins`;
+}

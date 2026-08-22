@@ -70,6 +70,7 @@ import {
   feedFor,
   mostPopular,
   narrowingSummary,
+  placeChoiceHint,
   nextLevel,
   placeGroups,
   searchResults,
@@ -442,6 +443,31 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("the place selector agrees with the coverage screen", () => {
+  const opt = (label: string) => ({ label, count: 1, level: "country" as const });
+
+  it("counts countries as countries, and names the rest", () => {
+    // The feed said "Choose a country - 194 recorded" while the coverage screen said
+    // "156 countries", from the same catalogue on the same load. Both were right and
+    // counting different things; a reader who noticed both could not tell which was
+    // wrong.
+    expect(placeChoiceHint([opt("France"), opt("Japan"), opt("Levant"), opt("Ottoman Empire")])).toBe(
+      "Choose a country · 2 recorded, and 2 broader origins",
+    );
+  });
+
+  it("says nothing about broader origins when there are none", () => {
+    expect(placeChoiceHint([opt("France"), opt("Japan")])).toBe("Choose a country · 2 recorded");
+  });
+
+  it("adds up to what the picker will actually list", () => {
+    const options = [opt("France"), opt("Levant"), opt("Japan"), opt("Mesoamerica"), opt("Peru")];
+    const hint = placeChoiceHint(options);
+    const numbers = (hint.match(/[0-9]+/g) ?? []).map(Number);
+    expect(numbers.reduce((a, b) => a + b, 0)).toBe(options.length);
   });
 });
 

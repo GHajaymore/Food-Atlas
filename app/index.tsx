@@ -28,7 +28,7 @@ import { catalogue as dishes } from '../src/data/catalogue';
 import { FILTERS, filterDef } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
-import { feedFor, mostPopular, narrowingSummary, nextLevel } from '../src/domain/queries';
+import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
 import { settings, useApp } from '../src/state/store';
 
@@ -94,7 +94,7 @@ export default function Feed() {
   const placeHint = next
     ? path.length
       ? `Narrow to a ${next.label} · ${next.options.length} recorded`
-      : `Choose a country · ${next.options.length} recorded`
+      : placeChoiceHint(next.options)
     : 'Deepest level recorded here';
 
   // Says what the list is, in the reader's own terms: the shelf they opened, or the
