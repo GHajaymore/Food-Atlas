@@ -26,7 +26,7 @@ import { canonicalCountry } from '../domain/countryNames';
 import { dishFromInscription } from '../domain/inscription';
 import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
-import { photoOriginLine, type PhotoSource } from '../domain/photoProvenance';
+import { photoOriginLine, tidyCredit, type PhotoSource } from '../domain/photoProvenance';
 import { placeBelow } from '../domain/place';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
@@ -196,7 +196,9 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
     };
   }
 
-  const artist = row.credit?.trim() || 'Wikimedia Commons';
+  // Tidied for presentation, never shortened or dropped: attribution is a condition
+  // of these licences, not a courtesy.
+  const artist = tidyCredit(row.credit ?? '') || 'Wikimedia Commons';
   return {
     photo: secure(row.photo),
     credit: row.licence ? `${artist} · ${row.licence}` : artist,

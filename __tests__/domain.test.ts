@@ -41,6 +41,7 @@ import {
 import { continentOf, isCountry, isHistoricalState, placeKind } from '../src/domain/continents';
 import { confirmAsk, contestedNote } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
+import { tidyCredit } from '../src/domain/photoProvenance';
 import { notAPlaceBelow } from '../src/domain/place';
 import {
   considerSource,
@@ -441,6 +442,38 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("the photographer’s credit", () => {
+  it("takes the name out of Commons boilerplate", () => {
+    // 61 records credited a photographer as "No machine-readable author provided.
+    // X assumed (based on copyright claims)" -- apparatus wrapped around a username.
+    expect(tidyCredit("No machine-readable author provided. J.P.Lon~commonswiki assumed (based on copyright claims).")).toBe("J.P.Lon~commonswiki");
+  });
+
+  it("decodes entities a reader would otherwise see spelled out", () => {
+    expect(tidyCredit("Canadian National Collections &amp; Zhaofu Yang")).toBe("Canadian National Collections & Zhaofu Yang");
+  });
+
+  it("removes wiki-link residue without removing the words", () => {
+    expect(tidyCredit("Raveesh Vyas from [Ahmedabad, Noida], India")).toBe("Raveesh Vyas from Ahmedabad, Noida, India");
+  });
+
+  it("never empties an attribution", () => {
+    // Attribution is a condition of these licences. An ugly credit is a licence met;
+    // a missing one is not, so a tidy-up that would blank it keeps the original.
+    expect(tidyCredit("[]")).toBe("[]");
+    expect(tidyCredit("Mx. Granger")).toBe("Mx. Granger");
+  });
+
+  it("leaves a bare URL and a long credit exactly as given", () => {
+    // All Commons holds for some photographers, and what others asked for. Neither
+    // is ours to edit down.
+    const url = "https://publicdomainq.net/miso-0018849/";
+    expect(tidyCredit(url)).toBe(url);
+    const long = "Leela Ram (Almora Lakhori Mirchi grower) from Amel village of Betalghat tehsil, Nainital district";
+    expect(tidyCredit(long)).toBe(long);
   });
 });
 

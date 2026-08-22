@@ -59,3 +59,65 @@ export const photoOriginLine = (source: PhotoSource): string => LINES[source];
  */
 export const wasChosenForThisSubject = (source: PhotoSource): boolean =>
   source === 'wikidata' || source === 'article' || source === 'recipe';
+
+/**
+ * The photographer's name, as a reader should see it.
+ *
+ * Commons author fields are free text and arrive in several unhelpful shapes. These
+ * are shown under every photograph in the atlas, and attribution is a **condition of
+ * the licence** rather than a courtesy — so this tidies presentation and never drops
+ * a name.
+ *
+ * What it fixes, with counts from the catalogue as it stands:
+ *
+ *   - **61** read "No machine-readable author provided. J.P.Lon~commonswiki assumed
+ *     (based on copyright claims)." That is Commons boilerplate wrapped around a real
+ *     username; the username is the attribution and the rest is apparatus.
+ *   - **29** carry undecoded HTML entities, so a reader sees "Canadian National
+ *     Collections &amp; Zhaofu Yang" with the ampersand spelled out.
+ *   - **17** carry wiki-link residue — "Raveesh Vyas from [Ahmedabad, Noida], India",
+ *     and one Korean credit ending in a stray `]` where `[url name]` was half-stripped.
+ *
+ * What it deliberately does not do: shorten a long credit, or replace a bare URL with
+ * a domain. 105 credits are over eighty characters and some of them are a paragraph,
+ * which is ugly and is what the photographer asked for. Seventeen are nothing but a
+ * URL, which is all Commons holds for them. Neither is ours to edit down.
+ */
+const ENTITIES: Record<string, string> = {
+  '&amp;': '&',
+  '&quot;': '"',
+  '&#39;': "'",
+  '&apos;': "'",
+  '&lt;': '<',
+  '&gt;': '>',
+  '&nbsp;': ' ',
+};
+
+/** "No machine-readable author provided. X assumed (based on copyright claims)." */
+const COMMONS_BOILERPLATE =
+  /^no machine-readable author provided\.\s*(.+?)\s*assumed\s*\(based on copyright claims\)\.?$/i;
+
+export function tidyCredit(raw: string): string {
+  const original = (raw ?? '').trim();
+  if (!original) return '';
+
+  let credit = original;
+  for (const [entity, char] of Object.entries(ENTITIES)) credit = credit.split(entity).join(char);
+
+  const boilerplate = COMMONS_BOILERPLATE.exec(credit);
+  if (boilerplate?.[1]) credit = boilerplate[1];
+
+  credit = credit
+    // Brackets only — whatever was inside them is part of the name or the place.
+    .replace(/[[\]]/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([,.])/g, '$1')
+    .trim()
+    // A trailing separator left by the bracket strip.
+    .replace(/[,;]$/, '')
+    .trim();
+
+  // Never lose an attribution to a tidy-up. If the rules above emptied it, the
+  // original stands — an ugly credit is a licence met, and a missing one is not.
+  return credit || original;
+}
