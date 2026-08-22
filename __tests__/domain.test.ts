@@ -446,6 +446,45 @@ describe('an imported record earns its classification', () => {
   });
 });
 
+describe("a region has to name a place", () => {
+  it("refuses a sentence fragment left by a bad cut", () => {
+    // "of Odisha" shipped as the region on fourteen Indian dishes.
+    expect(notAPlaceBelow("of Odisha", "India")).toMatch(/fragment/);
+    expect(notAPlaceBelow("most of Niger", "Nigeria")).toMatch(/fragment/);
+    expect(notAPlaceBelow("likely Minnesota", "United States")).toMatch(/fragment/);
+    expect(notAPlaceBelow("Nationwide in Malaysia", "Malaysia")).toMatch(/fragment/);
+  });
+
+  it("refuses two words run together where a category was stripped", () => {
+    // "Indian cuisine in the United Kingdom" minus "cuisine" left this on Vindaloo.
+    expect(notAPlaceBelow("Indianin the United Kingdom", "India")).toMatch(/run together/);
+  });
+
+  it("refuses a region with no proper noun in it", () => {
+    // Khuushuur read "Mongolia > penis", taken from a Wikipedia food category.
+    expect(notAPlaceBelow("penis", "Mongolia")).toMatch(/no proper noun/);
+    expect(notAPlaceBelow("disputed", "United States")).toMatch(/fragment|no proper noun/);
+  });
+
+  it("refuses markup that reached the region", () => {
+    expect(notAPlaceBelow("{{ubl", "Iran")).toMatch(/markup/);
+    expect(notAPlaceBelow("(Tabriz", "Iran")).toMatch(/markup/);
+  });
+
+  it("keeps a place written in a script that has no capitals", () => {
+    // Refusing these would delete real places from exactly the countries this atlas
+    // is already worst at.
+    expect(notAPlaceBelow("四川", "China")).toBeNull();
+    expect(notAPlaceBelow("북한", "South Korea")).toBeNull();
+  });
+
+  it("keeps the real places these rules sit next to", () => {
+    for (const [region, country] of [["Kozhikode", "India"], ["Central Java", "Indonesia"], ["Province of Perugia", "Italy"]]) {
+      expect(notAPlaceBelow(region, country)).toBeNull();
+    }
+  });
+});
+
 describe("a language in the picker is a promise", () => {
   const coverage = coverageOf(catalogue);
 

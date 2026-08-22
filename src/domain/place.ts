@@ -120,6 +120,52 @@ function isBareDemonym(value: string): boolean {
 const HEDGED = /^(various|primarily|mainly|mostly|widely|throughout|across|all over|worldwide|global)\b/i;
 
 /**
+ * A sentence fragment where a place name should be.
+ *
+ * These are what is left when a category title was cut in the wrong spot, or when an
+ * article hedged: "of Odisha" on fourteen Indian dishes, "of Karachi", "most of Niger",
+ * "likely Minnesota", "disputed" under Pickle pizza. "Nationwide" is the same shape
+ * from the other direction — a real answer to "where is this eaten" and no answer at
+ * all to "which region is this from".
+ */
+const FRAGMENT =
+  /^(of|most of|mostly|likely|probably|possibly|disputed|unknown|various|nationwide)\b/i;
+
+/**
+ * Two words run together where a category word was removed.
+ *
+ * "Indian cuisine in the United Kingdom" minus "cuisine" left **"Indianin the United
+ * Kingdom"**, which shipped as the region on Vindaloo, Kedgeree and ten others. The
+ * missing space is the tell, and it is a reliable one: no place is written that way.
+ */
+const GLUED = /[a-z](in|of|at) the /;
+
+/** Markup that reached the region field — `{{ubl` and `(Tabriz` both did. */
+const BROKEN_MARKUP = /[{}]|\[\[/;
+
+const unbalancedBrackets = (value: string): boolean =>
+  (value.match(/\(/g) ?? []).length !== (value.match(/\)/g) ?? []).length;
+
+/**
+ * Whether anything in this string is a proper noun.
+ *
+ * A place is named, and a name is capitalised. Without this the region on Khuushuur
+ * was the word **"penis"** — taken from a Wikipedia food category and printed on the
+ * card as "Mongolia › penis".
+ *
+ * Scripts without letter case are exempt rather than refused: Chinese, Japanese,
+ * Korean, Arabic and Hebrew place names cannot satisfy a capitalisation test, and
+ * rejecting them would delete real places from exactly the countries this atlas is
+ * least good at already.
+ */
+function hasProperNoun(value: string): boolean {
+  const letters = value.match(/\p{L}/gu) ?? [];
+  const hasCase = letters.some((c) => c.toLowerCase() !== c.toUpperCase());
+  if (!hasCase) return true;
+  return /(^|\s)\p{Lu}/u.test(value);
+}
+
+/**
  * Why this region is not a place beneath that country, or null if it is fine.
  *
  * Returns the reason rather than a boolean so a rejection can be explained and
@@ -144,6 +190,10 @@ export function notAPlaceBelow(region: string, country: string): string | null {
   if (CATEGORY_WORDS.test(value)) return 'names a category of food, not a place';
   if (SUPRA_NATIONAL.test(value)) return 'names an area larger than the country';
   if (HEDGED.test(value)) return 'hedges rather than naming a place';
+  if (FRAGMENT.test(value)) return 'reads as a fragment of a sentence, not a place name';
+  if (GLUED.test(value)) return 'is two words run together where a category was stripped';
+  if (BROKEN_MARKUP.test(value) || unbalancedBrackets(value)) return 'still carries markup from its source';
+  if (!hasProperNoun(value)) return 'has no proper noun in it, so it names no particular place';
 
   return null;
 }
