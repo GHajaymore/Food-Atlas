@@ -108,6 +108,57 @@ const closeBracket = (name: string): string => {
 const cleanName = (name: string): string =>
   sentenceCase(closeBracket(name.replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim()));
 
+/**
+ * The line under a dish's name, as a line rather than as a database field.
+ *
+ * 5,276 of these are Wikidata descriptions, which are lower-case by convention because
+ * they are fragments meant to disambiguate a search result: "traditional Acadian dish",
+ * "rolled dried apricots". Printed as the sentence under a heading they read as
+ * unfinished, so they get the same first-letter treatment the names do.
+ *
+ * Two blurbs are dropped rather than tidied, because tidying cannot help them: one that
+ * only repeats the dish's own name — smaženice described as "smaženice" — and one that
+ * is a bare category word, which is how "Craquelin · Food" reached a card. Saying
+ * nothing is better than filling the line with the reader's own question back.
+ */
+const GENERIC_BLURB = /^(food|foods|dish|dishes|drink|drinks|beverage|meal|recipe|cuisine)$/i;
+
+/**
+ * An article's account of a dish, with two things the strippers left behind.
+ *
+ * **A bare image parameter at the front.** Ten records open with the word "thumb" and
+ * then Kannada — the pipe was removed by an earlier repair and the parameter beside it
+ * was not, so the structural guard that refuses pipes never saw anything wrong.
+ *
+ * **A missing subject.** Wikipedia opens an article with the dish's name in bold, and
+ * removing the bold markup took the name with it: chimichurri's account began "is
+ * usually made from finely chopped flat-leaf parsley". Eight records read that way. The
+ * record's own name is exactly the word the source had there, so putting it back
+ * restores the sentence rather than inventing one.
+ *
+ * Deliberately not applied to prose starting "It is…" — 57 records do, and those are
+ * ordinary sentences that read fine standing alone. Prepending a name there would
+ * produce "Bauernfrühstück It is similar to…", which is worse than what it fixes.
+ */
+const LEADING_IMAGE_PARAM =
+  /^(?:thumb|thumbnail|mini|miniatur|jmpl|left|right|center|centre|upright|border|frameless|alt)\b[\s|]+/i;
+
+const LOST_SUBJECT = /^(is|are|was|were|refers to|consists of)\b/;
+
+const cleanProse = (text: string, name: string): string => {
+  const prose = text.replace(LEADING_IMAGE_PARAM, '').replace(/\s+/g, ' ').trim();
+  if (!prose) return '';
+  return LOST_SUBJECT.test(prose) ? `${name.trim()} ${prose}` : prose;
+};
+
+const cleanBlurb = (blurb: string, name: string): string => {
+  const text = blurb.replace(/\s+/g, ' ').trim().replace(/[,;:]$/, '');
+  if (!text) return '';
+  if (text.toLowerCase() === name.trim().toLowerCase()) return '';
+  if (GENERIC_BLURB.test(text)) return '';
+  return sentenceCase(text);
+};
+
 /** The photograph fields an enrichment pass may have written onto a source row. */
 interface PhotoRow {
   photo?: string;
@@ -255,7 +306,7 @@ function expand(row: ImportedRow): Dish {
   // claimed. Either counts, and a record enriched by the newer pass is not made to
   // look unassessed because it arrived by the other route.
   const ingredients = row.ingredients?.length ? row.ingredients : (row.evidence?.ingredients ?? []);
-  const prepSummary = row.prepSummary?.trim() ?? '';
+  const prepSummary = cleanProse(row.prepSummary ?? '', name);
 
   // Classification is earned from the evidence gathered by the enrichment pass, not
   // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
@@ -297,7 +348,7 @@ function expand(row: ImportedRow): Dish {
     atRiskEvidence: risk.evidence || undefined,
 
     blurb:
-      row.blurb ||
+      cleanBlurb(row.blurb ?? '', name) ||
       `Recorded in the atlas as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
     // Wikidata P18: an image somebody attached to this item, not a name match.
@@ -586,13 +637,14 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       !alreadyPresent.has(key(row.name, canonicalCountry(row.country))),
   )
   .map((row, index) => {
+    const name = cleanName(row.name);
     const country = canonicalCountry(row.country);
     const region = cleanRegion(row.region ?? '', country);
     const breadcrumb = [country, region].filter(Boolean);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = row.ingredients ?? [];
-    const prepSummary = row.prepSummary ?? '';
+    const prepSummary = cleanProse(row.prepSummary ?? '', name);
     /**
      * Decline is stated in an article's opening and its history, not in its recipe.
      *
@@ -647,7 +699,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       atRiskEvidence: risk.evidence || undefined,
 
       blurb: prepSummary
-        ? prepSummary.slice(0, 220)
+        ? cleanBlurb(prepSummary.slice(0, 220), name)
         : `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
       // The lead image of the dish's own article where the lead-image pass found

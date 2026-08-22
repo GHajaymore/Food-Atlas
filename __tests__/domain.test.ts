@@ -446,6 +446,33 @@ describe('an imported record earns its classification', () => {
   });
 });
 
+describe("the line under a dish name", () => {
+  const blurbs = catalogue.map((d) => d.blurb).filter(Boolean);
+
+  it("reads as a line, not as a database field", () => {
+    // 5,276 blurbs are Wikidata descriptions, lower-case by convention because they
+    // are fragments meant to disambiguate a search result. Printed under a heading
+    // they read as unfinished.
+    const fragments = blurbs.filter((b) => /^\p{Ll}/u.test(b));
+    expect(fragments.slice(0, 5)).toEqual([]);
+  });
+
+  it("never ends on a dangling separator", () => {
+    // "traditional food (soup) in Cameroon," was a real one.
+    expect(blurbs.filter((b) => /[,;:]$/.test(b)).slice(0, 5)).toEqual([]);
+  });
+
+  it("says nothing rather than repeating the name or the word Food", () => {
+    // smazenice was described as "smazenice", and Craquelin as "Food". Saying
+    // nothing is better than handing the reader their own question back.
+    for (const dish of catalogue) {
+      if (!dish.blurb) continue;
+      expect(dish.blurb.trim().toLowerCase()).not.toBe(dish.name.trim().toLowerCase());
+      expect(/^(food|dish|drink|meal|cuisine)$/i.test(dish.blurb.trim())).toBe(false);
+    }
+  });
+});
+
 describe("a region has to name a place", () => {
   it("refuses a sentence fragment left by a bad cut", () => {
     // "of Odisha" shipped as the region on fourteen Indian dishes.
