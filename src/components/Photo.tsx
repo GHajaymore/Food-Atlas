@@ -62,7 +62,16 @@ export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resiz
       />
       {credit && !hideCredit ? (
         <View style={styles.creditWrap} pointerEvents="none">
-          <T style={styles.credit} numberOfLines={1}>
+          {/*
+            Two lines, not one.
+            On a rail card the credit has about 100px to live in, and 30 of the 51 on
+            the front page did not fit: "Manuel González Olaechea · CC BY 3.0" was
+            rendering as "Manuel González Ola…". Truncating an attribution is worse
+            than an untidy one — it credits a photographer by a name they do not have,
+            on a field that is a condition of the licence rather than a caption.
+            Two lines clears the longest credit in the catalogue with room to spare.
+          */}
+          <T style={styles.credit} numberOfLines={2}>
             {credit}
           </T>
         </View>
@@ -81,12 +90,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 6,
     bottom: 6,
-    maxWidth: '85%',
+    // A little more room, since the text may now wrap rather than be cut.
+    maxWidth: '92%',
     paddingHorizontal: 5,
     paddingVertical: 2,
     borderRadius: radius.sm,
     // A ground behind the credit so it stays legible over any photograph.
     backgroundColor: 'rgba(22, 24, 38, 0.72)',
   },
-  credit: { fontFamily: font.regular, fontSize: 9, color: 'rgba(233, 233, 237, 0.75)' },
+  credit: { fontFamily: font.regular, fontSize: 9, lineHeight: 9 * 1.35, color: 'rgba(233, 233, 237, 0.75)' },
 });

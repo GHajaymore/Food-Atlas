@@ -97,6 +97,25 @@ const ENTITIES: Record<string, string> = {
 const COMMONS_BOILERPLATE =
   /^no machine-readable author provided\.\s*(.+?)\s*assumed\s*\(based on copyright claims\)\.?$/i;
 
+/**
+ * The other shapes Commons wraps a username in.
+ *
+ * Each keeps the name and drops the file-history sentence around it:
+ *
+ *   "Original uploader was Natto at ja.wikipedia"          → Natto        (41 records)
+ *   "Transferred from en.wikipedia … original uploader was Sjschen at …"  → Sjschen
+ *   "Chmouel at French Wikipedia Later versions were uploaded by Greudin" → Chmouel
+ *
+ * `derivative work:` is deliberately absent. "Chopstick.JPG: 毛抜き derivative work:
+ * Richardprins (talk)" names **two** contributors — whoever made the original and
+ * whoever altered it — and both are owed the credit. Seventeen records carry it, and
+ * trimming either name to fit a card is not a tidy-up, it is dropping an attribution.
+ */
+const UPLOADER_SHAPES: [RegExp, number][] = [
+  [/original uploader was\s+(.+?)\s+at\s+\S+/i, 1],
+  [/^(.+?)\s+later versions? (?:were|was) uploaded by/i, 1],
+];
+
 export function tidyCredit(raw: string): string {
   const original = (raw ?? '').trim();
   if (!original) return '';
@@ -106,6 +125,14 @@ export function tidyCredit(raw: string): string {
 
   const boilerplate = COMMONS_BOILERPLATE.exec(credit);
   if (boilerplate?.[1]) credit = boilerplate[1];
+
+  for (const [shape, group] of UPLOADER_SHAPES) {
+    const found = shape.exec(credit);
+    if (found?.[group]) {
+      credit = found[group];
+      break;
+    }
+  }
 
   credit = credit
     // Brackets only — whatever was inside them is part of the name or the place.

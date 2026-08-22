@@ -519,6 +519,20 @@ describe("the photographer’s credit", () => {
     expect(tidyCredit("Raveesh Vyas from [Ahmedabad, Noida], India")).toBe("Raveesh Vyas from Ahmedabad, Noida, India");
   });
 
+  it("takes the name out of the file-history sentences too", () => {
+    // 41 records read "Original uploader was Natto at ja.wikipedia".
+    expect(tidyCredit("Original uploader was Natto at ja.wikipedia")).toBe("Natto");
+    expect(tidyCredit("Transferred from en.wikipedia to Commons. by CommonsHelper. The original uploader was Sjschen at English Wikipedia")).toBe("Sjschen");
+  });
+
+  it("leaves a derivative work crediting both people", () => {
+    // "Chopstick.JPG: X derivative work: Y" names two contributors -- whoever made
+    // the original and whoever altered it. Trimming either to fit a card is not a
+    // tidy-up, it is dropping an attribution. 17 records carry this shape.
+    const both = "Chopstick.JPG: A derivative work: Richardprins (talk)";
+    expect(tidyCredit(both)).toBe(both);
+  });
+
   it("never empties an attribution", () => {
     // Attribution is a condition of these licences. An ugly credit is a licence met;
     // a missing one is not, so a tidy-up that would blank it keeps the original.
