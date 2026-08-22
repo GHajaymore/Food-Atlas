@@ -157,6 +157,28 @@ describe('what the scripts write reaches the reader', () => {
     });
   });
 
+  it("tells the reader where a photograph actually came from", () => {
+    // Every imported record used to say "Matched by name on Wikimedia Commons — the
+    // subject is not confirmed". True of about three thousand photographs, false for
+    // the seven thousand attached to the dish’s own Wikidata item or chosen by
+    // editors to head its own article. A warning printed on everything stops being
+    // read on the records that need it.
+    const photographed = catalogue.filter((d) => d.photo);
+    const byName = photographed.filter((d) => /matched by name/i.test(d.photoOrigin));
+    const chosen = photographed.filter((d) => /own Wikidata entry|own encyclopaedia article|own page/i.test(d.photoOrigin));
+
+    expect(photographed.length).toBeGreaterThan(5000);
+    expect(chosen.length).toBeGreaterThan(byName.length);
+
+    // And no *imported* record claims a verified photograph: knowing a picture was
+    // attached to the right subject is not knowing it shows the dish as made in the
+    // place. The curated records are exempt because somebody actually checked those —
+    // "Photographed in Oaxaca, Mexico" is a statement a person stands behind.
+    const imported = photographed.filter((d) => d.id >= 1000);
+    expect(imported.length).toBeGreaterThan(5000);
+    expect(imported.every((d) => d.photoVerified === false)).toBe(true);
+  });
+
   it('accounts for every field the sources carry', () => {
     /**
      * Bookkeeping the passes keep for themselves. Named here rather than guessed,
@@ -165,11 +187,23 @@ describe('what the scripts write reaches the reader', () => {
      * does not.
      */
     const BOOKKEEPING = new Set([
-      'imageChecked', 'leadImageChecked', 'leadFile', 'langsChecked', 'nativeChecked',
+      'imageChecked', 'leadImageChecked', 'langsChecked', 'nativeChecked',
       'originChecked', 'wikidataChecked', 'countryChecked', 'urlChecked', 'riskChecked',
       'countryFromTitle', 'countryFromCatalogue', 'placeFromCategory', 'ingredientsLanguage',
       'atRiskStrength', 'notFood', 'infobox',
     ]);
+
+    /**
+     * Not bookkeeping any more: these two decide what the reader is told about a
+     * photograph.
+     *
+     * `leadFile` means the picture is the one the article leads with, and
+     * `pageImageChecked` means it came off the recipe's own page. Both used to sit in
+     * the list above as run-state nobody read, while every photograph in the atlas
+     * carried the same "matched by name — the subject is not confirmed" warning,
+     * including the seven thousand that were not matched by name at all.
+     */
+    const PHOTO_PROVENANCE = new Set(['leadFile', 'pageImageChecked']);
 
     // Fields the build reads for its own reasons rather than showing directly.
     const STRUCTURAL = new Set([
@@ -177,7 +211,7 @@ describe('what the scripts write reaches the reader', () => {
       'url', 'blurb', 'credit', 'course', 'list', 'reference', 'patAttribution',
     ]);
 
-    const declared = new Set([...PLUMBING.map((p) => p.field), ...BOOKKEEPING, ...STRUCTURAL]);
+    const declared = new Set([...PLUMBING.map((p) => p.field), ...BOOKKEEPING, ...STRUCTURAL, ...PHOTO_PROVENANCE]);
     const unaccounted = [
       ...new Set(Object.values(sources).flat().flatMap((row) => Object.keys(row))),
     ].filter((field) => !declared.has(field));

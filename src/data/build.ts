@@ -26,6 +26,7 @@ import { canonicalCountry } from '../domain/countryNames';
 import { dishFromInscription } from '../domain/inscription';
 import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
+import { photoOriginLine, type PhotoSource } from '../domain/photoProvenance';
 import { placeBelow } from '../domain/place';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
@@ -152,17 +153,23 @@ function viewsLabel(views: number | undefined): string {
 /**
  * The photograph fields for an imported record.
  *
- * Every image on an imported record was found by searching Commons for the dish's
- * name, which returns a plausible match and not a confirmed one — a search for
- * Al-Man'ouche returned an Israeli zaatar manakeesh, a related bread from a
- * different place. So `photoVerified` is false without exception here, and
- * `photoOrigin` says how the picture was found rather than implying it was checked.
+ * The line under the picture says where it came from, and the four sources are not
+ * equally trustworthy. A Commons name search returns a plausible match and not a
+ * confirmed one — asked for Al-Man'ouche it returned an Israeli zaatar manakeesh, a
+ * related bread from a different country. An image attached to the dish's own Wikidata
+ * item, or chosen by editors to head its own article, was not matched to anything.
+ *
+ * Every record used to carry the name-search warning, which was false for about seven
+ * thousand of the ten thousand photographs — and a warning printed on everything stops
+ * being read on the three thousand that need it. `photoVerified` stays false for all of
+ * them: knowing a picture was attached to the right subject is not knowing it shows the
+ * dish as made in the place.
  *
  * The artist and licence travel with the image because Commons files carry their own
  * terms, several of them CC BY-SA, and attribution is a condition of use rather than
  * a courtesy.
  */
-function photoFields(row: PhotoRow) {
+function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
   if (!row.photo) {
     return {
       photo: '',
@@ -178,7 +185,9 @@ function photoFields(row: PhotoRow) {
     photo: row.photo,
     credit: row.licence ? `${artist} · ${row.licence}` : artist,
     creditHref: row.photo,
-    photoOrigin: 'Matched by name on Wikimedia Commons — the subject is not confirmed',
+    photoOrigin: photoOriginLine(source),
+    // False for every source, deliberately. Knowing a picture was attached to the
+    // right subject is not knowing it shows the dish as made in the place.
     photoVerified: false,
   };
 }
@@ -248,7 +257,8 @@ function expand(row: ImportedRow): Dish {
       row.blurb ||
       `Recorded in the atlas as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
-    ...photoFields(row),
+    // Wikidata P18: an image somebody attached to this item, not a name match.
+    ...photoFields(row, 'wikidata'),
 
     score: assessment.score,
     breakdown: assessment.breakdown,
@@ -311,6 +321,10 @@ function expand(row: ImportedRow): Dish {
  * the only evidence it arrives with.
  */
 interface CuisineRow extends PhotoRow {
+  /** The Commons file the article leads with, where the lead-image pass found one.
+   *  Its presence is what distinguishes a picture chosen for this article from one a
+   *  name search returned. */
+  leadFile?: string;
   /** A sentence from the article stating the tradition is in decline. */
   atRiskEvidence?: string;
   /** Countries the article names as origins, where it names more than one. */
@@ -360,6 +374,9 @@ interface CuisineRow extends PhotoRow {
 
 /** A Wikibooks Cookbook recipe: a real method, and a country from its categories. */
 interface CookbookRow extends PhotoRow {
+  /** Set once the recipe-page image pass has walked this row. Where it produced the
+   *  photograph, the picture is the one published on the recipe's own page. */
+  pageImageChecked?: boolean;
   title: string;
   name: string;
   ingredients: string[];
@@ -590,7 +607,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         ? prepSummary.slice(0, 220)
         : `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
-      ...photoFields(row),
+      // The lead image of the dish's own article where the lead-image pass found
+      // one; otherwise this row's picture came from a Commons name search.
+      ...photoFields(row, row.leadFile ? 'article' : 'search'),
 
       score: assessment.score,
       breakdown: assessment.breakdown,
@@ -676,7 +695,9 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
 
     blurb: cookbookBlurb(row),
 
-    ...photoFields(row),
+    // The recipe's own page where enrich-recipe-images reached it; the rest came
+    // from searching Commons for the recipe's name.
+    ...photoFields(row, row.pageImageChecked ? 'recipe' : 'search'),
 
     // Adaptations are not scored: the confidence score measures evidence that a
     // preparation is the traditional one, and this record does not make that claim.
@@ -806,7 +827,9 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
       ? `Inscribed by UNESCO as intangible cultural heritage, submitted jointly by ${row.countries.join(', ')}.`
       : `Inscribed by UNESCO as intangible cultural heritage of ${row.country}.`,
 
-    ...photoFields(row),
+    // Searched on Commons behind a plausibility guard, which narrows the wrong
+    // answers without turning a search into an attribution.
+    ...photoFields(row, 'search'),
 
     /*
      * Scored on what an inscription actually evidences. Geography and cultural

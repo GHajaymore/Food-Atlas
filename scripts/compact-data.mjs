@@ -42,13 +42,13 @@ const KEEP = {
   cuisines: [
     'title', 'name', 'country', 'region', 'url', 'cuisine',
     'ingredients', 'prepSummary', 'course',
-    'photo', 'credit', 'licence',
+    'photo', 'credit', 'licence', 'leadFile',
     'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
     'atRiskEvidence', 'originClaims',
   ],
   cookbook: [
     'title', 'name', 'ingredients', 'steps', 'url', 'country', 'region',
-    'sourceLanguage', 'photo', 'credit', 'licence',
+    'sourceLanguage', 'photo', 'credit', 'licence', 'pageImageChecked',
   ],
   catalogue: [
     'id', 'name', 'country', 'region', 'continent', 'qid', 'blurb',
