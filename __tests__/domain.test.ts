@@ -460,6 +460,14 @@ describe("the at-risk flag", () => {
     expect(detectAtRisk("The consumption of kompot has been declining since the 1980s.", "Kompot").atRisk).toBe(true);
   });
 
+  it("refuses a claim about where a dish is served", () => {
+    // Dhooska was flagged on "rarely found in larger restaurants" -- its own sentence
+    // says people enjoy it at market stalls. Orange chicken on "rarely found in
+    // Chinese restaurants in China", which is about authenticity, not survival.
+    expect(detectAtRisk("Dhooska is mostly made in market-area stalls where people enjoy it as a snack and is rarely found in larger restaurants.", "Dhooska").atRisk).toBe(false);
+    expect(detectAtRisk("Orange chicken is rarely found in Chinese restaurants in China.", "Orange chicken").atRisk).toBe(false);
+  });
+
   it("lets a stated claim stand without repeating the name", () => {
     // "Though once common, the knowledge to make the food product is slowly dying
     // out" never says Sendango, and is exactly the record this feature exists for.

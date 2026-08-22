@@ -29,6 +29,7 @@ import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
+import { AT_RISK_NOTE } from '../../src/domain/atRisk';
 import {
   confirmAsk,
   contestedNote,
@@ -44,7 +45,7 @@ import { openAtSource } from '../../src/domain/video';
 import { searchUrl } from '../../src/domain/videoDiscovery';
 import { settings } from '../../src/state/store';
 import { useTranslations } from '../../src/state/translations';
-import { accentText, color, radius, space } from '../../src/theme/tokens';
+import { accentText, color, font, radius, space } from '../../src/theme/tokens';
 
 export default function DishDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -184,6 +185,24 @@ export default function DishDetail() {
           where the claim was rather than left to the reader to find. */}
       {dish.originClaims && dish.originClaims.length > 1 ? (
         <Muted style={styles.contested}>{contestedNote(dish.originClaims.length)}</Muted>
+      ) : null}
+
+      {/* The sentence behind the 🕯️ badge, which was never shown anywhere.
+          `atRisk.ts` says every flag keeps the sentence that produced it, so "a wrong
+          one is visibly wrong rather than an unexplained badge", and `types.ts` calls
+          a badge without its evidence "exactly the unexplained assertion this app
+          refuses to make anywhere else". The field was written, tested for arrival,
+          and rendered by nothing.
+          It is not a small omission: with the evidence invisible, half the flagged
+          records turned out to cite sentences about a revival, or about fireplaces
+          and pineapples declining, and nobody could see it — including us, until the
+          data was read directly. */}
+      {dish.atRisk && dish.atRiskEvidence ? (
+        <Block style={styles.atRisk}>
+          <T style={styles.atRiskTitle}>Why this is flagged as at risk</T>
+          <Muted style={styles.atRiskQuote}>“{dish.atRiskEvidence}”</Muted>
+          <Muted style={styles.atRiskNote}>{AT_RISK_NOTE}</Muted>
+        </Block>
       ) : null}
 
       {isFusion ? (
@@ -587,6 +606,10 @@ const styles = StyleSheet.create({
 
   title: { marginBottom: 6 },
   contested: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 6, marginBottom: 2 },
+  atRisk: { padding: 12, marginTop: 14 },
+  atRiskTitle: { fontSize: 12, fontFamily: font.medium },
+  atRiskQuote: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 6, fontStyle: 'italic' },
+  atRiskNote: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 8 },
   breadcrumb: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 22 },
   breadcrumbText: { fontSize: 13, lineHeight: 13 * 1.5 },
   deepest: { color: accentText },

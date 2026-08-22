@@ -157,13 +157,29 @@ const FALSE_FRIENDS = [
 ];
 
 /**
+ * Where a dish is *served*, which is a fact about menus.
+ *
+ * Kept apart from the list above because it is a shape rather than a phrase.
+ * "Rarely found in larger restaurants" was flagged for Dhooska, whose own sentence
+ * says people enjoy it at market stalls — it is sold somewhere else, not vanishing.
+ * "Rarely found in Chinese restaurants in China" was flagged for orange chicken,
+ * where the claim is about authenticity and geography and the dish is in no danger at
+ * all.
+ *
+ * Deliberately narrow: it needs the preposition, so "virtual disappearance from
+ * present-day restaurants" — a real decline stated through restaurants — is only
+ * matched by the "from" case, which is why that record is caught by the count rule
+ * above instead and not by this one.
+ */
+const A_MENU_CLAIM = /\b(?:in|at) (?:[a-z-]+ ){0,2}restaurants\b/i;
+
+/**
  * Whether a sentence is talking about this dish.
  *
- * Generous on purpose. It matches the dish's longest word rather than its whole name,
- * so "kippers" answers for "Kipper" and "docang" for "Docang" — an article rarely
- * repeats a multi-word title verbatim, and demanding it would refuse most true
- * positives. A parenthetical qualifier is dropped first: the article about
- * "Hoppy (drink)" never writes the bracket.
+ * Every significant word of the name has to appear, prefix-tolerant, so "kippers"
+ * answers for "Kipper" — but a sentence about *nata de piña* no longer answers for
+ * "nata de coco". Short words are ignored and a parenthetical qualifier is dropped
+ * first, because the article about "Hoppy (drink)" never writes the bracket.
  */
 function mentions(sentence: string, subject: string): boolean {
   const words = subject
@@ -218,6 +234,7 @@ export function detectAtRisk(text: string, subject = ''): RiskFinding {
 
       // A sentence about an endangered animal is not a sentence about a dying craft.
       if (FALSE_FRIENDS.some((f) => lower.includes(f))) continue;
+      if (A_MENU_CLAIM.test(lower)) continue;
 
       const matched = phrases.find((phrase) => lower.includes(phrase));
 
