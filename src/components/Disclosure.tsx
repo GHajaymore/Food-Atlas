@@ -9,7 +9,7 @@
 
 import { useState } from 'react';
 import { LayoutAnimation, Platform, StyleSheet, UIManager, View } from 'react-native';
-import { color, font, radius, space } from '../theme/tokens';
+import { color, font, radius, space, TAP_TARGET } from '../theme/tokens';
 import { CaretDownIcon } from './icons';
 import { Pressable } from './Pressable';
 import { T } from './Text';
@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: space[2],
-    minHeight: 28,
+    // TAP_TARGET. The summary row is the only way to open the adaptation, and at 28px
+    // it was the smallest control on the record.
+    minHeight: TAP_TARGET,
   },
   summaryText: { fontFamily: font.heading, fontSize: 14, flex: 1 },
   caretOpen: { transform: [{ rotate: '180deg' }] },

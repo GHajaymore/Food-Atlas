@@ -15,7 +15,7 @@ import { planTranslation, withLanguage } from '../domain/language';
 import type { Video } from '../domain/types';
 import { openAtSource, thumbnailUrl, watchUrl } from '../domain/video';
 import { useTranslations } from '../state/translations';
-import { color, radius, space } from '../theme/tokens';
+import { color, radius, space, TAP_TARGET } from '../theme/tokens';
 import { Button } from './Button';
 import { PlayIcon } from './icons';
 import { Photo } from './Photo';
@@ -165,5 +165,7 @@ const styles = StyleSheet.create({
   panelHeading: { marginBottom: space[2] },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: space[2] },
   panelNote: { fontSize: 11, lineHeight: 11 * 1.5 },
-  captureButton: { alignSelf: 'flex-start', marginTop: 4, paddingHorizontal: 0, minHeight: 36 },
+  // TAP_TARGET, not 36. This is the control that turns a viewer into a contributor,
+  // and it sat below the size a finger reliably hits on the phone the app is built for.
+  captureButton: { alignSelf: 'flex-start', marginTop: 4, paddingHorizontal: 0, minHeight: TAP_TARGET },
 });

@@ -72,7 +72,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: space[2],
-    minHeight: 40,
+    // 44, not 40: the minimum a finger reliably hits, and this row is one of the two
+    // controls the feed is driven by.
+    minHeight: 44,
     paddingVertical: space[2],
     paddingHorizontal: space[3],
     borderWidth: 1,

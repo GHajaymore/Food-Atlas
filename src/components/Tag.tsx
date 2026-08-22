@@ -35,14 +35,34 @@ export function Tag({ label, variant = 'neutral', onPress, style, fontSize = 11,
   );
 
   if (onPress) {
+    /*
+     * The tap target, extended past the ink.
+     *
+     * A tag is 22px tall by design, and that is right: a row of six chips is the feed's
+     * primary control and they have to fit across a phone. 22px is also half the 44px a
+     * finger needs — so on a phone-first app the six most-used controls on the home
+     * screen were the hardest to hit on it.
+     *
+     * Two mechanisms, because one is not enough. `hitSlop` is the idiomatic React
+     * Native answer and works on the phone; **react-native-web ignores it entirely** —
+     * checked, not assumed: there is no pseudo-element and no padding change on the
+     * rendered button. So the target is also grown structurally, with padding on an
+     * outer pressable that a negative margin gives back to the layout. The visible pill
+     * is an inner view and keeps its own size, border and background.
+     *
+     * Eleven each side takes 22 to 44 exactly, and the chip row already sits in a 16px
+     * gap above and below, so the larger target reaches neither the place selector nor
+     * the Refine row beneath it.
+     */
     return (
       <Pressable
         accessibilityRole="button"
         onPress={onPress}
-        style={[styles.tag, styles[variant], style]}
+        style={[styles.hit, style]}
         tint={variant === 'neutral' ? 'neutral' : 'accent'}
+        hitSlop={{ top: 11, bottom: 11, left: 4, right: 4 }}
       >
-        {body}
+        <View style={[styles.tag, styles[variant]]}>{body}</View>
       </Pressable>
     );
   }
@@ -51,6 +71,18 @@ export function Tag({ label, variant = 'neutral', onPress, style, fontSize = 11,
 }
 
 const styles = StyleSheet.create({
+  // The touch box. Padding grows it to 44; the negative margin hands that space back
+  // to the layout, so the row is laid out exactly as it was before.
+  hit: {
+    alignSelf: 'flex-start',
+    paddingVertical: 11,
+    marginVertical: -11,
+    // And four each side, which takes the shortest chip — "All", 36px wide — to 44.
+    // The row sets an 8px gap between chips, so two neighbouring targets meet exactly
+    // and never overlap.
+    paddingHorizontal: 4,
+    marginHorizontal: -4,
+  },
   tag: {
     flexDirection: 'row',
     alignItems: 'center',

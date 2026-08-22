@@ -18,7 +18,7 @@ import { StyleSheet, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
 import type { MetricNote } from '../domain/metricNotes';
 import { percentLabel, type CoverageRow, type Ratio, type Trend } from '../domain/metrics';
-import { accentText, color, font, space } from '../theme/tokens';
+import { accentText, color, font, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
 
@@ -76,6 +76,13 @@ export function Explain({ note }: { note?: MetricNote }) {
         accessibilityLabel={`How ${note.title} is counted`}
         tint="none"
         onPress={() => setOpen(!open)}
+        /*
+         * Eleven of these sit on the coverage screen, and at fourteen pixels tall they
+         * were the smallest controls in the app — on the screen whose entire purpose is
+         * to let a sceptical reader check the numbers. Padding grows the target; the
+         * negative margin keeps the line where the design put it.
+         */
+        style={styles.explainHit}
       >
         <Muted style={styles.explainLink}>{open ? 'Hide how this is counted' : 'How is this counted?'}</Muted>
       </Pressable>
@@ -178,6 +185,7 @@ const styles = StyleSheet.create({
   spark: { flexShrink: 0 },
 
   explain: { marginTop: 6 },
+  explainHit: { justifyContent: 'center', minHeight: TAP_TARGET, marginVertical: -14 },
   explainLink: { fontSize: 11, color: accentText },
   explainBody: { gap: 6, marginTop: 6, paddingLeft: 10, borderLeftWidth: 1, borderLeftColor: color.divider },
   explainPara: { fontSize: 11, lineHeight: 11 * 1.55 },
