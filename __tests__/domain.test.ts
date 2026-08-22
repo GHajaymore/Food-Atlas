@@ -41,7 +41,7 @@ import {
 import { continentOf, isCountry, isHistoricalState, placeKind } from '../src/domain/continents';
 import { confirmAsk, contestedNote } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
-import { tidyCredit } from '../src/domain/photoProvenance';
+import { isPhotograph, tidyCredit } from '../src/domain/photoProvenance';
 import { notAPlaceBelow } from '../src/domain/place';
 import {
   considerSource,
@@ -442,6 +442,30 @@ describe('an imported record earns its classification', () => {
     const a = assess({ ...base, hasRegion: true, ingredients: ['x', 'y'], heritage: ['PDO'] });
     expect(a.breakdown).toHaveLength(6);
     expect(a.disclaimer.trim().length).toBeGreaterThan(0);
+  });
+});
+
+describe("what counts as a photograph of the food", () => {
+  it("refuses the placeholder graphics articles use instead of a picture", () => {
+    // 220 records shared Noia_64_apps_energy.png, a KDE desktop icon, and 35 shared
+    // ChineseDishLogo.png. The ingest took each article’s image without asking what
+    // the image was.
+    expect(isPhotograph("https://x/Noia_64_apps_energy.png")).toBe(false);
+    expect(isPhotograph("https://x/ChineseDishLogo.png")).toBe(false);
+    expect(isPhotograph("https://x/960px-Brooke-bond-logo.jpg")).toBe(false);
+    expect(isPhotograph("https://x/DO%20Cava%20locator%20map.svg")).toBe(false);
+  });
+
+  it("refuses a file a browser cannot show as an image", () => {
+    // One of these is a scanned 1936 book called Plenty of Onions.
+    expect(isPhotograph("https://x/Braised%20noodles.pdf")).toBe(false);
+  });
+
+  it("keeps a real photograph, including the ones saved as png", () => {
+    // The extension proves nothing on its own, which is why the rule reads the name.
+    expect(isPhotograph("https://x/Kozhikode_Halwa.jpg")).toBe(true);
+    expect(isPhotograph("https://x/Baklava(1).png")).toBe(true);
+    expect(isPhotograph("https://x/Pizzas%20Buenos%20Aires.png")).toBe(true);
   });
 });
 
@@ -1498,7 +1522,10 @@ describe('the home shelves are doorways, not decoration', () => {
       atRisk: false,
       steps: [],
       badgeLevel: 'unverified' as const,
-      photo: 'https://example.test/p.jpg',
+      // One photograph each. The fixture used to give all sixty the same URL, which
+      // the shelves now refuse: two records sharing a picture look like a rendering
+      // bug on one rail, so only the first of them is shown.
+      photo: `https://example.test/p${i}.jpg`,
       loc: { ...dishes[0].loc, country: `Country ${i % 20}` },
     }));
 

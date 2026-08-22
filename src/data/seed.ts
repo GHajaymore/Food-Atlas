@@ -176,10 +176,24 @@ const SEED: Dish[] = [
     traditionalBadge: true,
     atRisk: false,
     blurb: 'The Malabar halwa as set in Thalassery — less sugar, cut thinner, eaten with tea.',
-    photo: commons('Kozhikode_Halwa.jpg'),
-    credit: 'Wikimedia Commons',
-    creditHref: commonsPage('Kozhikode_Halwa.jpg'),
-    photoOrigin: 'Malabar halwa — shooting location not recorded in the source',
+    /*
+     * No photograph, deliberately.
+     *
+     * This record used Kozhikode_Halwa.jpg — the same file as the Kozhikode record,
+     * which sits directly beside it on the front page. Two cards, one picture, and the
+     * record's own `photoOrigin` admitted the shot was "Malabar halwa" with no location
+     * recorded.
+     *
+     * It undercuts the thing this record exists to say. Thalassery's halwa is *less
+     * sugar, set thinner, cut smaller* — that is the whole reason it is a sibling
+     * tradition rather than a duplicate — and illustrating it with Kozhikode's tray
+     * shows a reader the opposite. The monogram says "no photograph on record", which
+     * is true, and is what 49% of the atlas already says.
+     */
+    photo: '',
+    credit: '',
+    creditHref: '',
+    photoOrigin: 'No photograph on record',
     photoVerified: false,
     // Lower than Kozhikode's 94: fewer independent sources describe this version,
     // and the fork is recent. The number reflects the evidence, not the ranking.

@@ -26,7 +26,7 @@ import { canonicalCountry } from '../domain/countryNames';
 import { dishFromInscription } from '../domain/inscription';
 import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
-import { photoOriginLine, tidyCredit, type PhotoSource } from '../domain/photoProvenance';
+import { isPhotograph, photoOriginLine, tidyCredit, type PhotoSource } from '../domain/photoProvenance';
 import { placeBelow } from '../domain/place';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
@@ -186,7 +186,10 @@ const secure = (url: string): string => url.replace(/^http:\/\//i, 'https://');
  * a courtesy.
  */
 function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
-  if (!row.photo) {
+  // A file that is not a photograph of the food is not a photograph. 283 records were
+  // illustrated with a KDE icon, a company logo, a locator map or a scanned PDF; they
+  // show the monogram now, which says no photograph is on record and is true.
+  if (!row.photo || !isPhotograph(row.photo)) {
     return {
       photo: '',
       credit: '',

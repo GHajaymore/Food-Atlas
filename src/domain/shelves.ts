@@ -197,14 +197,39 @@ export function buildShelves(dishes: Dish[], perShelf = 12): Shelf[] {
    */
   const shown = new Set<number>();
 
+  /**
+   * And no photograph twice, which is a different problem from no record twice.
+   *
+   * Two records can legitimately share a picture — Thalassery Halwa carried
+   * Kozhikode's tray, and the two sat side by side on the same rail looking like a
+   * rendering bug. Sibling traditions are exactly the records most likely to do this,
+   * and exactly the ones a reader is meant to be able to tell apart.
+   *
+   * A record held back for this keeps its place in the shelf's count and in the list
+   * behind it, the same as one held back for having appeared already.
+   */
+  const shownPhotos = new Set<string>();
+
   return (
     SHELF_DEFS.map((def) => {
       const matching = dishes.filter(def.match);
-      const available = matching.filter((d) => !shown.has(d.id));
+      // Both directions: against what earlier shelves used, and against itself, since
+      // two records sharing a picture are just as likely to land on one rail as on two.
+      const usedHere = new Set(shownPhotos);
+      const available = matching.filter((d) => {
+        if (shown.has(d.id)) return false;
+        if (!d.photo) return true;
+        if (usedHere.has(d.photo)) return false;
+        usedHere.add(d.photo);
+        return true;
+      });
       const rail = def.spread
         ? spreadByPlace(railOrder(available, available.length), perShelf)
         : railOrder(available, perShelf);
-      for (const dish of rail) shown.add(dish.id);
+      for (const dish of rail) {
+        shown.add(dish.id);
+        if (dish.photo) shownPhotos.add(dish.photo);
+      }
 
       return {
         id: def.id,

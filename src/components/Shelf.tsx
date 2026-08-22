@@ -87,7 +87,16 @@ const styles = StyleSheet.create({
   rail: { gap: 10, paddingTop: 10, paddingBottom: 4, paddingRight: space[3] },
   card: { width: CARD },
   photo: { width: CARD, height: CARD, borderRadius: radius.md },
-  name: { fontFamily: font.medium, fontSize: 12, lineHeight: 12 * 1.3, marginTop: 6 },
+  // Two lines’ worth of height whether the title needs one or two, so the place and
+  // the score line up across a rail. "Neapolitan Pizza Margherita" wraps and its
+  // neighbours do not, which left three cards with their metadata at three heights.
+  name: {
+    fontFamily: font.medium,
+    fontSize: 12,
+    lineHeight: 12 * 1.3,
+    marginTop: 6,
+    minHeight: 12 * 1.3 * 2,
+  },
   place: { fontSize: 11 },
   badge: { fontSize: 10 },
 

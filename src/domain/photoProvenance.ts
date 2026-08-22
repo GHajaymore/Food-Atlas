@@ -121,3 +121,40 @@ export function tidyCredit(raw: string): string {
   // original stands — an ugly credit is a licence met, and a missing one is not.
   return credit || original;
 }
+
+/**
+ * Whether a file is a photograph of the food, or something else entirely.
+ *
+ * 283 records were illustrated with something that is not a picture of a dish, and
+ * two of those files accounted for most of it: **220 records shared
+ * `Noia_64_apps_energy.png`**, which is a KDE desktop icon, and 35 shared
+ * `ChineseDishLogo.png`. Both come from articles that use a placeholder graphic where
+ * a photograph would go, and the ingest took the article's image without asking what
+ * the image was.
+ *
+ * The rest are the same mistake in smaller numbers: company logos (Brooke Bond,
+ * Bombay Sweets, Mavalli Tiffin Room), a wine-region locator map, and two PDFs — one
+ * of them a scanned 1936 book called *Plenty of Onions* — which a browser cannot
+ * render as an image at all.
+ *
+ * A record refused here shows the monogram instead, which says "no photograph on
+ * record". That is true, and it is what 49% of the atlas already says. An icon of a
+ * lightning bolt captioned as Andalusian olives is not a photograph the reader is
+ * better off having.
+ *
+ * Matched on the file name because that is all we hold. Deliberately narrow: real
+ * photographs are saved as png often enough that the extension alone proves nothing,
+ * so only formats a browser will not show as a photo are refused outright, and the
+ * name has to actually say logo, icon, map or one of the icon-set prefixes.
+ */
+const NOT_AN_IMAGE = /\.(pdf|svgz?|tiff?|djvu|ogv|webm)$/i;
+
+const A_GRAPHIC_NOT_A_PHOTOGRAPH =
+  /(^|[_\- ])(noia|nuvola|crystal|gnome|oxygen|tango|emblem|symbol)[_\- ]|logo|icon|_map\b|flag[_ ]of|placeholder|no[_ ]image/i;
+
+export function isPhotograph(url: string): boolean {
+  const file = decodeURIComponent((url ?? '').split('/').pop() ?? '').split('?')[0];
+  if (!file) return false;
+  if (NOT_AN_IMAGE.test(file)) return false;
+  return !A_GRAPHIC_NOT_A_PHOTOGRAPH.test(file);
+}
