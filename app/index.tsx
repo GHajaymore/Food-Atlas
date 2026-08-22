@@ -21,6 +21,7 @@ import { Shelf } from '../src/components/Shelf';
 import { MapPinIcon, SearchIcon } from '../src/components/icons';
 import { Photo } from '../src/components/Photo';
 import { Pressable } from '../src/components/Pressable';
+import { FadingScrollRow } from '../src/components/ScrollEdge';
 import { Screen } from '../src/components/Screen';
 import { H4, H6, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
@@ -162,12 +163,11 @@ export default function Feed() {
         </View>
       ) : null}
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.chipScroller}
-        contentContainerStyle={styles.chipRow}
-      >
+      {/* The chips overflow every phone and most desktop windows, and the row was
+          cut off mid-chip with nothing to say it continued. The fade at the right
+          edge is the only affordance added — no scrollbar, no arrows, neither of
+          which the design uses anywhere else. */}
+      <FadingScrollRow style={styles.chipScroller} contentContainerStyle={styles.chipRow}>
         {FILTERS.map((f) => (
           <Tag
             key={f.key}
@@ -177,7 +177,7 @@ export default function Feed() {
             onPress={() => setFilter(f.key)}
           />
         ))}
-      </ScrollView>
+      </FadingScrollRow>
 
       <Refine summary={refineSummary} count={dietNames.length + meals.length}>
         <DietFilter
