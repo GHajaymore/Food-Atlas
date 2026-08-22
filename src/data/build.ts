@@ -28,6 +28,7 @@ import { isFood } from '../domain/isDish';
 import { coverageOf } from '../domain/language';
 import { isPhotograph, photoOriginLine, tidyCredit, type PhotoSource } from '../domain/photoProvenance';
 import { placeBelow } from '../domain/place';
+import { recipeLines } from '../domain/recipeLines';
 import { decodeEntities } from '../domain/text';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
@@ -171,11 +172,12 @@ const cleanBlurb = (blurb: string, name: string): string => {
  * temperatures written `180&deg;C`. The quantity is the whole point of the line, so
  * an unreadable one is worse here than anywhere else on the record.
  *
- * Empty lines are dropped at the same time. They come from the same source markup
- * and render as a bullet with nothing beside it.
+ * Entities are decoded first, then `recipeLines` decides what is a line at all —
+ * dropping page furniture that became a step, and splitting a bullet list that lost
+ * its newlines back into the ingredients it holds.
  */
 const cleanLines = (lines: string[] | undefined): string[] =>
-  (lines ?? []).map((line) => decodeEntities(line).replace(/\s+/g, ' ').trim()).filter(Boolean);
+  recipeLines((lines ?? []).map(decodeEntities));
 
 /** The photograph fields an enrichment pass may have written onto a source row. */
 interface PhotoRow {

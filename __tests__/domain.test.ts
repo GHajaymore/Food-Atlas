@@ -43,6 +43,8 @@ import { confirmAsk, contestedNote } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { isPhotograph, tidyCredit } from '../src/domain/photoProvenance';
 import { notAPlaceBelow } from '../src/domain/place';
+import { recipeLines } from '../src/domain/recipeLines';
+import { decodeEntities } from '../src/domain/text';
 import {
   considerSource,
   describesMethod,
@@ -2392,5 +2394,85 @@ describe('finding sources without judging them', () => {
     });
     expect(withAccount.level).toBe('unverified');
     expect(withAccount.score).toBeNull();
+  });
+});
+
+describe('what counts as a line of a recipe', () => {
+  it('splits a bullet list that lost its newlines back into ingredients', () => {
+    expect(recipeLines(['*Yam *Water'])).toEqual(['Yam', 'Water']);
+    expect(recipeLines(['*Ewedu *Gbegiri *Obe ata'])).toEqual(['Ewedu', 'Gbegiri', 'Obe ata']);
+    expect(recipeLines(['*sesame *anise seeds *milk *eggs *sugar'])).toEqual([
+      'sesame', 'anise seeds', 'milk', 'eggs', 'sugar',
+    ]);
+  });
+
+  it('leaves an asterisk that is not a bullet exactly as the author wrote it', () => {
+    /*
+     * Each of these is in the corpus, and each would be mangled by a rule that
+     * treated every asterisk as markup. The multiplication is the worst of them:
+     * splitting it would turn one correct quantity into two wrong ones.
+     */
+    const untouched = [
+      'versez le riz avec une fois et demi son volume d’eau (150g*1.5=225ml d’eau)',
+      'Nudeln und die Soße zusammen in einen Topf geben und anrichten *guten Appetit*',
+      '2 blancs de poireaux (facultatif)*,',
+      'piquer le à la cuisse, qui est le morceau le plus *long à cuire',
+    ];
+    expect(recipeLines(untouched)).toEqual(untouched);
+  });
+
+  it('strips a single leading bullet without splitting the line', () => {
+    expect(recipeLines(['* 1/2 Kg de cebolla'])).toEqual(['1/2 Kg de cebolla']);
+    expect(recipeLines(['* Picar a cebola finamente e fritar num tacho com azeite'])).toEqual([
+      'Picar a cebola finamente e fritar num tacho com azeite',
+    ]);
+  });
+
+  it('keeps the instruction and drops the page furniture stuck to its end', () => {
+    /*
+     * Teurgoule's last step is "serve at room temperature", followed by the article's
+     * own interwiki links. Dropping the whole line would take the instruction with it,
+     * which is why furniture truncates rather than deletes.
+     */
+    expect(
+      recipeLines(['Servez à température ambiante Fallue Teurgoule Teurgoule en:Cookbook:Teurgoule']),
+    ).toEqual(['Servez à température ambiante Fallue Teurgoule Teurgoule']);
+  });
+
+  it('drops a line that is nothing but furniture', () => {
+    expect(recipeLines(['Kategorie:Kochbuch/ Desserts'])).toEqual([]);
+    expect(recipeLines(['Erfasst von: --Ralf Roletschek 22:53, 31.'])).toEqual([]);
+    expect(recipeLines(['---- Stammt von Wikipedia, Hauptautor war Choel'])).toEqual([]);
+    expect(recipeLines(['= Liens externes = Boule de riz'])).toEqual([]);
+    expect(recipeLines(['--marhac 16:07, 8.'])).toEqual([]);
+  });
+
+  it('drops a line with nothing a reader can use', () => {
+    expect(recipeLines(['...', '', '  ', '----', '•'])).toEqual([]);
+  });
+});
+
+describe('HTML entities in the fields a cook reads', () => {
+  it('decodes the quantity, the temperature and the letter', () => {
+    expect(decodeEntities('approx. &frac34; pounds (330 g) apples')).toBe('approx. ¾ pounds (330 g) apples');
+    expect(decodeEntities('Bake at 180&deg;C')).toBe('Bake at 180°C');
+    expect(decodeEntities('1 large (2.5&nbsp;kg / 5 lb) cabbage')).toBe('1 large (2.5 kg / 5 lb) cabbage');
+    expect(decodeEntities('50&ndash;60 g suet')).toBe('50–60 g suet');
+    expect(decodeEntities('Roll the Aramba&#353;ici')).toBe('Roll the Arambašici');
+    expect(decodeEntities('&#189; cup sugar')).toBe('½ cup sugar');
+  });
+
+  it('leaves an entity it does not know as itself, rather than guessing', () => {
+    /*
+     * A visible fault can be found and fixed. A silent replacement character cannot,
+     * and in a quantity it would be a number nobody can recover.
+     */
+    expect(decodeEntities('&notarealentity; of flour')).toBe('&notarealentity; of flour');
+    expect(decodeEntities('&#99999999; of flour')).toBe('&#99999999; of flour');
+  });
+
+  it('leaves text with no entity in it untouched', () => {
+    expect(decodeEntities('2 cups plain flour')).toBe('2 cups plain flour');
+    expect(decodeEntities('salt & pepper')).toBe('salt & pepper');
   });
 });
