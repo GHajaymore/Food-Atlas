@@ -26,6 +26,7 @@ import { catalogue as dishes } from '../src/data/catalogue';
 import { CLASSIFICATIONS } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { cookWith, parsePantry } from '../src/domain/pantry';
+import { STAPLES } from '../src/domain/staples';
 import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/domain/queries';
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
@@ -37,12 +38,17 @@ import { color, radius, space } from '../src/theme/tokens';
 const LEVEL_FACETS: Level[] = ['local', 'regional', 'variation', 'adaptation', 'fusion'];
 
 /**
- * Starting points for the pantry, chosen to span the world rather than to be the
- * commonest. Somebody arriving should see at once that this is an atlas and not a
- * Western recipe site; paneer and tofu are both here because between them they cover a
- * great deal of what a vegetarian reader reaches for.
+ * Starting points for the pantry, drawn from the staple vocabulary rather than from a
+ * list I guessed at.
+ *
+ * One per group — a grain, a root, a pulse, a dairy, a meat, an aromatic — so the first
+ * thing a reader sees spans the world's kitchens instead of one of them. Every staple in
+ * that vocabulary was checked against the catalogue and matches real records, so none of
+ * these chips can return nothing.
  */
-const PANTRY_SUGGESTIONS = ['chicken', 'beef', 'paneer', 'tofu', 'rice', 'coconut', 'lentils', 'aubergine'];
+const PANTRY_SUGGESTIONS = ['rice', 'cassava', 'lentil', 'paneer', 'chicken', 'tofu', 'coconut', 'aubergine'].map(
+  (key) => STAPLES.find((s) => s.key === key)!,
+);
 
 /** Result rows rendered per page. */
 const PAGE_SIZE = 30;
@@ -179,13 +185,13 @@ export default function Search() {
       {mode === 'pantry' ? (
         <>
           <View style={styles.suggestions}>
-            {PANTRY_SUGGESTIONS.map((term) => (
+            {PANTRY_SUGGESTIONS.map((staple) => (
               <Tag
-                key={term}
-                label={`+ ${term}`}
+                key={staple.key}
+                label={`+ ${staple.label}`}
                 variant="outline"
                 onPress={() =>
-                  setPantryInput((was) => (was.trim() ? `${was.trim()}, ${term}` : term))
+                  setPantryInput((was) => (was.trim() ? `${was.trim()}, ${staple.key}` : staple.key))
                 }
               />
             ))}

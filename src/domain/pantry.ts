@@ -34,6 +34,7 @@
  * than left assuming the atlas holds Korean food it does not.
  */
 
+import { resolveStaple, type Staple } from './staples';
 import type { Dish } from './types';
 
 /**
@@ -131,6 +132,19 @@ export interface PantryResult {
   matches: PantryMatch[];
   /** Terms nothing in the atlas uses. Reported rather than silently dropped. */
   missing: string[];
+  /**
+   * Terms that are not main ingredients — a spice, an aromatic, or a word the
+   * vocabulary does not know.
+   *
+   * Ajay's rule: the pantry is for what a meal is planned around, not what it is
+   * seasoned with. Everyone has garlic and cumin; matching on them returns most of the
+   * atlas and teaches a reader nothing.
+   *
+   * Reported separately from `missing`, because "we do not search on cumin" and
+   * "nothing recorded uses gochujang" are different answers and a reader deserves to
+   * know which one they got.
+   */
+  notMain: string[];
 }
 
 /** Split what somebody typed. Commas, "and", and newlines all mean the same thing. */
@@ -157,9 +171,37 @@ export const parsePantry = (input: string): string[] => {
  * dish using five of them is at the top, and the reader can see how many each one used.
  */
 export function cookWith(dishes: Dish[], terms: string[], limit = 60): PantryResult {
-  const wanted = terms.filter((t) => t.trim().length >= 2);
-  if (!wanted.length) return { matches: [], missing: [] };
+  const offered = terms.filter((t) => t.trim().length >= 2);
+  if (!offered.length) return { matches: [], missing: [], notMain: [] };
 
+  /*
+   * Restricted to main ingredients, which is the whole difference between this and a
+   * text search over recipe lines.
+   *
+   * A reader plans a meal around chicken, aubergines or lentils. Nobody plans one around
+   * cumin — and matching on it would return most of the atlas, because everybody's
+   * cupboard and most of the world's cooking contains it. So a term that does not
+   * resolve to a main staple is refused *and named*, rather than quietly matching
+   * everything or quietly matching nothing.
+   *
+   * Resolving also normalises: "eggplant" and "aubergines" both become the aubergine
+   * staple, so the result is deduplicated and the label shown back is consistent.
+   */
+  const resolved: { term: string; staple: Staple }[] = [];
+  const notMain: string[] = [];
+
+  for (const term of offered) {
+    const staple = resolveStaple(term);
+    if (staple) {
+      if (!resolved.some((r) => r.staple.key === staple.key)) resolved.push({ term, staple });
+    } else {
+      notMain.push(term);
+    }
+  }
+
+  if (!resolved.length) return { matches: [], missing: [], notMain };
+
+  const wanted = resolved.map((r) => r.staple.key);
   const matches: PantryMatch[] = [];
   const everUsed = new Set<string>();
 
@@ -186,5 +228,6 @@ export function cookWith(dishes: Dish[], terms: string[], limit = 60): PantryRes
   return {
     matches: matches.slice(0, limit),
     missing: wanted.filter((term) => !everUsed.has(term)),
+    notMain,
   };
 }

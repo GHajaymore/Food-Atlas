@@ -97,7 +97,7 @@ describe('reading what somebody typed', () => {
 
   test('nothing usable gives nothing', () => {
     expect(parsePantry('   ')).toEqual([]);
-    expect(cookWith([dish({ id: 1, ingredients: ['chicken'] })], [])).toEqual({ matches: [], missing: [] });
+    expect(cookWith([dish({ id: 1, ingredients: ['chicken'] })], [])).toEqual({ matches: [], missing: [], notMain: [] });
   });
 });
 
@@ -118,9 +118,16 @@ describe('what can be made', () => {
     expect(matches.map((m) => m.dish.id)).toEqual([2]);
   });
 
-  test('says which terms nothing uses, rather than dropping them silently', () => {
-    const { missing } = cookWith([chickenOnly], ['chicken', 'gochujang']);
-    expect(missing).toEqual(['gochujang']);
+  test('a word the vocabulary does not know is named as such, not silently dropped', () => {
+    const { notMain, matches } = cookWith([chickenOnly], ['chicken', 'gochujang']);
+    expect(notMain).toEqual(['gochujang']);
+    expect(matches).toHaveLength(1);
+  });
+
+  test('says which main ingredients nothing recorded uses', () => {
+    // Teff is in the vocabulary, so it is searched — and nothing here has any.
+    const { missing } = cookWith([chickenOnly], ['chicken', 'teff']);
+    expect(missing).toEqual(['teff']);
   });
 
   test('a dish with a recorded method beats one without, all else equal', () => {
@@ -139,5 +146,42 @@ describe('what can be made', () => {
     const many = Array.from({ length: 80 }, (_, i) => dish({ id: i + 10, ingredients: ['rice'] }));
     expect(cookWith(many, ['rice']).matches).toHaveLength(60);
     expect(cookWith(many, ['rice'], 5).matches).toHaveLength(5);
+  });
+});
+
+describe('restricted to what a meal is planned around', () => {
+  const spiced = dish({ id: 1, ingredients: ['chicken', 'cumin', 'garlic', 'turmeric'], steps: ['cook'] });
+
+  test('a spice is refused rather than matched', () => {
+    /*
+     * Ajay's rule. Everyone has cumin and garlic; matching on them returns most of the
+     * atlas and teaches a reader nothing about what to cook.
+     */
+    const { matches, notMain } = cookWith([spiced], ['cumin']);
+    expect(matches).toEqual([]);
+    expect(notMain).toEqual(['cumin']);
+  });
+
+  test('an aromatic is in the vocabulary but not offered to the pantry', () => {
+    // Garlic is a staple of many cuisines and still not something a meal is planned on.
+    expect(cookWith([spiced], ['garlic']).notMain).toEqual(['garlic']);
+  });
+
+  test('main ingredients still work beside a refused one', () => {
+    const { matches, notMain } = cookWith([spiced], ['chicken', 'cumin']);
+    expect(matches).toHaveLength(1);
+    expect(matches[0].used).toEqual(['chicken']);
+    expect(notMain).toEqual(['cumin']);
+  });
+
+  test('a synonym resolves to its staple, so results are not split', () => {
+    const aubergine = dish({ id: 2, ingredients: ['2 aubergines'], steps: ['cook'] });
+    expect(cookWith([aubergine], ['eggplant']).matches).toHaveLength(1);
+  });
+
+  test('two words for one staple are one term, not two', () => {
+    const aubergine = dish({ id: 2, ingredients: ['aubergine'], steps: ['cook'] });
+    const { matches } = cookWith([aubergine], ['aubergine', 'eggplant']);
+    expect(matches[0].used).toHaveLength(1);
   });
 });

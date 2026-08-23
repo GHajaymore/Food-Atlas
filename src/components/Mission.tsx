@@ -169,7 +169,7 @@ export function Mission() {
           <Button
             label="How it gets authenticated"
             variant="secondary"
-            onPress={() => router.push('/atlas')}
+            onPress={() => router.push('/how')}
           />
         </View>
           {!open ? (
