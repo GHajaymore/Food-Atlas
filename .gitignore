@@ -40,3 +40,7 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Local secrets for `wrangler pages dev`. Never committed.
+.dev.vars
+.wrangler/

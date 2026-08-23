@@ -113,7 +113,23 @@ export interface Proposal {
   people: Confirmation[];
 }
 
-export const PROPOSALS_URL = process.env.EXPO_PUBLIC_PROPOSALS_URL ?? '';
+/**
+ * Where the proposals API lives.
+ *
+ * Defaults to `/api` rather than to empty, which is the opposite of how
+ * `CONFIRMATIONS_URL` and the donate link work — and the difference is that those point
+ * at somewhere else. This API ships in the same repository, deploys in the same build,
+ * and is served from the same origin by `functions/api`. There is nothing to configure
+ * and nowhere else it could be.
+ *
+ * Found by discovering that `.env` is gitignored, as it should be: had this stayed
+ * env-driven, every deploy would have shipped with proposals silently switched off and
+ * the app cheerfully explaining that submissions were not open yet.
+ *
+ * Still overridable, for the one case that is real: pointing a local app at a deployed
+ * API while working on the client.
+ */
+export const PROPOSALS_URL = process.env.EXPO_PUBLIC_PROPOSALS_URL ?? '/api';
 
 export const canPropose = (): boolean => PROPOSALS_URL.trim().length > 0;
 

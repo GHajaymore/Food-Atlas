@@ -1,0 +1,38 @@
+#:schema node_modules/wrangler/config-schema.json
+#
+# Cloudflare Pages + D1, for proposals only.
+#
+# The catalogue is not in here and that is the point: 18,008 records that change when an
+# ingest script runs belong in files, and files on a CDN have no runtime, no cold start
+# and no bill. What changes when a *reader* acts — a proposal, a confirmation — is the
+# only thing that needs a database, and it is the only thing in this file.
+#
+# ## Setup, once
+#
+#   npx wrangler d1 create wikifoodia          # prints the database_id below
+#   npx wrangler d1 migrations apply wikifoodia --remote
+#   npx wrangler pages secret put IDENTITY_SECRET
+#
+# The last one is not optional. With no secret every write endpoint returns 503 rather
+# than falling back to an unsigned identity — see functions/api/_middleware.ts for why
+# failing loudly is the only safe direction here.
+#
+# ## What this costs
+#
+# Nothing, at any scale this project will reach. D1's free plan allows 5 GB of storage,
+# 5 million row reads and 100,000 row writes a day; Pages Functions allow 100,000
+# requests a day. A proposal is a few hundred bytes and a confirmation less, so the
+# binding constraint is requests rather than storage, and the catalogue — which is every
+# byte that matters — is served as static files that do not touch a Function at all.
+
+name = "wikifoodia"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-08-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wikifoodia"
+# Replace with the id printed by `wrangler d1 create`. Safe to commit — it identifies
+# the database, it does not authorise anything.
+database_id = "REPLACE_WITH_ID_FROM_WRANGLER_D1_CREATE"
+migrations_dir = "migrations"

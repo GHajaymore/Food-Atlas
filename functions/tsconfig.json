@@ -1,0 +1,21 @@
+{
+  // Pages Functions run on Workers, not on React Native, and the two type worlds
+  // genuinely conflict — Workers has its own Request, Response and crypto, and the
+  // app's tsconfig pulls in jest, react and node. Checking both under one config
+  // produced errors that were real in neither runtime.
+  //
+  // So the root tsconfig excludes this directory and this one checks it, with only the
+  // globals Cloudflare actually provides. `npm run typecheck` runs both.
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "lib": ["es2022"],
+    "types": ["@cloudflare/workers-types"],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true
+  },
+  "include": ["**/*.ts"]
+}

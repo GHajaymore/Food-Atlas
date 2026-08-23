@@ -16,5 +16,10 @@
   "include": [
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "exclude": [
+    "functions",
+    "dist",
+    "node_modules"
   ]
 }
