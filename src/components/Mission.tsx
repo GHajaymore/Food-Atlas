@@ -40,6 +40,7 @@ import { router } from 'expo-router';
 import { catalogue, catalogueStats } from '../data/catalogue';
 import { isAuthentic, VALIDATIONS_REQUIRED } from '../domain/authenticity';
 import { canConfirm } from '../domain/confirmations';
+import { useLayout } from '../theme/layout';
 import { canContribute } from '../domain/contribution';
 import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
@@ -61,6 +62,7 @@ function Stat({ value, label, accent }: { value: string; label: string; accent?:
 
 export function Mission() {
   const { total, countries } = catalogueStats;
+  const { wide } = useLayout();
 
   const documented = catalogue.filter((d) => d.steps.length || d.prepSummary.trim()).length;
   const unwritten = total - documented;
@@ -93,23 +95,41 @@ export function Mission() {
        * the same count appears below, in figures rather than as a percentage, because
        * "10,197 records" is a thing a reader can picture and "57%" is a verdict.
        */}
-      <T style={styles.headline}>{n(total)} dishes, and the evidence behind every one.</T>
+      {/*
+       * Two columns on a wide screen, stacked on a phone.
+       *
+       * The stacked version was the whole design, and on a desktop it read as a phone
+       * page someone had widened: a headline, then prose, then figures, then the ask —
+       * four full-width bands down a 1240px column, none of which needed that width and
+       * one of which (the prose) was actively harmed by it.
+       *
+       * Side by side, the argument and the ask are visible together without scrolling,
+       * which is what the extra width is actually good for. The measure is capped at
+       * `readable` on the left rather than allowed to fill its half, because a line
+       * length is a fact about reading rather than about the container.
+       */}
+      <View style={wide ? styles.heroRow : undefined}>
+        <View style={wide ? styles.heroMain : undefined}>
+          <T style={wide ? styles.headlineWide : styles.headline}>
+            {n(total)} dishes, and the evidence behind every one.
+          </T>
 
-      <Muted style={styles.stakes}>
-        From {countries} countries — each record showing where it came from, who says so, and how
-        much has actually been established. {n(heritage)} carry a protected designation or a
-        heritage listing.
-      </Muted>
+          <Muted style={[styles.stakes, wide ? styles.stakesWide : null]}>
+            From {countries} countries — each record showing where it came from, who says so, and
+            how much has actually been established. {n(heritage)} carry a protected designation or
+            a heritage listing.
+          </Muted>
 
-      <View style={styles.stats}>
-        <Stat value={n(total)} label="dishes" />
-        <Stat value={String(countries)} label="countries" />
-        <Stat value={n(documented)} label="documented" />
-        {/* The accent goes on the only figure a person, rather than a source, can move. */}
-        <Stat value={n(authenticated)} label="authentic" accent />
-      </View>
+          <View style={styles.stats}>
+            <Stat value={n(total)} label="dishes" />
+            <Stat value={String(countries)} label="countries" />
+            <Stat value={n(documented)} label="documented" />
+            {/* The accent goes on the only figure a person, rather than a source, can move. */}
+            <Stat value={n(authenticated)} label="authentic" accent />
+          </View>
+        </View>
 
-      <View style={styles.callout}>
+        <View style={wide ? styles.heroAside : styles.callout}>
         <T style={styles.ask}>
           {n(unwritten)} of these have no method recorded. {VALIDATIONS_REQUIRED} people from a
           place can fix one for good.
@@ -128,12 +148,13 @@ export function Mission() {
             onPress={() => router.push('/atlas')}
           />
         </View>
-        {!open ? (
-          <Muted style={styles.pending}>
-            Submissions are not open yet — there is nowhere to send them. The route above explains
-            what happens when they are.
-          </Muted>
-        ) : null}
+          {!open ? (
+            <Muted style={styles.pending}>
+              Submissions are not open yet — there is nowhere to send them. The route above
+              explains what happens when they are.
+            </Muted>
+          ) : null}
+        </View>
       </View>
 
       <Muted style={styles.free}>
@@ -159,6 +180,23 @@ export function Mission() {
 const styles = StyleSheet.create({
   wrap: { marginBottom: space[4], gap: space[3] },
 
+  heroRow: { flexDirection: 'row', gap: 40, alignItems: 'flex-start' },
+  heroMain: { flex: 1.35, minWidth: 0 },
+  /* The aside keeps the callout's tinted panel — it is still the one thing on the
+     screen a reader can act on, and it should not lose that by moving sideways. */
+  heroAside: {
+    flex: 1,
+    minWidth: 320,
+    borderWidth: 1,
+    borderColor: color.divider,
+    borderLeftWidth: 3,
+    borderLeftColor: color.accent,
+    borderRadius: radius.md,
+    padding: space[4],
+    gap: space[2],
+  },
+  headlineWide: { fontFamily: font.heading, fontSize: 40, lineHeight: 46, color: color.text },
+  stakesWide: { fontSize: 15, lineHeight: 24, maxWidth: 560, marginTop: 14 },
   headline: { fontFamily: font.heading, fontSize: 25, lineHeight: 31, color: color.text },
   stakes: { fontSize: 14, lineHeight: 21 },
 

@@ -15,6 +15,7 @@ import { Button, IconButton } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
+import { LanguagePicker } from '../src/components/LanguagePicker';
 import { Wordmark } from '../src/components/Wordmark';
 import { MealFilter } from '../src/components/MealFilter';
 import { Mission } from '../src/components/Mission';
@@ -40,6 +41,7 @@ import { settings, useApp } from '../src/state/store';
 
 /** Dish cards rendered per page of the feed. */
 const PAGE_SIZE = 30;
+import { useLayout } from '../src/theme/layout';
 import { accentText, color, elevation, radius, space } from '../src/theme/tokens';
 
 export default function Feed() {
@@ -129,21 +131,33 @@ export default function Feed() {
     ...dietKinds.map((k) => KIND_LABELS[k].toLowerCase()),
   ];
 
+  const { wide } = useLayout();
+
   // What the collapsed Refine row says, so an active constraint stays visible even
   // when its controls are folded away.
   const refineSummary = [...dietNames, ...meals.map((m) => MEAL_LABELS[m].toLowerCase())].join(' · ');
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <View style={styles.headerText}>
-          <Wordmark size={20} />
-          <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
+      {/*
+       * The page's own masthead, on phones only.
+       *
+       * `TopBar` carries the wordmark and a search link above the tablet breakpoint, so
+       * on a desktop this rendered the mark and the tagline a second time, forty pixels
+       * under the first — which is the sort of thing that makes a wide layout read as a
+       * phone page with a header bolted on top.
+       */}
+      {!wide ? (
+        <View style={styles.header}>
+          <View style={styles.headerText}>
+            <Wordmark size={20} />
+            <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
+          </View>
+          <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
+            <SearchIcon size={18} color={color.accent} />
+          </IconButton>
         </View>
-        <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
-          <SearchIcon size={18} color={color.accent} />
-        </IconButton>
-      </View>
+      ) : null}
 
       {/* The front door, above the controls.
 
@@ -152,6 +166,23 @@ export default function Feed() {
           so a first-time visitor met three rows of chrome before anything said what
           the atlas was. Only on the clean browsing view: somebody who has picked a
           country has answered the question already. */}
+      {/*
+       * The language picker, on the front page rather than buried.
+       *
+       * Twelve translations of the chrome have existed for a while with no way for a
+       * reader to reach them — the device's language was taken as an instruction rather
+       * than the guess it is. Somebody whose phone is in English because that is what
+       * the shop sold them could not ask for Hindi.
+       *
+       * Only on the desktop header above the tablet breakpoint, so it is not repeated:
+       * `TopBar` already carries one there.
+       */}
+      {isBrowsing && !wide ? (
+        <View style={styles.languageRow}>
+          <LanguagePicker />
+        </View>
+      ) : null}
+
       {isBrowsing ? <Mission /> : null}
 
       {/* The primary control. */}
@@ -382,6 +413,7 @@ export default function Feed() {
 }
 
 const styles = StyleSheet.create({
+  languageRow: { marginTop: 12, marginBottom: 4 },
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',

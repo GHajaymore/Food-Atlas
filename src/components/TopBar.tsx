@@ -28,6 +28,7 @@ import { router, usePathname } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
 import { color, font, PAGE_PADDING, space, TAP_TARGET } from '../theme/tokens';
+import { LanguagePicker } from './LanguagePicker';
 import { Pressable } from './Pressable';
 import { T } from './Text';
 import { Wordmark } from './Wordmark';
@@ -76,6 +77,7 @@ export function TopBar() {
               </Pressable>
             );
           })}
+          <LanguagePicker compact />
         </View>
       </View>
     </View>

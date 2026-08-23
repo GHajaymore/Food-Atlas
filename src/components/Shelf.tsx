@@ -30,6 +30,14 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
   const layout = useLayout();
 
   /*
+   * Cards grow a little on a wide screen and the grid gets more of them per row.
+   * 132 is a phone size — at desktop widths a row of 132px cards reads as a strip of
+   * thumbnails rather than a grid of dishes, which is most of what made the wide
+   * layout still feel like a phone.
+   */
+  const cardSize = layout.size === 'desktop' ? 176 : layout.size === 'tablet' ? 156 : CARD;
+
+  /*
    * A rail on a phone, a wrapping grid on anything wider.
    *
    * Sideways scrolling is a good trade on a touch screen — a rail shows a handful for
@@ -63,9 +71,9 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             accessibilityLabel={`${dish.name}, ${dish.badgeLabel}`}
             tint="none"
             onPress={() => onOpenDish(dish.id)}
-            style={styles.card}
+            style={{ ...styles.card, width: cardSize }}
           >
-            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photo} />
+            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} />
             <T style={styles.name} numberOfLines={2}>
               {dish.name}
             </T>
@@ -84,7 +92,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             accessibilityLabel={`See all ${shelf.total} in ${shelf.title}`}
             tint="accent"
             onPress={() => onOpenAll(shelf)}
-            style={styles.more}
+            style={{ ...styles.more, width: cardSize, height: cardSize }}
           >
             <T style={styles.moreLabel}>See all</T>
             <Muted style={styles.moreCount}>{shelf.total.toLocaleString()}</Muted>
