@@ -9,8 +9,8 @@
 
 import { catalogue } from './catalogue';
 import { dishes } from '../src/data/seed';
-import { CLASSIFICATIONS, FILTERS, isAuthentic, viewsNumber } from '../src/domain/authenticity';
-import { assess } from '../src/domain/assess';
+import { CLASSIFICATIONS, FILTERS, isAuthentic, VALIDATIONS_REQUIRED, viewsNumber } from '../src/domain/authenticity';
+import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import {
@@ -2563,5 +2563,105 @@ describe('the chrome in other languages', () => {
       expect(copyFor(locale).interfaceTranslationNote).not.toBe(EN.interfaceTranslationNote);
     }
     expect(isMachineTranslated('en')).toBe(false);
+  });
+});
+
+describe('a record moves up when the community confirms it', () => {
+  /** Everything a published source can possibly supply, and nothing a person can. */
+  const bestDocumented = {
+    hasCountry: true,
+    hasRegion: true,
+    ingredients: ['a', 'b', 'c'],
+    heritage: ['Protected Designation of Origin (PDO), European Union register'],
+    hasArticle: true,
+    extractLength: 2000,
+    hasAccount: true,
+    registerMethod: true,
+  };
+
+  it('cannot reach the promotion threshold on documentation, however much there is', () => {
+    /*
+     * The guarantee the threshold rests on: `localSource` and `community` are both
+     * zero without confirmations, so the arithmetic cannot get there. If this ever
+     * fails, a record can be promoted without anybody from the place saying a word.
+     *
+     * It is deliberately *not* an assertion that the record is unauthentic. A
+     * heritage designation classifies a record as Authentic — Regional by a separate
+     * and older route, because a register tying a product to its place is what the
+     * brief calls a recognised traditional preparation. That route is a statement
+     * about the kind of evidence, and this one is about the weight of it.
+     */
+    const best = assess(bestDocumented);
+    expect(best.score).toBeLessThan(AUTHENTIC_AT);
+  });
+
+  it('leaves a documented-but-unconfirmed record where the evidence puts it', () => {
+    // No heritage, no register method: documentation alone, and it stays a version.
+    const documented = assess({ ...bestDocumented, heritage: [], registerMethod: false });
+    expect(documented.level).toBe('variation');
+    expect(isAuthentic(documented.level)).toBe(false);
+  });
+
+  it('is promoted once enough people from the place confirm it', () => {
+    const before = assess({ ...bestDocumented, heritage: [], registerMethod: false });
+    expect(before.level).toBe('variation');
+
+    const after = assess({
+      ...bestDocumented,
+      heritage: [],
+      registerMethod: false,
+      validations: VALIDATIONS_REQUIRED,
+    });
+    expect(after.level).toBe('regional');
+    expect(isAuthentic(after.level)).toBe(true);
+    expect(after.score!).toBeGreaterThanOrEqual(AUTHENTIC_AT);
+  });
+
+  it('is not promoted by a confirmation or two', () => {
+    // Partial confirmation is people looking, not people agreeing.
+    for (const validations of [1, VALIDATIONS_REQUIRED - 1]) {
+      const partial = assess({ ...bestDocumented, heritage: [], registerMethod: false, validations });
+      expect({ validations, level: partial.level }).toEqual({ validations, level: 'variation' });
+    }
+  });
+
+  it('says local when the locality confirmed it, regional when the region did', () => {
+    const regional = assess({ ...bestDocumented, validations: VALIDATIONS_REQUIRED });
+    const local = assess({ ...bestDocumented, validations: VALIDATIONS_REQUIRED, validatedLocally: true });
+    expect(regional.level).toBe('regional');
+    expect(local.level).toBe('local');
+    // The score does not decide this one — where the people were does.
+    expect(local.score).toBe(regional.score);
+  });
+
+  it('credits technique only to a register’s own documented method', () => {
+    const techniqueOf = (e: Parameters<typeof assess>[0]) =>
+      assess(e).breakdown.find(([name]) => name === 'Traditional technique')?.[1];
+
+    // A published account is not evidence of the technique of the place.
+    expect(techniqueOf({ ...bestDocumented, registerMethod: false })).toBe(0);
+    expect(techniqueOf(bestDocumented)).toBeGreaterThan(0);
+  });
+
+  it('is not promoted by one confirmation, however strong the paperwork', () => {
+    /*
+     * The case that made the score an insufficient gate on its own. A record with a
+     * heritage designation and a register-documented method reaches 58 on a single
+     * confirmation — comfortably past the threshold — so without the floor one person
+     * could authenticate a tradition on the strength of documents that were already
+     * there before they arrived.
+     */
+    const strong = {
+      hasCountry: true,
+      hasRegion: true,
+      ingredients: ['a', 'b', 'c'],
+      heritage: ['PDO'],
+      hasArticle: true,
+      extractLength: 2000,
+      registerMethod: true,
+      validations: 1,
+    };
+    expect(assess(strong).score!).toBeGreaterThan(AUTHENTIC_AT);
+    expect(assess(strong).disclaimer).not.toMatch(/have confirmed this preparation/);
   });
 });

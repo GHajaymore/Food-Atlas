@@ -367,6 +367,16 @@ function expand(row: ImportedRow): Dish {
     hasArticle: row.evidence?.hasArticle ?? Boolean(row.infobox && row.url),
     extractLength: row.evidence?.extractLength ?? prepSummary.length,
     hasAccount: prepSummary.length > 0,
+    /*
+     * The one source in the catalogue whose account is a register's own documented
+     * production method. `ingest-pat-register.mjs` fills `prepSummary` from the PAT
+     * sheet's `metodiche di lavorazione e conservazione` — the method the region
+     * records in order to protect the product — and sets `patRegion` when it does.
+     *
+     * Nothing else qualifies. A Wikibooks recipe and an encyclopaedia paragraph both
+     * describe a method without evidencing that it is the method of the place.
+     */
+    registerMethod: Boolean(row.patRegion && prepSummary),
   });
 
   // Same rule as the cuisine source: a stored finding came from the article's
