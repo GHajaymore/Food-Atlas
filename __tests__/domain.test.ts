@@ -43,6 +43,7 @@ import { confirmAsk, contestedNote } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { isPhotograph, tidyCredit } from '../src/domain/photoProvenance';
 import { notAPlaceBelow } from '../src/domain/place';
+import { isOpenable } from '../src/domain/video';
 import { recipeLines } from '../src/domain/recipeLines';
 import { decodeEntities } from '../src/domain/text';
 import { negotiateLocale } from '../src/domain/uiLanguage';
@@ -2663,5 +2664,56 @@ describe('a record moves up when the community confirms it', () => {
     };
     expect(assess(strong).score!).toBeGreaterThan(AUTHENTIC_AT);
     expect(assess(strong).disclaimer).not.toMatch(/have confirmed this preparation/);
+  });
+});
+
+describe('links the app did not write', () => {
+  /*
+   * Every source URL on a record comes from Wikidata, Wikipedia or Wikibooks, all of
+   * which the public can edit. An atlas built out of open wikis has to assume its own
+   * data can be hostile.
+   */
+  it('refuses a scheme that could execute', () => {
+    for (const hostile of [
+      'javascript:alert(1)',
+      'JaVaScript:alert(1)',
+      'java\nscript:alert(1)',
+      ' javascript:alert(1)',
+      'data:text/html,<script>alert(1)</script>',
+      'blob:https://example.com/abc',
+      'file:///etc/passwd',
+      'vbscript:msgbox(1)',
+    ]) {
+      expect({ hostile, openable: isOpenable(hostile) }).toEqual({ hostile, openable: false });
+    }
+  });
+
+  it('opens the ones a record actually carries', () => {
+    for (const real of [
+      'https://en.wikipedia.org/wiki/Kozhikode_halwa',
+      'http://example.org/a',
+      'https://www.wikidata.org/wiki/Q123',
+      'mailto:someone@example.org',
+    ]) {
+      expect({ real, openable: isOpenable(real) }).toEqual({ real, openable: true });
+    }
+  });
+
+  it('refuses anything it cannot parse, rather than passing it on', () => {
+    for (const junk of ['', '   ', 'not a url', '//protocol-relative', 'wiki/Page']) {
+      expect({ junk, openable: isOpenable(junk) }).toEqual({ junk, openable: false });
+    }
+  });
+
+  it('has no record shipping a link it would refuse', () => {
+    // The runtime guard is defence in depth. This is the check that the data is clean.
+    const bad = catalogue.flatMap((d) => [
+      ...d.sources.filter((s) => s.url && !isOpenable(s.url)).map((s) => `${d.name}: ${s.url}`),
+      ...(d.popular?.url && !isOpenable(d.popular.url) ? [`${d.name}: ${d.popular.url}`] : []),
+      ...(d.originClaims ?? [])
+        .filter((c) => c.source.url && !isOpenable(c.source.url))
+        .map((c) => `${d.name}: ${c.source.url}`),
+    ]);
+    expect(bad.slice(0, 10)).toEqual([]);
   });
 });

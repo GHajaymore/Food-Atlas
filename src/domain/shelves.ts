@@ -218,7 +218,7 @@ function spreadByPlace(dishes: Dish[], take: number): Dish[] {
  * when the reader opens the shelf in full. One definition means "See all 70" cannot
  * drift away from what the rail was showing.
  */
-export const SHELF_DEFS: {
+export interface ShelfDef {
   id: string;
   title: string;
   note: string;
@@ -227,7 +227,9 @@ export const SHELF_DEFS: {
   spread?: boolean;
   /** Put the records that most need a contribution first. See the at-risk shelf. */
   urgentFirst?: boolean;
-}[] = [
+}
+
+export const SHELF_DEFS: ShelfDef[] = [
   {
     id: 'at-risk',
     title: 'Disappearing',
@@ -275,7 +277,48 @@ export const SHELF_DEFS: {
  * `perShelf` is small on purpose. A shelf is a doorway, not a list — its job is to
  * show enough to be worth opening and then get out of the way.
  */
-export function buildShelves(dishes: Dish[], perShelf = 12, turn = today()): Shelf[] {
+/**
+ * A shelf for the country the reader is probably in.
+ *
+ * Built here rather than declared in `SHELF_DEFS` because its title names a place, and
+ * the place is not known until the device is asked. See `nearby.ts` for why the guess
+ * is a timezone and why it is never used to hide anything.
+ *
+ * Ranked best-first like every other shelf, and deliberately not urgent-first: this is
+ * a welcome, not an ask. A reader who has just been told the atlas knows their country
+ * should meet the good records, and the request for the empty ones belongs on the
+ * front page where it can be put properly.
+ *
+ * First in the order, so it is the first thing a returning reader sees.
+ */
+const nearbyShelf = (country: string): ShelfDef => ({
+  id: 'nearby',
+  title: `From ${country}`,
+  note: `What the atlas holds from ${country}. Its accuracy here is worth more to you than anywhere else — you can tell whether it is right.`,
+  match: (d) => d.loc.country === country,
+});
+
+/**
+ * @param nearby The country the reader is probably in. Empty to omit the shelf, which
+ *   is the honest default: on a device whose zone the atlas does not recognise there
+ *   is nothing to say, and a shelf headed "From " would be worse than none.
+ */
+export function buildShelves(
+  dishes: Dish[],
+  perShelf = 12,
+  turn = today(),
+  nearby = '',
+): Shelf[] {
+  /*
+   * The local shelf only earns its place if it can be filled. A rail of two records
+   * headed "From Iceland" advertises the atlas's thinness rather than its reach, and
+   * MIN_RAIL would drop it anyway — this decides it before the work is done.
+   */
+  const defs =
+    nearby && dishes.filter((d) => d.loc.country === nearby).length >= MIN_RAIL
+      ? [nearbyShelf(nearby), ...SHELF_DEFS]
+      : SHELF_DEFS;
+
   /**
    * A record already shown above is not shown again further down.
    *
@@ -304,7 +347,7 @@ export function buildShelves(dishes: Dish[], perShelf = 12, turn = today()): She
   const shownPhotos = new Set<string>();
 
   return (
-    SHELF_DEFS.map((def, index) => {
+    defs.map((def, index) => {
       const matching = dishes.filter(def.match);
       // Both directions: against what earlier shelves used, and against itself, since
       // two records sharing a picture are just as likely to land on one rail as on two.

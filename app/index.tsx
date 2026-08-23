@@ -20,6 +20,7 @@ import { MealFilter } from '../src/components/MealFilter';
 import { Mission } from '../src/components/Mission';
 import { Refine } from '../src/components/Refine';
 import { Shelf } from '../src/components/Shelf';
+import { SiteNav } from '../src/components/SiteNav';
 import { MapPinIcon, SearchIcon } from '../src/components/icons';
 import { Photo } from '../src/components/Photo';
 import { Pressable } from '../src/components/Pressable';
@@ -32,6 +33,7 @@ import { FILTERS, filterDef } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
+import { likelyCountry } from '../src/domain/nearby';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
 import { useCopy } from '../src/i18n';
 import { settings, useApp } from '../src/state/store';
@@ -77,7 +79,14 @@ export default function Feed() {
   const scope = shelfPredicate ? dishes.filter(shelfPredicate) : dishes;
   const feed = feedFor(scope, activeFilter, path, diet, meals);
 
-  const shelves = useMemo(() => (isBrowsing ? buildShelves(dishes) : []), [isBrowsing, dishes]);
+  /* Where the reader probably is, from the device timezone. Read once: it cannot
+     change while the app is open, and nothing about it is sent anywhere. */
+  const nearby = useMemo(() => likelyCountry(), []);
+
+  const shelves = useMemo(
+    () => (isBrowsing ? buildShelves(dishes, undefined, undefined, nearby) : []),
+    [isBrowsing, dishes, nearby],
+  );
 
   const [page, setPage] = useState(1);
   const visible = feed.slice(0, page * PAGE_SIZE);
@@ -364,6 +373,10 @@ export default function Feed() {
         </Muted>
       </View>
       ) : null}
+
+      {/* The colophon. See SiteNav: the app had no route to its own pages.
+          Last, because nobody opens an atlas to read the funding page. */}
+      <SiteNav />
     </Screen>
   );
 }

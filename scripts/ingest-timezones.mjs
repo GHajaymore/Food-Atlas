@@ -63,9 +63,22 @@ async function text(url) {
 const main = async () => {
   const dry = process.argv.includes('--dry');
 
-  const [zoneTab, countryInfo] = await Promise.all([
+  const [zoneTab, countryInfo, backward] = await Promise.all([
     text('https://data.iana.org/time-zones/tzdb/zone1970.tab'),
     text('https://download.geonames.org/export/dump/countryInfo.txt'),
+    /*
+     * The aliases, which are not optional.
+     *
+     * `zone1970.tab` lists only canonical zones, and devices do not. A Windows machine
+     * in Indiana reports `America/Indianapolis`, whose canonical name is
+     * `America/Indiana/Indianapolis`; Indian phones commonly report `Asia/Calcutta`
+     * rather than `Asia/Kolkata`. Without this file the feature silently does nothing
+     * for a large share of readers, and silently is the operative word — there is no
+     * error, just no shelf.
+     *
+     * Found by reading the timezone off a real machine rather than trusting the table.
+     */
+    text('https://data.iana.org/time-zones/tzdb/backward'),
   ]);
 
   const name = new Map();
@@ -112,6 +125,25 @@ const main = async () => {
     const country = candidates.find((c) => known.has(c));
     if (country) map[zone.trim()] = country;
     else if (candidates[0]) unmatched.add(`${zone.trim()} -> ${candidates[0]}`);
+  }
+
+  /*
+   * Every alias inherits its target's country. Lines read:
+   *
+   *   Link  America/Indiana/Indianapolis  America/Indianapolis
+   *
+   * target first, alias second. An alias whose target the atlas dropped is skipped
+   * rather than guessed at.
+   */
+  let aliases = 0;
+  for (const line of backward.split('\n')) {
+    const parts = line.trim().split(/\s+/);
+    if (parts[0] !== 'Link' || parts.length < 3) continue;
+    const [, target, alias] = parts;
+    if (map[target] && !map[alias]) {
+      map[alias] = map[target];
+      aliases += 1;
+    }
   }
 
   if (!dry) await writeFile(OUT, JSON.stringify(map, null, 0), 'utf8');
