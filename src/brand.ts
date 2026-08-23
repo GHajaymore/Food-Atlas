@@ -53,6 +53,16 @@ export const BRAND = {
    *   Only the cook can call it authentic.                          (7, imprecise)
    *     — local, and plural: the rule needs three people, from the place
    *   Only local cooks can call it authentic.                       (7)
+   *     — "and their community", to stop excluding the diaspora the schema admits
+   *   Only local cooks and their community can call it authentic.   (10, too long)
+   *     — dropped "only": "decide" already means nobody else does
+   *   Local cooks decide what's authentic.                          (5)
+   *
+   * Five words carrying *who*, *what*, and the rule. "Their community" was lost to
+   * length, which is a real cost — the schema asks for a connection to the place and
+   * not residence in it, so a Kozhikode grandmother's grandson in Toronto qualifies
+   * and this line reads as though he does not. The record page says it properly; a
+   * tagline gets five words and has to spend them on the main claim.
    *
    * ## The candidates this replaced, and why each failed
    *
@@ -95,7 +105,7 @@ export const BRAND = {
    * general plea under a logo is easy to ignore; one naming a dish from your own town
    * is not.
    */
-  tagline: 'Only local cooks and their community can call it authentic.',
+  tagline: 'Local cooks decide what’s authentic.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
