@@ -1,0 +1,43 @@
+# Cloudflare Pages reads this file at deploy time and does not serve it.
+#
+# It is the Cloudflare counterpart of the `headers` block in vercel.json; the two
+# must be kept saying the same thing, because the project can deploy to either.
+
+# Metro fingerprints these filenames, so the content behind a given URL can never
+# change. Cache them for a year and never revalidate.
+/_expo/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The catalogue is the opposite case: 14.7 MB behind four filenames that never
+# change, holding content that changes whenever an ingest script runs. `immutable`
+# here would pin a reader to whatever data they first downloaded, possibly for
+# ever, so it is wrong however tempting the size makes it.
+#
+# An hour of freshness with a week of stale-while-revalidate means a repeat visit
+# paints from cache immediately while the new copy downloads behind it, and an
+# ingest run reaches everybody within the hour.
+/data/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+
+# Applied to everything, including the JSON above.
+/*
+  # The atlas renders text and links that came from open wikis, so a MIME sniff
+  # turning a response into something executable is a real risk rather than a
+  # theoretical one. Same reasoning as the scheme allowlist in src/domain/video.ts.
+  X-Content-Type-Options: nosniff
+
+  # Nothing here should be framed by another site.
+  X-Frame-Options: SAMEORIGIN
+
+  # Source links leave for Wikipedia, Wikidata and YouTube. Send the origin, never
+  # the full path — which dish somebody was reading is their business.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # The front page states that the app does not track anybody, and scripts/ingest-timezones.mjs
+  # explains why location comes from the timezone rather than from geolocation.
+  # This makes that claim enforceable by the browser instead of merely true today:
+  # the permission cannot be requested at all, by our code or anybody else's.
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=()

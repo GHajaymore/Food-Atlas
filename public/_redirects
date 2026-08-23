@@ -1,0 +1,15 @@
+# Cloudflare Pages reads this file at deploy time and does not serve it.
+#
+# The web build is a single-page app: expo-router owns /dish/…, /place/… and the
+# rest on the client, and the export emits exactly one index.html. Without this
+# line every URL except / returns 404 on a hard refresh or a shared link.
+#
+# 200 rather than 301: the address bar must keep the URL the reader asked for,
+# because expo-router reads it to decide what to render. A redirect would rewrite
+# it to / and lose the record.
+#
+# This does not swallow /data/*.json. Cloudflare Pages matches a static asset
+# before it evaluates _redirects, which is the same precedence vercel.json relies
+# on for its rewrite — and the reason the standard SPA splat is safe to use on a
+# site that also serves real files.
+/*  /index.html  200
