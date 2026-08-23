@@ -8,7 +8,7 @@
  */
 
 import { router } from 'expo-router';
-import { Children, useEffect, useState } from 'react';
+import { Children, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
@@ -25,6 +25,7 @@ import { Tag } from '../src/components/Tag';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CLASSIFICATIONS } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
+import { cookWith, parsePantry } from '../src/domain/pantry';
 import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/domain/queries';
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
@@ -34,6 +35,14 @@ import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
 const LEVEL_FACETS: Level[] = ['local', 'regional', 'variation', 'adaptation', 'fusion'];
+
+/**
+ * Starting points for the pantry, chosen to span the world rather than to be the
+ * commonest. Somebody arriving should see at once that this is an atlas and not a
+ * Western recipe site; paneer and tofu are both here because between them they cover a
+ * great deal of what a vegetarian reader reaches for.
+ */
+const PANTRY_SUGGESTIONS = ['chicken', 'beef', 'paneer', 'tofu', 'rice', 'coconut', 'lentils', 'aubergine'];
 
 /** Result rows rendered per page. */
 const PAGE_SIZE = 30;
@@ -85,6 +94,11 @@ export default function Search() {
     cuisines: facetCuisines,
   });
 
+  const [mode, setMode] = useState<'find' | 'pantry'>('find');
+  const [pantryInput, setPantryInput] = useState('');
+  const pantryTerms = useMemo(() => parsePantry(pantryInput), [pantryInput]);
+  const pantry = useMemo(() => cookWith(dishes, pantryTerms), [pantryTerms]);
+
   const [page, setPage] = useState(1);
   const visible = results.slice(0, page * PAGE_SIZE);
 
@@ -115,15 +129,132 @@ export default function Search() {
     <Screen bottomPad={50}>
       <NavRow title={copy.search} />
 
+      {/*
+       * Two questions, one screen.
+       *
+       * *Find a dish* asks where the thing I am thinking of is. *Cook with what I have*
+       * asks what I can do with what is in front of me. They want opposite behaviour —
+       * the first matches a dish's name, and the second must never, or "chicken" returns
+       * Chicken Tikka Masala whether or not the reader has a single one of its
+       * ingredients.
+       *
+       * Built first as its own screen and moved here at Ajay's call, which was right:
+       * both are somebody looking for a dish, and a reader who finds nothing under one
+       * should be one tap from trying the other rather than having to know a second
+       * page exists.
+       */}
+      <View style={styles.modes}>
+        {(
+          [
+            ['find', 'Find a dish'],
+            ['pantry', 'Cook with what I have'],
+          ] as const
+        ).map(([key, label]) => (
+          <Tag
+            key={key}
+            label={label}
+            variant={mode === key ? 'accent' : 'outline'}
+            onPress={() => setMode(key)}
+          />
+        ))}
+      </View>
+
       <Input
-        placeholder={copy.searchPlaceholder}
-        value={query}
-        onChangeText={setQuery}
+        placeholder={mode === 'pantry' ? 'chicken, tomatoes, rice' : copy.searchPlaceholder}
+        value={mode === 'pantry' ? pantryInput : query}
+        onChangeText={mode === 'pantry' ? setPantryInput : setQuery}
         autoCorrect={false}
         returnKeyType="search"
+        accessibilityLabel={mode === 'pantry' ? 'Ingredients you have' : copy.search}
         style={styles.queryField}
       />
 
+      {/*
+       * The pantry branch renders on its own, with no facet sidebar.
+       *
+       * The facets narrow `searchResults`, and this does not use `searchResults` — it
+       * uses `cookWith`, which ranks by how much of the reader's list a dish uses.
+       * Showing controls that would silently do nothing is worse than not showing them.
+       */}
+      {mode === 'pantry' ? (
+        <>
+          <View style={styles.suggestions}>
+            {PANTRY_SUGGESTIONS.map((term) => (
+              <Tag
+                key={term}
+                label={`+ ${term}`}
+                variant="outline"
+                onPress={() =>
+                  setPantryInput((was) => (was.trim() ? `${was.trim()}, ${term}` : term))
+                }
+              />
+            ))}
+          </View>
+
+          {pantryTerms.length ? (
+            <>
+              {pantry.missing.length ? (
+                <Muted style={styles.pantryNote}>
+                  Nothing recorded uses {pantry.missing.join(' or ')}. That may mean nobody has
+                  written down a dish that does — about half the atlas has no ingredients listed.
+                </Muted>
+              ) : null}
+
+              <View style={styles.resultsHeader}>
+                <H6>{pantry.matches.length ? `${pantry.matches.length} traditions` : 'Nothing yet'}</H6>
+                {pantry.matches.length ? (
+                  <Muted style={styles.resultCount}>Most of your list first</Muted>
+                ) : null}
+              </View>
+
+              {pantry.matches.map(({ dish, used }) => (
+                <Pressable
+                  key={dish.id}
+                  accessibilityRole="link"
+                  accessibilityLabel={`${dish.name}. Uses ${used.join(', ')}. ${dish.badgeLabel}`}
+                  tint="neutral"
+                  onPress={() => router.push(`/dish/${dish.id}`)}
+                  style={styles.pantryRow}
+                >
+                  {dish.photo ? (
+                    <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.pantryPhoto} />
+                  ) : null}
+                  <View style={styles.pantryText}>
+                    <T style={styles.pantryName} numberOfLines={2}>
+                      {dish.name}
+                    </T>
+                    <Muted style={styles.pantryPlace} numberOfLines={1}>
+                      {dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}
+                    </Muted>
+                    {/* Named rather than counted: "uses chicken, rice" is checkable
+                        against the record in a second; "3 matches" is a number to trust. */}
+                    <T style={styles.pantryUsed} numberOfLines={1}>
+                      uses {used.join(', ')}
+                    </T>
+                    <Muted style={styles.pantryBadge} numberOfLines={1}>
+                      {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : dish.badgeLabel}
+                      {dish.steps.length ? ' · method recorded' : ' · no method yet'}
+                    </Muted>
+                  </View>
+                </Pressable>
+              ))}
+
+              {!pantry.matches.length ? (
+                <Muted style={styles.pantryNote}>
+                  Nothing recorded uses those together. Try one at a time — or propose the dish you
+                  had in mind, if the atlas does not have it.
+                </Muted>
+              ) : null}
+            </>
+          ) : (
+            <Muted style={styles.pantryNote}>
+              Name what is in your kitchen. Only about half the atlas has its ingredients recorded,
+              so a dish missing here may simply be one nobody has written down yet.
+            </Muted>
+          )}
+        </>
+      ) : (
+        <>
       {active.length ? (
         <View style={styles.activeFacets}>
           {active.map((facet) => (
@@ -324,6 +455,8 @@ export default function Search() {
           </>
         }
       />
+        </>
+      )}
 
       <View style={styles.footer}>
         <Button label={copy.browseTheAtlas} variant="secondary" block onPress={() => router.push('/atlas')} />
@@ -351,6 +484,16 @@ function FacetGroup({ label, children }: { label: string; children: React.ReactN
 }
 
 const styles = StyleSheet.create({
+  modes: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: space[3] },
+  suggestions: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: space[3] },
+  pantryNote: { fontSize: 13, lineHeight: 20, marginTop: space[4] },
+  pantryRow: { flexDirection: 'row', gap: space[3], paddingVertical: space[2], alignItems: 'center' },
+  pantryPhoto: { width: 64, height: 64, borderRadius: radius.md },
+  pantryText: { flex: 1, minWidth: 0 },
+  pantryName: { fontSize: 14, lineHeight: 19 },
+  pantryPlace: { fontSize: 12 },
+  pantryUsed: { fontSize: 12, color: color.accent, marginTop: 2 },
+  pantryBadge: { fontSize: 11, marginTop: 1 },
   queryField: { marginBottom: 12 },
 
   activeFacets: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6, marginBottom: 14 },
