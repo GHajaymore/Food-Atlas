@@ -53,14 +53,45 @@ Recommended shape rather than a straight login wall:
 - The front page says "no accounts" in four places. **That wording has to change**, and
   it is the reason this is a decision rather than a task.
 
-**Desktop, continued.** Ajay: *"still works like a mobile version with big pictures and
-vertical scrolls — more of a website type"*. Done so far: responsive shell, wrapping
-grids, a masthead, a two-column hero, larger cards, no duplicated wordmark. Still to do:
+**The website redesign.** Ajay, 2026-08-23: *"Website needs redesign, it still behaves
+like an app. Need clickable from everywhere to list the filtered information, nice and
+rich content, better look and feel, user friendly."*
 
-- A record page that is two columns on desktop, not one long scroll.
-- Search with filters in a sidebar rather than stacked above the results.
-- A real site footer.
-- Hover states — there are none, and on a mouse that reads as a dead page.
+Done so far: responsive shell, wrapping grids, a masthead, a two-column hero, larger
+cards, no duplicated wordmark. That made it *fit* a desktop. It has not yet made it
+behave like a website, and the difference is mostly one thing:
+
+**Everything shown should be a link to the list it belongs to.** This is what makes a
+reference site feel like one, and its absence is why the app still feels like an app. A
+country, a region, a cuisine, a category, an ingredient, a badge, a heritage designation
+— each is currently *text*, and each is a query the app already knows how to run. On a
+record for Kozhikode Halwa, "Kerala" should open every Kerala dish, "ghee" every dish
+made with it, "Authentic — Local" every record at that level. The domain layer already
+supports all of it: `feedFor` takes a place path, a filter, a diet and meals, and
+`searchResults` takes facets. Nothing new has to be computed — the links simply do not
+exist.
+
+That also answers "rich content" more cheaply than writing any: a page becomes rich when
+everything on it leads somewhere, not when more is added to it.
+
+The rest, in the order it is worth doing:
+
+- **Linkable facets everywhere** — record page first, then cards, then breadcrumbs.
+  Needs routes that accept a filter in the URL, which is also what makes a filtered view
+  shareable and, later, indexable.
+- **A record page that is two columns on desktop**, not one long scroll: photograph and
+  facts on one side, method and evidence on the other.
+- **Search with its filters in a sidebar** rather than stacked above the results, so a
+  reader can see what they are filtering while they read what they got.
+- **A real site footer** — the colophon is a phone pattern; a website's foot carries the
+  whole map of the site.
+- **Hover states.** There are none anywhere. On a mouse that reads as a dead page, and
+  it is the cheapest single change on this list.
+- **Related dishes on a record** — same country, same cuisine, same ingredient. The
+  strongest "rich content" available, and it is all query, no writing.
+
+Worth doing as one focused piece of work rather than appended to a long session: it
+touches every screen, and half a redesign looks worse than none.
 
 ---
 
