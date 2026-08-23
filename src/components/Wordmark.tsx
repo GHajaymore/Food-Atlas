@@ -44,6 +44,21 @@ const BASELINE_LIFT = 0.185;
 /** The disc's diameter against the font size — an Inter "o" is close to this. */
 const DISC_RATIO = 0.6;
 
+/**
+ * The air a disc carries on each side, as a fraction of the font size.
+ *
+ * Every letter in a font has sidebearings — built-in space either side of the drawn
+ * shape — and it is what stops a word looking like it was assembled from stamps. The
+ * discs are drawn objects with none, so measuring the rendered lockup showed "F"
+ * ending at 296.7px and the first disc beginning at 296.7px: touching, and again
+ * between the two discs and "dia".
+ *
+ * An Inter "o" carries roughly 0.06em a side. This is a shade under, because a circle
+ * beside a flat-sided letter reads further apart than it measures, and because the
+ * name's own tracking is slightly negative.
+ */
+const DISC_BEARING = 0.052;
+
 type Utensil = 'spoon' | 'fork';
 
 /**
@@ -79,13 +94,25 @@ function Disc({ utensil, size, tint }: { utensil: Utensil; size: number; tint: s
               </>
             ) : (
               <>
+                {/*
+                 * Heavier than it looks like it should be, and measured rather than
+                 * judged. A fork's cut-out removes less of the disc than a spoon's —
+                 * prongs are thin where a bowl is solid — so with the two drawn to
+                 * their natural weights the fork disc kept **2.7% more gold** than the
+                 * spoon and read as the heavier of the pair.
+                 *
+                 * Sampling both on a 1000×1000 grid and solving for equal remaining
+                 * gold gives prongs at 6.8 and a shoulder of 11.5 × 7, which lands
+                 * within 0.25%. Thicker prongs also survive being scaled down, which
+                 * is the other thing that was wrong with them.
+                 */}
                 <Path
                   d="M41.5 22v22M50 22v22M58.5 22v22"
                   stroke="#000"
-                  strokeWidth={5.2}
+                  strokeWidth={6.8}
                   strokeLinecap="round"
                 />
-                <Ellipse cx={50} cy={45} rx={10.5} ry={6} fill="#000" />
+                <Ellipse cx={50} cy={45} rx={11.5} ry={7} fill="#000" />
                 <Path d="M50 49V78" stroke="#000" strokeWidth={9} strokeLinecap="round" />
               </>
             )}
@@ -138,10 +165,10 @@ export function Wordmark({ size = 20, tint = color.accent, style }: Props) {
        */}
       <Text style={[letters, { fontFamily: font.regular }]}>Wiki</Text>
       <Text style={letters}>F</Text>
-      <View style={{ marginBottom: size * BASELINE_LIFT }}>
+      <View style={{ marginBottom: size * BASELINE_LIFT, marginHorizontal: size * DISC_BEARING }}>
         <Disc utensil="spoon" size={disc} tint={tint} />
       </View>
-      <View style={{ marginBottom: size * BASELINE_LIFT }}>
+      <View style={{ marginBottom: size * BASELINE_LIFT, marginHorizontal: size * DISC_BEARING }}>
         <Disc utensil="fork" size={disc} tint={tint} />
       </View>
       <Text style={letters}>dia</Text>
