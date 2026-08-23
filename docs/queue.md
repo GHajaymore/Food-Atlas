@@ -289,6 +289,46 @@ food"*. That is an ingest, not a UI change.
 Worth doing alongside: normalising ingredient strings (case, "to taste", language) would
 improve the record pages and the related-dish matching regardless of the facet.
 
+### Browsing by main ingredient — the recommendation
+
+Ajay asked how a reader would see options for the main ingredient. Measured per source,
+which locates the problem exactly:
+
+```
+  source              rows    distinct    typical values
+  Wikidata           1,119       1,834    sugar, eggs, onions, garlic
+  Wikipedia infobox  2,418       3,107    Rice, Rice flour, spices
+  cookbook recipes   6,336      33,890    "Salt to taste", "1 egg", "½ teaspoon salt", "Sal"
+```
+
+**The recipe text is the entire problem.** 33,890 of the 27,036 distinct values come from
+cookbook lines, and they are not ingredients — they are quantities, instructions and
+translations of "salt". The Wikidata and infobox ingredients are already usable.
+
+**Recommended: a curated staple vocabulary, not a derived list.** Thirty to sixty
+defining ingredients — rice, wheat, maize, millet, coconut, chickpea, lentil, cassava,
+plantain, potato, fish, lamb, goat, beef, pork, chicken, yoghurt, ghee, olive oil, chilli,
+tamarind, and so on — matched against each record's ingredients, case- and plural-folded.
+
+Why curated rather than counted:
+
+- **Frequency gives the wrong answer.** The commonest ingredients are salt, sugar and
+  water. Nobody browses for those, and every dish has them.
+- **"Main ingredient" is a judgement, not a count.** What makes a dish a rice dish is not
+  that rice appears most often in its list.
+- **A fixed vocabulary is checkable and translatable.** Sixty terms can be reviewed by a
+  person and translated once; 27,036 strings can be neither.
+- **It is a real category.** These are the world's staples, which is the same idea
+  `tokens.ts` already invokes — the accent colour is described there as "the colour of
+  the world's staple ingredient, rice and wheat".
+
+It also improves things beyond the facet: a staple is a far better `related.ts` signal
+than a shared "salt", and it gives country pages something to group by.
+
+**Cheap and worth doing first:** normalise before matching — lowercase, strip quantities
+and "to taste", trim plurals. That alone collapses "Salt", "salt", "Salt to taste" and
+"½ teaspoon salt" into one thing, and it is needed by the record pages regardless.
+
 ---
 
 ## Smaller, and worth doing
