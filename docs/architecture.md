@@ -32,38 +32,78 @@ Everything below follows from that sentence.
 
 ## What the single page actually costs today
 
-Measured, not assumed:
+Measured in the browser on 2026-08-23, not assumed:
 
 | | |
 |---|---|
-| downloaded before first paint | **14.7 MB** of JSON |
+| JSON fetched before the atlas can render | 14.71 MB **uncompressed** |
+| the same bytes under brotli | **2.92 MB** |
+| time to parse all of it | **133 ms** |
+| JS heap once built | **122.3 MB** |
 | indexable pages | **1** |
 | shareable record URLs | **0** |
 | records Google can find | **0 of 18,008** |
 | server needed for writes | none, so confirmations cannot exist |
 
-The last two are the ones that matter. An atlas that cannot be found by somebody
-searching a dish name is invisible to precisely the people who could authenticate it —
-and authentication is the product. The 14.7 MB is a performance problem; the missing
-URLs are an *existence* problem.
+**An earlier draft of this document led with "14.7 MB before first paint" and drew the
+wrong conclusion from it.** That number is real but it is a *dev-server* measurement:
+Metro sends no `Content-Encoding`, which was confirmed by reading `transferSize`
+against `decodedBodySize` in the page. Every static host worth using — Cloudflare
+Pages, GitHub Pages, Netlify — compresses automatically, so the same payload arrives
+as **2.92 MB**. Roughly four fifths of the download problem is solved by deploying,
+before a line of code is written.
+
+Two things follow, and they reverse the priorities the plan was built on.
+
+**Parsing was never the cost.** 133 ms for the whole catalogue. Any plan justified by
+parse time is solving nothing.
+
+**Memory is the cost.** 14.71 MB of JSON becomes a **122.3 MB heap** — an eight-fold
+expansion, and it is not waste: it is 18,008 records' worth of objects, arrays and
+strings, each one small and each one carrying its own overhead. That figure is
+comfortable on a desktop and genuinely dangerous on a phone, where iOS Safari starts
+discarding tabs somewhere in the low hundreds of megabytes. It is also the number
+nothing in the original plan addressed.
+
+One more measurement worth recording, because it kills an idea that looks obvious: the
+**built catalogue serialises to 35.83 MB**, against 15.68 MB of sources on disk.
+Shipping pre-built records would more than double the download. The current design —
+ship compact sources and expand the boilerplate in the client — *is* the compression,
+and it was a deliberate choice rather than an oversight.
 
 ---
 
-## Stage 0 — split the data
+## Stage 0 — a slim index, justified by memory
+
+The mechanism the original plan proposed is still right. The reason it gave was wrong,
+and the expected win was overstated.
 
 **Nothing about the framework changes.** `compact-data.mjs` gains a sibling that emits:
 
 ```
-  public/data/index.json        id, name, country, badge, photo, score      ~1.5 MB
-  public/data/dish/{id}.json    the full record                             ~2 KB each
+  public/data/index.json        what browsing needs: id, name, place,
+                                badge, score, photo, ingredients, localNames   ~5.1 MB raw
+  public/data/dish/{id}.json    the long-form text a record page needs         ~2 KB each
 ```
 
-The app fetches the index at startup and a record when one is opened. Search, shelves
-and filters all run on the index, which already carries every field they read.
+5.1 MB rather than the 1.5 MB first guessed, because search reads `ingredients` and
+`localNames` and shelves read `breadcrumb` — the index cannot be as thin as it looked
+until those consumers were listed.
 
-- **Wins** first paint drops from 14.7 MB to about 1.5 MB; a record costs 2 KB.
-- **Risk** low. `catalogue.ts` changes; the domain layer does not.
+The deferrable half is specific and was measured: **`steps` is 3.89 MB and
+`prepSummary` 2.00 MB**, and both are read only when a record is opened. Everything
+else that touches them — `shelves`, `metrics`, `nearby`, `Mission`, `invariants` —
+wants a *count*, not the text, so the index carries `stepCount` and `proseLength` and
+those call sites read the number instead of measuring the string.
+
+- **Wins** roughly 40% off the heap and off the transfer; a record costs 2 KB. Not the
+  order-of-magnitude the first draft implied.
+- **Risk** moderate, and higher than first stated: six call sites in a domain layer
+  with 321 tests over it change from reading text to reading counts.
 - **Throwaway** none — every later stage wants per-record files.
+
+**Do this after deploying, not before.** Compression is free and larger; measure again
+on the real host before spending the refactor, because it may turn out to be enough.
 
 ## Stage 1 — make the domain a package
 
@@ -135,7 +175,7 @@ project does not need. Revisit only if server-side personalisation ever becomes 
 
 **Not a database for the catalogue.** 18,008 records that change on a script run belong
 in files. A database would add a dependency, a cost and a backup problem in exchange for
-queries that a 1.5 MB index answers in memory.
+queries that a 5 MB index answers in memory.
 
 **Not a rewrite.** Stages 0–2 leave the existing screens running throughout.
 
@@ -143,13 +183,22 @@ queries that a 1.5 MB index answers in memory.
 
 ## The order, and why
 
-1. **Stage 0** first because it is cheap, invisible and makes everything after it easier.
-2. **Stage 1** next because it is nearly true already and it protects the valuable part.
-3. **Stage 2** next because discovery is the binding constraint on a project whose growth
-   depends on people arriving.
-4. **Stage 3** when there is somewhere to put it, and when there are readers to confirm
+**Stage 2 should now come first.** Measuring stage 0 is what changed the order: the
+download problem it was written to solve is mostly a hosting setting, and deploying is
+also what stage 2 needs. One action retires the largest part of stage 0 *and* unblocks
+the stage that actually decides whether the project succeeds.
+
+1. **Deploy** — free, and worth more than any code in this document: 14.71 MB becomes
+   2.92 MB because the host compresses. Do it before writing anything else.
+2. **Stage 2** next because discovery is the binding constraint on a project whose growth
+   depends on people arriving, and because a record with a URL is what makes a
+   confirmation askable.
+3. **Stage 1** alongside it — nearly true already, and it protects the valuable part.
+4. **Stage 0** once there are real numbers from the real host. It is a memory fix, and
+   memory is a phone problem that a desktop measurement will keep hiding.
+5. **Stage 3** when there is somewhere to put it, and when there are readers to confirm
    anything.
-5. **Stage 4** whenever it becomes annoying not to have done it.
+6. **Stage 4** whenever it becomes annoying not to have done it.
 
 Stage 3 can be brought forward if the shared database appears sooner — nothing in stages
 0–2 blocks it.
