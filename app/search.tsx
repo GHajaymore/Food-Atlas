@@ -129,7 +129,7 @@ export default function Search() {
           {active.map((facet) => (
             <Tag key={facet.label} label={`${facet.label} ✕`} variant="accent" onPress={facet.remove} />
           ))}
-          <Button label="Clear all" variant="ghost" fontSize={11} onPress={clearFacets} style={styles.clearAll} />
+          <Button label={copy.clearAll} variant="ghost" fontSize={11} onPress={clearFacets} style={styles.clearAll} />
         </View>
       ) : null}
 
@@ -138,7 +138,7 @@ export default function Search() {
           the row, so the screen opens on results rather than on controls. */}
       <Refine
         label={copy.filters}
-        emptyLabel="None"
+        emptyLabel={copy.none}
         summary={activeSummary}
         count={active.length + meals.length + (sortBy === 'authenticity' ? 0 : 1)}
       >
@@ -244,7 +244,7 @@ export default function Search() {
               </Pressable>
               {video ? (
                 <Button
-                  label="▶ Video"
+                  label={copy.video}
                   fontSize={11}
                   compact
                   onPress={() => openAtSource(watchUrl(video))}
@@ -283,7 +283,7 @@ export default function Search() {
               the reasoning `requests.ts` writes down for asking, applied to recording,
               which is the path this screen actually leads with. */}
           <Button
-            label="I know how it's made — record it"
+            label={copy.iKnowHowItsMade}
             onPress={() => router.push({ pathname: '/contribute', params: { dish: query.trim() } })}
             block
           />

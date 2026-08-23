@@ -129,7 +129,7 @@ export default function Feed() {
           <H4>{BRAND.name}</H4>
           <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
         </View>
-        <IconButton label="Search" onPress={() => router.push('/search')} style={styles.searchButton}>
+        <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
           <SearchIcon size={18} color={color.accent} />
         </IconButton>
       </View>

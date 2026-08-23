@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { loadCatalogue } from '../src/data/catalogue';
+import { useCopy } from '../src/i18n';
 import { color, font } from '../src/theme/tokens';
 import { installWebStyles } from '../src/theme/webStyles';
 
@@ -28,6 +29,7 @@ import { installWebStyles } from '../src/theme/webStyles';
 installWebStyles();
 
 export default function RootLayout() {
+  const copy = useCopy();
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
@@ -66,7 +68,7 @@ export default function RootLayout() {
   if (dataState === 'failed') {
     return (
       <View style={styles.centre}>
-        <Text style={styles.failedTitle}>The atlas could not be loaded.</Text>
+        <Text style={styles.failedTitle}>{copy.couldNotLoad}</Text>
         <Text style={styles.failedNote}>{error}</Text>
       </View>
     );
@@ -76,7 +78,7 @@ export default function RootLayout() {
     return (
       <View style={styles.centre}>
         <ActivityIndicator color={color.accent} />
-        <Text style={styles.loadingNote}>Reading the atlas…</Text>
+        <Text style={styles.loadingNote}>{copy.loadingAtlas}</Text>
       </View>
     );
   }

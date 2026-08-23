@@ -60,6 +60,63 @@ export interface Copy {
   surpriseMe: string;
   browseTheAtlas: string;
 
+  clearAll: string;
+  none: string;
+  video: string;
+  iKnowHowItsMade: string;
+
+  /** Startup. The first words a reader can possibly see, and sometimes the only ones. */
+  loadingAtlas: string;
+  couldNotLoad: string;
+
+  /**
+   * The shelves on the feed.
+   *
+   * The titles and their one-line notes describe what a shelf holds. They are not
+   * claims about any particular record — the record's own disclaimer does that — so
+   * they translate.
+   */
+  shelfDisappearing: string;
+  shelfDisappearingNote: string;
+  shelfAuthenticated: string;
+  shelfAuthenticatedNote: string;
+  shelfCookable: string;
+  shelfCookableNote: string;
+  shelfIllustrated: string;
+  shelfIllustratedNote: string;
+
+  /** The atlas screen. */
+  foodAtlas: string;
+  howComplete: string;
+  traditionsRecorded: string;
+  countries: string;
+  atRiskTraditions: string;
+  whereTheRecordsAre: string;
+  confidence: string;
+  growTheAtlas: string;
+  addATradition: string;
+  keepingItFree: string;
+  whatItCostsToRun: string;
+  anywhere: string;
+
+  /** The dish screen's section headings and controls. */
+  noRecord: string;
+  backToTheFeed: string;
+  bookmarkThis: string;
+  photoOriginUnverified: string;
+  whyFlaggedAtRisk: string;
+  openDisagreement: string;
+  ingredientsNamedInAccount: string;
+  methodStillOpen: string;
+  notDocumentedYet: string;
+  recordHowItsMade: string;
+  traditionalEquipment: string;
+  mostPopularVersion: string;
+  watchItBeingMade: string;
+  findPreparationVideos: string;
+  whereTheMethodComesFrom: string;
+  alsoMadeThisWay: string;
+
   /** Said about the interface itself, not about any record. */
   interfaceTranslationNote: string;
 }
@@ -97,6 +154,55 @@ export const EN: Copy = {
   askForItInstead: 'Ask for it instead',
   surpriseMe: 'Surprise me with an at-risk tradition',
   browseTheAtlas: 'Browse the world atlas',
+
+  clearAll: 'Clear all',
+  none: 'None',
+  video: '▶ Video',
+  iKnowHowItsMade: 'I know how it’s made — record it',
+
+  loadingAtlas: 'Reading the atlas…',
+  couldNotLoad: 'The atlas could not be loaded.',
+
+  shelfDisappearing: 'Disappearing',
+  shelfDisappearingNote:
+    'Traditions a source describes as declining — the undocumented ones first, because those are the ones that go.',
+  shelfAuthenticated: 'Authenticated',
+  shelfAuthenticatedNote: 'The records that carry real evidence of how they are made, and where.',
+  shelfCookable: 'You could cook this tonight',
+  shelfCookableNote:
+    'Records with a written method — traditional where we have one, published where we do not.',
+  shelfIllustrated: 'Worth looking at',
+  shelfIllustratedNote: 'Photographed traditions, for browsing rather than searching.',
+
+  foodAtlas: 'Food Atlas',
+  howComplete: 'How complete is this atlas?',
+  traditionsRecorded: 'traditions recorded',
+  countries: 'countries',
+  atRiskTraditions: 'at-risk traditions',
+  whereTheRecordsAre: 'Where the records are',
+  confidence: 'Confidence',
+  growTheAtlas: 'Grow the atlas',
+  addATradition: 'Add a tradition from your area',
+  keepingItFree: 'Keeping it free',
+  whatItCostsToRun: 'What it costs to run',
+  anywhere: 'Anywhere',
+
+  noRecord: 'No record',
+  backToTheFeed: 'Back to the feed',
+  bookmarkThis: 'Bookmark this tradition',
+  photoOriginUnverified: 'Photo origin unverified',
+  whyFlaggedAtRisk: 'Why this is flagged as at risk',
+  openDisagreement: 'Open disagreement',
+  ingredientsNamedInAccount: 'Ingredients named in that account',
+  methodStillOpen: 'The method is still open',
+  notDocumentedYet: 'Not documented yet',
+  recordHowItsMade: 'Record how it’s made',
+  traditionalEquipment: 'Traditional Equipment',
+  mostPopularVersion: 'Most popular version online',
+  watchItBeingMade: 'Watch it being made',
+  findPreparationVideos: 'Find preparation videos ↗',
+  whereTheMethodComesFrom: 'Where the method comes from',
+  alsoMadeThisWay: 'Also made this way',
 
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
