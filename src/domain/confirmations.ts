@@ -1,12 +1,27 @@
 /**
- * Confirmations — the only thing that can authenticate a record.
+ * Confirmations — the only thing that can *promote* a record.
  *
  * `assess.ts` scores six dimensions and three of them are unanswerable from any
  * document: traditional technique, a local source, and community validation. The
  * arithmetic is deliberate — with those three empty the best a record can reach on
- * published data alone is 43, and promotion starts at 55. So no register, no
- * encyclopaedia and no amount of scraping can make a dish Authentic. Only people can,
- * and this is how they do it.
+ * published data alone is 43, and promotion starts at 55. No register, no
+ * encyclopaedia and no amount of scraping closes that gap. Only people can, and this
+ * is how they do it.
+ *
+ * ## Not the only route to the Authentic badge, and the difference matters
+ *
+ * An earlier draft of this note said confirmations were the only thing that could
+ * authenticate a record, and that was wrong. A heritage designation plus recorded
+ * ingredients classifies as **Authentic — Regional** by a separate and older branch
+ * in `assess`, because a register tying a product to its place is what the brief
+ * calls a recognised traditional preparation. 269 records reached that badge from the
+ * EU register alone, with nobody having confirmed anything.
+ *
+ * The two routes answer different questions. The heritage branch is about the *kind*
+ * of evidence — an institution has tied this name to this place. The score threshold
+ * is about the *weight* of it, and only people supply that. Saying confirmations were
+ * the only way overstated this file's importance and understated what the registers
+ * had already done.
  *
  * ## Why this one needs a server when nothing else in the app does
  *

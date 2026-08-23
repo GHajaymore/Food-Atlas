@@ -116,6 +116,22 @@ const clamp = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
 /**
  * Score the six published dimensions from the evidence.
  *
+ * ## This governs the records scored *here*, which is not all of them
+ *
+ * 17,964 records are scored by this function — the Wikidata import, the cuisine
+ * trees, the cookbooks and the GI register. The other 44 are not, and it is worth
+ * knowing which before quoting "community validation is zero everywhere", because
+ * that sentence has been written in this repository and is false:
+ *
+ *   - **38 UNESCO inscriptions** carry `UNESCO_BREAKDOWN` in `build.ts`, which credits
+ *     Community validation at 70. An inscription *is* institutional community
+ *     recognition — it is simply not this app's own three confirmations.
+ *   - **6 curated records** in `seed.ts` carry a breakdown a person wrote after
+ *     assessing them, and theirs run 70 to 90.
+ *
+ * What is true everywhere is the narrower claim: no record has ever been confirmed by
+ * a reader of this app, because until `confirmations.ts` there was no way to do it.
+ *
  * The zeros are the point. Traditional technique and community validation are
  * unanswerable from an import, and leaving them at zero is what stops a
  * well-documented import scoring like a record someone actually cooked.
