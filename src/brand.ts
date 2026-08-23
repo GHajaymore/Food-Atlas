@@ -13,17 +13,40 @@ export const BRAND = {
   /**
    * The Feed subtitle, under the title.
    *
-   * The name already says open, collective and encyclopaedic, so the tagline does
-   * not repeat it. What the name does not say is why a reader should trust this over
-   * a recipe site, and "actually" is the word carrying that: most food writing gives
-   * you a convenient version, and this one tries to give you what people really do.
+   * The name already says open, collective and encyclopaedic, so the tagline does not
+   * repeat it. What it has to earn is why a reader should trust this over a recipe
+   * site — and the answer is not that the food here is better described. It is that
+   * every claim can be checked. Each record shows its sources and the six figures its
+   * confidence is the mean of, and a reader who does not believe the number can add
+   * it up. No competitor says this, because none of them can.
    *
-   * It is also the only line here that stays true as the app grows. "Written down by
-   * the people who cook it" describes the community model, which has no contributions
-   * yet; "before it's lost" leads with preservation, which is 31 records of 16,550.
-   * A tagline should not promise what the atlas has not got.
+   * So the second half is the whole product: **and how we know**.
+   *
+   * ## What it replaced, and why
+   *
+   * "How the world actually cooks." carried the trust argument in one word —
+   * *actually* — against food writing that gives you the convenient version. A good
+   * line, and it described the catalogue rather than what makes the catalogue worth
+   * believing.
+   *
+   * ## What it must never say
+   *
+   * Anything about being automatic. `assess.ts` makes it arithmetic that no published
+   * source can authenticate a dish: with no confirmations the ceiling is 43 and
+   * promotion starts at 55, so three of the six dimensions are answerable only by
+   * people from the place. A tagline advertising automation would be advertising the
+   * one thing this app refuses to do — and in a market where every food site is
+   * suspected of generating its content, it would hand a reader the exact objection
+   * the evidence model exists to answer.
+   *
+   * ## The rule that has survived every revision
+   *
+   * A tagline must not promise what the atlas has not got. "Written down by the
+   * people who cook it" describes the community model, and there are still zero
+   * contributions; "before it's lost" leads with preservation, which is 15 records of
+   * 18,008. Both stay rejected on the same grounds as before.
    */
-  tagline: 'How the world actually cooks.',
+  tagline: 'The world’s food, and how we know.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
