@@ -25,6 +25,34 @@ only honest way to answer "how many people" — see the foot of `functions/api/e
 
 ## Decisions only Ajay can make
 
+**User logins — still open, and raised again 2026-08-23.** Ajay asked how we can know the
+same person is not confirming a dish twice under two names, and the honest answer is
+**we cannot.** Identity today is a signed HttpOnly cookie: it stops a double-tap, a
+refresh and a hand-edited cookie, and it does not stop three private windows. That is
+documented in `functions/api/proposals/_middleware.ts` and it is the weakest point in the
+authenticity model, which is the one claim this project makes that nobody else does.
+
+He has said he has no objection in principle. What is needed is a decision on shape,
+because the three options are not equivalent:
+
+1. **Sign-in required to confirm.** Strongest, and it puts a Google account between the
+   grandmother in Kozhikode and the dish she has cooked for fifty years. The people this
+   feature exists to reach are the least likely to have one.
+2. **Sign-in optional; only signed-in confirmations count toward the badge.** The
+   recommendation. Anonymous confirmations still display — they are evidence a reader can
+   weigh — but `validationsOf()` counts only verified ones, so the number the badge rests
+   on is defensible while the door stays open. `assess()` is untouched; one function
+   changes.
+3. **Leave it.** Defensible only if the badge is understood as "three people said so",
+   not "three different people said so", and the app should then say that plainly.
+
+Whichever is chosen, **the front page says "no accounts" in four places** and that
+wording has to change with it. That sentence is why this is a decision rather than a
+task.
+
+Google sign-in is free and needs no billing account. The seam is one file: replace
+`personId` in the middleware and every index keeps working unchanged.
+
 **The heritage branch gives Authentic at score 35.** A heritage designation plus
 ingredients classifies Authentic — Regional through a branch that never reads the score,
 so the same badge appears on a record scoring 35 and one scoring 58. Defensible — a PDO

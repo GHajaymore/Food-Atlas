@@ -21,6 +21,7 @@ import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
 import { LanguageBar } from '../../src/components/LanguageBar';
+import { RecordColumns } from '../../src/components/RecordColumns';
 import { Related } from '../../src/components/Related';
 import { LocalNames } from '../../src/components/LocalNames';
 import { NavRow } from '../../src/components/NavRow';
@@ -145,6 +146,18 @@ export default function DishDetail() {
         }
       />
 
+      {/*
+       * The page's shape lives in `RecordColumns`, not in this file.
+       *
+       * Everything below is written once and arranged by that component: stacked on a
+       * phone, two columns on a desktop. No block here knows the window width, which is
+       * the point — the previous approach put a `wide ?` branch in each component and
+       * the interactions between them were what produced a dropdown rendering behind
+       * the page.
+       */}
+      <RecordColumns
+        identity={
+          <>
       {/* No photograph, no hero.
           A 4:3 placeholder for a record without an image pushed the dish's own name
           385px down an 812px screen — half the first view spent on a monogram that
@@ -249,7 +262,10 @@ export default function DishDetail() {
           <Muted style={styles.atRiskNote}>{AT_RISK_NOTE}</Muted>
         </Block>
       ) : null}
-
+          </>
+        }
+        dossier={
+          <>
       {isFusion ? (
         <>
           <Card style={styles.fusionCard}>
@@ -673,6 +689,9 @@ export default function DishDetail() {
        * which even those records have.
        */}
       <Related items={relatedDishes} />
+          </>
+        }
+      />
     </Screen>
   );
 }
