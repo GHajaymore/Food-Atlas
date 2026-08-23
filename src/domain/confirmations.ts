@@ -81,6 +81,29 @@ export interface Confirmation {
    * Decides Authentic — Local against Authentic — Regional. Not a measure of how
    * strong the confirmation is: a higher score does not make a dish more local, being
    * confirmed by the town rather than the state does.
+   *
+   * ## Nothing verifies this, and nothing can
+   *
+   * It is a claim the person makes about themselves, and so is `connection`. Somebody
+   * in Toronto can tick this box and write "born and cooking in Kozhikode", and the
+   * app will believe them.
+   *
+   * That is not an oversight waiting for a fix. Verifying residence needs identity
+   * documents or geolocation, and both are hostile to exactly the people this depends
+   * on — a grandmother in Kozhikode is not uploading a passport to confirm a halwa.
+   * The cure would cost more than the disease.
+   *
+   * **The defence is exposure, not verification.** `connection` is required and
+   * displayed beside the confirmation, so a reader meets "Priya — born and cooking in
+   * Kozhikode" and weighs it themselves. Three vague connections look different from
+   * three specific ones, and a reader can tell. That is the same stance the rest of
+   * the app takes with a photograph's provenance or a contested origin: show what is
+   * known and who said it, and decline to adjudicate.
+   *
+   * The consequence is worth stating plainly rather than discovering later: the badge
+   * this dimension unlocks rests on people being honest about where they are from.
+   * The unique index stops one person voting three times. Nothing stops three
+   * dishonest people, and the app should never claim otherwise.
    */
   local: boolean;
   /** ISO date. Shown, because when someone said it is part of what they said. */

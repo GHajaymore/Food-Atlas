@@ -95,7 +95,7 @@ export const BRAND = {
    * general plea under a logo is easy to ignore; one naming a dish from your own town
    * is not.
    */
-  tagline: 'Only local cooks can call it authentic.',
+  tagline: 'Only local cooks and their community can call it authentic.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
