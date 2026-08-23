@@ -30,7 +30,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { UI_LOCALES, translationCoverage, useLocale } from '../i18n';
-import { color, font, radius, space, TAP_TARGET } from '../theme/tokens';
+import { color, elevation, font, radius, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
 
@@ -83,7 +83,7 @@ export function LanguagePicker({ compact }: { compact?: boolean }) {
       </Pressable>
 
       {open ? (
-        <View style={styles.list}>
+        <View style={compact ? { ...styles.list, ...styles.listFloating } : styles.list}>
           {UI_LOCALES.map((code) => {
             const coverage = translationCoverage(code);
             const partial = code !== 'en' && coverage < 0.95;
@@ -149,12 +149,17 @@ const styles = StyleSheet.create({
   chevron: { fontSize: 11, color: color.muted },
 
   /*
-   * In flow rather than absolutely positioned.
+   * In flow on the page, floating in the header.
    *
-   * An overlay would need measuring, a backdrop, and an answer for what happens when it
-   * runs off the bottom of a phone. Pushing the page down is unfashionable and it works
-   * on every screen size without any of that — and the list is short enough that the
-   * push is small.
+   * In the body of a screen, pushing the page down is unfashionable and it works
+   * everywhere with no measuring, no backdrop and no answer needed for running off the
+   * bottom of a phone. The list is short, so the push is small.
+   *
+   * In the header it was simply wrong, and visibly so: `TopBar` is a 60px row with
+   * `alignItems: center`, so an in-flow list had nowhere to grow and opened at
+   * **top: -242** — above the top of the window, 670px wide, stretched by the flex
+   * row. It could not be seen at all. Inside a fixed-height bar the dropdown has to
+   * float, which is what `listFloating` does.
    */
   list: {
     marginTop: space[2],
@@ -163,6 +168,22 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     padding: space[2],
     backgroundColor: color.surface,
+  },
+  /*
+   * Anchored to the trigger's right edge, because the trigger sits at the right end of
+   * the header — opening leftwards keeps the list on screen, where opening from the left
+   * would run it off the window.
+   */
+  listFloating: {
+    position: 'absolute',
+    top: '100%',
+    right: 0,
+    marginTop: space[2],
+    width: 240,
+    zIndex: 50,
+    /* The bar has a hairline under it and the page scrolls beneath; without elevation
+       the list is transparent to whatever dish photograph happens to be behind it. */
+    ...elevation.sm,
   },
   option: {
     flexDirection: 'row',

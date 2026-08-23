@@ -51,7 +51,16 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
       <ScrollView
         ref={ref}
         keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
+        /*
+         * Hidden on a phone, shown on anything wider.
+         *
+         * A hidden scrollbar is a phone convention and it is right there: the gesture is
+         * direct, the bar would cover content, and every phone reader already knows a
+         * list scrolls. On a desktop it is the opposite — the bar is the only thing that
+         * says how much more there is, and the only way to drag straight to the bottom.
+         * Hiding it made a long page look like a short one that had stopped.
+         */
+        showsVerticalScrollIndicator={layout.wide}
         {...props}
         contentContainerStyle={[
           styles.column,

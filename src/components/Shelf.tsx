@@ -59,7 +59,28 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
     <View style={styles.wrap}>
       <View style={styles.header}>
         <H6 style={styles.title}>{shelf.title}</H6>
-        <Muted style={styles.count}>{shelf.total.toLocaleString()}</Muted>
+        {/*
+         * "See all" as a header link on wide screens rather than a card at the end.
+         *
+         * As a card it cost a whole dish slot in every shelf — five of them on the front
+         * page, each the size of a record, none of them a record. On a phone that is a
+         * fair trade, because the rail scrolls sideways and the card is the thing your
+         * thumb arrives at. In a grid it is just a hole, and putting the link where the
+         * count already is costs no space at all.
+         */}
+        {layout.wide && remaining > 0 ? (
+          <Pressable
+            accessibilityRole="link"
+            accessibilityLabel={`See all ${shelf.total} in ${shelf.title}`}
+            tint="neutral"
+            onPress={() => onOpenAll(shelf)}
+            style={styles.headerLink}
+          >
+            <T style={styles.headerLinkLabel}>See all {shelf.total.toLocaleString()} →</T>
+          </Pressable>
+        ) : (
+          <Muted style={styles.count}>{shelf.total.toLocaleString()}</Muted>
+        )}
       </View>
       <Muted style={styles.note}>{shelf.note}</Muted>
 
@@ -86,7 +107,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
           </Pressable>
         ))}
 
-        {remaining > 0 ? (
+        {!layout.wide && remaining > 0 ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={`See all ${shelf.total} in ${shelf.title}`}
@@ -141,6 +162,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
+  headerLink: { minHeight: 44, justifyContent: 'center', paddingLeft: space[3] },
+  headerLinkLabel: { fontSize: 12, color: accentText },
   moreLabel: { fontFamily: font.heading, fontSize: 13, color: accentText },
   moreCount: { fontSize: 11, fontVariant: ['tabular-nums'] },
 });

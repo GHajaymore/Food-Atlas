@@ -24,6 +24,7 @@
 
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import { useLayout } from '../theme/layout';
 import { color, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { T } from './Text';
@@ -42,6 +43,22 @@ const LINKS: { label: string; to: string; note: string }[] = [
 ];
 
 export function SiteNav() {
+  const layout = useLayout();
+
+  /*
+   * Nothing on a wide screen, because `TopBar` already carries these routes.
+   *
+   * Rendered at both sizes it printed "The atlas", "Propose a dish" and "Keeping it
+   * free" twice on the same page, forty pixels of scroll apart — the header at the top
+   * and this at the foot, saying the same four things.
+   *
+   * A website does want a footer, and this is not it: a colophon is a phone pattern,
+   * three links stacked with a note each. The real one carries the whole map of the
+   * site and is queued in docs/queue.md. Until it exists, saying each thing once is
+   * better than saying half of them twice.
+   */
+  if (layout.wide) return null;
+
   return (
     <View style={styles.wrap}>
       {LINKS.map((link) => (
