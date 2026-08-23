@@ -95,6 +95,57 @@ touches every screen, and half a redesign looks worse than none.
 
 ---
 
+## Asked for 2026-08-23, needing a decision before anything is built
+
+**"Remove anything not related to food, like beer, wine etc." — and "one more like
+chakna".** Measured before touching anything, and the measurement says a keyword sweep
+would be destructive. Of 20,105 rows, 188 have a name matching an alcohol word and 298
+match a drink word. But look at what those matches actually are:
+
+```
+  Reinette de Champagne              an APPLE variety
+  Formaggio bastardo del Grappa PAT  a CHEESE, from Monte Grappa — a mountain
+  Penne alla vodka                   a PASTA DISH
+  Beaujolais wine                    actually wine
+```
+
+Three of the first ten are food that would be deleted by the rule that removes wine.
+This is the failure mode this codebase hits more than any other — *right vocabulary,
+wrong subject* — the one that put an Italian singer on a Malaysian dish and a tariff
+schedule on peanut butter. Any pass here has to corroborate against something the record
+already knows, and must be dry-run first: an earlier "X of Y" rule would have deleted 282
+real provinces.
+
+**Chakna is food.** One record, from India — a Hyderabadi offal curry. It is eaten *with*
+drinks, which is presumably why it came to mind, but it is a cooked traditional dish and
+deleting it would remove exactly the kind of regional food this atlas exists for. So the
+rule Ajay wants is not "remove chakna": **it needs stating before it can be applied.**
+Three candidate rules, which cut very differently:
+
+1. *Remove drinks* — beer, wine, tea, coffee, juice. Would take ~486 records including
+   Earl Grey and Libyan tea. Defensible: the app says it is about recipes.
+2. *Remove alcohol only* — leaves tea and coffee, takes actual wines and beers.
+3. *Remove things eaten with alcohol* — would take chakna, and is not a category any
+   source records, so it cannot be applied automatically at all.
+
+Worth noting `isDish.ts` already exists and already refuses non-food; whatever the rule
+is, it belongs there rather than in a one-off script.
+
+**The language selector still needs fixing.** Reported again after the floating-dropdown
+fix, so something remains wrong that I have not reproduced. Needs Ajay to say what he
+sees — it opens, it lists thirteen languages, and selecting one does change the chrome,
+so the fault is something else.
+
+**"Desktop still feels like a mobile version. Revisit all the screens and make it more of
+a website. The UI doesn't look modern."** Broader than the linkability work above, and
+about *look* rather than structure. The record, search, atlas, contribute, support and
+admin screens have had no desktop pass at all — only the feed has. Beyond making each
+two-column, this is asking for a visual language that reads as current: spacing, type
+scale, density, and what a card looks like. Best treated as a design pass over the whole
+app rather than screen-by-screen patching.
+
+---
+
 ## Smaller, and worth doing
 
 **Indian-language Wikipedias are unread, and there is a lot there.** No Indian-language

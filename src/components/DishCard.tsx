@@ -70,7 +70,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={`${dish.name}, ${dish.badgeLabel}`}
-      tint="none"
+      tint="neutral"
       onPress={open}
       style={styles.press}
     >

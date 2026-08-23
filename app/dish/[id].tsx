@@ -13,7 +13,7 @@
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton } from '../../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
@@ -21,6 +21,7 @@ import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
 import { LanguageBar } from '../../src/components/LanguageBar';
+import { Related } from '../../src/components/Related';
 import { LocalNames } from '../../src/components/LocalNames';
 import { NavRow } from '../../src/components/NavRow';
 import { Photo } from '../../src/components/Photo';
@@ -32,6 +33,7 @@ import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
 import { AT_RISK_NOTE } from '../../src/domain/atRisk';
+import { relatedTo } from '../../src/domain/related';
 import {
   confirmAsk,
   contestedNote,
@@ -126,6 +128,10 @@ export default function DishDetail() {
   const ask = confirmAsk(isDocumented);
 
   const siblings = siblingsOf(dish, catalogue);
+
+  /* Recomputed only when the record changes. A pass over 18,008 records is a few
+     milliseconds; doing it on every render while a translation streams in is not. */
+  const relatedDishes = useMemo(() => relatedTo(dish, catalogue), [dish.id]);
   const forked = forkedDisputes(dish);
   const open = openDisputes(dish);
 
@@ -656,6 +662,17 @@ export default function DishDetail() {
           </Card>
         </>
       )}
+
+      {/*
+       * Outside the documented branch, deliberately.
+       *
+       * A record with nothing written down is exactly the one a reader most needs a way
+       * out of — it has a name, a place, and a sentence saying nobody has recorded how
+       * it is made. Ending there is a dead end on the 10,197 pages where a dead end
+       * costs the most, and the related list is built from the place and the name,
+       * which even those records have.
+       */}
+      <Related items={relatedDishes} />
     </Screen>
   );
 }

@@ -90,7 +90,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             key={dish.id}
             accessibilityRole="button"
             accessibilityLabel={`${dish.name}, ${dish.badgeLabel}`}
-            tint="none"
+            tint="neutral"
             onPress={() => onOpenDish(dish.id)}
             style={{ ...styles.card, width: cardSize }}
           >
@@ -136,7 +136,9 @@ const styles = StyleSheet.create({
   rail: { gap: 10, paddingTop: 10, paddingBottom: 4, paddingRight: space[3] },
   /* Same cards, allowed to wrap. Nothing about a card changes with the window. */
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, paddingTop: 10, paddingBottom: 4 },
-  card: { width: CARD },
+  /* Padding and a radius so the neutral hover tint reads as the card lighting up
+     rather than as a rectangle appearing behind the text. */
+  card: { width: CARD, padding: 6, borderRadius: radius.md },
   photo: { width: CARD, height: CARD, borderRadius: radius.md },
   // Two lines’ worth of height whether the title needs one or two, so the place and
   // the score line up across a rail. "Neapolitan Pizza Margherita" wraps and its
