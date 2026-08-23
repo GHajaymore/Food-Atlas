@@ -69,10 +69,21 @@ export const onRequestPost: PagesFunction<Env, 'id', Identity> = async ({ reques
 
   try {
     await env.DB.prepare(
-      `insert into proposal_confirmation (proposal_id, person_id, name, connection, said, local)
-       values (?, ?, ?, ?, ?, ?)`,
+      `insert into proposal_confirmation
+         (proposal_id, person_id, name, connection, said, local, verified, account_id)
+       values (?, ?, ?, ?, ?, ?, ?, ?)`,
     )
-      .bind(proposalId, data.personId, said.name, said.connection, said.said, said.local ? 1 : 0)
+      .bind(
+        proposalId,
+        data.personId,
+        said.name,
+        said.connection,
+        said.said,
+        said.local ? 1 : 0,
+        /* The server decides this, never the client. A request cannot ask to be counted. */
+        data.accountId ? 1 : 0,
+        data.accountId || null,
+      )
       .run();
   } catch (error) {
     const message = String(error);

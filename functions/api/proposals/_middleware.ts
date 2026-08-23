@@ -28,11 +28,20 @@
  * convincing pieces of writing rather than three clicks — and a reader can weigh them.
  * `docs/proposals-api.md` says the same thing about what identity does not solve.
  *
- * If the badge ever needs to be defensible against somebody determined, the seam is
- * here and nowhere else: replace `personId` with a subject from an OAuth provider and
- * every index above keeps working unchanged. Google sign-in is free and would do it.
- * It is not done today because the cost is paid by the contributor, not by us.
+ * ## And now there is a second identity beside it
+ *
+ * `accountId` is a signed-in Google account, and it is what a badge now actually counts
+ * — see `validationsOf`. The two coexist rather than one replacing the other, because
+ * they answer different questions: `personId` stops the same browser confirming twice,
+ * including for somebody who never signs in, and `accountId` decides whether a
+ * confirmation moves a number.
+ *
+ * Keeping both is what lets an anonymous confirmation still be *made* and *displayed*.
+ * Requiring an account to speak would have excluded the grandmother in Kozhikode;
+ * requiring one to move a badge is what makes the badge worth having.
  */
+
+import { accountFrom } from '../auth/_session';
 
 interface Env {
   DB: D1Database;
@@ -49,6 +58,15 @@ interface Env {
  */
 export interface Identity extends Record<string, unknown> {
   personId: string;
+  /**
+   * The signed-in account, or empty.
+   *
+   * Separate from personId rather than replacing it, because they answer different
+   * questions: personId stops the same browser confirming twice, and this decides
+   * whether a confirmation counts toward a badge at all. A reader may have one, both or
+   * neither, and the confirmation endpoint needs to know which.
+   */
+  accountId: string;
 }
 
 const COOKIE = 'wf_id';
@@ -117,6 +135,7 @@ export const onRequest: PagesFunction<Env, string, Identity> = async (context) =
   if (minted) personId = crypto.randomUUID();
 
   context.data.personId = personId;
+  context.data.accountId = await accountFrom(context.request, secret);
 
   const response = await context.next();
 

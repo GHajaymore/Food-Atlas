@@ -182,7 +182,20 @@ export function Mission() {
       </View>
 
       <Muted style={styles.free}>
-        Free, and staying free. No advertising, no accounts, no tracking, no money collected.
+        {/*
+         * "No accounts" had to go, and the replacement is deliberately not softer.
+         *
+         * Only confirmations from a signed-in person count toward a badge, because an
+         * anonymous one is a private window away from being three of them. So an account
+         * is now needed for exactly one act — and for nothing else. Reading, searching,
+         * browsing and proposing a dish all still work with no account and no tracking,
+         * which is what the sentence now says.
+         *
+         * The alternative was leaving four words that had stopped being true. A promise
+         * this app cannot keep is worth less than a narrower one it can.
+         */}
+        Free, and staying free. No advertising, no tracking, no money collected. An account is
+        needed only to confirm a dish — never to read one.
       </Muted>
 
       <Disclosure style={styles.disclosure} summary="Why a source cannot authenticate a dish">

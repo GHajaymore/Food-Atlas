@@ -27,6 +27,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildCatalogue } from '../src/data/build';
+import type { Confirmation } from '../src/domain/confirmations';
 import type { Dish } from '../src/domain/types';
 
 const read = (name: string) =>
@@ -395,7 +396,7 @@ describe('what the reader is shown, as text', () => {
 });
 
 describe('a confirmation reaches the record', () => {
-  const person = (name: string, local: boolean) => ({
+  const person = (name: string, local: boolean): Confirmation => ({
     name,
     connection: 'Cooks it at home',
     said: 'This is how we make it.',
@@ -414,8 +415,23 @@ describe('a confirmation reaches the record', () => {
     }).catalogue.find((d) => d.id === subject.id)!;
 
   it('raises the score it is scored on', () => {
-    const after = rebuilt([person('A', false), person('B', false), person('C', true)]);
+    const after = rebuilt([
+      { ...person('A', false), verified: true },
+      { ...person('B', false), verified: true },
+      { ...person('C', true), verified: true },
+    ]);
     expect(after.score!).toBeGreaterThan(subject.score ?? 0);
+  });
+
+  it('does NOT raise the score when nobody was signed in', () => {
+    /*
+     * The whole point of `verified`. Without an account behind it a confirmation is a
+     * signed cookie away from being three of them, and a badge earned by opening three
+     * private windows is worse than no badge. These are still recorded and still shown —
+     * see the test below — they simply do not move the number.
+     */
+    const after = rebuilt([person('A', false), person('B', false), person('C', true)]);
+    expect(after.score).toBe(subject.score);
   });
 
   it('is shown on the record, not only counted into it', () => {

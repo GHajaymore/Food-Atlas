@@ -108,6 +108,34 @@ export interface Confirmation {
   local: boolean;
   /** ISO date. Shown, because when someone said it is part of what they said. */
   at: string;
+  /**
+   * Whether the person was signed in when they said it.
+   *
+   * ## What this is actually worth, and why it changes the badge
+   *
+   * Without it, identity is a signed cookie. That stops a double-tap, a refresh and a
+   * hand-edited cookie, and it does not stop one person opening three private windows —
+   * so "3 confirmations" could mean three people or one person three times, and the app
+   * had no way to tell which. That is the weakest point in the whole authenticity model
+   * and it sits underneath the one claim this project makes that nobody else does.
+   *
+   * A signed-in confirmation is tied to an account somebody else issued. It is still not
+   * proof — a determined person can make three Google accounts — but it raises the cost
+   * of faking a badge from "open a private window" to "create and verify three accounts",
+   * which is the difference between casual and deliberate.
+   *
+   * ## Why unverified confirmations are still kept and still shown
+   *
+   * Because requiring an account to speak would exclude precisely the people this
+   * depends on. A grandmother in Kozhikode who has cooked a dish for fifty years is not
+   * creating a login to say so, and an atlas that only hears from people with Google
+   * accounts is a worse atlas — quieter, younger, and wrong about whose food this is.
+   *
+   * So both are recorded, both are displayed with what the person said and their stated
+   * connection, and a reader weighs them. Only the verified ones are *counted* toward
+   * the badge. The claim the number makes is narrow enough to be true.
+   */
+  verified?: boolean;
 }
 
 /** Everything confirmed about one dish. */
@@ -131,11 +159,34 @@ export const confirmationsFor = (index: ConfirmationIndex, id: number): DishConf
 /**
  * How many confirmations a record carries, for `assess`.
  *
- * A plain count of people. Deliberately not weighted by what they confirmed or how
- * long ago: weighting would make the number something only this code can reproduce,
- * and the point of the six figures on a card is that a reader can add them up.
+ * **Signed-in confirmations only.** Everything else about a confirmation is displayed;
+ * this is the one number that moves a badge, so it is the one that has to be defensible.
+ * An anonymous confirmation is a signed cookie away from being three of them, and a
+ * badge that can be earned by opening three private windows is worse than no badge —
+ * it is the single claim this atlas makes that nobody else does.
+ *
+ * Still a plain count, not a weighting. Deliberately not scaled by what somebody
+ * confirmed or how long ago, because weighting would make the number something only
+ * this code can reproduce, and the point of the six figures on a card is that a reader
+ * can add them up.
+ *
+ * Where nothing is signed in this returns 0 and the app says a record is unconfirmed,
+ * which is true. It is the same trade `assess` makes everywhere else: silence rather
+ * than a number that cannot be justified.
  */
-export const validationsOf = (c: DishConfirmations): number => c.people.length;
+export const validationsOf = (c: DishConfirmations): number =>
+  c.people.filter((person) => person.verified).length;
+
+/**
+ * Confirmations that were made without signing in.
+ *
+ * Shown on the record, never counted. They are evidence a reader can weigh — a stated
+ * connection and a specific claim — and the app is explicit that they did not move the
+ * badge. Hiding them would lose real knowledge from exactly the people least likely to
+ * hold an account, which is the opposite of what this project is for.
+ */
+export const unverifiedOf = (c: DishConfirmations): Confirmation[] =>
+  c.people.filter((person) => !person.verified);
 
 /**
  * Whether the confirmations speak for the locality.
@@ -144,7 +195,8 @@ export const validationsOf = (c: DishConfirmations): number => c.people.length;
  * town, and requiring all of them to be local would mean a record got less specific
  * every time somebody from the wider region agreed with it.
  */
-export const confirmedLocally = (c: DishConfirmations): boolean => c.people.some((p) => p.local);
+export const confirmedLocally = (c: DishConfirmations): boolean =>
+  c.people.some((p) => p.local && p.verified);
 
 /**
  * What a record still needs, said plainly.

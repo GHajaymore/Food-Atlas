@@ -107,15 +107,17 @@ export const onRequestGet: PagesFunction<Env, string, Identity> = async ({ reque
   if (!rows.length) return json([]);
 
   const confirmations = await env.DB.prepare(
-    `select proposal_id, name, connection, said, local, at
+    `select proposal_id, name, connection, said, local, verified, at
        from proposal_confirmation
       where status = 'published'`,
-  ).all<{ proposal_id: string; name: string; connection: string; said: string; local: number; at: string }>();
+  ).all<{ proposal_id: string; name: string; connection: string; said: string; local: number; verified: number; at: string }>();
 
   const byProposal = new Map<string, unknown[]>();
   for (const c of confirmations.results ?? []) {
     const list = byProposal.get(c.proposal_id) ?? [];
-    list.push({ name: c.name, connection: c.connection, said: c.said, local: c.local === 1, at: c.at });
+    /*  leaves;  never does. A reader learns that somebody was
+       signed in, and nothing whatever about which account. */
+    list.push({ name: c.name, connection: c.connection, said: c.said, local: c.local === 1, verified: c.verified === 1, at: c.at });
     byProposal.set(c.proposal_id, list);
   }
 

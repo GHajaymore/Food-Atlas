@@ -34,8 +34,9 @@
  * *local* when somebody from the town does.
  */
 
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import { NO_SESSION, loadSession, signInUrl, type Session } from '../data/auth';
 import { color, font, space, TAP_TARGET } from '../theme/tokens';
 import { Button } from './Button';
 import { Block } from './Card';
@@ -65,6 +66,11 @@ export function ConfirmForm({
   const [form, setForm] = useState<Said>(EMPTY);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
+  const [session, setSession] = useState<Session>(NO_SESSION);
+
+  useEffect(() => {
+    loadSession().then(setSession);
+  }, []);
 
   const set = <K extends keyof Said>(key: K, value: Said[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -89,6 +95,44 @@ export function ConfirmForm({
         Confirm what you actually know. You do not have to vouch for the whole record — one specific thing
         from somebody who cooks it is worth more than general agreement.
       </Muted>
+
+      {/*
+       * Said before the fields, not after sending.
+       *
+       * Only a signed-in confirmation counts toward the badge, because an anonymous one
+       * is a private window away from being three of them. A reader who writes three
+       * sentences about their grandmother's halwa and *then* learns it did not count has
+       * been wasted, and will reasonably not come back.
+       *
+       * Both states are worded as a fact rather than a nudge. An unsigned confirmation is
+       * genuinely wanted — it is shown on the record with everything the person said —
+       * and telling somebody their contribution is worthless unless they get an account
+       * would be both discouraging and untrue.
+       */}
+      {session.available ? (
+        session.signedIn ? (
+          <T style={styles.counts}>Signed in — this will count toward the badge.</T>
+        ) : (
+          <View style={styles.signIn}>
+            <Muted style={styles.note}>
+              Not signed in. What you write will be shown on the record with your connection, and it will
+              not move the badge — that count only rises for signed-in people, so one person cannot be
+              three of them.
+            </Muted>
+            <Button
+              label="Sign in, so it counts"
+              variant="secondary"
+              compact
+              style={styles.signInButton}
+              onPress={() => {
+                if (Platform.OS === 'web' && typeof window !== 'undefined') {
+                  window.location.href = signInUrl();
+                }
+              }}
+            />
+          </View>
+        )
+      ) : null}
 
       <Field label="Your name" style={styles.field}>
         <Input
@@ -186,4 +230,7 @@ const styles = StyleSheet.create({
   error: { fontSize: 12, color: color.accent, marginTop: space[1] },
   thanks: { fontSize: 15, color: color.accent, fontFamily: font.semibold },
   submit: { marginTop: space[3] },
+  counts: { fontSize: 12, color: color.accent, marginTop: space[2] },
+  signIn: { marginTop: space[2], gap: space[2] },
+  signInButton: { alignSelf: 'flex-start' },
 });
