@@ -1,112 +1,91 @@
 /**
  * The mark.
  *
- * A grain at the centre, and the atlas's own geography ringing outward: country,
- * region, province, city, village. Those five levels are the whole of what `Loc`
- * records and most of what separates a record from a headword, so the mark is the
- * data model rather than a picture of food.
+ * Four spoons laid head-out in a ring, and nothing in the middle.
  *
- * The grain is the palette's idea, not a new one. `tokens.ts` moved the accent off
- * Nocturne's blurple to "the colour of the world's staple ingredient — rice and
- * wheat, the grains most of humanity eats daily", and the mark simply draws what the
- * colour already means.
+ * That absence is the whole idea. This atlas is not one authority describing the
+ * world's food; it is many people describing their own, and the model says so in
+ * arithmetic — three of the six evidence dimensions can only be filled by people from
+ * the place, and no record reaches Authentic until three of them agree. Nobody sits
+ * at the centre of that, so nobody sits at the centre of this.
  *
- * ## The broken ring
+ * It carries the three things the name promises, which is rare for one mark:
  *
- * The outermost ring is dashed, and it is the only part of this worth arguing about.
- * It is there because the atlas is unfinished — 63% of records sit at country level,
- * three of the six evidence dimensions are empty on nearly everything, and the app
- * says so on every screen it can. A closed outer ring would be the one place in the
- * product that claims completeness. This one is left open on purpose.
+ *   **food**  — spoons, without ambiguity or cleverness.
+ *   **wiki**  — many hands on one record, which is what a wiki is. Not a "W", not a
+ *               puzzle globe borrowed from somebody else's trademark.
+ *   **free**  — freely *given*, by many. The honest reading of free here is not an
+ *               open padlock; it is that the labour is volunteered.
+ *
+ * It reads as a compass rose too, which an atlas can only be glad of.
  *
  * ## Optical scaling
  *
- * Stroke widths are in viewBox units, so they shrink with the mark: the 2.2 that
- * looks right at 96px renders at a third of a pixel in a favicon and disappears. The
- * weight is therefore computed against the rendered size rather than fixed, and the
- * middle ring is dropped below 24px — three concentric hairlines inside 16 pixels is
- * a smudge, not a mark.
+ * Stroke widths are in viewBox units, so they shrink with the mark: the 4 that looks
+ * right at 96px renders at two thirds of a pixel in a favicon and vanishes. Weight is
+ * therefore computed against the rendered size.
+ *
+ * Below 24px the spoons stop being drawn as outlines and become four solid heads. A
+ * stroked bowl with a stem inside sixteen pixels is four grey smudges; four filled
+ * ovals in a rosette still reads as a mark, and still reads as spoons.
  */
 
-import Svg, { Circle, Path } from 'react-native-svg';
+import Svg, { Circle, Ellipse, G, Path } from 'react-native-svg';
 import { color } from '../theme/tokens';
 
 interface Props {
   /** Rendered size in points. The mark is square. */
   size?: number;
   /**
-   * The mark's colour. Defaults to the accent — the point of the whole thing — but
-   * takes a value so it can sit on gold, or go mono for a monochrome app icon.
+   * The mark's colour. Defaults to the accent — grain gold, which `tokens.ts` chose
+   * as the colour of the world's staple ingredient — but takes a value so the mark
+   * can go mono for a monochrome app icon.
    */
   tint?: string;
-  /**
-   * What shows through the grain's crease. The ground it is drawn on, not a colour of
-   * its own: the crease is a gap in the seed, so it has to be whatever is behind.
-   */
-  ground?: string;
 }
 
-export function Logo({ size = 32, tint = color.accent, ground = color.bg }: Props) {
-  /*
-   * Held at roughly 1.3 rendered pixels at the bottom end, and left alone once the
-   * mark is big enough for the designed weight to be the right one.
-   */
-  const stroke = Math.max(2.2, 130 / size);
-  const rings = size >= 24;
+/** The four quarters. Ninety degrees apart, so the rosette is the same whichever way up it is. */
+const QUARTERS = [0, 90, 180, 270];
+
+export function Logo({ size = 32, tint = color.accent }: Props) {
+  const outlined = size >= 24;
+
+  if (!outlined) {
+    // Four solid heads. The stems and the centre are dropped rather than drawn thin,
+    // because at this size they would only muddy what is left.
+    return (
+      <Svg width={size} height={size} viewBox="0 0 100 100">
+        <Ellipse cx={50} cy={20} rx={13} ry={16} fill={tint} />
+        <Ellipse cx={80} cy={50} rx={16} ry={13} fill={tint} />
+        <Ellipse cx={50} cy={80} rx={13} ry={16} fill={tint} />
+        <Ellipse cx={20} cy={50} rx={16} ry={13} fill={tint} />
+      </Svg>
+    );
+  }
+
+  const stroke = Math.max(4, 260 / size);
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      {/* The world, unfinished. */}
-      <Circle
-        cx={50}
-        cy={50}
-        r={45}
-        stroke={tint}
-        strokeWidth={stroke}
-        strokeOpacity={0.45}
-        strokeDasharray="30 14"
-        strokeLinecap="round"
-        fill="none"
-      />
-      {rings ? (
-        <Circle
-          cx={50}
-          cy={50}
-          r={33}
-          stroke={tint}
-          strokeWidth={stroke}
-          strokeOpacity={0.7}
-          fill="none"
-        />
-      ) : null}
-      <Circle
-        cx={50}
-        cy={50}
-        r={rings ? 21 : 26}
-        stroke={tint}
-        strokeWidth={stroke}
-        strokeOpacity={0.9}
-        fill="none"
-      />
-
-      {/* The grain. Larger when the rings thin out, so the centre still reads. */}
-      <Path
-        d={
-          rings
-            ? 'M50 33c6.5 7.5 6.5 26.5 0 34-6.5-7.5-6.5-26.5 0-34Z'
-            : 'M50 30c8 9 8 31 0 40-8-9-8-31 0-40Z'
-        }
-        fill={tint}
-      />
-      {/* The crease, which is a gap rather than a line — see `ground`. */}
-      {size >= 28 ? (
-        <Path
-          d="M50 36v28"
-          stroke={ground}
-          strokeWidth={Math.max(1.6, 60 / size)}
-          strokeLinecap="round"
-        />
-      ) : null}
+      {QUARTERS.map((angle) => (
+        <G key={angle} rotation={angle} originX={50} originY={50}>
+          <Ellipse
+            cx={50}
+            cy={19}
+            rx={8.5}
+            ry={11}
+            stroke={tint}
+            strokeWidth={stroke}
+            fill="none"
+          />
+          <Path d="M50 30v16" stroke={tint} strokeWidth={stroke} strokeLinecap="round" />
+        </G>
+      ))}
+      {/*
+       * The centre is a point, not a hub — small enough to hold the rosette together
+       * and too small to be the thing the spoons are arranged around.
+       */}
+      <Circle cx={50} cy={50} r={stroke * 1.15} fill={tint} />
     </Svg>
   );
 }
