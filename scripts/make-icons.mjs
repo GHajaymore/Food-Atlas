@@ -128,95 +128,40 @@ function segment(x, y, x1, y1, x2, y2) {
 }
 
 /**
- * One sample point, in the 0–100 space the component draws in. Ink or not.
+ * One sample point, in the 0-100 space the component draws in. Ink or not.
  *
- * Three treatments, and the choice between them is the difference between a mark that
- * reads as spoons and one that reads as a compass:
+ * Inside the disc and not inside the spoon. The whole mark, in one boolean — which is
+ * the point of inverting the figure: there is no stroke width to scale, no detail to
+ * drop at small sizes, and no separate small-size treatment to keep in step.
  *
- *   `outline` — the head as a ring, which is what the component draws on screen. It
- *               is right at 30px and wrong at 1024, where four large hollow ovals on
- *               equal arms stop reading as cutlery.
- *   `filled`  — the head as a solid bowl on a stem, which is the silhouette of an
- *               actual spoon. Used for every icon.
- *   `solid`   — four heads and no stems, for the favicon, where a stem is one pixel.
+ * The numbers are MARK in src/components/Logo.tsx, copied rather than imported because
+ * a .tsx module with React imports cannot be read by a plain .mjs script.
  */
-function isInk(x, y, { style, stroke }) {
-  const half = stroke / 2;
-  const detailed = style !== 'small';
+const MARK = {
+  disc: { cx: 50, cy: 50, r: 46 },
+  bowl: { cx: 50, cy: 36, rx: 13, ry: 17 },
+  stem: { x: 50, top: 50, bottom: 78, halfWidth: 4.5 },
+  tilt: 32,
+};
 
-  /*
-   * Each utensil is drawn upright and the sample point is rotated back to meet it,
-   * which is cheaper than rotating three shapes and keeps this readable against the
-   * component's own paths — the two must agree, and the only way to be sure is for
-   * them to be the same numbers.
-   *
-   * `DROP` first: three arms at 120° hang high inside their box, and the component
-   * translates the whole mark down by the same amount. See its note.
-   */
-  const at = (angle) => {
-    const r = (-angle * Math.PI) / 180;
-    const cos = Math.cos(r);
-    const sin = Math.sin(r);
-    const dy = y - DROP;
-    return [50 + (x - 50) * cos - (dy - 50) * sin, 50 + (x - 50) * sin + (dy - 50) * cos];
-  };
+function isInk(x, y) {
+  const d = MARK.disc;
+  if (Math.hypot(x - d.cx, y - d.cy) > d.r) return false;
 
-  // Spoon, upright. The bowl is filled — an outlined one reads as a ring, which is
-  // what sank the four-spoon mark this replaced.
-  {
-    const [px, py] = at(0);
-    if (detailed) {
-      if (insideEllipse(px, py, 50, 18, 8.35, 10.65)) return true;
-      if (segment(px, py, 50, 30, 50, 47) <= half) return true;
-    } else {
-      if (insideEllipse(px, py, 50, 19, 12, 15)) return true;
-      if (segment(px, py, 50, 33, 50, 47) <= 5) return true;
-    }
-  }
+  // Rotate the point against the tilt, so the spoon can be tested upright.
+  const t = (-MARK.tilt * Math.PI) / 180;
+  const cos = Math.cos(t), sin = Math.sin(t);
+  const rx = 50 + (x - 50) * cos - (y - 50) * sin;
+  const ry = 50 + (x - 50) * sin + (y - 50) * cos;
 
-  // Fork. Three prongs ending *inside* an elliptical shoulder, so they become it
-  // rather than sit on it — see the component, which draws the same numbers.
-  {
-    const [px, py] = at(120);
-    if (detailed) {
-      for (const tx of [43.84, 50, 56.17]) {
-        if (segment(px, py, tx, 11, tx, 25) <= 1.83) return true;
-      }
-      if (insideEllipse(px, py, 50, 25, 8.5, 6.4)) return true;
-      if (segment(px, py, 50, 29, 50, 47) <= half) return true;
-    } else {
-      // Prongs dropped: three of them inside sixteen pixels is a grey blur, and a
-      // shoulder on a stem still reads as a fork rather than as a spoon.
-      if (insideEllipse(px, py, 50, 22, 10, 7)) return true;
-      if (segment(px, py, 50, 28, 50, 47) <= 5) return true;
-    }
-  }
+  const b = MARK.bowl;
+  if (insideEllipse(rx, ry, b.cx, b.cy, b.rx, b.ry)) return false;
 
-  // Chopsticks, converging slightly, as a resting pair actually lies.
-  {
-    const [px, py] = at(240);
-    const w = detailed ? half * 1.02 : 4;
-    if (detailed) {
-      if (segment(px, py, 45, 9, 47, 47) <= w) return true;
-      if (segment(px, py, 55, 9, 53, 47) <= w) return true;
-    } else {
-      if (segment(px, py, 44, 11, 47, 47) <= w) return true;
-      if (segment(px, py, 56, 11, 53, 47) <= w) return true;
-    }
-  }
+  const s = MARK.stem;
+  if (segment(rx, ry, s.x, s.top, s.x, s.bottom) <= s.halfWidth) return false;
 
-  return false;
+  return true;
 }
-
-/**
- * The vertical correction a three-armed rosette needs, kept in step with the
- * component's own `DROP`.
- *
- * Not imported from it: this is a `.mjs` script and that is a `.tsx` component with
- * React imports Node cannot strip. Duplicated deliberately and named the same, so a
- * change to one is findable from the other.
- */
-const DROP = 10.75;
 
 const SUPERSAMPLE = 4;
 
@@ -228,14 +173,13 @@ const SUPERSAMPLE = 4;
  * to survive, so the foreground layers are drawn smaller than the iOS icon rather
  * than the same size and hoped for.
  */
-function render({ size, fraction, tint, ground, style }) {
+function render({ size, fraction, tint, ground }) {
   const rgba = Buffer.alloc(size * size * 4);
   const markSize = size * fraction;
   const origin = (size - markSize) / 2;
 
   // Stroke weight follows the *rendered* mark, the same rule the component uses: a
   // width in viewBox units shrinks with the drawing and would vanish on a small icon.
-  const stroke = Math.max(4, 260 / markSize);
   const step = 1 / SUPERSAMPLE;
 
   for (let py = 0; py < size; py += 1) {
@@ -245,7 +189,7 @@ function render({ size, fraction, tint, ground, style }) {
         for (let sx = 0; sx < SUPERSAMPLE; sx += 1) {
           const x = ((px + (sx + 0.5) * step - origin) / markSize) * 100;
           const y = ((py + (sy + 0.5) * step - origin) / markSize) * 100;
-          if (isInk(x, y, { style, stroke })) hits += 1;
+          if (isInk(x, y)) hits += 1;
         }
       }
 
@@ -288,13 +232,13 @@ const FILES = [
     name: 'icon.png',
     size: 1024,
     note: 'iOS and the store. On the ground, because iOS icons are never transparent.',
-    draw: () => render({ size: 1024, fraction: 0.6, tint: GOLD, ground: GROUND, style: 'detailed' }),
+    draw: () => render({ size: 1024, fraction: 0.6, tint: GOLD, ground: GROUND }),
   },
   {
     name: 'android-icon-foreground.png',
     size: 1024,
     note: 'Adaptive foreground. Smaller, so the manufacturer’s crop cannot cut it.',
-    draw: () => render({ size: 1024, fraction: 0.52, tint: GOLD, ground: null, style: 'detailed' }),
+    draw: () => render({ size: 1024, fraction: 0.52, tint: GOLD, ground: null }),
   },
   {
     name: 'android-icon-background.png',
@@ -306,19 +250,19 @@ const FILES = [
     name: 'android-icon-monochrome.png',
     size: 1024,
     note: 'Themed icons. White on transparent — the system keeps the shape and drops the colour.',
-    draw: () => render({ size: 1024, fraction: 0.52, tint: WHITE, ground: null, style: 'detailed' }),
+    draw: () => render({ size: 1024, fraction: 0.52, tint: WHITE, ground: null }),
   },
   {
     name: 'splash-icon.png',
     size: 512,
     note: 'Splash. Transparent, since app.json already paints the ground behind it.',
-    draw: () => render({ size: 512, fraction: 0.55, tint: GOLD, ground: null, style: 'detailed' }),
+    draw: () => render({ size: 512, fraction: 0.55, tint: GOLD, ground: null }),
   },
   {
     name: 'favicon.png',
     size: 64,
     note: 'Drawn with the solid heads, because a browser shows this at 16px.',
-    draw: () => render({ size: 64, fraction: 0.78, tint: GOLD, ground: GROUND, style: 'small' }),
+    draw: () => render({ size: 64, fraction: 0.78, tint: GOLD, ground: GROUND }),
   },
 ];
 

@@ -15,7 +15,7 @@ import { Button, IconButton } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
-import { Logo } from '../src/components/Logo';
+import { Wordmark } from '../src/components/Wordmark';
 import { MealFilter } from '../src/components/MealFilter';
 import { Refine } from '../src/components/Refine';
 import { Shelf } from '../src/components/Shelf';
@@ -126,11 +126,8 @@ export default function Feed() {
   return (
     <Screen>
       <View style={styles.header}>
-        {/* Optically aligned to the name's cap height rather than the block's top,
-            which sits a hair low because the tagline is part of the text column. */}
-        <Logo size={30} />
         <View style={styles.headerText}>
-          <H4>{BRAND.name}</H4>
+          <Wordmark size={20} />
           <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
         </View>
         <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
