@@ -30,7 +30,14 @@ import { T } from './Text';
 
 const LINKS: { label: string; to: string; note: string }[] = [
   { label: 'The atlas', to: '/atlas', note: 'What is covered, and how confident it is' },
-  { label: 'Add a tradition', to: '/contribute', note: 'Record a dish nobody has written down' },
+  { label: 'Propose a dish', to: '/propose', note: 'Food the atlas has no record of' },
+  /*
+   * Listed separately from proposing, because they are different acts and the second is
+   * the one in short supply. Anybody can describe a dish they know; a proposal only
+   * moves when somebody *else* recognises it, and a reader who never sees the open list
+   * has no way to discover that confirming is a thing they could do.
+   */
+  { label: 'Confirm a proposal', to: '/proposals', note: 'Dishes waiting for someone who knows them' },
   { label: 'Keeping it free', to: '/support', note: 'What it costs to run, and who pays' },
 ];
 
