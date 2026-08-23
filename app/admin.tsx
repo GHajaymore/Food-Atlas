@@ -44,6 +44,7 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
+import { loadAnalytics, type Analytics as AnalyticsData, type Tally } from '../src/data/analytics';
 import { loadAllProposals, setProposalStatus } from '../src/data/proposals';
 import { loadRefreshQueue, queueRefresh, type RefreshRequest } from '../src/data/refresh';
 import { loadSettings, saveSettings, settings as current } from '../src/data/settings';
@@ -327,6 +328,127 @@ function RefreshQueue({ token }: { token: string }) {
   );
 }
 
+/**
+ * What the atlas is being used for.
+ *
+ * Every figure here counts *events*. None counts people, and the labels say so —
+ * "opens" rather than "visits", "events" rather than "users" — because a heading is
+ * where an honest number becomes a dishonest one without anybody editing the number.
+ *
+ * The app tells readers in four places that it does not track them, and this screen has
+ * to be readable by somebody who has just read that sentence and come to check. So it
+ * says plainly what it cannot answer, rather than leaving the absence to be noticed.
+ */
+function Analytics({ token }: { token: string }) {
+  const [data, setData] = useState<AnalyticsData | null>(null);
+  const [error, setError] = useState('');
+  const [days, setDays] = useState(30);
+
+  const load = async (over = days) => {
+    setError('');
+    const result = await loadAnalytics(token, over);
+    if ('error' in result) {
+      setError(result.error);
+      setData(null);
+      return;
+    }
+    setData(result);
+  };
+
+  const dishName = (id: string) => catalogue.find((d) => String(d.id) === id)?.name ?? `#${id}`;
+  const busiest = data?.byDay.reduce((most, d) => (d.n > most.n ? d : most), { day: '', n: 0 });
+
+  const List = ({ title, rows, label }: { title: string; rows: Tally[]; label?: (t: string) => string }) =>
+    rows.length ? (
+      <View style={styles.list}>
+        <T style={styles.listHead}>{title}</T>
+        {rows.slice(0, 10).map((row) => (
+          <View key={row.target} style={styles.tally}>
+            <T style={styles.tallyName} numberOfLines={1}>
+              {label ? label(row.target) : row.target || '(none)'}
+            </T>
+            <T style={styles.tallyCount}>{row.n.toLocaleString()}</T>
+          </View>
+        ))}
+      </View>
+    ) : null;
+
+  return (
+    <View style={styles.moderation}>
+      <T style={styles.sectionHead}>Analytics</T>
+      <Muted style={styles.note}>
+        Counts of what happened, over the last {days} days. Nothing here is a count of people — see
+        the note at the foot.
+      </Muted>
+
+      <View style={styles.kinds}>
+        {[7, 30, 90].map((d) => (
+          <Pressable
+            key={d}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: days === d }}
+            accessibilityLabel={`Last ${d} days`}
+            tint="neutral"
+            onPress={() => {
+              setDays(d);
+              void load(d);
+            }}
+            style={days === d ? { ...styles.kind, ...styles.kindOn } : styles.kind}
+          >
+            <T style={days === d ? styles.kindLabelOn : styles.kindLabel}>{d} days</T>
+          </Pressable>
+        ))}
+      </View>
+
+      <Button label="Load analytics" variant="secondary" block style={styles.load} onPress={() => load()} />
+
+      {error ? <T style={styles.message}>{error}</T> : null}
+
+      {data ? (
+        <>
+          <View style={styles.totals}>
+            {data.totals.length ? (
+              data.totals.map((t) => (
+                <View key={t.kind} style={styles.total}>
+                  <T style={styles.totalFigure}>{t.n.toLocaleString()}</T>
+                  <Muted style={styles.totalLabel}>
+                    {t.kind === 'dish' ? 'dish opens' : t.kind === 'screen' ? 'screen views' : t.kind}
+                  </Muted>
+                </View>
+              ))
+            ) : (
+              <Muted style={styles.note}>
+                Nothing counted yet. Events start arriving once the site is deployed and read.
+              </Muted>
+            )}
+          </View>
+
+          {busiest?.day ? (
+            <Muted style={styles.note}>
+              Busiest day: {busiest.day} with {busiest.n.toLocaleString()} events.
+            </Muted>
+          ) : null}
+
+          <List title="Most opened dishes" rows={data.topDishes} label={dishName} />
+          <List title="Most searched for" rows={data.topSearches} />
+          <List title="Most used shelves" rows={data.topShelves} />
+          <List title="Screens" rows={data.topScreens} />
+
+          <Block style={styles.modRow}>
+            <T style={styles.modName}>What this cannot tell you</T>
+            <Muted style={styles.modMeta}>
+              How many people came, or whether the same person came twice. Answering either needs a
+              way to tell one reader from another, which is the thing the front page promises not to
+              do. Cloudflare Web Analytics answers it honestly — at the edge, no cookie, free, and
+              it never hands this app the data.
+            </Muted>
+          </Block>
+        </>
+      ) : null}
+    </View>
+  );
+}
+
 type Draft = Record<keyof Settings, string>;
 
 const toDraft = (s: Settings): Draft => ({
@@ -470,6 +592,8 @@ export default function Admin() {
 
       <RefreshQueue token={token} />
 
+      <Analytics token={token} />
+
       <Button
         label={busy ? 'Saving…' : 'Save'}
         block
@@ -550,5 +674,14 @@ const styles = StyleSheet.create({
   kind: { paddingVertical: space[2], paddingHorizontal: space[3], borderRadius: 6, borderWidth: 1, borderColor: color.divider, minHeight: TAP_TARGET, justifyContent: 'center' },
   kindOn: { borderColor: color.accent },
   kindLabel: { fontSize: 13, color: color.muted },
+  totals: { flexDirection: 'row', flexWrap: 'wrap', columnGap: space[6], rowGap: space[3], marginTop: space[4] },
+  total: { minWidth: 80 },
+  totalFigure: { fontFamily: font.heading, fontSize: 21, color: color.text },
+  totalLabel: { fontSize: 11, marginTop: 2 },
+  list: { marginTop: space[4], gap: 2 },
+  listHead: { fontSize: 11, color: color.accent, fontFamily: font.semibold, letterSpacing: 0.6 },
+  tally: { flexDirection: 'row', justifyContent: 'space-between', gap: space[3], paddingVertical: 3 },
+  tallyName: { flex: 1, fontSize: 13, color: color.text },
+  tallyCount: { fontSize: 13, color: color.muted, fontVariant: ['tabular-nums'] },
   kindLabelOn: { fontSize: 13, color: color.accent, fontFamily: font.semibold },
 });

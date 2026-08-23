@@ -16,7 +16,7 @@
  */
 
 import { admin, type AdminEnv } from '../_admin';
-import type { Identity } from '../_middleware';
+import type { Identity } from './_middleware';
 
 interface Env extends AdminEnv {
   DB: D1Database;

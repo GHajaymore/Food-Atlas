@@ -21,6 +21,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';
+import { watchForExit } from '../src/data/events';
 import { useCopy } from '../src/i18n';
 import { color, font } from '../src/theme/tokens';
 import { installWebStyles } from '../src/theme/webStyles';
@@ -28,6 +29,11 @@ import { installWebStyles } from '../src/theme/webStyles';
 // The two Nocturne behaviours that need real CSS on web: the page ground, and the
 // `.lighten` blend on photographs. No-op on native.
 installWebStyles();
+
+// Send whatever is buffered when the page is hidden. Mobile browsers frequently never
+// fire an unload event at all, so without this a reader who switches apps and does not
+// come back loses the tail of their session — which on a phone is most sessions.
+watchForExit();
 
 export default function RootLayout() {
   const copy = useCopy();

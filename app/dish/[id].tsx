@@ -12,6 +12,7 @@
  */
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { count } from '../../src/data/events';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton } from '../../src/components/Button';
@@ -51,6 +52,14 @@ export default function DishDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const dish = dishById(Number(id));
+
+  /*
+   * One count per record opened. The dish id and nothing else — no reader, no session,
+   * no time beyond the day the server stamps. See src/data/events.ts.
+   */
+  useEffect(() => {
+    if (dish) count('dish', dish.id);
+  }, [dish?.id]);
 
   const { language, setLanguage, requestTranslation, retryTranslation, read, statusFor, errorFor, canTranslate } =
     useTranslations();

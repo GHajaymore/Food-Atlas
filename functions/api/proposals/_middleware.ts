@@ -122,9 +122,24 @@ export const onRequest: PagesFunction<Env, string, Identity> = async (context) =
 
   if (minted) {
     const value = `${personId}.${await sign(personId, secret)}`;
+    /*
+     * Scoped to `/api/proposals`, not to `/`.
+     *
+     * This middleware used to sit at `functions/api/` and the cookie was set on the
+     * whole site, so every request the app ever made — including the analytics beacon
+     * added later — carried an identifier the server could have correlated against.
+     * Nothing did correlate them, but "nothing does" is a promise about today's code,
+     * and the app tells readers in four places that it does not track them.
+     *
+     * Moved here, the guarantee is structural instead: an event request is not under
+     * this path, so the browser does not send the cookie, so no code that might be
+     * written later can join a page view to a person. The only requests that carry an
+     * identity are the two that genuinely need one — confirming, and proposing — where
+     * the whole authenticity model rests on one-person-one-confirmation.
+     */
     response.headers.append(
       'Set-Cookie',
-      `${COOKIE}=${value}; Path=/; Max-Age=${MAX_AGE}; HttpOnly; Secure; SameSite=Lax`,
+      `${COOKIE}=${value}; Path=/api/proposals; Max-Age=${MAX_AGE}; HttpOnly; Secure; SameSite=Lax`,
     );
   }
 

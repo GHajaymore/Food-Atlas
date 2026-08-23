@@ -20,7 +20,7 @@
  * atlas is that it shows evidence rather than counting votes.
  */
 
-import type { Identity } from '../../_middleware';
+import type { Identity } from '../_middleware';
 
 interface Env {
   DB: D1Database;
