@@ -44,9 +44,11 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
+import { loadAllProposals, setProposalStatus } from '../src/data/proposals';
 import { loadSettings, saveSettings, settings as current } from '../src/data/settings';
 import type { Thresholds } from '../src/domain/assess';
 import { isAuthentic } from '../src/domain/authenticity';
+import type { Proposal } from '../src/domain/proposals';
 import { LIMITS, isStructural, type Settings } from '../src/domain/settings';
 import { color, font, space, TAP_TARGET } from '../src/theme/tokens';
 
@@ -109,6 +111,109 @@ function blastRadius(
   }
 
   return { changed: gained + lost, gained, lost, unaffected };
+}
+
+/**
+ * Taking a proposal down.
+ *
+ * The schema has allowed `status = 'declined'` since the first migration and nothing
+ * could set it, so a proposal — public the moment it is made, by design — could not be
+ * removed by anything short of hand-written SQL against production. Abuse, spam and
+ * nonsense stayed up.
+ *
+ * Deliberately not loaded until a token is entered. The queue is the one part of this
+ * screen that is genuinely private: a declined proposal is usually declined for being
+ * abusive, and a public list of everything ever removed would republish exactly what
+ * the decline was for.
+ *
+ * There is no publish button, and its absence is the point. Publication is three
+ * confirmations and then `promote-proposals.mjs`, because the claim this atlas makes is
+ * that a record got in when people who know the dish confirmed it — not when the person
+ * running the site decided it should. Declining is a different act: it removes
+ * something, and removing abuse is a duty rather than a judgement about food.
+ */
+function Moderation({ token }: { token: string }) {
+  const [rows, setRows] = useState<Proposal[]>([]);
+  const [error, setError] = useState('');
+  const [loaded, setLoaded] = useState(false);
+  const [working, setWorking] = useState('');
+
+  const load = async () => {
+    setError('');
+    const result = await loadAllProposals(token);
+    if ('error' in result) {
+      setError(result.error);
+      setLoaded(false);
+      return;
+    }
+    setRows(result);
+    setLoaded(true);
+  };
+
+  const change = async (p: Proposal, status: 'declined' | 'proposed') => {
+    setWorking(p.id);
+    const result = await setProposalStatus(token, p.id, status);
+    setWorking('');
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    setRows((prev) => prev.map((row) => (row.id === p.id ? { ...row, status } : row)));
+  };
+
+  return (
+    <View style={styles.moderation}>
+      <T style={styles.sectionHead}>Moderation</T>
+      <Muted style={styles.note}>
+        Every proposal, including ones already declined. Needs the token above.
+      </Muted>
+
+      <Button
+        label={loaded ? 'Reload queue' : 'Load queue'}
+        variant="secondary"
+        block
+        style={styles.load}
+        onPress={load}
+      />
+
+      {error ? <T style={styles.message}>{error}</T> : null}
+
+      {loaded && !rows.length ? <Muted style={styles.note}>Nothing has been proposed yet.</Muted> : null}
+
+      {rows.map((p) => (
+        <Block key={p.id} style={p.status === 'declined' ? { ...styles.modRow, ...styles.declined } : styles.modRow}>
+          <View style={styles.modHead}>
+            <View style={styles.modText}>
+              <T style={styles.modName}>{p.name}</T>
+              <Muted style={styles.modMeta}>
+                {[p.region, p.country].filter(Boolean).join(', ')} · {p.submitter} ·{' '}
+                {p.people.length} confirmation{p.people.length === 1 ? '' : 's'}
+              </Muted>
+            </View>
+            <T style={styles.modStatus}>{p.status}</T>
+          </View>
+
+          {p.status === 'published' ? (
+            <Muted style={styles.modMeta}>In the atlas. Not changeable here.</Muted>
+          ) : (
+            <Button
+              label={
+                working === p.id
+                  ? 'Working…'
+                  : p.status === 'declined'
+                    ? 'Put back'
+                    : 'Decline'
+              }
+              variant="secondary"
+              compact
+              style={styles.modAction}
+              onPress={() => change(p, p.status === 'declined' ? 'proposed' : 'declined')}
+            />
+          )}
+        </Block>
+      ))}
+    </View>
+  );
 }
 
 type Draft = Record<keyof Settings, string>;
@@ -250,6 +355,8 @@ export default function Admin() {
 
       {message ? <T style={styles.message}>{message}</T> : null}
 
+      <Moderation token={token} />
+
       <Button
         label={busy ? 'Saving…' : 'Save'}
         block
@@ -315,4 +422,15 @@ const styles = StyleSheet.create({
   divider: { height: 1, backgroundColor: color.divider, marginTop: space[6] },
   message: { fontSize: 12, color: color.accent, lineHeight: 17, marginTop: space[3] },
   save: { marginTop: space[4] },
+  moderation: { marginTop: space[6] },
+  sectionHead: { fontSize: 15, color: color.text, fontFamily: font.semibold },
+  load: { marginTop: space[3] },
+  modRow: { padding: space[3], gap: space[2], marginTop: space[2] },
+  declined: { opacity: 0.55 },
+  modHead: { flexDirection: 'row', alignItems: 'flex-start', gap: space[2] },
+  modText: { flex: 1 },
+  modName: { fontSize: 14, color: color.text },
+  modMeta: { fontSize: 12, lineHeight: 17 },
+  modStatus: { fontSize: 11, color: color.accent, fontFamily: font.semibold },
+  modAction: { alignSelf: 'flex-start' },
 });

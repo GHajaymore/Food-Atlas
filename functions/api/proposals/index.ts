@@ -15,9 +15,10 @@
  * verified identity is that the atlas does not hold identities.
  */
 
+import { admin, type AdminEnv } from '../_admin';
 import type { Identity } from '../_middleware';
 
-interface Env {
+interface Env extends AdminEnv {
   DB: D1Database;
 }
 
@@ -65,7 +66,21 @@ interface Row {
   status: string;
 }
 
-export const onRequestGet: PagesFunction<Env, string, Identity> = async ({ env }) => {
+export const onRequestGet: PagesFunction<Env, string, Identity> = async ({ request, env }) => {
+  /*
+   * `?include=all` returns declined proposals too, and needs the administrator token.
+   *
+   * Moderation is reversible only if the moderator can see what they removed. Gated
+   * because a declined proposal is usually declined for being abusive or spam, and a
+   * public list of everything ever taken down would republish exactly the material the
+   * decline was for.
+   */
+  const wantsAll = new URL(request.url).searchParams.get('include') === 'all';
+  if (wantsAll) {
+    const who = await admin(request, env);
+    if (!who.ok) return who.response;
+  }
+
   /*
    * Open proposals, plus anything published in the last 30 days.
    *
@@ -75,12 +90,17 @@ export const onRequestGet: PagesFunction<Env, string, Identity> = async ({ env }
    * something they helped got in.
    */
   const proposals = await env.DB.prepare(
-    `select id, name, country, region, cooks, ingredients, steps, submitter, connection, photo, at, status
-       from proposal
-      where status = 'proposed'
-         or (status = 'published' and at > datetime('now', '-30 days'))
-      order by at desc
-      limit 500`,
+    wantsAll
+      ? `select id, name, country, region, cooks, ingredients, steps, submitter, connection, photo, at, status
+           from proposal
+          order by case status when 'proposed' then 0 when 'declined' then 1 else 2 end, at desc
+          limit 500`
+      : `select id, name, country, region, cooks, ingredients, steps, submitter, connection, photo, at, status
+           from proposal
+          where status = 'proposed'
+             or (status = 'published' and at > datetime('now', '-30 days'))
+          order by at desc
+          limit 500`,
   ).all<Row>();
 
   const rows = proposals.results ?? [];

@@ -22,10 +22,10 @@
  * is working.
  */
 
-interface Env {
+import { admin, type AdminEnv } from './_admin';
+
+interface Env extends AdminEnv {
   DB: D1Database;
-  /** `npx wrangler pages secret put ADMIN_TOKEN`. Never in the repo. */
-  ADMIN_TOKEN?: string;
 }
 
 const json = (body: unknown, status = 200) =>
@@ -42,28 +42,6 @@ const LIMITS: Record<string, [number, number]> = {
 };
 
 const KEYS = ['proposalConfirmations', 'authenticAt', 'validationsRequired', 'proposalsOpen'];
-
-function sameToken(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}
-
-/**
- * A short, stable fingerprint of the token, for the audit trail.
- *
- * The token itself must never be written anywhere — an audit log that leaks the
- * credential it audits is worse than no audit log. Eight hex characters is enough to
- * tell two administrators apart and far too little to reconstruct anything.
- */
-async function fingerprint(token: string): Promise<string> {
-  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token));
-  return [...new Uint8Array(digest)]
-    .slice(0, 4)
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   const rows = await env.DB.prepare(`select key, value from setting`).all<{ key: string; value: string }>();
@@ -82,11 +60,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
 };
 
 export const onRequestPut: PagesFunction<Env> = async ({ request, env }) => {
-  const secret = env.ADMIN_TOKEN;
-  if (!secret) return json({ error: 'No administrator is configured.' }, 503);
-
-  const offered = (request.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '');
-  if (!offered || !sameToken(offered, secret)) return json({ error: 'Not authorised.' }, 401);
+  const who = await admin(request, env);
+  if (!who.ok) return who.response;
 
   let body: Record<string, unknown>;
   try {
@@ -95,7 +70,7 @@ export const onRequestPut: PagesFunction<Env> = async ({ request, env }) => {
     return json({ error: 'Could not read that.' }, 400);
   }
 
-  const by = await fingerprint(offered);
+  const by = who.by;
   const applied: Record<string, unknown> = {};
   const refused: { key: string; said: unknown; why: string }[] = [];
 

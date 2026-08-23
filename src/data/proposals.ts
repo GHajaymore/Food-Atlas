@@ -102,6 +102,57 @@ export async function submitProposal(entry: Partial<Proposal>): Promise<Sent> {
 }
 
 /**
+ * Every proposal including declined ones. Administrator only.
+ *
+ * A separate function rather than a flag on `loadProposals`, because the two fail
+ * differently and should: a reader's list degrades to empty on any error, while a
+ * moderator who cannot load the queue needs to be told, not shown an empty screen that
+ * looks like there is nothing to moderate.
+ */
+export async function loadAllProposals(token: string): Promise<Proposal[] | { error: string }> {
+  if (!token.trim()) return { error: 'No administrator token.' };
+  try {
+    const response = await fetch(`${base()}/proposals?include=all`, {
+      headers: { Authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(TIMEOUT),
+    });
+    if (response.status === 401) return { error: 'That token was not accepted.' };
+    if (response.status === 503) return { error: 'No administrator is configured on the server.' };
+    if (!response.ok) return { error: `The server refused it (${response.status}).` };
+    const body: unknown = await response.json();
+    return Array.isArray(body) ? (body as Proposal[]) : [];
+  } catch {
+    return { error: 'Could not reach the server.' };
+  }
+}
+
+/** Decline a proposal, or put a declined one back. Administrator only. */
+export async function setProposalStatus(
+  token: string,
+  id: string,
+  status: 'declined' | 'proposed',
+  note = '',
+): Promise<Sent> {
+  if (!token.trim()) return { ok: false, error: 'No administrator token.' };
+  try {
+    const response = await fetch(`${base()}/proposals/${encodeURIComponent(id)}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ status, note }),
+      signal: AbortSignal.timeout(TIMEOUT),
+    });
+    if (response.status === 401) return { ok: false, error: 'That token was not accepted.' };
+    if (response.status === 409) {
+      return { ok: false, error: 'That is already in the atlas and cannot be changed here.' };
+    }
+    if (!response.ok) return { ok: false, error: `The server refused it (${response.status}).` };
+    return { ok: true };
+  } catch (error) {
+    return failed(error);
+  }
+}
+
+/**
  * Confirm somebody else's proposal.
  *
  * The two rejections worth naming are the ones the badge rests on, and both are
