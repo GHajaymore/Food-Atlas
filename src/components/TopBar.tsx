@@ -94,6 +94,24 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: color.divider,
     backgroundColor: color.bg,
+    /*
+     * Above the page, and this is load-bearing rather than tidy.
+     *
+     * `TopBar` renders before `<Stack>` in the root layout, so without a stacking
+     * context of its own every screen paints over it in DOM order. The language
+     * dropdown was the visible casualty: it opened at the right size in the right
+     * place, was clipped by nothing, and could not be seen, because the page's own
+     * buttons were drawn on top of it. `elementFromPoint` in the middle of the open
+     * list returned "How it gets authenticated".
+     *
+     * A z-index needs a position to take effect, so `relative` is here to make the
+     * z-index mean anything rather than to move the bar.
+     *
+     * Worth remembering: an element's geometry says nothing about whether a reader can
+     * see it. Measuring `getBoundingClientRect` said the dropdown was fine twice.
+     */
+    position: 'relative',
+    zIndex: 100,
   },
   inner: {
     width: '100%',
