@@ -14,7 +14,7 @@ import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { MealFilter } from '../src/components/MealFilter';
-import { Refine } from '../src/components/Refine';
+import { SearchColumns } from '../src/components/SearchColumns';
 import { Input } from '../src/components/Field';
 import { NavRow } from '../src/components/NavRow';
 import { Photo } from '../src/components/Photo';
@@ -136,12 +136,17 @@ export default function Search() {
       {/* Five facet groups is a wall of chips ahead of the first result once the
           catalogue is global. Collapsed by default, with what is applied stated on
           the row, so the screen opens on results rather than on controls. */}
-      <Refine
+      {/*
+       * The arrangement lives in `SearchColumns`: a sidebar on a desktop, folded away
+       * behind `Refine` on a phone. Neither the facets below nor the results after them
+       * know the window width — same rule as the record page, and for the same reason.
+       */}
+      <SearchColumns
         label={copy.filters}
         emptyLabel={copy.none}
         summary={activeSummary}
         count={active.length + meals.length + (sortBy === 'authenticity' ? 0 : 1)}
-      >
+        filters={
       <View style={styles.facetGroups}>
         <DietFilter
           variant="facet"
@@ -212,8 +217,9 @@ export default function Search() {
           ))}
         </FacetGroup>
       </View>
-      </Refine>
-
+        }
+        results={
+          <>
       <View style={styles.resultsHeader}>
         <H6>Results</H6>
         <Muted style={styles.resultCount}>
@@ -302,6 +308,10 @@ export default function Search() {
           )}
         </Card>
       ) : null}
+
+          </>
+        }
+      />
 
       <View style={styles.footer}>
         <Button label={copy.browseTheAtlas} variant="secondary" block onPress={() => router.push('/atlas')} />

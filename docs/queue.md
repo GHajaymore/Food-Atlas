@@ -174,6 +174,31 @@ app rather than screen-by-screen patching.
 
 ---
 
+**The mobile app must not be left behind.** Ajay, 2026-08-23: *"I know we are focusing on
+improving the website but let's not lose focus on the mobile app. We need to remove that
+initial HTML static page behaviour and make it more good looking, attractive."*
+
+Worth being precise about what "static HTML page behaviour" is, because the cause is not
+the same as the symptom:
+
+- **The opening screen is a wall of text and controls.** The feed leads with a mission
+  block, then a disclosure, then a place selector, then five filter chips, then a diet
+  row — a reader meets six rows of chrome before a photograph. On a phone that reads as
+  a document rather than an app.
+- **Nothing moves.** There are no transitions, no press animation beyond a tint, no
+  skeletons while the catalogue loads — just a spinner and then everything at once.
+  `Stack` is on the platform default and no screen animates its own content.
+- **Photographs are small and secondary.** Cards are 132px thumbnails beside text. The
+  atlas has 3,055 photographs and shows them at the size of a favicon.
+- **The 14.7 MB wait is unmasked.** A spinner for several seconds on a phone connection
+  is the most static thing the app does. Progressive rendering or a first-paint subset
+  would change the whole impression, and connects to Stage 0.
+
+None of that is fixed by the desktop work — `RecordColumns` and `SearchColumns`
+deliberately leave the phone path exactly as it was. This is its own design pass.
+
+---
+
 ## Smaller, and worth doing
 
 **Indian-language Wikipedias are unread, and there is a lot there.** No Indian-language
