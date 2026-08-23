@@ -133,6 +133,16 @@ const PLUMBING: { field: string; shows: string; reaches: (d: Dish) => boolean }[
     reaches: (d) => d.sources.some((s) => /eAmbrosia/.test(s.publisher)),
   },
   {
+    field: 'province',
+    shows: 'a breadcrumb that goes below the region',
+    reaches: (d) => d.breadcrumb.length >= 3,
+  },
+  {
+    field: 'city',
+    shows: 'the town a record names, in its own step of the breadcrumb',
+    reaches: (d) => Boolean(d.loc.city),
+  },
+  {
     field: 'originClaims',
     shows: 'every country claiming it, with none picked as the winner',
     reaches: (d) => Boolean(d.originClaims?.length),
@@ -253,6 +263,9 @@ describe('what the scripts write reaches the reader', () => {
       // of the same protected name.
       'giReference', 'giAttribution', 'attribution', 'designationCode', 'category',
       'registered', 'alsoKnownAs',
+      // The gazetteer's credit. CC BY 4.0 is the licence, so this travels with any
+      // record whose place it confirmed.
+      'placeConfirmed',
     ]);
 
     const declared = new Set([...PLUMBING.map((p) => p.field), ...BOOKKEEPING, ...STRUCTURAL, ...PHOTO_PROVENANCE]);

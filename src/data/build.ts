@@ -234,6 +234,14 @@ interface ImportedRow extends PhotoRow {
   heritage?: string[];
   giReference?: string;
   giAttribution?: string;
+  /**
+   * From `scripts/ingest-geonames.mjs`: the levels below region, read off the code of
+   * the place the region was confirmed against. Absent unless it was confirmed, so a
+   * breadcrumb never claims a depth nothing checked.
+   */
+  province?: string;
+  city?: string;
+  placeConfirmed?: string;
   equipment?: string;
   sourceLanguage?: string;
 }
@@ -327,7 +335,14 @@ const cleanRegion = (region: string, country: string): string => placeBelow(regi
 function expand(row: ImportedRow): Dish {
   const country = canonicalCountry(row.country);
   const region = cleanRegion(row.region ?? '', country);
-  const breadcrumb = [country, region].filter(Boolean);
+  /*
+   * The levels below region come from the GeoNames pass, which reads them off the
+   * code of the place it matched rather than guessing at them. Absent unless that
+   * pass confirmed the region, so a breadcrumb never claims a depth nothing checked.
+   */
+  const province = placeBelow(row.province ?? '', country);
+  const city = placeBelow(row.city ?? '', country);
+  const breadcrumb = [country, region, province, city].filter(Boolean);
   const name = cleanName(row.name);
 
   // The infobox pass reads the article itself; `evidence` holds what Wikidata
@@ -367,7 +382,7 @@ function expand(row: ImportedRow): Dish {
     diet: { group: 'unclassified', kinds: [], contains: [], basis: IMPORT_DIET_BASIS },
     // Not recorded — never "probably dinner".
     meals: { occasions: [], note: '' },
-    loc: { country: country, region, province: '', city: '', village: '' },
+    loc: { country: country, region, province, city, village: '' },
     breadcrumb,
 
     badgeLevel: assessment.level,
@@ -514,6 +529,10 @@ interface CuisineRow extends PhotoRow {
   heritage?: string[];
   giReference?: string;
   giAttribution?: string;
+  /** From `scripts/ingest-geonames.mjs` — see the note on `ImportedRow`. */
+  province?: string;
+  city?: string;
+  placeConfirmed?: string;
   title: string;
   name: string;
   country: string;
@@ -708,7 +727,14 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     const name = cleanName(row.name);
     const country = canonicalCountry(row.country);
     const region = cleanRegion(row.region ?? '', country);
-    const breadcrumb = [country, region].filter(Boolean);
+    /*
+   * The levels below region come from the GeoNames pass, which reads them off the
+   * code of the place it matched rather than guessing at them. Absent unless that
+   * pass confirmed the region, so a breadcrumb never claims a depth nothing checked.
+   */
+  const province = placeBelow(row.province ?? '', country);
+  const city = placeBelow(row.city ?? '', country);
+  const breadcrumb = [country, region, province, city].filter(Boolean);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = cleanLines(row.ingredients);
@@ -756,7 +782,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         basis: IMPORT_DIET_BASIS,
       },
       meals: { occasions: [], note: '' },
-      loc: { country: country, region, province: '', city: '', village: '' },
+      loc: { country: country, region, province, city, village: '' },
       breadcrumb,
 
       badgeLevel: assessment.level,

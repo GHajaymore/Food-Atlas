@@ -47,6 +47,7 @@ const KEEP = {
     'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
     'atRiskEvidence', 'originClaims',
     'heritage', 'giReference', 'giAttribution',
+    'province', 'city', 'placeConfirmed',
   ],
   cookbook: [
     'title', 'name', 'ingredients', 'steps', 'url', 'country', 'region',
@@ -59,6 +60,7 @@ const KEEP = {
     'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
     'patRegion', 'patAttribution', 'atRiskEvidence', 'originClaims',
     'heritage', 'giReference', 'giAttribution',
+    'province', 'city', 'placeConfirmed',
   ],
   unesco: ['reference', 'name', 'countries', 'country', 'list', 'url', 'photo', 'credit', 'licence'],
   gi: [
