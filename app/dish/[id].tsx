@@ -19,6 +19,7 @@ import { Button, IconButton } from '../../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
 import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
+import { FacetLink } from '../../src/components/FacetLink';
 import { LanguageBar } from '../../src/components/LanguageBar';
 import { LocalNames } from '../../src/components/LocalNames';
 import { NavRow } from '../../src/components/NavRow';
@@ -184,12 +185,31 @@ export default function DishDetail() {
           have to scroll past the method to find out the app knows it. */}
       <LocalNames names={dish.localNames} original={dish.name} />
 
+      {/*
+       * The breadcrumb, with every step a link to that place.
+       *
+       * It read as a path and behaved as decoration: a reader could see this dish is
+       * from Kerala, from India, and had no way to ask what else is. Each step is a
+       * query `feedFor` has been able to run all along — only the link was missing, and
+       * its absence is most of what made a record page a dead end.
+       *
+       * The country is the second step and the region the third, matching how
+       * `pathOf` reads a URL. Deeper steps — a province, a town — narrow to the region
+       * they sit in, because the atlas files records at region level and a link to a
+       * village would land on a page holding one record: true, and useless.
+       */}
       <View style={styles.breadcrumb}>
         {dish.breadcrumb.map((part, i) => (
           <Muted key={part} style={styles.breadcrumbText}>
-            <T style={[styles.breadcrumbText, i === dish.breadcrumb.length - 1 ? styles.deepest : styles.dim]}>
-              {part}
-            </T>
+            <FacetLink
+              label={part}
+              describedAs={`Everything from ${part}`}
+              query={
+                i === 0
+                  ? { country: part }
+                  : { country: dish.loc.country, region: dish.loc.region || part }
+              }
+            />
             {i < dish.breadcrumb.length - 1 ? ' › ' : ''}
           </Muted>
         ))}
@@ -391,9 +411,26 @@ export default function DishDetail() {
           ) : null}
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>
           <View style={styles.chipWrap}>
-            {/* Never translated — these names are the identity of the food. */}
+            {/*
+             * Each ingredient opens everything made with it.
+             *
+             * Never translated — these names are the identity of the food — and the link
+             * carries the name exactly as written, so "ghee" finds ghee and does not
+             * quietly become "clarified butter" on the way to the query.
+             *
+             * This is the richest link on the page. A reader who has just learnt that a
+             * dish uses ghee, kokum or nendran banana is one tap from every other
+             * tradition that does, which is the kind of thing an atlas is *for* and
+             * which no amount of additional prose would have provided.
+             */}
             {reading.ingredients.map((ingredient) => (
-              <Tag key={ingredient} label={ingredient} variant="neutral" />
+              <FacetLink
+                key={ingredient}
+                variant="chip"
+                label={ingredient}
+                describedAs={`Everything made with ${ingredient}`}
+                query={{ ingredient }}
+              />
             ))}
           </View>
 

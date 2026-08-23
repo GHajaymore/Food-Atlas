@@ -110,20 +110,44 @@ export function Mission() {
        */}
       <View style={wide ? styles.heroRow : undefined}>
         <View style={wide ? styles.heroMain : undefined}>
+          {/*
+           * The headline no longer counts anything.
+           *
+           * It opened "18,008 dishes, and the evidence behind every one" over a row of
+           * tiles whose first tile said 18,008, and the paragraph under it opened "From
+           * 157 countries" over a tile saying 157. Three of the four figures on screen
+           * were printed twice within about eighty pixels, which reads as a page that
+           * has not decided what its own headline is for.
+           *
+           * The tiles are better at counting — aligned, labelled, scannable — so the
+           * headline stops competing with them and says what the atlas is *for*
+           * instead. Nothing was dropped: every number that was in the sentence is
+           * still on the screen, once, underneath.
+           */}
           <T style={wide ? styles.headlineWide : styles.headline}>
-            {n(total)} dishes, and the evidence behind every one.
+            Every dish here shows its evidence.
           </T>
 
           <Muted style={[styles.stakes, wide ? styles.stakesWide : null]}>
-            From {countries} countries — each record showing where it came from, who says so, and
-            how much has actually been established. {n(heritage)} carry a protected designation or
-            a heritage listing.
+            Where it came from, who says so, and how much has actually been established — printed
+            on every record, and checkable by anybody who doubts it.
           </Muted>
 
-          <View style={styles.stats}>
+          {/*
+           * Five figures, in the order a reader needs them: how much there is, how far
+           * it reaches, how much is written down, how much an institution has
+           * recognised, and how much people have actually authenticated.
+           *
+           * They descend — 18,008 to 53 — and that descent is the argument. A row of
+           * numbers that only got bigger would be a boast; this one narrows to the
+           * figure the whole project exists to move, and a reader can see the gap
+           * without being told about it.
+           */}
+          <View style={[styles.stats, wide ? styles.statsWide : null]}>
             <Stat value={n(total)} label="dishes" />
             <Stat value={String(countries)} label="countries" />
             <Stat value={n(documented)} label="documented" />
+            <Stat value={n(heritage)} label="registered" />
             {/* The accent goes on the only figure a person, rather than a source, can move. */}
             <Stat value={n(authenticated)} label="authentic" accent />
           </View>
@@ -195,7 +219,24 @@ const styles = StyleSheet.create({
     padding: space[4],
     gap: space[2],
   },
-  headlineWide: { fontFamily: font.heading, fontSize: 40, lineHeight: 46, color: color.text },
+  headlineWide: {
+    fontFamily: font.heading,
+    fontSize: 44,
+    lineHeight: 50,
+    color: color.text,
+    /* Large headings need the tracking pulled in; the theme's scale stops at 42 and
+       leaves anything above it looking loose. */
+    letterSpacing: -0.6,
+  },
+  /* A ruled band rather than five numbers loose on the ground. On a wide screen the
+     tiles were floating in whitespace with nothing saying they belonged together. */
+  statsWide: {
+    marginTop: 26,
+    paddingTop: 18,
+    borderTopWidth: 1,
+    borderTopColor: color.divider,
+    columnGap: 36,
+  },
   stakesWide: { fontSize: 15, lineHeight: 24, maxWidth: 560, marginTop: 14 },
   headline: { fontFamily: font.heading, fontSize: 25, lineHeight: 31, color: color.text },
   stakes: { fontSize: 14, lineHeight: 21 },
@@ -211,7 +252,7 @@ const styles = StyleSheet.create({
   // accented figure on its own and reads as a layout fault. The labels were shortened
   // and the gap tightened until the widest case fits.
   stat: { minWidth: 70 },
-  figure: { fontFamily: font.heading, fontSize: 23, lineHeight: 27, color: color.text },
+  figure: { fontFamily: font.heading, fontSize: 26, lineHeight: 30, color: color.text, fontVariant: ['tabular-nums'] },
   figureAccent: { color: color.accent },
   statLabel: { marginTop: 3, marginBottom: 0 },
 
