@@ -25,7 +25,7 @@ import { Tag } from '../src/components/Tag';
 import { catalogue as dishes } from '../src/data/catalogue';
 import { CLASSIFICATIONS } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
-import { allCategories, allCuisines, allIngredients, randomAtRisk, searchResults } from '../src/domain/queries';
+import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/domain/queries';
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
@@ -195,16 +195,28 @@ export default function Search() {
           ))}
         </FacetGroup>
 
-        <FacetGroup label={copy.traditionalIngredient}>
-          {allIngredients(dishes).map((ingredient) => (
-            <Tag
-              key={ingredient}
-              label={ingredient}
-              variant={facetIngredients.includes(ingredient) ? 'accent' : 'outline'}
-              onPress={() => toggleFacet('facetIngredients', ingredient)}
-            />
-          ))}
-        </FacetGroup>
+        {/*
+         * The ingredient facet is gone, and it was worse than crowded.
+         *
+         * There are 27,036 distinct ingredient strings across 17,828 records — more
+         * values than the atlas has dishes. `allIngredients` capped that at ten and
+         * sorted **alphabetically**, so the control offered ten arbitrary strings out of
+         * twenty-seven thousand and called it a filter.
+         *
+         * The values are not clean either: "Salt" and "salt" count separately, "Sal" is
+         * Spanish, "Salt to taste" is a quantity. And the commonest are salt, sugar and
+         * water — which every cuisine on earth uses, so they discriminate nothing.
+         *
+         * Ingredients are still filterable, and reached better: every ingredient on a
+         * record is a `FacetLink` that opens everything made with it. Arriving at
+         * "everything with ghee" from a dish that uses ghee is a real journey; picking
+         * ghee out of a list of 27,036 never was. `facetIngredients` stays in the store
+         * and in `searchResults`, so those links keep working.
+         *
+         * The facet worth having here is cuisine — it is how people actually arrive —
+         * and it is already below. It renders nothing today because `d.cuisine` is
+         * populated on zero records; see docs/queue.md.
+         */}
 
         <FacetGroup label={copy.sortResultsBy}>
           {SORTS.map((sort) => (

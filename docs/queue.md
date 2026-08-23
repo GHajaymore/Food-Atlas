@@ -63,6 +63,58 @@ whom use the app, will never get in. Three is a starting position, not a finding
 
 ---
 
+## The positioning, which most of the design work should serve
+
+Ajay, 2026-08-23: *"We need to differentiate from social media or any other food website
+and highlight the authenticity of the content, the food and the source. Also ask help
+from the community to come together and save the authenticity and confirmation of the
+tradition."*
+
+This is the brief the rest of the redesign should be measured against, so it goes above
+the screen-by-screen work rather than beside it.
+
+**What actually makes this different, stated as things no competitor can copy cheaply:**
+
+Every food site on the internet shows a photograph, a name and a recipe. So does this
+one, and if that is what a reader sees first there is no reason to choose it. The
+differences are all things the app currently *has* and does not *lead with*:
+
+- **A score anybody can check.** Six dimensions, printed on the record, adding to a
+  number. No other food site shows its working, because no other food site has any. A
+  reader who doubts 58 can add up 70, 65, 50, 60, 0, 100 themselves.
+- **A ceiling on what documents can prove.** Published sources cannot pass 43; the badge
+  starts at 55. That gap is arithmetic, not policy, and it is the single most unusual
+  claim here: *we will not call a dish authentic because a book said so.*
+- **Confirmations that are shown, not counted.** "Priya, born in Kozhikode — we use ghee,
+  not oil" is evidence a reader can weigh. A star rating is not.
+- **10,197 records that say nobody has written this down.** Every other site hides its
+  gaps. This one leads with them, because the gap is the reason to help.
+- **Every source named and linked.** Wikidata, UNESCO, the EU register — a reader can
+  leave and check.
+
+**What the app does with that today: not enough.** The front page says "Every dish here
+shows its evidence" and then shows a grid of photographs that looks like any food site.
+The badges are small, the score is a number in the corner of a card, and a first-time
+visitor has no idea that the scale is the product.
+
+**Concretely, for the design pass:**
+
+- The **badge and score belong on the card**, at a size that reads as the point, not as
+  metadata. A grid where every tile carries "⚪ 12/100" and "🟢 58/100" *is* the
+  differentiator, visible before anybody clicks.
+- **A first-run explanation of the scale** — what the six dimensions are and why a
+  document cannot pass 43 — shown once, not buried in a disclosure.
+- **The ask should be specific and near.** "3 people from Kerala can authenticate this"
+  on a record beats a general plea on the front page. `nearby.ts` already knows the
+  reader's country and `unwrittenIn()` already lists what is unrecorded there.
+- **Show the ladder moving.** A record that gained a confirmation this week, a dish that
+  reached Authentic — proof that participation does something. Requires the deployment
+  before it can be real, and must never be faked.
+- **Name what this is not**, once, plainly: no ratings, no comments, no algorithm, no
+  advertising, nobody's engagement being farmed.
+
+---
+
 ## Next up
 
 **User logins.** Ajay: *"if allowing user logins is helpful and may add more value, then
@@ -196,6 +248,46 @@ the same as the symptom:
 
 None of that is fixed by the desktop work — `RecordColumns` and `SearchColumns`
 deliberately leave the phone path exactly as it was. This is its own design pass.
+
+---
+
+**The ingredient facet on search, and the cuisine facet that is empty.** Ajay asked
+whether search really needs ingredients, since there could be more than the page can
+hold, and whether cuisine would be better. Measured:
+
+```
+  distinct ingredients   27,036     more values than the atlas has records
+  shown in the facet         10     the first ten ALPHABETICALLY
+  most common               sugar (340), Salt (177), salt (153), water (152),
+                            Salt to taste (148), eggs (131), Flour (125), Sal (122)
+
+  distinct cuisines           0     the facet renders nothing at all
+  records with a cuisine      0
+```
+
+**He is right, and it is worse than "too many".** Three separate faults:
+
+1. **27,036 options is not a facet**, it is the catalogue again. `allIngredients` caps at
+   10 and sorts *alphabetically*, so the search offers ten arbitrary strings beginning
+   with a digit or an "A" out of twenty-seven thousand.
+2. **The values are not clean.** "Salt" and "salt" are counted separately, "Sal" is
+   Spanish, and "Salt to taste" is a quantity phrase. The commonest ingredients are salt,
+   sugar and water, which discriminate nothing — every cuisine uses all three.
+3. **Cuisine cannot replace it, because no record has one.** `d.cuisine` is populated on
+   zero of 17,828 records, so that facet is already present and already renders empty.
+   `FacetGroup` hides itself when it has no options, which is why nobody noticed.
+
+**Recommendation.** Drop the ingredient facet from search. Ingredients are still reachable
+— and better reached — from a record, where `FacetLink` opens everything made with that
+ingredient. Arriving at "everything with ghee" from a dish that uses ghee is a real
+journey; picking ghee out of a list of 27,036 is not.
+
+Then populate `cuisine`, which is the facet worth having: Wikidata records it, the field
+and the filter already exist, and it is how people actually arrive — *"I want Thai
+food"*. That is an ingest, not a UI change.
+
+Worth doing alongside: normalising ingredient strings (case, "to taste", language) would
+improve the record pages and the related-dish matching regardless of the facet.
 
 ---
 
