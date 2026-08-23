@@ -65,20 +65,40 @@ export function Mission() {
   const documented = catalogue.filter((d) => d.steps.length || d.prepSummary.trim()).length;
   const unwritten = total - documented;
   const authenticated = catalogue.filter((d) => isAuthentic(d.badgeLevel)).length;
-  const share = Math.round((unwritten / Math.max(1, total)) * 100);
+
+  /*
+   * Records carrying an institutional designation — the EU geographical-indications
+   * register, a UNESCO inscription, or Italy's register of traditional products.
+   * Counted from the sources actually on each record rather than from a flag, so the
+   * figure cannot drift away from what a reader can click through and check.
+   */
+  const heritage = catalogue.filter((d) =>
+    d.sources.some((src) => /eAmbrosia|UNESCO|Prodotti/.test(`${src.publisher} ${src.title}`)),
+  ).length;
+
   const open = canContribute() || canConfirm();
 
   return (
     <View style={styles.wrap}>
-      {/* The hook. A number this large, said plainly, does the work no adjective can. */}
-      <T style={styles.headline}>
-        {share}% of the food in this atlas has never been written down.
-      </T>
+      {/*
+       * Leads with what the atlas holds, not with what it lacks.
+       *
+       * An earlier headline opened "57% of the food in this atlas has never been
+       * written down". The figure was correct and reconciled — 7,811 documented plus
+       * 10,197 unwritten is exactly 18,008 — but as the *first* sentence it framed the
+       * project by its hole, and a reader met an app that sounded half empty.
+       *
+       * The gap is a reason to help rather than a description of the product, so it
+       * moved down into the ask, where it does that job instead. Nothing was softened:
+       * the same count appears below, in figures rather than as a percentage, because
+       * "10,197 records" is a thing a reader can picture and "57%" is a verdict.
+       */}
+      <T style={styles.headline}>{n(total)} dishes, and the evidence behind every one.</T>
 
       <Muted style={styles.stakes}>
-        {n(total)} dishes from {countries} countries are recorded here. For {n(unwritten)} of them,
-        nobody has set down how they are made — not in English, not in any language, nowhere a
-        machine can reach. Those methods exist only in the people who cook them.
+        From {countries} countries — each record showing where it came from, who says so, and how
+        much has actually been established. {n(heritage)} carry a protected designation or a
+        heritage listing.
       </Muted>
 
       <View style={styles.stats}>
@@ -91,11 +111,14 @@ export function Mission() {
 
       <View style={styles.callout}>
         <T style={styles.ask}>
-          {VALIDATIONS_REQUIRED} people from a place can authenticate a dish for good.
+          {n(unwritten)} of these have no method recorded. {VALIDATIONS_REQUIRED} people from a
+          place can fix one for good.
         </T>
         <Muted style={styles.askBody}>
-          No archive, no encyclopaedia and nothing automatic can do it instead — that is arithmetic
-          in the scoring, not a policy. If you cook one of these, you are the only person who can.
+          Nobody has set down how they are made — not in English, not in any language, nowhere a
+          machine can reach. No archive, no encyclopaedia and nothing automatic can authenticate
+          them instead; that is arithmetic in the scoring, not a policy. If you cook one, you are
+          the only person who can.
         </Muted>
         <View style={styles.actions}>
           <Button label="Record a dish you know" onPress={() => router.push('/contribute')} />
