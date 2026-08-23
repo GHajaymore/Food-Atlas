@@ -17,6 +17,7 @@ import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
 import { Wordmark } from '../src/components/Wordmark';
 import { MealFilter } from '../src/components/MealFilter';
+import { Mission } from '../src/components/Mission';
 import { Refine } from '../src/components/Refine';
 import { Shelf } from '../src/components/Shelf';
 import { MapPinIcon, SearchIcon } from '../src/components/icons';
@@ -199,6 +200,10 @@ export default function Feed() {
           diet — the list is what they want, and it takes over. */}
       {isBrowsing ? (
         <>
+          {/* The front door. Only on the clean browsing view: a reader who has picked a
+              country or opened a shelf has already worked out what this is, and a
+              manifesto above their results would be in the way. */}
+          <Mission />
           {shelves.map((shelf) => (
             <Shelf
               key={shelf.id}
