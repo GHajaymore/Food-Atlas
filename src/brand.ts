@@ -22,9 +22,21 @@ export const BRAND = {
    * enforced in arithmetic: `assess.ts` caps published documentation at 43 and starts
    * promotion at 55, so the gap can only ever be closed by people from the place.
    *
-   * It recruits without asking. A reader who makes the dish reads "the cook" and
+   * It recruits without asking. A reader who makes the dish reads "local cooks" and
    * works out that it means them, which hands them authority instead of asking for a
    * favour — stronger than any plea, and it costs no honesty.
+   *
+   * ## Both of those words are load-bearing
+   *
+   * **local**, because the rule is not "a cook". A chef in London making Kozhikode
+   * halwa does not authenticate it; `validatedLocally` is a real field and it decides
+   * between Authentic — Local and Authentic — Regional. An earlier draft said "the
+   * cook" and quietly dropped that.
+   *
+   * **cooks**, plural, because `VALIDATIONS_REQUIRED` is 3. One person never
+   * authenticates anything here, and the singular said they could. The plural is also
+   * the only honest way this line can carry *community*: it describes what the rule
+   * requires, not a community that has turned up — there are still zero confirmations.
    *
    * It also explains the badge. The green chip says *Authentic*; this says who is
    * allowed to put it there, so the tagline and the classification stop being two
@@ -38,7 +50,9 @@ export const BRAND = {
    *     — dropped the negative: it opened on a disclaimer
    *   Authentic is theirs to say, not ours.                         (7, "theirs" is nobody)
    *     — named them: an abstraction became a person
-   *   Only the cook can call it authentic.                          (7)
+   *   Only the cook can call it authentic.                          (7, imprecise)
+   *     — local, and plural: the rule needs three people, from the place
+   *   Only local cooks can call it authentic.                       (7)
    *
    * ## The candidates this replaced, and why each failed
    *
@@ -81,7 +95,7 @@ export const BRAND = {
    * general plea under a logo is easy to ignore; one naming a dish from your own town
    * is not.
    */
-  tagline: 'Only the cook can call it authentic.',
+  tagline: 'Only local cooks can call it authentic.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
