@@ -166,7 +166,7 @@ function isInk(x, y, { style, stroke }) {
   {
     const [px, py] = at(0);
     if (detailed) {
-      if (insideEllipse(px, py, 50, 18, 9, 11.5)) return true;
+      if (insideEllipse(px, py, 50, 18, 8.35, 10.65)) return true;
       if (segment(px, py, 50, 30, 50, 47) <= half) return true;
     } else {
       if (insideEllipse(px, py, 50, 19, 12, 15)) return true;
@@ -182,7 +182,7 @@ function isInk(x, y, { style, stroke }) {
       for (const tx of [43.84, 50, 56.17]) {
         if (segment(px, py, tx, 11, tx, 25) <= 1.83) return true;
       }
-      if (insideEllipse(px, py, 50, 25, 8, 6)) return true;
+      if (insideEllipse(px, py, 50, 25, 8.5, 6.4)) return true;
       if (segment(px, py, 50, 29, 50, 47) <= half) return true;
     } else {
       // Prongs dropped: three of them inside sixteen pixels is a grey blur, and a
@@ -195,7 +195,7 @@ function isInk(x, y, { style, stroke }) {
   // Chopsticks, converging slightly, as a resting pair actually lies.
   {
     const [px, py] = at(240);
-    const w = detailed ? half * 0.93 : 4;
+    const w = detailed ? half * 1.02 : 4;
     if (detailed) {
       if (segment(px, py, 45, 9, 47, 47) <= w) return true;
       if (segment(px, py, 55, 9, 53, 47) <= w) return true;

@@ -67,7 +67,7 @@ export function Logo({ size = 32, tint = color.accent }: Props) {
         <G>
           {detailed ? (
             <>
-              <Ellipse cx={50} cy={18} rx={9} ry={11.5} fill={tint} />
+              <Ellipse cx={50} cy={18} rx={8.35} ry={10.65} fill={tint} />
               <Path d="M50 30v17" stroke={tint} strokeWidth={stroke} strokeLinecap="round" />
             </>
           ) : (
@@ -101,7 +101,7 @@ export function Logo({ size = 32, tint = color.accent }: Props) {
                 strokeWidth={3.67}
                 strokeLinecap="round"
               />
-              <Ellipse cx={50} cy={25} rx={8} ry={6} fill={tint} />
+              <Ellipse cx={50} cy={25} rx={8.5} ry={6.4} fill={tint} />
               <Path d="M50 29v18" stroke={tint} strokeWidth={stroke} strokeLinecap="round" />
             </>
           ) : (
@@ -119,7 +119,7 @@ export function Logo({ size = 32, tint = color.accent }: Props) {
           <Path
             d={detailed ? 'M45 9 47 47M55 9 53 47' : 'M44 11 47 47M56 11 53 47'}
             stroke={tint}
-            strokeWidth={detailed ? stroke * 0.93 : 8}
+            strokeWidth={detailed ? stroke * 1.02 : 8}
             strokeLinecap="round"
           />
         </G>
