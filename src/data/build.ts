@@ -19,7 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
-import { assess } from '../domain/assess';
+import { DEFAULT_THRESHOLDS, assess, type Evidence, type Thresholds } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
 import { confirmationsFor, confirmedLocally, validationsOf, type ConfirmationIndex } from '../domain/confirmations';
 import { continentOf, isCountry, registerContinents } from '../domain/continents';
@@ -34,6 +34,16 @@ import { decodeEntities } from '../domain/text';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
 import { dishes as curated } from './seed';
+
+/**
+ * `assess` with the thresholds first.
+ *
+ * Only so the three call sites below can keep their evidence object as the last
+ * argument. Each spans thirty lines and ends in `});`, and appending a second argument
+ * to those meant editing three closing braces by hand — the kind of change that is
+ * correct four times out of five.
+ */
+const assessWith = (t: Thresholds, e: Evidence) => assess(e, t);
 
 /**
  * The compact shape the importer writes. Everything shared across all imported
@@ -333,7 +343,7 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
  */
 const cleanRegion = (region: string, country: string): string => placeBelow(region ?? '', country);
 
-function expand(row: ImportedRow, confirmations: ConfirmationIndex): Dish {
+function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Thresholds): Dish {
   const confirmed = confirmationsFor(confirmations, row.id);
   const country = canonicalCountry(row.country);
   const region = cleanRegion(row.region ?? '', country);
@@ -357,7 +367,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex): Dish {
 
   // Classification is earned from the evidence gathered by the enrichment pass, not
   // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
-  const assessment = assess({
+  const assessment = assessWith(t, {
     hasCountry: !!country,
     hasRegion: !!row.region,
     ingredients,
@@ -682,6 +692,13 @@ export function buildCatalogue(
    * endpoint exists, which is the state every record has been in so far.
    */
   rawConfirmations: ConfirmationIndex = {},
+  /**
+   * The thresholds that decide what Authentic means, which an administrator can change
+   * without a deploy. Defaulted, so every existing caller and all 338 tests score
+   * exactly as they did — and so an atlas that cannot reach its settings never
+   * silently re-badges itself.
+   */
+  t: Thresholds = DEFAULT_THRESHOLDS,
 ): { catalogue: Dish[]; stats: CatalogueStats } {
 /**
  * Cookbook recipes carry a method but no place, so they cannot stand as atlas
@@ -723,7 +740,7 @@ const hasSomethingToShow = (row: ImportedRow): boolean =>
     !!row.evidence?.hasArticle ||
     !!row.photo);
 
-const imported: Dish[] = importedRows.filter(hasSomethingToShow).map((row) => expand(row, rawConfirmations));
+const imported: Dish[] = importedRows.filter(hasSomethingToShow).map((row) => expand(row, rawConfirmations, t));
 
 /**
  * Cuisine-tree records, added for the countries the structured sources under-serve.
@@ -777,7 +794,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       ? { atRisk: true, evidence: row.atRiskEvidence }
       : detectAtRisk(prepSummary);
 
-    const assessment = assess({
+    const assessment = assessWith(t, {
       hasCountry: true,
       hasRegion: !!region,
       ingredients,
@@ -1144,7 +1161,7 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
      * no account does not reach the top badge — so asking it is both more honest and
      * one fewer place for the rules to drift apart.
      */
-    const assessment = assess({
+    const assessment = assessWith(t, {
       hasCountry: !!country,
       hasRegion: false,
       ingredients: [],

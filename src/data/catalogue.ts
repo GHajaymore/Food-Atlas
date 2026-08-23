@@ -26,6 +26,7 @@ import { CONFIRMATIONS_URL, canConfirm, type ConfirmationIndex } from '../domain
 import { coverageOf, type LanguageCoverage } from '../domain/language';
 import type { Dish } from '../domain/types';
 import { buildCatalogue, type CatalogueStats } from './build';
+import { loadSettings, thresholds } from './settings';
 
 /** Everything the app can show. Empty until `loadCatalogue` has resolved. */
 export let catalogue: Dish[] = [];
@@ -108,7 +109,17 @@ export function loadCatalogue(): Promise<void> {
      */
     const confirmations = await loadConfirmations();
 
-    const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi, confirmations);
+    /*
+     * Settings before the build, because two of them decide what Authentic means and
+     * the badge is computed here, once. Fetching them afterwards would mean the first
+     * paint showed badges from one set of thresholds and everything after it another.
+     *
+     * Fails to the compiled defaults, deliberately: a network error must never be able
+     * to move the meaning of the word Authentic across 18,008 records.
+     */
+    await loadSettings();
+
+    const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi, confirmations, thresholds());
     catalogue = built.catalogue;
     catalogueStats = built.stats;
     languageCoverage = coverageOf(catalogue);

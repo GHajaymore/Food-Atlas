@@ -136,7 +136,7 @@ const clamp = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
  * unanswerable from an import, and leaving them at zero is what stops a
  * well-documented import scoring like a record someone actually cooked.
  */
-function scoreDimensions(e: Evidence): BreakdownRow[] {
+function scoreDimensions(e: Evidence, t: Thresholds): BreakdownRow[] {
   const validations = e.validations ?? 0;
 
   const geographic = e.hasRegion ? 70 : 45;
@@ -168,7 +168,7 @@ function scoreDimensions(e: Evidence): BreakdownRow[] {
   // Full marks only at the number the brief asks for. Below it the record has been
   // looked at, not confirmed, and partial confirmation must not read as agreement.
   const community =
-    validations >= VALIDATIONS_REQUIRED ? 100 : Math.min(90, validations * 30);
+    validations >= t.validationsRequired ? 100 : Math.min(90, validations * 30);
 
   return [
     [SCORE_DIMENSIONS[0], geographic],
@@ -220,14 +220,39 @@ const CLASSIFICATION: Record<Exclude<Level, 'fusion' | 'adaptation'>, Omit<Asses
 export const AUTHENTIC_AT = 55;
 
 /**
+ * The two numbers that decide what "Authentic" means, passed in rather than compiled in.
+ *
+ * They became a parameter when an administrator gained the ability to change them
+ * without a deploy. A module-level mutable holder would have been fewer lines and would
+ * have cost this file the property that matters most about it: `assess` is a pure
+ * function of its arguments, so a score can be reproduced from a record and checked by
+ * a reader adding up six numbers. A hidden threshold read from somewhere else would
+ * make that reproduction depend on invisible state.
+ *
+ * Defaulted everywhere, so the 338 tests and every existing caller are unaffected and
+ * an atlas that cannot reach its settings scores exactly as it did before they existed.
+ */
+export interface Thresholds {
+  /** Score at which a record is called Authentic. */
+  authenticAt: number;
+  /** Confirmations required alongside that score. */
+  validationsRequired: number;
+}
+
+export const DEFAULT_THRESHOLDS: Thresholds = {
+  authenticAt: AUTHENTIC_AT,
+  validationsRequired: VALIDATIONS_REQUIRED,
+};
+
+/**
  * Classify and score an imported record.
  *
  * The ceiling is deliberate: with a local source and community validation open, the
  * arithmetic cannot exceed the low 40s, so no import ever outranks an assessed
  * record — the ordering on every screen stays truthful without special-casing.
  */
-export function assess(e: Evidence): Assessment {
-  const breakdown = scoreDimensions(e);
+export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessment {
+  const breakdown = scoreDimensions(e, t);
   const score = clamp(breakdown.reduce((sum, [, v]) => sum + v, 0) / breakdown.length);
 
   /*
@@ -281,7 +306,7 @@ export function assess(e: Evidence): Assessment {
    * the score. A higher number does not make a dish more local; being confirmed by
    * the town rather than the state does.
    */
-  if (score >= AUTHENTIC_AT && (e.validations ?? 0) >= VALIDATIONS_REQUIRED && e.ingredients.length) {
+  if (score >= t.authenticAt && (e.validations ?? 0) >= t.validationsRequired && e.ingredients.length) {
     const local = e.validatedLocally === true;
     const people = e.validations ?? 0;
     return {
