@@ -22,6 +22,7 @@
  * inside a component or a function, where the read happens after the load.
  */
 
+import { CONFIRMATIONS_URL, canConfirm, type ConfirmationIndex } from '../domain/confirmations';
 import { coverageOf, type LanguageCoverage } from '../domain/language';
 import type { Dish } from '../domain/types';
 import { buildCatalogue, type CatalogueStats } from './build';
@@ -62,6 +63,27 @@ let pending: Promise<void> | null = null;
  * caller awaits the same promise, so two screens racing at startup do not fetch
  * fourteen megabytes twice.
  */
+/**
+ * What people have confirmed, or nothing.
+ *
+ * Nothing is the honest answer in three cases and they are treated alike: no endpoint
+ * configured, an endpoint that failed, and an endpoint that answered with something
+ * this does not understand. A record with no confirmations is scored as one nobody has
+ * confirmed, which is exactly true in all three.
+ */
+async function loadConfirmations(): Promise<ConfirmationIndex> {
+  if (!canConfirm()) return {};
+
+  try {
+    const response = await fetch(CONFIRMATIONS_URL);
+    if (!response.ok) return {};
+    const body: unknown = await response.json();
+    return body && typeof body === 'object' && !Array.isArray(body) ? (body as ConfirmationIndex) : {};
+  } catch {
+    return {};
+  }
+}
+
 export function loadCatalogue(): Promise<void> {
   pending ??= (async () => {
     const [imported, cuisines, cookbook, unesco, gi] = await Promise.all(
@@ -72,7 +94,21 @@ export function loadCatalogue(): Promise<void> {
       }),
     );
 
-    const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi);
+    /*
+     * Confirmations are live, not shipped.
+     *
+     * Every other source here is a file built by a script and served with the app.
+     * This one is what people said, and it has to be current — a reader who confirms
+     * a record should see the record change, and the next reader should see it too.
+     *
+     * A failure here is not a failure to load the atlas. If the endpoint is down the
+     * app opens with no confirmations, which is the state it has been in since it was
+     * written; taking the whole catalogue down because a badge could not be earned
+     * would be the wrong trade by a wide margin.
+     */
+    const confirmations = await loadConfirmations();
+
+    const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi, confirmations);
     catalogue = built.catalogue;
     catalogueStats = built.stats;
     languageCoverage = coverageOf(catalogue);

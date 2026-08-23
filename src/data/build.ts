@@ -21,6 +21,7 @@
 
 import { assess } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
+import { confirmationsFor, confirmedLocally, validationsOf, type ConfirmationIndex } from '../domain/confirmations';
 import { continentOf, isCountry, registerContinents } from '../domain/continents';
 import { canonicalCountry } from '../domain/countryNames';
 import { dishFromInscription } from '../domain/inscription';
@@ -332,7 +333,8 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
  */
 const cleanRegion = (region: string, country: string): string => placeBelow(region ?? '', country);
 
-function expand(row: ImportedRow): Dish {
+function expand(row: ImportedRow, confirmations: ConfirmationIndex): Dish {
+  const confirmed = confirmationsFor(confirmations, row.id);
   const country = canonicalCountry(row.country);
   const region = cleanRegion(row.region ?? '', country);
   /*
@@ -377,6 +379,10 @@ function expand(row: ImportedRow): Dish {
      * describe a method without evidencing that it is the method of the place.
      */
     registerMethod: Boolean(row.patRegion && prepSummary),
+    // The only dimensions no source can fill. Zero for every record until the
+    // confirmations endpoint exists — see `domain/confirmations.ts`.
+    validations: validationsOf(confirmed),
+    validatedLocally: confirmedLocally(confirmed),
   });
 
   // Same rule as the cuisine source: a stored finding came from the article's
@@ -459,6 +465,8 @@ function expand(row: ImportedRow): Dish {
         : []),
       ...giSource(row),
     ],
+    // Shown on the record, not just counted into the score.
+    confirmations: confirmed.people,
     disclaimer: assessment.disclaimer,
     originClaims: originClaimsFrom(row.originClaims, row.url),
     sourceLanguage: row.sourceLanguage ?? 'en',
@@ -669,6 +677,11 @@ export function buildCatalogue(
   rawCookbook: unknown[],
   rawUnesco: unknown[],
   rawGi: unknown[] = [],
+  /**
+   * What people have confirmed, fetched live rather than shipped. Empty until the
+   * endpoint exists, which is the state every record has been in so far.
+   */
+  rawConfirmations: ConfirmationIndex = {},
 ): { catalogue: Dish[]; stats: CatalogueStats } {
 /**
  * Cookbook recipes carry a method but no place, so they cannot stand as atlas
@@ -710,7 +723,7 @@ const hasSomethingToShow = (row: ImportedRow): boolean =>
     !!row.evidence?.hasArticle ||
     !!row.photo);
 
-const imported: Dish[] = importedRows.filter(hasSomethingToShow).map(expand);
+const imported: Dish[] = importedRows.filter(hasSomethingToShow).map((row) => expand(row, rawConfirmations));
 
 /**
  * Cuisine-tree records, added for the countries the structured sources under-serve.

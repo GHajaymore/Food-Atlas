@@ -393,3 +393,53 @@ describe('what the reader is shown, as text', () => {
     expect(blank).toEqual([]);
   });
 });
+
+describe('a confirmation reaches the record', () => {
+  const person = (name: string, local: boolean) => ({
+    name,
+    connection: 'Cooks it at home',
+    said: 'This is how we make it.',
+    local,
+    at: '2026-08-22',
+  });
+
+  /** A documented record that has not been confirmed by anybody. */
+  const subject = catalogue.find(
+    (d) => d.badgeLevel === 'variation' && d.ingredients.length >= 3 && d.id < 100_000,
+  )!;
+
+  const rebuilt = (people: ReturnType<typeof person>[]) =>
+    buildCatalogue(sources.catalogue, sources.cuisines, sources.cookbook, sources.unesco, sources.gi, {
+      [String(subject.id)]: { people },
+    }).catalogue.find((d) => d.id === subject.id)!;
+
+  it('raises the score it is scored on', () => {
+    const after = rebuilt([person('A', false), person('B', false), person('C', true)]);
+    expect(after.score!).toBeGreaterThan(subject.score ?? 0);
+  });
+
+  it('is shown on the record, not only counted into it', () => {
+    /*
+     * The reason `Dish.confirmations` is a list. "3 confirmations" is a number a
+     * reader has to trust; what somebody said and their connection to the place is
+     * evidence a reader can weigh — and a fraud they can see.
+     */
+    const after = rebuilt([person('Priya', true)]);
+    expect(after.confirmations?.map((c) => c.name)).toEqual(['Priya']);
+    expect(after.confirmations?.[0].said).toBe('This is how we make it.');
+  });
+
+  it('leaves every other record alone', () => {
+    const after = buildCatalogue(
+      sources.catalogue, sources.cuisines, sources.cookbook, sources.unesco, sources.gi,
+      { [String(subject.id)]: { people: [person('A', true)] } },
+    ).catalogue;
+    const changed = after.filter((d) => d.confirmations?.length && d.id !== subject.id);
+    expect(changed.map((d) => d.name)).toEqual([]);
+  });
+
+  it('builds an atlas with no confirmations at all, which is today', () => {
+    // The state every record is in until the endpoint exists. It must be ordinary.
+    expect(catalogue.every((d) => !d.confirmations?.length)).toBe(true);
+  });
+});

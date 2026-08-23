@@ -6,6 +6,7 @@
  * and `authenticity.ts`, which classifies against them.
  */
 
+import type { Confirmation } from './confirmations';
 import type { Diet } from './diet';
 import type { Meals } from './meals';
 
@@ -254,6 +255,15 @@ export interface Dish {
   popular: PopularVersion | null;
   videos: Video[];
   sources: Source[];
+  /**
+   * Who has confirmed this record, and what each of them said.
+   *
+   * The list rather than a count, because the record displays them. "3 confirmations"
+   * is a number a reader has to trust; "Priya, born in Kozhikode — we use ghee, not
+   * oil" is evidence they can weigh. It is also what a badge earned this way rests
+   * on, so it is shown rather than summarised.
+   */
+  confirmations?: Confirmation[];
   /** Why this is considered authentic. Says so plainly where evidence is weak. */
   disclaimer: string;
 

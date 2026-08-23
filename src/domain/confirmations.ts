@@ -1,0 +1,128 @@
+/**
+ * Confirmations — the only thing that can authenticate a record.
+ *
+ * `assess.ts` scores six dimensions and three of them are unanswerable from any
+ * document: traditional technique, a local source, and community validation. The
+ * arithmetic is deliberate — with those three empty the best a record can reach on
+ * published data alone is 43, and promotion starts at 55. So no register, no
+ * encyclopaedia and no amount of scraping can make a dish Authentic. Only people can,
+ * and this is how they do it.
+ *
+ * ## Why this one needs a server when nothing else in the app does
+ *
+ * `contribution.ts` and `requests.ts` both refuse a backend on purpose: a form opened
+ * at its source costs nothing and needs no account, and for *submitting* a tradition
+ * that trade is right. Nobody gains anything by faking a submission — it is work
+ * offered, and it is read by a person before it becomes a record.
+ *
+ * A confirmation is different, because a confirmation **moves the badge**. Three of
+ * them promote a record to Authentic. A form cannot tell three people from one person
+ * submitting three times, and a badge that can be faked is worse than no badge at
+ * all — it is the one claim this atlas makes that nobody else makes.
+ *
+ * So identity is not a feature of this; it is the reason it exists. The unique index
+ * in `docs/confirmations-api.md` — one published confirmation per person per dish —
+ * is what the three-confirmation rule actually rests on. Everything else here is
+ * plumbing.
+ *
+ * ## Shown, not counted
+ *
+ * `people` carries what each person said and their stated connection to the place,
+ * and the record displays them. "3 confirmations" is a number a reader has to trust;
+ * *"Priya, born in Kozhikode — we use ghee, not oil"* is evidence they can weigh. It
+ * is also far harder to fake convincingly, which makes a fraud visible to readers
+ * rather than invisible to everyone.
+ *
+ * ## Until it is switched on
+ *
+ * `EXPO_PUBLIC_CONFIRMATIONS_URL` is unset, so `canConfirm()` is false, no
+ * confirmation is fetched, every record carries zero, and the app says confirmation
+ * is not open yet. Same rule as the donate button and the contribution form: a
+ * control that goes nowhere spends a reader's goodwill on a dead link.
+ */
+
+/** What one person confirmed, and what entitles them to. */
+export interface Confirmation {
+  /** How they are shown on the record. Their name, as they gave it. */
+  name: string;
+  /**
+   * Their relationship to the place, in their words — "Born and cooking in
+   * Kozhikode". This is the whole of what makes a confirmation evidence rather than
+   * a vote, so it is required and it is displayed.
+   */
+  connection: string;
+  /**
+   * What they actually confirmed.
+   *
+   * A claim rather than the whole record, because someone from Kozhikode can tell you
+   * "we use ghee, not oil" with complete authority and know nothing about where the
+   * dish originated. Asking them to approve everything forces them to overclaim or to
+   * say nothing.
+   */
+  said: string;
+  /**
+   * Whether they speak for the locality itself rather than the wider region.
+   *
+   * Decides Authentic — Local against Authentic — Regional. Not a measure of how
+   * strong the confirmation is: a higher score does not make a dish more local, being
+   * confirmed by the town rather than the state does.
+   */
+  local: boolean;
+  /** ISO date. Shown, because when someone said it is part of what they said. */
+  at: string;
+}
+
+/** Everything confirmed about one dish. */
+export interface DishConfirmations {
+  people: Confirmation[];
+}
+
+/** Confirmations by dish id, as the endpoint returns them. */
+export type ConfirmationIndex = Readonly<Record<string, DishConfirmations>>;
+
+export const CONFIRMATIONS_URL = process.env.EXPO_PUBLIC_CONFIRMATIONS_URL ?? '';
+
+export const canConfirm = (): boolean => CONFIRMATIONS_URL.trim().length > 0;
+
+/** Nothing confirmed, which is the state of every record until the endpoint exists. */
+export const NONE: DishConfirmations = { people: [] };
+
+export const confirmationsFor = (index: ConfirmationIndex, id: number): DishConfirmations =>
+  index[String(id)] ?? NONE;
+
+/**
+ * How many confirmations a record carries, for `assess`.
+ *
+ * A plain count of people. Deliberately not weighted by what they confirmed or how
+ * long ago: weighting would make the number something only this code can reproduce,
+ * and the point of the six figures on a card is that a reader can add them up.
+ */
+export const validationsOf = (c: DishConfirmations): number => c.people.length;
+
+/**
+ * Whether the confirmations speak for the locality.
+ *
+ * True when *any* of them does. One person who is actually from the town knows the
+ * town, and requiring all of them to be local would mean a record got less specific
+ * every time somebody from the wider region agreed with it.
+ */
+export const confirmedLocally = (c: DishConfirmations): boolean => c.people.some((p) => p.local);
+
+/**
+ * What a record still needs, said plainly.
+ *
+ * The sentence a reader sees on a record that has not been authenticated yet. It
+ * exists because "Unverified" on its own reads as a verdict on the food, when what it
+ * describes is the state of our evidence — and because a reader who knows the dish is
+ * exactly the person who can fix it, if anybody tells them how.
+ */
+export function whatItNeeds(c: DishConfirmations, required: number): string {
+  const have = validationsOf(c);
+  if (have >= required) return '';
+
+  const short = required - have;
+  if (have === 0) {
+    return `Nobody from the place has confirmed this yet. ${required} confirmations would authenticate it.`;
+  }
+  return `${have} of ${required} confirmations. ${short} more from people who know the dish would authenticate it.`;
+}
