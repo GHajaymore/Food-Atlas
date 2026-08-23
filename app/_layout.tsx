@@ -19,6 +19,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';
 import { useCopy } from '../src/i18n';
 import { color, font } from '../src/theme/tokens';
@@ -86,6 +87,13 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
+      {/*
+       * Above the stack rather than inside a screen, so the masthead does not remount
+       * on every navigation and stays put while the page under it changes — which is
+       * most of what makes a set of screens read as one site rather than a sequence of
+       * them. Renders nothing below the tablet breakpoint.
+       */}
+      <TopBar />
       <Stack
         screenOptions={{
           headerShown: false,

@@ -11,6 +11,7 @@
  */
 
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useLayout } from '../theme/layout';
 import type { Shelf as ShelfData } from '../domain/shelves';
 import { accentText, color, font, radius, space } from '../theme/tokens';
 import { Photo } from './Photo';
@@ -26,6 +27,25 @@ interface Props {
 
 export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
   const remaining = shelf.total - shelf.dishes.length;
+  const layout = useLayout();
+
+  /*
+   * A rail on a phone, a wrapping grid on anything wider.
+   *
+   * Sideways scrolling is a good trade on a touch screen — a rail shows a handful for
+   * one screen-height where a list would cost twelve. With a mouse it is the opposite:
+   * there is no gesture for it, the wheel scrolls the page instead, and the cards past
+   * the fold are effectively hidden. The desktop has the room the rail was saving, so
+   * it spends it.
+   */
+  const Rail = ({ children }: { children: React.ReactNode }) =>
+    layout.wide ? (
+      <View style={styles.grid}>{children}</View>
+    ) : (
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
+        {children}
+      </ScrollView>
+    );
 
   return (
     <View style={styles.wrap}>
@@ -35,7 +55,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
       </View>
       <Muted style={styles.note}>{shelf.note}</Muted>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
+      <Rail>
         {shelf.dishes.map((dish) => (
           <Pressable
             key={dish.id}
@@ -70,7 +90,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             <Muted style={styles.moreCount}>{shelf.total.toLocaleString()}</Muted>
           </Pressable>
         ) : null}
-      </ScrollView>
+      </Rail>
     </View>
   );
 }
@@ -85,6 +105,8 @@ const styles = StyleSheet.create({
   note: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 2 },
 
   rail: { gap: 10, paddingTop: 10, paddingBottom: 4, paddingRight: space[3] },
+  /* Same cards, allowed to wrap. Nothing about a card changes with the window. */
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, paddingTop: 10, paddingBottom: 4 },
   card: { width: CARD },
   photo: { width: CARD, height: CARD, borderRadius: radius.md },
   // Two lines’ worth of height whether the title needs one or two, so the place and
