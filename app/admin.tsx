@@ -45,6 +45,7 @@ import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
 import { loadAllProposals, setProposalStatus } from '../src/data/proposals';
+import { loadRefreshQueue, queueRefresh, type RefreshRequest } from '../src/data/refresh';
 import { loadSettings, saveSettings, settings as current } from '../src/data/settings';
 import type { Thresholds } from '../src/domain/assess';
 import { isAuthentic } from '../src/domain/authenticity';
@@ -216,6 +217,116 @@ function Moderation({ token }: { token: string }) {
   );
 }
 
+/**
+ * Asking whether a record's sources have moved on.
+ *
+ * The atlas was scraped from wikis and wikis are edited, so a record can be years out of
+ * date with nothing here noticing. Queuing is all this does — the check runs on a
+ * laptop, because the catalogue is files and nothing on Cloudflare can rewrite them.
+ *
+ * The result line is why the queue is worth having rather than a button that files
+ * something away silently: an administrator who asks a question and never sees the
+ * answer has been given a gesture.
+ */
+function RefreshQueue({ token }: { token: string }) {
+  const [rows, setRows] = useState<RefreshRequest[]>([]);
+  const [target, setTarget] = useState('');
+  const [kind, setKind] = useState<RefreshRequest['kind']>('dish');
+  const [error, setError] = useState('');
+  const [loaded, setLoaded] = useState(false);
+
+  const load = async () => {
+    setError('');
+    const result = await loadRefreshQueue(token);
+    if ('error' in result) {
+      setError(result.error);
+      setLoaded(false);
+      return;
+    }
+    setRows(result);
+    setLoaded(true);
+  };
+
+  return (
+    <View style={styles.moderation}>
+      <T style={styles.sectionHead}>Source checks</T>
+      <Muted style={styles.note}>
+        Ask whether a record&apos;s wiki page has been edited since the atlas read it. The check runs
+        when somebody drains the queue; nothing is ever rewritten automatically.
+      </Muted>
+
+      <View style={styles.kinds}>
+        {(['dish', 'country', 'all'] as const).map((k) => (
+          <Pressable
+            key={k}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: kind === k }}
+            accessibilityLabel={`Check a ${k}`}
+            tint="neutral"
+            onPress={() => setKind(k)}
+            style={kind === k ? { ...styles.kind, ...styles.kindOn } : styles.kind}
+          >
+            <T style={kind === k ? styles.kindLabelOn : styles.kindLabel}>{k}</T>
+          </Pressable>
+        ))}
+      </View>
+
+      {kind !== 'all' ? (
+        <Field label={kind === 'dish' ? 'Dish name' : 'Country'} style={styles.setting}>
+          <Input
+            value={target}
+            onChangeText={setTarget}
+            placeholder={kind === 'dish' ? 'Kozhikode Halwa' : 'India'}
+            accessibilityLabel={kind === 'dish' ? 'Dish name' : 'Country'}
+          />
+        </Field>
+      ) : (
+        <Muted style={styles.note}>
+          Every record with a wiki article — around 13,000. A few hundred requests, a couple of minutes.
+        </Muted>
+      )}
+
+      <Button
+        label="Queue this check"
+        variant="secondary"
+        block
+        style={styles.load}
+        onPress={async () => {
+          const result = await queueRefresh(token, kind, target);
+          if (!result.ok) {
+            setError(result.error);
+            return;
+          }
+          setError('');
+          setTarget('');
+          await load();
+        }}
+      />
+
+      <Button label={loaded ? 'Reload queue' : 'Show queue'} variant="secondary" block style={styles.load} onPress={load} />
+
+      {error ? <T style={styles.message}>{error}</T> : null}
+
+      {loaded && !rows.length ? <Muted style={styles.note}>Nothing has been asked for.</Muted> : null}
+
+      {rows.map((r) => (
+        <Block key={r.id} style={styles.modRow}>
+          <View style={styles.modHead}>
+            <View style={styles.modText}>
+              <T style={styles.modName}>{r.kind === 'all' ? 'The whole atlas' : r.target}</T>
+              <Muted style={styles.modMeta}>
+                {r.kind} · asked {r.requestedAt}
+              </Muted>
+            </View>
+            <T style={styles.modStatus}>{r.status}</T>
+          </View>
+          {r.result ? <Muted style={styles.modMeta}>{r.result}</Muted> : null}
+        </Block>
+      ))}
+    </View>
+  );
+}
+
 type Draft = Record<keyof Settings, string>;
 
 const toDraft = (s: Settings): Draft => ({
@@ -357,6 +468,8 @@ export default function Admin() {
 
       <Moderation token={token} />
 
+      <RefreshQueue token={token} />
+
       <Button
         label={busy ? 'Saving…' : 'Save'}
         block
@@ -433,4 +546,9 @@ const styles = StyleSheet.create({
   modMeta: { fontSize: 12, lineHeight: 17 },
   modStatus: { fontSize: 11, color: color.accent, fontFamily: font.semibold },
   modAction: { alignSelf: 'flex-start' },
+  kinds: { flexDirection: 'row', gap: space[2], marginTop: space[3] },
+  kind: { paddingVertical: space[2], paddingHorizontal: space[3], borderRadius: 6, borderWidth: 1, borderColor: color.divider, minHeight: TAP_TARGET, justifyContent: 'center' },
+  kindOn: { borderColor: color.accent },
+  kindLabel: { fontSize: 13, color: color.muted },
+  kindLabelOn: { fontSize: 13, color: color.accent, fontFamily: font.semibold },
 });
