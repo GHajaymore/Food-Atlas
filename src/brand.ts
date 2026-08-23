@@ -13,36 +13,45 @@ export const BRAND = {
   /**
    * The Feed subtitle, under the title.
    *
-   * ## It states the rule, which is what makes it honest
+   * ## It states a rule, which is what makes it honest
    *
    * The distinction every earlier draft missed: **claiming an achievement is not the
-   * same as stating a rule.** "Confirmed by the people who cook it" claims something
-   * that has not happened — there are zero confirmations. This claims nothing. It
-   * says who is *entitled* to authenticate a dish, and that is true today and
-   * enforced in arithmetic: `assess.ts` caps published documentation at 43 and starts
-   * promotion at 55, so the gap can only ever be closed by people from the place.
+   * same as stating a rule.** "Authenticated by the community" claims something that
+   * has not happened — no record has ever been confirmed by a reader of this app.
+   * This claims nothing. It says who is *entitled* to authenticate a dish, and that
+   * is true today and enforced in arithmetic: `assess.ts` caps published
+   * documentation at 43 and starts promotion at 55, so the gap can only ever be
+   * closed by people from the place.
    *
-   * It recruits without asking. A reader who makes the dish reads "local cooks" and
-   * works out that it means them, which hands them authority instead of asking for a
-   * favour — stronger than any plea, and it costs no honesty.
+   * It recruits without asking. A reader who knows the dish reads "the community" and
+   * works out that it includes them, which hands them authority instead of asking for
+   * a favour — stronger than any plea, and it costs no honesty.
    *
-   * ## Both of those words are load-bearing
+   * ## Why "community" rather than "local cooks"
    *
-   * **local**, because the rule is not "a cook". A chef in London making Kozhikode
-   * halwa does not authenticate it; `validatedLocally` is a real field and it decides
-   * between Authentic — Local and Authentic — Regional. An earlier draft said "the
-   * cook" and quietly dropped that.
+   * Both were live for a while, and the swap fixed a fault rather than merely
+   * shortening the line. `confirmations.ts` asks for a **connection to the place**,
+   * not residence in it, so somebody born in Kozhikode and now cooking in Toronto
+   * qualifies — and "local cooks" read as though they did not. "Community" is exactly
+   * the set the schema admits: the people of a place, wherever they are.
    *
-   * **cooks**, plural, because `VALIDATIONS_REQUIRED` is 3. One person never
-   * authenticates anything here, and the singular said they could. The plural is also
-   * the only honest way this line can carry *community*: it describes what the rule
-   * requires, not a community that has turned up — there are still zero confirmations.
+   * It also matches the mark. The logo's centre is empty because no single authority
+   * sits at the middle of this atlas, and "the community" is the plural the arithmetic
+   * requires — `VALIDATIONS_REQUIRED` is 3, so one person never authenticates
+   * anything here.
+   *
+   * What it gives up is the locality distinction. `validatedLocally` decides Authentic
+   * — Local against Authentic — Regional, and this line does not carry that. The
+   * record page states it properly; five words have to be spent on the main claim.
+   *
+   * "Decides" carries the limit on its own, which is why "only" was dropped: if the
+   * community decides, nobody else does.
    *
    * It also explains the badge. The green chip says *Authentic*; this says who is
    * allowed to put it there, so the tagline and the classification stop being two
    * separate vocabularies.
    *
-   * ## What was cut on the way, and what each cut bought
+   * ## The derivation, and what each cut bought
    *
    *   We don't decide what's authentic. The people who cook it do.  (10 words)
    *     — dropped "we": a tagline should not be about the company
@@ -52,17 +61,11 @@ export const BRAND = {
    *     — named them: an abstraction became a person
    *   Only the cook can call it authentic.                          (7, imprecise)
    *     — local, and plural: the rule needs three people, from the place
-   *   Only local cooks can call it authentic.                       (7)
-   *     — "and their community", to stop excluding the diaspora the schema admits
    *   Only local cooks and their community can call it authentic.   (10, too long)
-   *     — dropped "only": "decide" already means nobody else does
-   *   Local cooks decide what's authentic.                          (5)
-   *
-   * Five words carrying *who*, *what*, and the rule. "Their community" was lost to
-   * length, which is a real cost — the schema asks for a connection to the place and
-   * not residence in it, so a Kozhikode grandmother's grandson in Toronto qualifies
-   * and this line reads as though he does not. The record page says it properly; a
-   * tagline gets five words and has to spend them on the main claim.
+   *     — dropped "only": "decides" already means nobody else does
+   *   Local cooks decide what's authentic.                          (5, excludes the diaspora)
+   *     — "community" is the set the schema actually admits
+   *   The community decides what's authentic.                       (5)
    *
    * ## The candidates this replaced, and why each failed
    *
@@ -73,15 +76,13 @@ export const BRAND = {
    * "The world's food, and how we know." was the evidence half alone: correct, and
    * colder than this project deserves.
    *
-   * "Keeping the world's food, and showing our work." was warmer and argued
-   * preservation from the right number — not the 15 records carrying evidence of
-   * decline, but the **10,197 (57%) with nothing recorded about how they are made**.
-   * It still described what the atlas holds rather than how anything in it becomes
-   * trustworthy, which is the goal.
+   * "Keeping the world's food, and showing our work." argued preservation from the
+   * right number — not the 15 records carrying evidence of decline, but the **10,197
+   * (57%) with nothing recorded about how they are made**. It still described what the
+   * atlas holds rather than how anything in it becomes trustworthy, which is the goal.
    *
    * "The world's food. Room for yours." invited contribution. The goal is not more
-   * dishes; it is dishes that have been *authenticated*, and those are different
-   * verbs.
+   * dishes; it is dishes that have been *authenticated*, and those are different verbs.
    *
    * ## What it must never say
    *
@@ -105,7 +106,7 @@ export const BRAND = {
    * general plea under a logo is easy to ignore; one naming a dish from your own town
    * is not.
    */
-  tagline: 'Local cooks decide what’s authentic.',
+  tagline: 'The community decides what’s authentic.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
