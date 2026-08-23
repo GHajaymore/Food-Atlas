@@ -13,61 +13,75 @@ export const BRAND = {
   /**
    * The Feed subtitle, under the title.
    *
-   * The name already says open, collective and encyclopaedic, so the tagline does not
-   * repeat it. What it has to earn is why a reader should trust this over a recipe
-   * site — and the answer is not that the food here is better described. It is that
-   * every claim can be checked. Each record shows its sources and the six figures its
-   * confidence is the mean of, and a reader who does not believe the number can add
-   * it up. No competitor says this, because none of them can.
+   * ## It states the rule, which is what makes it honest
    *
-   * So the second half is the whole product: **showing our work**.
+   * The distinction every earlier draft missed: **claiming an achievement is not the
+   * same as stating a rule.** "Confirmed by the people who cook it" claims something
+   * that has not happened — there are zero confirmations. This claims nothing. It
+   * says who is *entitled* to authenticate a dish, and that is true today and
+   * enforced in arithmetic: `assess.ts` caps published documentation at 43 and starts
+   * promotion at 55, so the gap can only ever be closed by people from the place.
    *
-   * ## Why "keeping"
+   * It recruits without asking. A reader who makes the dish reads "the cook" and
+   * works out that it means them, which hands them authority instead of asking for a
+   * favour — stronger than any plea, and it costs no honesty.
    *
-   * Because preservation is the honest case for this existing, once it is argued from
-   * the right number. Leading with endangerment was rejected twice and rightly: only
-   * **15** records of 18,008 carry evidence of decline, and "before it's lost" made a
-   * claim about the atlas that four hundredths of one percent of it supported.
+   * It also explains the badge. The green chip says *Authentic*; this says who is
+   * allowed to put it there, so the tagline and the classification stop being two
+   * separate vocabularies.
    *
-   * The real number is the other one. **10,197 records — 57% — have nothing recorded
-   * about how they are made.** Not endangered, just unwritten, which is the larger
-   * and quieter problem and is what the atlas is actually for. "Keeping" states that
-   * purpose without claiming it is finished, and without the drama of "saving".
+   * ## What was cut on the way, and what each cut bought
    *
-   * It stops short of saying *community*, deliberately. There are still zero
-   * contributions, and a line about people writing their food down would be a
-   * promise, not a description. When submissions start arriving that changes, and the
-   * line should be revisited then rather than now.
+   *   We don't decide what's authentic. The people who cook it do.  (10 words)
+   *     — dropped "we": a tagline should not be about the company
+   *   Nothing is authentic until someone from there says so.        (9, negative-led)
+   *     — dropped the negative: it opened on a disclaimer
+   *   Authentic is theirs to say, not ours.                         (7, "theirs" is nobody)
+   *     — named them: an abstraction became a person
+   *   Only the cook can call it authentic.                          (7)
    *
-   * ## What it replaced, and why
+   * ## The candidates this replaced, and why each failed
    *
    * "How the world actually cooks." carried the trust argument in one word —
-   * *actually* — against food writing that gives you the convenient version. A good
-   * line, and it described the catalogue rather than what makes the catalogue worth
-   * believing.
+   * *actually*, against food writing that gives you the convenient version. It
+   * described the catalogue rather than what makes the catalogue worth believing.
    *
-   * "The world's food, and how we know." was the evidence half alone. Correct, and
-   * colder than this project deserves — it said what the app is careful about and
-   * nothing about what it is for.
+   * "The world's food, and how we know." was the evidence half alone: correct, and
+   * colder than this project deserves.
+   *
+   * "Keeping the world's food, and showing our work." was warmer and argued
+   * preservation from the right number — not the 15 records carrying evidence of
+   * decline, but the **10,197 (57%) with nothing recorded about how they are made**.
+   * It still described what the atlas holds rather than how anything in it becomes
+   * trustworthy, which is the goal.
+   *
+   * "The world's food. Room for yours." invited contribution. The goal is not more
+   * dishes; it is dishes that have been *authenticated*, and those are different
+   * verbs.
    *
    * ## What it must never say
    *
-   * Anything about being automatic. `assess.ts` makes it arithmetic that no published
-   * source can authenticate a dish: with no confirmations the ceiling is 43 and
-   * promotion starts at 55, so three of the six dimensions are answerable only by
-   * people from the place. A tagline advertising automation would be advertising the
-   * one thing this app refuses to do — and in a market where every food site is
-   * suspected of generating its content, it would hand a reader the exact objection
-   * the evidence model exists to answer.
+   * Anything about being automatic. No published source can authenticate a dish here
+   * — that is the arithmetic above, not an aspiration. A tagline advertising
+   * automation would advertise the one thing this app refuses to do, and in a market
+   * where every food site is suspected of generating its content it would hand a
+   * reader the exact objection the evidence model exists to answer.
    *
    * ## The rule that has survived every revision
    *
    * A tagline must not promise what the atlas has not got. "Written down by the
-   * people who cook it" describes the community model, and there are still zero
-   * contributions; "before it's lost" leads with preservation, which is 15 records of
-   * 18,008. Both stay rejected on the same grounds as before.
+   * people who cook it" describes a community model with zero contributions;
+   * "before it's lost" leads with preservation, which is 15 records of 18,008.
+   *
+   * ## The ask does not live here
+   *
+   * It lives on the 10,197 records with nothing recorded about how they are made,
+   * where the reader is looking at a specific gap they might personally fill — see
+   * the undocumented card in the dish screen, which names the dish and the place. A
+   * general plea under a logo is easy to ignore; one naming a dish from your own town
+   * is not.
    */
-  tagline: 'Keeping the world’s food, and showing our work.',
+  tagline: 'Only the cook can call it authentic.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
