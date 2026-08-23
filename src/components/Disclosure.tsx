@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react';
-import { LayoutAnimation, Platform, StyleSheet, UIManager, View } from 'react-native';
+import { LayoutAnimation, Platform, StyleSheet, UIManager, View, type StyleProp, type ViewStyle } from 'react-native';
 import { color, font, radius, space, TAP_TARGET } from '../theme/tokens';
 import { CaretDownIcon } from './icons';
 import { Pressable } from './Pressable';
@@ -18,11 +18,20 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export function Disclosure({ summary, children }: { summary: string; children: React.ReactNode }) {
+export function Disclosure({
+  summary,
+  children,
+  style,
+}: {
+  summary: string;
+  children: React.ReactNode;
+  /** Lets a caller drop the default bottom margin where it stacks with its own. */
+  style?: StyleProp<ViewStyle>;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, style]}>
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}

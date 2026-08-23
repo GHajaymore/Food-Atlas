@@ -136,6 +136,15 @@ export default function Feed() {
         </IconButton>
       </View>
 
+      {/* The front door, above the controls.
+
+          Filters are for a reader who already knows what they are filtering. This used
+          to sit below the place selector, the authenticity chips and the diet filter,
+          so a first-time visitor met three rows of chrome before anything said what
+          the atlas was. Only on the clean browsing view: somebody who has picked a
+          country has answered the question already. */}
+      {isBrowsing ? <Mission /> : null}
+
       {/* The primary control. */}
       <Pressable
         accessibilityRole="button"
@@ -200,10 +209,6 @@ export default function Feed() {
           diet — the list is what they want, and it takes over. */}
       {isBrowsing ? (
         <>
-          {/* The front door. Only on the clean browsing view: a reader who has picked a
-              country or opened a shelf has already worked out what this is, and a
-              manifesto above their results would be in the way. */}
-          <Mission />
           {shelves.map((shelf) => (
             <Shelf
               key={shelf.id}
