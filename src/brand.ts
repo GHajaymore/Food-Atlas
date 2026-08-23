@@ -20,7 +20,24 @@ export const BRAND = {
    * confidence is the mean of, and a reader who does not believe the number can add
    * it up. No competitor says this, because none of them can.
    *
-   * So the second half is the whole product: **and how we know**.
+   * So the second half is the whole product: **showing our work**.
+   *
+   * ## Why "keeping"
+   *
+   * Because preservation is the honest case for this existing, once it is argued from
+   * the right number. Leading with endangerment was rejected twice and rightly: only
+   * **15** records of 18,008 carry evidence of decline, and "before it's lost" made a
+   * claim about the atlas that four hundredths of one percent of it supported.
+   *
+   * The real number is the other one. **10,197 records — 57% — have nothing recorded
+   * about how they are made.** Not endangered, just unwritten, which is the larger
+   * and quieter problem and is what the atlas is actually for. "Keeping" states that
+   * purpose without claiming it is finished, and without the drama of "saving".
+   *
+   * It stops short of saying *community*, deliberately. There are still zero
+   * contributions, and a line about people writing their food down would be a
+   * promise, not a description. When submissions start arriving that changes, and the
+   * line should be revisited then rather than now.
    *
    * ## What it replaced, and why
    *
@@ -28,6 +45,10 @@ export const BRAND = {
    * *actually* — against food writing that gives you the convenient version. A good
    * line, and it described the catalogue rather than what makes the catalogue worth
    * believing.
+   *
+   * "The world's food, and how we know." was the evidence half alone. Correct, and
+   * colder than this project deserves — it said what the app is careful about and
+   * nothing about what it is for.
    *
    * ## What it must never say
    *
@@ -46,7 +67,7 @@ export const BRAND = {
    * contributions; "before it's lost" leads with preservation, which is 15 records of
    * 18,008. Both stay rejected on the same grounds as before.
    */
-  tagline: 'The world’s food, and how we know.',
+  tagline: 'Keeping the world’s food, and showing our work.',
   /** The positioning line from the source brief. */
   positioning: 'Authentic Food. From Where It Belongs.',
 } as const;
