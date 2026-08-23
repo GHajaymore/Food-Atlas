@@ -31,6 +31,7 @@ import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
+import { useCopy } from '../src/i18n';
 import { settings, useApp } from '../src/state/store';
 
 /** Dish cards rendered per page of the feed. */
@@ -38,6 +39,7 @@ const PAGE_SIZE = 30;
 import { accentText, color, elevation, radius, space } from '../src/theme/tokens';
 
 export default function Feed() {
+  const copy = useCopy();
   const {
     activeFilter,
     path,
@@ -91,12 +93,12 @@ export default function Feed() {
   const popular = mostPopular(dishes);
   const showViews = settings.showViewCounts;
 
-  const place = path.length ? path[path.length - 1].value : 'Worldwide';
+  const place = path.length ? path[path.length - 1].value : copy.worldwide;
   const placeHint = next
     ? path.length
       ? `Narrow to a ${next.label} · ${next.options.length} recorded`
       : placeChoiceHint(next.options)
-    : 'Deepest level recorded here';
+    : copy.deepestLevelRecorded;
 
   // Says what the list is, in the reader's own terms: the shelf they opened, or the
   // place they narrowed to, so a long list is never unexplained.
@@ -106,7 +108,7 @@ export default function Feed() {
   }${openShelf ? ` · ${openShelf}` : ''}`;
 
   // 'World' plus each chosen level; tapping any of them truncates the path there.
-  const crumbs = [{ label: 'World' }, ...path.map((p) => ({ label: p.value }))];
+  const crumbs = [{ label: copy.world }, ...path.map((p) => ({ label: p.value }))];
 
   // The empty state names every choice that narrowed the list, so the reader can see
   // which of them emptied it rather than guessing — and, more importantly, so the
@@ -222,7 +224,7 @@ export default function Feed() {
           {shelfView !== null ? (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Back to the shelves"
+              accessibilityLabel={copy.backToShelves}
               tint="none"
               onPress={() => setShelfView(null)}
             >
@@ -234,7 +236,7 @@ export default function Feed() {
 
       {feed.length === 0 ? (
         <Card style={styles.emptyCard}>
-          <CardKicker>Nothing recorded here yet</CardKicker>
+          <CardKicker>{copy.nothingRecordedHere}</CardKicker>
           <CardBody>
             {narrowingSummary(filterDef(activeFilter).label, activeFilter === settings.defaultFilter, [
               ...dietNames,
@@ -246,7 +248,7 @@ export default function Feed() {
           {/* The shelf is one of the things narrowing this list, so a reset that left
               it in place would look like a button that does nothing. */}
           <Button
-            label="Reset the filters"
+            label={copy.resetFilters}
             onPress={() => {
               setShelfView(null);
               resetFilters();
@@ -273,7 +275,7 @@ export default function Feed() {
         <View style={styles.unassessed}>
           {assessed.length ? (
             <>
-              <H6 style={styles.unassessedHeading}>Recorded, not yet assessed</H6>
+              <H6 style={styles.unassessedHeading}>{copy.recordedNotAssessed}</H6>
               <Muted style={styles.unassessedNote}>
                 These are in the atlas by name and place only. Nobody has documented how they are made, so they carry
                 no method and no score.
@@ -312,8 +314,8 @@ export default function Feed() {
       {isBrowsing && popular.length ? (
       <View style={styles.popularSection}>
         <View style={styles.popularHeader}>
-          <H6>Most looked up</H6>
-          <Muted style={styles.byViews}>Wikipedia readers</Muted>
+          <H6>{copy.mostLookedUp}</H6>
+          <Muted style={styles.byViews}>{copy.wikipediaReaders}</Muted>
         </View>
 
         <ScrollView

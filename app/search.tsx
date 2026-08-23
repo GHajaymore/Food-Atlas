@@ -29,6 +29,7 @@ import { allCategories, allCuisines, allIngredients, randomAtRisk, searchResults
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
+import { useCopy, type Copy } from '../src/i18n';
 import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
@@ -37,13 +38,20 @@ const LEVEL_FACETS: Level[] = ['local', 'regional', 'variation', 'adaptation', '
 /** Result rows rendered per page. */
 const PAGE_SIZE = 30;
 
-const SORTS: { key: SortKey; label: string }[] = [
-  { key: 'authenticity', label: 'Authenticity confidence' },
+/**
+ * Built from the chrome rather than declared as a constant, because the labels are
+ * translated and a module-level array would freeze them at whatever language the
+ * module was first evaluated in. The keys are not translated: they are state.
+ */
+const sortsFor = (copy: Copy): { key: SortKey; label: string }[] => [
+  { key: 'authenticity', label: copy.authenticityConfidence },
   { key: 'popularity', label: 'Popularity (views)' },
-  { key: 'atrisk', label: 'At risk first' },
+  { key: 'atrisk', label: copy.atRiskFirst },
 ];
 
 export default function Search() {
+  const copy = useCopy();
+  const SORTS = sortsFor(copy);
   const {
     query,
     facetLevels,
@@ -105,10 +113,10 @@ export default function Search() {
 
   return (
     <Screen bottomPad={50}>
-      <NavRow title="Search" />
+      <NavRow title={copy.search} />
 
       <Input
-        placeholder="Dish, country, region, city or ingredient"
+        placeholder={copy.searchPlaceholder}
         value={query}
         onChangeText={setQuery}
         autoCorrect={false}
@@ -129,7 +137,7 @@ export default function Search() {
           catalogue is global. Collapsed by default, with what is applied stated on
           the row, so the screen opens on results rather than on controls. */}
       <Refine
-        label="Filters"
+        label={copy.filters}
         emptyLabel="None"
         summary={activeSummary}
         count={active.length + meals.length + (sortBy === 'authenticity' ? 0 : 1)}
@@ -146,7 +154,7 @@ export default function Search() {
 
         <MealFilter variant="facet" selected={meals} onToggle={toggleMeal} onClear={clearMeals} />
 
-        <FacetGroup label="Authenticity level">
+        <FacetGroup label={copy.authenticityLevel}>
           {LEVEL_FACETS.map((level) => (
             <Tag
               key={level}
@@ -160,7 +168,7 @@ export default function Search() {
         {/* Cuisine sits above "kind of dish" because it is how people actually
             arrive — "I want Thai food" — and it is not the same as the place
             filter: Tamil and Sichuan are inside a country, Levantine spans several. */}
-        <FacetGroup label="Cuisine">
+        <FacetGroup label={copy.cuisine}>
           {allCuisines(dishes).map((cuisine) => (
             <Tag
               key={cuisine}
@@ -171,7 +179,7 @@ export default function Search() {
           ))}
         </FacetGroup>
 
-        <FacetGroup label="Kind of dish">
+        <FacetGroup label={copy.kindOfDish}>
           {allCategories(dishes).map((category) => (
             <Tag
               key={category}
@@ -182,7 +190,7 @@ export default function Search() {
           ))}
         </FacetGroup>
 
-        <FacetGroup label="Traditional ingredient">
+        <FacetGroup label={copy.traditionalIngredient}>
           {allIngredients(dishes).map((ingredient) => (
             <Tag
               key={ingredient}
@@ -193,7 +201,7 @@ export default function Search() {
           ))}
         </FacetGroup>
 
-        <FacetGroup label="Sort results by">
+        <FacetGroup label={copy.sortResultsBy}>
           {SORTS.map((sort) => (
             <Tag
               key={sort.key}
@@ -230,7 +238,7 @@ export default function Search() {
                   <T style={styles.resultName}>{dish.name}</T>
                   <Muted style={styles.resultPlace}>{dish.breadcrumb.join(' › ')}</Muted>
                   <Muted style={styles.resultClass}>
-                    {dish.badgeIcon} {dish.badgeLabel} · {dish.score == null ? 'Not classified' : `${dish.score}/100`}
+                    {dish.badgeIcon} {dish.badgeLabel} · {dish.score == null ? copy.notClassified : `${dish.score}/100`}
                   </Muted>
                 </View>
               </Pressable>
@@ -265,7 +273,7 @@ export default function Search() {
           option is to record it — asking is the fallback, not the default. */}
       {results.length === 0 ? (
         <Card style={styles.emptyCard}>
-          <CardKicker>No match</CardKicker>
+          <CardKicker>{copy.noMatch}</CardKicker>
           <CardBody>
             Nothing in the atlas matches {query.trim() ? `“${query.trim()}”` : 'that'} yet. Absence here means no
             record, not no food — we&apos;d rather say we don&apos;t know than guess.
@@ -282,7 +290,7 @@ export default function Search() {
 
           {canRequest() ? (
             <Button
-              label="Ask for it instead"
+              label={copy.askForItInstead}
               variant="secondary"
               block
               onPress={() => openAtSource(requestUrl(query, ''))}
@@ -296,8 +304,8 @@ export default function Search() {
       ) : null}
 
       <View style={styles.footer}>
-        <Button label="Browse the world atlas" variant="secondary" block onPress={() => router.push('/atlas')} />
-        <Button label="Surprise me with an at-risk tradition" variant="ghost" block onPress={surprise} />
+        <Button label={copy.browseTheAtlas} variant="secondary" block onPress={() => router.push('/atlas')} />
+        <Button label={copy.surpriseMe} variant="ghost" block onPress={surprise} />
       </View>
     </Screen>
   );

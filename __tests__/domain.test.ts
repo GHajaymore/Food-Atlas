@@ -45,6 +45,10 @@ import { isPhotograph, tidyCredit } from '../src/domain/photoProvenance';
 import { notAPlaceBelow } from '../src/domain/place';
 import { recipeLines } from '../src/domain/recipeLines';
 import { decodeEntities } from '../src/domain/text';
+import { negotiateLocale } from '../src/domain/uiLanguage';
+import { copyFor, isMachineTranslated, translationCoverage, UI_LOCALES } from '../src/i18n';
+import { CATALOGUES } from '../src/i18n/catalogues';
+import { EN } from '../src/i18n/copy';
 import {
   considerSource,
   describesMethod,
@@ -2474,5 +2478,90 @@ describe('HTML entities in the fields a cook reads', () => {
   it('leaves text with no entity in it untouched', () => {
     expect(decodeEntities('2 cups plain flour')).toBe('2 cups plain flour');
     expect(decodeEntities('salt & pepper')).toBe('salt & pepper');
+  });
+});
+
+describe('which language the app speaks to the reader in', () => {
+  const AVAILABLE = ['en', 'es', 'fr', 'de', 'pt'];
+
+  it('honours the reader’s order, not ours', () => {
+    // Someone who lists Catalan before Spanish has said something. Reading the list
+    // in their order rather than ours is the difference between hearing it and not.
+    expect(negotiateLocale(['ca', 'es', 'en'], AVAILABLE)).toBe('es');
+    expect(negotiateLocale(['fr', 'de'], AVAILABLE)).toBe('fr');
+    expect(negotiateLocale(['de', 'fr'], AVAILABLE)).toBe('de');
+  });
+
+  it('takes an exact match anywhere in the list over a base match earlier in it', () => {
+    /*
+     * A reader asking for pt-BR and then en should get Portuguese, not English:
+     * the second choice is a fallback, not a preference over their own language.
+     */
+    expect(negotiateLocale(['pt-BR', 'en'], ['en', 'pt-BR', 'pt'])).toBe('pt-BR');
+    expect(negotiateLocale(['pt-BR', 'en'], ['en', 'pt'])).toBe('pt');
+  });
+
+  it('matches a region to its language', () => {
+    expect(negotiateLocale(['en-GB'], AVAILABLE)).toBe('en');
+    expect(negotiateLocale(['es-419'], AVAILABLE)).toBe('es');
+    expect(negotiateLocale(['de_AT'], AVAILABLE)).toBe('de');
+  });
+
+  it('falls back to English rather than to nothing', () => {
+    expect(negotiateLocale(['mt', 'is'], AVAILABLE)).toBe('en');
+    expect(negotiateLocale([], AVAILABLE)).toBe('en');
+    expect(negotiateLocale(['fr'], [])).toBe('en');
+  });
+});
+
+describe('the chrome in other languages', () => {
+  it('offers every catalogue that exists, English first', () => {
+    expect(UI_LOCALES[0]).toBe('en');
+    expect(UI_LOCALES.length).toBeGreaterThan(1);
+  });
+
+  it('puts English behind every key, so a partial catalogue is still usable', () => {
+    for (const locale of UI_LOCALES) {
+      const copy = copyFor(locale);
+      const blank = Object.entries(copy).filter(([, value]) => !String(value).trim());
+      expect({ locale, blank }).toEqual({ locale, blank: [] });
+    }
+  });
+
+  it('never echoes English back as though it were a translation', () => {
+    /*
+     * A catalogue may be incomplete — the English key set is still growing as strings
+     * come out of the screens, and a missing key falls through to English on purpose.
+     * What it may not do is *claim* a key and put the English in it, because then the
+     * coverage figure below says a language is done when it is not.
+     *
+     * Missing is honest. Present-but-untranslated is not.
+     */
+    for (const locale of UI_LOCALES.filter((l) => l !== 'en')) {
+      const catalogue = CATALOGUES[locale];
+      const echoed = Object.entries(catalogue).filter(
+        ([key, value]) => value === EN[key as keyof typeof EN],
+      );
+      expect({ locale, echoed }).toEqual({ locale, echoed: [] });
+    }
+  });
+
+  it('reports how much of each language is done', () => {
+    // Not an assertion that they are finished — an assertion that we can tell.
+    expect(translationCoverage('en')).toBe(1);
+    for (const locale of UI_LOCALES.filter((l) => l !== 'en')) {
+      expect(translationCoverage(locale)).toBeGreaterThan(0);
+      expect(translationCoverage(locale)).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it('says a machine translated it, in the language it was translated into', () => {
+    // The reader is entitled to know who translated what they are reading — the same
+    // rule translate.ts applies to a record, for the same reason.
+    for (const locale of UI_LOCALES.filter((l) => l !== 'en')) {
+      expect(isMachineTranslated(locale)).toBe(true);
+      expect(copyFor(locale).interfaceTranslationNote).not.toBe(EN.interfaceTranslationNote);
+    }
+    expect(isMachineTranslated('en')).toBe(false);
   });
 });
