@@ -1,0 +1,200 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>WikiFoodia — logo options</title>
+<style>
+  :root { --bg:#161826; --text:#e9e9ed; --gold:#d9a441; --muted:rgba(233,233,237,.55); --divider:rgba(233,233,237,.16); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+         font:15px/1.6 Inter,-apple-system,Segoe UI,system-ui,sans-serif; padding:40px 32px 80px; }
+  h1 { font-size:19px; font-weight:600; margin:0 0 4px; }
+  .sub { color:var(--muted); margin:0 0 40px; font-size:14px; }
+  .opt { border-top:1px solid var(--divider); padding:28px 0 8px; }
+  .opt h2 { font-size:15px; font-weight:600; margin:0 0 2px; color:var(--gold); }
+  .opt p { color:var(--muted); margin:0 0 20px; font-size:13.5px; max-width:62ch; }
+  .row { display:flex; align-items:flex-end; gap:36px; flex-wrap:wrap; }
+  .size { text-align:center; }
+  .size span { display:block; color:rgba(233,233,237,.45); font-size:11px; margin-top:8px; letter-spacing:.02em; }
+  .lockup { display:flex; align-items:center; gap:11px; }
+  .lockup b { font-size:20px; font-weight:600; letter-spacing:-.01em; }
+  .onlight { background:#e9e9ed; border-radius:10px; padding:14px; }
+  .onlight svg .ink { stroke:#161826; }
+  .onlight svg .inkfill { fill:#161826; }
+</style>
+<h1>WikiFoodia — logo options</h1>
+<p class="sub">Grain gold #d9a441 on Nocturne #161826. Each shown at app-icon, header and favicon size — a mark that dies at 16px is not a logo.</p>
+
+<!-- ── A ─────────────────────────────────────────────────────────── -->
+<div class="opt">
+  <h2>A · The grain and its rings</h2>
+  <p>A single grain at the centre, with the five geographic levels ringing outward — country, region, province, city, village. The outermost ring is <em>broken on purpose</em>: the atlas is unfinished, and the mark says so. Reads as a plate from above, and as growth rings.</p>
+  <div class="row">
+    <div class="size">
+      <svg width="96" height="96" viewBox="0 0 100 100" fill="none">
+        <circle class="ink" cx="50" cy="50" r="45" stroke="#d9a441" stroke-width="2.2" stroke-opacity=".45"
+                stroke-dasharray="30 14" stroke-linecap="round"/>
+        <circle class="ink" cx="50" cy="50" r="33" stroke="#d9a441" stroke-width="2.2" stroke-opacity=".7"/>
+        <circle class="ink" cx="50" cy="50" r="21" stroke="#d9a441" stroke-width="2.2" stroke-opacity=".9"/>
+        <path class="inkfill" d="M50 33c6.5 7.5 6.5 26.5 0 34-6.5-7.5-6.5-26.5 0-34Z" fill="#d9a441"/>
+        <path class="ink" d="M50 36v28" stroke="#161826" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span>96 · app icon</span>
+    </div>
+    <div class="size">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="45" stroke="#d9a441" stroke-width="3.4" stroke-opacity=".45" stroke-dasharray="30 14" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="33" stroke="#d9a441" stroke-width="3.4" stroke-opacity=".7"/>
+        <circle cx="50" cy="50" r="21" stroke="#d9a441" stroke-width="3.4" stroke-opacity=".9"/>
+        <path d="M50 33c6.5 7.5 6.5 26.5 0 34-6.5-7.5-6.5-26.5 0-34Z" fill="#d9a441"/>
+      </svg>
+      <span>40 · header</span>
+    </div>
+    <div class="size">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="45" stroke="#d9a441" stroke-width="8" stroke-opacity=".5" stroke-dasharray="34 16" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="26" stroke="#d9a441" stroke-width="8" stroke-opacity=".85"/>
+        <path d="M50 30c8 9 8 31 0 40-8-9-8-31 0-40Z" fill="#d9a441"/>
+      </svg>
+      <span>16 · favicon</span>
+    </div>
+    <div class="size onlight">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <circle class="ink" cx="50" cy="50" r="45" stroke-width="3.4" stroke-opacity=".4" stroke-dasharray="30 14" stroke-linecap="round"/>
+        <circle class="ink" cx="50" cy="50" r="33" stroke-width="3.4" stroke-opacity=".65"/>
+        <circle class="ink" cx="50" cy="50" r="21" stroke-width="3.4" stroke-opacity=".85"/>
+        <path class="inkfill" d="M50 33c6.5 7.5 6.5 26.5 0 34-6.5-7.5-6.5-26.5 0-34Z"/>
+      </svg>
+      <span>on light</span>
+    </div>
+    <div class="lockup">
+      <svg width="30" height="30" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="45" stroke="#d9a441" stroke-width="4.4" stroke-opacity=".45" stroke-dasharray="30 14" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="30" stroke="#d9a441" stroke-width="4.4" stroke-opacity=".8"/>
+        <path d="M50 32c7 8 7 28 0 36-7-8-7-28 0-36Z" fill="#d9a441"/>
+      </svg>
+      <b>WikiFoodia</b>
+    </div>
+  </div>
+</div>
+
+<!-- ── B ─────────────────────────────────────────────────────────── -->
+<div class="opt">
+  <h2>B · The pin that is a plate</h2>
+  <p>A map pin whose head is a plate seen face-on, rings inside. Provenance stated literally — <em>this food, from here</em>. The most immediately legible of the four; also the most conventional.</p>
+  <div class="row">
+    <div class="size">
+      <svg width="96" height="96" viewBox="0 0 100 100" fill="none">
+        <path class="ink" d="M50 92c0 0-27-27-27-45a27 27 0 1 1 54 0c0 18-27 45-27 45Z" stroke="#d9a441" stroke-width="2.4" stroke-linejoin="round"/>
+        <circle class="ink" cx="50" cy="46" r="15" stroke="#d9a441" stroke-width="2.2" stroke-opacity=".55"/>
+        <path class="inkfill" d="M50 36c5 6 5 14 0 20-5-6-5-14 0-20Z" fill="#d9a441"/>
+      </svg>
+      <span>96 · app icon</span>
+    </div>
+    <div class="size">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <path d="M50 92c0 0-27-27-27-45a27 27 0 1 1 54 0c0 18-27 45-27 45Z" stroke="#d9a441" stroke-width="3.6" stroke-linejoin="round"/>
+        <circle cx="50" cy="46" r="15" stroke="#d9a441" stroke-width="3" stroke-opacity=".55"/>
+        <path d="M50 36c5 6 5 14 0 20-5-6-5-14 0-20Z" fill="#d9a441"/>
+      </svg>
+      <span>40 · header</span>
+    </div>
+    <div class="size">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <path d="M50 92c0 0-27-27-27-45a27 27 0 1 1 54 0c0 18-27 45-27 45Z" stroke="#d9a441" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M50 33c6 8 6 18 0 26-6-8-6-18 0-26Z" fill="#d9a441"/>
+      </svg>
+      <span>16 · favicon</span>
+    </div>
+    <div class="lockup">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <path d="M50 92c0 0-27-27-27-45a27 27 0 1 1 54 0c0 18-27 45-27 45Z" stroke="#d9a441" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M50 34c6 8 6 18 0 26-6-8-6-18 0-26Z" fill="#d9a441"/>
+      </svg>
+      <b>WikiFoodia</b>
+    </div>
+  </div>
+</div>
+
+<!-- ── C ─────────────────────────────────────────────────────────── -->
+<div class="opt">
+  <h2>C · The bowl and the meridian</h2>
+  <p>A bowl in section, with a meridian arc rising out of it — the globe sitting in the vessel. Quiet, and the only one that reads as <em>cooking</em> rather than as <em>mapping</em>. Weakest at favicon size.</p>
+  <div class="row">
+    <div class="size">
+      <svg width="96" height="96" viewBox="0 0 100 100" fill="none">
+        <circle class="ink" cx="50" cy="46" r="26" stroke="#d9a441" stroke-width="2.2" stroke-opacity=".5"/>
+        <path class="ink" d="M50 20c9 8 9 44 0 52M50 20c-9 8-9 44 0 52" stroke="#d9a441" stroke-width="2" stroke-opacity=".5"/>
+        <path class="ink" d="M18 56h64c0 15-14 26-32 26S18 71 18 56Z" stroke="#d9a441" stroke-width="2.6" stroke-linejoin="round" fill="#161826"/>
+      </svg>
+      <span>96 · app icon</span>
+    </div>
+    <div class="size">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="46" r="26" stroke="#d9a441" stroke-width="3.4" stroke-opacity=".5"/>
+        <path d="M50 20c9 8 9 44 0 52M50 20c-9 8-9 44 0 52" stroke="#d9a441" stroke-width="3" stroke-opacity=".5"/>
+        <path d="M18 56h64c0 15-14 26-32 26S18 71 18 56Z" stroke="#d9a441" stroke-width="4" stroke-linejoin="round" fill="#161826"/>
+      </svg>
+      <span>40 · header</span>
+    </div>
+    <div class="size">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="42" r="24" stroke="#d9a441" stroke-width="8" stroke-opacity=".6"/>
+        <path d="M16 54h68c0 16-15 28-34 28S16 70 16 54Z" stroke="#d9a441" stroke-width="8" stroke-linejoin="round" fill="#161826"/>
+      </svg>
+      <span>16 · favicon</span>
+    </div>
+    <div class="lockup">
+      <svg width="30" height="30" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="44" r="25" stroke="#d9a441" stroke-width="4.6" stroke-opacity=".55"/>
+        <path d="M17 55h66c0 15-15 27-33 27S17 70 17 55Z" stroke="#d9a441" stroke-width="5" stroke-linejoin="round" fill="#161826"/>
+      </svg>
+      <b>WikiFoodia</b>
+    </div>
+  </div>
+</div>
+
+<!-- ── D ─────────────────────────────────────────────────────────── -->
+<div class="opt">
+  <h2>D · The grain, alone</h2>
+  <p>Just the seed, cut by its own crease, with one ring holding it. The most confident and the most abstract — it works because the gold already <em>means</em> grain in this palette. Survives at 16px better than any of the others.</p>
+  <div class="row">
+    <div class="size">
+      <svg width="96" height="96" viewBox="0 0 100 100" fill="none">
+        <circle class="ink" cx="50" cy="50" r="40" stroke="#d9a441" stroke-width="2.4" stroke-opacity=".4"/>
+        <path class="inkfill" d="M50 18c11 12 11 52 0 64-11-12-11-52 0-64Z" fill="#d9a441"/>
+        <path d="M50 24v52" stroke="#161826" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <span>96 · app icon</span>
+    </div>
+    <div class="size">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="40" stroke="#d9a441" stroke-width="3.6" stroke-opacity=".4"/>
+        <path d="M50 18c11 12 11 52 0 64-11-12-11-52 0-64Z" fill="#d9a441"/>
+        <path d="M50 24v52" stroke="#161826" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>40 · header</span>
+    </div>
+    <div class="size">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="42" stroke="#d9a441" stroke-width="7" stroke-opacity=".45"/>
+        <path d="M50 16c12 13 12 55 0 68-12-13-12-55 0-68Z" fill="#d9a441"/>
+      </svg>
+      <span>16 · favicon</span>
+    </div>
+    <div class="size onlight">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <circle class="ink" cx="50" cy="50" r="40" stroke-width="3.6" stroke-opacity=".35"/>
+        <path class="inkfill" d="M50 18c11 12 11 52 0 64-11-12-11-52 0-64Z"/>
+        <path d="M50 24v52" stroke="#e9e9ed" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>on light</span>
+    </div>
+    <div class="lockup">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="41" stroke="#d9a441" stroke-width="4.6" stroke-opacity=".4"/>
+        <path d="M50 17c11 12 11 54 0 66-11-12-11-54 0-66Z" fill="#d9a441"/>
+        <path d="M50 24v52" stroke="#161826" stroke-width="3.4" stroke-linecap="round"/>
+      </svg>
+      <b>WikiFoodia</b>
+    </div>
+  </div>
+</div>

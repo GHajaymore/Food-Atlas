@@ -15,6 +15,7 @@ import { Button, IconButton } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
+import { Logo } from '../src/components/Logo';
 import { MealFilter } from '../src/components/MealFilter';
 import { Refine } from '../src/components/Refine';
 import { Shelf } from '../src/components/Shelf';
@@ -125,6 +126,9 @@ export default function Feed() {
   return (
     <Screen>
       <View style={styles.header}>
+        {/* Optically aligned to the name's cap height rather than the block's top,
+            which sits a hair low because the tagline is part of the text column. */}
+        <Logo size={30} />
         <View style={styles.headerText}>
           <H4>{BRAND.name}</H4>
           <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
@@ -358,7 +362,13 @@ export default function Feed() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', paddingTop: space[2] },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    paddingTop: space[2],
+    gap: 11,
+  },
   headerText: { flex: 1 },
   tagline: { fontSize: 12, marginTop: 2 },
   searchButton: { marginRight: -10 },
