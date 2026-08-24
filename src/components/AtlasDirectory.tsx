@@ -1,7 +1,7 @@
 /**
  * The list of every place the atlas holds, in whichever shape the window can afford.
  *
- * ## Why a desktop should not have accordions here
+ * ## Why a desktop opens rather than collapses
  *
  * The phone screen shows seven collapsed continents, one open at a time, and the reason
  * is written on `app/atlas.tsx`: at 268 origins a flat list buries the coverage figures
@@ -12,6 +12,10 @@
  * tenths of the window sits empty beside the answer. A directory that fits should be a
  * directory: every continent open, countries in columns, the whole atlas legible by
  * scanning rather than by guessing which lid to lift.
+ *
+ * A desktop continent **can** still be folded away — Ajay asked for that and it is a fair
+ * ask on a 3,000px page — but it starts open, and closing one says nothing about the
+ * others. See `Open`.
  *
  * Which is also the honest reading of what Ajay has been asking for. *"Desktop still
  * feels like a mobile version"* is rarely about width — it is about phone interaction
@@ -62,25 +66,66 @@ export function AtlasDirectory({ groups, onPick }: Props) {
 }
 
 /**
- * Every continent open, countries flowing down columns.
+ * Continents in columns, each one collapsible.
  *
  * `flexWrap` with a percentage width rather than a real column count, because React
  * Native has no CSS multi-column and a fixed count would need the container's measured
  * width to divide. Wrapping needs neither and reflows correctly when the window changes.
+ *
+ * ## Open by default, and collapsible rather than the other way round
+ *
+ * Ajay asked for a collapsible option here after the desktop pass opened every continent.
+ * Both halves of that matter and they pull in opposite directions, so this keeps both:
+ *
+ * **Open by default**, because a directory that fits should be a directory — that is the
+ * whole reason the accordion was dropped on desktop, and starting collapsed would put the
+ * two clicks back that removing it was meant to save.
+ *
+ * **Collapsible anyway**, because at 230 origins the page is about 3,000px tall, and
+ * somebody who knows they want Europe should be able to fold Asia away rather than
+ * scroll past it. That is a different need from the phone's, where collapsing exists to
+ * make the page navigable at all.
+ *
+ * So unlike the phone, several can be closed at once and closing one says nothing about
+ * the others. One-at-a-time is a space constraint, and there is no space constraint here.
  */
 function Open({ groups, onPick, columns }: Props & { columns: number }) {
+  /* Closed rather than open, so the empty set means "everything open" and a continent
+     added tomorrow arrives expanded like the rest. */
+  const [closed, setClosed] = useState<ReadonlySet<string>>(new Set());
+
+  const toggle = (label: string) =>
+    setClosed((current) => {
+      const next = new Set(current);
+      if (!next.delete(label)) next.add(label);
+      return next;
+    });
+
   return (
     <View style={styles.openGroups}>
       {groups.map((group) => {
         const summary = groupSummary(group);
+        const open = !closed.has(group.label);
         return (
           <View key={group.label}>
-            <View style={styles.openHeader}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ expanded: open }}
+              accessibilityLabel={`${group.label}, ${summary.label}`}
+              tint="neutral"
+              onPress={() => toggle(group.label)}
+              style={styles.openHeader}
+            >
               <H6 style={styles.openLabel}>{group.label}</H6>
               <Muted style={styles.groupCount}>{summary.label}</Muted>
-            </View>
+              {/* The affordance. Without it a heading that happens to be pressable is a
+                  secret, and the countries below give no hint that they could fold. */}
+              <View {...caretMotion} style={open ? styles.caretOpen : undefined}>
+                <CaretDownIcon size={13} color={color.accent} />
+              </View>
+            </Pressable>
 
-            <View style={styles.grid}>
+            <View style={open ? styles.grid : styles.hidden}>
               {group.countries.map((country) => (
                 <View key={country.name} style={{ width: `${100 / columns}%` }}>
                   <Pressable
@@ -226,6 +271,9 @@ const styles = StyleSheet.create({
   },
   openLabel: { color: accentText },
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
+  /* Unmounted rather than hidden: 230 rows kept in the tree behind `display: none`
+     would still be laid out on every resize for no reason. */
+  hidden: { display: 'none' },
   gridCell: {
     flexDirection: 'row',
     alignItems: 'baseline',
