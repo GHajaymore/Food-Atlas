@@ -17,8 +17,9 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { FeedSkeleton } from '../src/components/FeedSkeleton';
 import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';
 import { watchForExit } from '../src/data/events';
@@ -65,9 +66,19 @@ export default function RootLayout() {
     );
   }, []);
 
-  // Hold on the ground colour rather than flashing an unstyled screen; the type
-  // scale is meaningless until Inter is in.
-  if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: color.bg }} />;
+  /*
+   * One appearance for the whole wait, rather than three.
+   *
+   * This used to hold on a bare dark rectangle until Inter arrived, then swap to a
+   * spinner until sixteen megabytes of JSON had downloaded and been built, then show the
+   * entire page at once. Three states, two of which said nothing at all.
+   *
+   * The skeleton covers both waits and grows into the page: shapes while the fonts land,
+   * then the real wordmark, tagline and headline the moment they can be set properly —
+   * none of which needs a byte of the catalogue. A reader has something true to read in a
+   * few hundred milliseconds instead of a spinner for several seconds.
+   */
+  if (!fontsLoaded) return <FeedSkeleton fonts={false} />;
 
   // Said plainly rather than left as an empty atlas. A reader who sees no
   // traditions should be told the data did not arrive, not left to conclude there
@@ -81,14 +92,7 @@ export default function RootLayout() {
     );
   }
 
-  if (dataState === 'loading') {
-    return (
-      <View style={styles.centre}>
-        <ActivityIndicator color={color.accent} />
-        <Text style={styles.loadingNote}>{copy.loadingAtlas}</Text>
-      </View>
-    );
-  }
+  if (dataState === 'loading') return <FeedSkeleton fonts />;
 
   return (
     <SafeAreaProvider>
@@ -113,7 +117,6 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   centre: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: color.bg, padding: 32 },
-  loadingNote: { fontFamily: font.regular, fontSize: 13, color: color.neutral[400] },
   failedTitle: { fontFamily: font.heading, fontSize: 16, color: color.neutral[100], textAlign: 'center' },
   failedNote: { fontFamily: font.regular, fontSize: 12, color: color.neutral[400], textAlign: 'center' },
 });

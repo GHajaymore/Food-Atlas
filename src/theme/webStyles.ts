@@ -110,6 +110,19 @@ body { margin: 0; overscroll-behavior: none; }
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  /*
+   * The skeleton breathes while the atlas downloads.
+   *
+   * Deliberately slow and shallow — 1.6s between 1 and 0.55. A fast or high-contrast
+   * pulse reads as a progress indicator and implies something is nearly finished, which
+   * on a 16 MB payload would be a claim nobody can support. This says only that the page
+   * is waiting, which is the whole of what is known.
+   */
+  @keyframes wf-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+  [data-motion="pulse"] { animation: wf-pulse 1600ms ease-in-out infinite; }
   [data-enter] { animation: wf-rise 320ms ease both; }
   [data-enter="2"] { animation-delay: 60ms; }
   [data-enter="3"] { animation-delay: 120ms; }
