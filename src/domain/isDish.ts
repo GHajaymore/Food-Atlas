@@ -1,3 +1,5 @@
+import { continentOf } from './continents';
+
 /**
  * Whether a record is a food at all.
  *
@@ -154,6 +156,49 @@ const FOOD_FORM =
 const isDrink = (name: string): boolean =>
   DRINK_HEAD.test(name) && !OF_A_PLACE.test(name) && !FOOD_FORM.test(name);
 
+/**
+ * An article *about* eating something somewhere, rather than a thing you can eat.
+ *
+ * "Beer in India", "Coffee production in Vietnam", "Dog meat consumption in South Korea",
+ * "Delivery culture in South Korea". These survived every rule above because each names a
+ * real food or drink and none is a cuisine label, a venue or a person — they are
+ * encyclopaedia entries about a country's relationship with a commodity, and an atlas of
+ * dishes cannot show one as a dish. There is no method, no ingredients and nobody who
+ * could ever confirm it.
+ *
+ * ## The two ways this rule could delete real food, and what stops each
+ *
+ * **"X in Y" is how half the cookbook names a sauce.** "Mussels in Onion and Butter
+ * Sauce", "Rice Balls in Sweet Coconut Milk", "West Lake Fish in Vinegar Gravy". So the
+ * tail must be a place the atlas actually recognises, checked against `continentOf` —
+ * the same instinct as everywhere else here: make the match corroborate something the
+ * data already knows rather than trusting the shape of a string. "Vinegar Gravy" is not a
+ * country, so the dish survives.
+ *
+ * **UNESCO titles are long and descriptive, and several end in a country.** "Traditional
+ * knowledge and skills of sake-making with koji mold in Japan" is an inscription, not an
+ * article. So the head is capped at three words: an article is "Beer", "Tea culture",
+ * "Dog meat consumption", while an inscription is a sentence.
+ *
+ * Dry-run before it was written, across all 21,202 records that pass every other rule: it
+ * removes 51. Fifty are Wikipedia cuisine articles. The fifty-first is "Beer culture in
+ * Belgium", which is a genuine UNESCO inscription and also a beer record, so it goes
+ * under the same instruction that removed the other 239 drinks.
+ *
+ * **Zero come from the cookbook, the catalogue or the EU register** — the three sources
+ * where a false positive would delete real food. That is the number that made this safe
+ * to apply, and it is worth re-running if the rule is ever widened.
+ */
+const TOPIC_WORDS = 3;
+
+const aboutFoodSomewhere = (name: string): boolean => {
+  const match = /^(.+?)\s+in\s+(.+)$/.exec(name.trim());
+  if (!match) return false;
+  const [, topic, place] = match;
+  if (topic.split(/\s+/).length > TOPIC_WORDS) return false;
+  return continentOf(place.trim()) !== 'Elsewhere';
+};
+
 /** Anything left with no name to show. */
 const EMPTY = /^\s*$/;
 
@@ -169,6 +214,7 @@ const REFUSALS: { test: (name: string) => boolean; reason: string }[] = [
     reason: 'is a whole cuisine rather than a dish',
   },
   { test: isDrink, reason: 'is a drink rather than a food' },
+  { test: aboutFoodSomewhere, reason: 'is an article about a food in a place, not a food' },
 ];
 
 /**

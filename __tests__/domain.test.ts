@@ -2743,3 +2743,41 @@ describe('links the app did not write', () => {
     expect(bad.slice(0, 10)).toEqual([]);
   });
 });
+
+/*
+ * "Beer in India" is an article; "Mussels in Onion and Butter Sauce" is dinner.
+ *
+ * This rule is the most dangerous kind in the file — it keys off a shape, "X in Y",
+ * that half the cookbook uses to name a sauce. Both directions are pinned here because
+ * a regression in either is silent: over-removal deletes traditions with no error, and
+ * under-removal puts an encyclopaedia entry on a shelf as though it were a dish.
+ */
+describe('an article about a food in a place is not a food', () => {
+  const refused = (name: string) => notAFood(name) !== null;
+
+  it('refuses a commodity or a habit paired with a country', () => {
+    expect(refused('Beer in India')).toBe(true);
+    expect(refused('Coffee production in Vietnam')).toBe(true);
+    expect(refused('Dog meat consumption in South Korea')).toBe(true);
+    expect(refused('Tea culture in Japan')).toBe(true);
+  });
+
+  it('keeps a dish whose name says what it is cooked in', () => {
+    // The tail has to be a place the atlas recognises. "Vinegar Gravy" is not.
+    expect(refused('Mussels in Onion and Butter Sauce')).toBe(false);
+    expect(refused('West Lake Fish in Vinegar Gravy')).toBe(false);
+    expect(refused('Bua Loi (Rice Balls in Sweet Coconut Milk)')).toBe(false);
+    expect(refused('Baked Brie in Puff Pastry')).toBe(false);
+  });
+
+  it('keeps a UNESCO inscription, which is a sentence rather than a topic', () => {
+    // Long descriptive titles that happen to end in a country. Capping the head at
+    // three words is what separates them from "Beer in India".
+    expect(refused('Traditional knowledge and skills of sake-making with koji mold in Japan')).toBe(false);
+    expect(refused('Tandir craftsmanship and bread baking in Azerbaijan')).toBe(false);
+  });
+
+  it('keeps a dish whose name merely contains a town called something-in-something', () => {
+    expect(refused('Pane di Santeramo in Colle PAT')).toBe(false);
+  });
+});

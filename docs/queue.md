@@ -242,6 +242,32 @@ touches every screen, and half a redesign looks worse than none.
 
 ---
 
+## Done 2026-08-24
+
+**Encyclopaedia articles removed — 50 records.** "Beer in India", "Coffee production in
+Vietnam", "Dog meat consumption in South Korea", "Delivery culture in South Korea". These
+survived the drinks pass because each names a real food or drink and none is a cuisine
+label: they are articles about a country's relationship with a commodity, and there is no
+method, no ingredients and nobody who could ever confirm one.
+
+The rule is `<topic of at most three words> in <a country the atlas recognises>`, and both
+halves are load-bearing:
+
+- **The tail must be a recognised place.** "X in Y" is how half the cookbook names a
+  sauce — "Mussels in Onion and Butter Sauce", "West Lake Fish in Vinegar Gravy". Checking
+  the tail against `continentOf` rather than trusting the shape of the string is the same
+  instinct that saved the apple and the cheese from the drinks rule.
+- **The head must be short.** UNESCO titles are long and several end in a country:
+  "Traditional knowledge and skills of sake-making with koji mold in Japan" is an
+  inscription, not an article.
+
+Dry-run across all 21,202 records that pass every other rule before the rule was written:
+51 caught, and **zero from the cookbook, the catalogue or the EU register** — the three
+sources where a false positive deletes real food. That number is what made it safe to
+apply. 17,828 → 17,778 live, countries unchanged at 157.
+
+---
+
 ## Asked for 2026-08-23, needing a decision before anything is built
 
 **"Remove anything not related to food, like beer, wine etc." — and "one more like
