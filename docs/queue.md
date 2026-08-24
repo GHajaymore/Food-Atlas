@@ -21,6 +21,26 @@ until this happens. `docs/deploy.md` has the three build settings. Then:
 **Cloudflare Web Analytics**, if visitor counts are wanted. Free, cookieless, and the
 only honest way to answer "how many people" — see the foot of `functions/api/events.ts`.
 
+**Donations on "Keeping it free" — already built, switched off.** Ajay asked for this on
+2026-08-23, and it is worth knowing it needs no code: `src/domain/support.ts` already has
+`OPEN_COLLECTIVE_SLUG`, `DONATION_URL`, `LEDGER_URL` and `canAcceptDonations()`, and
+`app/support.tsx` already renders either the donate and ledger buttons or an honest
+"Not open for donations yet" card. Everything is behind one environment variable:
+
+```
+  EXPO_PUBLIC_OPENCOLLECTIVE=<the collective's slug>
+```
+
+**Only Ajay can supply it** — it means creating an Open Collective, which is free for
+open projects and takes a fiscal host. The platform was chosen deliberately over a
+payment link: every contribution and every expense is published, so the page's claims can
+be checked against a public ledger rather than believed. That is the same stance the
+badges take, applied to money.
+
+Worth deciding at the same time: the app currently says *"no money collected"* on the
+front page. The moment donations open, that sentence needs the same treatment "no
+accounts" got — narrowed to what remains true, rather than left to rot.
+
 ---
 
 ## Decisions only Ajay can make

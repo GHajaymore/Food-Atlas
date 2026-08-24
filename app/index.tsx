@@ -18,7 +18,15 @@ import { DishCard } from '../src/components/DishCard';
 import { LanguagePicker } from '../src/components/LanguagePicker';
 import { Wordmark } from '../src/components/Wordmark';
 import { MealFilter } from '../src/components/MealFilter';
-import { Mission } from '../src/components/Mission';
+import { FeedOrder } from '../src/components/FeedOrder';
+import { LeadDish } from '../src/components/LeadDish';
+import {
+  Mission,
+  MissionCallout,
+  MissionFigures,
+  MissionFootnotes,
+  MissionPitch,
+} from '../src/components/Mission';
 import { Refine } from '../src/components/Refine';
 import { Shelf } from '../src/components/Shelf';
 import { SiteNav } from '../src/components/SiteNav';
@@ -137,54 +145,38 @@ export default function Feed() {
   // when its controls are folded away.
   const refineSummary = [...dietNames, ...meals.map((m) => MEAL_LABELS[m].toLowerCase())].join(' · ');
 
-  return (
-    <Screen>
+  /*
+   * The page's parts, named rather than written in place.
+   *
+   * `FeedOrder` decides where each goes; nothing below knows the window width. That is the
+   * same rule `RecordColumns` and `SearchColumns` follow, and it exists because a dozen
+   * `wide ?` branches scattered through a screen interact in ways nobody can hold in their
+   * head — which is how a dropdown came to render behind the page.
+   */
+  const masthead = (
+    <View style={styles.header}>
+      <View style={styles.headerText}>
+        <Wordmark size={20} />
+        <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
+      </View>
       {/*
-       * The page's own masthead, on phones only.
+       * The language picker moved into this row from a band of its own below it.
        *
-       * `TopBar` carries the wordmark and a search link above the tablet breakpoint, so
-       * on a desktop this rendered the mark and the tagline a second time, forty pixels
-       * under the first — which is the sort of thing that makes a wide layout read as a
-       * phone page with a header bolted on top.
+       * It was surfaced on the front page in the first place because twelve translations
+       * had been unreachable, so burying it in a footer would undo that. Sideways costs
+       * nothing: the row already exists and had room to its right.
        */}
-      {!wide ? (
-        <View style={styles.header}>
-          <View style={styles.headerText}>
-            <Wordmark size={20} />
-            <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
-          </View>
-          <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
-            <SearchIcon size={18} color={color.accent} />
-          </IconButton>
-        </View>
-      ) : null}
+      <View style={styles.headerControls}>
+        <LanguagePicker compact />
+        <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
+          <SearchIcon size={18} color={color.accent} />
+        </IconButton>
+      </View>
+    </View>
+  );
 
-      {/* The front door, above the controls.
-
-          Filters are for a reader who already knows what they are filtering. This used
-          to sit below the place selector, the authenticity chips and the diet filter,
-          so a first-time visitor met three rows of chrome before anything said what
-          the atlas was. Only on the clean browsing view: somebody who has picked a
-          country has answered the question already. */}
-      {/*
-       * The language picker, on the front page rather than buried.
-       *
-       * Twelve translations of the chrome have existed for a while with no way for a
-       * reader to reach them — the device's language was taken as an instruction rather
-       * than the guess it is. Somebody whose phone is in English because that is what
-       * the shop sold them could not ask for Hindi.
-       *
-       * Only on the desktop header above the tablet breakpoint, so it is not repeated:
-       * `TopBar` already carries one there.
-       */}
-      {isBrowsing && !wide ? (
-        <View style={styles.languageRow}>
-          <LanguagePicker />
-        </View>
-      ) : null}
-
-      {isBrowsing ? <Mission /> : null}
-
+  const controls = (
+    <>
       {/* The primary control. */}
       <Pressable
         accessibilityRole="button"
@@ -242,34 +234,63 @@ export default function Feed() {
         />
         <MealFilter selected={meals} onToggle={toggleMeal} onClear={clearMeals} />
       </Refine>
+    </>
+  );
 
-      {/* Nothing narrowed yet: show doorways rather than 13,855 rows. A reader who
-          has not asked for anything specific is browsing, and a dump of whatever
-          loaded first is not browsing. The moment they narrow — a place, a filter, a
-          diet — the list is what they want, and it takes over. */}
+  /*
+   * The record the phone opens on, and the rails behind it.
+   *
+   * Taken from the front of the first shelf — whatever `buildShelves` already chose to
+   * lead with, which is usually the reader's own country. Nothing here picks a favourite.
+   * It is then removed from that rail, because the same photograph twice within three
+   * hundred pixels reads as a rendering fault; `shelves.ts` records that exact confusion.
+   */
+  const leadDish = !wide ? shelves[0]?.dishes[0] : undefined;
+  const shelfNodes = shelves.map((shelf, i) => (
+    <Shelf
+      key={shelf.id}
+      /* Staggers the rails in as the page assembles. Capped in CSS at six steps —
+         past that a reader is waiting for the page to finish arriving. */
+      enter={i + 1}
+      shelf={leadDish && i === 0 ? { ...shelf, dishes: shelf.dishes.slice(1) } : shelf}
+      onOpenDish={(id) => router.push(`/dish/${id}`)}
+      onOpenAll={(s) => setShelfView(s.id)}
+    />
+  ));
+
+  return (
+    <Screen>
       {isBrowsing ? (
-        <>
-          {shelves.map((shelf, i) => (
-            <Shelf
-              key={shelf.id}
-              /* Staggers the rails in as the page assembles. Capped in CSS at six steps —
-                 past that a reader is waiting for the page to finish arriving. */
-              enter={i + 1}
-              shelf={shelf}
-              onOpenDish={(id) => router.push(`/dish/${id}`)}
-              onOpenAll={(s) => setShelfView(s.id)}
+        <FeedOrder
+          mission={<Mission />}
+          masthead={wide ? null : masthead}
+          pitch={<MissionPitch />}
+          lead={<LeadDish dish={leadDish} />}
+          figures={<MissionFigures />}
+          argument={
+            <>
+              <MissionCallout />
+              <MissionFootnotes />
+            </>
+          }
+          controls={controls}
+          shelves={shelfNodes}
+          tail={
+            <Button
+              label={`Browse all ${feed.length.toLocaleString()} traditions`}
+              variant="secondary"
+              block
+              onPress={() => setShelfView('all')}
+              style={styles.browseAll}
             />
-          ))}
-
-          <Button
-            label={`Browse all ${feed.length.toLocaleString()} traditions`}
-            variant="secondary"
-            block
-            onPress={() => setShelfView('all')}
-            style={styles.browseAll}
-          />
+          }
+        />
+      ) : (
+        <>
+          {wide ? null : masthead}
+          {controls}
         </>
-      ) : null}
+      )}
 
       {!isBrowsing ? (
         <View style={styles.listHead}>
@@ -416,7 +437,9 @@ export default function Feed() {
 }
 
 const styles = StyleSheet.create({
-  languageRow: { marginTop: 12, marginBottom: 4 },
+  /* The language picker and search share the masthead row now, rather than the picker
+     occupying a band of its own below it — 34px of a phone reclaimed for nothing. */
+  headerControls: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',
