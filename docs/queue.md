@@ -290,9 +290,24 @@ the same as the symptom:
   `Stack` is on the platform default and no screen animates its own content.
 - **Photographs are small and secondary.** Cards are 132px thumbnails beside text. The
   atlas has 3,055 photographs and shows them at the size of a favicon.
-- **The 14.7 MB wait is unmasked.** A spinner for several seconds on a phone connection
-  is the most static thing the app does. Progressive rendering or a first-paint subset
-  would change the whole impression, and connects to Stage 0.
+- ~~**The 14.7 MB wait is unmasked.**~~ **Done, 2026-08-23,** in two halves. `FeedSkeleton`
+  replaced the spinner and the blank font hold with one appearance that grows into the
+  page — the wordmark, tagline and headline are real from the moment Inter lands, because
+  none of them needs a downloaded byte. Then `scripts/inject-preload.mjs` removed most of
+  the wait itself rather than dressing it: measured on the built site, against the same
+  server with and without the injected links,
+
+  ```
+                       no preload      preload
+    data fetch starts      892 ms       334 ms
+    all five complete    1,721 ms     1,342 ms
+  ```
+
+  The cause was that the JSON URLs live inside the bundle, so nothing could ask for them
+  until it had downloaded *and executed* — half a second of idle connection on a fast
+  local server, and proportionally worse on a real one. Verified there is exactly one
+  request per file with `initiatorType: "link"`, i.e. the preload is claimed by the app's
+  own fetch rather than downloaded twice.
 
 None of that is fixed by the desktop work — `RecordColumns` and `SearchColumns`
 deliberately leave the phone path exactly as it was. This is its own design pass.
