@@ -11,6 +11,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Input } from '../src/components/Field';
 import { NavRow } from '../src/components/NavRow';
+import { PlaceOptions } from '../src/components/PlaceOptions';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
@@ -46,7 +47,7 @@ export default function PlacePicker() {
   };
 
   return (
-    <Screen measure bottomPad={50}>
+    <Screen bottomPad={50}>
       <NavRow title={`Choose a ${levelLabel}`} />
       <Muted style={styles.context}>{contextLine}</Muted>
 
@@ -71,41 +72,34 @@ export default function PlacePicker() {
         <Muted style={styles.count}>{matching.length}</Muted>
       </Pressable>
 
-      {groups.map((group, i) => (
-        <View key={group.label || `group-${i}`} style={styles.group}>
-          {group.showLabel ? <H6 style={styles.groupLabel}>{group.label}</H6> : null}
-          {group.options.map((option) => {
+      {/*
+       * The options own their own arrangement — rows on a phone, columns on a desktop.
+       * See `PlaceOptions`: this was 201 stacked rows on a 9,578px page at 1440.
+       */}
+      <PlaceOptions
+        groups={groups.map((group) => ({
+          label: group.label,
+          showLabel: group.showLabel,
+          options: group.options.map((option) => ({
+            label: option.label,
+            count: option.count,
             /*
              * Some of these are not countries, and the list should say so.
              *
-             * "Ancient Greece", "Byzantine Empire", "Kievan Rus'" and "Soviet Union"
-             * sit between Albania and Austria under a heading that reads "Choose a
-             * country". They belong here — a dish recorded as Ottoman has to be
-             * reachable, and it is no less placed for having outlived its state — but
-             * presented as peers of Austria they read as an error in the data.
+             * "Ancient Greece", "Byzantine Empire", "Kievan Rus'" and "Soviet Union" sit
+             * between Albania and Austria under a heading that reads "Choose a country".
+             * They belong here — a dish recorded as Ottoman has to be reachable, and it
+             * is no less placed for having outlived its state — but presented as peers of
+             * Austria they read as an error in the data.
              *
-             * Only shown at country level. Deeper down the options are regions and
-             * cities, where the question does not arise.
+             * Only at country level. Deeper down the options are regions and cities,
+             * where the question does not arise.
              */
-            const note = next?.key === 'country' ? placeKind(option.label) : '';
-
-            return (
-              <Pressable
-                key={option.label}
-                accessibilityRole="button"
-                accessibilityLabel={`${option.label}${note ? `, ${note}` : ''}, ${option.count} recorded`}
-                tint="neutral"
-                onPress={() => choose(option.label)}
-                style={styles.row}
-              >
-                <T style={styles.optionLabel}>{option.label}</T>
-                {note ? <Muted style={styles.kind}>{note}</Muted> : null}
-                <Muted style={styles.count}>{option.count}</Muted>
-              </Pressable>
-            );
-          })}
-        </View>
-      ))}
+            note: next?.key === 'country' ? placeKind(option.label) : '',
+          })),
+        }))}
+        onPick={choose}
+      />
 
       {noMatch ? (
         <Muted style={styles.noMatch}>

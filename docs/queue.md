@@ -142,6 +142,64 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
+**A complete audit, and a real navigational and functional test.** Ajay, 2026-08-24:
+*"I still see some screens of the website are still having mobile style behavior. Need a
+complete audit and real navigational and functional test. I need a real good rich
+website."*
+
+This supersedes screen-by-screen patching. What has been done so far is a **technical**
+sweep — twelve routes checked for console errors, horizontal overflow and missing
+content, all clean — and that is not what he is asking for. Clean of errors and *reading
+as a website* are different questions, and only the first has been answered.
+
+What the audit has to cover, and be able to show evidence for:
+
+1. **Every screen at desktop width, looked at.** Not fetched, not measured — looked at.
+   The screens that never had a desktop pass are the likely offenders: `/how`,
+   `/contribute`, `/propose`, `/proposals`, `/place`, `/dish/[id]`, and the search and
+   browse results at wide widths.
+2. **Every navigation path walked.** Every link in the header, the footer, the
+   breadcrumbs, the facets and the cards, followed to see where it actually lands.
+3. **Every flow exercised.** Propose, confirm, contribute, admin, search, pantry, the
+   place picker, the language selector.
+4. **A written finding per screen** — what is still phone-shaped and what to do — rather
+   than a claim that it was checked.
+
+The phone must not regress. That has been the rule through the whole desktop pass and it
+still is.
+
+### Findings so far — measured at 1440, 2026-08-24
+
+Measured rather than eyeballed: for each route, the longest line of running text, whether
+anything is arranged side by side, the width of every form field, and the page height.
+The Browser pane was not displaying, so this is geometry rather than screenshots — which
+is the more precise instrument for this particular question anyway.
+
+| screen | finding | verdict |
+|---|---|---|
+| `/place` | **201 full-width rows, page 9,578px tall** | **fixed** → 2,960px, three columns |
+| `/propose` | 8 fields, every one 640px, stacked, nothing side by side | phone-shaped |
+| `/contribute` | 6 fields, same | phone-shaped |
+| `/how` | 640px column, nothing beside it, 1,661px tall | correct measure, unused width |
+| `/dish/[id]` | two columns, 752px dossier lines | healthy |
+| `/proposals` | almost empty — no backend to list | blocked, cannot judge |
+| `/`, `/atlas`, `/browse`, `/search`, `/admin`, `/support` | have had a desktop pass | healthy |
+
+**What the two forms need.** Not a second column of fields — a form is not improved by
+being made two — but *pairing what belongs together*: Country beside Region, your name
+beside your connection. Everything else stays one column at a readable width. The
+distinction matters: `/dish` is two columns because identity and dossier are two jobs;
+a form is one job with related parts.
+
+**What `/how` needs.** It is a reading page and 640px lines are right. What is missing is
+anything in the other half — the six dimensions as a figure, or the score ladder, beside
+the prose that explains them.
+
+**Still to do in this audit:** walk every navigation path and exercise every flow. The
+flows that need a backend — propose, confirm, admin writes — can only be walked as far as
+the request, which is why the deploy matters for finishing this.
+## Next up (previously)
+
 **User logins.** Ajay: *"if allowing user logins is helpful and may add more value, then
 I have no issue"* (2026-08-23). This is the answer to *how do we know the same person is
 not confirming twice under different names* — today the defence is a signed cookie, which
