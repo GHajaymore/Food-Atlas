@@ -14,6 +14,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
 import type { Shelf as ShelfData } from '../domain/shelves';
 import { accentText, color, font, radius, space } from '../theme/tokens';
+import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
@@ -101,9 +102,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             <Muted style={styles.place} numberOfLines={1}>
               {dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}
             </Muted>
-            <Muted style={styles.badge} numberOfLines={1}>
-              {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : dish.badgeLabel}
-            </Muted>
+            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} />
           </Pressable>
         ))}
 

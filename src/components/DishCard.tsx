@@ -20,6 +20,7 @@ import type { Dish } from '../domain/types';
 import { accentText, color, elevation, radius, space } from '../theme/tokens';
 import { Card } from './Card';
 import { MapPinIcon } from './icons';
+import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { CardTitle, Muted, T } from './Text';
@@ -54,11 +55,18 @@ export function DishCard({ dish, showViews, compact }: Props) {
           <Muted style={styles.rowPlace} numberOfLines={1}>
             {dish.breadcrumb.join(' › ')}
           </Muted>
-          <Muted style={styles.rowClass}>
-            {dish.badgeIcon} {dish.badgeLabel}
-            {dish.score !== null ? ` · ${dish.score}/100` : ''}
-            {dish.atRisk ? ' · 🕯️ At risk' : ''}
-          </Muted>
+          {/*
+           * The evidence, at the weight it deserves rather than as a third line of grey.
+           *
+           * This row is what a reader meets 10,000 times while browsing, and the score
+           * was set in the same muted 11px as the breadcrumb above it — indistinguishable
+           * from metadata, when it is the one thing on the card no other food site could
+           * print.
+           */}
+          <View style={styles.rowEvidence}>
+            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} size="row" />
+            {dish.atRisk ? <Muted style={styles.rowRisk}>🕯️ At risk</Muted> : null}
+          </View>
         </View>
       </Pressable>
     );
@@ -140,5 +148,7 @@ const styles = StyleSheet.create({
   rowText: { flex: 1, minWidth: 0 },
   rowName: { fontSize: 14, fontFamily: 'Inter_500Medium' },
   rowPlace: { fontSize: 11, lineHeight: 11 * 1.4 },
+  rowEvidence: { flexDirection: 'row', alignItems: 'baseline', gap: 8, marginTop: 2 },
+  rowRisk: { fontSize: 11 },
   rowClass: { fontSize: 11, lineHeight: 11 * 1.4 },
 });

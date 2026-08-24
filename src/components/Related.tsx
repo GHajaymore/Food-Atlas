@@ -24,6 +24,7 @@ import { StyleSheet, View } from 'react-native';
 import type { Related as RelatedDish } from '../domain/related';
 import { useLayout } from '../theme/layout';
 import { color, font, radius, space } from '../theme/tokens';
+import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
@@ -71,9 +72,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
             <T style={styles.reason} numberOfLines={1}>
               {reason}
             </T>
-            <Muted style={styles.badge} numberOfLines={1}>
-              {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : dish.badgeLabel}
-            </Muted>
+            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} />
           </Pressable>
         ))}
       </View>
