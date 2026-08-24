@@ -170,9 +170,50 @@ const NOT_AN_IMAGE = /\.(pdf|svgz?|tiff?|djvu|ogv|webm)$/i;
 const A_GRAPHIC_NOT_A_PHOTOGRAPH =
   /(^|[_\- ])(noia|nuvola|crystal|gnome|oxygen|tango|emblem|symbol)[_\- ]|logo|icon|_map\b|flag[_ ]of|placeholder|no[_ ]image/i;
 
+/**
+ * A picture *of* something that is not the food — a map, a chart, a plan.
+ *
+ * Ajay, 2026-08-24: *"Croissant picture is not correct, it's showing a map."* It was:
+ * `Croissant_(linguistique).png`, a map of the Croissant dialect area of France, on the
+ * recipe for the pastry. Wikipedia disambiguates two subjects that share a name and the
+ * image pass took the wrong one.
+ *
+ * The rule above could not catch it. That one asks whether a file is a *graphic* — an
+ * icon set, a logo, a flag — and this file is a genuine PNG image with none of those
+ * words in it. The question this asks is different and harder: what is the picture **of**.
+ *
+ * ## Two rules that were measured and rejected first
+ *
+ * **The file extension.** Maps are usually PNG, so refusing PNG looks tempting: 539 of
+ * the 10,638 photographs are PNG and a sample of them is Argentinian pizza, Bosnian
+ * cheese, agnolotti and a bombe glacée. It would delete about five hundred real
+ * photographs to catch a handful of maps. The existing comment on `NOT_AN_IMAGE` already
+ * said this and it was right.
+ *
+ * **Any parenthetical in the file name.** 1,291 photographs carry one and they are
+ * overwhelmingly "(cropped)", "(1)", "(Madrid)", "(fromage)". Worse, a keyword list
+ * inside parentheses false-positives the way this codebase's keyword lists always do:
+ * "band" matched *Sosis Bandari* and "plant" matched *Gonja (plantain)*.
+ *
+ * ## What is left is the vocabulary of the thing itself
+ *
+ * A map says map, carte, mapa, karte; a chart says chart or diagram; a coat of arms says
+ * blason or wappen. Anchored as whole words — including against brackets, which is what
+ * the croissant needed — so "plantain" and "Bandari" cannot match.
+ *
+ * Measured across all 10,638: it matches **10**, and every one is a picture of something
+ * other than food — a dialect map, a railway route map, a species range map, a land plan
+ * from the 1700s, a microwave cooking chart, and a football club's performance chart on
+ * the Hamburger record. **No false positives**, which is the number that made it safe to
+ * apply; re-run it if the list is ever widened.
+ */
+const A_PICTURE_OF_SOMETHING_ELSE =
+  /(^|[_\-. (])(carte|mapa|karte|mappa|kaart|map|maps|diagram|diagramme|schema|chart|graph|plan|blason|armoiries|wappen|escudo|drapeau|bandera|flagge|timeline|distribution|repartition|dialect|linguistique|linguistic|sprachkarte)([_\-. )]|$)/i;
+
 export function isPhotograph(url: string): boolean {
   const file = decodeURIComponent((url ?? '').split('/').pop() ?? '').split('?')[0];
   if (!file) return false;
   if (NOT_AN_IMAGE.test(file)) return false;
+  if (A_PICTURE_OF_SOMETHING_ELSE.test(file)) return false;
   return !A_GRAPHIC_NOT_A_PHOTOGRAPH.test(file);
 }

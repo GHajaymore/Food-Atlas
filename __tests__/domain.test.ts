@@ -2819,3 +2819,32 @@ describe('what a record still needs, stated exactly', () => {
     expect(confirmStanding('Kerala', 5, 3)).toContain('the number the badge requires');
   });
 });
+
+/*
+ * A picture of a map is not a picture of a croissant.
+ *
+ * Both directions are pinned because the rule keys off vocabulary in a file name, and
+ * every keyword rule in this codebase has at some point deleted real content: "band"
+ * once matched Sosis Bandari and "plant" matched a plantain. The keeps below are the
+ * exact names that caught earlier drafts out.
+ */
+describe('a photograph has to be of the food', () => {
+  it('refuses a map, a chart or a plan whatever the language calls it', () => {
+    // The reported case: a map of the Croissant dialect area, on the pastry.
+    expect(isPhotograph('https://x/960px-Croissant_(linguistique).png')).toBe(false);
+    expect(isPhotograph('https://x/Tamil_distribution.png')).toBe(false);
+    expect(isPhotograph('https://x/Azerbaijan_1995_CIA_map.jpg')).toBe(false);
+    expect(isPhotograph('https://x/Hamburger_SV_Performance_Chart.png')).toBe(false);
+    expect(isPhotograph('https://x/Microwave_Rice_Cooking_Chart_Pure_Basmati.PNG')).toBe(false);
+    expect(isPhotograph('https://x/Plan_des_Bois_de_Tourtou.jpg')).toBe(false);
+  });
+
+  it('keeps a food whose name merely contains one of those words', () => {
+    expect(isPhotograph('https://x/Persian_Port_Sausage_(Sosis_Bandari).jpg')).toBe(true);
+    expect(isPhotograph('https://x/Gonja_plant_(plantain).jpg')).toBe(true);
+    expect(isPhotograph('https://x/Bole_Food_with_sauce_(roasted_plantain).jpg')).toBe(true);
+    // A PNG is not evidence of a diagram: 539 real food photographs are PNGs.
+    expect(isPhotograph('https://x/Pizzas Buenos Aires.png')).toBe(true);
+    expect(isPhotograph('https://x/Agnolotti single.png')).toBe(true);
+  });
+});

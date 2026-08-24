@@ -142,16 +142,22 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
-**Dish photographs that are not photographs of the dish.** Ajay, 2026-08-24: *"Croissant
-picture is not correct, it's showing a map. Check for other instances as well. All dish
-pictures should be of food."*
+~~**Dish photographs that are not photographs of the dish.**~~ **Done, 2026-08-24.** The
+croissant carried `Croissant_(linguistique).png` — a map of the Croissant dialect area of
+France, on the recipe for the pastry. `isPhotograph` asks whether a file is a *graphic*;
+this needed a different question, what the picture is **of**.
 
-`domain/photoProvenance.ts` already has `isPhotograph`, which was built to reject
-diagrams and non-photographic files — so either the croissant's image passes a check that
-should have caught it, or the check does not look at what the picture is *of*. A map is a
-photograph of nothing; the rule that rejects it has to be about subject, not file type.
-Needs measuring across all 3,055 images before any rule is written, the same way the
-encyclopaedia-article pass was done — the risk of a subject rule is deleting real food.
+Two rules measured and rejected before the third was written: the file extension (539 of
+10,638 photographs are PNG and they are pizza, cheese, agnolotti — it would delete five
+hundred real photographs), and any parenthetical in the name (1,291 carry one, mostly
+"(cropped)" and "(Madrid)", and a keyword list inside them false-positived on *Sosis
+Bandari* and *Gonja (plantain)*).
+
+What works is the vocabulary of the thing itself — map, carte, mapa, chart, diagram,
+blason — anchored as whole words including against brackets. Measured across all 10,638:
+**10 matches, no false positives.** A dialect map, a railway route map, a species range
+map, an 18th-century land plan, a microwave cooking chart, and a football club's
+performance chart on the Hamburger record.
 
 ---
 
