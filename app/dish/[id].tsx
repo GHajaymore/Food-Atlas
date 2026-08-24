@@ -246,11 +246,24 @@ export default function DishDetail() {
        * village would land on a page holding one record: true, and useless.
        */}
       <View style={styles.breadcrumb}>
-        {dish.breadcrumb.map((part, i) => (
+        {dish.breadcrumb.map((part, i) => {
+          /*
+           * The announcement names where the link goes, not what it says.
+           *
+           * Found by walking the navigation rather than reading it: "Kozhikode"
+           * announced itself as *"Everything from Kozhikode"* and landed on a page
+           * headed "Kerala, India", because a town narrows to its region for the reason
+           * above. The destination is right and the promise was not — and on the one
+           * page whose whole argument is that its claims can be checked, a link that
+           * says one thing and does another is the worst available small bug.
+           */
+          const opensAt = i === 0 ? part : dish.loc.region || part;
+
+          return (
           <Muted key={part} style={styles.breadcrumbText}>
             <FacetLink
               label={part}
-              describedAs={`Everything from ${part}`}
+              describedAs={`Everything from ${opensAt}`}
               query={
                 i === 0
                   ? { country: part }
@@ -259,7 +272,8 @@ export default function DishDetail() {
             />
             {i < dish.breadcrumb.length - 1 ? ' › ' : ''}
           </Muted>
-        ))}
+          );
+        })}
       </View>
 
       {/* A record with several documented origins still has to be filed under one

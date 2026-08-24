@@ -195,9 +195,40 @@ a form is one job with related parts.
 anything in the other half — the six dimensions as a figure, or the score ladder, beside
 the prose that explains them.
 
-**Still to do in this audit:** walk every navigation path and exercise every flow. The
-flows that need a backend — propose, confirm, admin writes — can only be walked as far as
-the request, which is why the deploy matters for finishing this.
+### Navigation and flows, walked 2026-08-24
+
+Every path clicked as a reader would, and the destination read off the page rather than
+off the code.
+
+**Navigation — all correct.** Six header links, eight footer links, each landing on its
+route and `back` returning to where it started. Record facets: Kerala → 40 records,
+the classification badge → Authentic Only, 46; Vegan → 2; Snack → 4; Cashews → 4.
+
+**Flows — all work.** Atlas → Ghana → the feed filtered to Ghana, 11 recorded. Feed →
+place control → picker → Japan → back to the feed, 70 recorded. Search "halwa" → 14
+matches → open a record → **back preserves the query and the results**. Pantry "chicken"
+→ 60 traditions, most of your list first. Propose with empty fields → *"Still needed: the
+dish's name, the country, your name and your connection to the place."* Typing "kozhikode
+halwa" in lower case → the duplicate warning offers the existing record. Admin without a
+token → "No administrator token." on both the queue and the save; no crash, no silence.
+
+**One defect, fixed.** The breadcrumb's deepest step announced *"Everything from
+Kozhikode"* and landed on a page headed "Kerala, India". The destination is deliberate —
+a town narrows to its region, because a village page would hold one record — but the
+promise was not. Now announces where it goes.
+
+**One thing that is not a bug and reads like one.** The language selector works and
+**the result looks broken**: on `/search` it correctly shows "Buscar" and a Spanish
+placeholder beside "Find a dish", "Cook with what I have" and "DIETARY PREFERENCE" still
+in English, and on the front page nothing visible changes at all. That is the known
+half-finished extraction — `useCopy` is wired into NavRow, the feed and search, and
+nothing else. **A screen showing two languages at once is worse than one showing the
+wrong language**, because the first reads as a fault and the second reads as a limit. It
+should be finished or the selector should be hidden until it is; it should not ship as it
+stands.
+
+**Not walkable without the backend:** actually submitting a proposal, actually confirming
+one, and any admin write. Each can be driven as far as the request and no further.
 ## Next up (previously)
 
 **User logins.** Ajay: *"if allowing user logins is helpful and may add more value, then
