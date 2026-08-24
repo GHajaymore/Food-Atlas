@@ -9,7 +9,14 @@
 
 import { catalogue } from './catalogue';
 import { dishes } from '../src/data/seed';
-import { CLASSIFICATIONS, FILTERS, isAuthentic, VALIDATIONS_REQUIRED, viewsNumber } from '../src/domain/authenticity';
+import {
+  CLASSIFICATIONS,
+  FILTERS,
+  filterKeyFor,
+  isAuthentic,
+  VALIDATIONS_REQUIRED,
+  viewsNumber,
+} from '../src/domain/authenticity';
 import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
 import { dietLabel, traceLabels } from '../src/domain/diet';
@@ -383,6 +390,25 @@ describe('classification vocabulary', () => {
 
   it('defaults discovery to Authentic Only', () => {
     expect(FILTERS[0].key).toBe('authentic');
+  });
+
+  /*
+   * The classification badge on a record links to the filter that shows its peers, and
+   * the failure mode is silent: a level with no matching filter would send a reader
+   * from a badge that is plainly true to a list containing nothing. So every level must
+   * name a filter that exists, and the two authentic levels must share one — FILTERS
+   * offers "Authentic Only", not a chip per level.
+   */
+  it('sends every classification to a filter that exists', () => {
+    const keys = new Set(FILTERS.map((f) => f.key));
+
+    for (const level of Object.keys(CLASSIFICATIONS) as (keyof typeof CLASSIFICATIONS)[]) {
+      expect(keys).toContain(filterKeyFor(level));
+    }
+
+    expect(filterKeyFor('local')).toBe('authentic');
+    expect(filterKeyFor('regional')).toBe('authentic');
+    expect(filterKeyFor('fusion')).toBe('fusion');
   });
 });
 

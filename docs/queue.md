@@ -176,9 +176,22 @@ everything on it leads somewhere, not when more is added to it.
 
 The rest, in the order it is worth doing:
 
-- **Linkable facets everywhere** — record page first, then cards, then breadcrumbs.
-  Needs routes that accept a filter in the URL, which is also what makes a filtered view
-  shareable and, later, indexable.
+- **Linkable facets — the record page is done, cards and breadcrumbs are not.** The
+  breadcrumb, every ingredient and now **the classification badge** all open the list
+  they belong to; the badge was the last fact on the record that led nowhere, and it is
+  the product's central claim. `filterKeyFor` maps a level to a filter and is tested,
+  because the failure mode is silent — a level with no matching filter sends a reader
+  from a badge that is plainly true to an empty list.
+
+  Two things left, and both need a decision rather than just typing:
+
+  - **Diet and occasion cannot be linked yet.** `feedFor` narrows by both, but
+    `BrowseQuery` does not carry them, so `/browse?diet=vegan` is not expressible.
+    Adding two fields to the parser, `describe()` and `applyBrowse` is the whole job.
+  - **Facets on cards are a genuine hazard, not an oversight.** A card is already one
+    big link to the dish; a link *inside* it means a nested pressable, and on the web a
+    tap on the country would fire both. Worth doing only with a deliberate answer to
+    that — most likely a place link outside the card's tap area rather than inside it.
 - ~~**A record page that is two columns on desktop**~~ and ~~**search with its filters in
   a sidebar**~~ — **both already done**, by `RecordColumns` and `SearchColumns`. Verified
   in the browser at 1440 rather than assumed: search renders facets left and results

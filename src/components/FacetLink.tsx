@@ -24,6 +24,7 @@ import { StyleSheet } from 'react-native';
 import { hrefFor, type BrowseQuery } from '../domain/browse';
 import { accentText, color, font, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
+import { Tag } from './Tag';
 import { T } from './Text';
 
 interface Props {
@@ -37,8 +38,13 @@ interface Props {
    * Inline is for a fact inside a sentence — a country under a dish name. A chip is for
    * a list of peers, like ingredients, where the boundary between one and the next has
    * to be visible.
+   *
+   * `tag` keeps the appearance of the badge it replaces. The classification tag on a
+   * record had to become a link without becoming a different object: it is the single
+   * most meaningful thing on the page, and restyling it as a chip would have made the
+   * product's central claim look like a filter control.
    */
-  variant?: 'chip' | 'inline';
+  variant?: 'chip' | 'inline' | 'tag';
   /** Announced instead of the label, where the label alone would be ambiguous. */
   describedAs?: string;
 }
@@ -54,7 +60,11 @@ export function FacetLink({ label, query, variant = 'inline', describedAs }: Pro
       onPress={() => router.push(hrefFor(query))}
       style={variant === 'chip' ? styles.chip : styles.inline}
     >
-      <T style={variant === 'chip' ? styles.chipLabel : styles.inlineLabel}>{label}</T>
+      {variant === 'tag' ? (
+        <Tag label={label} variant="neutral" />
+      ) : (
+        <T style={variant === 'chip' ? styles.chipLabel : styles.inlineLabel}>{label}</T>
+      )}
     </Pressable>
   );
 }

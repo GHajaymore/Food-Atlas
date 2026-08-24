@@ -20,6 +20,7 @@ import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
 import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
+import { filterKeyFor } from '../../src/domain/authenticity';
 import { LanguageBar } from '../../src/components/LanguageBar';
 import { RecordColumns } from '../../src/components/RecordColumns';
 import { Related } from '../../src/components/Related';
@@ -189,7 +190,21 @@ export default function DishDetail() {
       ) : null}
 
       <View style={styles.badges}>
-        <Tag label={`${dish.badgeIcon} ${dish.badgeLabelFull}`} variant="neutral" />
+        {/*
+         * The classification is a link, and it is arguably the most useful one here.
+         *
+         * A reader who has just been told this dish is "Authentic — Local" and wants to
+         * know what else earned that had no way to ask: the badge is the product's
+         * central claim and it was the one fact on the record that led nowhere. The
+         * remaining tags stay inert on purpose — "Photo origin unverified" and "At-Risk
+         * Tradition" are statements about *this* record, not categories to browse.
+         */}
+        <FacetLink
+          variant="tag"
+          label={`${dish.badgeIcon} ${dish.badgeLabelFull}`}
+          describedAs={`Everything classified ${dish.badgeLabel}`}
+          query={{ level: filterKeyFor(dish.badgeLevel) }}
+        />
         {dish.photo && !dish.photoVerified ? (
           <Tag label="Photo origin unverified" variant="outline" style={styles.unverified} />
         ) : null}

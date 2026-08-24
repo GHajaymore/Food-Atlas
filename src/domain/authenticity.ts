@@ -46,6 +46,36 @@ export const FILTERS: readonly { key: FilterKey; label: string; test: (d: Dish) 
   { key: 'all', label: 'All', test: () => true },
 ];
 
+/**
+ * Which browse filter shows everything classified like this record.
+ *
+ * Not an identity mapping, and that is the whole reason it exists: `local` and
+ * `regional` are two *levels* and one *filter*. `FILTERS` deliberately offers
+ * "Authentic Only" rather than a chip each, because the distinction a reader is making
+ * at that moment is authenticated or not — where the confirmations came from is a
+ * question about one record, not a way to browse.
+ *
+ * So a badge reading "Authentic — Local" has to link to `authentic`. Linking it to a
+ * `local` filter that does not exist would give an empty list from a badge that is
+ * plainly true, which is the worst possible answer for the one link on the page whose
+ * job is to prove the classification means something.
+ *
+ * Written as an exhaustive map rather than `isAuthentic(level) ? 'authentic' : level`,
+ * which does not compile — `Level` and `FilterKey` are different vocabularies and the
+ * compiler is right to say so. The map makes that explicit and means a new level cannot
+ * be added without deciding where it browses to.
+ */
+const FILTER_FOR: Record<Level, FilterKey> = {
+  local: 'authentic',
+  regional: 'authentic',
+  variation: 'variation',
+  adaptation: 'adaptation',
+  fusion: 'fusion',
+  unverified: 'unverified',
+};
+
+export const filterKeyFor = (level: Level): FilterKey => FILTER_FOR[level];
+
 export const filterDef = (key: FilterKey) => {
   const found = FILTERS.find((f) => f.key === key);
   if (!found) throw new Error(`Unknown filter: ${key}`);
