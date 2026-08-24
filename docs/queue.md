@@ -285,9 +285,15 @@ the same as the symptom:
   block, then a disclosure, then a place selector, then five filter chips, then a diet
   row — a reader meets six rows of chrome before a photograph. On a phone that reads as
   a document rather than an app.
-- **Nothing moves.** There are no transitions, no press animation beyond a tint, no
-  skeletons while the catalogue loads — just a spinner and then everything at once.
-  `Stack` is on the platform default and no screen animates its own content.
+- ~~**Nothing moves.**~~ **Mostly done, 2026-08-23.** The cause was that the only animation
+  in the app was three `LayoutAnimation` calls, and `LayoutAnimation` is a no-op on
+  react-native-web — so the deployed site had literally none. Now, all in CSS guarded by
+  `prefers-reduced-motion: no-preference` and with no new dependency: a press response,
+  the disclosure caret turning, rails rising in on arrival, the skeleton's pulse, and
+  photographs fading up as they land rather than popping in.
+
+  **Still open:** the disclosure *body* appears instantly, because `LayoutAnimation`
+  cannot expand it on web and doing it properly needs a measured height.
 - **Photographs are small and secondary.** Cards are 132px thumbnails beside text. The
   atlas has 3,055 photographs and shows them at the size of a favicon.
 - ~~**The 14.7 MB wait is unmasked.**~~ **Done, 2026-08-23,** in two halves. `FeedSkeleton`

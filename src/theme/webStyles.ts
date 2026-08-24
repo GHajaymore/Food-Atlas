@@ -85,8 +85,11 @@ body { margin: 0; overscroll-behavior: none; }
    * interpolate from an absent transform, so leaving the closed state unset gives a jump
    * in one direction and a glide in the other.
    */
-  [data-motion="caret"] { transition: transform 180ms ease; transform: rotate(0deg); }
-  [data-motion="caret"][data-open="true"] { transform: rotate(180deg); }
+  /* The rotation itself is an ordinary React Native transform, so it works on both
+     platforms and this only has to say how long it should take. A companion rule setting
+     the rotated state in CSS was removed: the inline style wins on specificity anyway, so
+     it was a selector that could never take effect. */
+  [data-motion="caret"] { transition: transform 180ms ease; }
 
   /*
    * Photographs fade up as they arrive. The fade is on an overlay above the image, never
