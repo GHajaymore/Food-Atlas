@@ -10,7 +10,7 @@
  * doorway rather than a dead end.
  */
 
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
 import type { Shelf as ShelfData } from '../domain/shelves';
 import { accentText, color, font, radius, space } from '../theme/tokens';
@@ -21,12 +21,14 @@ import { H6, Muted, T } from './Text';
 
 interface Props {
   shelf: ShelfData;
+  /** 1-based position, for the staggered entrance. Web only; inert on native. */
+  enter?: number;
   onOpenDish: (id: number) => void;
   /** Opens the whole shelf as a filtered list. */
   onOpenAll: (shelf: ShelfData) => void;
 }
 
-export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
+export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
   const remaining = shelf.total - shelf.dishes.length;
   const layout = useLayout();
 
@@ -36,7 +38,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
    * thumbnails rather than a grid of dishes, which is most of what made the wide
    * layout still feel like a phone.
    */
-  const cardSize = layout.size === 'desktop' ? 176 : layout.size === 'tablet' ? 156 : CARD;
+  const cardSize = layout.card;
 
   /*
    * A rail on a phone, a wrapping grid on anything wider.
@@ -56,8 +58,13 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
       </ScrollView>
     );
 
+  /* Spread rather than passed: dataSet is a react-native-web extension the RN types do
+     not carry. Same resolution Photo.tsx uses for its blend. */
+  const enterProps: object =
+    Platform.OS === 'web' && enter ? { dataSet: { enter: String(Math.min(enter, 6)) } } : {};
+
   return (
-    <View style={styles.wrap}>
+    <View {...enterProps} style={styles.wrap}>
       <View style={styles.header}>
         <H6 style={styles.title}>{shelf.title}</H6>
         {/*
@@ -123,8 +130,6 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
   );
 }
 
-const CARD = 132;
-
 const styles = StyleSheet.create({
   wrap: { marginTop: 26 },
   header: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },
@@ -137,8 +142,10 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, paddingTop: 10, paddingBottom: 4 },
   /* Padding and a radius so the neutral hover tint reads as the card lighting up
      rather than as a rectangle appearing behind the text. */
-  card: { width: CARD, padding: 6, borderRadius: radius.md },
-  photo: { width: CARD, height: CARD, borderRadius: radius.md },
+  card: { padding: 6, borderRadius: radius.md },
+  /* Dimensions come from the call site, which reads layout.card. Only the shape is
+     declared here. */
+  photo: { borderRadius: radius.md },
   // Two lines’ worth of height whether the title needs one or two, so the place and
   // the score line up across a rail. "Neapolitan Pizza Margherita" wraps and its
   // neighbours do not, which left three cards with their metadata at three heights.
@@ -154,8 +161,6 @@ const styles = StyleSheet.create({
 
   // The doorway at the end of the rail.
   more: {
-    width: CARD,
-    height: CARD,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: color.accent,

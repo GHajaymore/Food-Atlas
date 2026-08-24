@@ -53,6 +53,23 @@ export const SHELL = { phone: 430, tablet: 860, desktop: 1240 } as const;
 /** Columns a card grid should use, per size. */
 export const COLUMNS = { phone: 1, tablet: 2, desktop: 3 } as const;
 
+/**
+ * How wide a dish card is, per size.
+ *
+ * One number, because it was two and they could drift: `Shelf` declared its own and
+ * `app/index.tsx` hard-coded 132 for the popularity rail, so changing a card meant
+ * remembering an unrelated file or leaving one rail visibly out of step with the others.
+ *
+ * The phone value rises from 132 to 152. At 375 wide with 20px page padding,
+ * 152 + 10 + 152 = 314 leaves about twenty pixels of a third card showing — enough to
+ * say the row scrolls, while giving each photograph 45% of the screen instead of 35%.
+ * The atlas holds 3,055 photographs and was showing them at roughly the size of a
+ * favicon.
+ *
+ * Tablet and desktop keep exactly what they had, so the desktop pass cannot move.
+ */
+export const CARD_WIDTH = { phone: 152, tablet: 156, desktop: 176 } as const;
+
 export function sizeFor(width: number): Size {
   if (width >= BREAKPOINT.desktop) return 'desktop';
   if (width >= BREAKPOINT.tablet) return 'tablet';
@@ -69,6 +86,8 @@ export interface Layout {
   readable: number;
   /** Columns for a card grid. */
   columns: number;
+  /** Width of a dish card at this size. */
+  card: number;
   width: number;
 }
 
@@ -88,6 +107,7 @@ export function useLayout(): Layout {
     shell: SHELL[size],
     readable: size === 'phone' ? SHELL.phone : READABLE,
     columns: COLUMNS[size],
+    card: CARD_WIDTH[size],
     width,
   };
 }

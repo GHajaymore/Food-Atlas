@@ -131,7 +131,7 @@ export default function Feed() {
     ...dietKinds.map((k) => KIND_LABELS[k].toLowerCase()),
   ];
 
-  const { wide } = useLayout();
+  const { wide, card: layoutCard } = useLayout();
 
   // What the collapsed Refine row says, so an active constraint stays visible even
   // when its controls are folded away.
@@ -249,9 +249,12 @@ export default function Feed() {
           diet — the list is what they want, and it takes over. */}
       {isBrowsing ? (
         <>
-          {shelves.map((shelf) => (
+          {shelves.map((shelf, i) => (
             <Shelf
               key={shelf.id}
+              /* Staggers the rails in as the page assembles. Capped in CSS at six steps —
+                 past that a reader is waiting for the page to finish arriving. */
+              enter={i + 1}
               shelf={shelf}
               onOpenDish={(id) => router.push(`/dish/${id}`)}
               onOpenAll={(s) => setShelfView(s.id)}
@@ -380,13 +383,13 @@ export default function Feed() {
               accessibilityRole="button"
               tint="none"
               onPress={() => router.push(`/dish/${dish.id}`)}
-              style={styles.popularCard}
+              style={{ ...styles.popularCard, width: layoutCard }}
             >
               <Photo
                 uri={dish.photo}
                 credit={dish.credit}
                 label={dish.name}
-                style={styles.popularPhoto}
+                style={{ ...styles.popularPhoto, width: layoutCard, height: layoutCard }}
               />
               <T style={styles.popularName}>{dish.name}</T>
               <Muted style={styles.popularClass}>
@@ -468,8 +471,11 @@ const styles = StyleSheet.create({
   popularHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },
   byViews: { fontSize: 10 },
   popularRail: { gap: 10, paddingTop: 10, paddingBottom: 4, paddingRight: space[3] },
-  popularCard: { width: 132 },
-  popularPhoto: { width: 132, height: 132, borderRadius: radius.md },
+  /* Width comes from layout.card at the call site — this rail used to hard-code 132
+     while Shelf declared its own, so the two could drift and one rail would sit visibly
+     out of step with the rest of the page. */
+  popularCard: {},
+  popularPhoto: { borderRadius: radius.md },
   popularName: { fontFamily: 'Inter_500Medium', fontSize: 12, lineHeight: 12 * 1.3, marginTop: 6 },
   popularClass: { fontSize: 11 },
   popularViews: { fontSize: 10 },
