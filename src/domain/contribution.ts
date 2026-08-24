@@ -73,8 +73,18 @@ export const canContribute = (): boolean => CONTRIBUTION_FORM.length > 0;
  * to do. Ingredients and a photograph are wanted and not required: somebody who knows
  * where a food is from and that nobody has written it down has already told us
  * something no source here holds.
+ *
+ * Written as a map of field to the words the form puts on the box, with the list derived
+ * from its keys — see the same note on `REQUIRED_LABELS` in `proposals.ts`. A field
+ * cannot become required without somebody deciding what to call it.
  */
-export const REQUIRED: (keyof Contribution)[] = ['dish', 'place', 'connection'];
+export const REQUIRED_LABELS = {
+  dish: 'the dish',
+  place: 'where it is from',
+  connection: 'your connection to the place',
+} satisfies Partial<Record<keyof Contribution, string>>;
+
+export const REQUIRED = Object.keys(REQUIRED_LABELS) as (keyof typeof REQUIRED_LABELS)[];
 
 export function missingFrom(entry: Contribution): (keyof Contribution)[] {
   return REQUIRED.filter((field) => !entry[field]?.trim());

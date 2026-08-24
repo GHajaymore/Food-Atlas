@@ -42,10 +42,11 @@ import {
   PROPOSAL_CONFIRMATIONS,
   canPropose,
   missingFrom,
+  REQUIRED_LABELS,
   possibleDuplicates,
   type Proposal,
 } from '../src/domain/proposals';
-import { tidyCountry, tidyLines, tidyName, tidyPlace, tidyText } from '../src/domain/entry';
+import { stillNeeded, tidyCountry, tidyLines, tidyName, tidyPlace, tidyText } from '../src/domain/entry';
 import { color, font, space } from '../src/theme/tokens';
 
 /** Split a textarea into lines, dropping the blanks people leave while typing. */
@@ -248,7 +249,7 @@ export default function Propose() {
             if (busy) return;
             const missing = missingFrom(entry());
             if (missing.length) {
-              setError(`Still needed: ${missing.join(', ')}.`);
+              setError(stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS])));
               return;
             }
             setError('');

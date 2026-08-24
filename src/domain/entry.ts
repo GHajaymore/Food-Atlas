@@ -98,6 +98,36 @@ export const tidyLines = (raw: string): string[] =>
     .filter(Boolean);
 
 /**
+ * What is still missing, in the words the form used for it.
+ *
+ * All three forms wrote `Still needed: ${missing.join(', ')}` over a list of **field
+ * keys**, so a reader who left the last box empty was told *"Still needed: said."* — a
+ * database column they have never seen. `/propose` was worse in a quieter way: it asked
+ * for **submitter** while the box above it was labelled "Your name", so the error named
+ * a field the form did not.
+ *
+ * Keeping the labels beside `REQUIRED` in each domain module rather than in the screens
+ * is what stops that happening again: a field cannot become required without someone
+ * writing down what to call it.
+ *
+ * The conjunction is worth the four lines. "name, connection" reads as a machine listing
+ * columns; "your name and your connection to the place" reads as a sentence, and this is
+ * the one moment in the app where a contributor has been stopped and is being asked to
+ * do more work.
+ */
+export function stillNeeded(labels: string[]): string {
+  const wanted = labels.filter(Boolean);
+  if (!wanted.length) return '';
+
+  const listed =
+    wanted.length === 1
+      ? wanted[0]
+      : `${wanted.slice(0, -1).join(', ')} and ${wanted[wanted.length - 1]}`;
+
+  return `Still needed: ${listed}.`;
+}
+
+/**
  * A bullet, or a number that is numbering the list — and nothing else.
  *
  * The version this replaces was `/^[-*•\d.)\s]+/`, a character class, which ate **every**

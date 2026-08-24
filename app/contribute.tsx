@@ -33,12 +33,13 @@ import {
   canContribute,
   contributionUrl,
   missingFrom,
+  REQUIRED_LABELS,
   WALKTHROUGH_NOTE,
   type Contribution,
 } from '../src/domain/contribution';
 import { EDITORIAL_RULE } from '../src/domain/editorial';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
-import { tidyText } from '../src/domain/entry';
+import { stillNeeded, tidyText } from '../src/domain/entry';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
@@ -366,7 +367,8 @@ export default function Contribute() {
               <CardKicker>Now send yours</CardKicker>
               <CardBody>
                 {missing.length
-                  ? `Still needed: ${missing.join(', ')}. Everything else is welcome and none of it is required — ` +
+                  ? `${stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS]))} ` +
+                    `Everything else is welcome and none of it is required — ` +
                     `knowing where a food is from and that nobody has written it down is already more than any ` +
                     `source here holds.`
                   : `It opens the form at its source with what you have written already filled in. Nothing about ` +

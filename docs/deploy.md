@@ -104,6 +104,34 @@ rather than after it.
 
 ---
 
+## A trap when you set any `EXPO_PUBLIC_*` variable
+
+**Metro caches the inlined value, so changing one and rebuilding can silently do
+nothing.** Found the hard way while testing the contribution form locally: setting
+`EXPO_PUBLIC_CONTRIBUTION_FORM_URL` and running `npm run build` produced a bundle that
+did not contain the URL at all, three times — first passing it on the command line, then
+in `.env.local`, then in `.env`. The app went on saying submissions were not open, which
+is exactly what it says when the variable is unset, so there was nothing to suggest the
+build had ignored it.
+
+```bash
+npx expo export --platform web --output-dir dist --clear && node scripts/inject-preload.mjs
+```
+
+`--clear` is the difference. Verify rather than trust it — the value is inlined as a
+plain string, so it is greppable:
+
+```bash
+grep -c "your-collective-slug" dist/_expo/static/js/web/*.js
+```
+
+A hosted build on Cloudflare Pages starts from a clean container and does not hit this.
+It matters when checking locally that a variable did what you expected, and the failure
+mode is the worst kind: the feature stays switched off and the app's honest "not open
+yet" message makes it look intentional.
+
+---
+
 ## What is not yet set up
 
 **A custom domain.** Both hosts give a free subdomain; a real one is the only part

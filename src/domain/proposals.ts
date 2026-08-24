@@ -151,8 +151,24 @@ export const PROPOSAL_CONFIRMATIONS = VALIDATIONS_REQUIRED;
  * Ingredients, method and photograph are wanted and not required. Somebody who knows a
  * dish exists and where it is from has already told us something no source here holds,
  * and demanding a full recipe up front loses exactly the people worth hearing from.
+ *
+ * ## The list is the labels
+ *
+ * Written as a map of field to the words the form puts on the box, with `REQUIRED`
+ * derived from its keys — rather than a list of keys and a separate map beside it, which
+ * is two things that can disagree. They already had: `/propose` labelled a box "Your
+ * name", stored it as `submitter`, and told anybody who left it empty *"Still needed:
+ * submitter."* Deriving one from the other means a field cannot become required without
+ * somebody deciding what to call it.
  */
-export const REQUIRED: (keyof Proposal)[] = ['name', 'country', 'submitter', 'connection'];
+export const REQUIRED_LABELS = {
+  name: 'the dish’s name',
+  country: 'the country',
+  submitter: 'your name',
+  connection: 'your connection to the place',
+} satisfies Partial<Record<keyof Proposal, string>>;
+
+export const REQUIRED = Object.keys(REQUIRED_LABELS) as (keyof typeof REQUIRED_LABELS)[];
 
 export const missingFrom = (p: Partial<Proposal>): (keyof Proposal)[] =>
   REQUIRED.filter((field) => !String(p[field] ?? '').trim());

@@ -42,7 +42,7 @@ import { Button } from './Button';
 import { Block } from './Card';
 import { Field, Input } from './Field';
 import { Pressable } from './Pressable';
-import { tidyName, tidyText } from '../domain/entry';
+import { stillNeeded, tidyName, tidyText } from '../domain/entry';
 import { Muted, T } from './Text';
 
 export interface Said {
@@ -53,6 +53,19 @@ export interface Said {
 }
 
 const EMPTY: Said = { name: '', connection: '', said: '', local: false };
+
+/**
+ * The words this form puts on each box, for when one is left empty.
+ *
+ * It used to report the field keys — *"Still needed: name, connection, said."* — and
+ * `said` is a database column nobody has ever seen on screen. Same fault and same fix as
+ * `REQUIRED_LABELS` in `domain/proposals.ts`.
+ */
+const REQUIRED_LABELS = {
+  name: 'your name',
+  connection: 'your connection to the place',
+  said: 'what you can confirm',
+} satisfies Partial<Record<keyof Said, string>>;
 
 export function ConfirmForm({
   /** What is being confirmed, named in the prompt so the act is never ambiguous. */
@@ -76,7 +89,9 @@ export function ConfirmForm({
   const set = <K extends keyof Said>(key: K, value: Said[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const missing = (['name', 'connection', 'said'] as const).filter((k) => !form[k].trim());
+  const missing = (Object.keys(REQUIRED_LABELS) as (keyof typeof REQUIRED_LABELS)[]).filter(
+    (k) => !form[k].trim(),
+  );
 
   if (done) {
     return (
@@ -189,7 +204,7 @@ export function ConfirmForm({
         onPress={async () => {
           if (busy) return;
           if (missing.length) {
-            setError(`Still needed: ${missing.join(', ')}.`);
+            setError(stillNeeded(missing.map((k) => REQUIRED_LABELS[k])));
             return;
           }
           setError('');
