@@ -119,19 +119,24 @@ visitor has no idea that the scale is the product.
 
 **Concretely, for the design pass:**
 
-- The **badge and score belong on the card**, at a size that reads as the point, not as
-  metadata. A grid where every tile carries "⚪ 12/100" and "🟢 58/100" *is* the
-  differentiator, visible before anybody clicks.
+- ~~The **badge and score belong on the card**~~ **Done, 2026-08-24.** `EvidenceBadge` on
+  every density — rails, rows and the full card. The full card was the last holdout,
+  printing "Authenticity 94/100" as a 12px accent sentence in the weakest position, in
+  the same register as a view count.
 - **A first-run explanation of the scale** — what the six dimensions are and why a
   document cannot pass 43 — shown once, not buried in a disclosure.
-- **The ask should be specific and near.** "3 people from Kerala can authenticate this"
-  on a record beats a general plea on the front page. `nearby.ts` already knows the
-  reader's country and `unwrittenIn()` already lists what is unrecorded there.
+- ~~**The ask should be specific and near.**~~ **Done, 2026-08-24.** A record now reads
+  "Nobody has yet. The badge requires 3, so 3 more people connected to Kozhikode would
+  meet it." It states the **necessary** condition and never the sufficient one —
+  promotion needs the score too, so "two more people will make this Authentic" would be
+  false, and tests assert the line never says "will" and never says Authentic.
 - **Show the ladder moving.** A record that gained a confirmation this week, a dish that
   reached Authentic — proof that participation does something. Requires the deployment
   before it can be real, and must never be faked.
-- **Name what this is not**, once, plainly: no ratings, no comments, no algorithm, no
-  advertising, nobody's engagement being farmed.
+- ~~**Name what this is not**~~ **Done, 2026-08-24**, on the front page. Worth knowing
+  what it does *not* say: "nothing here measures your attention" was written first and is
+  **false** — `events.ts` counts a dish opening. The shipped line is narrower and true:
+  openings are counted as a dish and a date, never as a person.
 
 ---
 
@@ -157,9 +162,23 @@ Recommended shape rather than a straight login wall:
 like an app. Need clickable from everywhere to list the filtered information, nice and
 rich content, better look and feel, user friendly."*
 
-Done so far: responsive shell, wrapping grids, a masthead, a two-column hero, larger
-cards, no duplicated wordmark. That made it *fit* a desktop. It has not yet made it
-behave like a website, and the difference is mostly one thing:
+**Status, 2026-08-24 — reconciled against the code rather than remembered.** This list
+had drifted badly enough to waste time four separate times: hover states, the two-column
+record page and search's filter sidebar were all written here as outstanding and were
+already built. Anything below is claimed only where it was checked in a browser.
+
+Done: the responsive shell, wrapping grids, a masthead, a two-column hero, larger cards,
+a two-column record page (`RecordColumns`) and search sidebar (`SearchColumns`), the Food
+Atlas as a real directory (`AtlasColumns`/`AtlasDirectory`), a two-column admin console,
+a full-width site footer on every page, the `measure` cap on the five prose and form
+screens, hover states on cards, the score on the card at the weight it deserves, and
+motion — press, caret, rails rising, photographs fading in.
+
+Verified end to end on 2026-08-24 after all of it: twelve routes at 1440 and five at 375,
+no console errors, no horizontal overflow, no missing content.
+
+Still outstanding, and the difference between fitting a desktop and behaving like a
+website is mostly one thing:
 
 **Everything shown should be a link to the list it belongs to.** This is what makes a
 reference site feel like one, and its absence is why the app still feels like an app. A
