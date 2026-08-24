@@ -28,6 +28,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
+import { CardGrid, ReadingColumns } from '../src/components/ReadingLayout';
 import { Screen } from '../src/components/Screen';
 import { H4, H5, Muted, T } from '../src/components/Text';
 import { settings } from '../src/data/settings';
@@ -78,104 +79,123 @@ export default function How() {
   const { authenticAt, validationsRequired } = settings;
 
   return (
-    <Screen measure bottomPad={50}>
+    <Screen bottomPad={50}>
       <NavRow title="How it works" />
 
-      <H4 style={styles.title}>A document cannot make a dish authentic.</H4>
-      <Muted style={styles.lead}>
-        That is the rule this atlas is built on, and it is arithmetic rather than a policy — which
-        means you can check it rather than trust it.
-      </Muted>
-
-      <H5 style={styles.head}>Six things, scored separately</H5>
-      <Muted style={styles.body}>
-        Every record is scored on the same six dimensions, and all six are printed on the record
-        itself. The score is their average, so a reader who doubts it can add up the numbers.
-      </Muted>
-
-      <View style={styles.dimensions}>
-        {DIMENSIONS.map((dimension) => (
-          <Block key={dimension.name} style={styles.dimension}>
-            <View style={styles.dimensionHead}>
-              <T style={styles.dimensionName}>{dimension.name}</T>
-              <T style={dimension.from === 'people' ? styles.fromPeople : styles.fromDocs}>
-                {dimension.from === 'people' ? 'only people' : 'documents can'}
-              </T>
-            </View>
-            <Muted style={styles.dimensionWhat}>{dimension.what}</Muted>
-          </Block>
-        ))}
-      </View>
-
-      <Card style={styles.ceiling}>
-        <CardKicker>The gap that cannot be closed by reading</CardKicker>
-        <CardBody>
-          Three of those six cannot be answered by any document ever written. No encyclopaedia knows
-          whether a method is the method of a place; no register is a person from the town. With
-          those three empty, the best a record can score on published sources alone is{' '}
-          <T style={styles.figure}>43</T>.
-        </CardBody>
-        <CardBody>
-          A record is called Authentic at <T style={styles.figure}>{authenticAt}</T>. The distance
-          between those two numbers is deliberate, and it is the entire argument: it is closable
-          only by people who know the dish.
-        </CardBody>
-      </Card>
-
-      <H5 style={styles.head}>What closes it</H5>
-      <Muted style={styles.body}>
-        {validationsRequired} confirmations from people who state their connection to the place —
-        and who say what they are confirming, not merely that they approve. Both are shown on the
-        record, because <T style={styles.inline}>“Priya, born in Kozhikode — we use ghee, not
-        oil”</T> is evidence a reader can weigh, and “3 confirmations” is a number they have to
-        trust.
-      </Muted>
-
       {/*
-       * Why accounts exist, said on the page that explains the model.
+       * The argument on the left, the two numbers it is about on the right.
        *
-       * The page described the ceiling and the threshold and never mentioned that only a
-       * signed-in confirmation counts — which is the entire reason this app has accounts
-       * at all, and the answer to Ajay's question about one person confirming twice.
+       * Every paragraph here is about the distance between the ceiling a document cannot
+       * pass and the score the badge starts at, and the reader was having to scroll back
+       * to the card that states them. See `ReadingColumns`.
        */}
-      <Muted style={styles.body}>
-        Those {validationsRequired} have to be {validationsRequired} different people, so a
-        confirmation counts toward the badge only when the person was signed in. An anonymous one
-        is still recorded and still shown on the record — what somebody knows is worth having
-        whether or not they hold an account — it simply does not move the number. Reading the
-        atlas never requires signing in.
-      </Muted>
+      <ReadingColumns
+        aside={
+          <Card style={styles.ceiling}>
+            <CardKicker>The gap that cannot be closed by reading</CardKicker>
+            <CardBody>
+              Three of those six cannot be answered by any document ever written. No encyclopaedia knows
+              whether a method is the method of a place; no register is a person from the town. With
+              those three empty, the best a record can score on published sources alone is{' '}
+              <T style={styles.figure}>43</T>.
+            </CardBody>
+            <CardBody>
+              A record is called Authentic at <T style={styles.figure}>{authenticAt}</T>. The distance
+              between those two numbers is deliberate, and it is the entire argument: it is closable
+              only by people who know the dish.
+            </CardBody>
+          </Card>
+        }
+        before={
+          <>
+            <H4 style={styles.title}>A document cannot make a dish authentic.</H4>
+            <Muted style={styles.lead}>
+              That is the rule this atlas is built on, and it is arithmetic rather than a policy — which
+              means you can check it rather than trust it.
+            </Muted>
 
-      <H5 style={styles.head}>What this is not</H5>
-      <View style={styles.nots}>
-        {[
-          'No ratings. Nobody scores a dish out of five.',
-          'No comments, and no feed. There is nothing here to engage with.',
-          'No algorithm deciding what you see. The order is evidence, and you can change it.',
-          'No advertising, and no reader is tracked.',
-          'Popularity is recorded and kept apart. The most-published version of a dish never becomes the authentic one.',
-        ].map((line) => (
-          <Muted key={line} style={styles.not}>
-            {line}
-          </Muted>
-        ))}
-      </View>
+            <H5 style={styles.head}>Six things, scored separately</H5>
+            <Muted style={styles.body}>
+              Every record is scored on the same six dimensions, and all six are printed on the record
+              itself. The score is their average, so a reader who doubts it can add up the numbers.
+            </Muted>
 
-      <Card style={styles.ask}>
-        <CardKicker>Which is where you come in</CardKicker>
-        <CardBody>
-          Most of the atlas has nobody speaking for it. If you know how a dish is made where you are
-          from, that is the one thing no source can supply and no amount of scraping can reach.
-        </CardBody>
-        <Button label="Confirm a dish you know" block onPress={() => router.push('/proposals')} />
-        <Button
-          label="Propose one the atlas is missing"
-          variant="secondary"
-          block
-          style={styles.second}
-          onPress={() => router.push('/propose')}
-        />
-      </Card>
+            <CardGrid>
+              {DIMENSIONS.map((dimension) => (
+                <Block key={dimension.name} style={styles.dimension}>
+                  <View style={styles.dimensionHead}>
+                    <T style={styles.dimensionName}>{dimension.name}</T>
+                    <T style={dimension.from === 'people' ? styles.fromPeople : styles.fromDocs}>
+                      {dimension.from === 'people' ? 'only people' : 'documents can'}
+                    </T>
+                  </View>
+                  <Muted style={styles.dimensionWhat}>{dimension.what}</Muted>
+                </Block>
+              ))}
+            </CardGrid>
+
+
+          </>
+        }
+        after={
+          <>
+            <H5 style={styles.head}>What closes it</H5>
+            <Muted style={styles.body}>
+              {validationsRequired} confirmations from people who state their connection to the place —
+              and who say what they are confirming, not merely that they approve. Both are shown on the
+              record, because <T style={styles.inline}>“Priya, born in Kozhikode — we use ghee, not
+              oil”</T> is evidence a reader can weigh, and “3 confirmations” is a number they have to
+              trust.
+            </Muted>
+
+            {/*
+             * Why accounts exist, said on the page that explains the model.
+             *
+             * The page described the ceiling and the threshold and never mentioned that only a
+             * signed-in confirmation counts — which is the entire reason this app has accounts
+             * at all, and the answer to Ajay's question about one person confirming twice.
+             */}
+            <Muted style={styles.body}>
+              Those {validationsRequired} have to be {validationsRequired} different people, so a
+              confirmation counts toward the badge only when the person was signed in. An anonymous one
+              is still recorded and still shown on the record — what somebody knows is worth having
+              whether or not they hold an account — it simply does not move the number. Reading the
+              atlas never requires signing in.
+            </Muted>
+
+            <H5 style={styles.head}>What this is not</H5>
+            <View style={styles.nots}>
+              {[
+                'No ratings. Nobody scores a dish out of five.',
+                'No comments, and no feed. There is nothing here to engage with.',
+                'No algorithm deciding what you see. The order is evidence, and you can change it.',
+                'No advertising, and no reader is tracked.',
+                'Popularity is recorded and kept apart. The most-published version of a dish never becomes the authentic one.',
+              ].map((line) => (
+                <Muted key={line} style={styles.not}>
+                  {line}
+                </Muted>
+              ))}
+            </View>
+
+            <Card style={styles.ask}>
+              <CardKicker>Which is where you come in</CardKicker>
+              <CardBody>
+                Most of the atlas has nobody speaking for it. If you know how a dish is made where you are
+                from, that is the one thing no source can supply and no amount of scraping can reach.
+              </CardBody>
+              <Button label="Confirm a dish you know" block onPress={() => router.push('/proposals')} />
+              <Button
+                label="Propose one the atlas is missing"
+                variant="secondary"
+                block
+                style={styles.second}
+                onPress={() => router.push('/propose')}
+              />
+            </Card>
+          </>
+        }
+      />
     </Screen>
   );
 }

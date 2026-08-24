@@ -31,6 +31,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
+import { FieldPair, FormColumns } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
@@ -119,156 +120,179 @@ export default function Propose() {
   }
 
   return (
-    <Screen measure>
+    <Screen>
       <NavRow title="Propose a dish" />
 
-      <Card style={styles.intro}>
-        <CardKicker>Before you start</CardKicker>
-        <CardBody>
-          This is for food the atlas does not have — usually because nobody has written it down. You do
-          not need a full recipe. A name, where it is from, and your connection to the place is enough
-          to open it for confirmation.
-        </CardBody>
-        <T style={styles.introNote}>
-          It is not published by sending it. {PROPOSAL_CONFIRMATIONS} people who know the dish confirm
-          it first, and it enters the atlas at whatever its evidence earns — the same way every other
-          record here is judged.
-        </T>
-      </Card>
+      {/*
+       * The guidance sits beside the fields on a desktop rather than on top of them.
+       *
+       * It is the right first thing to read on a phone and the wrong thing to put above
+       * eight form fields on a 1440 screen, where it pushed every one of them below the
+       * fold to say something a contributor wants *while* typing. `FormColumns` keeps the
+       * phone order exactly and only changes where it goes when there is room.
+       */}
+      <FormColumns
+        aside={
+          <>
+            <Card style={styles.intro}>
+              <CardKicker>Before you start</CardKicker>
+              <CardBody>
+                This is for food the atlas does not have — usually because nobody has written it down. You do
+                not need a full recipe. A name, where it is from, and your connection to the place is enough
+                to open it for confirmation.
+              </CardBody>
+              <T style={styles.introNote}>
+                It is not published by sending it. {PROPOSAL_CONFIRMATIONS} people who know the dish confirm
+                it first, and it enters the atlas at whatever its evidence earns — the same way every other
+                record here is judged.
+              </T>
+            </Card>
+          </>
+        }
+        fields={
+          <>
+            <Field label="The dish" style={styles.field}>
+              <Input
+                value={form.name}
+                onChangeText={(v) => set('name', v)}
+                placeholder="Written the way you write it"
+                accessibilityLabel="The dish"
+              />
+            </Field>
 
-      <Field label="The dish" style={styles.field}>
-        <Input
-          value={form.name}
-          onChangeText={(v) => set('name', v)}
-          placeholder="Written the way you write it"
-          accessibilityLabel="The dish"
-        />
-      </Field>
+            {duplicates.length ? (
+              <Block style={styles.dupes}>
+                <T style={styles.dupeHead}>The atlas may already have this</T>
+                <Muted style={styles.dupeNote}>
+                  If one of these is your dish, confirming it is what moves it — that is worth more than a
+                  second record. If none of them is, carry on; two dishes can share a name.
+                </Muted>
+                {duplicates.map((dish) => (
+                  <Pressable
+                    key={dish.id}
+                    accessibilityRole="link"
+                    accessibilityLabel={`Open ${dish.name}`}
+                    tint="neutral"
+                    onPress={() => router.push(`/dish/${dish.id}`)}
+                    style={styles.dupe}
+                  >
+                    <T style={styles.dupeName}>{dish.name}</T>
+                    <Tag label={dish.loc.country || 'Unplaced'} fontSize={10} noWrap />
+                  </Pressable>
+                ))}
+              </Block>
+            ) : null}
 
-      {duplicates.length ? (
-        <Block style={styles.dupes}>
-          <T style={styles.dupeHead}>The atlas may already have this</T>
-          <Muted style={styles.dupeNote}>
-            If one of these is your dish, confirming it is what moves it — that is worth more than a
-            second record. If none of them is, carry on; two dishes can share a name.
-          </Muted>
-          {duplicates.map((dish) => (
-            <Pressable
-              key={dish.id}
-              accessibilityRole="link"
-              accessibilityLabel={`Open ${dish.name}`}
-              tint="neutral"
-              onPress={() => router.push(`/dish/${dish.id}`)}
-              style={styles.dupe}
-            >
-              <T style={styles.dupeName}>{dish.name}</T>
-              <Tag label={dish.loc.country || 'Unplaced'} fontSize={10} noWrap />
-            </Pressable>
-          ))}
-        </Block>
-      ) : null}
+            {/* One question asked twice, so one line. See `FieldPair`. */}
+            <FieldPair>
+              <Field label="Country" style={styles.field}>
+                <Input value={form.country} onChangeText={(v) => set('country', v)} accessibilityLabel="Country" />
+              </Field>
 
-      <Field label="Country" style={styles.field}>
-        <Input value={form.country} onChangeText={(v) => set('country', v)} accessibilityLabel="Country" />
-      </Field>
+              <Field label="Region, district or town" style={styles.field}>
+                <Input
+                  value={form.region}
+                  onChangeText={(v) => set('region', v)}
+                  placeholder="Often the whole point — optional"
+                  accessibilityLabel="Region, district or town"
+                />
+              </Field>
+            </FieldPair>
 
-      <Field label="Region, district or town" style={styles.field}>
-        <Input
-          value={form.region}
-          onChangeText={(v) => set('region', v)}
-          placeholder="Often the whole point — optional"
-          accessibilityLabel="Region, district or town"
-        />
-      </Field>
+            <Field label="Who makes it, and when" style={styles.field}>
+              <Input
+                value={form.cooks}
+                onChangeText={(v) => set('cooks', v)}
+                placeholder="Made at home for Eid, by the grandmothers — optional"
+                multiline
+                numberOfLines={2}
+                accessibilityLabel="Who makes it, and when"
+              />
+            </Field>
 
-      <Field label="Who makes it, and when" style={styles.field}>
-        <Input
-          value={form.cooks}
-          onChangeText={(v) => set('cooks', v)}
-          placeholder="Made at home for Eid, by the grandmothers — optional"
-          multiline
-          numberOfLines={2}
-          accessibilityLabel="Who makes it, and when"
-        />
-      </Field>
+            <Field label="Ingredients — one per line" style={styles.field}>
+              <Input
+                value={form.ingredients}
+                onChangeText={(v) => set('ingredients', v)}
+                multiline
+                numberOfLines={4}
+                placeholder={'ripe plantain\negg\nghee'}
+                accessibilityLabel="Ingredients, one per line"
+              />
+            </Field>
 
-      <Field label="Ingredients — one per line" style={styles.field}>
-        <Input
-          value={form.ingredients}
-          onChangeText={(v) => set('ingredients', v)}
-          multiline
-          numberOfLines={4}
-          placeholder={'ripe plantain\negg\nghee'}
-          accessibilityLabel="Ingredients, one per line"
-        />
-      </Field>
+            <Field label="How it is made — one step per line" style={styles.field}>
+              <Input
+                value={form.steps}
+                onChangeText={(v) => set('steps', v)}
+                multiline
+                numberOfLines={5}
+                placeholder={'Mash the plantain.\nFold through beaten egg.'}
+                accessibilityLabel="How it is made, one step per line"
+              />
+            </Field>
 
-      <Field label="How it is made — one step per line" style={styles.field}>
-        <Input
-          value={form.steps}
-          onChangeText={(v) => set('steps', v)}
-          multiline
-          numberOfLines={5}
-          placeholder={'Mash the plantain.\nFold through beaten egg.'}
-          accessibilityLabel="How it is made, one step per line"
-        />
-      </Field>
+            <View style={styles.divider} />
 
-      <View style={styles.divider} />
+            {/* A name is only evidence with the connection beside it — they are one answer. */}
+            <FieldPair>
+              <Field label="Your name" style={styles.field}>
+                <Input
+                  value={form.submitter}
+                  onChangeText={(v) => set('submitter', v)}
+                  placeholder="Shown on the proposal"
+                  accessibilityLabel="Your name"
+                />
+              </Field>
 
-      <Field label="Your name" style={styles.field}>
-        <Input
-          value={form.submitter}
-          onChangeText={(v) => set('submitter', v)}
-          placeholder="Shown on the proposal"
-          accessibilityLabel="Your name"
-        />
-      </Field>
+              <Field label="Your connection to the place" style={styles.field}>
+                <Input
+                  value={form.connection}
+                  onChangeText={(v) => set('connection', v)}
+                  placeholder="Grew up in Malabar"
+                  accessibilityLabel="Your connection to the place"
+                />
+              </Field>
+            </FieldPair>
+            <Muted style={styles.why}>
+              Required, and displayed. It is the whole difference between this and a recipe copied off the
+              internet — which the atlas already refuses to hold.
+            </Muted>
 
-      <Field label="Your connection to the place" style={styles.field}>
-        <Input
-          value={form.connection}
-          onChangeText={(v) => set('connection', v)}
-          placeholder="Grew up in Malabar"
-          accessibilityLabel="Your connection to the place"
-        />
-      </Field>
-      <Muted style={styles.why}>
-        Required, and displayed. It is the whole difference between this and a recipe copied off the
-        internet — which the atlas already refuses to hold.
-      </Muted>
+            {error ? <T style={styles.error}>{error}</T> : null}
 
-      {error ? <T style={styles.error}>{error}</T> : null}
-
-      {canPropose() ? (
-        <Button
-          label={busy ? 'Sending…' : 'Propose this dish'}
-          block
-          style={styles.cta}
-          onPress={async () => {
-            if (busy) return;
-            const missing = missingFrom(entry());
-            if (missing.length) {
-              setError(stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS])));
-              return;
-            }
-            setError('');
-            setBusy(true);
-            const result = await submitProposal(entry());
-            setBusy(false);
-            if (result.ok) setSent(true);
-            else setError(result.error);
-          }}
-        />
-      ) : (
-        <Block style={styles.closed}>
-          <T style={styles.closedHead}>Proposals are not open yet</T>
-          <Muted style={styles.dupeNote}>
-            This needs somewhere to store what people send, and that is not set up. Nothing you type here
-            would go anywhere, so the app is saying so rather than taking it.
-          </Muted>
-        </Block>
-      )}
+            {canPropose() ? (
+              <Button
+                label={busy ? 'Sending…' : 'Propose this dish'}
+                block
+                style={styles.cta}
+                onPress={async () => {
+                  if (busy) return;
+                  const missing = missingFrom(entry());
+                  if (missing.length) {
+                    setError(stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS])));
+                    return;
+                  }
+                  setError('');
+                  setBusy(true);
+                  const result = await submitProposal(entry());
+                  setBusy(false);
+                  if (result.ok) setSent(true);
+                  else setError(result.error);
+                }}
+              />
+            ) : (
+              <Block style={styles.closed}>
+                <T style={styles.closedHead}>Proposals are not open yet</T>
+                <Muted style={styles.dupeNote}>
+                  This needs somewhere to store what people send, and that is not set up. Nothing you type here
+                  would go anywhere, so the app is saying so rather than taking it.
+                </Muted>
+              </Block>
+            )}
+          </>
+        }
+      />
     </Screen>
   );
 }

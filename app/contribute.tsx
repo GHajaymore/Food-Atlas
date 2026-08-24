@@ -25,6 +25,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
+import { FieldPair } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
@@ -196,15 +197,25 @@ export default function Contribute() {
             <Muted style={styles.ruleNote}>{EDITORIAL_RULE}</Muted>
           </Block>
 
-          <Field label="Dish, in its own language if possible" style={styles.field}>
-            <Input value={entry.dish} onChangeText={set('dish')} placeholder="Kaipola" />
-          </Field>
-          <Field label="Where is it made this way?" style={styles.field}>
-            <Input value={entry.place} onChangeText={set('place')} placeholder="India › Kerala › Malabar › Kozhikode" />
-          </Field>
-          <Field label="Who prepares it" style={styles.field}>
-            <Input value={entry.cooks} onChangeText={set('cooks')} placeholder="Malabar households, made for iftar and family occasions" />
-          </Field>
+          {/* The food and the place it is made that way are one answer. See `FieldPair`. */}
+          <FieldPair>
+            <Field label="Dish, in its own language if possible" style={styles.field}>
+              <Input value={entry.dish} onChangeText={set('dish')} placeholder="Kaipola" />
+            </Field>
+            <Field label="Where is it made this way?" style={styles.field}>
+              <Input value={entry.place} onChangeText={set('place')} placeholder="India › Kerala › Malabar › Kozhikode" />
+            </Field>
+          </FieldPair>
+          {/* Who makes it, and the connection that makes the account evidence rather
+              than a recipe copied off the internet. One answer, so one line. */}
+          <FieldPair>
+            <Field label="Who prepares it" style={styles.field}>
+              <Input value={entry.cooks} onChangeText={set('cooks')} placeholder="Malabar households, made for iftar and family occasions" />
+            </Field>
+            <Field label="Your connection to the place" style={styles.field}>
+              <Input value={entry.connection} onChangeText={set('connection')} placeholder="Born and cooking in Kozhikode" />
+            </Field>
+          </FieldPair>
           <Field label="Traditional ingredients and equipment" style={styles.field}>
             <Input
               multiline
@@ -212,9 +223,6 @@ export default function Contribute() {
               onChangeText={set('ingredients')}
               placeholder="Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers"
             />
-          </Field>
-          <Field label="Your connection to the place" style={styles.field}>
-            <Input value={entry.connection} onChangeText={set('connection')} placeholder="Born and cooking in Kozhikode" />
           </Field>
 
           {/* A photograph is the one contribution the automated sources cannot make:

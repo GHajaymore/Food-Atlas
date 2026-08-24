@@ -178,9 +178,9 @@ is the more precise instrument for this particular question anyway.
 | screen | finding | verdict |
 |---|---|---|
 | `/place` | **201 full-width rows, page 9,578px tall** | **fixed** → 2,960px, three columns |
-| `/propose` | 8 fields, every one 640px, stacked, nothing side by side | phone-shaped |
-| `/contribute` | 6 fields, same | phone-shaped |
-| `/how` | 640px column, nothing beside it, 1,661px tall | correct measure, unused width |
+| `/propose` | 8 fields, every one 640px, stacked | **fixed** → pairs at 304px, guidance in a rail, 1,359→1,066px |
+| `/contribute` | 6 fields, same | **fixed** → two pairs at 314px, 1,363→1,211px |
+| `/how` | 640px column, nothing beside it | **fixed** → prose 720 + rail 320, dimensions in a grid, 1,661→1,330px |
 | `/dish/[id]` | two columns, 752px dossier lines | healthy |
 | `/proposals` | almost empty — no backend to list | blocked, cannot judge |
 | `/`, `/atlas`, `/browse`, `/search`, `/admin`, `/support` | have had a desktop pass | healthy |
