@@ -142,6 +142,95 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
+**The body prose, which is still English in every language.** Ajay, 2026-08-24: *"Some
+portion of the screens still show some sections in English when another language is
+selected."* He is right, and it is a line I drew too conservatively rather than an
+oversight.
+
+Measured with Español selected, counting blocks of visible English longer than 30
+characters:
+
+```
+  /how          21        /propose       6
+  /support      17        /proposals     5
+  /atlas        13        /search        3
+```
+
+**What was translated and what was not.** The chrome pass took headings, buttons, labels
+and placeholders — 139 keys — and deliberately left the *arguments*: "That is the rule
+this atlas is built on, and it is arithmetic rather than a policy", the coverage
+paragraph, the funding explanation. The reasoning was `copy.ts`'s rule that a loose
+translation of evidence misstates a record's standing.
+
+**On reflection that rule does not reach this text.** It protects claims about *a
+particular record* — a disclaimer, a score, "nobody has confirmed this". The paragraphs
+above are the app explaining its own model, which is the app's own words about its own
+software, and the whole interface already carries `interfaceTranslationNote` saying it
+was machine-translated and unchecked. The same disclosure covers these.
+
+**So they should be translated**, with two exceptions that keep the original rule:
+
+- Anything rendered from a **record** — disclaimers, score explanations, the confirmation
+  ask. Those come from the data layer, not from these screens.
+- The **example placeholders** made of dish names, places and ingredients.
+
+Roughly 65 blocks × 12 languages. Long prose is also where a machine translation does the
+most damage, so it is worth doing in batches with the arithmetic-bearing sentences —
+the 43 ceiling, the three confirmations — checked hardest.
+
+---
+
+## Next up (previously)
+
+**A translation provider that is free at this volume.** Ajay, 2026-08-24. Everything else
+is built and switched off behind `EXPO_PUBLIC_TRANSLATION_ENDPOINT`; this is the last
+missing piece for records and confirmations.
+
+**Recommendation: Cloudflare Workers AI, because the atlas is already deploying there.**
+Checked against Cloudflare's own pricing page, 2026-08-24:
+
+```
+  free allocation      10,000 Neurons per day, resetting 00:00 UTC
+  beyond it            $0.011 per 1,000 Neurons
+  @cf/meta/m2m100-1.2b 31,050 Neurons per million tokens, input and output
+```
+
+What that buys, at roughly 500 tokens in and 500 out for a record's prose:
+
+```
+  one record        ~31 Neurons     →  ~320 records a day, free
+  one confirmation   ~2.5 Neurons   →  ~4,000 a day, free
+```
+
+Translate-on-read and cache never needs more than that: only records somebody opens get
+translated, each is translated once, and the whole catalogue would take about eight weeks
+of ordinary reading to cover at zero cost.
+
+**The part that matters for [[wikifoodia-free-constraint]]:** stay on the Workers **Free**
+plan. With no payment method the allocation is a hard stop rather than a bill — which is
+the property this project needs, and it should be confirmed before switching on rather
+than assumed. It also fits the existing design: `translationProvider` already expects
+"your own backend route that holds the API key", and a Pages Function is exactly that, so
+no key ever reaches the bundle and no second vendor is involved.
+
+**The alternatives, for the record:**
+
+| | free allowance | why not first choice |
+|---|---|---|
+| Microsoft Translator | 2M chars/month | a second vendor and a billing account |
+| Google Cloud Translation | 500k chars/month | same, and a card on file |
+| DeepL | no renewable free tier as of 2026 — Developer is a one-off 1M chars | not a standing free tier |
+| MyMemory | 5k chars/day, 50k with an email | mixes crowdsourced memory; not for production |
+| LibreTranslate | free to self-host | a server is $20–50/month, so not free at all |
+
+**Measure this before switching anything on:** how many records carry `sourceLanguage`.
+It is what stops the app translating English into English, and if most records lack it the
+first thing a provider does is spend the allocation on no-ops.
+
+---
+
+## Next up (previously)
+
 **Reading a proposal or a record written in another language.** Ajay, 2026-08-24: *"How
 can the English or Hindi user read if someone proposed in a different language? Or the
 original recipe is in a different language."*
