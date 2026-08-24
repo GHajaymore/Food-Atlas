@@ -24,6 +24,7 @@ import { ScrollView, StyleSheet, View, type ScrollViewProps, type ViewStyle } fr
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLayout } from '../theme/layout';
 import { color, PAGE_PADDING } from '../theme/tokens';
+import { SiteFooter } from './SiteFooter';
 
 interface Props extends ScrollViewProps {
   children: React.ReactNode;
@@ -37,14 +38,25 @@ interface Props extends ScrollViewProps {
    * grid of dish cards wants the width; an argument about evidence does not.
    */
   measure?: boolean;
+  /**
+   * Suppress the site footer.
+   *
+   * For a screen that is a step in a flow rather than a page — the admin console, a form
+   * mid-submission — where offering the whole site map at the bottom invites a reader to
+   * navigate away from something they are in the middle of.
+   */
+  footer?: false;
 }
 
 export const Screen = forwardRef<ScrollView, Props>(function Screen(
-  { children, bottomPad = 40, contentStyle, measure, ...props },
+  { children, bottomPad = 40, contentStyle, measure, footer, ...props },
   ref,
 ) {
   const insets = useSafeAreaInsets();
   const layout = useLayout();
+
+  /** The design's constant page padding, doubled where there is room for it. */
+  const pagePad = { paddingHorizontal: layout.wide ? PAGE_PADDING * 2 : PAGE_PADDING };
 
   return (
     <View style={styles.ground}>
@@ -62,18 +74,39 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
          */
         showsVerticalScrollIndicator={layout.wide}
         {...props}
+        /*
+         * The scroll container is full width and the *columns inside it* are capped.
+         *
+         * It used to be the container itself, which is simpler and made the footer a
+         * child of the reading measure: on `/support` that gave the whole site map 640px
+         * and wrapped it into an orphaned column. A page whose article is narrow still
+         * has a full-width foot — that is true of every publication — and it cannot be
+         * expressed while one cap governs everything on the page.
+         */
         contentContainerStyle={[
-          styles.column,
-          { maxWidth: measure ? layout.readable : layout.shell },
-          {
-            paddingTop: insets.top + 6,
-            paddingBottom: bottomPad + insets.bottom,
-            paddingHorizontal: layout.wide ? PAGE_PADDING * 2 : PAGE_PADDING,
-          },
+          { paddingTop: insets.top + 6, paddingBottom: bottomPad + insets.bottom },
           contentStyle,
         ]}
       >
-        {children}
+        <View style={[styles.column, { maxWidth: measure ? layout.readable : layout.shell }, pagePad]}>
+          {children}
+        </View>
+        {/*
+         * Every page, from one place.
+         *
+         * Put here rather than added to twelve screens because a footer that is missing
+         * from one page is worse than no footer — it reads as that page having failed to
+         * finish. It renders nothing on a phone, where `SiteNav` is the colophon.
+         *
+         * Inside the scroll container, not below it: a foot that floats above the
+         * content permanently is a toolbar, and it would eat vertical space on every
+         * screen to say something a reader wants once, at the end.
+         */}
+        {footer === false ? null : (
+          <View style={[styles.column, { maxWidth: layout.shell }, pagePad]}>
+            <SiteFooter />
+          </View>
+        )}
       </ScrollView>
     </View>
   );

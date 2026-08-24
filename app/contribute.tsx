@@ -146,7 +146,7 @@ export default function Contribute() {
   };
 
   return (
-    <Screen bottomPad={50}>
+    <Screen measure bottomPad={50}>
       <NavRow title="Add a tradition" onBack={back} />
 
       <View style={styles.rail}>

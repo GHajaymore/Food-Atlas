@@ -505,7 +505,7 @@ export default function Admin() {
   const set = (key: keyof Settings, value: string) => setDraft((d) => ({ ...d, [key]: value }));
 
   return (
-    <Screen>
+    <Screen footer={false}>
       <NavRow title="Settings" />
 
       <Card style={styles.intro}>

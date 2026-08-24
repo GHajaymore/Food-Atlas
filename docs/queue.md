@@ -183,8 +183,16 @@ The rest, in the order it is worth doing:
   facts on one side, method and evidence on the other.
 - **Search with its filters in a sidebar** rather than stacked above the results, so a
   reader can see what they are filtering while they read what they got.
-- **A real site footer** — the colophon is a phone pattern; a website's foot carries the
-  whole map of the site.
+- ~~**A real site footer**~~ **Done, 2026-08-23.** `SiteFooter` — identity, three link
+  columns, and the source and licence line — rendered by `Screen`, so no page can be
+  missing one. `SiteNav` keeps the phone; the footer returns null there rather than
+  printing the same destinations twice.
+
+  It forced a fix to `Screen` worth knowing about: the shell used to cap the whole
+  scroll container, which made the footer a child of the reading measure and squeezed the
+  site map into 640px on `/support`. The cap now sits on the columns *inside* the
+  container, so a page whose article is narrow still has a full-width foot — which is
+  true of every publication and could not be expressed while one cap governed the page.
 - **Hover states.** There are none anywhere. On a mouse that reads as a dead page, and
   it is the cheapest single change on this list.
 - **Related dishes on a record** — same country, same cuisine, same ingredient. The

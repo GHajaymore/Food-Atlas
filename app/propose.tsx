@@ -93,7 +93,7 @@ export default function Propose() {
 
   if (sent) {
     return (
-      <Screen>
+      <Screen measure>
         <NavRow title="Proposed" />
         <Block accent style={styles.done}>
           <H5>{form.name} is now open for confirmation.</H5>
@@ -109,7 +109,7 @@ export default function Propose() {
   }
 
   return (
-    <Screen>
+    <Screen measure>
       <NavRow title="Propose a dish" />
 
       <Card style={styles.intro}>

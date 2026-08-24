@@ -44,7 +44,7 @@ export default function Support() {
   };
 
   return (
-    <Screen bottomPad={50}>
+    <Screen measure bottomPad={50}>
       <NavRow title="Keeping it free" onBack={back} />
 
       <Muted style={styles.lead}>

@@ -46,7 +46,7 @@ export default function PlacePicker() {
   };
 
   return (
-    <Screen bottomPad={50}>
+    <Screen measure bottomPad={50}>
       <NavRow title={`Choose a ${levelLabel}`} />
       <Muted style={styles.context}>{contextLine}</Muted>
 

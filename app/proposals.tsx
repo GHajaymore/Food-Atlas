@@ -74,7 +74,7 @@ export default function Proposals() {
   );
 
   return (
-    <Screen>
+    <Screen measure>
       <NavRow title="Open proposals" />
 
       <Card style={styles.intro}>
