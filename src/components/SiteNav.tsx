@@ -30,7 +30,7 @@ import { Pressable } from './Pressable';
 import { T } from './Text';
 
 const LINKS: { label: string; to: string; note: string }[] = [
-  { label: 'The atlas', to: '/atlas', note: 'What is covered, and how confident it is' },
+  { label: 'Food Atlas', to: '/atlas', note: 'What is covered, and how confident it is' },
   { label: 'Propose a dish', to: '/propose', note: 'Food the atlas has no record of' },
   /*
    * Listed separately from proposing, because they are different acts and the second is

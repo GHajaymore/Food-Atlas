@@ -321,7 +321,10 @@ export const randomAtRisk = (dishes: Dish[]): Dish | undefined => {
 export const atlasCoverage = (dishes: Dish[]): string =>
   // Countries, counted as countries. An origin recorded as "Levant" or "Mesoamerica"
   // is kept on its record and is not one of these.
-  `${dishes.length} traditions documented across ` +
+  // Grouped. "17828 traditions" printed unseparated beside "157 countries" reads as a
+  // reference number rather than a quantity, and this is the one figure on the page
+  // whose size is the point.
+  `${dishes.length.toLocaleString()} traditions documented across ` +
   `${new Set(dishes.map((d) => d.loc.country).filter(isCountry)).size} countries. ` +
   `Coverage is stated honestly: a country absent here has nothing recorded yet, not nothing to record.`;
 

@@ -35,7 +35,7 @@ import { Wordmark } from './Wordmark';
 
 const LINKS: { label: string; to: string }[] = [
   { label: 'How it works', to: '/how' },
-  { label: 'The atlas', to: '/atlas' },
+  { label: 'Food Atlas', to: '/atlas' },
   { label: 'Search', to: '/search' },
   { label: 'Propose a dish', to: '/propose' },
   { label: 'Confirm', to: '/proposals' },

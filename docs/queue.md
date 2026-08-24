@@ -211,10 +211,38 @@ Three candidate rules, which cut very differently:
 Worth noting `isDish.ts` already exists and already refuses non-food; whatever the rule
 is, it belongs there rather than in a one-off script.
 
-**The language selector still needs fixing.** Reported again after the floating-dropdown
-fix, so something remains wrong that I have not reproduced. Needs Ajay to say what he
-sees — it opens, it lists thirteen languages, and selecting one does change the chrome,
-so the fault is something else.
+**The language selector "does nothing" — and that is nearly true.** Diagnosed properly
+on the third report, by switching to Hindi and diffing the page. Selecting a language
+changes **four lines out of about three hundred**:
+
+```
+  Worldwide        → पूरी दुनिया
+  MOST LOOKED UP   → सबसे ज़्यादा देखे गए
+  Wikipedia readers → विकिपीडिया पाठक
+  English          → हिन्दी
+```
+
+The picker works. The strings were never extracted. Everything a reader actually
+sees — the headline, the five stat labels, the ask, every nav item, the shelf titles,
+the whole of `/how`, `/browse`, `/propose` and the record page — is hardcoded English
+rather than `copy.*`. Ajay is right to call it broken; from where he is standing it does
+nothing.
+
+**Two jobs, and the second is a real decision.**
+
+1. **Extraction** — mechanical, safe, large. Every user-facing string moves into the
+   English catalogue. This is the work Ajay parked earlier, and his reasoning was sound:
+   each new key means twelve retranslations, so extracting piecemeal is the expensive
+   order to do it in.
+2. **Translation** — extraction alone makes coverage *worse*, because the twelve
+   catalogues sit at roughly 42% of the keys that exist *today*. Adding two hundred keys
+   with no translations drops every language to near zero. So the two have to land
+   together, and how the translating happens is unresolved: machine translation costs
+   money, which [[wikifoodia-free-constraint]] rules out by default, and the existing
+   catalogues are already machine-produced and say so.
+
+Until both are done, honesty is the interim answer: the picker already shows a coverage
+percentage per language, which is why nobody can pick Hindi and be surprised twice.
 
 **"Desktop still feels like a mobile version. Revisit all the screens and make it more of
 a website. The UI doesn't look modern."** Broader than the linkability work above, and
