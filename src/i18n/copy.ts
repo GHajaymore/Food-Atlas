@@ -216,6 +216,16 @@ export interface Copy {
   concentrationNote: string;
   growTheAtlasBody: string;
   keepingItFreeBody: string;
+  meterDocumented: string;
+  meterDocumentedNote: string;
+  meterLocated: string;
+  meterLocatedNote: string;
+  meterIllustrated: string;
+  meterIllustratedNote: string;
+  meterFilmed: string;
+  meterFilmedNote: string;
+  meterAssessed: string;
+  meterAssessedNote: string;
   interfaceTranslationNote: string;
 }
 
@@ -414,6 +424,26 @@ export const EN: Copy = {
     'For each dish the atlas first pulls the most widely published recipe on the internet and classifies it. Where nothing exists online, a submission from the community becomes the record.',
   keepingItFreeBody:
     'Everything here is built from sources that cost nothing and stay that way. One thing does cost money, and it is switched off until it can be paid for.',
+  meterDocumented:
+    'Has a recorded method',
+  meterDocumentedNote:
+    'The number that says whether this is an atlas or a list of names. Everything else is secondary to it.',
+  meterLocated:
+    'Placed below country level',
+  meterLocatedNote:
+    'Authenticity has geographic depth. “Kozhikode” is a record; “India” is barely a start.',
+  meterIllustrated:
+    'Has a photograph',
+  meterIllustratedNote:
+    'A dish nobody can picture is hard to care about, and harder to recognise.',
+  meterFilmed:
+    'Has a ranked video',
+  meterFilmedNote:
+    'Ranked by the cook’s closeness to the tradition — not a search result.',
+  meterAssessed:
+    'Classified as authentic',
+  meterAssessedNote:
+    'Earned through the evidence checks. A low share here is honest, not a failure.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

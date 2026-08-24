@@ -142,6 +142,35 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
+**Sub-grouping a country's traditions, not a continent's.** Ajay asked whether continents
+should hold regions. Measured before answering: the largest continent group is Europe at
+51 origins, which is about seventeen rows across three columns — already scannable in a
+glance, and the collapse added on 2026-08-24 solves the long-page problem more cheaply.
+
+Two reasons not to do it at continent level:
+
+- **Nothing needs dividing.** A heading layer costs vertical space and a click to split
+  something that fits.
+- **Which scheme?** "Southeast Asia", "the Levant", "the Middle East" are contested, and
+  the atlas would be asserting a taxonomy it cannot cite. `Elsewhere` already records
+  what that costs: origins like Levant and Mesoamerica were kept out of the country count
+  because calling them countries put thirty-two imaginary ones on screen. UN M49 is the
+  defensible standard and it files Iran under Southern Asia and Cyprus under Western
+  Asia, both of which will read as errors to plenty of readers.
+
+**Where it would earn its place is one level down.** India holds 1,014 traditions and
+Italy thousands; those are the lists that are genuinely hard to scan. And the labels there
+come from the records themselves — `loc.region` — rather than from a scheme imposed on
+them, so the atlas would be grouping by what it was told rather than by what it decided.
+
+Worth checking first: how many of a large country's records actually carry a region.
+Grouping on a field that is empty for most of them would produce one enormous "elsewhere"
+pile and prove nothing.
+
+---
+
+## Next up (previously)
+
 **The body prose, which is still English in every language.** Ajay, 2026-08-24: *"Some
 portion of the screens still show some sections in English when another language is
 selected."* He is right, and it is a line I drew too conservatively rather than an

@@ -223,6 +223,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Para cada plato, el atlas primero toma la receta más publicada de internet y la clasifica. Donde no existe nada en línea, una aportación de la comunidad se convierte en el registro.',
     keepingItFreeBody:
       'Todo lo de aquí está construido con fuentes que no cuestan nada y siguen así. Una sola cosa cuesta dinero, y está apagada hasta que se pueda pagar.',
+    meterDocumented:
+      'Tiene un método registrado',
+    meterDocumentedNote:
+      'La cifra que dice si esto es un atlas o una lista de nombres. Todo lo demás es secundario.',
+    meterLocated:
+      'Situado por debajo del país',
+    meterLocatedNote:
+      'La autenticidad tiene profundidad geográfica. “Kozhikode” es un registro; “India” apenas es un comienzo.',
+    meterIllustrated:
+      'Tiene fotografía',
+    meterIllustratedNote:
+      'Un plato que nadie puede imaginar es difícil de querer, y más difícil de reconocer.',
+    meterFilmed:
+      'Tiene vídeo ordenado',
+    meterFilmedNote:
+      'Ordenado por la cercanía del cocinero a la tradición, no por un resultado de búsqueda.',
+    meterAssessed:
+      'Clasificado como auténtico',
+    meterAssessedNote:
+      'Ganado con las comprobaciones de pruebas. Una proporción baja aquí es honesta, no un fracaso.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -412,6 +432,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Pour chaque plat, l’atlas prend d’abord la recette la plus publiée sur internet et la classe. Là où rien n’existe en ligne, une contribution de la communauté devient la fiche.',
     keepingItFreeBody:
       'Tout ici est construit à partir de sources qui ne coûtent rien et le restent. Une seule chose coûte de l’argent, et elle est désactivée tant qu’elle ne peut pas être payée.',
+    meterDocumented:
+      'A une méthode enregistrée',
+    meterDocumentedNote:
+      'Le chiffre qui dit si ceci est un atlas ou une liste de noms. Tout le reste lui est secondaire.',
+    meterLocated:
+      'Situé sous le niveau du pays',
+    meterLocatedNote:
+      'L’authenticité a une profondeur géographique. « Kozhikode » est une fiche ; « Inde » est à peine un début.',
+    meterIllustrated:
+      'A une photographie',
+    meterIllustratedNote:
+      'Un plat que personne ne peut se représenter est difficile à aimer, et plus difficile à reconnaître.',
+    meterFilmed:
+      'A une vidéo classée',
+    meterFilmedNote:
+      'Classée selon la proximité du cuisinier avec la tradition — pas selon un résultat de recherche.',
+    meterAssessed:
+      'Classé comme authentique',
+    meterAssessedNote:
+      'Obtenu par les vérifications de preuves. Une faible part ici est honnête, pas un échec.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -600,6 +640,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Für jedes Gericht holt der Atlas zuerst das im Internet meistveröffentlichte Rezept und ordnet es ein. Wo online nichts existiert, wird ein Beitrag aus der Gemeinschaft zum Eintrag.',
     keepingItFreeBody:
       'Alles hier ist aus Quellen gebaut, die nichts kosten und das bleiben. Eine einzige Sache kostet Geld, und sie ist abgeschaltet, bis sie bezahlt werden kann.',
+    meterDocumented:
+      'Hat eine erfasste Zubereitung',
+    meterDocumentedNote:
+      'Die Zahl, die sagt, ob dies ein Atlas ist oder eine Namensliste. Alles andere ist ihr nachgeordnet.',
+    meterLocated:
+      'Unterhalb der Landesebene verortet',
+    meterLocatedNote:
+      'Echtheit hat geografische Tiefe. „Kozhikode“ ist ein Eintrag; „Indien“ ist kaum ein Anfang.',
+    meterIllustrated:
+      'Hat ein Foto',
+    meterIllustratedNote:
+      'Ein Gericht, das sich niemand vorstellen kann, ist schwer zu mögen und schwerer zu erkennen.',
+    meterFilmed:
+      'Hat ein eingeordnetes Video',
+    meterFilmedNote:
+      'Geordnet nach der Nähe des Kochs zur Tradition — nicht nach einem Suchergebnis.',
+    meterAssessed:
+      'Als echt eingestuft',
+    meterAssessedNote:
+      'Durch die Belegprüfungen erreicht. Ein niedriger Anteil ist hier ehrlich, kein Versagen.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -788,6 +848,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Per ogni piatto l’atlante prende prima la ricetta più pubblicata su internet e la classifica. Dove online non esiste nulla, un contributo della comunità diventa la scheda.',
     keepingItFreeBody:
       'Tutto qui è costruito con fonti che non costano nulla e restano così. Una sola cosa costa denaro, ed è spenta finché non potrà essere pagata.',
+    meterDocumented:
+      'Ha un metodo registrato',
+    meterDocumentedNote:
+      'La cifra che dice se questo è un atlante o un elenco di nomi. Tutto il resto viene dopo.',
+    meterLocated:
+      'Collocato sotto il livello del paese',
+    meterLocatedNote:
+      'L’autenticità ha profondità geografica. “Kozhikode” è una scheda; “India” è appena un inizio.',
+    meterIllustrated:
+      'Ha una fotografia',
+    meterIllustratedNote:
+      'Un piatto che nessuno riesce a immaginare è difficile da amare, e più difficile da riconoscere.',
+    meterFilmed:
+      'Ha un video ordinato',
+    meterFilmedNote:
+      'Ordinato per vicinanza del cuoco alla tradizione, non per risultato di ricerca.',
+    meterAssessed:
+      'Classificato come autentico',
+    meterAssessedNote:
+      'Ottenuto con le verifiche delle prove. Una quota bassa qui è onesta, non un fallimento.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -977,6 +1057,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Para cada prato, o atlas puxa primeiro a receita mais publicada na internet e classifica-a. Onde não existe nada em linha, uma contribuição da comunidade passa a ser o registo.',
     keepingItFreeBody:
       'Tudo aqui é construído com fontes que não custam nada e assim continuam. Uma única coisa custa dinheiro, e está desligada até poder ser paga.',
+    meterDocumented:
+      'Tem método registado',
+    meterDocumentedNote:
+      'O número que diz se isto é um atlas ou uma lista de nomes. Tudo o resto lhe é secundário.',
+    meterLocated:
+      'Situado abaixo do nível do país',
+    meterLocatedNote:
+      'A autenticidade tem profundidade geográfica. “Kozhikode” é um registo; “Índia” é apenas um começo.',
+    meterIllustrated:
+      'Tem fotografia',
+    meterIllustratedNote:
+      'Um prato que ninguém consegue imaginar é difícil de estimar, e mais difícil de reconhecer.',
+    meterFilmed:
+      'Tem vídeo ordenado',
+    meterFilmedNote:
+      'Ordenado pela proximidade de quem cozinha à tradição, não por um resultado de pesquisa.',
+    meterAssessed:
+      'Classificado como autêntico',
+    meterAssessedNote:
+      'Conquistado pelas verificações de provas. Uma percentagem baixa aqui é honesta, não um fracasso.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -1165,6 +1265,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Voor elk gerecht haalt de atlas eerst het meest gepubliceerde recept van internet en deelt het in. Waar online niets bestaat, wordt een bijdrage uit de gemeenschap het record.',
     keepingItFreeBody:
       'Alles hier is gebouwd op bronnen die niets kosten en dat blijven. Eén ding kost wel geld, en het staat uit tot het betaald kan worden.',
+    meterDocumented:
+      'Heeft een vastgelegde bereiding',
+    meterDocumentedNote:
+      'Het getal dat zegt of dit een atlas is of een namenlijst. Al het andere is daaraan ondergeschikt.',
+    meterLocated:
+      'Geplaatst onder landniveau',
+    meterLocatedNote:
+      'Echtheid heeft geografische diepte. “Kozhikode” is een record; “India” is nauwelijks een begin.',
+    meterIllustrated:
+      'Heeft een foto',
+    meterIllustratedNote:
+      'Een gerecht dat niemand voor zich ziet is moeilijk te waarderen, en moeilijker te herkennen.',
+    meterFilmed:
+      'Heeft een geordende video',
+    meterFilmedNote:
+      'Geordend naar hoe dicht de kok bij de traditie staat — niet naar een zoekresultaat.',
+    meterAssessed:
+      'Ingedeeld als echt',
+    meterAssessedNote:
+      'Verdiend via de bewijstoetsen. Een laag aandeel is hier eerlijk, geen falen.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -1354,6 +1474,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Dla każdej potrawy atlas najpierw bierze najczęściej publikowany przepis z internetu i go klasyfikuje. Tam, gdzie w sieci nie ma nic, wpisem staje się zgłoszenie od społeczności.',
     keepingItFreeBody:
       'Wszystko tutaj powstało ze źródeł, które nic nie kosztują i takie zostaną. Jedna rzecz kosztuje pieniądze i jest wyłączona, dopóki nie będzie za co jej opłacić.',
+    meterDocumented:
+      'Ma zapisany sposób przyrządzania',
+    meterDocumentedNote:
+      'Liczba, która mówi, czy to atlas, czy lista nazw. Wszystko inne jest wobec niej wtórne.',
+    meterLocated:
+      'Umiejscowione poniżej poziomu kraju',
+    meterLocatedNote:
+      'Autentyczność ma głębię geograficzną. „Kozhikode” to wpis; „Indie” to ledwie początek.',
+    meterIllustrated:
+      'Ma zdjęcie',
+    meterIllustratedNote:
+      'Potrawę, której nikt nie potrafi sobie wyobrazić, trudno pokochać i jeszcze trudniej rozpoznać.',
+    meterFilmed:
+      'Ma uszeregowane wideo',
+    meterFilmedNote:
+      'Uszeregowane według bliskości gotującego do tradycji — nie według wyniku wyszukiwania.',
+    meterAssessed:
+      'Sklasyfikowane jako autentyczne',
+    meterAssessedNote:
+      'Zdobyte w ocenie dowodów. Niski udział jest tu uczciwy, a nie porażką.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -1542,6 +1682,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Atlas her yemek için önce internette en çok yayımlanmış tarifi alır ve sınıflandırır. Çevrimiçi hiçbir şey yoksa, topluluktan gelen bir katkı kaydın kendisi olur.',
     keepingItFreeBody:
       'Buradaki her şey hiçbir şeye mal olmayan ve öyle kalan kaynaklardan kuruldu. Tek bir şey para tutuyor ve karşılanabilene kadar kapalı.',
+    meterDocumented:
+      'Kayıtlı yapılışı var',
+    meterDocumentedNote:
+      'Bunun bir atlas mı yoksa bir adlar listesi mi olduğunu söyleyen sayı. Geri kalan her şey ikincildir.',
+    meterLocated:
+      'Ülke düzeyinin altına yerleştirilmiş',
+    meterLocatedNote:
+      'Otantikliğin coğrafi derinliği vardır. “Kozhikode” bir kayıttır; “Hindistan” ancak bir başlangıçtır.',
+    meterIllustrated:
+      'Fotoğrafı var',
+    meterIllustratedNote:
+      'Kimsenin gözünde canlandıramadığı bir yemeği sevmek zordur, tanımak daha da zor.',
+    meterFilmed:
+      'Sıralanmış videosu var',
+    meterFilmedNote:
+      'Yemeği yapanın geleneğe yakınlığına göre sıralanır — arama sonucuna göre değil.',
+    meterAssessed:
+      'Otantik olarak sınıflandırılmış',
+    meterAssessedNote:
+      'Kanıt denetimleriyle kazanılır. Buradaki düşük oran dürüsttür, başarısızlık değil.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -1731,6 +1891,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Для каждого блюда атлас сначала берёт самый публикуемый в интернете рецепт и классифицирует его. Там, где в сети нет ничего, записью становится присланное сообществом.',
     keepingItFreeBody:
       'Всё здесь построено на источниках, которые ничего не стоят и такими остаются. Одна вещь стоит денег, и она выключена, пока её нечем оплатить.',
+    meterDocumented:
+      'Есть записанный способ приготовления',
+    meterDocumentedNote:
+      'Число, которое говорит, атлас это или список названий. Всё остальное вторично.',
+    meterLocated:
+      'Указано ниже уровня страны',
+    meterLocatedNote:
+      'У подлинности есть географическая глубина. «Кожикоде» — это запись; «Индия» — едва начало.',
+    meterIllustrated:
+      'Есть фотография',
+    meterIllustratedNote:
+      'Блюдо, которое никто не может себе представить, трудно полюбить и ещё труднее узнать.',
+    meterFilmed:
+      'Есть упорядоченное видео',
+    meterFilmedNote:
+      'Упорядочено по близости готовящего к традиции, а не по результату поиска.',
+    meterAssessed:
+      'Отнесено к подлинным',
+    meterAssessedNote:
+      'Заслужено проверками свидетельств. Низкая доля здесь честна, а не провальна.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -1920,6 +2100,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'हर व्यंजन के लिए एटलस पहले इंटरनेट पर सबसे ज़्यादा प्रकाशित विधि लेता है और उसे वर्गीकृत करता है। जहाँ ऑनलाइन कुछ नहीं है, वहाँ समुदाय से आया योगदान ही रिकॉर्ड बनता है।',
     keepingItFreeBody:
       'यहाँ सब कुछ ऐसे स्रोतों से बना है जिनकी कोई क़ीमत नहीं और आगे भी नहीं होगी। एक चीज़ में पैसे लगते हैं, और जब तक उसका ख़र्च न उठाया जा सके वह बंद है।',
+    meterDocumented:
+      'दर्ज विधि है',
+    meterDocumentedNote:
+      'वह संख्या जो बताती है कि यह एटलस है या नामों की सूची। बाकी सब उसके बाद आता है।',
+    meterLocated:
+      'देश से नीचे के स्तर पर स्थित',
+    meterLocatedNote:
+      'प्रामाणिकता की भौगोलिक गहराई होती है। “कोझिकोड” एक रिकॉर्ड है; “भारत” मुश्किल से एक शुरुआत।',
+    meterIllustrated:
+      'तस्वीर है',
+    meterIllustratedNote:
+      'जिस व्यंजन की कल्पना कोई न कर सके, उससे लगाव कठिन है और पहचान और भी कठिन।',
+    meterFilmed:
+      'क्रमित वीडियो है',
+    meterFilmedNote:
+      'पकाने वाले की परंपरा से निकटता के क्रम में — खोज परिणाम के क्रम में नहीं।',
+    meterAssessed:
+      'प्रामाणिक के रूप में वर्गीकृत',
+    meterAssessedNote:
+      'प्रमाण जाँचों से अर्जित। यहाँ कम हिस्सा ईमानदारी है, असफलता नहीं।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -2109,6 +2309,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '每一道菜，图谱先取网上流传最广的食谱并加以分类。网上什么都没有的，社区提交的内容就成为该记录。',
     keepingItFreeBody:
       '这里的一切都建立在不花钱、且会继续不花钱的资料之上。只有一件事需要花钱，在能够支付之前它是关闭的。',
+    meterDocumented:
+      '有记录的做法',
+    meterDocumentedNote:
+      '这个数字说明这里是一份图谱还是一串名字。其余一切都次于它。',
+    meterLocated:
+      '定位到国家以下',
+    meterLocatedNote:
+      '正宗有地理上的深浅。“科泽科德”是一条记录；“印度”只是个开头。',
+    meterIllustrated:
+      '有照片',
+    meterIllustratedNote:
+      '想象不出样子的菜，难以喜欢，更难以认出。',
+    meterFilmed:
+      '有排序过的视频',
+    meterFilmedNote:
+      '按做菜的人与传统的远近排序 — 不是按搜索结果。',
+    meterAssessed:
+      '被判定为正宗',
+    meterAssessedNote:
+      '靠证据核查取得。这里比例低是诚实，不是失败。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -2298,6 +2518,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'それぞれの料理について、アトラスはまずネット上で最も多く公開されているレシピを取り、分類します。ネットに何もない場合は、地域からの投稿がその記録になります。',
     keepingItFreeBody:
       'ここにあるものはすべて、費用がかからず今後もかからない資料から作られています。ひとつだけ費用のかかるものがあり、支払えるようになるまで止めてあります。',
+    meterDocumented:
+      '作り方の記録がある',
+    meterDocumentedNote:
+      'ここがアトラスか、ただの名前の一覧かを決める数字です。ほかはすべてその次です。',
+    meterLocated:
+      '国より下の地域まで特定',
+    meterLocatedNote:
+      '本物さには地理的な深さがあります。「コーリコード」は記録であり、「インド」はまだ入口です。',
+    meterIllustrated:
+      '写真がある',
+    meterIllustratedNote:
+      '姿を思い浮かべられない料理は、好きになりにくく、見分けるのはもっと難しい。',
+    meterFilmed:
+      '順位づけされた動画がある',
+    meterFilmedNote:
+      '作り手が伝統にどれだけ近いかで並べています — 検索結果の順ではありません。',
+    meterAssessed:
+      '本物と分類',
+    meterAssessedNote:
+      '根拠の確認を経て得られます。ここの割合が低いのは正直さであって、失敗ではありません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

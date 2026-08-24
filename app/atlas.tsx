@@ -118,12 +118,34 @@ export default function Atlas() {
         intro={intro}
         directory={<AtlasDirectory groups={atlas} onPick={openCountry} />}
         figures={figures}
+        /* The words come from the copy layer, the share from the domain — so a meter's
+           label and its number can never drift apart. See `prose-3` in the i18n work. */
         meters={[
-          <Meter key="documented" ratio={metrics.documented} note={metricNote('documented')} />,
-          <Meter key="located" ratio={metrics.located} note={metricNote('located')} />,
-          <Meter key="assessed" ratio={metrics.assessed} note={metricNote('assessed')} />,
-          <Meter key="illustrated" ratio={metrics.illustrated} note={metricNote('illustrated')} />,
-          <Meter key="filmed" ratio={metrics.filmed} note={metricNote('filmed')} />,
+          <Meter
+            key="documented"
+            ratio={{ ...metrics.documented, label: copy.meterDocumented, note: copy.meterDocumentedNote }}
+            note={metricNote('documented')}
+          />,
+          <Meter
+            key="located"
+            ratio={{ ...metrics.located, label: copy.meterLocated, note: copy.meterLocatedNote }}
+            note={metricNote('located')}
+          />,
+          <Meter
+            key="assessed"
+            ratio={{ ...metrics.assessed, label: copy.meterAssessed, note: copy.meterAssessedNote }}
+            note={metricNote('assessed')}
+          />,
+          <Meter
+            key="illustrated"
+            ratio={{ ...metrics.illustrated, label: copy.meterIllustrated, note: copy.meterIllustratedNote }}
+            note={metricNote('illustrated')}
+          />,
+          <Meter
+            key="filmed"
+            ratio={{ ...metrics.filmed, label: copy.meterFilmed, note: copy.meterFilmedNote }}
+            note={metricNote('filmed')}
+          />,
         ]}
         tables={[
           <CoverageTable key="where" title={copy.whereTheRecordsAre} rows={metrics.byContinent} note={metricNote('byContinent')} />,
