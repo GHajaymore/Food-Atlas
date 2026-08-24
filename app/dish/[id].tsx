@@ -38,6 +38,7 @@ import { AT_RISK_NOTE } from '../../src/domain/atRisk';
 import { relatedTo } from '../../src/domain/related';
 import {
   confirmAsk,
+  confirmStanding,
   contestedNote,
   forkedDisputes,
   ORIGIN_DISCLAIMER,
@@ -49,6 +50,7 @@ import { MEAL_LABELS } from '../../src/domain/meals';
 import { availableLanguages } from '../../src/domain/translate';
 import { openAtSource } from '../../src/domain/video';
 import { searchUrl } from '../../src/domain/videoDiscovery';
+import { thresholds as scoreThresholds } from '../../src/data/settings';
 import { settings } from '../../src/state/store';
 import { useTranslations } from '../../src/state/translations';
 import { accentText, color, font, radius, space } from '../../src/theme/tokens';
@@ -126,8 +128,19 @@ export default function DishDetail() {
   const hasProse = dish.steps.length > 0 || Boolean(dish.prepSummary?.trim());
   /** An adaptation documents how a dish is made today, not how its tradition makes it. */
   const isAdaptation = dish.badgeLevel === 'adaptation';
-  // What we can honestly ask this reader depends on what the record holds.
-  const ask = confirmAsk(isDocumented);
+  /*
+   * What we can honestly ask this reader depends on what the record holds — and now on
+   * how far this particular record is from the badge.
+   *
+   * The general plea was the same sentence on all 17,778 records. Naming the place and
+   * counting what is missing is what the positioning brief means by an ask that is
+   * specific and near: a reader from Kozhikode recognises themselves in it, and nobody
+   * recognises themselves in "if you cook this where it comes from".
+   */
+  const ask = confirmAsk(
+    isDocumented,
+    confirmStanding(askPlace, dish.confirmations?.length ?? 0, scoreThresholds().validationsRequired),
+  );
 
   const siblings = siblingsOf(dish, catalogue);
 
@@ -713,6 +726,9 @@ export default function DishDetail() {
           <Card style={styles.confirm}>
             <CardKicker>{ask.kicker}</CardKicker>
             <CardBody>{ask.body}</CardBody>
+            {/* Named and counted, under the general case. Absent where the record has no
+                place worth naming — "two more people from somewhere" is not an ask. */}
+            {ask.standing ? <Muted style={styles.standing}>{ask.standing}</Muted> : null}
             <Button label={ask.yes} variant="secondary" block onPress={() => router.push('/contribute')} />
             <Button label={ask.no} block onPress={() => router.push('/contribute')} />
           </Card>
@@ -766,6 +782,7 @@ const styles = StyleSheet.create({
   describedBlock: { marginBottom: 16 },
   described: { fontSize: 13, lineHeight: 13 * 1.55 },
   disputed: { marginBottom: 18 },
+  standing: { fontSize: 12, lineHeight: 12 * 1.5, marginTop: -2, marginBottom: 2 },
   confirm: { marginTop: 24 },
   dietBlock: { marginBottom: 20 },
   dietChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },

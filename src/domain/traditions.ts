@@ -112,9 +112,55 @@ export interface ConfirmAsk {
   /** The affirmative. Never offered where there is nothing to affirm. */
   yes: string;
   no: string;
+  /**
+   * What this particular record still needs, named and counted.
+   *
+   * Empty where the record has no place worth naming, because "two more people from
+   * somewhere" is not an ask.
+   */
+  standing: string;
 }
 
-export function confirmAsk(hasMethod: boolean): ConfirmAsk {
+/**
+ * How far this record is from the badge, stated exactly.
+ *
+ * The positioning brief asks for the ask to be *specific and near* — "3 people from
+ * Kerala can authenticate this" beats a general plea, because a reader from Kerala
+ * recognises themselves in the first sentence and nobody recognises themselves in the
+ * second.
+ *
+ * ## What it must not say
+ *
+ * It must not promise the badge. Promotion needs `validations >= validationsRequired`
+ * **and** `score >= authenticAt`, so "two more people will make this Authentic" is
+ * false for any record whose score is short — and the app cannot know that a
+ * confirmation will close the gap, because the confirmations themselves feed the score.
+ *
+ * So this states the **necessary** condition and never the sufficient one: how many
+ * confirmations the badge requires, how many the record has, and from where. That is
+ * checkable on the page — the count is printed beside it — which is the only kind of
+ * claim this project makes.
+ */
+export function confirmStanding(place: string, have: number, need: number): string {
+  if (!place) return '';
+
+  const remaining = Math.max(0, need - have);
+  if (remaining === 0) {
+    return `${need} people connected to ${place} have confirmed this — the number the badge requires.`;
+  }
+
+  const people = remaining === 1 ? 'one more person' : `${remaining} more people`;
+  const soFar =
+    have === 0
+      ? 'Nobody has yet'
+      : have === 1
+        ? 'One person has so far'
+        : `${have} people have so far`;
+
+  return `${soFar}. The badge requires ${need}, so ${people} connected to ${place} would meet it.`;
+}
+
+export function confirmAsk(hasMethod: boolean, standing = ''): ConfirmAsk {
   if (hasMethod) {
     return {
       kicker: CONFIRM_PROMPT,
@@ -123,6 +169,7 @@ export function confirmAsk(hasMethod: boolean): ConfirmAsk {
         'Unverified. Where your version differs, it is recorded alongside — not instead of — this one.',
       yes: 'Yes — this matches',
       no: 'It’s made differently where I’m from',
+      standing,
     };
   }
 
@@ -133,6 +180,7 @@ export function confirmAsk(hasMethod: boolean): ConfirmAsk {
       'what this record claims, and that is worth confirming on its own — it is one of the six evidence checks.',
     yes: 'Yes — it’s from here',
     no: 'No — it’s from somewhere else',
+    standing,
   };
 }
 

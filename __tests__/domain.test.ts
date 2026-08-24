@@ -29,6 +29,7 @@ import {
 } from '../src/domain/editorial';
 import { findCatalogueViolations, findViolations } from '../src/domain/invariants';
 import { notAFood } from '../src/domain/isDish';
+import { confirmStanding } from '../src/domain/traditions';
 import { canonicalCountry } from '../src/domain/countryNames';
 import {
   canAcceptDonations,
@@ -2779,5 +2780,42 @@ describe('an article about a food in a place is not a food', () => {
 
   it('keeps a dish whose name merely contains a town called something-in-something', () => {
     expect(refused('Pane di Santeramo in Colle PAT')).toBe(false);
+  });
+});
+
+/*
+ * The ask names the place and counts what is missing.
+ *
+ * The rule it must never break: state the NECESSARY condition, never the sufficient
+ * one. Promotion needs the confirmations AND the score, so "two more people will make
+ * this Authentic" is false for any record whose score is short — and the app cannot know
+ * whether it is, because the confirmations feed the score.
+ */
+describe('what a record still needs, stated exactly', () => {
+  it('counts what is missing and names where from', () => {
+    const line = confirmStanding('Kozhikode', 1, 3);
+    expect(line).toContain('Kozhikode');
+    expect(line).toContain('2 more people');
+    expect(line).toContain('One person has so far');
+  });
+
+  it('never promises the badge', () => {
+    for (const [have, need] of [[0, 3], [1, 3], [2, 3], [3, 3]]) {
+      const line = confirmStanding('Kerala', have, need);
+      expect(line).not.toMatch(/will (be|become|make)/i);
+      expect(line).not.toMatch(/Authentic/);
+    }
+  });
+
+  it('says nothing where there is no place to name', () => {
+    // "Two more people from somewhere" is not an ask.
+    expect(confirmStanding('', 0, 3)).toBe('');
+  });
+
+  it('reads correctly at the boundaries', () => {
+    expect(confirmStanding('Kerala', 2, 3)).toContain('one more person');
+    expect(confirmStanding('Kerala', 3, 3)).toContain('the number the badge requires');
+    // More confirmations than required is not a negative remainder.
+    expect(confirmStanding('Kerala', 5, 3)).toContain('the number the badge requires');
   });
 });
