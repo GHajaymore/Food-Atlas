@@ -2,9 +2,11 @@
  * The Feed's dish card, in two densities.
  *
  * **Full** — a curated record: photograph, badges, blurb, confidence score. The
- * footer row is where the product's stance is visible: the authenticity score sits
- * in accent-300, and the view count is the visually weakest element on the card.
- * That ordering is deliberate and should survive any redesign.
+ * footer row is where the product's stance is visible: the score carries the heading
+ * face beside its classification glyph, and the view count is the visually weakest
+ * element on the card. That ordering is deliberate and should survive any redesign.
+ * (It once read as a 12px accent sentence, "Authenticity 94/100" — same information,
+ * the weight of a caption. Both densities now use `EvidenceBadge`.)
  *
  * **Compact** — an imported, unverified record. It has no method, no score and often
  * no photograph, so giving it a full card would dress up an absence of evidence as
@@ -17,7 +19,7 @@ import { StyleSheet, View } from 'react-native';
 import { dietLabel } from '../domain/diet';
 import { mealLabel } from '../domain/meals';
 import type { Dish } from '../domain/types';
-import { accentText, color, elevation, radius, space } from '../theme/tokens';
+import { color, elevation, radius, space } from '../theme/tokens';
 import { Card } from './Card';
 import { MapPinIcon } from './icons';
 import { EvidenceBadge } from './EvidenceBadge';
@@ -72,8 +74,6 @@ export function DishCard({ dish, showViews, compact }: Props) {
     );
   }
 
-  const scoreDisplay = dish.score == null ? 'Not classified' : `Authenticity ${dish.score}/100`;
-
   return (
     <Pressable
       accessibilityRole="button"
@@ -110,7 +110,21 @@ export function DishCard({ dish, showViews, compact }: Props) {
           <T style={styles.blurb}>{dish.blurb}</T>
 
           <View style={styles.footer}>
-            <T style={styles.score}>{scoreDisplay}</T>
+            {/*
+             * The same badge the rails use, rather than this card's own sentence.
+             *
+             * It read "Authenticity 94/100" at 12px in accent — a line of text in the
+             * weakest position on the card, in the same register as a view count. That
+             * is the thing the positioning brief names: the difference existed and was
+             * rendered as metadata. `EvidenceBadge` gives the figure the heading face
+             * and puts the classification glyph beside it, so a reader scanning a grid
+             * picks up the scale without reading anything.
+             *
+             * The label is dropped at this size because the tag at the top of the card
+             * already carries the classification in words; what is missing down here is
+             * the number.
+             */}
+            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} />
             {showViews && dish.views ? <Muted style={styles.views}>{dish.views}</Muted> : null}
           </View>
         </View>
@@ -131,7 +145,6 @@ const styles = StyleSheet.create({
   diet: { fontSize: 11, marginTop: -2 },
   blurb: { fontSize: 13, lineHeight: 13 * 1.5, opacity: 0.8 },
   footer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 4 },
-  score: { fontSize: 12, color: accentText },
   views: { fontSize: 11 },
 
   row: {
@@ -150,5 +163,4 @@ const styles = StyleSheet.create({
   rowPlace: { fontSize: 11, lineHeight: 11 * 1.4 },
   rowEvidence: { flexDirection: 'row', alignItems: 'baseline', gap: 8, marginTop: 2 },
   rowRisk: { fontSize: 11 },
-  rowClass: { fontSize: 11, lineHeight: 11 * 1.4 },
 });

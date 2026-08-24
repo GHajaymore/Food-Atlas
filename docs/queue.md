@@ -191,10 +191,16 @@ The rest, in the order it is worth doing:
     and one clicking "Poultry" are doing the same thing. Unknown values narrow by
     *nothing* rather than by everything — `?diet=pescatarian-ish` gives "Everything,
     17,828 records" rather than a heading claiming a filter that was never applied.
-  - **Facets on cards are a genuine hazard, not an oversight.** A card is already one
-    big link to the dish; a link *inside* it means a nested pressable, and on the web a
-    tap on the country would fire both. Worth doing only with a deliberate answer to
-    that — most likely a place link outside the card's tap area rather than inside it.
+  - ~~**Facets on cards.**~~ **Decided against, by Ajay, 2026-08-24.** A card stays one
+    link to the dish. A link *inside* it means a nested pressable, and on the web a tap
+    on the country fires both — so the options were a place link below the card's tap
+    area, which adds a row of height to every tile in a grid of 36, or stopping
+    propagation, which is fragile on native and makes the targets small on a phone.
+
+    The reason it is safe to close rather than defer: the record page now carries every
+    facet — classification, four breadcrumb levels, diet, occasions, ingredients — one
+    tap away. A card is a summary, not a dossier. **Do not reopen this by adding a link
+    inside a card;** if it ever comes back, it comes back as a row underneath.
 - ~~**A record page that is two columns on desktop**~~ and ~~**search with its filters in
   a sidebar**~~ — **both already done**, by `RecordColumns` and `SearchColumns`. Verified
   in the browser at 1440 rather than assumed: search renders facets left and results

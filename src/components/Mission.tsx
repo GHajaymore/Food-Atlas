@@ -223,6 +223,36 @@ export function MissionFootnotes() {
         needed only to confirm a dish — never to read one.
       </Muted>
 
+      {/*
+       * What this is not, said once and plainly.
+       *
+       * The brief asks the app to differentiate itself from social media, and the line
+       * above only covers money and identity. These four are the mechanisms a reader has
+       * been trained by every other food site to expect, and each is absent here for the
+       * same reason rather than four different ones — a rating, a comment thread and a
+       * ranking are all ways of letting volume stand in for evidence, which is the exact
+       * substitution this atlas refuses.
+       *
+       * Stated as facts about the app rather than as a boast about it. "No algorithm
+       * deciding what you see" is checkable — `shelves.ts` rotates on a date seed and
+       * both browse and search default to sorting by evidence — and a reader who checks
+       * will find it true, which is the only kind of claim this project is allowed to
+       * make.
+       *
+       * The last clause is the one that needed care. The obvious line was "nothing here
+       * measures your attention", and it is **false**: `events.ts` counts a dish opening.
+       * What is true is narrower and worth saying exactly — the event is a dish id and a
+       * date, the identity cookie is scoped to `/api/proposals` so the request carries no
+       * cookie at all, and there is therefore nobody to attribute it to. Claiming the
+       * stronger version on the page that argues for checkable claims would have been the
+       * worst possible place to overstate one.
+       */}
+      <Muted style={styles.free}>
+        No ratings, no comments, and no algorithm deciding what you see — lists lead with
+        evidence rather than with popularity. Openings are counted as a dish and a date, never
+        as a person.
+      </Muted>
+
       <Disclosure style={styles.disclosure} summary="Why a source cannot authenticate a dish">
         <Muted style={styles.body}>
           Published documentation cannot score above 43 here, and a record becomes Authentic at 55.
