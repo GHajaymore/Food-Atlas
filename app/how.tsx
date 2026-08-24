@@ -131,6 +131,21 @@ export default function How() {
         trust.
       </Muted>
 
+      {/*
+       * Why accounts exist, said on the page that explains the model.
+       *
+       * The page described the ceiling and the threshold and never mentioned that only a
+       * signed-in confirmation counts — which is the entire reason this app has accounts
+       * at all, and the answer to Ajay's question about one person confirming twice.
+       */}
+      <Muted style={styles.body}>
+        Those {validationsRequired} have to be {validationsRequired} different people, so a
+        confirmation counts toward the badge only when the person was signed in. An anonymous one
+        is still recorded and still shown on the record — what somebody knows is worth having
+        whether or not they hold an account — it simply does not move the number. Reading the
+        atlas never requires signing in.
+      </Muted>
+
       <H5 style={styles.head}>What this is not</H5>
       <View style={styles.nots}>
         {[

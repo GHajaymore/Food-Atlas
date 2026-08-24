@@ -22,6 +22,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
+import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { catalogueStats } from '../src/data/catalogue';
@@ -114,11 +115,41 @@ export default function Support() {
         onPress={() => router.push('/contribute')}
         style={styles.contribute}
       />
+
+      {/*
+       * The way into the console, and deliberately quiet.
+       *
+       * It had no link at all — settings, moderation, the refresh queue and analytics
+       * were reachable only by typing the URL, which is how a feature comes to be built
+       * and then not exist.
+       *
+       * Not in the main navigation, because it is one person's console and a prominent
+       * link invites everybody to find a screen whose writes they cannot perform. This
+       * page is already the one about how the project is run, which makes it the honest
+       * place for it.
+       *
+       * No route guard: every value on that screen is already public at GET /api/settings,
+       * and the authority is the bearer token checked at the server on writes. A lock on
+       * the screen would be a lock on a door with no wall.
+       */}
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel="Administration. Needs a token."
+        tint="neutral"
+        onPress={() => router.push('/admin')}
+        style={styles.adminRow}
+      >
+        <T style={styles.adminLabel}>Administration</T>
+        <Muted style={styles.adminNote}>Thresholds, moderation, source checks and usage. Needs a token.</Muted>
+      </Pressable>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  adminRow: { marginTop: space[8], paddingTop: space[6], borderTopWidth: 1, borderTopColor: color.divider, minHeight: 44, justifyContent: 'center' },
+  adminLabel: { fontSize: 13, color: accentText },
+  adminNote: { fontSize: 11, lineHeight: 16, marginTop: 2 },
   lead: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 4, marginBottom: 18 },
 
   need: { padding: 12, marginBottom: 10 },

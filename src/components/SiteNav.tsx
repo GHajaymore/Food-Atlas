@@ -27,6 +27,7 @@ import { StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
 import { color, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
+import { SessionControl } from './SessionControl';
 import { T } from './Text';
 
 const LINKS: { label: string; to: string; note: string }[] = [
@@ -74,6 +75,15 @@ export function SiteNav() {
           <T style={styles.note}>{link.note}</T>
         </Pressable>
       ))}
+
+      {/*
+       * The session, at the foot of the phone.
+       *
+       * Renders nothing until sign-in is configured, so on a deployment without Google
+       * credentials this is invisible rather than a dead control. TopBar carries the same
+       * thing above the tablet breakpoint, where this component returns null.
+       */}
+      <SessionControl />
     </View>
   );
 }
