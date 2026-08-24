@@ -179,10 +179,14 @@ The rest, in the order it is worth doing:
 - **Linkable facets everywhere** — record page first, then cards, then breadcrumbs.
   Needs routes that accept a filter in the URL, which is also what makes a filtered view
   shareable and, later, indexable.
-- **A record page that is two columns on desktop**, not one long scroll: photograph and
-  facts on one side, method and evidence on the other.
-- **Search with its filters in a sidebar** rather than stacked above the results, so a
-  reader can see what they are filtering while they read what they got.
+- ~~**A record page that is two columns on desktop**~~ and ~~**search with its filters in
+  a sidebar**~~ — **both already done**, by `RecordColumns` and `SearchColumns`. Verified
+  in the browser at 1440 rather than assumed: search renders facets left and results
+  right. This list was stale, not the code.
+- ~~**Every remaining screen**~~ **Done, 2026-08-23.** The Food Atlas got `AtlasColumns`
+  and `AtlasDirectory`; the admin console got `AdminColumns`; the five prose and form
+  screens got the `measure` cap they should always have had. `/contribute` deliberately
+  stays a single column — a form is not improved by being made two.
 - ~~**A real site footer**~~ **Done, 2026-08-23.** `SiteFooter` — identity, three link
   columns, and the source and licence line — rendered by `Screen`, so no page can be
   missing one. `SiteNav` keeps the phone; the footer returns null there rather than

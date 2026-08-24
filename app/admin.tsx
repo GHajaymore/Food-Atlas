@@ -39,6 +39,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
+import { AdminColumns } from '../src/components/AdminColumns';
 import { NavRow } from '../src/components/NavRow';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
@@ -504,8 +505,8 @@ export default function Admin() {
 
   const set = (key: keyof Settings, value: string) => setDraft((d) => ({ ...d, [key]: value }));
 
-  return (
-    <Screen footer={false}>
+  const intro = (
+    <>
       <NavRow title="Settings" />
 
       <Card style={styles.intro}>
@@ -515,17 +516,25 @@ export default function Admin() {
           the word Authentic means across every record in the atlas.
         </CardBody>
       </Card>
+    </>
+  );
 
+  const settings = (
+    <>
       {NUMBERS.map(({ key, label, note }) => {
         const [min, max] = LIMITS[key as keyof typeof LIMITS];
         return (
           <View key={key} style={styles.setting}>
             <Field label={label}>
+              {/* Sized to what it holds. Every one of these is one or two digits, and a
+                  field stretched to the width of its column quietly tells the reader a
+                  longer answer is expected. */}
               <Input
                 value={draft[key]}
                 onChangeText={(v) => set(key, v.replace(/[^0-9]/g, ''))}
                 keyboardType="number-pad"
                 accessibilityLabel={label}
+                style={styles.number}
               />
             </Field>
             <Muted style={styles.note}>{note}</Muted>
@@ -572,7 +581,11 @@ export default function Admin() {
       ) : radius ? (
         <Muted style={styles.note}>No record would change badge at these thresholds.</Muted>
       ) : null}
+    </>
+  );
 
+  const credentials = (
+    <>
       <View style={styles.divider} />
 
       <Field label="Administrator token" style={styles.setting}>
@@ -588,12 +601,15 @@ export default function Admin() {
 
       {message ? <T style={styles.message}>{message}</T> : null}
 
-      <Moderation token={token} />
-
-      <RefreshQueue token={token} />
-
-      <Analytics token={token} />
-
+      {/*
+       * Save sits with the form it saves.
+       *
+       * It used to come after the moderation queue, the refresh queue and the analytics
+       * — so changing a threshold meant scrolling past three unrelated panels to commit
+       * it, and on a desktop those are now in a different column entirely, which would
+       * have left the button orphaned from everything it acts on. This is the one place
+       * the phone order deliberately changes rather than merely moving.
+       */}
       <Button
         label={busy ? 'Saving…' : 'Save'}
         block
@@ -629,6 +645,21 @@ export default function Admin() {
           );
         }}
       />
+    </>
+  );
+
+  return (
+    <Screen footer={false}>
+      <AdminColumns
+        intro={intro}
+        settings={settings}
+        credentials={credentials}
+        panels={[
+          <Moderation key="moderation" token={token} />,
+          <RefreshQueue key="refresh" token={token} />,
+          <Analytics key="analytics" token={token} />,
+        ]}
+      />
     </Screen>
   );
 }
@@ -636,6 +667,7 @@ export default function Admin() {
 const styles = StyleSheet.create({
   intro: { padding: space[4], gap: space[2], marginBottom: space[2] },
   setting: { marginTop: space[4] },
+  number: { width: 110 },
   note: { fontSize: 12, lineHeight: 17, marginTop: space[1] },
   meta: { flexDirection: 'row', gap: space[2], marginTop: space[1], flexWrap: 'wrap' },
   range: { fontSize: 11, color: color.meta },
