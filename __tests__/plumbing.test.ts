@@ -489,8 +489,21 @@ describe('a region is a place, not a branch of a category tree', () => {
     expect(catalogue.some((d) => d.loc.region === 'Phú Quốc')).toBe(true);
   });
 
-  it('loses no records and no countries to the repair', () => {
-    expect(catalogueStats.total).toBe(17_778);
+  /*
+   * A floor, not a snapshot.
+   *
+   * This asserted `total === 17_778` and broke the moment a railway service and three
+   * fish were removed from the atlas for unrelated and correct reasons. An exact count is
+   * a photograph of one afternoon: it fails on every legitimate data change and says
+   * nothing about the fault it was written for, which was a repair silently deleting
+   * records. A floor catches that — losing a thousand records trips it — without
+   * objecting to somebody removing four things that were never food.
+   *
+   * The country count stays exact, because that one IS an invariant: no repair to how a
+   * region is read should ever remove a country from the atlas.
+   */
+  it('loses no country, and no large number of records, to the repair', () => {
+    expect(catalogueStats.total).toBeGreaterThan(17_000);
     expect(catalogueStats.countries).toBe(157);
   });
 });

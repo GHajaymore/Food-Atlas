@@ -199,11 +199,64 @@ const aboutFoodSomewhere = (name: string): boolean => {
   return continentOf(place.trim()) !== 'Elsewhere';
 };
 
+/**
+ * Articles judged one at a time, because no pattern reaches them safely.
+ *
+ * Ajay found two while looking at photographs: *Tea Garden Express*, an Indian railway
+ * service, and *Northern snakehead*, a fish. Both were walked out of a cuisine category
+ * tree, both are real Wikipedia articles, and neither is a food.
+ *
+ * ## Why a list and not a rule
+ *
+ * Every pattern that reaches them takes real food with it, which was measured rather than
+ * feared:
+ *
+ *   "express"  would delete **Bicol Express**, a Filipino pork stew, and
+ *              *Espaguettis express*, and *Taiwan Railway Bento*
+ *   "carp"     would delete *Roasted Carp*, *Christmas carp* and *catfish pepper soup*
+ *
+ * That is this file's own rule from its header — *the cost of being wrong runs both ways
+ * and is not symmetric* — reaching the point where the honest instrument is a list of
+ * names somebody checked, each with a reason, rather than a regular expression that is
+ * wrong about a stew in Bicol.
+ *
+ * ## What is on it, and what was taken off
+ *
+ * Three fish species, one railway service, three trade bodies and a college. Every one
+ * was opened and read before being added.
+ *
+ * *Sweet Society* was on the first draft and is not here: its blurb says "Apple cultivar.
+ * Eating apple." It is a variety of apple, and the name only looks like an organisation.
+ * The check that caught it is the same one that should be run before adding anything
+ * else — read the record, not the name.
+ *
+ * A list is a maintenance cost and is worth it only while it stays short. If it starts
+ * growing, that is evidence a pattern exists and has not been found yet.
+ */
+const NOT_FOOD_TITLES = new Set(
+  [
+    // A railway service between Guwahati and Dibrugarh.
+    'Tea Garden Express',
+    // Fish, not dishes. The atlas holds preparations, and a species article has no
+    // method, no place and nobody who could confirm one.
+    'Northern snakehead',
+    'Grass carp',
+    'Common carp',
+    // Trade bodies and a college. Organisations that exist because of food are not food,
+    // the same distinction `BUSINESS` and `VENUE` draw at the end of a name.
+    'Coffee Board of India',
+    'Bangladesh Caterers Association UK',
+    'Specialty Coffee Association of Indonesia',
+    'Tatung Institute of Commerce and Technology',
+  ].map((title) => title.toLowerCase()),
+);
+
 /** Anything left with no name to show. */
 const EMPTY = /^\s*$/;
 
 const REFUSALS: { test: (name: string) => boolean; reason: string }[] = [
   { test: (n) => EMPTY.test(n), reason: 'has no name' },
+  { test: (n) => NOT_FOOD_TITLES.has(n.trim().toLowerCase()), reason: 'was read and is not a food' },
   { test: (n) => NOT_FOOD_KIND.test(n), reason: 'the source labels it as something other than a food' },
   { test: (n) => PERSON.test(n), reason: 'is a person' },
   { test: (n) => BUSINESS.test(n), reason: 'is a company' },

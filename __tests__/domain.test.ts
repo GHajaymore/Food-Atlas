@@ -2848,3 +2848,34 @@ describe('a photograph has to be of the food', () => {
     expect(isPhotograph('https://x/Agnolotti single.png')).toBe(true);
   });
 });
+
+/*
+ * Some things can only be judged by reading them.
+ *
+ * A railway service and three fish reached the atlas through a cuisine category tree, and
+ * no pattern removes them without taking food with it — "express" deletes Bicol Express,
+ * "carp" deletes Roasted Carp. So they are named individually, and the keeps below are
+ * the exact records a pattern would have cost.
+ */
+describe('the articles that had to be read to be judged', () => {
+  const refused = (name: string) => notAFood(name) !== null;
+
+  it('refuses the ones that were read and are not food', () => {
+    expect(refused('Tea Garden Express')).toBe(true);
+    expect(refused('Northern snakehead')).toBe(true);
+    expect(refused('Common carp')).toBe(true);
+    expect(refused('Coffee Board of India')).toBe(true);
+    expect(refused('Tatung Institute of Commerce and Technology')).toBe(true);
+  });
+
+  it('keeps the food a pattern would have taken with them', () => {
+    expect(refused('Bicol Express')).toBe(false);
+    expect(refused('Taiwan Railway Bento')).toBe(false);
+    expect(refused('Roasted Carp')).toBe(false);
+    expect(refused('Christmas carp')).toBe(false);
+    expect(refused('catfish pepper soup')).toBe(false);
+    // An apple cultivar whose name only looks like an organisation. It was on the
+    // first draft of the list and its own blurb is what took it off.
+    expect(refused('Sweet Society')).toBe(false);
+  });
+});
