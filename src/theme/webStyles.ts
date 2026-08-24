@@ -74,7 +74,27 @@ body { margin: 0; overscroll-behavior: none; }
  * Everything sits inside prefers-reduced-motion: no-preference. A reader who has asked
  * their system for less movement gets exactly what they have today, which is none.
  */
+/*
+ * A card answers the pointer.
+ *
+ * Outside the reduced-motion guard on purpose: a hover state is not motion. Somebody who
+ * has asked for less movement still needs to know what is clickable — what they should
+ * not get is the easing and the lift, and those are the parts that stay inside it below.
+ *
+ * An outline rather than a border, because a border would change the box and shift the
+ * layout by a pixel on hover; an outline is painted outside the box and moves nothing.
+ * The transparent default is declared so the colour has something to interpolate from —
+ * a browser cannot animate from an absent outline, the same trap the caret rotation hit.
+ */
+[data-surface="card"] { outline: 1px solid transparent; outline-offset: 0; }
+[data-motion="tap"]:hover [data-surface="card"] { outline-color: rgba(217, 164, 65, 0.45); }
+
 @media (prefers-reduced-motion: no-preference) {
+  [data-surface="card"] { transition: outline-color 140ms ease, transform 160ms ease; }
+  /* Two pixels. Enough to read as the card coming forward, small enough that a grid of
+     six does not look like it is bouncing when a pointer crosses it. */
+  [data-motion="tap"]:hover [data-surface="card"] { transform: translateY(-2px); }
+
   /* Every interactive element in the app, from one rule: Pressable tags itself. */
   [data-motion="tap"] {
     transition: background-color 140ms ease, border-color 140ms ease, opacity 140ms ease;
@@ -92,11 +112,21 @@ body { margin: 0; overscroll-behavior: none; }
   [data-motion="caret"] { transition: transform 180ms ease; }
 
   /*
-   * Photographs fade up as they arrive. The fade is on an overlay above the image, never
-   * on the image itself — these are composited with mix-blend-mode: lighten, and giving
-   * a blended node its own opacity transition creates a compositing context, which
-   * silently changes what it blends against. The design's core photographic treatment
-   * would break in a way that is hard to see and harder to diagnose.
+   * Photographs fade up as they arrive, and the fade is on the image itself.
+   *
+   * This comment previously said the opposite — that the fade had to go on an overlay,
+   * because a blended node given its own opacity creates a compositing context and would
+   * silently change what it blends against. Half right, and the wrong half was the part
+   * that dictated the design.
+   *
+   * Opacity on the blended node does not move its backdrop; the element still blends
+   * with the same group it always did. What DOES break the treatment is opacity on an
+   * ANCESTOR of it, which opens a new isolation group and leaves the photograph blending
+   * against that instead of against the card or the page ground.
+   *
+   * Checked rather than reasoned about: every photograph set to opacity 0.999 — enough
+   * to force a compositing context, far too little to see — renders identically to 1.
+   * So fade the image, and never the frame around it.
    */
   [data-motion="photo-veil"] { transition: opacity 260ms ease; }
 

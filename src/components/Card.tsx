@@ -3,9 +3,23 @@
  * intake screens use for evidence panels.
  */
 
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { Platform, StyleSheet, View, type ViewStyle } from 'react-native';
 import { color, elevation, font, radius, space } from '../theme/tokens';
 import { Body, T } from './Text';
+
+/*
+ * Lets the stylesheet find a card that sits inside something pressable.
+ *
+ * `Pressable` already tints on hover, and on a card that tint is invisible: it paints the
+ * pressable's own background, and the card's opaque surface sits on top of it. So every
+ * row in the app responded to a pointer and every card — the dish cards, which are the
+ * main thing anybody clicks — looked dead. Measured rather than assumed: a directory row
+ * picks up `rgba(233, 233, 237, 0.05)` on hover, a dish card picks up nothing visible.
+ *
+ * Spread rather than passed, for the reason `Photo` gives: `dataSet` is a
+ * react-native-web extension React Native's own types do not carry.
+ */
+const surfaceHook: object = Platform.OS === 'web' ? { dataSet: { surface: 'card' } } : {};
 
 export function Card({
   children,
@@ -16,7 +30,11 @@ export function Card({
   style?: ViewStyle;
   elevated?: boolean;
 }) {
-  return <View style={[styles.card, elevated ? elevation.sm : null, style]}>{children}</View>;
+  return (
+    <View {...surfaceHook} style={[styles.card, elevated ? elevation.sm : null, style]}>
+      {children}
+    </View>
+  );
 }
 
 /** .card-kicker — the 10px uppercase accent eyebrow. */

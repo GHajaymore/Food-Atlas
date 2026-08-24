@@ -193,8 +193,21 @@ The rest, in the order it is worth doing:
   site map into 640px on `/support`. The cap now sits on the columns *inside* the
   container, so a page whose article is narrow still has a full-width foot — which is
   true of every publication and could not be expressed while one cap governed the page.
-- **Hover states.** There are none anywhere. On a mouse that reads as a dead page, and
-  it is the cheapest single change on this list.
+- ~~**Hover states.**~~ **Done, 2026-08-23 — and this entry was wrong.** It claimed there
+  were none anywhere. There were: `Pressable` has tinted on hover all along, and every
+  element in the app goes through it. Checked with a real pointer rather than by reading
+  the code — a directory row, a nav item and a rail card each pick up
+  `rgba(233, 233, 237, 0.05)`, and everything carries `cursor: pointer`.
+
+  The real gap was narrower and invisible from the source: **cards**. `Pressable` paints
+  its tint on its own background, and a `Card` lays an opaque surface directly on top of
+  it — so the dish cards, the main thing anybody clicks, were the one surface that
+  swallowed the feedback. They now take a 1px accent outline and a 2px lift. An outline
+  rather than a border because a border would shift the layout by a pixel on hover.
+
+  The ring sits outside the `prefers-reduced-motion` guard and only the easing and the
+  lift sit inside it: a hover state is not motion, and somebody who asked for less
+  movement still needs to know what is clickable.
 - **Related dishes on a record** — same country, same cuisine, same ingredient. The
   strongest "rich content" available, and it is all query, no writing.
 
