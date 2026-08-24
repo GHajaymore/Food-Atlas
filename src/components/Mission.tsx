@@ -60,9 +60,15 @@ function Stat({ value, label, accent }: { value: string; label: string; accent?:
   );
 }
 
-export function Mission() {
+/**
+ * The numbers behind the pitch, derived once and shared by every part of it.
+ *
+ * Lifted out when `Mission` was split, so the figures cannot be counted one way in the
+ * hero and another way in the ask. Every one is derived from the catalogue rather than
+ * stored, which is what stops the page quoting a total that has quietly gone stale.
+ */
+export function useMissionNumbers() {
   const { total, countries } = catalogueStats;
-  const { wide } = useLayout();
 
   const documented = catalogue.filter((d) => d.steps.length || d.prepSummary.trim()).length;
   const unwritten = total - documented;
@@ -78,116 +84,135 @@ export function Mission() {
     d.sources.some((src) => /eAmbrosia|UNESCO|Prodotti/.test(`${src.publisher} ${src.title}`)),
   ).length;
 
-  const open = canContribute() || canConfirm();
+  return {
+    total,
+    countries,
+    documented,
+    unwritten,
+    authenticated,
+    heritage,
+    open: canContribute() || canConfirm(),
+  };
+}
+
+/**
+ * The headline and the sentence under it.
+ *
+ * Leads with what the atlas holds, not with what it lacks. An earlier headline opened
+ * "57% of the food in this atlas has never been written down". The figure was correct
+ * and reconciled — 7,811 documented plus 10,197 unwritten is exactly 18,008 — but as the
+ * *first* sentence it framed the project by its hole, and a reader met an app that
+ * sounded half empty.
+ *
+ * The gap is a reason to help rather than a description of the product, so it lives in
+ * the ask instead. Nothing was softened: the same count appears there, in figures rather
+ * than as a percentage, because "10,197 records" is a thing a reader can picture and
+ * "57%" is a verdict.
+ *
+ * The headline deliberately counts nothing. It used to open "18,008 dishes" above a tile
+ * saying 18,008, and the paragraph opened "From 157 countries" above a tile saying 157 —
+ * three of four figures printed twice inside eighty pixels. The tiles are better at
+ * counting, so the headline says what the atlas is *for*.
+ */
+export function MissionPitch() {
+  const { wide } = useLayout();
 
   return (
-    <View style={styles.wrap}>
-      {/*
-       * Leads with what the atlas holds, not with what it lacks.
-       *
-       * An earlier headline opened "57% of the food in this atlas has never been
-       * written down". The figure was correct and reconciled — 7,811 documented plus
-       * 10,197 unwritten is exactly 18,008 — but as the *first* sentence it framed the
-       * project by its hole, and a reader met an app that sounded half empty.
-       *
-       * The gap is a reason to help rather than a description of the product, so it
-       * moved down into the ask, where it does that job instead. Nothing was softened:
-       * the same count appears below, in figures rather than as a percentage, because
-       * "10,197 records" is a thing a reader can picture and "57%" is a verdict.
-       */}
-      {/*
-       * Two columns on a wide screen, stacked on a phone.
-       *
-       * The stacked version was the whole design, and on a desktop it read as a phone
-       * page someone had widened: a headline, then prose, then figures, then the ask —
-       * four full-width bands down a 1240px column, none of which needed that width and
-       * one of which (the prose) was actively harmed by it.
-       *
-       * Side by side, the argument and the ask are visible together without scrolling,
-       * which is what the extra width is actually good for. The measure is capped at
-       * `readable` on the left rather than allowed to fill its half, because a line
-       * length is a fact about reading rather than about the container.
-       */}
-      <View style={wide ? styles.heroRow : undefined}>
-        <View style={wide ? styles.heroMain : undefined}>
-          {/*
-           * The headline no longer counts anything.
-           *
-           * It opened "18,008 dishes, and the evidence behind every one" over a row of
-           * tiles whose first tile said 18,008, and the paragraph under it opened "From
-           * 157 countries" over a tile saying 157. Three of the four figures on screen
-           * were printed twice within about eighty pixels, which reads as a page that
-           * has not decided what its own headline is for.
-           *
-           * The tiles are better at counting — aligned, labelled, scannable — so the
-           * headline stops competing with them and says what the atlas is *for*
-           * instead. Nothing was dropped: every number that was in the sentence is
-           * still on the screen, once, underneath.
-           */}
-          <T style={wide ? styles.headlineWide : styles.headline}>
-            Every dish here shows its evidence.
-          </T>
+    <>
+      <T style={wide ? styles.headlineWide : styles.headline}>Every dish here shows its evidence.</T>
 
-          <Muted style={[styles.stakes, wide ? styles.stakesWide : null]}>
-            Where it came from, who says so, and how much has actually been established — printed
-            on every record, and checkable by anybody who doubts it.
-          </Muted>
+      <Muted style={[styles.stakes, wide ? styles.stakesWide : null]}>
+        Where it came from, who says so, and how much has actually been established — printed on
+        every record, and checkable by anybody who doubts it.
+      </Muted>
+    </>
+  );
+}
 
-          {/*
-           * Five figures, in the order a reader needs them: how much there is, how far
-           * it reaches, how much is written down, how much an institution has
-           * recognised, and how much people have actually authenticated.
-           *
-           * They descend — 18,008 to 53 — and that descent is the argument. A row of
-           * numbers that only got bigger would be a boast; this one narrows to the
-           * figure the whole project exists to move, and a reader can see the gap
-           * without being told about it.
-           */}
-          <View style={[styles.stats, wide ? styles.statsWide : null]}>
-            <Stat value={n(total)} label="dishes" />
-            <Stat value={String(countries)} label="countries" />
-            <Stat value={n(documented)} label="documented" />
-            <Stat value={n(heritage)} label="registered" />
-            {/* The accent goes on the only figure a person, rather than a source, can move. */}
-            <Stat value={n(authenticated)} label="authentic" accent />
-          </View>
-        </View>
+/**
+ * Five figures, in the order a reader needs them: how much there is, how far it reaches,
+ * how much is written down, how much an institution has recognised, and how much people
+ * have actually authenticated.
+ *
+ * They descend — 17,828 to 46 — and that descent is the argument. A row of numbers that
+ * only grew would be a boast; this one narrows to the figure the whole project exists to
+ * move, and a reader sees the gap without being told about it.
+ */
+export function MissionFigures() {
+  const { wide } = useLayout();
+  const { total, countries, documented, heritage, authenticated } = useMissionNumbers();
 
-        <View style={wide ? styles.heroAside : styles.callout}>
-        <T style={styles.ask}>
-          {n(unwritten)} of these have no method recorded. {VALIDATIONS_REQUIRED} people from a
-          place can fix one for good.
-        </T>
-        <Muted style={styles.askBody}>
-          Nobody has set down how they are made — not in English, not in any language, nowhere a
-          machine can reach. No archive, no encyclopaedia and nothing automatic can authenticate
-          them instead; that is arithmetic in the scoring, not a policy. If you cook one, you are
-          the only person who can.
-        </Muted>
-        <View style={styles.actions}>
-          <Button label="Record a dish you know" onPress={() => router.push('/contribute')} />
-          <Button
-            label="How it gets authenticated"
-            variant="secondary"
-            onPress={() => router.push('/how')}
-          />
-        </View>
-          {!open ? (
-            <Muted style={styles.pending}>
-              Submissions are not open yet — there is nowhere to send them. The route above
-              explains what happens when they are.
-            </Muted>
-          ) : null}
-        </View>
+  return (
+    <View style={[styles.stats, wide ? styles.statsWide : null]}>
+      <Stat value={n(total)} label="dishes" />
+      <Stat value={String(countries)} label="countries" />
+      <Stat value={n(documented)} label="documented" />
+      <Stat value={n(heritage)} label="registered" />
+      {/* The accent goes on the only figure a person, rather than a source, can move. */}
+      <Stat value={n(authenticated)} label="authentic" accent />
+    </View>
+  );
+}
+
+/**
+ * The ask — the one thing on the screen a reader can act on.
+ *
+ * Keeps its tinted panel wherever it is placed: beside the pitch on a desktop, below the
+ * first shelf on a phone, and in both the only bordered block on the page. Losing that
+ * treatment by moving would cost it the thing that marks it out.
+ */
+export function MissionCallout() {
+  const { wide } = useLayout();
+  const { unwritten, open } = useMissionNumbers();
+
+  return (
+    <View style={wide ? styles.heroAside : styles.callout}>
+      <T style={styles.ask}>
+        {n(unwritten)} of these have no method recorded. {VALIDATIONS_REQUIRED} people from a place
+        can fix one for good.
+      </T>
+      <Muted style={styles.askBody}>
+        Nobody has set down how they are made — not in English, not in any language, nowhere a
+        machine can reach. No archive, no encyclopaedia and nothing automatic can authenticate them
+        instead; that is arithmetic in the scoring, not a policy. If you cook one, you are the only
+        person who can.
+      </Muted>
+      <View style={styles.actions}>
+        <Button label="Record a dish you know" onPress={() => router.push('/contribute')} />
+        <Button
+          label="How it gets authenticated"
+          variant="secondary"
+          onPress={() => router.push('/how')}
+        />
       </View>
+      {!open ? (
+        <Muted style={styles.pending}>
+          Submissions are not open yet — there is nowhere to send them. The route above explains
+          what happens when they are.
+        </Muted>
+      ) : null}
+    </View>
+  );
+}
 
+/**
+ * What the project promises, and why a source cannot settle authenticity.
+ *
+ * The quietest part of the pitch and the last a reader needs, which is why it is the
+ * first thing to move down a phone.
+ */
+export function MissionFootnotes() {
+  const { unwritten } = useMissionNumbers();
+
+  return (
+    <>
       <Muted style={styles.free}>
         {/*
          * "No accounts" had to go, and the replacement is deliberately not softer.
          *
          * Only confirmations from a signed-in person count toward a badge, because an
          * anonymous one is a private window away from being three of them. So an account
-         * is now needed for exactly one act — and for nothing else. Reading, searching,
+         * is needed for exactly one act — and for nothing else. Reading, searching,
          * browsing and proposing a dish all still work with no account and no tracking,
          * which is what the sentence now says.
          *
@@ -210,6 +235,37 @@ export function Mission() {
           still have nothing recorded about how they are made. What is left was never written down.
         </Muted>
       </Disclosure>
+    </>
+  );
+}
+
+/**
+ * The whole pitch, arranged as it has always been.
+ *
+ * Split into four exported parts so a phone can place them separately: the argument runs
+ * about 780px on a 375px screen, which put the first photograph 1.44 screens down. This
+ * composition is unchanged and is what every wide screen still renders.
+ *
+ * Two columns on a wide screen, stacked on a phone. Side by side, the argument and the
+ * ask are visible together without scrolling, which is what the extra width is actually
+ * good for; the measure is capped on the left rather than allowed to fill its half,
+ * because a line length is a fact about reading rather than about the container.
+ */
+export function Mission() {
+  const { wide } = useLayout();
+
+  return (
+    <View style={styles.wrap}>
+      <View style={wide ? styles.heroRow : undefined}>
+        <View style={wide ? styles.heroMain : undefined}>
+          <MissionPitch />
+          <MissionFigures />
+        </View>
+
+        <MissionCallout />
+      </View>
+
+      <MissionFootnotes />
     </View>
   );
 }
