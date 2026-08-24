@@ -101,8 +101,9 @@ export function SiteFooter() {
           <Wordmark size={17} />
           <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
           <Muted style={styles.holding}>
-            {catalogueStats.total.toLocaleString()} traditions from {catalogueStats.countries} countries. Free to
-            read, no advertising, and nothing tracked.
+            {copy.footerHolding
+              .replace('{n}', catalogueStats.total.toLocaleString())
+              .replace('{c}', String(catalogueStats.countries))}
           </Muted>
         </View>
 
@@ -125,10 +126,7 @@ export function SiteFooter() {
       </View>
 
       <View style={styles.base}>
-        <Muted style={styles.sources}>
-          Built from Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data — all free to
-          read and openly licensed. Photographs are credited to their authors on every record that carries one.
-        </Muted>
+        <Muted style={styles.sources}>{copy.footerSources}</Muted>
         <SessionControl compact />
       </View>
     </View>

@@ -210,6 +210,12 @@ export interface Copy {
   pantryNoMatches: string;
   pantryPrompt: string;
   requestsNotOpenNote: string;
+  footerHolding: string;
+  footerSources: string;
+  atlasCoverageLine: string;
+  concentrationNote: string;
+  growTheAtlasBody: string;
+  keepingItFreeBody: string;
   interfaceTranslationNote: string;
 }
 
@@ -396,6 +402,18 @@ export const EN: Copy = {
     'Name what is in your kitchen. Only about half the atlas has its ingredients recorded, so a dish missing here may simply be one nobody has written down yet.',
   requestsNotOpenNote:
     'Requests aren’t open yet, so the only way a dish enters the atlas is someone recording it.',
+  footerHolding:
+    '{n} traditions from {c} countries. Free to read, no advertising, and nothing tracked.',
+  footerSources:
+    'Built from Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data — all free to read and openly licensed. Photographs are credited to their authors on every record that carries one.',
+  atlasCoverageLine:
+    '{n} traditions documented across {c} countries. Coverage is stated honestly: a country absent here has nothing recorded yet, not nothing to record.',
+  concentrationNote:
+    '{p}% of the catalogue comes from {country} alone. That reflects which countries have been catalogued in the open sources this is built from — not where the world’s food is.',
+  growTheAtlasBody:
+    'For each dish the atlas first pulls the most widely published recipe on the internet and classifies it. Where nothing exists online, a submission from the community becomes the record.',
+  keepingItFreeBody:
+    'Everything here is built from sources that cost nothing and stay that way. One thing does cost money, and it is switched off until it can be paid for.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

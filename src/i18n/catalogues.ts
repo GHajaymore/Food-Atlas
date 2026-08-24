@@ -211,6 +211,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Di qué hay en tu cocina. Solo la mitad del atlas tiene sus ingredientes registrados, así que un plato que falte aquí puede ser simplemente uno que nadie ha escrito todavía.',
     requestsNotOpenNote:
       'Las peticiones aún no están abiertas, así que la única forma de que un plato entre en el atlas es que alguien lo registre.',
+    footerHolding:
+      '{n} tradiciones de {c} países. Gratis de leer, sin publicidad y sin rastrear nada.',
+    footerSources:
+      'Construido a partir de Wikipedia, Wikidata, Wikimedia Commons, Wikibooks y los datos abiertos regionales de Italia, todos libres de leer y con licencia abierta. Las fotografías se acreditan a sus autores en cada registro que lleva una.',
+    atlasCoverageLine:
+      '{n} tradiciones documentadas en {c} países. La cobertura se declara con honestidad: un país ausente aquí no tiene nada registrado todavía, no es que no haya nada que registrar.',
+    concentrationNote:
+      'El {p}% del catálogo viene solo de {country}. Eso refleja qué países se han catalogado en las fuentes abiertas de las que parte esto, no dónde está la comida del mundo.',
+    growTheAtlasBody:
+      'Para cada plato, el atlas primero toma la receta más publicada de internet y la clasifica. Donde no existe nada en línea, una aportación de la comunidad se convierte en el registro.',
+    keepingItFreeBody:
+      'Todo lo de aquí está construido con fuentes que no cuestan nada y siguen así. Una sola cosa cuesta dinero, y está apagada hasta que se pueda pagar.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -388,6 +400,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Dites ce qu’il y a dans votre cuisine. Environ la moitié de l’atlas seulement a ses ingrédients enregistrés, donc un plat absent ici est peut-être simplement un plat que personne n’a encore écrit.',
     requestsNotOpenNote:
       'Les demandes ne sont pas encore ouvertes ; la seule façon qu’un plat entre dans l’atlas est que quelqu’un l’enregistre.',
+    footerHolding:
+      '{n} traditions de {c} pays. Libre à lire, sans publicité, et rien n’est pisté.',
+    footerSources:
+      'Construit à partir de Wikipédia, Wikidata, Wikimedia Commons, Wikibooks et des données ouvertes régionales italiennes, toutes libres à lire et sous licence ouverte. Les photographies sont créditées à leurs auteurs sur chaque fiche qui en porte une.',
+    atlasCoverageLine:
+      '{n} traditions documentées dans {c} pays. La couverture est annoncée honnêtement : un pays absent ici n’a encore rien d’enregistré, ce n’est pas qu’il n’y ait rien à enregistrer.',
+    concentrationNote:
+      '{p} % du catalogue vient de {country} à lui seul. Cela reflète quels pays ont été catalogués dans les sources ouvertes dont ceci part, et non où se trouve la nourriture du monde.',
+    growTheAtlasBody:
+      'Pour chaque plat, l’atlas prend d’abord la recette la plus publiée sur internet et la classe. Là où rien n’existe en ligne, une contribution de la communauté devient la fiche.',
+    keepingItFreeBody:
+      'Tout ici est construit à partir de sources qui ne coûtent rien et le restent. Une seule chose coûte de l’argent, et elle est désactivée tant qu’elle ne peut pas être payée.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -564,6 +588,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nennen Sie, was in Ihrer Küche ist. Nur etwa die Hälfte des Atlas hat ihre Zutaten erfasst, ein hier fehlendes Gericht ist also vielleicht nur eines, das niemand aufgeschrieben hat.',
     requestsNotOpenNote:
       'Anfragen sind noch nicht offen; ein Gericht kommt also nur in den Atlas, wenn jemand es festhält.',
+    footerHolding:
+      '{n} Traditionen aus {c} Ländern. Frei zu lesen, ohne Werbung, und nichts wird verfolgt.',
+    footerSources:
+      'Aufgebaut aus Wikipedia, Wikidata, Wikimedia Commons, Wikibooks und Italiens regionalen offenen Daten — alle frei zu lesen und offen lizenziert. Fotografien werden ihren Urhebern auf jedem Eintrag zugeschrieben, der eine trägt.',
+    atlasCoverageLine:
+      '{n} Traditionen aus {c} Ländern erfasst. Die Abdeckung wird ehrlich benannt: Ein hier fehlendes Land hat noch nichts Erfasstes, nicht nichts zu erfassen.',
+    concentrationNote:
+      '{p} % des Katalogs stammen allein aus {country}. Das zeigt, welche Länder in den offenen Quellen erfasst wurden, aus denen dies aufgebaut ist — nicht, wo das Essen der Welt ist.',
+    growTheAtlasBody:
+      'Für jedes Gericht holt der Atlas zuerst das im Internet meistveröffentlichte Rezept und ordnet es ein. Wo online nichts existiert, wird ein Beitrag aus der Gemeinschaft zum Eintrag.',
+    keepingItFreeBody:
+      'Alles hier ist aus Quellen gebaut, die nichts kosten und das bleiben. Eine einzige Sache kostet Geld, und sie ist abgeschaltet, bis sie bezahlt werden kann.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -740,6 +776,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Di’ che cosa hai in cucina. Solo circa metà dell’atlante ha gli ingredienti registrati, quindi un piatto che manca qui può essere semplicemente uno che nessuno ha ancora scritto.',
     requestsNotOpenNote:
       'Le richieste non sono ancora aperte, quindi l’unico modo perché un piatto entri nell’atlante è che qualcuno lo registri.',
+    footerHolding:
+      '{n} tradizioni da {c} paesi. Libero da leggere, senza pubblicità, e nulla viene tracciato.',
+    footerSources:
+      'Costruito da Wikipedia, Wikidata, Wikimedia Commons, Wikibooks e i dati aperti regionali italiani, tutti liberi da leggere e con licenza aperta. Le fotografie sono attribuite ai loro autori su ogni scheda che ne porta una.',
+    atlasCoverageLine:
+      '{n} tradizioni documentate in {c} paesi. La copertura è dichiarata con onestà: un paese assente qui non ha ancora nulla di registrato, non che non ci sia nulla da registrare.',
+    concentrationNote:
+      'Il {p}% del catalogo viene dalla sola {country}. Questo riflette quali paesi sono stati catalogati nelle fonti aperte da cui parte, non dove si trova il cibo del mondo.',
+    growTheAtlasBody:
+      'Per ogni piatto l’atlante prende prima la ricetta più pubblicata su internet e la classifica. Dove online non esiste nulla, un contributo della comunità diventa la scheda.',
+    keepingItFreeBody:
+      'Tutto qui è costruito con fonti che non costano nulla e restano così. Una sola cosa costa denaro, ed è spenta finché non potrà essere pagata.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -917,6 +965,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Diga o que tem na cozinha. Só cerca de metade do atlas tem os ingredientes registados, por isso um prato que falte aqui pode ser apenas um que ninguém escreveu ainda.',
     requestsNotOpenNote:
       'Os pedidos ainda não estão abertos, por isso a única forma de um prato entrar no atlas é alguém registá-lo.',
+    footerHolding:
+      '{n} tradições de {c} países. Livre de ler, sem publicidade, e nada é rastreado.',
+    footerSources:
+      'Construído a partir da Wikipédia, Wikidata, Wikimedia Commons, Wikibooks e dos dados abertos regionais de Itália, todos livres de ler e com licença aberta. As fotografias são creditadas aos seus autores em cada registo que traz uma.',
+    atlasCoverageLine:
+      '{n} tradições documentadas em {c} países. A cobertura é declarada com honestidade: um país ausente aqui não tem ainda nada registado, não é que não haja nada a registar.',
+    concentrationNote:
+      '{p}% do catálogo vem só de {country}. Isso reflete que países foram catalogados nas fontes abertas de que isto parte, não onde está a comida do mundo.',
+    growTheAtlasBody:
+      'Para cada prato, o atlas puxa primeiro a receita mais publicada na internet e classifica-a. Onde não existe nada em linha, uma contribuição da comunidade passa a ser o registo.',
+    keepingItFreeBody:
+      'Tudo aqui é construído com fontes que não custam nada e assim continuam. Uma única coisa custa dinheiro, e está desligada até poder ser paga.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -1093,6 +1153,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Noem wat er in uw keuken ligt. Van ongeveer de helft van de atlas zijn de ingrediënten vastgelegd, dus een gerecht dat hier ontbreekt kan er simpelweg een zijn dat niemand heeft opgeschreven.',
     requestsNotOpenNote:
       'Verzoeken zijn nog niet open, dus een gerecht komt alleen in de atlas als iemand het vastlegt.',
+    footerHolding:
+      '{n} tradities uit {c} landen. Vrij te lezen, geen reclame, en niets wordt gevolgd.',
+    footerSources:
+      'Gebouwd op Wikipedia, Wikidata, Wikimedia Commons, Wikibooks en de regionale open data van Italië — alle vrij te lezen en open gelicentieerd. Foto’s worden toegeschreven aan hun makers op elk record dat er een draagt.',
+    atlasCoverageLine:
+      '{n} tradities vastgelegd in {c} landen. De dekking wordt eerlijk benoemd: een land dat hier ontbreekt heeft nog niets vastgelegd, niet niets vast te leggen.',
+    concentrationNote:
+      '{p}% van de catalogus komt alleen uit {country}. Dat laat zien welke landen zijn vastgelegd in de open bronnen waarop dit is gebouwd — niet waar het eten van de wereld is.',
+    growTheAtlasBody:
+      'Voor elk gerecht haalt de atlas eerst het meest gepubliceerde recept van internet en deelt het in. Waar online niets bestaat, wordt een bijdrage uit de gemeenschap het record.',
+    keepingItFreeBody:
+      'Alles hier is gebouwd op bronnen die niets kosten en dat blijven. Eén ding kost wel geld, en het staat uit tot het betaald kan worden.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -1270,6 +1342,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Podaj, co masz w kuchni. Tylko mniej więcej połowa atlasu ma zapisane składniki, więc brakująca tu potrawa może być po prostu taką, której nikt jeszcze nie zapisał.',
     requestsNotOpenNote:
       'Prośby nie są jeszcze otwarte, więc potrawa trafia do atlasu tylko wtedy, gdy ktoś ją zapisze.',
+    footerHolding:
+      '{n} tradycji z {c} krajów. Za darmo do czytania, bez reklam i bez śledzenia.',
+    footerSources:
+      'Zbudowane na Wikipedii, Wikidanych, Wikimedia Commons, Wikibooks i regionalnych danych otwartych Włoch — wszystkie darmowe do czytania i na otwartej licencji. Zdjęcia są przypisane ich autorom przy każdym wpisie, który je ma.',
+    atlasCoverageLine:
+      '{n} tradycji zapisanych w {c} krajach. Zasięg podajemy uczciwie: kraj, którego tu nie ma, nie ma jeszcze nic zapisanego — a nie nic do zapisania.',
+    concentrationNote:
+      '{p}% katalogu pochodzi z samych {country}. To pokazuje, które kraje opisano w otwartych źródłach, na których to powstało, a nie gdzie jest jedzenie świata.',
+    growTheAtlasBody:
+      'Dla każdej potrawy atlas najpierw bierze najczęściej publikowany przepis z internetu i go klasyfikuje. Tam, gdzie w sieci nie ma nic, wpisem staje się zgłoszenie od społeczności.',
+    keepingItFreeBody:
+      'Wszystko tutaj powstało ze źródeł, które nic nie kosztują i takie zostaną. Jedna rzecz kosztuje pieniądze i jest wyłączona, dopóki nie będzie za co jej opłacić.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -1446,6 +1530,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Mutfağınızda ne olduğunu yazın. Atlasın ancak yarısının malzemeleri kayıtlı, bu yüzden burada çıkmayan bir yemek, sadece kimsenin yazmadığı bir yemek olabilir.',
     requestsNotOpenNote:
       'İstekler henüz açık değil; bir yemeğin atlasa girmesinin tek yolu birinin onu kaydetmesi.',
+    footerHolding:
+      '{c} ülkeden {n} gelenek. Okuması ücretsiz, reklam yok, hiçbir şey izlenmiyor.',
+    footerSources:
+      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks ve İtalya’nın bölgesel açık verilerinden kuruldu — hepsi okuması serbest ve açık lisanslı. Fotoğraflar, taşıyan her kayıtta yazarlarına atfedilir.',
+    atlasCoverageLine:
+      '{c} ülkede {n} gelenek kayıtlı. Kapsam dürüstçe belirtiliyor: burada olmayan bir ülkenin henüz kaydı yoktur, kaydedilecek şeyi yok değildir.',
+    concentrationNote:
+      'Kataloğun %{p}’i tek başına {country} kaynaklı. Bu, hangi ülkelerin dayandığımız açık kaynaklarda kayda geçtiğini gösterir — dünyanın yemeğinin nerede olduğunu değil.',
+    growTheAtlasBody:
+      'Atlas her yemek için önce internette en çok yayımlanmış tarifi alır ve sınıflandırır. Çevrimiçi hiçbir şey yoksa, topluluktan gelen bir katkı kaydın kendisi olur.',
+    keepingItFreeBody:
+      'Buradaki her şey hiçbir şeye mal olmayan ve öyle kalan kaynaklardan kuruldu. Tek bir şey para tutuyor ve karşılanabilene kadar kapalı.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -1623,6 +1719,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Назовите, что есть у вас на кухне. Ингредиенты записаны примерно у половины атласа, поэтому отсутствующее здесь блюдо может быть просто тем, которое никто ещё не записал.',
     requestsNotOpenNote:
       'Запросы пока не открыты, поэтому блюдо попадает в атлас только если кто-то его запишет.',
+    footerHolding:
+      '{n} традиций из {c} стран. Читать бесплатно, без рекламы, ничего не отслеживается.',
+    footerSources:
+      'Построено на Википедии, Викиданных, Викискладе, Викиучебниках и региональных открытых данных Италии — всё свободно для чтения и под открытой лицензией. Фотографии подписаны именами авторов на каждой записи, где они есть.',
+    atlasCoverageLine:
+      '{n} традиций записано в {c} странах. Охват назван честно: у страны, которой здесь нет, пока ничего не записано — а не нечего записывать.',
+    concentrationNote:
+      '{p}% каталога приходится на одну {country}. Это говорит о том, какие страны описаны в открытых источниках, из которых всё построено, а не о том, где находится еда мира.',
+    growTheAtlasBody:
+      'Для каждого блюда атлас сначала берёт самый публикуемый в интернете рецепт и классифицирует его. Там, где в сети нет ничего, записью становится присланное сообществом.',
+    keepingItFreeBody:
+      'Всё здесь построено на источниках, которые ничего не стоят и такими остаются. Одна вещь стоит денег, и она выключена, пока её нечем оплатить.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -1800,6 +1908,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'बताइए आपकी रसोई में क्या है। एटलस के लगभग आधे हिस्से की ही सामग्री दर्ज है, इसलिए यहाँ न मिलने वाला व्यंजन शायद वही हो जिसे किसी ने अब तक लिखा नहीं।',
     requestsNotOpenNote:
       'अनुरोध अभी खुले नहीं हैं, इसलिए किसी व्यंजन के एटलस में आने का एकमात्र रास्ता यही है कि कोई उसे दर्ज करे।',
+    footerHolding:
+      '{c} देशों की {n} परंपराएँ। पढ़ना मुफ़्त, कोई विज्ञापन नहीं, और कुछ भी ट्रैक नहीं होता।',
+    footerSources:
+      'विकिपीडिया, विकिडेटा, विकिमीडिया कॉमन्स, विकिबुक्स और इटली के क्षेत्रीय खुले डेटा से बना — सभी पढ़ने को स्वतंत्र और खुली लाइसेंस वाले। जिस भी रिकॉर्ड में तस्वीर है, उसमें फ़ोटोग्राफ़र का श्रेय दिया गया है।',
+    atlasCoverageLine:
+      '{c} देशों में {n} परंपराएँ दर्ज। कवरेज ईमानदारी से बताई गई है: यहाँ जो देश नहीं है, उसका अभी कुछ दर्ज नहीं हुआ — ऐसा नहीं कि दर्ज करने को कुछ है ही नहीं।',
+    concentrationNote:
+      'कैटलॉग का {p}% अकेले {country} से आता है। यह दिखाता है कि जिन खुले स्रोतों पर यह बना है उनमें कौन से देश दर्ज हुए — यह नहीं कि दुनिया का खाना कहाँ है।',
+    growTheAtlasBody:
+      'हर व्यंजन के लिए एटलस पहले इंटरनेट पर सबसे ज़्यादा प्रकाशित विधि लेता है और उसे वर्गीकृत करता है। जहाँ ऑनलाइन कुछ नहीं है, वहाँ समुदाय से आया योगदान ही रिकॉर्ड बनता है।',
+    keepingItFreeBody:
+      'यहाँ सब कुछ ऐसे स्रोतों से बना है जिनकी कोई क़ीमत नहीं और आगे भी नहीं होगी। एक चीज़ में पैसे लगते हैं, और जब तक उसका ख़र्च न उठाया जा सके वह बंद है।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -1977,6 +2097,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '写下你厨房里有什么。图谱只有大约一半记录了食材，所以这里没出现的菜，可能只是还没有人写下来。',
     requestsNotOpenNote:
       '请求尚未开放，所以一道菜进入图谱的唯一途径，是有人把它记录下来。',
+    footerHolding:
+      '来自 {c} 个国家的 {n} 项传统。免费阅读，没有广告，不追踪任何内容。',
+    footerSources:
+      '取材自维基百科、维基数据、维基共享资源、维基教科书，以及意大利的地区开放数据 — 全部可自由阅读且采用开放许可。凡带照片的记录，都注明了拍摄者。',
+    atlasCoverageLine:
+      '在 {c} 个国家记录了 {n} 项传统。覆盖范围如实说明：这里没有的国家，是还没有记录，而不是没有可记录的。',
+    concentrationNote:
+      '图谱有 {p}% 来自 {country} 一国。这反映的是哪些国家在本项目所依据的开放资料中被记录过，而不是世界的食物在哪里。',
+    growTheAtlasBody:
+      '每一道菜，图谱先取网上流传最广的食谱并加以分类。网上什么都没有的，社区提交的内容就成为该记录。',
+    keepingItFreeBody:
+      '这里的一切都建立在不花钱、且会继续不花钱的资料之上。只有一件事需要花钱，在能够支付之前它是关闭的。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -2154,6 +2286,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '台所にあるものを書いてください。材料が記録されているのはアトラスの半分ほどなので、ここに出てこない料理は、まだ誰も書き留めていないだけかもしれません。',
     requestsNotOpenNote:
       'リクエストはまだ受け付けていないため、料理がアトラスに入る道は、誰かが記録することだけです。',
+    footerHolding:
+      '{c} か国の {n} 件の伝統。読むのは無料、広告なし、何も追跡しません。',
+    footerSources:
+      'ウィキペディア、ウィキデータ、ウィキメディア・コモンズ、ウィキブックス、そしてイタリアの地域オープンデータから構築 — いずれも自由に読め、オープンライセンスです。写真のある記録には、すべて撮影者を明記しています。',
+    atlasCoverageLine:
+      '{c} か国で {n} 件の伝統を記録。網羅の度合いは正直に述べます。ここにない国は、まだ記録がないという意味であり、記録するものがないという意味ではありません。',
+    concentrationNote:
+      '目録の {p}% が {country} 一国からのものです。これは、もとにした公開資料でどの国が記録されてきたかを示すもので、世界の食べものがどこにあるかを示すものではありません。',
+    growTheAtlasBody:
+      'それぞれの料理について、アトラスはまずネット上で最も多く公開されているレシピを取り、分類します。ネットに何もない場合は、地域からの投稿がその記録になります。',
+    keepingItFreeBody:
+      'ここにあるものはすべて、費用がかからず今後もかからない資料から作られています。ひとつだけ費用のかかるものがあり、支払えるようになるまで止めてあります。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

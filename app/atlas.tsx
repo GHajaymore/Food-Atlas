@@ -26,7 +26,7 @@ import { CoverageTable, Explain, Meter, StatTile } from '../src/components/Metri
 import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
 import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics';
-import { atlasCoverage, buildAtlas } from '../src/domain/queries';
+import { buildAtlas } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { space } from '../src/theme/tokens';
 
@@ -50,7 +50,13 @@ export default function Atlas() {
   const intro = (
     <>
       <NavRow title={copy.foodAtlas} />
-      <Muted style={styles.coverage}>{atlasCoverage(dishes)}</Muted>
+      {/* Built from the copy rather than from `atlasCoverage`, so the sentence reads in
+          the chosen language while the two figures stay exactly what the domain counted. */}
+      <Muted style={styles.coverage}>
+        {copy.atlasCoverageLine
+          .replace('{n}', metrics.total.toLocaleString())
+          .replace('{c}', String(metrics.countries))}
+      </Muted>
     </>
   );
 
@@ -80,10 +86,11 @@ export default function Atlas() {
         <StatTile value={String(metrics.atRisk)} label={copy.atRiskTraditions} note={metricNote('atRisk')} />
       </View>
 
+      {/* The country's own name is passed through, never translated — rule 1. */}
       <Muted style={styles.concentration}>
-        {metrics.concentration.percent}% of the catalogue comes from {metrics.concentration.country} alone. That
-        reflects which countries have been catalogued in the open sources this is built from — not where the
-        world&apos;s food is.
+        {copy.concentrationNote
+          .replace('{p}', String(metrics.concentration.percent))
+          .replace('{country}', metrics.concentration.country)}
       </Muted>
       <Explain note={metricNote('concentration')} />
     </>
@@ -92,10 +99,7 @@ export default function Atlas() {
   const asks = [
     <Card key="grow" style={styles.grow}>
       <CardKicker>{copy.growTheAtlas}</CardKicker>
-      <CardBody>
-        For each dish the atlas first pulls the most widely published recipe on the internet and classifies it.
-        Where nothing exists online, a submission from the community becomes the record.
-      </CardBody>
+      <CardBody>{copy.growTheAtlasBody}</CardBody>
       <Button label={copy.addATradition} block onPress={() => router.push('/contribute')} />
     </Card>,
     /* Placed under the coverage figures on a phone, and beside them on a desktop. Either
@@ -103,10 +107,7 @@ export default function Atlas() {
        shown, so the ask reads as a consequence of them rather than an interruption. */
     <Card key="free" style={styles.grow}>
       <CardKicker>{copy.keepingItFree}</CardKicker>
-      <CardBody>
-        Everything here is built from sources that cost nothing and stay that way. One thing does cost money, and
-        it is switched off until it can be paid for.
-      </CardBody>
+      <CardBody>{copy.keepingItFreeBody}</CardBody>
       <Button label={copy.whatItCostsToRun} variant="secondary" block onPress={() => router.push('/support')} />
     </Card>,
   ];
