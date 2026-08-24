@@ -185,9 +185,12 @@ The rest, in the order it is worth doing:
 
   Two things left, and both need a decision rather than just typing:
 
-  - **Diet and occasion cannot be linked yet.** `feedFor` narrows by both, but
-    `BrowseQuery` does not carry them, so `/browse?diet=vegan` is not expressible.
-    Adding two fields to the parser, `describe()` and `applyBrowse` is the whole job.
+  - ~~**Diet and occasion cannot be linked yet.**~~ **Done, 2026-08-23.**
+    `/browse?diet=vegan&meal=snack` heads itself "Vegan · Snack" and returns 2 records.
+    One `diet` field carries both a group and a kind, because a reader clicking "Vegan"
+    and one clicking "Poultry" are doing the same thing. Unknown values narrow by
+    *nothing* rather than by everything — `?diet=pescatarian-ish` gives "Everything,
+    17,828 records" rather than a heading claiming a filter that was never applied.
   - **Facets on cards are a genuine hazard, not an oversight.** A card is already one
     big link to the dish; a link *inside* it means a nested pressable, and on the web a
     tap on the country would fire both. Worth doing only with a deliberate answer to

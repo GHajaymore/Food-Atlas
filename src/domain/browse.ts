@@ -27,8 +27,8 @@
  */
 
 import { FILTERS } from './authenticity';
-import type { DietGroup, DietKind } from './diet';
-import type { MealOccasion } from './meals';
+import { GROUP_LABELS, KIND_LABELS, type DietGroup, type DietKind } from './diet';
+import { MEAL_LABELS, type MealOccasion } from './meals';
 import { feedFor, searchResults, type SearchFacets } from './queries';
 import type { Dish, FilterKey, PathStep } from './types';
 
@@ -41,6 +41,17 @@ export interface BrowseQuery {
   category?: string;
   cuisine?: string;
   ingredient?: string;
+  /**
+   * A diet group (`vegan`) or one of the kinds under it (`poultry`).
+   *
+   * One field for both because a reader clicking "Vegan" and a reader clicking
+   * "Poultry" are doing the same thing, and asking a URL to distinguish `dietGroup`
+   * from `dietKind` would push a detail of the menu's shape into every link that
+   * mentions food.
+   */
+  diet?: string;
+  /** A single occasion — `breakfast`, `street-food`, `celebration`. */
+  meal?: string;
   /** Free text, matched the way search matches it. */
   q?: string;
 }
@@ -72,6 +83,8 @@ export function parseBrowse(params: Record<string, string | string[] | undefined
     category: one('category'),
     cuisine: one('cuisine'),
     ingredient: one('ingredient'),
+    diet: one('diet'),
+    meal: one('meal'),
     q: one('q'),
   };
 }
@@ -96,6 +109,31 @@ export const levelOf = (query: BrowseQuery): FilterKey =>
   FILTERS.some((f) => f.key === query.level) ? (query.level as FilterKey) : 'all';
 
 /**
+ * The diet narrowing a URL asks for, if it names one this app knows.
+ *
+ * Unknown values narrow by nothing rather than by everything — same stance as
+ * `levelOf`, and for the same reason: a link from an older version, or a hand-edited
+ * URL, should show the atlas rather than an empty page implying it holds nothing. The
+ * difference from `levelOf` is that there is no "all" to fall back to here; an absent
+ * diet simply is no diet filter.
+ */
+export function dietOf(query: BrowseQuery): { groups: DietGroup[]; kinds: DietKind[] } {
+  const value = query.diet;
+  if (!value) return { groups: [], kinds: [] };
+  if (value in GROUP_LABELS) return { groups: [value as DietGroup], kinds: [] };
+  if (value in KIND_LABELS) return { groups: [], kinds: [value as DietKind] };
+  return { groups: [], kinds: [] };
+}
+
+/** The occasion a URL asks for, if it names a real one. */
+export const mealsOf = (query: BrowseQuery): MealOccasion[] =>
+  query.meal && query.meal in MEAL_LABELS ? [query.meal as MealOccasion] : [];
+
+/** What a diet value should be called, whichever of the two vocabularies it came from. */
+const dietLabelOf = (value: string): string =>
+  GROUP_LABELS[value as DietGroup] ?? KIND_LABELS[value as DietKind] ?? '';
+
+/**
  * Run the query. Composition of the two existing engines, in that order.
  *
  * `feedFor` first because it is the cheaper filter and narrows hardest — place and
@@ -104,8 +142,11 @@ export const levelOf = (query: BrowseQuery): FilterKey =>
 export function browse(
   dishes: Dish[],
   query: BrowseQuery,
-  diet: { groups: DietGroup[]; kinds: DietKind[] } = { groups: [], kinds: [] },
-  meals: MealOccasion[] = [],
+  /* Default to what the URL says, so a caller that passes nothing gets the query it
+     asked for rather than an unfiltered list. Both stay overridable: a screen holding
+     its own diet state should be able to say so. */
+  diet: { groups: DietGroup[]; kinds: DietKind[] } = dietOf(query),
+  meals: MealOccasion[] = mealsOf(query),
 ): Dish[] {
   const narrowed = feedFor(dishes, levelOf(query), pathOf(query), diet, meals);
 
@@ -140,6 +181,10 @@ export function describe(query: BrowseQuery): string {
   if (query.cuisine) parts.push(`${query.cuisine} cuisine`);
   if (query.category) parts.push(query.category);
   if (query.ingredient) parts.push(`made with ${query.ingredient}`);
+  /* Built from the resolved value rather than the raw one, so a heading cannot announce
+     a diet that was not applied — the exact failure this file is defensive about. */
+  if (query.diet && dietLabelOf(query.diet)) parts.push(dietLabelOf(query.diet));
+  if (mealsOf(query).length) parts.push(MEAL_LABELS[mealsOf(query)[0]]);
 
   const where = [query.region, query.country].filter(Boolean).join(', ');
   const what = parts.filter(Boolean).join(' · ');

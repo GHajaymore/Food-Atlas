@@ -9,9 +9,11 @@
 import {
   browse,
   describe as describeQuery,
+  dietOf,
   hrefFor,
   isNarrowed,
   levelOf,
+  mealsOf,
   parseBrowse,
   pathOf,
 } from '../src/domain/browse';
@@ -157,5 +159,44 @@ describe('the place path', () => {
 
   test('a region with no country is still a region', () => {
     expect(pathOf({ region: 'Kerala' })).toEqual([{ level: 'region', value: 'Kerala' }]);
+  });
+});
+
+/*
+ * Diet and occasion arrive from a URL like everything else here, so the question is not
+ * whether they filter — `feedFor` has narrowed by both for a long time — but what they
+ * do with a value nobody checked. Narrowing by nothing is right; narrowing by everything
+ * would produce the exact page this file exists to prevent, one whose heading claims a
+ * filter it did not apply.
+ */
+describe('diet and occasion in a URL', () => {
+  test('reads a diet group and a diet kind through the same field', () => {
+    expect(dietOf({ diet: 'vegan' })).toEqual({ groups: ['vegan'], kinds: [] });
+    expect(dietOf({ diet: 'poultry' })).toEqual({ groups: [], kinds: ['poultry'] });
+  });
+
+  test('an unknown diet narrows by nothing rather than by everything', () => {
+    expect(dietOf({ diet: 'pescatarian-ish' })).toEqual({ groups: [], kinds: [] });
+    expect(dietOf({})).toEqual({ groups: [], kinds: [] });
+  });
+
+  test('reads a real occasion and ignores an invented one', () => {
+    expect(mealsOf({ meal: 'street-food' })).toEqual(['street-food']);
+    expect(mealsOf({ meal: 'elevenses' })).toEqual([]);
+  });
+
+  test('a heading names the diet and occasion that were applied, and no others', () => {
+    expect(describeQuery({ diet: 'vegan', meal: 'breakfast' })).toContain('Vegan');
+    expect(describeQuery({ diet: 'vegan', meal: 'breakfast' })).toContain('Breakfast');
+    // The heading must not repeat back a value the query refused to apply.
+    expect(describeQuery({ diet: 'elevenses' })).toBe('Everything');
+  });
+
+  test('survives a round trip through a URL', () => {
+    const href = hrefFor({ diet: 'lamb-goat', meal: 'celebration' });
+    const params = Object.fromEntries(new URLSearchParams(href.split('?')[1]));
+    const back = parseBrowse(params);
+    expect(dietOf(back)).toEqual({ groups: [], kinds: ['lamb-goat'] });
+    expect(mealsOf(back)).toEqual(['celebration']);
   });
 });

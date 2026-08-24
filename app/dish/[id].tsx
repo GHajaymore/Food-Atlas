@@ -44,7 +44,7 @@ import {
   openDisputes,
   siblingsOf,
 } from '../../src/domain/traditions';
-import { dietLabel, traceLabels } from '../../src/domain/diet';
+import { dietLabel, GROUP_LABELS, traceLabels } from '../../src/domain/diet';
 import { MEAL_LABELS } from '../../src/domain/meals';
 import { availableLanguages } from '../../src/domain/translate';
 import { openAtSource } from '../../src/domain/video';
@@ -350,7 +350,22 @@ export default function DishDetail() {
               the dish to fit a preference. */}
           <Block style={styles.dietBlock}>
             <View style={styles.dietChips}>
-              <Tag label={dietLabel(dish.diet)} variant="neutral" />
+              {/*
+               * The diet links to its group rather than to the composed label above it.
+               * "Meat · Poultry" is the honest description of this record; the useful
+               * question behind it is "what else is meat", and the group is the widest
+               * answer that is still true.
+               *
+               * The traces beside it stay inert: dairy and egg are things this dish
+               * contains, and the atlas has no filter for them — a link that could only
+               * lead somewhere approximate is worse than a plain word.
+               */}
+              <FacetLink
+                variant="tag"
+                label={dietLabel(dish.diet)}
+                describedAs={`Everything recorded as ${GROUP_LABELS[dish.diet.group]}`}
+                query={{ diet: dish.diet.group }}
+              />
               {traceLabels(dish.diet).map((trace) => (
                 <Tag key={trace} label={trace} variant="outline" />
               ))}
@@ -361,7 +376,17 @@ export default function DishDetail() {
               <>
                 <View style={styles.mealChips}>
                   {dish.meals.occasions.map((occasion) => (
-                    <Tag key={occasion} label={MEAL_LABELS[occasion]} variant="outline" />
+                    <FacetLink
+                      key={occasion}
+                      variant="tag"
+                      label={MEAL_LABELS[occasion]}
+                      /* No `describedAs`: the labels are a mixed bag grammatically —
+                         "Snack", "Celebration & feast", "Any time" — and every sentence
+                         that fits one reads badly around another. "Everything eaten at
+                         Snack" was the first attempt. FacetLink's default, "Snack — see
+                         everything", works for all nine. */
+                      query={{ meal: occasion }}
+                    />
                   ))}
                 </View>
                 {/* The occasion in its own terms — iftar, Þorrablót, the comida —
