@@ -30,7 +30,7 @@ import { coverageOf } from '../domain/language';
 import { isPhotograph, photoOriginLine, tidyCredit, type PhotoSource } from '../domain/photoProvenance';
 import { placeBelow } from '../domain/place';
 import { recipeLines } from '../domain/recipeLines';
-import { decodeEntities } from '../domain/text';
+import { decodeEntities, sentenceCase } from '../domain/text';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
 import { dishes as curated } from './seed';
@@ -80,21 +80,8 @@ const FOOD_DISAMBIGUATOR =
  * acronym where the tradition's name should be. The Wikidata link on the record still
  * points at the registered entry, so nothing is lost by dropping it from the label.
  */
-/**
- * Sentence-case a name that arrives lowercase.
- *
- * Wikidata labels common nouns in lower case — "popcorn", "pea soup", "chimichurri" —
- * and UNESCO writes its dish inside a sentence, so "ceviche" and "tea" came out of the
- * inscriptions in lower case too. 1,368 records were affected, and on a shelf beside
- * "Kozhikode Halwa" and "Neapolitan Pizza Margherita" they read as a mistake rather
- * than as a convention.
- *
- * Only the first letter, and only when it is a lower-case letter: nothing else about
- * the name is touched. "il-Ftira" becomes "Il-Ftira"; a name in a non-Latin script has
- * no case and is returned unchanged.
- */
-const sentenceCase = (name: string): string =>
-  /^\p{Ll}/u.test(name) ? name[0].toUpperCase() + name.slice(1) : name;
+/* `sentenceCase` now lives in `domain/text.ts`, because what a person types gets the
+   same treatment as what the import reads. See `domain/entry.ts`. */
 
 /**
  * Close a bracket the source left open.

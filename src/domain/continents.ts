@@ -128,6 +128,33 @@ export function registerContinents(entries: Iterable<[string, string]>): void {
 export const continentOf = (country: string): string => CONTINENTS.get(country) ?? 'Elsewhere';
 
 /**
+ * The atlas's own spelling of a country, matched without regard to case or accents.
+ *
+ * Needed because `canonicalCountry` only knows *aliases* — "USA", "Republic of India" —
+ * so a country typed in the atlas's own words but in lower case came back unchanged, and
+ * "india" is a different country from "India" to every index in the app. The set of
+ * countries the atlas actually files under is exactly what is registered here by the
+ * import, which makes this the only place that can answer it.
+ *
+ * Returns empty when nothing matches, so a caller can tell "the atlas knows this place"
+ * from "the atlas has never heard of it" — and a person naming somewhere unrecorded is
+ * the case this project exists for, never an error.
+ */
+export function knownCountry(name: string): string {
+  const wanted = fold(name);
+  if (!wanted) return '';
+  for (const country of CONTINENTS.keys()) if (fold(country) === wanted) return country;
+  return '';
+}
+
+const fold = (value: string): string =>
+  (value ?? '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z]/g, '');
+
+/**
  * Whether this origin is a country, as opposed to something broader or older.
  *
  * Wikidata's "country of origin" is not always a country. Seventy-nine records in this

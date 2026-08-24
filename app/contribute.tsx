@@ -38,6 +38,7 @@ import {
 } from '../src/domain/contribution';
 import { EDITORIAL_RULE } from '../src/domain/editorial';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
+import { tidyText } from '../src/domain/entry';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
@@ -129,6 +130,28 @@ export default function Contribute() {
   });
   const set = (field: keyof Contribution) => (value: string) =>
     setEntry((current) => ({ ...current, [field]: value }));
+
+  /**
+   * Whitespace only, and deliberately less than the other two forms do.
+   *
+   * `Contribution.dish` says it in its own type: *"written the way they write it. Never
+   * corrected on the way in."* That decision stands. What is safe — and what nobody
+   * means to type — is a trailing space or a double space in the middle, which travels
+   * into a URL parameter and out the other side as a different value.
+   *
+   * So this fixes what a keyboard produced and nothing a person chose. `/propose` casing
+   * its dish name is not an inconsistency with this: a proposal becomes a record that
+   * sits beside imported ones and gets the import's treatment, while this prefills a
+   * form a human then reads.
+   */
+  const tidied = (): Contribution => ({
+    dish: tidyText(entry.dish),
+    place: tidyText(entry.place),
+    cooks: tidyText(entry.cooks),
+    ingredients: tidyText(entry.ingredients),
+    connection: tidyText(entry.connection),
+    photo: tidyText(photoInput),
+  });
 
   const missing = missingFrom({ ...entry, photo: photoInput });
 
@@ -352,7 +375,7 @@ export default function Contribute() {
               <Button
                 label="Send this tradition"
                 block
-                onPress={() => openAtSource(contributionUrl({ ...entry, photo: photoInput }))}
+                onPress={() => openAtSource(contributionUrl(tidied()))}
               />
             </Card>
           ) : (

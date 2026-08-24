@@ -88,3 +88,23 @@ export function decodeEntities(text: string): string {
     return NAMED[body.toLowerCase()] ?? whole;
   });
 }
+
+/**
+ * Sentence-case a name that arrives lowercase.
+ *
+ * Wikidata labels common nouns in lower case — "popcorn", "pea soup", "chimichurri" —
+ * and UNESCO writes its dish inside a sentence, so "ceviche" and "tea" came out of the
+ * inscriptions in lower case too. 1,368 records were affected, and on a shelf beside
+ * "Kozhikode Halwa" and "Neapolitan Pizza Margherita" they read as a mistake rather
+ * than as a convention.
+ *
+ * Only the first letter, and only when it is a lower-case letter: nothing else about
+ * the name is touched. "il-Ftira" becomes "Il-Ftira"; a name in a non-Latin script has
+ * no case and is returned unchanged.
+ *
+ * Lives here rather than in `build.ts` because what a person types now gets the same
+ * treatment as what the import reads — see `domain/entry.ts`. Two copies of this rule
+ * would be two rules the moment either was edited.
+ */
+export const sentenceCase = (name: string): string =>
+  /^\p{Ll}/u.test(name) ? name[0].toUpperCase() + name.slice(1) : name;

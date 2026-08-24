@@ -45,6 +45,7 @@ import {
   possibleDuplicates,
   type Proposal,
 } from '../src/domain/proposals';
+import { tidyCountry, tidyLines, tidyName, tidyPlace, tidyText } from '../src/domain/entry';
 import { color, font, space } from '../src/theme/tokens';
 
 /** Split a textarea into lines, dropping the blanks people leave while typing. */
@@ -79,15 +80,23 @@ export default function Propose() {
     [form.name],
   );
 
+  /*
+   * Tidied the same way the import tidies a row it reads, rather than merely trimmed.
+   *
+   * Trimming alone left "kozhikode halwa" from "india" sitting in the same list as
+   * "Kozhikode Halwa" from "India" — and a country the atlas does not file anything
+   * under is worse than untidy, because every count, list and breadcrumb keys on the
+   * canonical name. See `domain/entry.ts`.
+   */
   const entry = (): Partial<Proposal> => ({
-    name: form.name.trim(),
-    country: form.country.trim(),
-    region: form.region.trim(),
-    cooks: form.cooks.trim(),
-    ingredients: lines(form.ingredients),
-    steps: lines(form.steps),
-    submitter: form.submitter.trim(),
-    connection: form.connection.trim(),
+    name: tidyName(form.name),
+    country: tidyCountry(form.country),
+    region: tidyPlace(form.region),
+    cooks: tidyText(form.cooks),
+    ingredients: tidyLines(form.ingredients),
+    steps: tidyLines(form.steps),
+    submitter: tidyText(form.submitter),
+    connection: tidyText(form.connection),
     photo: '',
   });
 

@@ -42,6 +42,7 @@ import { Button } from './Button';
 import { Block } from './Card';
 import { Field, Input } from './Field';
 import { Pressable } from './Pressable';
+import { tidyName, tidyText } from '../domain/entry';
 import { Muted, T } from './Text';
 
 export interface Said {
@@ -192,7 +193,19 @@ export function ConfirmForm({
             return;
           }
           setError('');
-          const result = await onSubmit(form);
+          /*
+           * Sent tidied, not raw. This form used to trim only to decide whether a field
+           * was empty, then submit whatever was in the box — so a confirmation could be
+           * signed "  Priya  " while a proposal typed on the next screen came through
+           * clean. A confirmation is evidence a reader weighs by eye; it should not look
+           * scruffier than the record it is vouching for. See `domain/entry.ts`.
+           */
+          const result = await onSubmit({
+            ...form,
+            name: tidyName(form.name),
+            connection: tidyText(form.connection),
+            said: tidyText(form.said),
+          });
           if (result.ok) setDone(true);
           else setError(result.error ?? 'That did not send.');
         }}
