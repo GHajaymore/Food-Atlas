@@ -142,6 +142,21 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
+**Dish photographs that are not photographs of the dish.** Ajay, 2026-08-24: *"Croissant
+picture is not correct, it's showing a map. Check for other instances as well. All dish
+pictures should be of food."*
+
+`domain/photoProvenance.ts` already has `isPhotograph`, which was built to reject
+diagrams and non-photographic files — so either the croissant's image passes a check that
+should have caught it, or the check does not look at what the picture is *of*. A map is a
+photograph of nothing; the rule that rejects it has to be about subject, not file type.
+Needs measuring across all 3,055 images before any rule is written, the same way the
+encyclopaedia-article pass was done — the risk of a subject rule is deleting real food.
+
+---
+
+## Next up (previously)
+
 **A complete audit, and a real navigational and functional test.** Ajay, 2026-08-24:
 *"I still see some screens of the website are still having mobile style behavior. Need a
 complete audit and real navigational and functional test. I need a real good rich

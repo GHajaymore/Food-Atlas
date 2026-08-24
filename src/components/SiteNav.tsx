@@ -24,26 +24,29 @@
 
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import { useCopy, type Copy } from '../i18n';
 import { useLayout } from '../theme/layout';
 import { color, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { SessionControl } from './SessionControl';
 import { T } from './Text';
 
-const LINKS: { label: string; to: string; note: string }[] = [
-  { label: 'Food Atlas', to: '/atlas', note: 'What is covered, and how confident it is' },
-  { label: 'Propose a dish', to: '/propose', note: 'Food the atlas has no record of' },
+const linksFor = (copy: Copy): { label: string; to: string; note: string }[] => [
+  { label: copy.foodAtlas, to: '/atlas', note: 'What is covered, and how confident it is' },
+  { label: copy.proposeADish, to: '/propose', note: 'Food the atlas has no record of' },
   /*
    * Listed separately from proposing, because they are different acts and the second is
    * the one in short supply. Anybody can describe a dish they know; a proposal only
    * moves when somebody *else* recognises it, and a reader who never sees the open list
    * has no way to discover that confirming is a thing they could do.
    */
-  { label: 'Confirm a proposal', to: '/proposals', note: 'Dishes waiting for someone who knows them' },
-  { label: 'Keeping it free', to: '/support', note: 'What it costs to run, and who pays' },
+  { label: copy.confirmAProposal, to: '/proposals', note: 'Dishes waiting for someone who knows them' },
+  { label: copy.keepingItFree, to: '/support', note: 'What it costs to run, and who pays' },
 ];
 
 export function SiteNav() {
+  const copy = useCopy();
+  const links = linksFor(copy);
   const layout = useLayout();
 
   /*
@@ -62,7 +65,7 @@ export function SiteNav() {
 
   return (
     <View style={styles.wrap}>
-      {LINKS.map((link) => (
+      {links.map((link) => (
         <Pressable
           key={link.to}
           accessibilityRole="button"

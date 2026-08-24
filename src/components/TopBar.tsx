@@ -26,6 +26,7 @@
 
 import { router, usePathname } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import { useCopy, type Copy } from '../i18n';
 import { useLayout } from '../theme/layout';
 import { color, font, PAGE_PADDING, space, TAP_TARGET } from '../theme/tokens';
 import { LanguagePicker } from './LanguagePicker';
@@ -34,16 +35,21 @@ import { SessionControl } from './SessionControl';
 import { T } from './Text';
 import { Wordmark } from './Wordmark';
 
-const LINKS: { label: string; to: string }[] = [
-  { label: 'How it works', to: '/how' },
-  { label: 'Food Atlas', to: '/atlas' },
-  { label: 'Search', to: '/search' },
-  { label: 'Propose a dish', to: '/propose' },
-  { label: 'Confirm', to: '/proposals' },
-  { label: 'Keeping it free', to: '/support' },
+/* Built from the copy rather than declared once at module scope, because a module
+   constant is evaluated before a reader has chosen a language and would keep the
+   English labels for the rest of the session. */
+const linksFor = (copy: Copy): { label: string; to: string }[] => [
+  { label: copy.howItWorks, to: '/how' },
+  { label: copy.foodAtlas, to: '/atlas' },
+  { label: copy.search, to: '/search' },
+  { label: copy.proposeADish, to: '/propose' },
+  { label: copy.confirm, to: '/proposals' },
+  { label: copy.keepingItFree, to: '/support' },
 ];
 
 export function TopBar() {
+  const copy = useCopy();
+  const links = linksFor(copy);
   const layout = useLayout();
   const path = usePathname();
 
@@ -63,7 +69,7 @@ export function TopBar() {
         </Pressable>
 
         <View style={styles.links}>
-          {LINKS.map((link) => {
+          {links.map((link) => {
             const active = path === link.to;
             return (
               <Pressable

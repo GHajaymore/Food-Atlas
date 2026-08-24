@@ -33,6 +33,7 @@
 
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import { useCopy, type Copy } from '../i18n';
 import { BRAND } from '../brand';
 import { catalogueStats } from '../data/catalogue';
 import { useLayout } from '../theme/layout';
@@ -54,33 +55,35 @@ interface Column {
  * dish up, the other is somebody who knows one — and the split is the same distinction
  * the whole evidence model rests on.
  */
-const COLUMNS: Column[] = [
+const columnsFor = (copy: Copy): Column[] => [
   {
-    heading: 'Explore',
+    heading: copy.navExplore,
     links: [
-      { label: 'Food Atlas', to: '/atlas' },
-      { label: 'Search', to: '/search' },
-      { label: 'Every record', to: '/browse' },
+      { label: copy.foodAtlas, to: '/atlas' },
+      { label: copy.search, to: '/search' },
+      { label: copy.everyRecord, to: '/browse' },
     ],
   },
   {
-    heading: 'Contribute',
+    heading: copy.navContribute,
     links: [
-      { label: 'Propose a dish', to: '/propose' },
-      { label: 'Confirm a proposal', to: '/proposals' },
-      { label: 'Add a tradition', to: '/contribute' },
+      { label: copy.proposeADish, to: '/propose' },
+      { label: copy.confirmAProposal, to: '/proposals' },
+      { label: copy.addATraditionShort, to: '/contribute' },
     ],
   },
   {
-    heading: 'About',
+    heading: copy.navAbout,
     links: [
-      { label: 'How it works', to: '/how' },
-      { label: 'Keeping it free', to: '/support' },
+      { label: copy.howItWorks, to: '/how' },
+      { label: copy.keepingItFree, to: '/support' },
     ],
   },
 ];
 
 export function SiteFooter() {
+  const copy = useCopy();
+  const columns = columnsFor(copy);
   const { wide } = useLayout();
 
   /*
@@ -103,7 +106,7 @@ export function SiteFooter() {
           </Muted>
         </View>
 
-        {COLUMNS.map((column) => (
+        {columns.map((column) => (
           <View key={column.heading} style={styles.column}>
             <T style={styles.heading}>{column.heading}</T>
             {column.links.map((link) => (

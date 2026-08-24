@@ -21,6 +21,7 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
+import { useCopy } from '../src/i18n';
 import { CoverageTable, Explain, Meter, StatTile } from '../src/components/Metrics';
 import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
@@ -30,6 +31,7 @@ import { useApp } from '../src/state/store';
 import { space } from '../src/theme/tokens';
 
 export default function Atlas() {
+  const copy = useCopy();
   const setCountry = useApp((s) => s.setCountry);
   const atlas = buildAtlas(dishes);
   const metrics = catalogueMetrics(dishes);
@@ -47,7 +49,7 @@ export default function Atlas() {
 
   const intro = (
     <>
-      <NavRow title="Food Atlas" />
+      <NavRow title={copy.foodAtlas} />
       <Muted style={styles.coverage}>{atlasCoverage(dishes)}</Muted>
     </>
   );
@@ -58,24 +60,24 @@ export default function Atlas() {
      does for a single dish. */
   const figures = (
     <>
-      <H6 style={styles.statsTitle}>How complete is this atlas?</H6>
+      <H6 style={styles.statsTitle}>{copy.howComplete}</H6>
 
       <View style={styles.tiles}>
         {/* "Traditions", not "dishes" — the unit of this atlas is a way of making a food
             in a place, and the same dish can hold several of them. */}
         <StatTile
           value={metrics.total.toLocaleString()}
-          label="traditions recorded"
+          label={copy.traditionsRecorded}
           trend={trendFor(history, 'total')}
           note={metricNote('total')}
         />
         <StatTile
           value={String(metrics.countries)}
-          label="countries"
+          label={copy.countries}
           trend={trendFor(history, 'countries')}
           note={metricNote('countries')}
         />
-        <StatTile value={String(metrics.atRisk)} label="at-risk traditions" note={metricNote('atRisk')} />
+        <StatTile value={String(metrics.atRisk)} label={copy.atRiskTraditions} note={metricNote('atRisk')} />
       </View>
 
       <Muted style={styles.concentration}>
@@ -89,23 +91,23 @@ export default function Atlas() {
 
   const asks = [
     <Card key="grow" style={styles.grow}>
-      <CardKicker>Grow the atlas</CardKicker>
+      <CardKicker>{copy.growTheAtlas}</CardKicker>
       <CardBody>
         For each dish the atlas first pulls the most widely published recipe on the internet and classifies it.
         Where nothing exists online, a submission from the community becomes the record.
       </CardBody>
-      <Button label="Add a tradition from your area" block onPress={() => router.push('/contribute')} />
+      <Button label={copy.addATradition} block onPress={() => router.push('/contribute')} />
     </Card>,
     /* Placed under the coverage figures on a phone, and beside them on a desktop. Either
        way the honest argument for supporting this is the gap the numbers have just
        shown, so the ask reads as a consequence of them rather than an interruption. */
     <Card key="free" style={styles.grow}>
-      <CardKicker>Keeping it free</CardKicker>
+      <CardKicker>{copy.keepingItFree}</CardKicker>
       <CardBody>
         Everything here is built from sources that cost nothing and stay that way. One thing does cost money, and
         it is switched off until it can be paid for.
       </CardBody>
-      <Button label="What it costs to run" variant="secondary" block onPress={() => router.push('/support')} />
+      <Button label={copy.whatItCostsToRun} variant="secondary" block onPress={() => router.push('/support')} />
     </Card>,
   ];
 
@@ -123,8 +125,8 @@ export default function Atlas() {
           <Meter key="filmed" ratio={metrics.filmed} note={metricNote('filmed')} />,
         ]}
         tables={[
-          <CoverageTable key="where" title="Where the records are" rows={metrics.byContinent} note={metricNote('byContinent')} />,
-          <CoverageTable key="confidence" title="Confidence" rows={metrics.confidence} note={metricNote('confidence')} />,
+          <CoverageTable key="where" title={copy.whereTheRecordsAre} rows={metrics.byContinent} note={metricNote('byContinent')} />,
+          <CoverageTable key="confidence" title={copy.confidence} rows={metrics.confidence} note={metricNote('confidence')} />,
         ]}
         asks={asks}
       />

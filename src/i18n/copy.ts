@@ -117,6 +117,23 @@ export interface Copy {
   whereTheMethodComesFrom: string;
   alsoMadeThisWay: string;
 
+  /**
+   * The site's own navigation — the header, the phone colophon and the footer.
+   *
+   * Left until last, and it should not have been: these are the words on every screen,
+   * so a reader who chose another language met the whole site in English whichever page
+   * they were on. Nine labels doing more work than any nine others in this file.
+   */
+  howItWorks: string;
+  proposeADish: string;
+  confirm: string;
+  confirmAProposal: string;
+  everyRecord: string;
+  addATraditionShort: string;
+  navExplore: string;
+  navContribute: string;
+  navAbout: string;
+
   /** Said about the interface itself, not about any record. */
   interfaceTranslationNote: string;
 }
@@ -204,6 +221,15 @@ export const EN: Copy = {
   whereTheMethodComesFrom: 'Where the method comes from',
   alsoMadeThisWay: 'Also made this way',
 
+  howItWorks: 'How it works',
+  proposeADish: 'Propose a dish',
+  confirm: 'Confirm',
+  confirmAProposal: 'Confirm a proposal',
+  everyRecord: 'Every record',
+  addATraditionShort: 'Add a tradition',
+  navExplore: 'Explore',
+  navContribute: 'Contribute',
+  navAbout: 'About',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

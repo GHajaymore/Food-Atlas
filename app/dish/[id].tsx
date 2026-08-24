@@ -34,6 +34,7 @@ import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
+import { useCopy } from '../../src/i18n';
 import { AT_RISK_NOTE } from '../../src/domain/atRisk';
 import { relatedTo } from '../../src/domain/related';
 import {
@@ -56,6 +57,7 @@ import { useTranslations } from '../../src/state/translations';
 import { accentText, color, font, radius, space } from '../../src/theme/tokens';
 
 export default function DishDetail() {
+  const copy = useCopy();
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const dish = dishById(Number(id));
@@ -84,11 +86,11 @@ export default function DishDetail() {
       <Screen>
         <NavRow />
         <Card>
-          <CardKicker>No record</CardKicker>
+          <CardKicker>{copy.noRecord}</CardKicker>
           <CardBody>
             Nothing in the atlas is recorded under that reference. Absence here means no record, not no food.
           </CardBody>
-          <Button label="Back to the feed" onPress={() => router.replace('/')} block />
+          <Button label={copy.backToTheFeed} onPress={() => router.replace('/')} block />
         </Card>
       </Screen>
     );
@@ -154,7 +156,7 @@ export default function DishDetail() {
     <Screen bottomPad={50}>
       <NavRow
         right={
-          <IconButton label="Bookmark this tradition">
+          <IconButton label={copy.bookmarkThis}>
             <BookmarkIcon size={18} color={color.accent} />
           </IconButton>
         }
@@ -219,7 +221,7 @@ export default function DishDetail() {
           query={{ level: filterKeyFor(dish.badgeLevel) }}
         />
         {dish.photo && !dish.photoVerified ? (
-          <Tag label="Photo origin unverified" variant="outline" style={styles.unverified} />
+          <Tag label={copy.photoOriginUnverified} variant="outline" style={styles.unverified} />
         ) : null}
         {dish.traditionalBadge ? <Tag label="🏺 Traditional Preparation" variant="outline" /> : null}
         {dish.atRisk ? <Tag label="🕯️ At-Risk Tradition" variant="outline" /> : null}
@@ -299,7 +301,7 @@ export default function DishDetail() {
           data was read directly. */}
       {dish.atRisk && dish.atRiskEvidence ? (
         <Block style={styles.atRisk}>
-          <T style={styles.atRiskTitle}>Why this is flagged as at risk</T>
+          <T style={styles.atRiskTitle}>{copy.whyFlaggedAtRisk}</T>
           <Muted style={styles.atRiskQuote}>“{dish.atRiskEvidence}”</Muted>
           <Muted style={styles.atRiskNote}>{AT_RISK_NOTE}</Muted>
         </Block>
@@ -350,7 +352,7 @@ export default function DishDetail() {
               as claiming a certainty the evidence does not support. */}
           {open.length ? (
             <Card style={styles.disputed}>
-              <CardKicker>Open disagreement</CardKicker>
+              <CardKicker>{copy.openDisagreement}</CardKicker>
               <CardBody>
                 Someone who cooks this in {open[0].from} says it is made differently: {open[0].differs} Nothing has
                 been removed while this is looked at, and the confidence below is unchanged — if both accounts hold,
@@ -443,7 +445,7 @@ export default function DishDetail() {
 
               {dish.ingredients.length ? (
                 <>
-                  <H6 style={styles.equipmentHeading}>Ingredients named in that account</H6>
+                  <H6 style={styles.equipmentHeading}>{copy.ingredientsNamedInAccount}</H6>
                   <View style={[styles.chipWrap, styles.equipmentWrap]}>
                     {dish.ingredients.map((ingredient) => (
                       <Tag key={ingredient} label={ingredient} variant="neutral" />
@@ -453,19 +455,19 @@ export default function DishDetail() {
               ) : null}
 
               <Card style={styles.undocumented}>
-                <CardKicker>The method is still open</CardKicker>
+                <CardKicker>{copy.methodStillOpen}</CardKicker>
                 <CardBody>
                   Nobody has recorded the technique — the timings, the vessel, the order things happen in. That is
                   what would lift this record out of Unverified, and it takes someone who cooks it.
                 </CardBody>
-                <Button label="Record how it's made" block onPress={() => router.push('/contribute')} />
+                <Button label={copy.recordHowItsMade} block onPress={() => router.push('/contribute')} />
               </Card>
             </>
           ) : null}
 
           {!isDocumented && !dish.prepSummary ? (
             <Card style={styles.undocumented}>
-              <CardKicker>Not documented yet</CardKicker>
+              <CardKicker>{copy.notDocumentedYet}</CardKicker>
               {/*
                * Named, not "this".
                *
@@ -481,7 +483,7 @@ export default function DishDetail() {
                 call it authentic, but that is the thing this atlas exists not to do — so the record stays as it is
                 until someone who cooks it fills it in. If you do, you would be the first to write it down.
               </CardBody>
-              <Button label="Record how it's made" block onPress={() => router.push('/contribute')} />
+              <Button label={copy.recordHowItsMade} block onPress={() => router.push('/contribute')} />
             </Card>
           ) : null}
 
@@ -526,7 +528,7 @@ export default function DishDetail() {
           {/* Only where there is equipment to name. Published recipes list none. */}
           {reading.equipment.length ? (
             <>
-              <H6 style={styles.equipmentHeading}>Traditional Equipment</H6>
+              <H6 style={styles.equipmentHeading}>{copy.traditionalEquipment}</H6>
               <View style={[styles.chipWrap, styles.equipmentWrap]}>
                 {reading.equipment.map((item) => (
                   <Tag key={item} label={item} variant="outline" />
@@ -572,7 +574,7 @@ export default function DishDetail() {
 
           {dish.popular ? (
             <>
-              <H5 style={styles.tightHeading}>Most popular version online</H5>
+              <H5 style={styles.tightHeading}>{copy.mostPopularVersion}</H5>
               <Muted style={styles.sectionLead}>
                 What the internet mostly serves for this dish, and how it departs from the tradition above.
               </Muted>
@@ -605,7 +607,7 @@ export default function DishDetail() {
 
           {dish.videos.length ? (
             <>
-              <H5 style={styles.tightHeading}>Watch it being made</H5>
+              <H5 style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
               <Muted style={styles.sectionLead}>
                 Real videos, ranked by how close the cook is to the tradition — not by view count.
               </Muted>
@@ -624,7 +626,7 @@ export default function DishDetail() {
                and say exactly what it is: a popularity-ordered starting point, not
                a video anyone has checked against the tradition. */
             <>
-              <H5 style={styles.tightHeading}>Watch it being made</H5>
+              <H5 style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
               <Muted style={styles.sectionLead}>
                 No video from the tradition has been recorded for this dish yet.
               </Muted>
@@ -635,7 +637,7 @@ export default function DishDetail() {
                   way affects this record&apos;s classification.
                 </Muted>
                 <Button
-                  label="Find preparation videos ↗"
+                  label={copy.findPreparationVideos}
                   variant="secondary"
                   block
                   onPress={() => openAtSource(searchUrl(dish))}
@@ -648,7 +650,7 @@ export default function DishDetail() {
             </>
           )}
 
-          <H5 style={styles.h5}>Where the method comes from</H5>
+          <H5 style={styles.h5}>{copy.whereTheMethodComesFrom}</H5>
           <View style={styles.sources}>
             {dish.sources.map((source) => (
               <Pressable
@@ -673,7 +675,7 @@ export default function DishDetail() {
               the record split because both accounts were true of their own place. */}
           {siblings.length ? (
             <>
-              <H5 style={styles.tightHeading}>Also made this way</H5>
+              <H5 style={styles.tightHeading}>{copy.alsoMadeThisWay}</H5>
               <Muted style={styles.sectionLead}>
                 The same dish, recorded separately where it is made differently. Neither is the real one.
               </Muted>
