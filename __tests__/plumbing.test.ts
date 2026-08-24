@@ -44,7 +44,7 @@ const sources = {
   gi: read('gi'),
 };
 
-const { catalogue } = buildCatalogue(
+const { catalogue, stats: catalogueStats } = buildCatalogue(
   sources.catalogue,
   sources.cuisines,
   sources.cookbook,
@@ -457,5 +457,40 @@ describe('a confirmation reaches the record', () => {
   it('builds an atlas with no confirmations at all, which is today', () => {
     // The state every record is in until the endpoint exists. It must be ordinary.
     expect(catalogue.every((d) => !d.confirmations?.length)).toBe(true);
+  });
+});
+
+/*
+ * A breadcrumb has to be geography.
+ *
+ * The cuisine source records the branch of Wikipedia's category tree it walked in
+ * `region`, and most of the time that is a place — Kerala, Sichuan, Java. Sometimes it
+ * is a kind of food, and those printed as "Japan › Wagashi" and, once breadcrumbs became
+ * links, offered "everything from Wagashi".
+ *
+ * Both directions are asserted because the rule that removes them keys off "this string
+ * also names a dish", and naming a dish after its place is the normal case in food. The
+ * kept cases below are the two that caught the first version of the rule out.
+ */
+describe('a region is a place, not a branch of a category tree', () => {
+  const regionsIn = (name: RegExp) =>
+    catalogue.filter((d) => name.test(d.loc.region)).map((d) => d.name);
+
+  it('does not file a dish under a kind of food', () => {
+    for (const category of [/^Wagashi$/, /^Sushi$/, /^Tteok$/, /^Ramen$/, /^Dim sum$/, /^Baklava$/]) {
+      expect(regionsIn(category)).toEqual([]);
+    }
+  });
+
+  it('keeps a real place that a dish happens to be named after', () => {
+    // Pithiviers is a French town and a pastry; Phú Quốc is a Vietnamese island and a
+    // fish sauce. A rule that only asked "is this also a dish name" deleted both.
+    expect(catalogue.some((d) => d.loc.region === 'Pithiviers')).toBe(true);
+    expect(catalogue.some((d) => d.loc.region === 'Phú Quốc')).toBe(true);
+  });
+
+  it('loses no records and no countries to the repair', () => {
+    expect(catalogueStats.total).toBe(17_778);
+    expect(catalogueStats.countries).toBe(157);
   });
 });

@@ -343,6 +343,75 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
  */
 const cleanRegion = (region: string, country: string): string => placeBelow(region ?? '', country);
 
+/**
+ * Regions that are not places — they are the branch of Wikipedia's category tree the
+ * scraper walked to find the dish.
+ *
+ * The cuisine source records where it found a record in `region`, and most of the time
+ * that is genuinely a place: Kerala, Sichuan, Guangdong, Java. Sometimes it is a kind of
+ * food — "Category:Wagashi", "Category:Sushi", "Category:Tteok" — and those arrived as
+ * the record's region and printed in its breadcrumb. A reader saw **Japan › Wagashi**,
+ * and after the facet work they could click it and ask for "everything from Wagashi".
+ * 125 records were affected before the count was widened by this rule.
+ *
+ * ## Three conditions, because the obvious one deletes real geography
+ *
+ * **It names a food the atlas holds.** The first version stopped here and it is not
+ * safe: naming a dish after its place is the normal case in food, so this alone flags
+ * Pithiviers, a French town, and Phú Quốc, a Vietnamese island.
+ *
+ * **Nothing else calls it a place.** A region used by any source other than the cuisine
+ * tree has been corroborated by something that was not walking a category tree — which
+ * is what rescues Pithiviers, and is the same instinct applied everywhere else here:
+ * make the match agree with something the data already knows.
+ *
+ * **It groups at least two records.** A category is a grouping and therefore groups; a
+ * town that happens to name one pastry does not. This is what rescues Phú Quốc, the last
+ * false positive, at the price of leaving four single-record categories alone —
+ * under-removal, which is the safe direction when the alternative is deleting real
+ * geography.
+ *
+ * ## Why here rather than after the catalogue is built
+ *
+ * Because `assess` reads `hasRegion`. Stripping the region afterwards would leave a
+ * record scored for a geographic connection it no longer shows — and this app prints the
+ * six dimensions and invites the reader to add them up. A score that does not match its
+ * own breakdown is the one bug this project cannot afford.
+ */
+function categoryRegions(rawCuisines: unknown[], everythingElse: unknown[][]): Set<string> {
+  const nameOf = (row: unknown): string =>
+    String((row as { name?: string; title?: string }).name ?? (row as { title?: string }).title ?? '')
+      .trim()
+      .toLowerCase();
+
+  const names = new Set<string>();
+  for (const rows of [rawCuisines, ...everythingElse]) for (const row of rows) names.add(nameOf(row));
+
+  /** Regions another source vouches for. Corroboration, not a vote. */
+  const corroborated = new Set<string>();
+  for (const rows of everythingElse) {
+    for (const row of rows) {
+      const r = (row as { region?: string }).region?.trim();
+      if (r) corroborated.add(r);
+    }
+  }
+
+  const counts = new Map<string, number>();
+  for (const row of rawCuisines as { region?: string; country?: string }[]) {
+    const region = cleanRegion(row.region ?? '', canonicalCountry(row.country ?? ''));
+    if (region) counts.set(region, (counts.get(region) ?? 0) + 1);
+  }
+
+  const found = new Set<string>();
+  for (const [region, count] of counts) {
+    if (count < 2) continue;
+    if (corroborated.has(region)) continue;
+    if (!names.has(region.toLowerCase())) continue;
+    found.add(region);
+  }
+  return found;
+}
+
 function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Thresholds): Dish {
   const confirmed = confirmationsFor(confirmations, row.id);
   const country = canonicalCountry(row.country);
@@ -751,6 +820,9 @@ const imported: Dish[] = importedRows.filter(hasSomethingToShow).map((row) => ex
  */
 const alreadyPresent = new Set([...curated, ...imported].map((d) => key(d.name, d.loc.country)));
 
+/* Computed once from the raw rows, before anything is scored. See `categoryRegions`. */
+const treeCategories = categoryRegions(rawCuisines, [rawImported, rawCookbook, rawUnesco, rawGi]);
+
 const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
   .filter(
     (row) =>
@@ -766,7 +838,10 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
   .map((row, index) => {
     const name = cleanName(row.name);
     const country = canonicalCountry(row.country);
-    const region = cleanRegion(row.region ?? '', country);
+    /* The branch of the category tree this was found in is not necessarily a place the
+       dish is from. See `categoryRegions`. */
+    const walked = cleanRegion(row.region ?? '', country);
+    const region = treeCategories.has(walked) ? '' : walked;
     /*
    * The levels below region come from the GeoNames pass, which reads them off the
    * code of the place it matched rather than guessing at them. Absent unless that

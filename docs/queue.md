@@ -244,6 +244,41 @@ touches every screen, and half a redesign looks worse than none.
 
 ## Done 2026-08-24
 
+**Thirty regions that were not places.** The cuisine source records the branch of
+Wikipedia's category tree it walked in `region`, and most of the time that is genuinely a
+place — Kerala, Sichuan, Guangdong, Java. Sometimes it is a kind of food, so ~200 records
+were filed under **Japan › Wagashi**, **Japan › Sushi**, **South Korea › Tteok** — and
+once breadcrumbs became facet links, that breadcrumb offered "everything from Wagashi".
+
+The rule needs three conditions, and the first one alone is dangerous:
+
+1. The string also names a food the atlas holds.
+2. **No source other than the cuisine tree calls it a place.** Naming a dish after its
+   place is the normal case in food, so condition 1 alone flags *Pithiviers* (a French
+   town) and *Phú Quốc* (a Vietnamese island). Corroboration rescues Pithiviers.
+3. **It groups at least two records.** A category groups; a town that names one pastry
+   does not. This rescues Phú Quốc, the last false positive, at the cost of leaving four
+   single-record categories alone — under-removal, the safe direction.
+
+Applied in `build.ts` **before** assessment, not after: `assess` reads `hasRegion`, and
+stripping a region afterwards would leave a record scored for a geographic connection it
+no longer shows. This app prints the six dimensions and invites readers to add them up.
+
+Still there: **"Japaneseterms"**, a mangled category on 27 Japanese records. It is not a
+dish name, so corroboration cannot see it. Left rather than special-cased.
+
+**The cuisine facet is still empty and this did not fix it.** `d.cuisine` is populated on
+zero records because `build.ts` reads `row.cuisine`, which the source does not have — the
+label lives in `region`. Turning that into a facet needs curation, not a rename: the raw
+field holds 1,101 distinct values mixing real adjectives (Cantonese, Sichuan, Peruvian)
+with tree artefacts (Japaneseterms, Thaiand snacks, Fish of Korea, Regionals of China).
+That is the 27,036-ingredients problem in a different shape, and shipping it raw would put
+"Japaneseterms" in a facet.
+
+---
+
+## Done 2026-08-24 (earlier)
+
 **Encyclopaedia articles removed — 50 records.** "Beer in India", "Coffee production in
 Vietnam", "Dog meat consumption in South Korea", "Delivery culture in South Korea". These
 survived the drinks pass because each names a real food or drink and none is a cuisine
