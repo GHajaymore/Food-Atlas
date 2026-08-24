@@ -246,17 +246,11 @@ export default function Search() {
               ))}
 
               {!pantry.matches.length ? (
-                <Muted style={styles.pantryNote}>
-                  Nothing recorded uses those together. Try one at a time — or propose the dish you
-                  had in mind, if the atlas does not have it.
-                </Muted>
+                <Muted style={styles.pantryNote}>{copy.pantryNoMatches}</Muted>
               ) : null}
             </>
           ) : (
-            <Muted style={styles.pantryNote}>
-              Name what is in your kitchen. Only about half the atlas has its ingredients recorded,
-              so a dish missing here may simply be one nobody has written down yet.
-            </Muted>
+            <Muted style={styles.pantryNote}>{copy.pantryPrompt}</Muted>
           )}
         </>
       ) : (
@@ -451,9 +445,7 @@ export default function Search() {
               onPress={() => openAtSource(requestUrl(query, ''))}
             />
           ) : (
-            <Muted style={styles.requestNote}>
-              Requests aren&apos;t open yet, so the only way a dish enters the atlas is someone recording it.
-            </Muted>
+            <Muted style={styles.requestNote}>{copy.requestsNotOpenNote}</Muted>
           )}
         </Card>
       ) : null}

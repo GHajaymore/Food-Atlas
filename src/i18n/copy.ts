@@ -194,6 +194,22 @@ export interface Copy {
   screens: string;
   oftenTheWholePoint: string;
   grewUpInMalabar: string;
+  whatTheseAreBody: string;
+  proposalsNotOpenYet: string;
+  proposalsNotOpenNote: string;
+  nothingIsWaiting: string;
+  nothingIsWaitingNote: string;
+  loading: string;
+  proposedBy: string;
+  beforeYouStartBody: string;
+  notPublishedBySending: string;
+  atlasMayAlreadyHaveThis: string;
+  duplicateNote: string;
+  connectionRequiredNote: string;
+  proposeClosedNote: string;
+  pantryNoMatches: string;
+  pantryPrompt: string;
+  requestsNotOpenNote: string;
   interfaceTranslationNote: string;
 }
 
@@ -348,6 +364,38 @@ export const EN: Copy = {
   screens: 'Screens',
   oftenTheWholePoint: 'Often the whole point — optional',
   grewUpInMalabar: 'Grew up in Malabar',
+  whatTheseAreBody:
+    'Dishes people say exist that the atlas has no record of. Each needs {n} confirmations from people who know it before it enters the atlas — judged on the same six dimensions as every other record here.',
+  proposalsNotOpenYet:
+    'Proposals are not open yet',
+  proposalsNotOpenNote:
+    'This needs somewhere to store what people send. Until it exists the app says so, rather than showing an empty list as though nobody had anything to add.',
+  nothingIsWaiting:
+    'Nothing is waiting',
+  nothingIsWaitingNote:
+    'Every proposal has been decided. If you know a dish the atlas does not have, it starts here.',
+  loading:
+    'Loading…',
+  proposedBy:
+    'Proposed by',
+  beforeYouStartBody:
+    'This is for food the atlas does not have — usually because nobody has written it down. You do not need a full recipe. A name, where it is from, and your connection to the place is enough to open it for confirmation.',
+  notPublishedBySending:
+    'It is not published by sending it. {n} people who know the dish confirm it first, and it enters the atlas at whatever its evidence earns — the same way every other record here is judged.',
+  atlasMayAlreadyHaveThis:
+    'The atlas may already have this',
+  duplicateNote:
+    'If one of these is your dish, confirming it is what moves it — that is worth more than a second record. If none of them is, carry on; two dishes can share a name.',
+  connectionRequiredNote:
+    'Required, and displayed. It is the whole difference between this and a recipe copied off the internet — which the atlas already refuses to hold.',
+  proposeClosedNote:
+    'This needs somewhere to store what people send, and that is not set up. Nothing you type here would go anywhere, so the app is saying so rather than taking it.',
+  pantryNoMatches:
+    'Nothing recorded uses those together. Try one at a time — or propose the dish you had in mind, if the atlas does not have it.',
+  pantryPrompt:
+    'Name what is in your kitchen. Only about half the atlas has its ingredients recorded, so a dish missing here may simply be one nobody has written down yet.',
+  requestsNotOpenNote:
+    'Requests aren’t open yet, so the only way a dish enters the atlas is someone recording it.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

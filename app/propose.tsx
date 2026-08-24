@@ -138,15 +138,9 @@ export default function Propose() {
           <>
             <Card style={styles.intro}>
               <CardKicker>{copy.beforeYouStart}</CardKicker>
-              <CardBody>
-                This is for food the atlas does not have — usually because nobody has written it down. You do
-                not need a full recipe. A name, where it is from, and your connection to the place is enough
-                to open it for confirmation.
-              </CardBody>
+              <CardBody>{copy.beforeYouStartBody}</CardBody>
               <T style={styles.introNote}>
-                It is not published by sending it. {PROPOSAL_CONFIRMATIONS} people who know the dish confirm
-                it first, and it enters the atlas at whatever its evidence earns — the same way every other
-                record here is judged.
+                {copy.notPublishedBySending.replace('{n}', String(PROPOSAL_CONFIRMATIONS))}
               </T>
             </Card>
           </>
@@ -164,11 +158,8 @@ export default function Propose() {
 
             {duplicates.length ? (
               <Block style={styles.dupes}>
-                <T style={styles.dupeHead}>The atlas may already have this</T>
-                <Muted style={styles.dupeNote}>
-                  If one of these is your dish, confirming it is what moves it — that is worth more than a
-                  second record. If none of them is, carry on; two dishes can share a name.
-                </Muted>
+                <T style={styles.dupeHead}>{copy.atlasMayAlreadyHaveThis}</T>
+                <Muted style={styles.dupeNote}>{copy.duplicateNote}</Muted>
                 {duplicates.map((dish) => (
                   <Pressable
                     key={dish.id}
@@ -257,8 +248,7 @@ export default function Propose() {
               </Field>
             </FieldPair>
             <Muted style={styles.why}>
-              Required, and displayed. It is the whole difference between this and a recipe copied off the
-              internet — which the atlas already refuses to hold.
+              {copy.connectionRequiredNote}
             </Muted>
 
             {error ? <T style={styles.error}>{error}</T> : null}
@@ -285,11 +275,8 @@ export default function Propose() {
               />
             ) : (
               <Block style={styles.closed}>
-                <T style={styles.closedHead}>Proposals are not open yet</T>
-                <Muted style={styles.dupeNote}>
-                  This needs somewhere to store what people send, and that is not set up. Nothing you type here
-                  would go anywhere, so the app is saying so rather than taking it.
-                </Muted>
+                <T style={styles.closedHead}>{copy.proposalsNotOpenYet}</T>
+                <Muted style={styles.dupeNote}>{copy.proposeClosedNote}</Muted>
               </Block>
             )}
           </>

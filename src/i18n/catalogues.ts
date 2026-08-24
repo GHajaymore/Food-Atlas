@@ -179,6 +179,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Pantallas',
     oftenTheWholePoint: 'A menudo es lo esencial — opcional',
     grewUpInMalabar: 'Crecí en Malabar',
+    whatTheseAreBody:
+      'Platos que alguien dice que existen y de los que el atlas no tiene registro. Cada uno necesita {n} confirmaciones de personas que lo conocen antes de entrar en el atlas, juzgado por las mismas seis dimensiones que cualquier otro registro.',
+    proposalsNotOpenYet:
+      'Las propuestas aún no están abiertas',
+    proposalsNotOpenNote:
+      'Esto necesita un sitio donde guardar lo que la gente envía. Hasta que exista, la app lo dice en vez de mostrar una lista vacía como si nadie tuviera nada que aportar.',
+    nothingIsWaiting:
+      'No hay nada pendiente',
+    nothingIsWaitingNote:
+      'Todas las propuestas han sido resueltas. Si conoces un plato que el atlas no tiene, empieza aquí.',
+    loading:
+      'Cargando…',
+    proposedBy:
+      'Propuesto por',
+    beforeYouStartBody:
+      'Esto es para comida que el atlas no tiene, normalmente porque nadie la ha escrito. No hace falta una receta completa. Un nombre, de dónde es y tu vínculo con el lugar bastan para abrirla a confirmación.',
+    notPublishedBySending:
+      'Enviarla no la publica. Primero {n} personas que conocen el plato lo confirman, y entra en el atlas con lo que sus pruebas merezcan, igual que cualquier otro registro.',
+    atlasMayAlreadyHaveThis:
+      'El atlas quizá ya lo tenga',
+    duplicateNote:
+      'Si alguno de estos es tu plato, confirmarlo es lo que lo mueve, y vale más que un segundo registro. Si ninguno lo es, sigue adelante; dos platos pueden compartir nombre.',
+    connectionRequiredNote:
+      'Obligatorio, y se muestra. Es toda la diferencia entre esto y una receta copiada de internet, que el atlas ya se niega a guardar.',
+    proposeClosedNote:
+      'Esto necesita un sitio donde guardar lo que la gente envía, y no está configurado. Nada de lo que escribas aquí llegaría a ninguna parte, así que la app lo dice en vez de aceptarlo.',
+    pantryNoMatches:
+      'Nada de lo registrado usa esos juntos. Prueba de uno en uno, o propón el plato que tenías en mente si el atlas no lo tiene.',
+    pantryPrompt:
+      'Di qué hay en tu cocina. Solo la mitad del atlas tiene sus ingredientes registrados, así que un plato que falte aquí puede ser simplemente uno que nadie ha escrito todavía.',
+    requestsNotOpenNote:
+      'Las peticiones aún no están abiertas, así que la única forma de que un plato entre en el atlas es que alguien lo registre.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -324,6 +356,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Écrans',
     oftenTheWholePoint: 'Souvent l’essentiel — facultatif',
     grewUpInMalabar: 'J’ai grandi au Malabar',
+    whatTheseAreBody:
+      'Des plats dont on affirme l’existence et dont l’atlas n’a aucune trace. Chacun demande {n} confirmations de personnes qui le connaissent avant d’entrer dans l’atlas, jugé sur les mêmes six dimensions que toute autre fiche.',
+    proposalsNotOpenYet:
+      'Les propositions ne sont pas encore ouvertes',
+    proposalsNotOpenNote:
+      'Il faut un endroit où stocker ce que les gens envoient. En attendant, l’application le dit plutôt que d’afficher une liste vide comme si personne n’avait rien à ajouter.',
+    nothingIsWaiting:
+      'Rien en attente',
+    nothingIsWaitingNote:
+      'Toutes les propositions ont été tranchées. Si vous connaissez un plat que l’atlas n’a pas, cela commence ici.',
+    loading:
+      'Chargement…',
+    proposedBy:
+      'Proposé par',
+    beforeYouStartBody:
+      'Ceci est pour une nourriture que l’atlas n’a pas, le plus souvent parce que personne ne l’a écrite. Une recette complète n’est pas nécessaire. Un nom, sa provenance et votre lien avec ce lieu suffisent à l’ouvrir à confirmation.',
+    notPublishedBySending:
+      'L’envoyer ne la publie pas. {n} personnes qui connaissent le plat la confirment d’abord, et elle entre dans l’atlas selon ce que ses preuves valent, comme toute autre fiche.',
+    atlasMayAlreadyHaveThis:
+      'L’atlas l’a peut-être déjà',
+    duplicateNote:
+      'Si l’un d’eux est votre plat, le confirmer est ce qui le fait avancer, et cela vaut mieux qu’une seconde fiche. Si aucun ne l’est, continuez ; deux plats peuvent porter le même nom.',
+    connectionRequiredNote:
+      'Obligatoire, et affiché. C’est toute la différence entre ceci et une recette recopiée sur internet, que l’atlas refuse déjà de conserver.',
+    proposeClosedNote:
+      'Il faut un endroit où stocker ce que les gens envoient, et il n’est pas en place. Rien de ce que vous écrivez ici n’irait nulle part, alors l’application le dit plutôt que de le prendre.',
+    pantryNoMatches:
+      'Rien d’enregistré n’utilise ces ingrédients ensemble. Essayez-en un à la fois, ou proposez le plat que vous aviez en tête si l’atlas ne l’a pas.',
+    pantryPrompt:
+      'Dites ce qu’il y a dans votre cuisine. Environ la moitié de l’atlas seulement a ses ingrédients enregistrés, donc un plat absent ici est peut-être simplement un plat que personne n’a encore écrit.',
+    requestsNotOpenNote:
+      'Les demandes ne sont pas encore ouvertes ; la seule façon qu’un plat entre dans l’atlas est que quelqu’un l’enregistre.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -468,6 +532,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Bildschirme',
     oftenTheWholePoint: 'Oft das Entscheidende — optional',
     grewUpInMalabar: 'In Malabar aufgewachsen',
+    whatTheseAreBody:
+      'Gerichte, deren Existenz behauptet wird und von denen der Atlas nichts weiß. Jedes braucht {n} Bestätigungen von Menschen, die es kennen, bevor es in den Atlas kommt — bewertet nach denselben sechs Dimensionen wie jeder andere Eintrag.',
+    proposalsNotOpenYet:
+      'Vorschläge sind noch nicht offen',
+    proposalsNotOpenNote:
+      'Dafür braucht es einen Ort, an dem gespeichert wird, was Menschen senden. Bis es ihn gibt, sagt die App das, statt eine leere Liste zu zeigen, als hätte niemand etwas beizutragen.',
+    nothingIsWaiting:
+      'Nichts wartet',
+    nothingIsWaitingNote:
+      'Über jeden Vorschlag ist entschieden. Wenn Sie ein Gericht kennen, das der Atlas nicht hat, beginnt es hier.',
+    loading:
+      'Wird geladen…',
+    proposedBy:
+      'Vorgeschlagen von',
+    beforeYouStartBody:
+      'Dies ist für Essen, das der Atlas nicht hat — meist, weil es niemand aufgeschrieben hat. Ein vollständiges Rezept ist nicht nötig. Ein Name, woher es kommt, und Ihre Verbindung zu dem Ort genügen, um es zur Bestätigung zu öffnen.',
+    notPublishedBySending:
+      'Absenden veröffentlicht es nicht. Zuerst bestätigen {n} Menschen, die das Gericht kennen, und es kommt mit dem in den Atlas, was seine Belege wert sind — wie jeder andere Eintrag hier.',
+    atlasMayAlreadyHaveThis:
+      'Der Atlas hat das vielleicht schon',
+    duplicateNote:
+      'Wenn eines davon Ihr Gericht ist, bringt es eine Bestätigung weiter, und das ist mehr wert als ein zweiter Eintrag. Wenn keines es ist, machen Sie weiter; zwei Gerichte dürfen einen Namen teilen.',
+    connectionRequiredNote:
+      'Erforderlich, und wird angezeigt. Das ist der ganze Unterschied zwischen dem hier und einem aus dem Internet abgeschriebenen Rezept, das der Atlas ohnehin ablehnt.',
+    proposeClosedNote:
+      'Dafür braucht es einen Speicherort für das, was Menschen senden, und der ist nicht eingerichtet. Nichts, was Sie hier schreiben, käme irgendwo an — also sagt die App es, statt es anzunehmen.',
+    pantryNoMatches:
+      'Nichts Erfasstes verwendet diese zusammen. Versuchen Sie es einzeln — oder schlagen Sie das Gericht vor, an das Sie gedacht haben, falls der Atlas es nicht hat.',
+    pantryPrompt:
+      'Nennen Sie, was in Ihrer Küche ist. Nur etwa die Hälfte des Atlas hat ihre Zutaten erfasst, ein hier fehlendes Gericht ist also vielleicht nur eines, das niemand aufgeschrieben hat.',
+    requestsNotOpenNote:
+      'Anfragen sind noch nicht offen; ein Gericht kommt also nur in den Atlas, wenn jemand es festhält.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -612,6 +708,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Schermate',
     oftenTheWholePoint: 'Spesso è il punto — facoltativo',
     grewUpInMalabar: 'Cresciuto in Malabar',
+    whatTheseAreBody:
+      'Piatti che qualcuno dice esistano e di cui l’atlante non ha traccia. Ciascuno richiede {n} conferme da persone che lo conoscono prima di entrare nell’atlante, valutato sulle stesse sei dimensioni di ogni altra scheda.',
+    proposalsNotOpenYet:
+      'Le proposte non sono ancora aperte',
+    proposalsNotOpenNote:
+      'Serve un posto dove conservare ciò che le persone inviano. Finché non c’è, l’app lo dice invece di mostrare una lista vuota come se nessuno avesse nulla da aggiungere.',
+    nothingIsWaiting:
+      'Non c’è nulla in attesa',
+    nothingIsWaitingNote:
+      'Ogni proposta è stata decisa. Se conosci un piatto che l’atlante non ha, si comincia da qui.',
+    loading:
+      'Caricamento…',
+    proposedBy:
+      'Proposto da',
+    beforeYouStartBody:
+      'Questo è per cibo che l’atlante non ha, di solito perché nessuno l’ha scritto. Non serve una ricetta completa. Un nome, da dove viene e il tuo legame con il luogo bastano per aprirlo alla conferma.',
+    notPublishedBySending:
+      'Inviarlo non lo pubblica. Prima {n} persone che conoscono il piatto lo confermano, e entra nell’atlante per quanto valgono le sue prove, come ogni altra scheda.',
+    atlasMayAlreadyHaveThis:
+      'L’atlante potrebbe già averlo',
+    duplicateNote:
+      'Se uno di questi è il tuo piatto, confermarlo è ciò che lo fa avanzare, e vale più di una seconda scheda. Se nessuno lo è, prosegui; due piatti possono avere lo stesso nome.',
+    connectionRequiredNote:
+      'Obbligatorio, e mostrato. È tutta la differenza fra questo e una ricetta copiata da internet, che l’atlante già rifiuta di tenere.',
+    proposeClosedNote:
+      'Serve un posto dove conservare ciò che le persone inviano, e non è predisposto. Nulla di ciò che scrivi qui arriverebbe da qualche parte, quindi l’app lo dice invece di accettarlo.',
+    pantryNoMatches:
+      'Nulla di registrato li usa insieme. Prova uno alla volta, oppure proponi il piatto che avevi in mente se l’atlante non ce l’ha.',
+    pantryPrompt:
+      'Di’ che cosa hai in cucina. Solo circa metà dell’atlante ha gli ingredienti registrati, quindi un piatto che manca qui può essere semplicemente uno che nessuno ha ancora scritto.',
+    requestsNotOpenNote:
+      'Le richieste non sono ancora aperte, quindi l’unico modo perché un piatto entri nell’atlante è che qualcuno lo registri.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -757,6 +885,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Ecrãs',
     oftenTheWholePoint: 'Muitas vezes é o essencial — opcional',
     grewUpInMalabar: 'Cresci em Malabar',
+    whatTheseAreBody:
+      'Pratos que alguém diz existirem e de que o atlas não tem registo. Cada um precisa de {n} confirmações de pessoas que o conhecem antes de entrar no atlas, avaliado pelas mesmas seis dimensões que qualquer outro registo.',
+    proposalsNotOpenYet:
+      'As propostas ainda não estão abertas',
+    proposalsNotOpenNote:
+      'Isto precisa de um sítio onde guardar o que as pessoas enviam. Até existir, a aplicação di-lo em vez de mostrar uma lista vazia como se ninguém tivesse nada a acrescentar.',
+    nothingIsWaiting:
+      'Nada está à espera',
+    nothingIsWaitingNote:
+      'Todas as propostas foram decididas. Se conhece um prato que o atlas não tem, começa aqui.',
+    loading:
+      'A carregar…',
+    proposedBy:
+      'Proposto por',
+    beforeYouStartBody:
+      'Isto é para comida que o atlas não tem, normalmente porque ninguém a escreveu. Não é preciso uma receita completa. Um nome, de onde é, e a sua ligação ao lugar bastam para a abrir a confirmação.',
+    notPublishedBySending:
+      'Enviá-la não a publica. Primeiro {n} pessoas que conhecem o prato confirmam-na, e entra no atlas conforme as suas provas valerem, tal como qualquer outro registo.',
+    atlasMayAlreadyHaveThis:
+      'O atlas pode já ter isto',
+    duplicateNote:
+      'Se um destes for o seu prato, confirmá-lo é o que o faz avançar, e vale mais do que um segundo registo. Se nenhum for, continue; dois pratos podem ter o mesmo nome.',
+    connectionRequiredNote:
+      'Obrigatório, e mostrado. É toda a diferença entre isto e uma receita copiada da internet, que o atlas já recusa guardar.',
+    proposeClosedNote:
+      'Isto precisa de um sítio onde guardar o que as pessoas enviam, e não está montado. Nada do que escrever aqui iria a lado nenhum, por isso a aplicação di-lo em vez de o aceitar.',
+    pantryNoMatches:
+      'Nada do que está registado usa esses em conjunto. Experimente um de cada vez, ou proponha o prato que tinha em mente se o atlas não o tiver.',
+    pantryPrompt:
+      'Diga o que tem na cozinha. Só cerca de metade do atlas tem os ingredientes registados, por isso um prato que falte aqui pode ser apenas um que ninguém escreveu ainda.',
+    requestsNotOpenNote:
+      'Os pedidos ainda não estão abertos, por isso a única forma de um prato entrar no atlas é alguém registá-lo.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -901,6 +1061,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Schermen',
     oftenTheWholePoint: 'Vaak juist het belangrijkste — optioneel',
     grewUpInMalabar: 'Opgegroeid in Malabar',
+    whatTheseAreBody:
+      'Gerechten waarvan mensen zeggen dat ze bestaan en waarvan de atlas niets heeft. Elk heeft {n} bevestigingen nodig van mensen die het kennen voordat het in de atlas komt — beoordeeld op dezelfde zes dimensies als elk ander record.',
+    proposalsNotOpenYet:
+      'Voorstellen zijn nog niet open',
+    proposalsNotOpenNote:
+      'Hiervoor is een plek nodig om te bewaren wat mensen sturen. Tot die er is zegt de app dat, in plaats van een lege lijst te tonen alsof niemand iets bij te dragen had.',
+    nothingIsWaiting:
+      'Er wacht niets',
+    nothingIsWaitingNote:
+      'Over elk voorstel is beslist. Kent u een gerecht dat de atlas niet heeft, dan begint het hier.',
+    loading:
+      'Laden…',
+    proposedBy:
+      'Voorgesteld door',
+    beforeYouStartBody:
+      'Dit is voor eten dat de atlas niet heeft, meestal omdat niemand het heeft opgeschreven. Een volledig recept is niet nodig. Een naam, waar het vandaan komt, en uw band met die plek zijn genoeg om het open te stellen voor bevestiging.',
+    notPublishedBySending:
+      'Versturen publiceert het niet. Eerst bevestigen {n} mensen die het gerecht kennen het, en het komt in de atlas met wat zijn bewijs waard is — net als elk ander record hier.',
+    atlasMayAlreadyHaveThis:
+      'De atlas heeft dit misschien al',
+    duplicateNote:
+      'Als een hiervan uw gerecht is, brengt bevestigen het verder, en dat is meer waard dan een tweede record. Is het geen van deze, ga dan door; twee gerechten mogen een naam delen.',
+    connectionRequiredNote:
+      'Verplicht, en wordt getoond. Het is het hele verschil tussen dit en een van internet overgeschreven recept, dat de atlas al weigert te bewaren.',
+    proposeClosedNote:
+      'Hiervoor is een plek nodig om te bewaren wat mensen sturen, en die is er niet. Niets van wat u hier schrijft zou ergens aankomen, dus zegt de app het in plaats van het aan te nemen.',
+    pantryNoMatches:
+      'Niets in de atlas gebruikt die samen. Probeer er één tegelijk — of stel het gerecht voor dat u in gedachten had, als de atlas het niet heeft.',
+    pantryPrompt:
+      'Noem wat er in uw keuken ligt. Van ongeveer de helft van de atlas zijn de ingrediënten vastgelegd, dus een gerecht dat hier ontbreekt kan er simpelweg een zijn dat niemand heeft opgeschreven.',
+    requestsNotOpenNote:
+      'Verzoeken zijn nog niet open, dus een gerecht komt alleen in de atlas als iemand het vastlegt.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -1046,6 +1238,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Ekrany',
     oftenTheWholePoint: 'Często najważniejsze — opcjonalne',
     grewUpInMalabar: 'Dorastałem w Malabarze',
+    whatTheseAreBody:
+      'Potrawy, o których ktoś mówi, że istnieją, a atlas nie ma po nich śladu. Każda potrzebuje {n} potwierdzeń od osób, które ją znają, zanim trafi do atlasu — oceniana według tych samych sześciu wymiarów co każdy inny wpis.',
+    proposalsNotOpenYet:
+      'Propozycje nie są jeszcze otwarte',
+    proposalsNotOpenNote:
+      'Potrzebne jest miejsce, w którym zapisze się to, co ludzie przysyłają. Dopóki go nie ma, aplikacja mówi to wprost, zamiast pokazywać pustą listę, jakby nikt nie miał nic do dodania.',
+    nothingIsWaiting:
+      'Nic nie czeka',
+    nothingIsWaitingNote:
+      'Każda propozycja została rozstrzygnięta. Jeśli znasz potrawę, której atlas nie ma, zaczyna się tutaj.',
+    loading:
+      'Wczytywanie…',
+    proposedBy:
+      'Zaproponowane przez',
+    beforeYouStartBody:
+      'To jest dla jedzenia, którego atlas nie ma — zwykle dlatego, że nikt go nie zapisał. Pełny przepis nie jest potrzebny. Nazwa, skąd pochodzi i twój związek z tym miejscem wystarczą, by otworzyć ją do potwierdzenia.',
+    notPublishedBySending:
+      'Wysłanie jej nie publikuje. Najpierw potwierdza ją {n} osób, które znają tę potrawę, i trafia do atlasu z tym, na co zasłużyły jej dowody — tak jak każdy inny wpis.',
+    atlasMayAlreadyHaveThis:
+      'Atlas może już to mieć',
+    duplicateNote:
+      'Jeśli któraś z nich jest twoją potrawą, to potwierdzenie ją posuwa i jest warte więcej niż drugi wpis. Jeśli żadna nie jest, idź dalej; dwie potrawy mogą nosić tę samą nazwę.',
+    connectionRequiredNote:
+      'Wymagane i pokazywane. To cała różnica między tym a przepisem przepisanym z internetu, którego atlas i tak nie przyjmuje.',
+    proposeClosedNote:
+      'Potrzebne jest miejsce na to, co ludzie przysyłają, a nie zostało przygotowane. Nic z tego, co tu napiszesz, nigdzie by nie dotarło, więc aplikacja mówi to wprost, zamiast to przyjmować.',
+    pantryNoMatches:
+      'Nic z zapisanych potraw nie łączy tych składników. Spróbuj po jednym — albo zaproponuj potrawę, o której myślisz, jeśli atlas jej nie ma.',
+    pantryPrompt:
+      'Podaj, co masz w kuchni. Tylko mniej więcej połowa atlasu ma zapisane składniki, więc brakująca tu potrawa może być po prostu taką, której nikt jeszcze nie zapisał.',
+    requestsNotOpenNote:
+      'Prośby nie są jeszcze otwarte, więc potrawa trafia do atlasu tylko wtedy, gdy ktoś ją zapisze.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -1190,6 +1414,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Ekranlar',
     oftenTheWholePoint: 'Çoğu zaman asıl mesele — isteğe bağlı',
     grewUpInMalabar: 'Malabar’da büyüdüm',
+    whatTheseAreBody:
+      'İnsanların var olduğunu söylediği, atlasta kaydı bulunmayan yemekler. Her biri atlasa girmeden önce onu bilen kişilerden {n} doğrulama ister — buradaki her kayıt gibi aynı altı boyutta değerlendirilir.',
+    proposalsNotOpenYet:
+      'Öneriler henüz açık değil',
+    proposalsNotOpenNote:
+      'Bunun için gönderilenleri saklayacak bir yer gerekiyor. O olana kadar uygulama bunu söylüyor; kimsenin ekleyecek bir şeyi yokmuş gibi boş bir liste göstermek yerine.',
+    nothingIsWaiting:
+      'Bekleyen bir şey yok',
+    nothingIsWaitingNote:
+      'Her öneri karara bağlandı. Atlasta olmayan bir yemek biliyorsanız, başlangıç burası.',
+    loading:
+      'Yükleniyor…',
+    proposedBy:
+      'Öneren',
+    beforeYouStartBody:
+      'Bu, atlasta olmayan yemekler içindir — çoğu zaman kimse yazmadığı için. Tam bir tarif gerekmez. Bir ad, nereden geldiği ve o yerle bağınız, doğrulamaya açmak için yeter.',
+    notPublishedBySending:
+      'Göndermek onu yayımlamaz. Önce yemeği bilen {n} kişi doğrular ve kanıtı ne kadarsa o değerle atlasa girer — buradaki her kayıt gibi.',
+    atlasMayAlreadyHaveThis:
+      'Atlasta bu zaten olabilir',
+    duplicateNote:
+      'Bunlardan biri sizin yemeğinizse, onu doğrulamak ilerleten şeydir ve ikinci bir kayıttan değerlidir. Hiçbiri değilse devam edin; iki yemek aynı adı taşıyabilir.',
+    connectionRequiredNote:
+      'Zorunlu ve gösteriliyor. Bununla internetten kopyalanmış bir tarif arasındaki bütün fark budur — atlasın zaten kabul etmediği şey.',
+    proposeClosedNote:
+      'Gönderilenleri saklayacak bir yer gerekiyor ve kurulmuş değil. Buraya yazdığınız hiçbir şey bir yere gitmezdi, bu yüzden uygulama almak yerine bunu söylüyor.',
+    pantryNoMatches:
+      'Kayıtlı hiçbir şey bunları birlikte kullanmıyor. Teker teker deneyin — ya da aklınızdaki yemeği önerin, atlasta yoksa.',
+    pantryPrompt:
+      'Mutfağınızda ne olduğunu yazın. Atlasın ancak yarısının malzemeleri kayıtlı, bu yüzden burada çıkmayan bir yemek, sadece kimsenin yazmadığı bir yemek olabilir.',
+    requestsNotOpenNote:
+      'İstekler henüz açık değil; bir yemeğin atlasa girmesinin tek yolu birinin onu kaydetmesi.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -1335,6 +1591,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'Экраны',
     oftenTheWholePoint: 'Часто это самое главное — необязательно',
     grewUpInMalabar: 'Вырос в Малабаре',
+    whatTheseAreBody:
+      'Блюда, о существовании которых говорят, но записи о которых в атласе нет. Каждому нужно {n} подтверждений от людей, которые его знают, прежде чем оно войдёт в атлас, — по тем же шести измерениям, что и любая другая запись.',
+    proposalsNotOpenYet:
+      'Предложения пока не открыты',
+    proposalsNotOpenNote:
+      'Для этого нужно место, где хранить присланное. Пока его нет, приложение так и говорит, вместо того чтобы показывать пустой список, будто никому нечего добавить.',
+    nothingIsWaiting:
+      'Ничего не ждёт',
+    nothingIsWaitingNote:
+      'По каждому предложению принято решение. Если вы знаете блюдо, которого нет в атласе, всё начинается здесь.',
+    loading:
+      'Загрузка…',
+    proposedBy:
+      'Предложил',
+    beforeYouStartBody:
+      'Это для еды, которой нет в атласе, — обычно потому, что её никто не записал. Полный рецепт не нужен. Название, откуда оно, и ваша связь с этим местом — этого достаточно, чтобы открыть его для подтверждения.',
+    notPublishedBySending:
+      'Отправка не публикует его. Сначала {n} человек, знающих блюдо, подтверждают его, и оно входит в атлас с тем, чего стоят его свидетельства, — как и любая другая запись.',
+    atlasMayAlreadyHaveThis:
+      'В атласе это, возможно, уже есть',
+    duplicateNote:
+      'Если одно из них — ваше блюдо, подтверждение продвигает его, и это ценнее второй записи. Если ни одно, продолжайте: два блюда могут носить одно имя.',
+    connectionRequiredNote:
+      'Обязательно и показывается. В этом вся разница между этим и рецептом, переписанным из интернета, который атлас и так не принимает.',
+    proposeClosedNote:
+      'Нужно место, где хранить присланное, и оно не настроено. Ничто из написанного здесь никуда бы не дошло, поэтому приложение говорит об этом, а не принимает.',
+    pantryNoMatches:
+      'Ни одна запись не использует их вместе. Попробуйте по одному — или предложите блюдо, которое имели в виду, если его нет в атласе.',
+    pantryPrompt:
+      'Назовите, что есть у вас на кухне. Ингредиенты записаны примерно у половины атласа, поэтому отсутствующее здесь блюдо может быть просто тем, которое никто ещё не записал.',
+    requestsNotOpenNote:
+      'Запросы пока не открыты, поэтому блюдо попадает в атлас только если кто-то его запишет.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -1480,6 +1768,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: 'स्क्रीन',
     oftenTheWholePoint: 'अक्सर यही असली बात है — वैकल्पिक',
     grewUpInMalabar: 'मालाबार में पला-बढ़ा',
+    whatTheseAreBody:
+      'ऐसे व्यंजन जिनके होने की बात लोग कहते हैं पर एटलस के पास उनका कोई रिकॉर्ड नहीं। एटलस में आने से पहले हर एक को उसे जानने वाले {n} लोगों की पुष्टि चाहिए — उन्हीं छह आयामों पर आँका जाता है जिन पर बाकी हर रिकॉर्ड।',
+    proposalsNotOpenYet:
+      'प्रस्ताव अभी खुले नहीं हैं',
+    proposalsNotOpenNote:
+      'इसके लिए एक जगह चाहिए जहाँ लोगों का भेजा हुआ रखा जा सके। जब तक वह नहीं है, ऐप यही कहता है — खाली सूची दिखाने के बजाय, मानो किसी के पास कुछ जोड़ने को न हो।',
+    nothingIsWaiting:
+      'कुछ भी लंबित नहीं',
+    nothingIsWaitingNote:
+      'हर प्रस्ताव पर निर्णय हो चुका है। अगर आप कोई ऐसा व्यंजन जानते हैं जो एटलस में नहीं है, शुरुआत यहीं से है।',
+    loading:
+      'लोड हो रहा है…',
+    proposedBy:
+      'प्रस्तावक',
+    beforeYouStartBody:
+      'यह उस भोजन के लिए है जो एटलस के पास नहीं है — अक्सर इसलिए कि किसी ने उसे लिखा ही नहीं। पूरी विधि ज़रूरी नहीं। एक नाम, वह कहाँ का है, और उस जगह से आपका नाता — पुष्टि के लिए खोलने को इतना काफ़ी है।',
+    notPublishedBySending:
+      'भेजने से यह प्रकाशित नहीं होता। पहले व्यंजन को जानने वाले {n} लोग इसकी पुष्टि करते हैं, और यह अपने प्रमाणों के अनुसार एटलस में आता है — ठीक वैसे ही जैसे यहाँ का हर रिकॉर्ड।',
+    atlasMayAlreadyHaveThis:
+      'यह एटलस में पहले से हो सकता है',
+    duplicateNote:
+      'अगर इनमें से कोई आपका व्यंजन है, तो उसकी पुष्टि ही उसे आगे बढ़ाती है — यह दूसरे रिकॉर्ड से ज़्यादा क़ीमती है। अगर कोई नहीं है, आगे बढ़िए; दो व्यंजनों का नाम एक हो सकता है।',
+    connectionRequiredNote:
+      'अनिवार्य, और दिखाया जाता है। इसी से यह इंटरनेट से नक़ल की गई विधि से अलग होता है — जिसे एटलस पहले ही रखने से इनकार करता है।',
+    proposeClosedNote:
+      'इसके लिए भेजी गई बातें रखने की जगह चाहिए, और वह तैयार नहीं है। यहाँ लिखा कुछ भी कहीं नहीं पहुँचेगा, इसलिए ऐप उसे लेने के बजाय यह बता रहा है।',
+    pantryNoMatches:
+      'दर्ज किसी भी व्यंजन में ये साथ नहीं आते। एक-एक करके आज़माएँ — या जो व्यंजन मन में था वह प्रस्तावित करें, अगर एटलस के पास नहीं है।',
+    pantryPrompt:
+      'बताइए आपकी रसोई में क्या है। एटलस के लगभग आधे हिस्से की ही सामग्री दर्ज है, इसलिए यहाँ न मिलने वाला व्यंजन शायद वही हो जिसे किसी ने अब तक लिखा नहीं।',
+    requestsNotOpenNote:
+      'अनुरोध अभी खुले नहीं हैं, इसलिए किसी व्यंजन के एटलस में आने का एकमात्र रास्ता यही है कि कोई उसे दर्ज करे।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -1625,6 +1945,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: '页面',
     oftenTheWholePoint: '往往正是关键 — 可不填',
     grewUpInMalabar: '在马拉巴尔长大',
+    whatTheseAreBody:
+      '有人说存在、但图谱没有记录的菜。每一道在进入图谱之前，需要 {n} 位了解它的人确认 — 与这里其他记录一样，按同样的六个维度评判。',
+    proposalsNotOpenYet:
+      '提议尚未开放',
+    proposalsNotOpenNote:
+      '这需要一个地方来存放大家提交的内容。在有之前，应用会如实说明，而不是显示一份空列表，好像没人有话要说。',
+    nothingIsWaiting:
+      '没有待处理的',
+    nothingIsWaitingNote:
+      '每一条提议都已有结论。如果你知道图谱里没有的菜，就从这里开始。',
+    loading:
+      '加载中…',
+    proposedBy:
+      '提议者',
+    beforeYouStartBody:
+      '这是给图谱里没有的食物 — 通常是因为没有人写下来。不需要完整食谱。一个名字、它来自哪里，以及你与那个地方的关系，就足以让它进入确认。',
+    notPublishedBySending:
+      '提交并不等于发布。先由 {n} 位了解这道菜的人确认，然后它按自身证据所值进入图谱 — 和这里其他记录一样。',
+    atlasMayAlreadyHaveThis:
+      '图谱可能已经有了',
+    duplicateNote:
+      '如果其中一条就是你的菜，确认它才是推动它的方式，比再写一条更有价值。如果都不是，请继续；两道菜可以同名。',
+    connectionRequiredNote:
+      '必填，并且会显示。这就是它与从网上抄来的食谱之间的全部区别 — 后者图谱本来就不收。',
+    proposeClosedNote:
+      '这需要一个地方存放大家提交的内容，而它还没有配置。你在这里写的任何内容都不会送到任何地方，所以应用如实说明，而不是收下。',
+    pantryNoMatches:
+      '没有一条记录同时用到这些。试着一次用一样 — 或者提议你心里想的那道菜，如果图谱没有的话。',
+    pantryPrompt:
+      '写下你厨房里有什么。图谱只有大约一半记录了食材，所以这里没出现的菜，可能只是还没有人写下来。',
+    requestsNotOpenNote:
+      '请求尚未开放，所以一道菜进入图谱的唯一途径，是有人把它记录下来。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -1770,6 +2122,38 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     screens: '画面',
     oftenTheWholePoint: 'ここが肝心なことも — 任意',
     grewUpInMalabar: 'マラバールで育ちました',
+    whatTheseAreBody:
+      '存在すると言われながら、アトラスに記録のない料理です。アトラスに入るには、それを知る人による確認が {n} 件必要で、ほかのすべての記録と同じ六つの観点で判断されます。',
+    proposalsNotOpenYet:
+      '提案はまだ受け付けていません',
+    proposalsNotOpenNote:
+      '送られたものを保管する場所が必要です。それができるまでは、誰も付け加えるものがないかのように空の一覧を見せるのではなく、その旨をお伝えします。',
+    nothingIsWaiting:
+      '待っているものはありません',
+    nothingIsWaitingNote:
+      'すべての提案に結論が出ています。アトラスにない料理をご存じなら、ここから始まります。',
+    loading:
+      '読み込み中…',
+    proposedBy:
+      '提案者',
+    beforeYouStartBody:
+      'これはアトラスにない食べもののためのものです — たいていは誰も書き留めなかったからです。完全なレシピは要りません。名前、どこのものか、そしてその土地とのつながりがあれば、確認に開くには十分です。',
+    notPublishedBySending:
+      '送っても公開はされません。まずその料理を知る {n} 人が確認し、根拠に見合っただけの評価でアトラスに入ります — ほかのすべての記録と同じです。',
+    atlasMayAlreadyHaveThis:
+      'アトラスにすでにあるかもしれません',
+    duplicateNote:
+      'このうちのどれかがあなたの料理なら、確認することがそれを前に進めます。二つ目の記録より価値があります。どれでもなければ、そのまま進めてください。同じ名前の料理は二つあり得ます。',
+    connectionRequiredNote:
+      '必須で、表示されます。これがインターネットから写したレシピとの違いのすべてです — アトラスがそもそも受け取らないものです。',
+    proposeClosedNote:
+      '送られたものを保管する場所が必要ですが、用意されていません。ここに書いたものはどこにも届かないので、受け取るのではなく、その旨をお伝えしています。',
+    pantryNoMatches:
+      '記録のどれもこれらを一緒には使っていません。ひとつずつ試すか、思い浮かべた料理がアトラスになければ提案してください。',
+    pantryPrompt:
+      '台所にあるものを書いてください。材料が記録されているのはアトラスの半分ほどなので、ここに出てこない料理は、まだ誰も書き留めていないだけかもしれません。',
+    requestsNotOpenNote:
+      'リクエストはまだ受け付けていないため、料理がアトラスに入る道は、誰かが記録することだけです。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

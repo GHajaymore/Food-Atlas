@@ -82,11 +82,9 @@ export default function Proposals() {
 
       <Card style={styles.intro}>
         <CardKicker>{copy.whatTheseAre}</CardKicker>
-        <CardBody>
-          Dishes people say exist that the atlas has no record of. Each needs{' '}
-          {PROPOSAL_CONFIRMATIONS} confirmations from people who know it before it enters the atlas —
-          judged on the same six dimensions as every other record here.
-        </CardBody>
+        {/* The threshold is substituted rather than concatenated, so a translator can
+            move it to wherever the sentence needs it in their language. */}
+        <CardBody>{copy.whatTheseAreBody.replace('{n}', String(PROPOSAL_CONFIRMATIONS))}</CardBody>
         <Button
           label={copy.proposeADish}
           variant="secondary"
@@ -98,20 +96,15 @@ export default function Proposals() {
 
       {!canPropose() ? (
         <Block style={styles.empty}>
-          <T style={styles.emptyHead}>Proposals are not open yet</T>
-          <Muted style={styles.emptyNote}>
-            This needs somewhere to store what people send. Until it exists the app says so, rather than
-            showing an empty list as though nobody had anything to add.
-          </Muted>
+          <T style={styles.emptyHead}>{copy.proposalsNotOpenYet}</T>
+          <Muted style={styles.emptyNote}>{copy.proposalsNotOpenNote}</Muted>
         </Block>
       ) : loading ? (
-        <Muted style={styles.emptyNote}>Loading…</Muted>
+        <Muted style={styles.emptyNote}>{copy.loading}</Muted>
       ) : !ordered.length ? (
         <Block style={styles.empty}>
-          <T style={styles.emptyHead}>Nothing is waiting</T>
-          <Muted style={styles.emptyNote}>
-            Every proposal has been decided. If you know a dish the atlas does not have, it starts here.
-          </Muted>
+          <T style={styles.emptyHead}>{copy.nothingIsWaiting}</T>
+          <Muted style={styles.emptyNote}>{copy.nothingIsWaitingNote}</Muted>
         </Block>
       ) : (
         ordered.map((p) => {
@@ -146,7 +139,7 @@ export default function Proposals() {
               {isOpen ? (
                 <View style={styles.detail}>
                   <Muted style={styles.by}>
-                    Proposed by {p.submitter} — {p.connection}
+                    {copy.proposedBy} {p.submitter} — {p.connection}
                   </Muted>
 
                   {p.cooks ? <CardBody>{p.cooks}</CardBody> : null}
