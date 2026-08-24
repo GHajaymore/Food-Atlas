@@ -50,9 +50,9 @@ export default function Support() {
       <NavRow title={copy.keepingItFree} onBack={back} />
 
       <Muted style={styles.lead}>
-        {catalogueStats.total.toLocaleString()} traditions, built entirely from sources that are free to read and
-        openly licensed. No advertising, no tracking, and nothing behind a payment. Here is what that actually
-        costs, including the parts that cost nothing. Figures are in {CURRENCY}.
+        {copy.supportLead
+          .replace('{n}', catalogueStats.total.toLocaleString())
+          .replace('{currency}', CURRENCY)}
       </Muted>
 
       {FUNDING_NEEDS.map((need) => (
@@ -68,7 +68,10 @@ export default function Support() {
 
       <H5 style={styles.heading}>{copy.whatItDoesNotBuy}</H5>
       <View style={styles.list}>
-        {NOT_FOR_SALE.map((line) => (
+        {/* Read from the copy rather than from `NOT_FOR_SALE`, because these three are
+            promises to a reader and a promise has to be in their language. The domain
+            list stays as the record of what was promised. */}
+        {[copy.notForSaleAuthentic, copy.notForSalePromotion, copy.notForSaleAdvertising].map((line) => (
           <Muted key={line} style={styles.notForSale}>
             {line}
           </Muted>
@@ -78,10 +81,7 @@ export default function Support() {
       {canAcceptDonations() ? (
         <>
           <Button label={copy.contributeOnOpenCollective} block onPress={() => openAtSource(DONATION_URL)} />
-          <Muted style={styles.footnote}>
-            Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and
-            never will.
-          </Muted>
+          <Muted style={styles.footnote}>{copy.donationFootnote}</Muted>
           {/* The reason for choosing this platform, offered rather than claimed. An
               app that publishes its own coverage gaps should let anyone read the
               ledger too, and that promise is kept by the platform rather than by us
@@ -99,17 +99,11 @@ export default function Support() {
            reader's goodwill on a dead link, which is worse than not asking. */
         <Card style={styles.pending}>
           <CardKicker>{copy.notOpenForDonationsYet}</CardKicker>
-          <CardBody>
-            There is nowhere to send money to. It will be an Open Collective when there is, so that every
-            contribution and every expense is public and anyone can check this page against the ledger.
-          </CardBody>
+          <CardBody>{copy.donationsPendingBody}</CardBody>
         </Card>
       )}
 
-      <Muted style={styles.footnote}>
-        The most useful thing anyone can give this atlas is not money. Most of it is a name and a place because
-        nobody has written down how the food is made.
-      </Muted>
+      <Muted style={styles.footnote}>{copy.mostUsefulThing}</Muted>
       <Button
         label={copy.addATradition}
         variant="secondary"
@@ -136,13 +130,13 @@ export default function Support() {
        */}
       <Pressable
         accessibilityRole="link"
-        accessibilityLabel="Administration. Needs a token."
+        accessibilityLabel={`${copy.administration}. ${copy.administrationNote}`}
         tint="neutral"
         onPress={() => router.push('/admin')}
         style={styles.adminRow}
       >
-        <T style={styles.adminLabel}>Administration</T>
-        <Muted style={styles.adminNote}>Thresholds, moderation, source checks and usage. Needs a token.</Muted>
+        <T style={styles.adminLabel}>{copy.administration}</T>
+        <Muted style={styles.adminNote}>{copy.administrationNote}</Muted>
       </Pressable>
     </Screen>
   );

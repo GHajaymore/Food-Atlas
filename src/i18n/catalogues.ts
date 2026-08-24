@@ -243,6 +243,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Clasificado como auténtico',
     meterAssessedNote:
       'Ganado con las comprobaciones de pruebas. Una proporción baja aquí es honesta, no un fracaso.',
+    supportLead:
+      '{n} tradiciones, construidas enteramente con fuentes libres de leer y con licencia abierta. Sin publicidad, sin rastreo y nada tras un pago. Esto es lo que cuesta de verdad, incluidas las partes que no cuestan nada. Las cifras están en {currency}.',
+    notForSaleAuthentic:
+      'Un registro no puede volverse Auténtico pagando. Eso viene de las pruebas y de las personas que cocinan el plato.',
+    notForSalePromotion:
+      'Ningún plato se promociona, se sitúa más arriba ni se destaca porque alguien haya pagado.',
+    notForSaleAdvertising:
+      'Aquí no hay publicidad, y no se rastrea a ningún lector.',
+    donationFootnote:
+      'Se abre en Open Collective. Aquí no se cobra nada: esta app no guarda datos de pago tuyos y nunca lo hará.',
+    donationsPendingBody:
+      'No hay adónde enviar dinero. Cuando lo haya, será un Open Collective, para que cada aporte y cada gasto sean públicos y cualquiera pueda contrastar esta página con el libro de cuentas.',
+    mostUsefulThing:
+      'Lo más útil que alguien puede dar a este atlas no es dinero. La mayor parte es un nombre y un lugar porque nadie ha escrito cómo se hace la comida.',
+    administration:
+      'Administración',
+    administrationNote:
+      'Umbrales, moderación, comprobación de fuentes y uso. Requiere un token.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -452,6 +470,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Classé comme authentique',
     meterAssessedNote:
       'Obtenu par les vérifications de preuves. Une faible part ici est honnête, pas un échec.',
+    supportLead:
+      '{n} traditions, construites entièrement à partir de sources libres à lire et sous licence ouverte. Pas de publicité, pas de pistage, et rien derrière un paiement. Voici ce que cela coûte réellement, y compris les parties qui ne coûtent rien. Les chiffres sont en {currency}.',
+    notForSaleAuthentic:
+      'Une fiche ne peut pas devenir Authentique en payant. Cela vient des preuves et des gens qui cuisinent le plat.',
+    notForSalePromotion:
+      'Aucun plat n’est mis en avant, mieux classé ni mis en vedette parce que quelqu’un a payé.',
+    notForSaleAdvertising:
+      'Rien ici n’est de la publicité, et aucun lecteur n’est pisté.',
+    donationFootnote:
+      'S’ouvre sur Open Collective. Rien n’est encaissé ici — cette application ne détient aucune de vos coordonnées de paiement et n’en détiendra jamais.',
+    donationsPendingBody:
+      'Il n’y a nulle part où envoyer de l’argent. Ce sera un Open Collective quand ce sera le cas, afin que chaque contribution et chaque dépense soit publique et que chacun puisse vérifier cette page contre le registre.',
+    mostUsefulThing:
+      'La chose la plus utile que l’on puisse donner à cet atlas n’est pas de l’argent. L’essentiel se résume à un nom et un lieu, parce que personne n’a écrit comment le plat se prépare.',
+    administration:
+      'Administration',
+    administrationNote:
+      'Seuils, modération, vérification des sources et usage. Nécessite un jeton.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -660,6 +696,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Als echt eingestuft',
     meterAssessedNote:
       'Durch die Belegprüfungen erreicht. Ein niedriger Anteil ist hier ehrlich, kein Versagen.',
+    supportLead:
+      '{n} Traditionen, vollständig aus Quellen gebaut, die frei zu lesen und offen lizenziert sind. Keine Werbung, kein Verfolgen, und nichts hinter einer Bezahlung. Hier steht, was das tatsächlich kostet, einschließlich der Teile, die nichts kosten. Beträge in {currency}.',
+    notForSaleAuthentic:
+      'Ein Eintrag kann nicht durch Bezahlen echt werden. Das kommt aus Belegen und von Menschen, die das Gericht kochen.',
+    notForSalePromotion:
+      'Kein Gericht wird beworben, höher gereiht oder hervorgehoben, weil jemand bezahlt hat.',
+    notForSaleAdvertising:
+      'Nichts hier ist Werbung, und kein Lesender wird verfolgt.',
+    donationFootnote:
+      'Öffnet bei Open Collective. Hier wird nichts eingezogen — diese App hält keine Ihrer Zahlungsdaten und wird das nie tun.',
+    donationsPendingBody:
+      'Es gibt keinen Ort, an den Geld gehen könnte. Sobald es ihn gibt, wird es ein Open Collective sein, damit jeder Beitrag und jede Ausgabe öffentlich ist und jeder diese Seite gegen das Kassenbuch prüfen kann.',
+    mostUsefulThing:
+      'Das Nützlichste, das jemand diesem Atlas geben kann, ist kein Geld. Das meiste davon ist ein Name und ein Ort, weil niemand aufgeschrieben hat, wie das Essen gemacht wird.',
+    administration:
+      'Verwaltung',
+    administrationNote:
+      'Schwellenwerte, Moderation, Quellenprüfungen und Nutzung. Erfordert ein Token.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -868,6 +922,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Classificato come autentico',
     meterAssessedNote:
       'Ottenuto con le verifiche delle prove. Una quota bassa qui è onesta, non un fallimento.',
+    supportLead:
+      '{n} tradizioni, costruite interamente da fonti libere da leggere e con licenza aperta. Nessuna pubblicità, nessun tracciamento e nulla dietro un pagamento. Ecco quanto costa davvero, comprese le parti che non costano nulla. Le cifre sono in {currency}.',
+    notForSaleAuthentic:
+      'Una scheda non può diventare Autentica pagando. Questo viene dalle prove e dalle persone che cucinano il piatto.',
+    notForSalePromotion:
+      'Nessun piatto viene promosso, messo più in alto o messo in evidenza perché qualcuno ha pagato.',
+    notForSaleAdvertising:
+      'Qui non c’è pubblicità, e nessun lettore viene tracciato.',
+    donationFootnote:
+      'Si apre su Open Collective. Qui non si incassa nulla: questa app non conserva alcun tuo dato di pagamento e non lo farà mai.',
+    donationsPendingBody:
+      'Non c’è dove mandare denaro. Quando ci sarà, sarà un Open Collective, così che ogni contributo e ogni spesa siano pubblici e chiunque possa confrontare questa pagina con il registro.',
+    mostUsefulThing:
+      'La cosa più utile che si possa dare a questo atlante non è il denaro. Gran parte di esso è un nome e un luogo perché nessuno ha scritto come si prepara il cibo.',
+    administration:
+      'Amministrazione',
+    administrationNote:
+      'Soglie, moderazione, controllo delle fonti e utilizzo. Richiede un token.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -1077,6 +1149,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Classificado como autêntico',
     meterAssessedNote:
       'Conquistado pelas verificações de provas. Uma percentagem baixa aqui é honesta, não um fracasso.',
+    supportLead:
+      '{n} tradições, construídas inteiramente a partir de fontes livres de ler e com licença aberta. Sem publicidade, sem rastreio e nada atrás de um pagamento. Aqui está o que isso custa de facto, incluindo as partes que não custam nada. Os valores são em {currency}.',
+    notForSaleAuthentic:
+      'Um registo não pode tornar-se Autêntico pagando. Isso vem das provas e das pessoas que cozinham o prato.',
+    notForSalePromotion:
+      'Nenhum prato é promovido, colocado acima ou destacado porque alguém pagou.',
+    notForSaleAdvertising:
+      'Nada aqui é publicidade, e nenhum leitor é rastreado.',
+    donationFootnote:
+      'Abre no Open Collective. Aqui não se cobra nada — esta aplicação não guarda dados de pagamento seus e nunca guardará.',
+    donationsPendingBody:
+      'Não há para onde enviar dinheiro. Quando houver, será um Open Collective, para que cada contributo e cada despesa sejam públicos e qualquer pessoa possa conferir esta página com o livro de contas.',
+    mostUsefulThing:
+      'A coisa mais útil que alguém pode dar a este atlas não é dinheiro. A maior parte dele é um nome e um lugar porque ninguém escreveu como a comida se faz.',
+    administration:
+      'Administração',
+    administrationNote:
+      'Limiares, moderação, verificação de fontes e utilização. Precisa de um token.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -1285,6 +1375,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ingedeeld als echt',
     meterAssessedNote:
       'Verdiend via de bewijstoetsen. Een laag aandeel is hier eerlijk, geen falen.',
+    supportLead:
+      '{n} tradities, volledig gebouwd op bronnen die vrij te lezen en open gelicentieerd zijn. Geen reclame, geen volgen, en niets achter een betaling. Dit is wat het werkelijk kost, inclusief de delen die niets kosten. Bedragen in {currency}.',
+    notForSaleAuthentic:
+      'Een record kan niet Echt worden door ervoor te betalen. Dat komt uit bewijs en van mensen die het gerecht koken.',
+    notForSalePromotion:
+      'Geen gerecht wordt gepromoot, hoger gezet of uitgelicht omdat iemand betaald heeft.',
+    notForSaleAdvertising:
+      'Niets hier is reclame, en geen lezer wordt gevolgd.',
+    donationFootnote:
+      'Opent bij Open Collective. Hier wordt niets geïnd — deze app bewaart geen betaalgegevens van u en zal dat nooit doen.',
+    donationsPendingBody:
+      'Er is nergens om geld heen te sturen. Als dat er is, wordt het een Open Collective, zodat elke bijdrage en elke uitgave openbaar is en iedereen deze pagina tegen het kasboek kan houden.',
+    mostUsefulThing:
+      'Het nuttigste dat iemand deze atlas kan geven is geen geld. Het meeste ervan is een naam en een plek, omdat niemand heeft opgeschreven hoe het eten gemaakt wordt.',
+    administration:
+      'Beheer',
+    administrationNote:
+      'Drempels, moderatie, broncontroles en gebruik. Vereist een token.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -1494,6 +1602,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Sklasyfikowane jako autentyczne',
     meterAssessedNote:
       'Zdobyte w ocenie dowodów. Niski udział jest tu uczciwy, a nie porażką.',
+    supportLead:
+      '{n} tradycji, zbudowanych w całości ze źródeł darmowych do czytania i na otwartej licencji. Bez reklam, bez śledzenia i bez niczego za opłatą. Oto ile to naprawdę kosztuje, łącznie z tym, co nie kosztuje nic. Kwoty w {currency}.',
+    notForSaleAuthentic:
+      'Wpisu nie da się uczynić Autentycznym przez zapłatę. To bierze się z dowodów i od ludzi, którzy tę potrawę gotują.',
+    notForSalePromotion:
+      'Żadna potrawa nie jest promowana, wyżej pozycjonowana ani wyróżniana dlatego, że ktoś zapłacił.',
+    notForSaleAdvertising:
+      'Nic tutaj nie jest reklamą i żaden czytelnik nie jest śledzony.',
+    donationFootnote:
+      'Otwiera się w Open Collective. Tutaj nic nie jest pobierane — ta aplikacja nie przechowuje żadnych twoich danych płatniczych i nigdy nie będzie.',
+    donationsPendingBody:
+      'Nie ma dokąd wysłać pieniędzy. Gdy będzie, będzie to Open Collective, żeby każda wpłata i każdy wydatek były jawne i każdy mógł zestawić tę stronę z księgą.',
+    mostUsefulThing:
+      'Najbardziej przydatną rzeczą, jaką można dać temu atlasowi, nie są pieniądze. Większość z niego to nazwa i miejsce, bo nikt nie zapisał, jak tę potrawę się robi.',
+    administration:
+      'Administracja',
+    administrationNote:
+      'Progi, moderacja, sprawdzanie źródeł i użycie. Wymaga tokenu.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -1702,6 +1828,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Otantik olarak sınıflandırılmış',
     meterAssessedNote:
       'Kanıt denetimleriyle kazanılır. Buradaki düşük oran dürüsttür, başarısızlık değil.',
+    supportLead:
+      '{n} gelenek, tamamı okuması serbest ve açık lisanslı kaynaklardan kuruldu. Reklam yok, izleme yok ve ödeme duvarı yok. Bunun gerçekte neye mal olduğu burada — hiçbir şeye mal olmayan kısımlar dâhil. Rakamlar {currency} cinsinden.',
+    notForSaleAuthentic:
+      'Bir kayıt para ödeyerek Otantik yapılamaz. Bu, kanıttan ve o yemeği pişiren insanlardan gelir.',
+    notForSalePromotion:
+      'Biri ödedi diye hiçbir yemek öne çıkarılmaz, üst sıraya alınmaz veya vitrine konmaz.',
+    notForSaleAdvertising:
+      'Burada hiçbir şey reklam değildir ve hiçbir okur izlenmez.',
+    donationFootnote:
+      'Open Collective’te açılır. Burada hiçbir tahsilat yapılmaz — bu uygulama ödeme bilgilerinizi tutmaz ve hiçbir zaman tutmayacak.',
+    donationsPendingBody:
+      'Para gönderilecek bir yer yok. Olduğunda bir Open Collective olacak; böylece her katkı ve her gider açık olur ve herkes bu sayfayı defterle karşılaştırabilir.',
+    mostUsefulThing:
+      'Bu atlasa verilebilecek en yararlı şey para değildir. Atlasın çoğu bir ad ve bir yerden ibaret, çünkü kimse yemeğin nasıl yapıldığını yazmamış.',
+    administration:
+      'Yönetim',
+    administrationNote:
+      'Eşikler, denetim, kaynak kontrolleri ve kullanım. Bir belirteç gerektirir.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -1911,6 +2055,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Отнесено к подлинным',
     meterAssessedNote:
       'Заслужено проверками свидетельств. Низкая доля здесь честна, а не провальна.',
+    supportLead:
+      '{n} традиций, полностью построенных на источниках, свободных для чтения и с открытой лицензией. Без рекламы, без слежки и без платного доступа. Вот во что это действительно обходится, включая то, что не стоит ничего. Суммы в {currency}.',
+    notForSaleAuthentic:
+      'Запись нельзя сделать подлинной, заплатив за это. Подлинность идёт от свидетельств и от людей, которые готовят это блюдо.',
+    notForSalePromotion:
+      'Ни одно блюдо не продвигается, не поднимается выше и не выделяется потому, что кто-то заплатил.',
+    notForSaleAdvertising:
+      'Здесь нет рекламы, и ни за одним читателем не следят.',
+    donationFootnote:
+      'Откроется на Open Collective. Здесь ничего не принимается — приложение не хранит ваших платёжных данных и не будет.',
+    donationsPendingBody:
+      'Отправлять деньги некуда. Когда будет куда, это будет Open Collective, чтобы каждый взнос и каждый расход были открыты и любой мог сверить эту страницу с книгой учёта.',
+    mostUsefulThing:
+      'Самое полезное, что можно дать этому атласу, — не деньги. Большая его часть — это название и место, потому что никто не записал, как эту еду готовят.',
+    administration:
+      'Администрирование',
+    administrationNote:
+      'Пороги, модерация, проверка источников и использование. Нужен токен.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -2120,6 +2282,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'प्रामाणिक के रूप में वर्गीकृत',
     meterAssessedNote:
       'प्रमाण जाँचों से अर्जित। यहाँ कम हिस्सा ईमानदारी है, असफलता नहीं।',
+    supportLead:
+      '{n} परंपराएँ, पूरी तरह ऐसे स्रोतों से बनी जो पढ़ने को मुफ़्त और खुली लाइसेंस वाले हैं। कोई विज्ञापन नहीं, कोई ट्रैकिंग नहीं, और कुछ भी भुगतान के पीछे नहीं। यह रहा असल ख़र्च — उन हिस्सों समेत जिनका कोई ख़र्च नहीं। आँकड़े {currency} में हैं।',
+    notForSaleAuthentic:
+      'पैसे देकर किसी रिकॉर्ड को प्रामाणिक नहीं बनाया जा सकता। वह प्रमाणों से आता है और उन लोगों से जो यह व्यंजन बनाते हैं।',
+    notForSalePromotion:
+      'किसी ने भुगतान किया, इसलिए किसी व्यंजन को बढ़ावा, ऊँची जगह या विशेष स्थान नहीं मिलता।',
+    notForSaleAdvertising:
+      'यहाँ कुछ भी विज्ञापन नहीं है, और किसी पाठक को ट्रैक नहीं किया जाता।',
+    donationFootnote:
+      'Open Collective पर खुलता है। यहाँ कुछ भी वसूला नहीं जाता — यह ऐप आपके भुगतान विवरण नहीं रखता और कभी नहीं रखेगा।',
+    donationsPendingBody:
+      'पैसे भेजने की कोई जगह नहीं है। जब होगी, तब वह Open Collective होगी, ताकि हर योगदान और हर ख़र्च सार्वजनिक हो और कोई भी इस पन्ने को लेखा-जोखा से मिला सके।',
+    mostUsefulThing:
+      'इस एटलस को कोई जो सबसे उपयोगी चीज़ दे सकता है वह पैसा नहीं है। इसका ज़्यादातर हिस्सा बस एक नाम और एक जगह है, क्योंकि किसी ने लिखा ही नहीं कि वह खाना कैसे बनता है।',
+    administration:
+      'प्रशासन',
+    administrationNote:
+      'सीमाएँ, मॉडरेशन, स्रोत जाँच और उपयोग। टोकन चाहिए।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -2329,6 +2509,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '被判定为正宗',
     meterAssessedNote:
       '靠证据核查取得。这里比例低是诚实，不是失败。',
+    supportLead:
+      '{n} 项传统，全部建立在可自由阅读、采用开放许可的资料之上。没有广告，不做追踪，也没有任何内容需要付费。下面是它真正的花费，包括那些不花钱的部分。金额以 {currency} 计。',
+    notForSaleAuthentic:
+      '一条记录不会因为付钱而被判定为正宗。那来自证据，以及做这道菜的人。',
+    notForSalePromotion:
+      '不会因为有人付钱，就推广、提高排名或特别展示任何一道菜。',
+    notForSaleAdvertising:
+      '这里没有任何广告，也不追踪任何读者。',
+    donationFootnote:
+      '在 Open Collective 打开。这里不收取任何款项 — 本应用不保存你的支付信息，将来也不会。',
+    donationsPendingBody:
+      '目前没有可以汇款的地方。有了以后会是一个 Open Collective，让每一笔收入和支出都公开，任何人都能拿这一页对照账本。',
+    mostUsefulThing:
+      '能给这份图谱最有用的东西不是钱。它大部分只有一个名字和一个地方，因为没有人写下这道菜怎么做。',
+    administration:
+      '管理',
+    administrationNote:
+      '阈值、审核、来源检查与使用情况。需要令牌。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -2538,6 +2736,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '本物と分類',
     meterAssessedNote:
       '根拠の確認を経て得られます。ここの割合が低いのは正直さであって、失敗ではありません。',
+    supportLead:
+      '{n} 件の伝統。すべて、自由に読めてオープンライセンスの資料から作られています。広告なし、追跡なし、有料の壁もありません。以下が実際にかかる費用です — かからない部分も含めて。金額は {currency} です。',
+    notForSaleAuthentic:
+      'お金を払って記録を「本物」にすることはできません。それは根拠と、その料理を作る人たちから来ます。',
+    notForSalePromotion:
+      '誰かが払ったからという理由で、料理が宣伝されたり、順位を上げられたり、特集されたりすることはありません。',
+    notForSaleAdvertising:
+      'ここに広告はありません。読む人が追跡されることもありません。',
+    donationFootnote:
+      'Open Collective で開きます。ここでは何も受け取りません — このアプリはあなたの支払い情報を保持しませんし、今後も保持しません。',
+    donationsPendingBody:
+      'お金を送る先がありません。できたときには Open Collective にします。寄付も支出もすべて公開され、誰でもこのページを帳簿と突き合わせられるように。',
+    mostUsefulThing:
+      'このアトラスに差し出せるいちばん役に立つものは、お金ではありません。その大半は名前と場所だけです。誰もその料理の作り方を書き留めなかったからです。',
+    administration:
+      '管理',
+    administrationNote:
+      'しきい値、モデレーション、出典の確認、利用状況。トークンが必要です。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

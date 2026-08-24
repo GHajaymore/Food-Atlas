@@ -226,6 +226,15 @@ export interface Copy {
   meterFilmedNote: string;
   meterAssessed: string;
   meterAssessedNote: string;
+  supportLead: string;
+  notForSaleAuthentic: string;
+  notForSalePromotion: string;
+  notForSaleAdvertising: string;
+  donationFootnote: string;
+  donationsPendingBody: string;
+  mostUsefulThing: string;
+  administration: string;
+  administrationNote: string;
   interfaceTranslationNote: string;
 }
 
@@ -444,6 +453,24 @@ export const EN: Copy = {
     'Classified as authentic',
   meterAssessedNote:
     'Earned through the evidence checks. A low share here is honest, not a failure.',
+  supportLead:
+    '{n} traditions, built entirely from sources that are free to read and openly licensed. No advertising, no tracking, and nothing behind a payment. Here is what that actually costs, including the parts that cost nothing. Figures are in {currency}.',
+  notForSaleAuthentic:
+    'A record cannot be made Authentic by paying for it. That comes from evidence and from people who cook the dish.',
+  notForSalePromotion:
+    'No dish is promoted, ranked higher, or featured because somebody paid.',
+  notForSaleAdvertising:
+    'Nothing here is advertising, and no reader is tracked.',
+  donationFootnote:
+    'Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and never will.',
+  donationsPendingBody:
+    'There is nowhere to send money to. It will be an Open Collective when there is, so that every contribution and every expense is public and anyone can check this page against the ledger.',
+  mostUsefulThing:
+    'The most useful thing anyone can give this atlas is not money. Most of it is a name and a place because nobody has written down how the food is made.',
+  administration:
+    'Administration',
+  administrationNote:
+    'Thresholds, moderation, source checks and usage. Needs a token.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
