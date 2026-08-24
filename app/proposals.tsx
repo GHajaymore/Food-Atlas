@@ -33,6 +33,7 @@ import { ConfirmForm, type Said } from '../src/components/ConfirmForm';
 import { NavRow } from '../src/components/NavRow';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
+import { Testimony } from '../src/components/Testimony';
 import { Tag } from '../src/components/Tag';
 import { H5, Muted, T } from '../src/components/Text';
 import { confirmProposal, loadProposals } from '../src/data/proposals';
@@ -180,7 +181,9 @@ export default function Proposals() {
                             {person.local ? ' — from the town' : ''}
                           </T>
                           <Muted style={styles.item}>{person.connection}</Muted>
-                          <Muted style={styles.said}>“{person.said}”</Muted>
+                          {/* The quote, with a translation available beside it rather
+                              than in place of it. See `domain/testimony.ts`. */}
+                          <Testimony said={person.said} />
                         </View>
                       ))}
                     </View>

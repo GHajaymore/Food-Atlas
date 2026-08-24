@@ -172,10 +172,19 @@ There is also a fairness problem in the other direction: leaving proposals in th
 submitter's language means a Spanish reader cannot judge a Malayalam confirmation, which
 is the same exclusion viewed from the other end.
 
-**Recommended shape:** show the original always, offer a translation beside it, label it
-as machine-made, and never let a translated confirmation be what a badge rests on. That
-keeps the evidence intact and still lets a reader who cannot read Malayalam understand
-what was said. It is the same stance `translate.ts` already takes for a record.
+~~**Recommended shape**~~ **Agreed by Ajay and built, 2026-08-24.** `domain/testimony.ts`
+holds the three rules, `Testimony` renders them, and `/proposals` uses it. The original is
+rendered first and unconditionally — not in a branch — so a later edit cannot swap it out
+without deleting the line. A translation is offered rather than automatic: a record
+translates on arrival because the words are the atlas's own, a confirmation waits to be
+asked because they are not.
+
+**Still switched off**, like the other metered features: it needs
+`EXPO_PUBLIC_TRANSLATION_ENDPOINT`, so the control does not render and the quote shows
+alone. That also means the translated path has not been exercised against a real provider
+— only the rules have, which is the honest limit of what could be checked here.
+
+**Parts 1 and 2 remain open**: the rest of the chrome, and the 17,774 records.
 
 ---
 

@@ -21,6 +21,7 @@
  * Swap the implementation freely — the contract is this file.
  */
 
+import { testimonyPrompt } from './testimony';
 import type { Dish, DishTranslation } from './types';
 import { languageName } from './language';
 
@@ -35,6 +36,17 @@ export interface TranslationProvider {
   /** False when the provider has no credentials; the UI then says so plainly. */
   isConfigured(): boolean;
   translate(request: TranslationRequest): Promise<DishTranslation>;
+  /**
+   * A single piece of somebody's testimony, translated for display beside the original.
+   *
+   * Separate from `translate` because the two carry different risks and different
+   * guarantees. A record translation is checked by `assertPreserved` against the terms
+   * the record itself declares; a confirmation has no such structure — it is one
+   * sentence — so its protection lives in the instruction, in `domain/testimony.ts`.
+   *
+   * Returns plain text. Nothing here writes to a record or to a count.
+   */
+  translateText(request: { text: string; target: string }): Promise<string>;
 }
 
 /** Terms that must survive a translation untouched. */
@@ -176,6 +188,34 @@ export class RemoteTranslationProvider implements TranslationProvider {
     // Reject rather than display a translation that broke the rules.
     assertPreserved(dish, result);
     return result;
+  }
+
+  async translateText({ text, target }: { text: string; target: string }): Promise<string> {
+    if (!this.isConfigured()) {
+      throw new Error('No translation endpoint is configured.');
+    }
+
+    const response = await fetch(this.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: testimonyPrompt(text, target), target }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Translation service returned ${response.status}.`);
+    }
+
+    const payload = (await response.json()) as { text?: string };
+    const translated = (payload.text ?? '').trim();
+
+    /*
+     * An empty answer is a failure, not an empty translation.
+     *
+     * Rendering nothing under "translated" would read as "this person said nothing",
+     * which is a claim about the witness rather than about the service.
+     */
+    if (!translated) throw new Error('Translation service returned nothing.');
+    return translated;
   }
 }
 
