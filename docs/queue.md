@@ -142,6 +142,45 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
+**Everything in the chosen language, proposals included.** Ajay, 2026-08-24: *"If user
+selects a language, I would like entire website or all content shown in that language
+including proposal."*
+
+Three separate jobs wearing one sentence, and they are not equally easy or equally safe.
+
+**1. The rest of the chrome — straightforward, just unfinished.** `/how`, `/support`,
+`/contribute`, `/propose`, `/browse`, `/place` and `/admin` still hold their sentences
+inline. Same work as the nav: extract, translate, wire. No decision needed.
+
+**2. The 17,774 records — the expensive one.** Their prose is not ours; it is Wikipedia's,
+Wikibooks', UNESCO's. Full machine translation of the catalogue was priced at
+**347M characters ≈ $8,700 with DeepL**, which [[wikifoodia-free-constraint]] rules out.
+The only shape compatible with collecting no money is translate-on-read and cache, behind
+`EXPO_PUBLIC_TRANSLATION_ENDPOINT` — already built, already switched off, still needs a
+provider that is free at this volume. `translate.ts` already refuses to touch dish names,
+ingredients and equipment, which is correct and must survive whatever is chosen.
+
+**3. Proposals — needs a decision, and the default answer is no.**
+
+A proposal is somebody's testimony about their own food: *"we use ghee, not oil — my
+grandmother made it at Eid."* Machine-translating that and showing it to a reader as the
+record's evidence is the thing this project refuses everywhere else. `copy.ts` states the
+rule in its own header — *a loose translation of "nobody has confirmed this" misstates a
+record's standing* — and a confirmation is the strongest evidence the atlas holds.
+
+There is also a fairness problem in the other direction: leaving proposals in the
+submitter's language means a Spanish reader cannot judge a Malayalam confirmation, which
+is the same exclusion viewed from the other end.
+
+**Recommended shape:** show the original always, offer a translation beside it, label it
+as machine-made, and never let a translated confirmation be what a badge rests on. That
+keeps the evidence intact and still lets a reader who cannot read Malayalam understand
+what was said. It is the same stance `translate.ts` already takes for a record.
+
+---
+
+## Next up (previously)
+
 ~~**Dish photographs that are not photographs of the dish.**~~ **Done, 2026-08-24.** The
 croissant carried `Croissant_(linguistique).png` — a map of the Croissant dialect area of
 France, on the recipe for the pastry. `isPhotograph` asks whether a file is a *graphic*;

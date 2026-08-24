@@ -56,6 +56,69 @@ Cloudflare picks them up on its own. Every push to `main` redeploys.
 
 ---
 
+## The runbook, in the order that works
+
+Everything below needs a Cloudflare login, which is a browser flow — so these are for
+Ajay to run, not for an assistant. **The order matters**: two of these fail if done early.
+
+```bash
+npx wrangler login                              # opens a browser
+npx wrangler d1 create wikifoodia               # prints database_id
+```
+
+**Paste that id into `wrangler.toml` and commit it before connecting the repo.** It ships
+today as `REPLACE_WITH_ID_FROM_WRANGLER_D1_CREATE`, and Pages reads `wrangler.toml` for
+its bindings — connect Git first and the first build fails on a database that does not
+exist. The id is safe to commit: it names the database, it authorises nothing.
+
+```bash
+npx wrangler d1 migrations apply wikifoodia --remote
+```
+
+Six migrations. Verified against a local D1 on 2026-08-24 — they apply cleanly in order
+and produce nine tables, so nothing here should surprise you remotely.
+
+Then create the Pages project (dashboard → Workers & Pages → Create → Pages → Connect to
+Git → `GHajaymore/Food-Atlas`) with the three settings above.
+
+**The secrets come after the project exists**, because `pages secret put` writes to a
+project and there is nothing to write to before that:
+
+```bash
+npx wrangler pages secret put IDENTITY_SECRET   # paste a long random string
+npx wrangler pages secret put ADMIN_TOKEN       # paste another
+```
+
+Generate them rather than inventing them, and do not reuse one for the other:
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+```
+
+Missing either is not a soft failure. Every write endpoint returns 503 rather than
+falling back to an unsigned identity — `functions/api/_middleware.ts` explains why
+failing loudly is the only safe direction, and it means a half-configured deploy cannot
+quietly accept confirmations nobody can trust.
+
+### What works the moment it is live, and what still will not
+
+Live immediately: the whole atlas, search, the pantry, browse, every facet link, the
+language selector, and the admin console's read-only views.
+
+Still switched off until their own variables are set, each saying so on screen rather
+than offering a dead control:
+
+| variable | what it turns on |
+|---|---|
+| `EXPO_PUBLIC_OPENCOLLECTIVE` | donations on "Keeping it free" |
+| `EXPO_PUBLIC_CONTRIBUTION_FORM_URL` | the `/contribute` submission |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | sign-in, and confirmations counting toward a badge |
+
+**Set any of those and check the value actually reached the bundle** — see the Metro cache
+trap below, which cost three rebuilds to find.
+
+---
+
 ## Vercel — also configured
 
 `vercel.json` carries the same settings and works today. Keep it: it costs nothing
