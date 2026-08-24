@@ -216,3 +216,21 @@ export function whatItNeeds(c: DishConfirmations, required: number): string {
   }
   return `${have} of ${required} confirmations. ${short} more from people who know the dish would authenticate it.`;
 }
+
+/**
+ * What a confirmation form calls each of its boxes.
+ *
+ * Here rather than in `ConfirmForm` because the component is not the only thing that
+ * validates a confirmation: `src/data/proposals.ts` checks the same three fields before
+ * sending, and it was reporting them as `name`, `connection`, `said` — the last of which
+ * is a column nobody has seen. Same fault as `REQUIRED_LABELS` in `proposals.ts`, in a
+ * layer further down, and the reason to keep the words next to the requirement is that
+ * two places checking the same thing should not describe it two ways.
+ */
+export const SAID_LABELS = {
+  name: 'your name',
+  connection: 'your connection to the place',
+  said: 'what you can confirm',
+} as const;
+
+export const SAID_REQUIRED = Object.keys(SAID_LABELS) as (keyof typeof SAID_LABELS)[];

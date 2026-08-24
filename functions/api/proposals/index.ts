@@ -168,7 +168,19 @@ export const onRequestPost: PagesFunction<Env, string, Identity> = async ({ requ
    * is a different kind of thing, and the atlas has no use for it.
    */
   const missing = (['name', 'country', 'submitter', 'connection'] as const).filter((k) => !entry[k]);
-  if (missing.length) return json({ error: `Still needed: ${missing.join(', ')}.` }, 400);
+  /*
+   * The field names go back as DATA, not inside the sentence a reader sees.
+   *
+   * This used to answer `Still needed: name, connection, said.` and the client shows a
+   * server error verbatim, so a column name reached the page from the one place the app
+   * cannot re-word it. Functions are a separate type world from `src` on purpose — see
+   * this directory's tsconfig — so they cannot share the label map, and duplicating it
+   * here would be two copies to disagree. Sending the keys and letting the UI say the
+   * words keeps one set of labels in the app and none in the API.
+   */
+  if (missing.length) {
+    return json({ error: 'Some required details are missing.', missing }, 400);
+  }
 
   const id = `p_${crypto.randomUUID().slice(0, 12)}`;
 

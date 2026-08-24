@@ -53,7 +53,19 @@ export const onRequestPost: PagesFunction<Env, 'id', Identity> = async ({ reques
   };
 
   const missing = (['name', 'connection', 'said'] as const).filter((k) => !said[k]);
-  if (missing.length) return json({ error: `Still needed: ${missing.join(', ')}.` }, 400);
+  /*
+   * The field names go back as DATA, not inside the sentence a reader sees.
+   *
+   * This used to answer `Still needed: name, connection, said.` and the client shows a
+   * server error verbatim, so a column name reached the page from the one place the app
+   * cannot re-word it. Functions are a separate type world from `src` on purpose — see
+   * this directory's tsconfig — so they cannot share the label map, and duplicating it
+   * here would be two copies to disagree. Sending the keys and letting the UI say the
+   * words keeps one set of labels in the app and none in the API.
+   */
+  if (missing.length) {
+    return json({ error: 'Some required details are missing.', missing }, 400);
+  }
 
   const proposal = await env.DB.prepare(`select submitter_id, status from proposal where id = ?`)
     .bind(proposalId)
