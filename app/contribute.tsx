@@ -27,6 +27,7 @@ import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
+import { useCopy } from '../src/i18n';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
@@ -102,6 +103,7 @@ const VALIDATORS = [
 ];
 
 export default function Contribute() {
+  const copy = useCopy();
   const [step, setStep] = useState(1);
 
   // Judged as it is typed, so someone pasting an Instagram link learns immediately
@@ -172,7 +174,7 @@ export default function Contribute() {
 
   return (
     <Screen measure bottomPad={50}>
-      <NavRow title="Add a tradition" onBack={back} />
+      <NavRow title={copy.addATraditionShort} onBack={back} />
 
       <View style={styles.rail}>
         {STEP_LABELS.map((label, i) => (
@@ -199,24 +201,24 @@ export default function Contribute() {
 
           {/* The food and the place it is made that way are one answer. See `FieldPair`. */}
           <FieldPair>
-            <Field label="Dish, in its own language if possible" style={styles.field}>
+            <Field label={copy.dishInItsOwnLanguage} style={styles.field}>
               <Input value={entry.dish} onChangeText={set('dish')} placeholder="Kaipola" />
             </Field>
-            <Field label="Where is it made this way?" style={styles.field}>
+            <Field label={copy.whereIsItMadeThisWay} style={styles.field}>
               <Input value={entry.place} onChangeText={set('place')} placeholder="India › Kerala › Malabar › Kozhikode" />
             </Field>
           </FieldPair>
           {/* Who makes it, and the connection that makes the account evidence rather
               than a recipe copied off the internet. One answer, so one line. */}
           <FieldPair>
-            <Field label="Who prepares it" style={styles.field}>
+            <Field label={copy.whoPreparesIt} style={styles.field}>
               <Input value={entry.cooks} onChangeText={set('cooks')} placeholder="Malabar households, made for iftar and family occasions" />
             </Field>
-            <Field label="Your connection to the place" style={styles.field}>
+            <Field label={copy.yourConnectionToThePlace} style={styles.field}>
               <Input value={entry.connection} onChangeText={set('connection')} placeholder="Born and cooking in Kozhikode" />
             </Field>
           </FieldPair>
-          <Field label="Traditional ingredients and equipment" style={styles.field}>
+          <Field label={copy.traditionalIngredientsAndEquipment} style={styles.field}>
             <Input
               multiline
               value={entry.ingredients}
@@ -238,14 +240,14 @@ export default function Contribute() {
             </Muted>
 
             <Button
-              label="Publish a photograph on Commons"
+              label={copy.publishAPhotographOnCommons}
               variant="secondary"
               block
               onPress={() => openAtSource(COMMONS_UPLOAD_URL)}
               style={styles.photoButton}
             />
 
-            <Field label="Commons file name or link" style={styles.photoField}>
+            <Field label={copy.commonsFileNameOrLink} style={styles.photoField}>
               <Input value={photoInput} onChangeText={setPhotoInput} placeholder="Kaipola.jpg" />
             </Field>
 
@@ -268,13 +270,13 @@ export default function Contribute() {
           </Block>
 
           <Muted style={styles.walkthroughNote}>{WALKTHROUGH_NOTE}</Muted>
-          <Button label="Check what already exists online" block onPress={() => setStep(2)} />
+          <Button label={copy.checkWhatExistsOnline} block onPress={() => setStep(2)} />
         </>
       ) : null}
 
       {step === 2 ? (
         <>
-          <H5 style={styles.stepHeading}>What the internet already has</H5>
+          <H5 style={styles.stepHeading}>{copy.whatTheInternetAlreadyHas}</H5>
           <Muted style={styles.lead}>
             The most-published version is taken as the popular candidate. It does not become the authentic record.
           </Muted>
@@ -289,13 +291,13 @@ export default function Contribute() {
               </Block>
             ))}
           </View>
-          <Button label="Run the evidence assessment" block onPress={() => setStep(3)} />
+          <Button label={copy.runTheEvidenceAssessment} block onPress={() => setStep(3)} />
         </>
       ) : null}
 
       {step === 3 ? (
         <>
-          <H5 style={styles.stepHeading}>Evidence assessment</H5>
+          <H5 style={styles.stepHeading}>{copy.evidenceAssessment}</H5>
           <Muted style={styles.lead}>
             Seven checks, each answered or left open. Open checks lower confidence — they are never filled in by
             assumption.
@@ -329,13 +331,13 @@ export default function Contribute() {
             </Muted>
           </Block>
 
-          <Button label="Send for community validation" block onPress={() => setStep(4)} />
+          <Button label={copy.sendForCommunityValidation} block onPress={() => setStep(4)} />
         </>
       ) : null}
 
       {step === 4 ? (
         <>
-          <H5 style={styles.stepHeading}>Community validation</H5>
+          <H5 style={styles.stepHeading}>{copy.communityValidation}</H5>
           <Muted style={styles.lead}>
             Three confirmations from people who live or cook in the place lift a record out of Unverified.
           </Muted>
@@ -352,7 +354,7 @@ export default function Contribute() {
           </View>
 
           <Card style={styles.disagreeCard}>
-            <CardKicker>If they disagree</CardKicker>
+            <CardKicker>{copy.ifTheyDisagree}</CardKicker>
             <CardBody>
               Conflicting accounts are both kept. The record splits into the traditions people actually described —
               one per region or community — and no version is declared the true one.
@@ -372,7 +374,7 @@ export default function Contribute() {
               filled the form in could fairly read as their own. */}
           {canContribute() ? (
             <Card style={styles.sendCard}>
-              <CardKicker>Now send yours</CardKicker>
+              <CardKicker>{copy.nowSendYours}</CardKicker>
               <CardBody>
                 {missing.length
                   ? `${stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS]))} ` +
@@ -383,7 +385,7 @@ export default function Contribute() {
                     `you is collected by this app, and nothing is published until people from the place confirm it.`}
               </CardBody>
               <Button
-                label="Send this tradition"
+                label={copy.sendThisTradition}
                 block
                 onPress={() => openAtSource(contributionUrl(tidied()))}
               />
@@ -393,7 +395,7 @@ export default function Contribute() {
                that goes nowhere spends a reader's goodwill on a dead link, and this
                reader has just typed out a recipe. */
             <Card style={styles.sendCard}>
-              <CardKicker>Submissions are not open yet</CardKicker>
+              <CardKicker>{copy.submissionsNotOpenYet}</CardKicker>
               <CardBody>
                 There is nowhere to send this to. The atlas has read everything the free sources hold, so what is
                 missing now is food nobody has written down — which means this form is how it grows, and it will be
@@ -405,7 +407,7 @@ export default function Contribute() {
           {/* Deterministic rather than a history pop: the label promises the atlas,
               and the flow can be entered from Search as well as from the Atlas. */}
           <Button
-            label="Back to the atlas"
+            label={copy.backToTheAtlas}
             variant="secondary"
             block
             onPress={() => router.replace('/atlas')}

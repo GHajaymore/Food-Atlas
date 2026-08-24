@@ -31,6 +31,7 @@ import { Button } from '../src/components/Button';
 import { DishCard } from '../src/components/DishCard';
 import { FacetLink } from '../src/components/FacetLink';
 import { NavRow } from '../src/components/NavRow';
+import { useCopy } from '../src/i18n';
 import { Screen } from '../src/components/Screen';
 import { H4, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
@@ -53,6 +54,7 @@ const CHIPS: { key: keyof BrowseQuery; prefix?: string }[] = [
 ];
 
 export default function Browse() {
+  const copy = useCopy();
   const params = useLocalSearchParams();
   const layout = useLayout();
   const [page, setPage] = useState(1);
@@ -78,7 +80,7 @@ export default function Browse() {
 
   return (
     <Screen>
-      <NavRow title="Browse" />
+      <NavRow title={copy.browse} />
 
       <H4 style={styles.title}>{title}</H4>
       <Muted style={styles.count}>
@@ -138,7 +140,7 @@ export default function Browse() {
             {catalogue.length.toLocaleString()} records; this combination is not one of them.
           </Muted>
           <Button
-            label="Start again"
+            label={copy.startAgain}
             variant="secondary"
             style={styles.more}
             onPress={() => router.push(hrefFor({}))}

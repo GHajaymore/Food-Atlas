@@ -41,6 +41,7 @@ import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
 import { AdminColumns } from '../src/components/AdminColumns';
 import { NavRow } from '../src/components/NavRow';
+import { useCopy } from '../src/i18n';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
@@ -231,6 +232,7 @@ function Moderation({ token }: { token: string }) {
  * answer has been given a gesture.
  */
 function RefreshQueue({ token }: { token: string }) {
+  const copy = useCopy();
   const [rows, setRows] = useState<RefreshRequest[]>([]);
   const [target, setTarget] = useState('');
   const [kind, setKind] = useState<RefreshRequest['kind']>('dish');
@@ -289,7 +291,7 @@ function RefreshQueue({ token }: { token: string }) {
       )}
 
       <Button
-        label="Queue this check"
+        label={copy.queueThisCheck}
         variant="secondary"
         block
         style={styles.load}
@@ -341,6 +343,7 @@ function RefreshQueue({ token }: { token: string }) {
  * says plainly what it cannot answer, rather than leaving the absence to be noticed.
  */
 function Analytics({ token }: { token: string }) {
+  const copy = useCopy();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [error, setError] = useState('');
   const [days, setDays] = useState(30);
@@ -401,7 +404,7 @@ function Analytics({ token }: { token: string }) {
         ))}
       </View>
 
-      <Button label="Load analytics" variant="secondary" block style={styles.load} onPress={() => load()} />
+      <Button label={copy.loadAnalytics} variant="secondary" block style={styles.load} onPress={() => load()} />
 
       {error ? <T style={styles.message}>{error}</T> : null}
 
@@ -430,10 +433,10 @@ function Analytics({ token }: { token: string }) {
             </Muted>
           ) : null}
 
-          <List title="Most opened dishes" rows={data.topDishes} label={dishName} />
-          <List title="Most searched for" rows={data.topSearches} />
-          <List title="Most used shelves" rows={data.topShelves} />
-          <List title="Screens" rows={data.topScreens} />
+          <List title={copy.mostOpenedDishes} rows={data.topDishes} label={dishName} />
+          <List title={copy.mostSearchedFor} rows={data.topSearches} />
+          <List title={copy.mostUsedShelves} rows={data.topShelves} />
+          <List title={copy.screens} rows={data.topScreens} />
 
           <Block style={styles.modRow}>
             <T style={styles.modName}>What this cannot tell you</T>
@@ -478,6 +481,7 @@ const NUMBERS: { key: keyof Settings; label: string; note: string }[] = [
 ];
 
 export default function Admin() {
+  const copy = useCopy();
   const [draft, setDraft] = useState<Draft>(toDraft(current));
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
@@ -507,10 +511,10 @@ export default function Admin() {
 
   const intro = (
     <>
-      <NavRow title="Settings" />
+      <NavRow title={copy.settingsTitle} />
 
       <Card style={styles.intro}>
-        <CardKicker>What this changes</CardKicker>
+        <CardKicker>{copy.whatThisChanges}</CardKicker>
         <CardBody>
           These are read by the app at load. One decides what happens to new proposals; two decide what
           the word Authentic means across every record in the atlas.
@@ -588,11 +592,11 @@ export default function Admin() {
     <>
       <View style={styles.divider} />
 
-      <Field label="Administrator token" style={styles.setting}>
+      <Field label={copy.administratorToken} style={styles.setting}>
         <Input
           value={token}
           onChangeText={setToken}
-          placeholder="Not stored — retyped each session"
+          placeholder={copy.tokenNotStored}
           secureTextEntry
           autoCapitalize="none"
           accessibilityLabel="Administrator token"

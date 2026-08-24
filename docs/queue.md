@@ -142,6 +142,38 @@ visitor has no idea that the scale is the product.
 
 ## Next up
 
+**Reading a proposal or a record written in another language.** Ajay, 2026-08-24: *"How
+can the English or Hindi user read if someone proposed in a different language? Or the
+original recipe is in a different language."*
+
+The right question, and the honest answer today is **they cannot**, in two different ways
+with two different fixes.
+
+**A proposal or confirmation.** `Testimony` already offers a translation beside the
+original and refuses to replace it — built 2026-08-24 — but it is inert because
+`EXPO_PUBLIC_TRANSLATION_ENDPOINT` is unset. Setting that switches it on. The design
+question is settled; only the provider is missing.
+
+**A record's own prose.** Worse, because there is no per-record control at all: a record
+imported from the Malayalam or Japanese Wikipedia shows its account in that language and
+the reader gets no offer. `translate.ts` and `state/translations.ts` already do this
+properly — `readDish` resolves a record into the reader's language, states who translated
+it, and refuses to touch names, ingredients and equipment — and it is wired into
+`/dish`. So the machinery exists and is off for the same reason.
+
+**What is actually missing is a provider that is free at this volume.** Full DeepL was
+priced at $8,700 for the catalogue, which [[wikifoodia-free-constraint]] rules out.
+Translate-on-read and cache changes the shape: only records somebody opens get
+translated, and each is translated once. That is the version worth pricing.
+
+**One thing to check before switching it on:** `sourceLanguage` is what stops the app
+translating English into English. Worth measuring how many records actually carry it —
+if most do not, the first thing a provider would do is waste requests.
+
+---
+
+## Next up (previously)
+
 **Everything in the chosen language, proposals included.** Ajay, 2026-08-24: *"If user
 selects a language, I would like entire website or all content shown in that language
 including proposal."*

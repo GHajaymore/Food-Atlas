@@ -28,6 +28,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
+import { useCopy } from '../src/i18n';
 import { CardGrid, ReadingColumns } from '../src/components/ReadingLayout';
 import { Screen } from '../src/components/Screen';
 import { H4, H5, Muted, T } from '../src/components/Text';
@@ -75,12 +76,13 @@ const DIMENSIONS: { name: string; what: string; from: 'documents' | 'people' }[]
 ];
 
 export default function How() {
+  const copy = useCopy();
   /* Read at render, so the admin screen moving a threshold moves this page with it. */
   const { authenticAt, validationsRequired } = settings;
 
   return (
     <Screen bottomPad={50}>
-      <NavRow title="How it works" />
+      <NavRow title={copy.howItWorks} />
 
       {/*
        * The argument on the left, the two numbers it is about on the right.
@@ -92,7 +94,7 @@ export default function How() {
       <ReadingColumns
         aside={
           <Card style={styles.ceiling}>
-            <CardKicker>The gap that cannot be closed by reading</CardKicker>
+            <CardKicker>{copy.theGapThatCannotBeClosed}</CardKicker>
             <CardBody>
               Three of those six cannot be answered by any document ever written. No encyclopaedia knows
               whether a method is the method of a place; no register is a person from the town. With
@@ -108,13 +110,13 @@ export default function How() {
         }
         before={
           <>
-            <H4 style={styles.title}>A document cannot make a dish authentic.</H4>
+            <H4 style={styles.title}>{copy.aDocumentCannotMakeAuthentic}</H4>
             <Muted style={styles.lead}>
               That is the rule this atlas is built on, and it is arithmetic rather than a policy — which
               means you can check it rather than trust it.
             </Muted>
 
-            <H5 style={styles.head}>Six things, scored separately</H5>
+            <H5 style={styles.head}>{copy.sixThingsScoredSeparately}</H5>
             <Muted style={styles.body}>
               Every record is scored on the same six dimensions, and all six are printed on the record
               itself. The score is their average, so a reader who doubts it can add up the numbers.
@@ -139,7 +141,7 @@ export default function How() {
         }
         after={
           <>
-            <H5 style={styles.head}>What closes it</H5>
+            <H5 style={styles.head}>{copy.whatClosesIt}</H5>
             <Muted style={styles.body}>
               {validationsRequired} confirmations from people who state their connection to the place —
               and who say what they are confirming, not merely that they approve. Both are shown on the
@@ -163,7 +165,7 @@ export default function How() {
               atlas never requires signing in.
             </Muted>
 
-            <H5 style={styles.head}>What this is not</H5>
+            <H5 style={styles.head}>{copy.whatThisIsNot}</H5>
             <View style={styles.nots}>
               {[
                 'No ratings. Nobody scores a dish out of five.',
@@ -179,14 +181,14 @@ export default function How() {
             </View>
 
             <Card style={styles.ask}>
-              <CardKicker>Which is where you come in</CardKicker>
+              <CardKicker>{copy.whichIsWhereYouComeIn}</CardKicker>
               <CardBody>
                 Most of the atlas has nobody speaking for it. If you know how a dish is made where you are
                 from, that is the one thing no source can supply and no amount of scraping can reach.
               </CardBody>
-              <Button label="Confirm a dish you know" block onPress={() => router.push('/proposals')} />
+              <Button label={copy.confirmADishYouKnow} block onPress={() => router.push('/proposals')} />
               <Button
-                label="Propose one the atlas is missing"
+                label={copy.proposeOneMissing}
                 variant="secondary"
                 block
                 style={styles.second}

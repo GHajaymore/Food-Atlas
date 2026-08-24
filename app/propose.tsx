@@ -33,6 +33,7 @@ import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair, FormColumns } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
+import { useCopy } from '../src/i18n';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { Tag } from '../src/components/Tag';
@@ -58,6 +59,7 @@ const lines = (text: string): string[] =>
     .filter(Boolean);
 
 export default function Propose() {
+  const copy = useCopy();
   const [form, setForm] = useState({
     name: '',
     country: '',
@@ -105,7 +107,7 @@ export default function Propose() {
   if (sent) {
     return (
       <Screen measure>
-        <NavRow title="Proposed" />
+        <NavRow title={copy.proposed} />
         <Block accent style={styles.done}>
           <H5>{form.name} is now open for confirmation.</H5>
           <CardBody>
@@ -113,7 +115,7 @@ export default function Propose() {
             atlas. Anyone can see it and confirm it from now on — including people you tell about it,
             which is usually how a dish nobody has written down gets confirmed.
           </CardBody>
-          <Button label="See open proposals" block style={styles.cta} onPress={() => router.replace('/proposals')} />
+          <Button label={copy.seeOpenProposals} block style={styles.cta} onPress={() => router.replace('/proposals')} />
         </Block>
       </Screen>
     );
@@ -121,7 +123,7 @@ export default function Propose() {
 
   return (
     <Screen>
-      <NavRow title="Propose a dish" />
+      <NavRow title={copy.proposeADish} />
 
       {/*
        * The guidance sits beside the fields on a desktop rather than on top of them.
@@ -135,7 +137,7 @@ export default function Propose() {
         aside={
           <>
             <Card style={styles.intro}>
-              <CardKicker>Before you start</CardKicker>
+              <CardKicker>{copy.beforeYouStart}</CardKicker>
               <CardBody>
                 This is for food the atlas does not have — usually because nobody has written it down. You do
                 not need a full recipe. A name, where it is from, and your connection to the place is enough
@@ -151,11 +153,11 @@ export default function Propose() {
         }
         fields={
           <>
-            <Field label="The dish" style={styles.field}>
+            <Field label={copy.theDish} style={styles.field}>
               <Input
                 value={form.name}
                 onChangeText={(v) => set('name', v)}
-                placeholder="Written the way you write it"
+                placeholder={copy.writtenTheWayYouWriteIt}
                 accessibilityLabel="The dish"
               />
             </Field>
@@ -185,21 +187,21 @@ export default function Propose() {
 
             {/* One question asked twice, so one line. See `FieldPair`. */}
             <FieldPair>
-              <Field label="Country" style={styles.field}>
+              <Field label={copy.country} style={styles.field}>
                 <Input value={form.country} onChangeText={(v) => set('country', v)} accessibilityLabel="Country" />
               </Field>
 
-              <Field label="Region, district or town" style={styles.field}>
+              <Field label={copy.regionDistrictOrTown} style={styles.field}>
                 <Input
                   value={form.region}
                   onChangeText={(v) => set('region', v)}
-                  placeholder="Often the whole point — optional"
+                  placeholder={copy.oftenTheWholePoint}
                   accessibilityLabel="Region, district or town"
                 />
               </Field>
             </FieldPair>
 
-            <Field label="Who makes it, and when" style={styles.field}>
+            <Field label={copy.whoMakesItAndWhen} style={styles.field}>
               <Input
                 value={form.cooks}
                 onChangeText={(v) => set('cooks', v)}
@@ -210,7 +212,7 @@ export default function Propose() {
               />
             </Field>
 
-            <Field label="Ingredients — one per line" style={styles.field}>
+            <Field label={copy.ingredientsOnePerLine} style={styles.field}>
               <Input
                 value={form.ingredients}
                 onChangeText={(v) => set('ingredients', v)}
@@ -221,7 +223,7 @@ export default function Propose() {
               />
             </Field>
 
-            <Field label="How it is made — one step per line" style={styles.field}>
+            <Field label={copy.howItIsMadeOnePerLine} style={styles.field}>
               <Input
                 value={form.steps}
                 onChangeText={(v) => set('steps', v)}
@@ -236,20 +238,20 @@ export default function Propose() {
 
             {/* A name is only evidence with the connection beside it — they are one answer. */}
             <FieldPair>
-              <Field label="Your name" style={styles.field}>
+              <Field label={copy.yourName} style={styles.field}>
                 <Input
                   value={form.submitter}
                   onChangeText={(v) => set('submitter', v)}
-                  placeholder="Shown on the proposal"
+                  placeholder={copy.shownOnTheProposal}
                   accessibilityLabel="Your name"
                 />
               </Field>
 
-              <Field label="Your connection to the place" style={styles.field}>
+              <Field label={copy.yourConnectionToThePlace} style={styles.field}>
                 <Input
                   value={form.connection}
                   onChangeText={(v) => set('connection', v)}
-                  placeholder="Grew up in Malabar"
+                  placeholder={copy.grewUpInMalabar}
                   accessibilityLabel="Your connection to the place"
                 />
               </Field>

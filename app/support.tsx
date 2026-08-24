@@ -22,6 +22,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
+import { useCopy } from '../src/i18n';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
@@ -38,6 +39,7 @@ import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
 export default function Support() {
+  const copy = useCopy();
   const back = () => {
     if (router.canGoBack()) router.back();
     else router.replace('/atlas');
@@ -45,7 +47,7 @@ export default function Support() {
 
   return (
     <Screen measure bottomPad={50}>
-      <NavRow title="Keeping it free" onBack={back} />
+      <NavRow title={copy.keepingItFree} onBack={back} />
 
       <Muted style={styles.lead}>
         {catalogueStats.total.toLocaleString()} traditions, built entirely from sources that are free to read and
@@ -64,7 +66,7 @@ export default function Support() {
         </Block>
       ))}
 
-      <H5 style={styles.heading}>What it does not buy</H5>
+      <H5 style={styles.heading}>{copy.whatItDoesNotBuy}</H5>
       <View style={styles.list}>
         {NOT_FOR_SALE.map((line) => (
           <Muted key={line} style={styles.notForSale}>
@@ -75,7 +77,7 @@ export default function Support() {
 
       {canAcceptDonations() ? (
         <>
-          <Button label="Contribute on Open Collective" block onPress={() => openAtSource(DONATION_URL)} />
+          <Button label={copy.contributeOnOpenCollective} block onPress={() => openAtSource(DONATION_URL)} />
           <Muted style={styles.footnote}>
             Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and
             never will.
@@ -85,7 +87,7 @@ export default function Support() {
               ledger too, and that promise is kept by the platform rather than by us
               remembering to update a paragraph. */}
           <Button
-            label="Read the ledger — every contribution and expense"
+            label={copy.readTheLedger}
             variant="secondary"
             block
             onPress={() => openAtSource(LEDGER_URL)}
@@ -96,7 +98,7 @@ export default function Support() {
         /* No destination, no button. A donate control pointing nowhere spends a
            reader's goodwill on a dead link, which is worse than not asking. */
         <Card style={styles.pending}>
-          <CardKicker>Not open for donations yet</CardKicker>
+          <CardKicker>{copy.notOpenForDonationsYet}</CardKicker>
           <CardBody>
             There is nowhere to send money to. It will be an Open Collective when there is, so that every
             contribution and every expense is public and anyone can check this page against the ledger.
@@ -109,7 +111,7 @@ export default function Support() {
         nobody has written down how the food is made.
       </Muted>
       <Button
-        label="Add a tradition from your area"
+        label={copy.addATradition}
         variant="secondary"
         block
         onPress={() => router.push('/contribute')}

@@ -135,6 +135,65 @@ export interface Copy {
   navAbout: string;
 
   /** Said about the interface itself, not about any record. */
+  theGapThatCannotBeClosed: string;
+  aDocumentCannotMakeAuthentic: string;
+  sixThingsScoredSeparately: string;
+  whatClosesIt: string;
+  whatThisIsNot: string;
+  whichIsWhereYouComeIn: string;
+  confirmADishYouKnow: string;
+  proposeOneMissing: string;
+  whatItDoesNotBuy: string;
+  contributeOnOpenCollective: string;
+  readTheLedger: string;
+  notOpenForDonationsYet: string;
+  browse: string;
+  startAgain: string;
+  openProposals: string;
+  whatTheseAre: string;
+  proposed: string;
+  seeOpenProposals: string;
+  beforeYouStart: string;
+  theDish: string;
+  writtenTheWayYouWriteIt: string;
+  country: string;
+  regionDistrictOrTown: string;
+  whoMakesItAndWhen: string;
+  ingredientsOnePerLine: string;
+  howItIsMadeOnePerLine: string;
+  yourName: string;
+  shownOnTheProposal: string;
+  yourConnectionToThePlace: string;
+  proposeThisDish: string;
+  dishInItsOwnLanguage: string;
+  whereIsItMadeThisWay: string;
+  whoPreparesIt: string;
+  traditionalIngredientsAndEquipment: string;
+  publishAPhotographOnCommons: string;
+  commonsFileNameOrLink: string;
+  checkWhatExistsOnline: string;
+  whatTheInternetAlreadyHas: string;
+  runTheEvidenceAssessment: string;
+  evidenceAssessment: string;
+  sendForCommunityValidation: string;
+  communityValidation: string;
+  ifTheyDisagree: string;
+  nowSendYours: string;
+  sendThisTradition: string;
+  submissionsNotOpenYet: string;
+  backToTheAtlas: string;
+  settingsTitle: string;
+  whatThisChanges: string;
+  administratorToken: string;
+  tokenNotStored: string;
+  queueThisCheck: string;
+  loadAnalytics: string;
+  mostOpenedDishes: string;
+  mostSearchedFor: string;
+  mostUsedShelves: string;
+  screens: string;
+  oftenTheWholePoint: string;
+  grewUpInMalabar: string;
   interfaceTranslationNote: string;
 }
 
@@ -230,6 +289,65 @@ export const EN: Copy = {
   navExplore: 'Explore',
   navContribute: 'Contribute',
   navAbout: 'About',
+  theGapThatCannotBeClosed: 'The gap that cannot be closed by reading',
+  aDocumentCannotMakeAuthentic: 'A document cannot make a dish authentic.',
+  sixThingsScoredSeparately: 'Six things, scored separately',
+  whatClosesIt: 'What closes it',
+  whatThisIsNot: 'What this is not',
+  whichIsWhereYouComeIn: 'Which is where you come in',
+  confirmADishYouKnow: 'Confirm a dish you know',
+  proposeOneMissing: 'Propose one the atlas is missing',
+  whatItDoesNotBuy: 'What it does not buy',
+  contributeOnOpenCollective: 'Contribute on Open Collective',
+  readTheLedger: 'Read the ledger — every contribution and expense',
+  notOpenForDonationsYet: 'Not open for donations yet',
+  browse: 'Browse',
+  startAgain: 'Start again',
+  openProposals: 'Open proposals',
+  whatTheseAre: 'What these are',
+  proposed: 'Proposed',
+  seeOpenProposals: 'See open proposals',
+  beforeYouStart: 'Before you start',
+  theDish: 'The dish',
+  writtenTheWayYouWriteIt: 'Written the way you write it',
+  country: 'Country',
+  regionDistrictOrTown: 'Region, district or town',
+  whoMakesItAndWhen: 'Who makes it, and when',
+  ingredientsOnePerLine: 'Ingredients — one per line',
+  howItIsMadeOnePerLine: 'How it is made — one step per line',
+  yourName: 'Your name',
+  shownOnTheProposal: 'Shown on the proposal',
+  yourConnectionToThePlace: 'Your connection to the place',
+  proposeThisDish: 'Propose this dish',
+  dishInItsOwnLanguage: 'Dish, in its own language if possible',
+  whereIsItMadeThisWay: 'Where is it made this way?',
+  whoPreparesIt: 'Who prepares it',
+  traditionalIngredientsAndEquipment: 'Traditional ingredients and equipment',
+  publishAPhotographOnCommons: 'Publish a photograph on Commons',
+  commonsFileNameOrLink: 'Commons file name or link',
+  checkWhatExistsOnline: 'Check what already exists online',
+  whatTheInternetAlreadyHas: 'What the internet already has',
+  runTheEvidenceAssessment: 'Run the evidence assessment',
+  evidenceAssessment: 'Evidence assessment',
+  sendForCommunityValidation: 'Send for community validation',
+  communityValidation: 'Community validation',
+  ifTheyDisagree: 'If they disagree',
+  nowSendYours: 'Now send yours',
+  sendThisTradition: 'Send this tradition',
+  submissionsNotOpenYet: 'Submissions are not open yet',
+  backToTheAtlas: 'Back to the atlas',
+  settingsTitle: 'Settings',
+  whatThisChanges: 'What this changes',
+  administratorToken: 'Administrator token',
+  tokenNotStored: 'Not stored — retyped each session',
+  queueThisCheck: 'Queue this check',
+  loadAnalytics: 'Load analytics',
+  mostOpenedDishes: 'Most opened dishes',
+  mostSearchedFor: 'Most searched for',
+  mostUsedShelves: 'Most used shelves',
+  screens: 'Screens',
+  oftenTheWholePoint: 'Often the whole point — optional',
+  grewUpInMalabar: 'Grew up in Malabar',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

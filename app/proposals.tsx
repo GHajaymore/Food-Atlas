@@ -33,6 +33,7 @@ import { ConfirmForm, type Said } from '../src/components/ConfirmForm';
 import { NavRow } from '../src/components/NavRow';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
+import { useCopy } from '../src/i18n';
 import { Testimony } from '../src/components/Testimony';
 import { Tag } from '../src/components/Tag';
 import { H5, Muted, T } from '../src/components/Text';
@@ -47,6 +48,7 @@ import {
 import { color, font, space } from '../src/theme/tokens';
 
 export default function Proposals() {
+  const copy = useCopy();
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState<string>('');
@@ -76,17 +78,17 @@ export default function Proposals() {
 
   return (
     <Screen measure>
-      <NavRow title="Open proposals" />
+      <NavRow title={copy.openProposals} />
 
       <Card style={styles.intro}>
-        <CardKicker>What these are</CardKicker>
+        <CardKicker>{copy.whatTheseAre}</CardKicker>
         <CardBody>
           Dishes people say exist that the atlas has no record of. Each needs{' '}
           {PROPOSAL_CONFIRMATIONS} confirmations from people who know it before it enters the atlas —
           judged on the same six dimensions as every other record here.
         </CardBody>
         <Button
-          label="Propose a dish"
+          label={copy.proposeADish}
           variant="secondary"
           block
           style={styles.propose}
