@@ -18,7 +18,7 @@ import { accentText, color, font, radius, space } from '../theme/tokens';
 import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
-import { H6, Muted, T } from './Text';
+import { H4, Muted, T } from './Text';
 import { shelfLabel } from '../domain/shelves';
 import { useCopy } from '../i18n';
 
@@ -74,7 +74,7 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
   return (
     <View {...enterProps} style={styles.wrap}>
       <View style={styles.header}>
-        <H6 style={styles.title}>{label.title}</H6>
+        <H4 style={styles.title}>{label.title}</H4>
         {/*
          * "See all" as a header link on wide screens rather than a card at the end.
          *
@@ -153,9 +153,24 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
 const styles = StyleSheet.create({
   wrap: { marginTop: 26 },
   header: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },
+  /*
+   * A heading, not an eyebrow.
+   *
+   * This was `H6` — the 13px uppercase tracked label — which put every section heading
+   * on the front page below the size of the body text. Measured at 1440 the page ran a
+   * 71px headline, five 37px figures, and then nothing at all until 19px: the whole
+   * middle of the scale was empty, which is the "h2, h3 and h4 barely appear" in the
+   * original diagnosis, still true after the type work.
+   *
+   * The rails are the spine of this page. Their titles are how a reader finds their way
+   * down it, and `H4` puts them where the structure actually sits — 20 on a phone, 25.6
+   * once `wideType` opens the scale up. It also drops the last uppercase-tracked eyebrow
+   * from the front page, which is worth losing on its own: that device is one of the
+   * house styles the brief asked this app not to look like.
+   */
   title: { flex: 1 },
   count: { fontSize: 11, fontVariant: ['tabular-nums'] },
-  note: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 2 },
+  note: { fontSize: 12, lineHeight: 12 * 1.5, marginTop: 3 },
 
   rail: { gap: 10, paddingTop: 10, paddingBottom: 4, paddingRight: space[3] },
   /* Same cards, allowed to wrap. Nothing about a card changes with the window. */

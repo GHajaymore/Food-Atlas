@@ -1000,3 +1000,52 @@ at that width, which is a design decision rather than a bug fix.
 Still queued and unchanged: the Cloudflare deploy, Google OAuth, `EXPO_PUBLIC_DONATE_URL`
 and the Workers AI binding all wait on Ajay; native locale persistence needs AsyncStorage,
 which is a new dependency and should be flagged before it is added.
+
+### The type scale, actually used
+
+Re-measuring after the five proposal moves showed one of the three original numbers had
+not moved: "h2, h3 and h4 barely appear. The scale exists and is not used." At 1440 the
+front page ran a 71px headline, five 37px figures, and then **nothing at all until 19px**.
+The whole middle of the scale was empty.
+
+Two causes, both found by looking at what was in each band rather than at the totals:
+
+**Section headings were eyebrows.** Every rail title used `H6` — the 13px uppercase
+tracked label — which put the page's structural headings below its body text. The rails
+are the spine of the front page, so their titles are how a reader moves down it. They are
+`H4` now: 20 on a phone, 25.6 once `wideType` opens the scale. That also removes the last
+uppercase-tracked eyebrow from the front page, which is worth losing on its own — the
+device is one of the house styles the brief asked this app not to resemble.
+
+**The display face had almost nothing to do.** Fraunces was on 6 of 437 nodes: one
+headline and a wordmark. The dish names on rails were the interface face, though
+`tokens.ts` has always said Fraunces is for "anything that names or argues — headings,
+dish names", and the grid's `DishCard` already did it. The five figures were too, though
+in this app the numbers *are* the argument. Both take the display face now, and Fraunces
+went from 6 nodes to 75.
+
+Setting both in one face exposed a hierarchy inversion that had been invisible while they
+were different: the phone headline was 25 and the figures 26, so five numbers outranked
+the sentence they are evidence for. The headline went to 29 rather than the figures down,
+because the figures are also the desktop's 37px band and that one is right.
+
+**Card type follows the card.** `CARD_TYPE` sits beside `CARD_WIDTH` in `layout.ts` so a
+card and its name cannot be resized independently — the cards had gone 176 → 220 while
+their type stayed where it was chosen for a 132px card.
+
+| | before | after |
+|---|---|---|
+| nodes in the display face | 6 | 75 |
+| text below 14px | 80% | 67% |
+| desktop bands ≥ 19px | 71, 37, then nothing | 71, 37.4, 25.6, 19 |
+| rail dish name | Inter 13 | Fraunces 15.1 |
+
+**On the 80% figure.** It was 84% in the original diagnosis and is a weaker number than it
+looks: of 350 nodes under 14px, about 99 are badge glyphs and photograph credits, which
+are correctly small. Counting those as text inflated it. The useful reading was never the
+percentage but what sat in the band — which turned out to be dish names and card labels.
+
+Verified at 1440, 768 and 375: no name clamped at any size (the longest in the catalogue,
+"Torta di ciliegie della Foresta Nera", still shows whole in two lines on a 152px phone
+card), every rail row keeps one distinct y for its place line and its badge, and no page
+scrolls sideways.

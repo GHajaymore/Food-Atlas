@@ -342,7 +342,16 @@ const styles = StyleSheet.create({
     columnGap: 36,
   },
   stakesWide: { fontSize: 15, lineHeight: 24, maxWidth: 560, marginTop: 14 },
-  headline: { fontFamily: font.display, fontSize: 25, lineHeight: 31, color: color.text },
+  /*
+   * 25 became 29 so the headline outranks the figures on a phone.
+   *
+   * The figures are 26. While they were the interface face and the headline was the
+   * display face, the two did not read as competing; setting both in Fraunces made the
+   * inversion plain — five numbers a point larger than the sentence they are evidence
+   * for. Raising the headline rather than shrinking the figures, because the figures are
+   * also the desktop's 37px band and that one is right as it is.
+   */
+  headline: { fontFamily: font.display, fontSize: 29, lineHeight: 35, color: color.text },
   stakes: { fontSize: 14, lineHeight: 21 },
 
   stats: {
@@ -356,7 +365,22 @@ const styles = StyleSheet.create({
   // accented figure on its own and reads as a layout fault. The labels were shortened
   // and the gap tightened until the widest case fits.
   stat: { minWidth: 70 },
-  figure: { fontFamily: font.heading, fontSize: 26, lineHeight: 30, color: color.text, fontVariant: ['tabular-nums'] },
+  /*
+   * The figures take the display face.
+   *
+   * These are the second-largest thing on the page — 37px once the scale opens up, five
+   * of them in a row — and they were the interface face, which left Fraunces carrying one
+   * headline and nothing else above card size. In this app the numbers *are* the
+   * argument: 17,774 recorded, 10,098 with no method. Setting them in the face reserved
+   * for "anything that names or argues" is the plainest reading of the project's own
+   * rule, and it gives the display face something to do between the headline and the
+   * cards.
+   *
+   * `tabular-nums` stays. These sit in a row of fixed-width tiles and proportional digits
+   * make a row of five figures ripple; if the static Fraunces cut does not carry the
+   * feature the declaration is simply inert, which is the same as today.
+   */
+  figure: { fontFamily: font.display, fontSize: 26, lineHeight: 30, color: color.text, fontVariant: ['tabular-nums'] },
   figureAccent: { color: color.accent },
   statLabel: { marginTop: 3, marginBottom: 0 },
 
