@@ -18,6 +18,7 @@
  *   origin     → who the dish belongs to. Never forked, never settled by counting.
  */
 
+import type { Copy } from '../i18n/copy';
 import type { Dish, Dispute, DisputeKind } from './types';
 
 /** How a raised challenge should be handled. */
@@ -90,7 +91,7 @@ export const ORIGIN_DISCLAIMER =
   'affects the authenticity score — that measures how the dish is made in a place, not who first made it.';
 
 /** The prompt that turns a reader into a validator. Two taps, not a form. */
-export const CONFIRM_PROMPT = 'Is this how it’s made where you’re from?';
+
 
 /**
  * What to ask a reader about *this* record, given what it actually contains.
@@ -141,45 +142,44 @@ export interface ConfirmAsk {
  * checkable on the page — the count is printed beside it — which is the only kind of
  * claim this project makes.
  */
-export function confirmStanding(place: string, have: number, need: number): string {
+export function confirmStanding(copy: Copy, place: string, have: number, need: number): string {
   if (!place) return '';
 
   const remaining = Math.max(0, need - have);
   if (remaining === 0) {
-    return `${need} people connected to ${place} have confirmed this — the number the badge requires.`;
+    return copy.standingMet.replace('{n}', String(need)).replace('{place}', place);
   }
 
-  const people = remaining === 1 ? 'one more person' : `${remaining} more people`;
+  /* Separate keys per count rather than a number and a suffix. Polish and Russian have
+     three plural classes, and gluing a plural noun onto a figure reads as broken to a
+     native speaker on most of the numbers this renders. */
+  const people = remaining === 1 ? copy.onePersonMore : copy.morePeople.replace('{n}', String(remaining));
   const soFar =
-    have === 0
-      ? 'Nobody has yet'
-      : have === 1
-        ? 'One person has so far'
-        : `${have} people have so far`;
+    have === 0 ? copy.standingNobody : have === 1 ? copy.standingOne : copy.standingMany.replace('{n}', String(have));
 
-  return `${soFar}. The badge requires ${need}, so ${people} connected to ${place} would meet it.`;
+  return copy.standingNeed
+    .replace('{soFar}', soFar)
+    .replace('{need}', String(need))
+    .replace('{people}', people)
+    .replace('{place}', place);
 }
 
-export function confirmAsk(hasMethod: boolean, standing = ''): ConfirmAsk {
+export function confirmAsk(copy: Copy, hasMethod: boolean, standing = ''): ConfirmAsk {
   if (hasMethod) {
     return {
-      kicker: CONFIRM_PROMPT,
-      body:
-        'If you cook this where it comes from, confirming or correcting it is what moves a record out of ' +
-        'Unverified. Where your version differs, it is recorded alongside — not instead of — this one.',
-      yes: 'Yes — this matches',
-      no: 'It’s made differently where I’m from',
+      kicker: copy.confirmPrompt,
+      body: copy.confirmAskBody,
+      yes: copy.confirmYes,
+      no: copy.confirmNo,
       standing,
     };
   }
 
   return {
-    kicker: 'Is this dish from where we say it is?',
-    body:
-      'Nobody has written down how this one is made, so there is nothing here to agree with yet. The place is ' +
-      'what this record claims, and that is worth confirming on its own — it is one of the six evidence checks.',
-    yes: 'Yes — it’s from here',
-    no: 'No — it’s from somewhere else',
+    kicker: copy.confirmPlacePrompt,
+    body: copy.confirmPlaceBody,
+    yes: copy.confirmPlaceYes,
+    no: copy.confirmPlaceNo,
     standing,
   };
 }
@@ -198,6 +198,5 @@ export function confirmAsk(hasMethod: boolean, standing = ''): ConfirmAsk {
  * claims: they are listed in full lower down, each with its source, in the order the
  * source gave them.
  */
-export const contestedNote = (claims: number): string =>
-  `Filed here for navigation. ${claims} places have a documented claim to this dish — ` +
-  `none of them is settled, and they are all listed below.`;
+export const contestedNote = (copy: Copy, claims: number): string =>
+  copy.contestedNote.replace('{n}', String(claims));

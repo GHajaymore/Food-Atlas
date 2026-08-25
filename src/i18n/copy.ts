@@ -404,6 +404,32 @@ export interface Copy {
   navProposeNote: string;
   navConfirmNote: string;
   navSupportNote: string;
+  confirmPrompt: string;
+  confirmAskBody: string;
+  confirmYes: string;
+  confirmNo: string;
+  confirmPlacePrompt: string;
+  confirmPlaceBody: string;
+  confirmPlaceYes: string;
+  confirmPlaceNo: string;
+  standingMet: string;
+  standingNobody: string;
+  standingOne: string;
+  standingMany: string;
+  standingNeed: string;
+  onePersonMore: string;
+  morePeople: string;
+  contestedNote: string;
+  relatedAlsoFrom: string;
+  relatedAlsoCuisine: string;
+  relatedSharesIngredients: string;
+  relatedAlsoUses: string;
+  relatedAlsoCategory: string;
+  authenticVersion: string;
+  thePublishedRecipe: string;
+  whyThisIsAnAdaptation: string;
+  whyConsideredAuthentic: string;
+  whatThisRecordIs: string;
   interfaceTranslationNote: string;
 }
 
@@ -978,6 +1004,58 @@ export const EN: Copy = {
     'Dishes waiting for someone who knows them',
   navSupportNote:
     'What it costs to run, and who pays',
+  confirmPrompt:
+    'Is this how it’s made where you’re from?',
+  confirmAskBody:
+    'If you cook this where it comes from, confirming or correcting it is what moves a record out of Unverified. Where your version differs, it is recorded alongside — not instead of — this one.',
+  confirmYes:
+    'Yes — this matches',
+  confirmNo:
+    'It’s made differently where I’m from',
+  confirmPlacePrompt:
+    'Is this dish from where we say it is?',
+  confirmPlaceBody:
+    'Nobody has written down how this one is made, so there is nothing here to agree with yet. The place is what this record claims, and that is worth confirming on its own — it is one of the six evidence checks.',
+  confirmPlaceYes:
+    'Yes — it’s from here',
+  confirmPlaceNo:
+    'No — it’s from somewhere else',
+  standingMet:
+    '{n} people connected to {place} have confirmed this — the number the badge requires.',
+  standingNobody:
+    'Nobody has yet',
+  standingOne:
+    'One person has so far',
+  standingMany:
+    '{n} people have so far',
+  standingNeed:
+    '{soFar}. The badge requires {need}, so {people} connected to {place} would meet it.',
+  onePersonMore:
+    'one more person',
+  morePeople:
+    '{n} more people',
+  contestedNote:
+    'Filed here for navigation. {n} places have a documented claim to this dish — none of them is settled, and they are all listed below.',
+  relatedAlsoFrom:
+    'Also from {place}',
+  relatedAlsoCuisine:
+    'Also {cuisine}',
+  relatedSharesIngredients:
+    'Shares {n} ingredients',
+  relatedAlsoUses:
+    'Also uses {ingredient}',
+  relatedAlsoCategory:
+    'Also {category}',
+  authenticVersion:
+    'Authentic Version',
+  thePublishedRecipe:
+    'The published recipe',
+  whyThisIsAnAdaptation:
+    'Why this is an adaptation',
+  whyConsideredAuthentic:
+    'Why is this considered authentic?',
+  whatThisRecordIs:
+    'What this record is',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

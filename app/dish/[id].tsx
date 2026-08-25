@@ -140,15 +140,16 @@ export default function DishDetail() {
    * recognises themselves in "if you cook this where it comes from".
    */
   const ask = confirmAsk(
+    copy,
     isDocumented,
-    confirmStanding(askPlace, dish.confirmations?.length ?? 0, scoreThresholds().validationsRequired),
+    confirmStanding(copy, askPlace, dish.confirmations?.length ?? 0, scoreThresholds().validationsRequired),
   );
 
   const siblings = siblingsOf(dish, catalogue);
 
   /* Recomputed only when the record changes. A pass over 18,008 records is a few
      milliseconds; doing it on every render while a translation streams in is not. */
-  const relatedDishes = useMemo(() => relatedTo(dish, catalogue), [dish.id]);
+  const relatedDishes = useMemo(() => relatedTo(copy, dish, catalogue), [dish.id]);
   const forked = forkedDisputes(dish);
   const open = openDisputes(dish);
 
@@ -286,7 +287,7 @@ export default function DishDetail() {
           claim here is the winner. The line below is the correction, and it is placed
           where the claim was rather than left to the reader to find. */}
       {dish.originClaims && dish.originClaims.length > 1 ? (
-        <Muted style={styles.contested}>{contestedNote(dish.originClaims.length)}</Muted>
+        <Muted style={styles.contested}>{contestedNote(copy, dish.originClaims.length)}</Muted>
       ) : null}
 
       {/* The sentence behind the 🕯️ badge, which was never shown anywhere.
@@ -491,7 +492,7 @@ export default function DishDetail() {
               Modern Adaptation, and calling its ingredients the "Authentic Version"
               contradicts the classification printed directly above it — which is the
               silent mislabelling the brief exists to prevent. */}
-          <H5 style={styles.h5}>{isAdaptation ? 'The published recipe' : 'Authentic Version'}</H5>
+          <H5 style={styles.h5}>{isAdaptation ? copy.thePublishedRecipe : copy.authenticVersion}</H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
               How this dish is commonly made today. It is not a record of how it is prepared in{' '}
@@ -726,10 +727,10 @@ export default function DishDetail() {
               as a defence of a claim the record never made. */}
           <H5 style={styles.h5}>
             {isAdaptation
-              ? 'Why this is an adaptation'
+              ? copy.whyThisIsAnAdaptation
               : isDocumented
-                ? 'Why is this considered authentic?'
-                : 'What this record is'}
+                ? copy.whyConsideredAuthentic
+                : copy.whatThisRecordIs}
           </H5>
           <Muted style={styles.disclaimer}>{reading.disclaimer}</Muted>
 

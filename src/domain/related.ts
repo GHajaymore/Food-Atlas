@@ -27,6 +27,7 @@
  * which dishes are *better* related — only about which coincidences are least likely.
  */
 
+import type { Copy } from '../i18n/copy';
 import type { Dish } from './types';
 
 export interface Related {
@@ -49,16 +50,16 @@ interface Signal {
  * Returns every match rather than the first, so the *reason* shown is the strongest one
  * rather than whichever happened to be tested earliest.
  */
-function signals(dish: Dish, other: Dish): Signal[] {
+function signals(copy: Copy, dish: Dish, other: Dish): Signal[] {
   const found: Signal[] = [];
 
   const region = dish.loc.region?.trim();
   if (region && other.loc.region?.trim() === region) {
-    found.push({ weight: 6, reason: `Also from ${region}` });
+    found.push({ weight: 6, reason: copy.relatedAlsoFrom.replace('{place}', region) });
   }
 
   if (dish.cuisine && other.cuisine === dish.cuisine) {
-    found.push({ weight: 5, reason: `Also ${dish.cuisine}` });
+    found.push({ weight: 5, reason: copy.relatedAlsoCuisine.replace('{cuisine}', dish.cuisine) });
   }
 
   /*
@@ -72,17 +73,20 @@ function signals(dish: Dish, other: Dish): Signal[] {
   if (shared.length) {
     found.push({
       weight: 3 + Math.min(shared.length, 3),
-      reason: shared.length > 1 ? `Shares ${shared.length} ingredients` : `Also uses ${shared[0]}`,
+      reason:
+        shared.length > 1
+          ? copy.relatedSharesIngredients.replace('{n}', String(shared.length))
+          : copy.relatedAlsoUses.replace('{ingredient}', shared[0]),
     });
   }
 
   if (dish.category && other.category === dish.category && dish.category !== 'Unclassified') {
-    found.push({ weight: 2, reason: `Also ${dish.category.toLowerCase()}` });
+    found.push({ weight: 2, reason: copy.relatedAlsoCategory.replace('{category}', dish.category.toLowerCase()) });
   }
 
   const country = dish.loc.country?.trim();
   if (country && other.loc.country?.trim() === country) {
-    found.push({ weight: 1, reason: `Also from ${country}` });
+    found.push({ weight: 1, reason: copy.relatedAlsoFrom.replace('{place}', country) });
   }
 
   return found.sort((a, b) => b.weight - a.weight);
@@ -96,13 +100,13 @@ function signals(dish: Dish, other: Dish): Signal[] {
  * reader following a suggestion is more likely to land somewhere with something on it —
  * which matters when 10,197 records have no method recorded.
  */
-export function relatedTo(dish: Dish, all: Dish[], limit = RELATED_LIMIT): Related[] {
+export function relatedTo(copy: Copy, dish: Dish, all: Dish[], limit = RELATED_LIMIT): Related[] {
   const scored: { dish: Dish; score: number; reason: string }[] = [];
 
   for (const other of all) {
     if (other.id === dish.id) continue;
 
-    const matches = signals(dish, other);
+    const matches = signals(copy, dish, other);
     if (!matches.length) continue;
 
     /*

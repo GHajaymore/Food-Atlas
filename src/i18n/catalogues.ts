@@ -599,6 +599,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Platos que esperan a alguien que los conozca',
     navSupportNote:
       'Lo que cuesta mantenerlo y quién lo paga',
+    confirmPrompt:
+      '¿Se hace así de donde tú eres?',
+    confirmAskBody:
+      'Si cocinas esto donde nació, confirmarlo o corregirlo es lo que saca un registro de Sin verificar. Cuando tu versión sea distinta, se registra al lado — no en lugar — de esta.',
+    confirmYes:
+      'Sí, coincide',
+    confirmNo:
+      'Donde yo soy se hace de otra manera',
+    confirmPlacePrompt:
+      '¿Este plato es de donde decimos que es?',
+    confirmPlaceBody:
+      'Nadie ha escrito cómo se hace este, así que todavía no hay nada con lo que estar de acuerdo. El lugar es lo que este registro afirma, y eso ya merece confirmarse por sí solo: es una de las seis comprobaciones de prueba.',
+    confirmPlaceYes:
+      'Sí, es de aquí',
+    confirmPlaceNo:
+      'No, es de otro sitio',
+    standingMet:
+      '{n} personas vinculadas a {place} lo han confirmado: la cifra que exige la insignia.',
+    standingNobody:
+      'Todavía nadie',
+    standingOne:
+      'Hasta ahora una persona',
+    standingMany:
+      'Hasta ahora {n} personas',
+    standingNeed:
+      '{soFar}. La insignia exige {need}, así que {people} vinculadas a {place} cumplirían el requisito.',
+    onePersonMore:
+      'una persona más',
+    morePeople:
+      '{n} personas más',
+    contestedNote:
+      'Archivado aquí para poder navegar. {n} lugares tienen una reivindicación documentada de este plato: ninguna está zanjada, y todas se enumeran abajo.',
+    relatedAlsoFrom:
+      'También de {place}',
+    relatedAlsoCuisine:
+      'También {cuisine}',
+    relatedSharesIngredients:
+      'Comparte {n} ingredientes',
+    relatedAlsoUses:
+      'También usa {ingredient}',
+    relatedAlsoCategory:
+      'También {category}',
+    authenticVersion:
+      'Versión auténtica',
+    thePublishedRecipe:
+      'La receta publicada',
+    whyThisIsAnAdaptation:
+      'Por qué esto es una adaptación',
+    whyConsideredAuthentic:
+      '¿Por qué se considera auténtico?',
+    whatThisRecordIs:
+      'Qué es este registro',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -1164,6 +1216,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Des plats qui attendent quelqu’un qui les connaît',
     navSupportNote:
       'Ce que cela coûte à faire tourner, et qui paie',
+    confirmPrompt:
+      'Est-ce ainsi qu’on le prépare chez vous ?',
+    confirmAskBody:
+      'Si vous cuisinez ce plat là d’où il vient, le confirmer ou le corriger est ce qui sort une fiche de Non vérifié. Là où votre version diffère, elle est consignée à côté de celle-ci — et non à sa place.',
+    confirmYes:
+      'Oui, cela correspond',
+    confirmNo:
+      'Chez moi, on le fait autrement',
+    confirmPlacePrompt:
+      'Ce plat vient-il bien de là où nous le disons ?',
+    confirmPlaceBody:
+      'Personne n’a écrit comment celui-ci se prépare, il n’y a donc encore rien avec quoi être d’accord. Le lieu est ce que cette fiche affirme, et cela vaut d’être confirmé en soi : c’est l’une des six vérifications de preuve.',
+    confirmPlaceYes:
+      'Oui, c’est d’ici',
+    confirmPlaceNo:
+      'Non, cela vient d’ailleurs',
+    standingMet:
+      '{n} personnes liées à {place} l’ont confirmé — le nombre qu’exige le badge.',
+    standingNobody:
+      'Personne pour l’instant',
+    standingOne:
+      'Une personne jusqu’ici',
+    standingMany:
+      '{n} personnes jusqu’ici',
+    standingNeed:
+      '{soFar}. Le badge exige {need}, donc {people} liées à {place} y suffiraient.',
+    onePersonMore:
+      'une personne de plus',
+    morePeople:
+      '{n} personnes de plus',
+    contestedNote:
+      'Classé ici pour la navigation. {n} lieux revendiquent ce plat avec des sources — aucune revendication n’est tranchée, et toutes sont listées ci-dessous.',
+    relatedAlsoFrom:
+      'Aussi de {place}',
+    relatedAlsoCuisine:
+      'Aussi {cuisine}',
+    relatedSharesIngredients:
+      'Partage {n} ingrédients',
+    relatedAlsoUses:
+      'Utilise aussi {ingredient}',
+    relatedAlsoCategory:
+      'Aussi {category}',
+    authenticVersion:
+      'Version authentique',
+    thePublishedRecipe:
+      'La recette publiée',
+    whyThisIsAnAdaptation:
+      'Pourquoi c’est une adaptation',
+    whyConsideredAuthentic:
+      'Pourquoi est-ce considéré comme authentique ?',
+    whatThisRecordIs:
+      'Ce qu’est cette fiche',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -1728,6 +1832,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Gerichte, die auf jemanden warten, der sie kennt',
     navSupportNote:
       'Was der Betrieb kostet, und wer zahlt',
+    confirmPrompt:
+      'Wird es bei Ihnen so gemacht?',
+    confirmAskBody:
+      'Wenn Sie das dort kochen, wo es herkommt, ist Bestätigen oder Berichtigen genau das, was einen Eintrag aus Ungeprüft herausholt. Wo Ihre Fassung abweicht, wird sie neben dieser festgehalten — nicht an ihrer Stelle.',
+    confirmYes:
+      'Ja, das stimmt so',
+    confirmNo:
+      'Bei mir zu Hause macht man es anders',
+    confirmPlacePrompt:
+      'Stammt dieses Gericht von dort, wo wir es angeben?',
+    confirmPlaceBody:
+      'Niemand hat aufgeschrieben, wie dieses gemacht wird, also gibt es hier noch nichts, dem man zustimmen könnte. Der Ort ist das, was dieser Eintrag behauptet, und das allein ist eine Bestätigung wert — er ist eine der sechs Belegprüfungen.',
+    confirmPlaceYes:
+      'Ja, es ist von hier',
+    confirmPlaceNo:
+      'Nein, es kommt von woanders',
+    standingMet:
+      '{n} Menschen mit Verbindung zu {place} haben das bestätigt — die Zahl, die das Abzeichen verlangt.',
+    standingNobody:
+      'Bisher niemand',
+    standingOne:
+      'Bisher eine Person',
+    standingMany:
+      'Bisher {n} Menschen',
+    standingNeed:
+      '{soFar}. Das Abzeichen verlangt {need}, also würden {people} mit Verbindung zu {place} dafür reichen.',
+    onePersonMore:
+      'eine Person mehr',
+    morePeople:
+      '{n} Menschen mehr',
+    contestedNote:
+      'Hier eingeordnet, damit man es findet. {n} Orte haben einen belegten Anspruch auf dieses Gericht — keiner davon ist entschieden, und alle stehen unten.',
+    relatedAlsoFrom:
+      'Auch aus {place}',
+    relatedAlsoCuisine:
+      'Auch {cuisine}',
+    relatedSharesIngredients:
+      'Teilt {n} Zutaten',
+    relatedAlsoUses:
+      'Nutzt auch {ingredient}',
+    relatedAlsoCategory:
+      'Auch {category}',
+    authenticVersion:
+      'Authentische Fassung',
+    thePublishedRecipe:
+      'Das veröffentlichte Rezept',
+    whyThisIsAnAdaptation:
+      'Warum das eine Abwandlung ist',
+    whyConsideredAuthentic:
+      'Warum gilt das als authentisch?',
+    whatThisRecordIs:
+      'Was dieser Eintrag ist',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -2292,6 +2448,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Piatti che aspettano qualcuno che li conosca',
     navSupportNote:
       'Quanto costa tenerlo in piedi, e chi paga',
+    confirmPrompt:
+      'Da te si fa così?',
+    confirmAskBody:
+      'Se lo cucini là da dove viene, confermarlo o correggerlo è ciò che porta una scheda fuori da Non verificato. Dove la tua versione è diversa, viene registrata accanto a questa — non al suo posto.',
+    confirmYes:
+      'Sì, corrisponde',
+    confirmNo:
+      'Da me si fa diversamente',
+    confirmPlacePrompt:
+      'Questo piatto viene davvero da dove diciamo?',
+    confirmPlaceBody:
+      'Nessuno ha scritto come si fa questo, quindi non c’è ancora nulla con cui essere d’accordo. Il luogo è ciò che questa scheda afferma, e vale la pena confermarlo di per sé: è una delle sei verifiche di prova.',
+    confirmPlaceYes:
+      'Sì, è di qui',
+    confirmPlaceNo:
+      'No, viene da un altro posto',
+    standingMet:
+      '{n} persone legate a {place} lo hanno confermato: il numero che il distintivo richiede.',
+    standingNobody:
+      'Ancora nessuno',
+    standingOne:
+      'Finora una persona',
+    standingMany:
+      'Finora {n} persone',
+    standingNeed:
+      '{soFar}. Il distintivo richiede {need}, quindi {people} legate a {place} basterebbero.',
+    onePersonMore:
+      'una persona in più',
+    morePeople:
+      '{n} persone in più',
+    contestedNote:
+      'Collocato qui per poterlo trovare. {n} luoghi hanno una rivendicazione documentata su questo piatto: nessuna è risolta, e sono tutte elencate sotto.',
+    relatedAlsoFrom:
+      'Anche da {place}',
+    relatedAlsoCuisine:
+      'Anche {cuisine}',
+    relatedSharesIngredients:
+      'Condivide {n} ingredienti',
+    relatedAlsoUses:
+      'Usa anche {ingredient}',
+    relatedAlsoCategory:
+      'Anche {category}',
+    authenticVersion:
+      'Versione autentica',
+    thePublishedRecipe:
+      'La ricetta pubblicata',
+    whyThisIsAnAdaptation:
+      'Perché questo è un adattamento',
+    whyConsideredAuthentic:
+      'Perché è considerato autentico?',
+    whatThisRecordIs:
+      'Cos’è questa scheda',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -2857,6 +3065,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Pratos à espera de alguém que os conheça',
     navSupportNote:
       'O que custa manter, e quem paga',
+    confirmPrompt:
+      'É assim que se faz na sua terra?',
+    confirmAskBody:
+      'Se cozinha isto no lugar de onde vem, confirmá-lo ou corrigi-lo é o que tira um registo de Por verificar. Onde a sua versão for diferente, fica registada ao lado desta — não no lugar dela.',
+    confirmYes:
+      'Sim, corresponde',
+    confirmNo:
+      'Na minha terra faz-se de outra maneira',
+    confirmPlacePrompt:
+      'Este prato é mesmo de onde dizemos?',
+    confirmPlaceBody:
+      'Ninguém escreveu como este se faz, por isso ainda não há nada com que concordar. O lugar é o que este registo afirma, e isso vale ser confirmado por si só — é uma das seis verificações de prova.',
+    confirmPlaceYes:
+      'Sim, é daqui',
+    confirmPlaceNo:
+      'Não, vem de outro sítio',
+    standingMet:
+      '{n} pessoas ligadas a {place} confirmaram isto — o número que o distintivo exige.',
+    standingNobody:
+      'Ainda ninguém',
+    standingOne:
+      'Até agora uma pessoa',
+    standingMany:
+      'Até agora {n} pessoas',
+    standingNeed:
+      '{soFar}. O distintivo exige {need}, por isso {people} ligadas a {place} chegariam.',
+    onePersonMore:
+      'mais uma pessoa',
+    morePeople:
+      'mais {n} pessoas',
+    contestedNote:
+      'Arquivado aqui para se poder navegar. {n} lugares têm uma reivindicação documentada deste prato — nenhuma está resolvida, e estão todas listadas abaixo.',
+    relatedAlsoFrom:
+      'Também de {place}',
+    relatedAlsoCuisine:
+      'Também {cuisine}',
+    relatedSharesIngredients:
+      'Partilha {n} ingredientes',
+    relatedAlsoUses:
+      'Também usa {ingredient}',
+    relatedAlsoCategory:
+      'Também {category}',
+    authenticVersion:
+      'Versão autêntica',
+    thePublishedRecipe:
+      'A receita publicada',
+    whyThisIsAnAdaptation:
+      'Porque é que isto é uma adaptação',
+    whyConsideredAuthentic:
+      'Porque é que isto é considerado autêntico?',
+    whatThisRecordIs:
+      'O que é este registo',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -3421,6 +3681,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Gerechten die wachten op iemand die ze kent',
     navSupportNote:
       'Wat het kost om te draaien, en wie betaalt',
+    confirmPrompt:
+      'Wordt het bij u zo gemaakt?',
+    confirmAskBody:
+      'Als u dit kookt op de plek waar het vandaan komt, is bevestigen of corrigeren precies wat een record uit Niet geverifieerd haalt. Waar uw versie afwijkt, wordt die naast deze vastgelegd — niet in plaats ervan.',
+    confirmYes:
+      'Ja, dit klopt',
+    confirmNo:
+      'Bij ons wordt het anders gemaakt',
+    confirmPlacePrompt:
+      'Komt dit gerecht echt van waar wij zeggen?',
+    confirmPlaceBody:
+      'Niemand heeft opgeschreven hoe dit gemaakt wordt, dus er is nog niets om het mee eens te zijn. De plaats is wat dit record beweert, en dat is op zichzelf al de moeite van het bevestigen waard — het is een van de zes bewijscontroles.',
+    confirmPlaceYes:
+      'Ja, het is van hier',
+    confirmPlaceNo:
+      'Nee, het komt ergens anders vandaan',
+    standingMet:
+      '{n} mensen met een band met {place} hebben dit bevestigd — het aantal dat het insigne vraagt.',
+    standingNobody:
+      'Nog niemand',
+    standingOne:
+      'Tot nu toe één persoon',
+    standingMany:
+      'Tot nu toe {n} mensen',
+    standingNeed:
+      '{soFar}. Het insigne vraagt {need}, dus {people} met een band met {place} zouden voldoen.',
+    onePersonMore:
+      'één persoon meer',
+    morePeople:
+      '{n} mensen meer',
+    contestedNote:
+      'Hier ondergebracht om het te kunnen vinden. {n} plaatsen hebben een gedocumenteerde aanspraak op dit gerecht — geen enkele is beslecht, en ze staan hieronder allemaal.',
+    relatedAlsoFrom:
+      'Ook uit {place}',
+    relatedAlsoCuisine:
+      'Ook {cuisine}',
+    relatedSharesIngredients:
+      'Deelt {n} ingrediënten',
+    relatedAlsoUses:
+      'Gebruikt ook {ingredient}',
+    relatedAlsoCategory:
+      'Ook {category}',
+    authenticVersion:
+      'Authentieke versie',
+    thePublishedRecipe:
+      'Het gepubliceerde recept',
+    whyThisIsAnAdaptation:
+      'Waarom dit een bewerking is',
+    whyConsideredAuthentic:
+      'Waarom geldt dit als authentiek?',
+    whatThisRecordIs:
+      'Wat dit record is',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -3986,6 +4298,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Potrawy czekające na kogoś, kto je zna',
     navSupportNote:
       'Ile kosztuje utrzymanie i kto płaci',
+    confirmPrompt:
+      'Czy u ciebie robi się to tak?',
+    confirmAskBody:
+      'Jeśli gotujesz to tam, skąd pochodzi, potwierdzenie albo poprawienie jest tym, co wyciąga wpis z Niesprawdzonych. Tam, gdzie twoja wersja się różni, zostaje zapisana obok tej — a nie zamiast niej.',
+    confirmYes:
+      'Tak, zgadza się',
+    confirmNo:
+      'U mnie robi się to inaczej',
+    confirmPlacePrompt:
+      'Czy ta potrawa naprawdę pochodzi stamtąd, gdzie podajemy?',
+    confirmPlaceBody:
+      'Nikt nie zapisał, jak się to robi, więc nie ma tu jeszcze z czym się zgadzać. Miejsce jest tym, co ten wpis twierdzi, i samo w sobie warto je potwierdzić — to jedna z sześciu kontroli dowodowych.',
+    confirmPlaceYes:
+      'Tak, jest stąd',
+    confirmPlaceNo:
+      'Nie, pochodzi skądinąd',
+    standingMet:
+      'Potwierdziło to {n} osób związanych z miejscem {place} — tyle, ile wymaga odznaka.',
+    standingNobody:
+      'Na razie nikt',
+    standingOne:
+      'Jak dotąd jedna osoba',
+    standingMany:
+      'Jak dotąd osób: {n}',
+    standingNeed:
+      '{soFar}. Odznaka wymaga {need}, więc {people} związanych z miejscem {place} by wystarczyło.',
+    onePersonMore:
+      'jeszcze jedna osoba',
+    morePeople:
+      'jeszcze {n} osób',
+    contestedNote:
+      'Umieszczone tutaj, żeby dało się to znaleźć. Udokumentowane roszczenie do tej potrawy ma {n} miejsc — żadne nie jest rozstrzygnięte, a wszystkie wymieniono poniżej.',
+    relatedAlsoFrom:
+      'Też z: {place}',
+    relatedAlsoCuisine:
+      'Też {cuisine}',
+    relatedSharesIngredients:
+      'Wspólnych składników: {n}',
+    relatedAlsoUses:
+      'Też używa: {ingredient}',
+    relatedAlsoCategory:
+      'Też {category}',
+    authenticVersion:
+      'Wersja autentyczna',
+    thePublishedRecipe:
+      'Opublikowany przepis',
+    whyThisIsAnAdaptation:
+      'Dlaczego to jest adaptacja',
+    whyConsideredAuthentic:
+      'Dlaczego uznaje się to za autentyczne?',
+    whatThisRecordIs:
+      'Czym jest ten wpis',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -4550,6 +4914,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Kendini bilen birini bekleyen yemekler',
     navSupportNote:
       'İşletmesi ne tutuyor ve kim ödüyor',
+    confirmPrompt:
+      'Sizin oralarda böyle mi yapılır?',
+    confirmAskBody:
+      'Bunu geldiği yerde pişiriyorsanız, doğrulamanız ya da düzeltmeniz bir kaydı Doğrulanmamış olmaktan çıkaran şeydir. Sizin yaptığınızın farklı olduğu yerlerde, bunun yerine değil, bunun yanına kaydedilir.',
+    confirmYes:
+      'Evet, uyuyor',
+    confirmNo:
+      'Bizim oralarda başka türlü yapılır',
+    confirmPlacePrompt:
+      'Bu yemek gerçekten söylediğimiz yerden mi?',
+    confirmPlaceBody:
+      'Bunun nasıl yapıldığını kimse yazmamış, dolayısıyla henüz katılınacak bir şey yok. Yer, bu kaydın ileri sürdüğü şeydir ve tek başına doğrulanmaya değer — altı kanıt denetiminden biridir.',
+    confirmPlaceYes:
+      'Evet, buranın',
+    confirmPlaceNo:
+      'Hayır, başka bir yerden',
+    standingMet:
+      '{place} ile bağı olan {n} kişi bunu doğruladı — işaretin istediği sayı.',
+    standingNobody:
+      'Henüz kimse',
+    standingOne:
+      'Şimdiye kadar bir kişi',
+    standingMany:
+      'Şimdiye kadar {n} kişi',
+    standingNeed:
+      '{soFar}. İşaret {need} istiyor, yani {place} ile bağı olan {people} bunu karşılardı.',
+    onePersonMore:
+      'bir kişi daha',
+    morePeople:
+      '{n} kişi daha',
+    contestedNote:
+      'Bulunabilsin diye buraya yerleştirildi. Bu yemek üzerinde belgelenmiş iddiası olan {n} yer var — hiçbiri karara bağlanmış değil ve hepsi aşağıda sıralı.',
+    relatedAlsoFrom:
+      'Yine {place} kökenli',
+    relatedAlsoCuisine:
+      'Yine {cuisine}',
+    relatedSharesIngredients:
+      '{n} ortak malzeme',
+    relatedAlsoUses:
+      'Bunda da {ingredient} var',
+    relatedAlsoCategory:
+      'Yine {category}',
+    authenticVersion:
+      'Özgün sürüm',
+    thePublishedRecipe:
+      'Yayımlanmış tarif',
+    whyThisIsAnAdaptation:
+      'Bu neden bir uyarlama',
+    whyConsideredAuthentic:
+      'Bu neden özgün sayılıyor?',
+    whatThisRecordIs:
+      'Bu kayıt nedir',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -5115,6 +5531,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Блюда, ждущие того, кто их знает',
     navSupportNote:
       'Сколько стоит содержание и кто платит',
+    confirmPrompt:
+      'У вас его готовят так?',
+    confirmAskBody:
+      'Если вы готовите это там, откуда оно родом, ваше подтверждение или поправка — именно то, что выводит запись из состояния «Не проверено». Там, где ваш вариант отличается, он записывается рядом с этим, а не вместо него.',
+    confirmYes:
+      'Да, совпадает',
+    confirmNo:
+      'У нас готовят иначе',
+    confirmPlacePrompt:
+      'Это блюдо действительно оттуда, откуда мы указываем?',
+    confirmPlaceBody:
+      'Никто не записал, как готовят именно это, так что соглашаться пока не с чем. Место — это то, что утверждает запись, и его стоит подтвердить само по себе: это одна из шести проверок доказательств.',
+    confirmPlaceYes:
+      'Да, оно отсюда',
+    confirmPlaceNo:
+      'Нет, оно из другого места',
+    standingMet:
+      'Это подтвердили {n} человек, связанных с местом {place}, — столько и требует знак.',
+    standingNobody:
+      'Пока никто',
+    standingOne:
+      'Пока один человек',
+    standingMany:
+      'Пока подтвердивших: {n}',
+    standingNeed:
+      '{soFar}. Знак требует {need}, так что {people}, связанных с местом {place}, хватило бы.',
+    onePersonMore:
+      'ещё один человек',
+    morePeople:
+      'ещё {n} человек',
+    contestedNote:
+      'Помещено сюда, чтобы его можно было найти. Задокументированные права на это блюдо есть у {n} мест — ни одни из них не решены, и все перечислены ниже.',
+    relatedAlsoFrom:
+      'Тоже из места {place}',
+    relatedAlsoCuisine:
+      'Тоже {cuisine}',
+    relatedSharesIngredients:
+      'Общих ингредиентов: {n}',
+    relatedAlsoUses:
+      'Тоже с ингредиентом {ingredient}',
+    relatedAlsoCategory:
+      'Тоже {category}',
+    authenticVersion:
+      'Подлинный вариант',
+    thePublishedRecipe:
+      'Опубликованный рецепт',
+    whyThisIsAnAdaptation:
+      'Почему это адаптация',
+    whyConsideredAuthentic:
+      'Почему это считается подлинным?',
+    whatThisRecordIs:
+      'Что это за запись',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -5680,6 +6148,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ऐसे व्यंजन जो किसी जानने वाले का इंतज़ार कर रहे हैं',
     navSupportNote:
       'चलाने में क्या ख़र्च होता है, और कौन देता है',
+    confirmPrompt:
+      'क्या आपके यहाँ इसे ऐसे ही बनाते हैं?',
+    confirmAskBody:
+      'अगर आप इसे वहीं पकाते हैं जहाँ से यह आता है, तो आपका पुष्टि करना या सुधारना ही वह चीज़ है जो किसी रिकॉर्ड को असत्यापित से बाहर निकालती है। जहाँ आपका तरीक़ा अलग हो, वह इसके साथ दर्ज होता है — इसकी जगह नहीं।',
+    confirmYes:
+      'हाँ, यही मेल खाता है',
+    confirmNo:
+      'मेरे यहाँ इसे अलग तरह बनाते हैं',
+    confirmPlacePrompt:
+      'क्या यह व्यंजन सचमुच वहीं का है जहाँ का हम बता रहे हैं?',
+    confirmPlaceBody:
+      'यह कैसे बनता है, किसी ने लिखा ही नहीं, इसलिए अभी सहमत होने के लिए कुछ है ही नहीं। जगह वह है जो यह रिकॉर्ड दावा करता है, और उसकी पुष्टि अपने आप में क़ीमती है — यह छह प्रमाण-जाँचों में से एक है।',
+    confirmPlaceYes:
+      'हाँ, यह यहीं का है',
+    confirmPlaceNo:
+      'नहीं, यह कहीं और का है',
+    standingMet:
+      '{place} से जुड़े {n} लोगों ने इसकी पुष्टि की — बैज के लिए यही संख्या चाहिए।',
+    standingNobody:
+      'अभी तक कोई नहीं',
+    standingOne:
+      'अब तक एक व्यक्ति',
+    standingMany:
+      'अब तक {n} लोग',
+    standingNeed:
+      '{soFar}। बैज के लिए {need} चाहिए, यानी {place} से जुड़े {people} इसे पूरा कर देंगे।',
+    onePersonMore:
+      'एक व्यक्ति और',
+    morePeople:
+      '{n} लोग और',
+    contestedNote:
+      'ढूँढ़ने की सुविधा के लिए यहाँ रखा गया। {n} जगहों का इस व्यंजन पर प्रलेखित दावा है — इनमें से कोई तय नहीं हुआ, और सब नीचे दिए हैं।',
+    relatedAlsoFrom:
+      'यह भी {place} से',
+    relatedAlsoCuisine:
+      'यह भी {cuisine}',
+    relatedSharesIngredients:
+      '{n} सामग्रियाँ समान',
+    relatedAlsoUses:
+      'इसमें भी {ingredient}',
+    relatedAlsoCategory:
+      'यह भी {category}',
+    authenticVersion:
+      'प्रामाणिक रूप',
+    thePublishedRecipe:
+      'प्रकाशित विधि',
+    whyThisIsAnAdaptation:
+      'यह रूपांतर क्यों है',
+    whyConsideredAuthentic:
+      'इसे प्रामाणिक क्यों माना जाता है?',
+    whatThisRecordIs:
+      'यह रिकॉर्ड क्या है',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -6245,6 +6765,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '等着懂行的人来看的菜',
     navSupportNote:
       '运行的花费，以及谁在出',
+    confirmPrompt:
+      '你们那儿也是这么做的吗？',
+    confirmAskBody:
+      '如果你就在这道菜的原产地做它，你的确认或更正正是让一条记录脱离未核实的东西。你的做法不同的地方，会记在这条旁边 — 而不是取代它。',
+    confirmYes:
+      '是的，一样',
+    confirmNo:
+      '我们那儿做法不一样',
+    confirmPlacePrompt:
+      '这道菜真的来自我们标注的地方吗？',
+    confirmPlaceBody:
+      '没有人写下这一道怎么做，所以现在还没有可以认同的内容。地方是这条记录所主张的，光是这一点就值得确认 — 它是六项证据核查之一。',
+    confirmPlaceYes:
+      '是的，就是这儿的',
+    confirmPlaceNo:
+      '不是，来自别处',
+    standingMet:
+      '已有 {n} 位与{place}有关系的人确认过 — 正是徽章所要求的数目。',
+    standingNobody:
+      '还没有人',
+    standingOne:
+      '目前有一位',
+    standingMany:
+      '目前有 {n} 位',
+    standingNeed:
+      '{soFar}。徽章需要 {need} 位，所以再有 {people} 位与{place}有关系的人就够了。',
+    onePersonMore:
+      '一位',
+    morePeople:
+      '{n} 位',
+    contestedNote:
+      '归在这里是为了便于查找。有 {n} 个地方对这道菜提出了有据可查的主张 — 没有一个是定论，下面全部列出。',
+    relatedAlsoFrom:
+      '同样来自{place}',
+    relatedAlsoCuisine:
+      '同样是{cuisine}',
+    relatedSharesIngredients:
+      '有 {n} 种食材相同',
+    relatedAlsoUses:
+      '同样用到{ingredient}',
+    relatedAlsoCategory:
+      '同样是{category}',
+    authenticVersion:
+      '本真做法',
+    thePublishedRecipe:
+      '已发表的食谱',
+    whyThisIsAnAdaptation:
+      '为什么这算改良',
+    whyConsideredAuthentic:
+      '为什么这被认为是本真的？',
+    whatThisRecordIs:
+      '这条记录是什么',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -6810,6 +7382,58 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '知っている人を待っている料理',
     navSupportNote:
       '運営にかかる費用と、その出どころ',
+    confirmPrompt:
+      'あなたの土地でも、こう作りますか。',
+    confirmAskBody:
+      'この料理の生まれた土地であなたが作っているなら、その確認や訂正こそが、記録を未確認から動かすものです。あなたのやり方が違うところは、この記録の代わりにではなく、隣に書き留めます。',
+    confirmYes:
+      'はい、これで合っています',
+    confirmNo:
+      'うちの土地では作り方が違います',
+    confirmPlacePrompt:
+      'この料理は、こちらの示した土地のものですか。',
+    confirmPlaceBody:
+      'これがどう作られるかは誰も書き残していないので、まだ同意する対象がありません。土地はこの記録が主張していることであり、それだけでも確かめる値打ちがあります。六つの根拠の確認のひとつです。',
+    confirmPlaceYes:
+      'はい、ここのものです',
+    confirmPlaceNo:
+      'いいえ、よその土地のものです',
+    standingMet:
+      '{place}にゆかりのある {n} 人が確認しました。印に必要な人数です。',
+    standingNobody:
+      'まだ誰もいません',
+    standingOne:
+      'これまでに一人',
+    standingMany:
+      'これまでに {n} 人',
+    standingNeed:
+      '{soFar}。印には {need} 人が必要なので、{place}にゆかりのある{people}で届きます。',
+    onePersonMore:
+      'あと一人',
+    morePeople:
+      'あと {n} 人',
+    contestedNote:
+      '見つけられるようにここに置いています。この料理には {n} か所が裏づけのある由来を主張しており、どれも決着していません。すべて下に挙げてあります。',
+    relatedAlsoFrom:
+      '同じく{place}から',
+    relatedAlsoCuisine:
+      '同じく{cuisine}',
+    relatedSharesIngredients:
+      '材料が {n} 品共通',
+    relatedAlsoUses:
+      '同じく{ingredient}を使う',
+    relatedAlsoCategory:
+      '同じく{category}',
+    authenticVersion:
+      '本物の作り方',
+    thePublishedRecipe:
+      '公開されているレシピ',
+    whyThisIsAnAdaptation:
+      'これがアレンジである理由',
+    whyConsideredAuthentic:
+      'これが本物とされる理由',
+    whatThisRecordIs:
+      'この記録が何であるか',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

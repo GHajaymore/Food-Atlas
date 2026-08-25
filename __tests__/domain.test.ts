@@ -753,7 +753,7 @@ describe("a record filed under one of several claimed origins", () => {
     // Pierogi read "China" in the largest text on the page, above a section saying
     // no claim here is the winner. A reader who read only the top took the opposite
     // meaning from the one the page intended.
-    const note = contestedNote(3);
+    const note = contestedNote(EN, 3);
     expect(note).toMatch(/for navigation/i);
     expect(note).toMatch(/none of them is settled/i);
     expect(note).toMatch(/3 places/);
@@ -763,7 +763,7 @@ describe("a record filed under one of several claimed origins", () => {
     // The claims are listed in full lower down, each with its source, in the order
     // the source gave them. This line must not pre-empt that.
     for (const country of ["China", "Poland", "Ukraine"]) {
-      expect(contestedNote(3)).not.toContain(country);
+      expect(contestedNote(EN, 3)).not.toContain(country);
     }
   });
 });
@@ -904,14 +904,14 @@ describe('what a reader can honestly be asked', () => {
   it('does not ask a reader to confirm a method that is not there', () => {
     // 12,000 records said "Nobody has recorded how this is made" and then offered a
     // button marked "Yes — this matches". There was nothing to match.
-    const blank = confirmAsk(false);
+    const blank = confirmAsk(EN, false);
     expect(blank.yes).not.toMatch(/matches/i);
     expect(blank.kicker).toMatch(/from where we say it is/i);
     expect(blank.body).toMatch(/nothing here to agree with/i);
   });
 
   it('asks about the method where there is one', () => {
-    const documented = confirmAsk(true);
+    const documented = confirmAsk(EN, true);
     expect(documented.yes).toMatch(/matches/i);
     expect(documented.kicker).toMatch(/how it’s made/i);
   });
@@ -919,7 +919,7 @@ describe('what a reader can honestly be asked', () => {
   it('always offers a way to disagree', () => {
     // The correction path is the one that actually feeds the pipeline, so it is
     // present whatever the record holds.
-    for (const ask of [confirmAsk(true), confirmAsk(false)]) {
+    for (const ask of [confirmAsk(EN, true), confirmAsk(EN, false)]) {
       expect(ask.no.length).toBeGreaterThan(0);
       expect(ask.yes.length).toBeGreaterThan(0);
     }
@@ -2852,7 +2852,7 @@ describe('an article about a food in a place is not a food', () => {
  */
 describe('what a record still needs, stated exactly', () => {
   it('counts what is missing and names where from', () => {
-    const line = confirmStanding('Kozhikode', 1, 3);
+    const line = confirmStanding(EN, 'Kozhikode', 1, 3);
     expect(line).toContain('Kozhikode');
     expect(line).toContain('2 more people');
     expect(line).toContain('One person has so far');
@@ -2860,7 +2860,7 @@ describe('what a record still needs, stated exactly', () => {
 
   it('never promises the badge', () => {
     for (const [have, need] of [[0, 3], [1, 3], [2, 3], [3, 3]]) {
-      const line = confirmStanding('Kerala', have, need);
+      const line = confirmStanding(EN, 'Kerala', have, need);
       expect(line).not.toMatch(/will (be|become|make)/i);
       expect(line).not.toMatch(/Authentic/);
     }
@@ -2868,14 +2868,14 @@ describe('what a record still needs, stated exactly', () => {
 
   it('says nothing where there is no place to name', () => {
     // "Two more people from somewhere" is not an ask.
-    expect(confirmStanding('', 0, 3)).toBe('');
+    expect(confirmStanding(EN, '', 0, 3)).toBe('');
   });
 
   it('reads correctly at the boundaries', () => {
-    expect(confirmStanding('Kerala', 2, 3)).toContain('one more person');
-    expect(confirmStanding('Kerala', 3, 3)).toContain('the number the badge requires');
+    expect(confirmStanding(EN, 'Kerala', 2, 3)).toContain('one more person');
+    expect(confirmStanding(EN, 'Kerala', 3, 3)).toContain('the number the badge requires');
     // More confirmations than required is not a negative remainder.
-    expect(confirmStanding('Kerala', 5, 3)).toContain('the number the badge requires');
+    expect(confirmStanding(EN, 'Kerala', 5, 3)).toContain('the number the badge requires');
   });
 });
 
