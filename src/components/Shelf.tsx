@@ -44,6 +44,9 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
    * layout still feel like a phone.
    */
   const cardSize = layout.card;
+  /* The type that goes with that card. Both come from `layout` so a card and its name
+     cannot be resized independently of each other. */
+  const cardText = layout.cardType;
 
   /*
    * A rail on a phone, a wrapping grid on anything wider.
@@ -110,10 +113,20 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
             style={{ ...styles.card, width: cardSize }}
           >
             <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} />
-            <T style={styles.name} numberOfLines={2}>
+            {/* Size and the two-line floor come from the card, so a wider card gets a
+                larger name rather than the same name with more room around it. */}
+            <T
+              style={{
+                ...styles.name,
+                fontSize: cardText.name,
+                lineHeight: cardText.name * 1.3,
+                minHeight: cardText.name * 1.3 * 2,
+              }}
+              numberOfLines={2}
+            >
               {dish.name}
             </T>
-            <Muted style={styles.place} numberOfLines={1}>
+            <Muted style={{ ...styles.place, fontSize: cardText.place }} numberOfLines={1}>
               {dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}
             </Muted>
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
@@ -153,17 +166,20 @@ const styles = StyleSheet.create({
   /* Dimensions come from the call site, which reads layout.card. Only the shape is
      declared here. */
   photo: { borderRadius: radius.md },
-  // Two lines’ worth of height whether the title needs one or two, so the place and
-  // the score line up across a rail. "Neapolitan Pizza Margherita" wraps and its
-  // neighbours do not, which left three cards with their metadata at three heights.
-  name: {
-    fontFamily: font.medium,
-    fontSize: 12,
-    lineHeight: 12 * 1.3,
-    marginTop: 6,
-    minHeight: 12 * 1.3 * 2,
-  },
-  place: { fontSize: 11 },
+  /*
+   * The display face, as `tokens.ts` has always said a dish name should take — the rails
+   * were the one place in the app that named a dish in the interface face, and the rails
+   * are most of what the front page is.
+   *
+   * Size, line height and the two-line floor all come from `layout.cardType` at the call
+   * site rather than from here, because a card that is wider on a desktop should carry a
+   * larger name and not the same name with more space around it. The floor is still two
+   * lines' worth whether the title needs one or two, so the place and the score line up
+   * across a rail: "Neapolitan Pizza Margherita" wraps and its neighbours do not, which
+   * left three cards with their metadata at three heights.
+   */
+  name: { fontFamily: font.display, marginTop: 6 },
+  place: {},
   badge: { fontSize: 10 },
 
   // The doorway at the end of the rail.

@@ -79,6 +79,30 @@ export const COLUMNS = { phone: 1, tablet: 2, desktop: 3 } as const;
  */
 export const CARD_WIDTH = { phone: 152, tablet: 192, desktop: 220 } as const;
 
+/**
+ * Type on a dish card, per size — because the card is per size.
+ *
+ * The cards grew from 176 to 220 on a desktop and their type did not move, which is how a
+ * card ends up looking like a thumbnail with a caption. Measured on the front page at
+ * 1440: 68 dish names at 13px and 160 card labels at 12px, on cards a quarter wider than
+ * the ones those sizes were chosen for.
+ *
+ * The name also takes the display face here, which is not a new direction — `tokens.ts`
+ * already says Fraunces is for "anything that names or argues — headings, dish names",
+ * `CardTitle` exists for exactly this, and the grid's `DishCard` already does it. The
+ * rails were the one place that named a dish in the interface face, and the rails are
+ * most of what the front page is.
+ *
+ * These are declared sizes. `wideType` scales them again on a wide screen, so a desktop
+ * card's name renders near 15 rather than the 14 written here — which is why the desktop
+ * step is small: the two multiply.
+ */
+export const CARD_TYPE = {
+  phone: { name: 13, place: 11 },
+  tablet: { name: 13, place: 11 },
+  desktop: { name: 14, place: 12 },
+} as const;
+
 export function sizeFor(width: number): Size {
   if (width >= BREAKPOINT.desktop) return 'desktop';
   if (width >= BREAKPOINT.tablet) return 'tablet';
@@ -97,6 +121,8 @@ export interface Layout {
   columns: number;
   /** Width of a dish card at this size. */
   card: number;
+  /** Type sizes on a dish card at this size. */
+  cardType: (typeof CARD_TYPE)[Size];
   width: number;
 }
 
@@ -117,6 +143,7 @@ export function useLayout(): Layout {
     readable: size === 'phone' ? SHELL.phone : READABLE,
     columns: COLUMNS[size],
     card: CARD_WIDTH[size],
+    cardType: CARD_TYPE[size],
     width,
   };
 }
