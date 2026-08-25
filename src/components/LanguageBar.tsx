@@ -6,6 +6,7 @@
  * it every time it is showing anything other than the original.
  */
 
+import { useCopy } from '../i18n';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import type { ReadableDish } from '../domain/translate';
 import { languageCoverage } from '../data/catalogue';
@@ -38,6 +39,7 @@ export function LanguageBar({
   canTranslate,
   onTranslate,
 }: Props) {
+  const copy = useCopy();
   /**
    * Only languages the catalogue can actually meet. The reader's current choice is
    * always kept, so a language that falls below the floor after they picked it does
@@ -53,7 +55,7 @@ export function LanguageBar({
 
   return (
     <View style={styles.wrap}>
-      <H6 style={styles.heading}>Read this in</H6>
+      <H6 style={styles.heading}>{copy.readThisIn}</H6>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
         {offered.map((lang) => (
@@ -69,20 +71,22 @@ export function LanguageBar({
       </ScrollView>
 
       <Muted style={styles.legend}>
-        A dot marks a language this record has already been translated into.
+        {copy.aDotMarks}
         {nextUp
-          ? ` ${nextUp.language.label} opens once ${nextUp.needed.toLocaleString()} more records can be read in it.`
+          ? ` ${copy.opensOnceMoreRecords
+              .replace('{language}', nextUp.language.label)
+              .replace('{n}', nextUp.needed.toLocaleString())}`
           : ''}
       </Muted>
 
       {reading.status !== 'original' ? (
         <Block style={styles.banner} accent={reading.status === 'human'}>
           {reading.status === 'human' ? (
-            <T style={styles.human}>Community translation</T>
+            <T style={styles.human}>{copy.communityTranslation}</T>
           ) : reading.status === 'machine' ? (
-            <T style={styles.machine}>Machine translation — not yet checked by anyone from the community</T>
+            <T style={styles.machine}>{copy.machineTranslation}</T>
           ) : (
-            <T style={styles.missing}>Not translated yet</T>
+            <T style={styles.missing}>{copy.notTranslatedYet}</T>
           )}
           <Muted style={styles.note}>{reading.note}</Muted>
 
@@ -96,9 +100,7 @@ export function LanguageBar({
               />
             ) : (
               <Muted style={styles.note}>
-                No translation service is connected to this build, so nothing can be translated automatically. A
-                translation from someone who cooks this dish is worth more than one anyway — it can be contributed
-                through Add a tradition.
+                {copy.noTranslationService}
               </Muted>
             )
           ) : null}
@@ -109,7 +111,7 @@ export function LanguageBar({
 
       {Object.keys(reading.glossary).length ? (
         <View style={styles.glossary}>
-          <H6 style={styles.heading}>What these terms mean</H6>
+          <H6 style={styles.heading}>{copy.whatTheseTermsMean}</H6>
           {Object.entries(reading.glossary).map(([term, gloss]) => (
             <Muted key={term} style={styles.glossRow}>
               {/* The original term stays; the gloss sits beside it, never in place of it. */}

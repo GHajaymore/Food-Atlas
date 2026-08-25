@@ -523,6 +523,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' en {place}',
     tagAtRiskShort:
       '🕯️ En riesgo',
+    readThisIn:
+      'Léelo en',
+    communityTranslation:
+      'Traducción de la comunidad',
+    machineTranslation:
+      'Traducción automática — todavía sin revisar por nadie de la comunidad',
+    notTranslatedYet:
+      'Sin traducir todavía',
+    aDotMarks:
+      'Un punto marca un idioma al que ya se ha traducido este registro.',
+    opensOnceMoreRecords:
+      '{language} se abrirá cuando {n} registros más se puedan leer en ese idioma.',
+    noTranslationService:
+      'No hay ningún servicio de traducción conectado a esta versión, así que nada se puede traducir automáticamente. De todos modos, la traducción de alguien que cocina este plato vale más: se puede aportar desde Añadir una tradición.',
+    whatTheseTermsMean:
+      'Qué significan estos términos',
+    signedIn:
+      'Sesión iniciada',
+    signOut:
+      'Cerrar sesión',
+    signedInSignOut:
+      'Sesión iniciada. Cerrar sesión.',
+    confirmationsCount:
+      'Tus confirmaciones cuentan para la insignia.',
+    signIn:
+      'Iniciar sesión',
+    signInSoConfirmationsCount:
+      'Inicia sesión para que tus confirmaciones cuenten',
+    onlySignedInMovesBadge:
+      'Solo las confirmaciones con sesión iniciada mueven una insignia.',
+    watchAtSource:
+      'Ver en el origen ↗',
+    originalAudio:
+      'Audio original',
+    creatorsOwnTranslation:
+      'Traducción del propio autor',
+    translatedCaptions:
+      'Subtítulos traducidos',
+    languageUnknown:
+      'Idioma desconocido',
+    ingredientsInThisVideo:
+      'Ingredientes usados en este vídeo',
+    weDontInventOne:
+      'Quien hizo este vídeo no publicó lista de ingredientes ni método escrito, y nosotros no lo inventamos. El método tradicional de arriba viene de las fuentes documentadas de abajo.',
+    captureFromVideo:
+      'Recoge los ingredientes y los pasos de este vídeo →',
+    dietaryPreference:
+      'Preferencia alimentaria',
+    narrowItDown:
+      'Afina la búsqueda',
+    anyDiet:
+      'Cualquier dieta',
+    whenItsEaten:
+      'Cuándo se come',
+    anyOccasion:
+      'Cualquier ocasión',
+    alsoCalled:
+      'También llamado',
+    notATranslationOfOurs:
+      'Cada uno es el nombre que usa el artículo enciclopédico en ese idioma: no es una traducción nuestra, y nunca sustituye al nombre de arriba. Toca uno para leerlo allí.',
+    relatedTraditions:
+      'Tradiciones relacionadas',
+    relatedTraditionsNote:
+      'Registros que comparten con este un lugar, una tradición o un ingrediente. Cada uno dice cuál.',
+    scoreCannotSettle:
+      'Una estimación de la solidez de las pruebas, no una afirmación de que una puntuación pueda zanjar la verdad cultural.',
+    notScored:
+      'Sin puntuar',
+    navAtlasNote:
+      'Qué está cubierto y con cuánta confianza',
+    navProposeNote:
+      'Comida de la que el atlas no tiene registro',
+    navConfirmNote:
+      'Platos que esperan a alguien que los conozca',
+    navSupportNote:
+      'Lo que cuesta mantenerlo y quién lo paga',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -1012,6 +1088,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' à {place}',
     tagAtRiskShort:
       '🕯️ Menacé',
+    readThisIn:
+      'Lire ceci en',
+    communityTranslation:
+      'Traduction de la communauté',
+    machineTranslation:
+      'Traduction automatique — pas encore vérifiée par quelqu’un de la communauté',
+    notTranslatedYet:
+      'Pas encore traduit',
+    aDotMarks:
+      'Un point signale une langue dans laquelle cette fiche est déjà traduite.',
+    opensOnceMoreRecords:
+      '{language} s’ouvrira quand {n} fiches de plus pourront s’y lire.',
+    noTranslationService:
+      'Aucun service de traduction n’est relié à cette version, rien ne peut donc être traduit automatiquement. De toute façon, une traduction faite par quelqu’un qui cuisine ce plat vaut mieux : elle peut être proposée via Ajouter une tradition.',
+    whatTheseTermsMean:
+      'Ce que ces termes veulent dire',
+    signedIn:
+      'Connecté',
+    signOut:
+      'Se déconnecter',
+    signedInSignOut:
+      'Connecté. Se déconnecter.',
+    confirmationsCount:
+      'Vos confirmations comptent pour le badge.',
+    signIn:
+      'Se connecter',
+    signInSoConfirmationsCount:
+      'Connectez-vous pour que vos confirmations comptent',
+    onlySignedInMovesBadge:
+      'Seules les confirmations faites en étant connecté font bouger un badge.',
+    watchAtSource:
+      'Voir à la source ↗',
+    originalAudio:
+      'Audio d’origine',
+    creatorsOwnTranslation:
+      'Traduction faite par l’auteur',
+    translatedCaptions:
+      'Sous-titres traduits',
+    languageUnknown:
+      'Langue inconnue',
+    ingredientsInThisVideo:
+      'Ingrédients utilisés dans cette vidéo',
+    weDontInventOne:
+      'La personne qui a fait cette vidéo n’a publié ni liste d’ingrédients ni méthode écrite, et nous n’en inventons pas. La méthode traditionnelle ci-dessus vient des sources documentées ci-dessous.',
+    captureFromVideo:
+      'Relever les ingrédients et les étapes de cette vidéo →',
+    dietaryPreference:
+      'Préférence alimentaire',
+    narrowItDown:
+      'Affiner',
+    anyDiet:
+      'Tous régimes',
+    whenItsEaten:
+      'Quand on le mange',
+    anyOccasion:
+      'Toutes occasions',
+    alsoCalled:
+      'Aussi appelé',
+    notATranslationOfOurs:
+      'Chacun est le nom employé par l’article d’encyclopédie dans cette langue — ce n’est pas une traduction de notre fait, et cela ne remplace jamais le nom ci-dessus. Touchez-en un pour le lire là-bas.',
+    relatedTraditions:
+      'Traditions apparentées',
+    relatedTraditionsNote:
+      'Des fiches qui partagent avec celle-ci un lieu, une tradition ou un ingrédient. Chacune dit lequel.',
+    scoreCannotSettle:
+      'Une estimation de la solidité des preuves — pas la prétention qu’une note puisse trancher une vérité culturelle.',
+    notScored:
+      'Non noté',
+    navAtlasNote:
+      'Ce qui est couvert, et avec quelle confiance',
+    navProposeNote:
+      'Des plats dont l’atlas n’a aucune fiche',
+    navConfirmNote:
+      'Des plats qui attendent quelqu’un qui les connaît',
+    navSupportNote:
+      'Ce que cela coûte à faire tourner, et qui paie',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -1500,6 +1652,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' in {place}',
     tagAtRiskShort:
       '🕯️ Bedroht',
+    readThisIn:
+      'Lesen auf',
+    communityTranslation:
+      'Übersetzung aus der Gemeinschaft',
+    machineTranslation:
+      'Maschinelle Übersetzung — noch von niemandem aus der Gemeinschaft geprüft',
+    notTranslatedYet:
+      'Noch nicht übersetzt',
+    aDotMarks:
+      'Ein Punkt kennzeichnet eine Sprache, in die dieser Eintrag schon übersetzt ist.',
+    opensOnceMoreRecords:
+      '{language} öffnet sich, sobald {n} weitere Einträge darin lesbar sind.',
+    noTranslationService:
+      'An diesen Build ist kein Übersetzungsdienst angeschlossen, es kann also nichts automatisch übersetzt werden. Eine Übersetzung von jemandem, der dieses Gericht kocht, ist ohnehin mehr wert — sie lässt sich über Eine Tradition hinzufügen beitragen.',
+    whatTheseTermsMean:
+      'Was diese Begriffe bedeuten',
+    signedIn:
+      'Angemeldet',
+    signOut:
+      'Abmelden',
+    signedInSignOut:
+      'Angemeldet. Abmelden.',
+    confirmationsCount:
+      'Ihre Bestätigungen zählen für das Abzeichen.',
+    signIn:
+      'Anmelden',
+    signInSoConfirmationsCount:
+      'Melden Sie sich an, damit Ihre Bestätigungen zählen',
+    onlySignedInMovesBadge:
+      'Nur Bestätigungen im angemeldeten Zustand bewegen ein Abzeichen.',
+    watchAtSource:
+      'An der Quelle ansehen ↗',
+    originalAudio:
+      'Originalton',
+    creatorsOwnTranslation:
+      'Übersetzung der Urheberin oder des Urhebers',
+    translatedCaptions:
+      'Übersetzte Untertitel',
+    languageUnknown:
+      'Sprache unbekannt',
+    ingredientsInThisVideo:
+      'In diesem Video verwendete Zutaten',
+    weDontInventOne:
+      'Die Person, die dieses Video gemacht hat, hat weder Zutatenliste noch schriftliche Anleitung veröffentlicht, und wir erfinden keine. Die traditionelle Zubereitung oben stammt aus den belegten Quellen unten.',
+    captureFromVideo:
+      'Zutaten und Schritte aus diesem Video festhalten →',
+    dietaryPreference:
+      'Ernährungsweise',
+    narrowItDown:
+      'Weiter eingrenzen',
+    anyDiet:
+      'Beliebige Ernährung',
+    whenItsEaten:
+      'Wann es gegessen wird',
+    anyOccasion:
+      'Beliebiger Anlass',
+    alsoCalled:
+      'Auch genannt',
+    notATranslationOfOurs:
+      'Jeder Name stammt aus dem Enzyklopädieartikel in der jeweiligen Sprache — er ist nicht von uns übersetzt und ersetzt nie den Namen darüber. Tippen Sie einen an, um ihn dort zu lesen.',
+    relatedTraditions:
+      'Verwandte Traditionen',
+    relatedTraditionsNote:
+      'Einträge, die mit diesem einen Ort, eine Tradition oder eine Zutat teilen. Jeder sagt, welches.',
+    scoreCannotSettle:
+      'Eine Schätzung, wie stark die Belege sind — keine Behauptung, dass eine Zahl kulturelle Wahrheit entscheiden könnte.',
+    notScored:
+      'Nicht bewertet',
+    navAtlasNote:
+      'Was erfasst ist, und wie sicher',
+    navProposeNote:
+      'Essen, zu dem der Atlas keinen Eintrag hat',
+    navConfirmNote:
+      'Gerichte, die auf jemanden warten, der sie kennt',
+    navSupportNote:
+      'Was der Betrieb kostet, und wer zahlt',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -1988,6 +2216,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' a {place}',
     tagAtRiskShort:
       '🕯️ A rischio',
+    readThisIn:
+      'Leggilo in',
+    communityTranslation:
+      'Traduzione della comunità',
+    machineTranslation:
+      'Traduzione automatica — non ancora controllata da nessuno della comunità',
+    notTranslatedYet:
+      'Non ancora tradotto',
+    aDotMarks:
+      'Un punto segnala una lingua in cui questa scheda è già tradotta.',
+    opensOnceMoreRecords:
+      '{language} si aprirà quando altre {n} schede saranno leggibili in quella lingua.',
+    noTranslationService:
+      'A questa build non è collegato nessun servizio di traduzione, quindi non si può tradurre nulla automaticamente. Del resto una traduzione di chi cucina questo piatto vale di più: si può proporre da Aggiungi una tradizione.',
+    whatTheseTermsMean:
+      'Cosa vogliono dire questi termini',
+    signedIn:
+      'Accesso effettuato',
+    signOut:
+      'Esci',
+    signedInSignOut:
+      'Accesso effettuato. Esci.',
+    confirmationsCount:
+      'Le tue conferme contano per il distintivo.',
+    signIn:
+      'Accedi',
+    signInSoConfirmationsCount:
+      'Accedi, così le tue conferme contano',
+    onlySignedInMovesBadge:
+      'Solo le conferme fatte da chi ha effettuato l’accesso muovono un distintivo.',
+    watchAtSource:
+      'Guarda alla fonte ↗',
+    originalAudio:
+      'Audio originale',
+    creatorsOwnTranslation:
+      'Traduzione di chi ha fatto il video',
+    translatedCaptions:
+      'Sottotitoli tradotti',
+    languageUnknown:
+      'Lingua sconosciuta',
+    ingredientsInThisVideo:
+      'Ingredienti usati in questo video',
+    weDontInventOne:
+      'Chi ha fatto questo video non ha pubblicato né lista di ingredienti né metodo scritto, e noi non ce li inventiamo. Il metodo tradizionale qui sopra viene dalle fonti documentate qui sotto.',
+    captureFromVideo:
+      'Raccogli ingredienti e passaggi da questo video →',
+    dietaryPreference:
+      'Preferenza alimentare',
+    narrowItDown:
+      'Restringi',
+    anyDiet:
+      'Qualsiasi dieta',
+    whenItsEaten:
+      'Quando si mangia',
+    anyOccasion:
+      'Qualsiasi occasione',
+    alsoCalled:
+      'Detto anche',
+    notATranslationOfOurs:
+      'Ognuno è il nome usato dalla voce enciclopedica in quella lingua: non è una traduzione nostra e non sostituisce mai il nome qui sopra. Toccane uno per leggerlo lì.',
+    relatedTraditions:
+      'Tradizioni collegate',
+    relatedTraditionsNote:
+      'Schede che condividono con questa un luogo, una tradizione o un ingrediente. Ognuna dice quale.',
+    scoreCannotSettle:
+      'Una stima di quanto siano solide le prove, non la pretesa che un punteggio possa decidere una verità culturale.',
+    notScored:
+      'Senza punteggio',
+    navAtlasNote:
+      'Cosa c’è, e con quanta affidabilità',
+    navProposeNote:
+      'Cibo di cui l’atlante non ha scheda',
+    navConfirmNote:
+      'Piatti che aspettano qualcuno che li conosca',
+    navSupportNote:
+      'Quanto costa tenerlo in piedi, e chi paga',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -2477,6 +2781,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' em {place}',
     tagAtRiskShort:
       '🕯️ Em risco',
+    readThisIn:
+      'Leia isto em',
+    communityTranslation:
+      'Tradução da comunidade',
+    machineTranslation:
+      'Tradução automática — ainda não verificada por ninguém da comunidade',
+    notTranslatedYet:
+      'Ainda por traduzir',
+    aDotMarks:
+      'Um ponto marca uma língua para a qual este registo já foi traduzido.',
+    opensOnceMoreRecords:
+      '{language} abre quando mais {n} registos puderem ser lidos nessa língua.',
+    noTranslationService:
+      'Não há nenhum serviço de tradução ligado a esta versão, por isso nada pode ser traduzido automaticamente. De qualquer forma, uma tradução de quem cozinha este prato vale mais — pode ser dada em Adicionar uma tradição.',
+    whatTheseTermsMean:
+      'O que estes termos querem dizer',
+    signedIn:
+      'Sessão iniciada',
+    signOut:
+      'Terminar sessão',
+    signedInSignOut:
+      'Sessão iniciada. Terminar sessão.',
+    confirmationsCount:
+      'As suas confirmações contam para o distintivo.',
+    signIn:
+      'Iniciar sessão',
+    signInSoConfirmationsCount:
+      'Inicie sessão para as suas confirmações contarem',
+    onlySignedInMovesBadge:
+      'Só as confirmações com sessão iniciada mexem num distintivo.',
+    watchAtSource:
+      'Ver na origem ↗',
+    originalAudio:
+      'Áudio original',
+    creatorsOwnTranslation:
+      'Tradução de quem fez o vídeo',
+    translatedCaptions:
+      'Legendas traduzidas',
+    languageUnknown:
+      'Língua desconhecida',
+    ingredientsInThisVideo:
+      'Ingredientes usados neste vídeo',
+    weDontInventOne:
+      'Quem fez este vídeo não publicou lista de ingredientes nem método escrito, e nós não inventamos nenhum. O método tradicional acima vem das fontes documentadas abaixo.',
+    captureFromVideo:
+      'Recolher os ingredientes e os passos deste vídeo →',
+    dietaryPreference:
+      'Preferência alimentar',
+    narrowItDown:
+      'Afinar',
+    anyDiet:
+      'Qualquer dieta',
+    whenItsEaten:
+      'Quando se come',
+    anyOccasion:
+      'Qualquer ocasião',
+    alsoCalled:
+      'Também chamado',
+    notATranslationOfOurs:
+      'Cada um é o nome usado pelo artigo enciclopédico nessa língua — não é uma tradução nossa, e nunca substitui o nome acima. Toque num para o ler lá.',
+    relatedTraditions:
+      'Tradições relacionadas',
+    relatedTraditionsNote:
+      'Registos que partilham com este um lugar, uma tradição ou um ingrediente. Cada um diz qual.',
+    scoreCannotSettle:
+      'Uma estimativa da força das provas — não a pretensão de que uma pontuação possa resolver a verdade cultural.',
+    notScored:
+      'Sem pontuação',
+    navAtlasNote:
+      'O que está coberto, e com que confiança',
+    navProposeNote:
+      'Comida de que o atlas não tem registo',
+    navConfirmNote:
+      'Pratos à espera de alguém que os conheça',
+    navSupportNote:
+      'O que custa manter, e quem paga',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -2965,6 +3345,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' in {place}',
     tagAtRiskShort:
       '🕯️ Bedreigd',
+    readThisIn:
+      'Lees dit in',
+    communityTranslation:
+      'Vertaling uit de gemeenschap',
+    machineTranslation:
+      'Machinevertaling — nog door niemand uit de gemeenschap nagekeken',
+    notTranslatedYet:
+      'Nog niet vertaald',
+    aDotMarks:
+      'Een punt markeert een taal waarin dit record al vertaald is.',
+    opensOnceMoreRecords:
+      '{language} gaat open zodra er {n} records meer in te lezen zijn.',
+    noTranslationService:
+      'Aan deze build is geen vertaaldienst gekoppeld, dus er kan niets automatisch vertaald worden. Een vertaling van iemand die dit gerecht kookt is sowieso meer waard — die kan via Een traditie toevoegen worden aangeleverd.',
+    whatTheseTermsMean:
+      'Wat deze termen betekenen',
+    signedIn:
+      'Aangemeld',
+    signOut:
+      'Afmelden',
+    signedInSignOut:
+      'Aangemeld. Afmelden.',
+    confirmationsCount:
+      'Uw bevestigingen tellen mee voor het insigne.',
+    signIn:
+      'Aanmelden',
+    signInSoConfirmationsCount:
+      'Meld u aan, dan tellen uw bevestigingen mee',
+    onlySignedInMovesBadge:
+      'Alleen bevestigingen van aangemelde mensen laten een insigne bewegen.',
+    watchAtSource:
+      'Bekijk bij de bron ↗',
+    originalAudio:
+      'Oorspronkelijk geluid',
+    creatorsOwnTranslation:
+      'Vertaling van de maker zelf',
+    translatedCaptions:
+      'Vertaalde ondertitels',
+    languageUnknown:
+      'Taal onbekend',
+    ingredientsInThisVideo:
+      'Ingrediënten in deze video',
+    weDontInventOne:
+      'De maker van deze video heeft geen ingrediëntenlijst en geen geschreven werkwijze gepubliceerd, en wij verzinnen er geen. De traditionele werkwijze hierboven komt uit de gedocumenteerde bronnen hieronder.',
+    captureFromVideo:
+      'Leg de ingrediënten en stappen uit deze video vast →',
+    dietaryPreference:
+      'Dieetvoorkeur',
+    narrowItDown:
+      'Verder verfijnen',
+    anyDiet:
+      'Elk dieet',
+    whenItsEaten:
+      'Wanneer het gegeten wordt',
+    anyOccasion:
+      'Elke gelegenheid',
+    alsoCalled:
+      'Ook genoemd',
+    notATranslationOfOurs:
+      'Elke naam komt uit het encyclopedie-artikel in die taal — het is geen vertaling van ons en vervangt nooit de naam hierboven. Tik er een aan om hem daar te lezen.',
+    relatedTraditions:
+      'Verwante tradities',
+    relatedTraditionsNote:
+      'Records die met dit record een plaats, een traditie of een ingrediënt delen. Elk zegt welke.',
+    scoreCannotSettle:
+      'Een schatting van hoe sterk het bewijs is — geen bewering dat een cijfer culturele waarheid kan beslechten.',
+    notScored:
+      'Niet beoordeeld',
+    navAtlasNote:
+      'Wat erin staat, en hoe zeker',
+    navProposeNote:
+      'Eten waarvan de atlas geen record heeft',
+    navConfirmNote:
+      'Gerechten die wachten op iemand die ze kent',
+    navSupportNote:
+      'Wat het kost om te draaien, en wie betaalt',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -3454,6 +3910,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' w miejscowości {place}',
     tagAtRiskShort:
       '🕯️ Zagrożone',
+    readThisIn:
+      'Przeczytaj to po',
+    communityTranslation:
+      'Tłumaczenie społeczności',
+    machineTranslation:
+      'Tłumaczenie maszynowe — jeszcze przez nikogo ze społeczności niesprawdzone',
+    notTranslatedYet:
+      'Jeszcze nieprzetłumaczone',
+    aDotMarks:
+      'Kropka oznacza język, na który ten wpis jest już przetłumaczony.',
+    opensOnceMoreRecords:
+      '{language} otworzy się, gdy da się w nim przeczytać jeszcze {n} wpisów.',
+    noTranslationService:
+      'Do tej wersji nie podłączono żadnej usługi tłumaczenia, więc nic nie da się przetłumaczyć automatycznie. I tak tłumaczenie od kogoś, kto gotuje tę potrawę, jest warte więcej — można je przekazać przez Dodaj tradycję.',
+    whatTheseTermsMean:
+      'Co znaczą te określenia',
+    signedIn:
+      'Zalogowano',
+    signOut:
+      'Wyloguj',
+    signedInSignOut:
+      'Zalogowano. Wyloguj.',
+    confirmationsCount:
+      'Twoje potwierdzenia liczą się do odznaki.',
+    signIn:
+      'Zaloguj się',
+    signInSoConfirmationsCount:
+      'Zaloguj się, żeby twoje potwierdzenia się liczyły',
+    onlySignedInMovesBadge:
+      'Odznaką ruszają tylko potwierdzenia osób zalogowanych.',
+    watchAtSource:
+      'Obejrzyj u źródła ↗',
+    originalAudio:
+      'Oryginalny dźwięk',
+    creatorsOwnTranslation:
+      'Tłumaczenie samego autora',
+    translatedCaptions:
+      'Przetłumaczone napisy',
+    languageUnknown:
+      'Język nieznany',
+    ingredientsInThisVideo:
+      'Składniki użyte w tym nagraniu',
+    weDontInventOne:
+      'Autor tego nagrania nie opublikował ani listy składników, ani spisanego sposobu, a my ich nie wymyślamy. Tradycyjny sposób powyżej pochodzi z udokumentowanych źródeł poniżej.',
+    captureFromVideo:
+      'Spisz składniki i kroki z tego nagrania →',
+    dietaryPreference:
+      'Preferencje żywieniowe',
+    narrowItDown:
+      'Zawęź',
+    anyDiet:
+      'Dowolna dieta',
+    whenItsEaten:
+      'Kiedy się to je',
+    anyOccasion:
+      'Dowolna okazja',
+    alsoCalled:
+      'Zwane też',
+    notATranslationOfOurs:
+      'Każda to nazwa użyta w artykule encyklopedycznym w tym języku — nie jest naszym tłumaczeniem i nigdy nie zastępuje nazwy powyżej. Dotknij jednej, żeby przeczytać ją tam.',
+    relatedTraditions:
+      'Powiązane tradycje',
+    relatedTraditionsNote:
+      'Wpisy, które dzielą z tym miejsce, tradycję albo składnik. Każdy mówi, co dokładnie.',
+    scoreCannotSettle:
+      'Oszacowanie tego, jak mocne są dowody — a nie twierdzenie, że liczba może rozstrzygnąć prawdę kulturową.',
+    notScored:
+      'Bez oceny',
+    navAtlasNote:
+      'Co jest objęte i z jaką pewnością',
+    navProposeNote:
+      'Jedzenie, którego atlas nie ma',
+    navConfirmNote:
+      'Potrawy czekające na kogoś, kto je zna',
+    navSupportNote:
+      'Ile kosztuje utrzymanie i kto płaci',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -3942,6 +4474,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' {place} bölgesinde',
     tagAtRiskShort:
       '🕯️ Tehlikede',
+    readThisIn:
+      'Şu dilde okuyun',
+    communityTranslation:
+      'Topluluk çevirisi',
+    machineTranslation:
+      'Makine çevirisi — topluluktan henüz kimse denetlemedi',
+    notTranslatedYet:
+      'Henüz çevrilmedi',
+    aDotMarks:
+      'Nokta, bu kaydın hâlihazırda çevrildiği bir dili gösterir.',
+    opensOnceMoreRecords:
+      '{language}, o dilde {n} kayıt daha okunabilir olduğunda açılacak.',
+    noTranslationService:
+      'Bu sürüme bağlı bir çeviri hizmeti yok, bu yüzden hiçbir şey kendiliğinden çevrilemiyor. Zaten bu yemeği pişiren birinin çevirisi daha değerlidir — Bir gelenek ekleyin üzerinden verilebilir.',
+    whatTheseTermsMean:
+      'Bu terimler ne demek',
+    signedIn:
+      'Oturum açık',
+    signOut:
+      'Çıkış yap',
+    signedInSignOut:
+      'Oturum açık. Çıkış yap.',
+    confirmationsCount:
+      'Doğrulamalarınız işaret için sayılır.',
+    signIn:
+      'Oturum aç',
+    signInSoConfirmationsCount:
+      'Doğrulamalarınızın sayılması için oturum açın',
+    onlySignedInMovesBadge:
+      'Bir işareti yalnızca oturum açmış kişilerin doğrulamaları oynatır.',
+    watchAtSource:
+      'Kaynağında izleyin ↗',
+    originalAudio:
+      'Özgün ses',
+    creatorsOwnTranslation:
+      'Videoyu yapanın kendi çevirisi',
+    translatedCaptions:
+      'Çevrilmiş altyazı',
+    languageUnknown:
+      'Dil bilinmiyor',
+    ingredientsInThisVideo:
+      'Bu videoda kullanılan malzemeler',
+    weDontInventOne:
+      'Bu videoyu yapan kişi ne malzeme listesi ne de yazılı bir yöntem yayımlamış; biz de uydurmuyoruz. Yukarıdaki geleneksel yöntem, aşağıdaki belgelenmiş kaynaklardan geliyor.',
+    captureFromVideo:
+      'Bu videodaki malzeme ve adımları kaydedin →',
+    dietaryPreference:
+      'Beslenme tercihi',
+    narrowItDown:
+      'Daraltın',
+    anyDiet:
+      'Herhangi bir beslenme',
+    whenItsEaten:
+      'Ne zaman yenir',
+    anyOccasion:
+      'Herhangi bir durum',
+    alsoCalled:
+      'Şöyle de denir',
+    notATranslationOfOurs:
+      'Her biri, o dildeki ansiklopedi maddesinde kullanılan addır — bizim çevirimiz değildir ve yukarıdaki adın yerini asla almaz. Orada okumak için birine dokunun.',
+    relatedTraditions:
+      'İlgili gelenekler',
+    relatedTraditionsNote:
+      'Bununla bir yeri, bir geleneği ya da bir malzemeyi paylaşan kayıtlar. Her biri hangisi olduğunu söyler.',
+    scoreCannotSettle:
+      'Kanıtın ne kadar güçlü olduğuna dair bir tahmin — bir puanın kültürel doğruyu karara bağlayabileceği iddiası değil.',
+    notScored:
+      'Puanlanmadı',
+    navAtlasNote:
+      'Neler kapsanıyor ve ne kadar güvenle',
+    navProposeNote:
+      'Atlasta kaydı olmayan yemekler',
+    navConfirmNote:
+      'Kendini bilen birini bekleyen yemekler',
+    navSupportNote:
+      'İşletmesi ne tutuyor ve kim ödüyor',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -4431,6 +5039,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' в месте {place}',
     tagAtRiskShort:
       '🕯️ Под угрозой',
+    readThisIn:
+      'Читать на',
+    communityTranslation:
+      'Перевод сообщества',
+    machineTranslation:
+      'Машинный перевод — пока никем из сообщества не проверен',
+    notTranslatedYet:
+      'Ещё не переведено',
+    aDotMarks:
+      'Точка отмечает язык, на который эта запись уже переведена.',
+    opensOnceMoreRecords:
+      '{language} откроется, когда на нём можно будет прочесть ещё {n} записей.',
+    noTranslationService:
+      'К этой сборке не подключён сервис перевода, поэтому автоматически ничего перевести нельзя. Перевод от того, кто готовит это блюдо, всё равно ценнее — его можно передать через Добавить традицию.',
+    whatTheseTermsMean:
+      'Что означают эти слова',
+    signedIn:
+      'Вы вошли',
+    signOut:
+      'Выйти',
+    signedInSignOut:
+      'Вы вошли. Выйти.',
+    confirmationsCount:
+      'Ваши подтверждения засчитываются к знаку.',
+    signIn:
+      'Войти',
+    signInSoConfirmationsCount:
+      'Войдите, чтобы ваши подтверждения засчитывались',
+    onlySignedInMovesBadge:
+      'Знак сдвигают только подтверждения от вошедших.',
+    watchAtSource:
+      'Смотреть в источнике ↗',
+    originalAudio:
+      'Оригинальный звук',
+    creatorsOwnTranslation:
+      'Перевод самого автора',
+    translatedCaptions:
+      'Переведённые субтитры',
+    languageUnknown:
+      'Язык неизвестен',
+    ingredientsInThisVideo:
+      'Ингредиенты в этом видео',
+    weDontInventOne:
+      'Автор этого видео не опубликовал ни списка ингредиентов, ни письменного способа, а мы их не выдумываем. Традиционный способ выше взят из документированных источников ниже.',
+    captureFromVideo:
+      'Записать ингредиенты и шаги из этого видео →',
+    dietaryPreference:
+      'Пищевые предпочтения',
+    narrowItDown:
+      'Уточнить',
+    anyDiet:
+      'Любое питание',
+    whenItsEaten:
+      'Когда это едят',
+    anyOccasion:
+      'Любой повод',
+    alsoCalled:
+      'Также называется',
+    notATranslationOfOurs:
+      'Каждое — это название из энциклопедической статьи на том языке, а не наш перевод, и оно никогда не заменяет название выше. Нажмите на любое, чтобы прочесть его там.',
+    relatedTraditions:
+      'Связанные традиции',
+    relatedTraditionsNote:
+      'Записи, у которых с этой общее место, традиция или ингредиент. Каждая говорит, что именно.',
+    scoreCannotSettle:
+      'Оценка того, насколько сильны доказательства, а не утверждение, что число может решить вопрос культурной правды.',
+    notScored:
+      'Без оценки',
+    navAtlasNote:
+      'Что охвачено и с какой уверенностью',
+    navProposeNote:
+      'Еда, записи о которой в атласе нет',
+    navConfirmNote:
+      'Блюда, ждущие того, кто их знает',
+    navSupportNote:
+      'Сколько стоит содержание и кто платит',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -4920,6 +5604,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' {place} में',
     tagAtRiskShort:
       '🕯️ ख़तरे में',
+    readThisIn:
+      'इसे इस भाषा में पढ़ें',
+    communityTranslation:
+      'समुदाय का अनुवाद',
+    machineTranslation:
+      'मशीनी अनुवाद — समुदाय के किसी व्यक्ति ने अभी जाँचा नहीं है',
+    notTranslatedYet:
+      'अभी अनूदित नहीं',
+    aDotMarks:
+      'बिंदु उस भाषा को दर्शाता है जिसमें यह रिकॉर्ड पहले ही अनूदित है।',
+    opensOnceMoreRecords:
+      '{language} तब खुलेगी जब उसमें {n} और रिकॉर्ड पढ़े जा सकेंगे।',
+    noTranslationService:
+      'इस बिल्ड से कोई अनुवाद सेवा जुड़ी नहीं है, इसलिए कुछ भी अपने आप अनूदित नहीं हो सकता। वैसे भी जो इस व्यंजन को पकाता है, उसका अनुवाद ज़्यादा क़ीमती है — वह परंपरा जोड़ें से दिया जा सकता है।',
+    whatTheseTermsMean:
+      'इन शब्दों का मतलब',
+    signedIn:
+      'साइन इन है',
+    signOut:
+      'साइन आउट',
+    signedInSignOut:
+      'साइन इन है। साइन आउट करें।',
+    confirmationsCount:
+      'आपकी पुष्टियाँ बैज के लिए गिनी जाती हैं।',
+    signIn:
+      'साइन इन',
+    signInSoConfirmationsCount:
+      'साइन इन करें, ताकि आपकी पुष्टियाँ गिनी जाएँ',
+    onlySignedInMovesBadge:
+      'बैज सिर्फ़ साइन इन लोगों की पुष्टियों से हिलता है।',
+    watchAtSource:
+      'स्रोत पर देखें ↗',
+    originalAudio:
+      'मूल ऑडियो',
+    creatorsOwnTranslation:
+      'बनाने वाले का अपना अनुवाद',
+    translatedCaptions:
+      'अनूदित उपशीर्षक',
+    languageUnknown:
+      'भाषा अज्ञात',
+    ingredientsInThisVideo:
+      'इस वीडियो में इस्तेमाल सामग्री',
+    weDontInventOne:
+      'इस वीडियो को बनाने वाले ने न सामग्री की सूची छापी न लिखी हुई विधि, और हम गढ़ते नहीं। ऊपर की पारंपरिक विधि नीचे दिए प्रलेखित स्रोतों से आती है।',
+    captureFromVideo:
+      'इस वीडियो से सामग्री और चरण दर्ज करें →',
+    dietaryPreference:
+      'आहार वरीयता',
+    narrowItDown:
+      'और छाँटें',
+    anyDiet:
+      'कोई भी आहार',
+    whenItsEaten:
+      'यह कब खाया जाता है',
+    anyOccasion:
+      'कोई भी अवसर',
+    alsoCalled:
+      'इसे यह भी कहते हैं',
+    notATranslationOfOurs:
+      'हर नाम उस भाषा के अपने विश्वकोश लेख में इस्तेमाल हुआ नाम है — हमारा अनुवाद नहीं, और ऊपर वाले नाम की जगह कभी नहीं लेता। वहाँ पढ़ने के लिए किसी एक पर टैप करें।',
+    relatedTraditions:
+      'संबंधित परंपराएँ',
+    relatedTraditionsNote:
+      'ऐसे रिकॉर्ड जिनकी इसके साथ जगह, परंपरा या कोई सामग्री साझा है। हर एक बताता है कि कौन-सी।',
+    scoreCannotSettle:
+      'प्रमाण कितने मज़बूत हैं इसका अनुमान — यह दावा नहीं कि कोई अंक सांस्कृतिक सच्चाई तय कर सकता है।',
+    notScored:
+      'अंक नहीं',
+    navAtlasNote:
+      'क्या शामिल है, और कितने भरोसे के साथ',
+    navProposeNote:
+      'ऐसा खाना जिसका एटलस में रिकॉर्ड नहीं',
+    navConfirmNote:
+      'ऐसे व्यंजन जो किसी जानने वाले का इंतज़ार कर रहे हैं',
+    navSupportNote:
+      'चलाने में क्या ख़र्च होता है, और कौन देता है',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -5409,6 +6169,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '（在{place}）',
     tagAtRiskShort:
       '🕯️ 濒危',
+    readThisIn:
+      '用这个语言阅读',
+    communityTranslation:
+      '社区翻译',
+    machineTranslation:
+      '机器翻译 — 社区里还没有人核对过',
+    notTranslatedYet:
+      '尚未翻译',
+    aDotMarks:
+      '带点的语言表示这条记录已经译成了那种语言。',
+    opensOnceMoreRecords:
+      '当有 {n} 条记录能用{language}阅读时，它就会开放。',
+    noTranslationService:
+      '这个版本没有接入任何翻译服务，所以无法自动翻译任何内容。何况，会做这道菜的人给的翻译更有价值 — 可以通过添加一项传统提供。',
+    whatTheseTermsMean:
+      '这些说法是什么意思',
+    signedIn:
+      '已登录',
+    signOut:
+      '退出登录',
+    signedInSignOut:
+      '已登录。退出登录。',
+    confirmationsCount:
+      '你的确认会计入徽章。',
+    signIn:
+      '登录',
+    signInSoConfirmationsCount:
+      '登录，让你的确认算数',
+    onlySignedInMovesBadge:
+      '只有登录后的确认才会推动徽章。',
+    watchAtSource:
+      '到原处观看 ↗',
+    originalAudio:
+      '原声',
+    creatorsOwnTranslation:
+      '作者自己的翻译',
+    translatedCaptions:
+      '翻译字幕',
+    languageUnknown:
+      '语言不明',
+    ingredientsInThisVideo:
+      '这段视频里用到的食材',
+    weDontInventOne:
+      '拍这段视频的人没有发布食材清单，也没有写下做法，我们也不去编造。上面的传统做法来自下面那些有据可查的来源。',
+    captureFromVideo:
+      '把这段视频里的食材和步骤记下来 →',
+    dietaryPreference:
+      '饮食偏好',
+    narrowItDown:
+      '再筛一层',
+    anyDiet:
+      '不限饮食',
+    whenItsEaten:
+      '什么时候吃',
+    anyOccasion:
+      '不限场合',
+    alsoCalled:
+      '也叫',
+    notATranslationOfOurs:
+      '每一个都是该语言自己的百科条目里用的名字 — 不是我们翻的，也绝不取代上面那个名字。点一下就能在那里读到。',
+    relatedTraditions:
+      '相关传统',
+    relatedTraditionsNote:
+      '与这条记录共享地方、传统或食材的记录。每一条都会说明是哪一样。',
+    scoreCannotSettle:
+      '这是对证据强弱的估计 — 并不是说一个分数就能判定文化上的真伪。',
+    notScored:
+      '未评分',
+    navAtlasNote:
+      '收录了什么，把握有多大',
+    navProposeNote:
+      '图册里没有记录的食物',
+    navConfirmNote:
+      '等着懂行的人来看的菜',
+    navSupportNote:
+      '运行的花费，以及谁在出',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -5898,6 +6734,82 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '（{place}での）',
     tagAtRiskShort:
       '🕯️ 途絶えかけ',
+    readThisIn:
+      'この言語で読む',
+    communityTranslation:
+      '地域の人による翻訳',
+    machineTranslation:
+      '機械翻訳 — その土地の人による確認はまだありません',
+    notTranslatedYet:
+      'まだ翻訳されていません',
+    aDotMarks:
+      '点の付いた言語は、この記録がすでに訳されている言語です。',
+    opensOnceMoreRecords:
+      '{language}は、あと {n} 件の記録が読めるようになると開きます。',
+    noTranslationService:
+      'このビルドには翻訳サービスがつながっていないので、自動で訳せるものはありません。そもそも、この料理を作る人による翻訳のほうが値打ちがあります。伝統を追加するから寄せられます。',
+    whatTheseTermsMean:
+      'これらの言葉の意味',
+    signedIn:
+      'サインイン中',
+    signOut:
+      'サインアウト',
+    signedInSignOut:
+      'サインイン中。サインアウトします。',
+    confirmationsCount:
+      'あなたの確認は印に数えられます。',
+    signIn:
+      'サインイン',
+    signInSoConfirmationsCount:
+      '確認が数えられるようにサインインする',
+    onlySignedInMovesBadge:
+      '印を動かせるのは、サインインした状態での確認だけです。',
+    watchAtSource:
+      '元の場所で見る ↗',
+    originalAudio:
+      '元の音声',
+    creatorsOwnTranslation:
+      '作った人自身による翻訳',
+    translatedCaptions:
+      '翻訳された字幕',
+    languageUnknown:
+      '言語不明',
+    ingredientsInThisVideo:
+      'この動画で使われている材料',
+    weDontInventOne:
+      'この動画を作った人は、材料の一覧も文章の作り方も公開していません。こちらで作ることもしません。上の伝統的な作り方は、下の裏づけのある出典から来ています。',
+    captureFromVideo:
+      'この動画から材料と手順を書き取る →',
+    dietaryPreference:
+      '食のきまり',
+    narrowItDown:
+      'さらに絞る',
+    anyDiet:
+      'きまりなし',
+    whenItsEaten:
+      'いつ食べるか',
+    anyOccasion:
+      '場面を問わない',
+    alsoCalled:
+      '別の呼び名',
+    notATranslationOfOurs:
+      'どれもその言語の百科事典の記事で使われている名前で、こちらが訳したものではなく、上の名前に取って代わるものでもありません。触れるとそちらで読めます。',
+    relatedTraditions:
+      '関わりのある伝統',
+    relatedTraditionsNote:
+      'この記録と土地・伝統・材料のどれかを共有する記録です。どれを共有しているかは各項に書いてあります。',
+    scoreCannotSettle:
+      '根拠がどれだけ強いかの見積もりであって、点数が文化的な正しさを決められるという主張ではありません。',
+    notScored:
+      '採点なし',
+    navAtlasNote:
+      '何が入っていて、どれだけ確かか',
+    navProposeNote:
+      'アトラスに記録のない料理',
+    navConfirmNote:
+      '知っている人を待っている料理',
+    navSupportNote:
+      '運営にかかる費用と、その出どころ',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

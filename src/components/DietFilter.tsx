@@ -10,6 +10,7 @@
  * answer to "there is nothing here you can eat" is to say so.
  */
 
+import { useCopy } from '../i18n';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { DIET_MENU, GROUP_LABELS, KIND_LABELS, kindsFor, type DietGroup, type DietKind } from '../domain/diet';
 import { space } from '../theme/tokens';
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export function DietFilter({ groups, kinds, onToggleGroup, onToggleKind, onClear, variant = 'inline' }: Props) {
+  const copy = useCopy();
   // Only the sub-menus of currently selected groups are shown.
   const openKinds = groups.flatMap(kindsFor);
 
@@ -49,7 +51,7 @@ export function DietFilter({ groups, kinds, onToggleGroup, onToggleKind, onClear
     <View style={variant === 'facet' ? undefined : styles.inlineWrap}>
       {variant === 'facet' ? (
         <>
-          <H6 style={styles.label}>Dietary preference</H6>
+          <H6 style={styles.label}>{copy.dietaryPreference}</H6>
           <View style={styles.wrapRow}>{chips}</View>
         </>
       ) : (
@@ -60,7 +62,7 @@ export function DietFilter({ groups, kinds, onToggleGroup, onToggleKind, onClear
 
       {openKinds.length ? (
         <View style={styles.subMenu}>
-          <Muted style={styles.subLabel}>Narrow it down</Muted>
+          <Muted style={styles.subLabel}>{copy.narrowItDown}</Muted>
           <View style={styles.wrapRow}>
             {openKinds.map((kind) => (
               <Tag
@@ -77,7 +79,7 @@ export function DietFilter({ groups, kinds, onToggleGroup, onToggleKind, onClear
 
       {groups.length || kinds.length ? (
         <Button
-          label="Any diet"
+          label={copy.anyDiet}
           variant="ghost"
           fontSize={11}
           onPress={onClear}

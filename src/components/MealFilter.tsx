@@ -7,6 +7,7 @@
  * daily timetable.
  */
 
+import { useCopy } from '../i18n';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { MEAL_LABELS, MEAL_MENU, type MealOccasion } from '../domain/meals';
 import { space } from '../theme/tokens';
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export function MealFilter({ selected, onToggle, onClear, variant = 'inline' }: Props) {
+  const copy = useCopy();
   const chips = MEAL_MENU.map((meal) => (
     <Tag
       key={meal}
@@ -36,7 +38,7 @@ export function MealFilter({ selected, onToggle, onClear, variant = 'inline' }: 
     <View style={variant === 'facet' ? undefined : styles.inlineWrap}>
       {variant === 'facet' ? (
         <>
-          <H6 style={styles.label}>When it&apos;s eaten</H6>
+          <H6 style={styles.label}>{copy.whenItsEaten}</H6>
           <View style={styles.wrapRow}>{chips}</View>
         </>
       ) : (
@@ -46,7 +48,7 @@ export function MealFilter({ selected, onToggle, onClear, variant = 'inline' }: 
       )}
 
       {selected.length ? (
-        <Button label="Any occasion" variant="ghost" fontSize={11} onPress={onClear} style={styles.clear} />
+        <Button label={copy.anyOccasion} variant="ghost" fontSize={11} onPress={onClear} style={styles.clear} />
       ) : null}
     </View>
   );

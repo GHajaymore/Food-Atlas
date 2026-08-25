@@ -31,6 +31,7 @@
  * a wait plus a lurch.
  */
 
+import { useCopy } from '../i18n';
 import { Platform, StyleSheet, View } from 'react-native';
 import { BRAND } from '../brand';
 import { useLayout } from '../theme/layout';
@@ -59,6 +60,7 @@ export function FeedSkeleton({
 }: {
   fonts: boolean;
 }) {
+  const copy = useCopy();
   const layout = useLayout();
   const card = layout.card;
 
@@ -82,7 +84,7 @@ export function FeedSkeleton({
          * waiting is not staring at furniture.
          */}
         {fonts ? (
-          <T style={styles.headline}>Every dish here shows its evidence.</T>
+          <T style={styles.headline}>{copy.missionHeadline}</T>
         ) : (
           <>
             <Block style={styles.headlineBar} />

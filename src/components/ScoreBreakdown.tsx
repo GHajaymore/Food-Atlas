@@ -8,6 +8,7 @@
  * `scoreStyle: 'number-only'` in app settings drops the bars and keeps the number.
  */
 
+import { useCopy } from '../i18n';
 import { StyleSheet, View } from 'react-native';
 import { accentText, color, font, space } from '../theme/tokens';
 import type { BreakdownRow } from '../domain/types';
@@ -20,15 +21,16 @@ interface Props {
 }
 
 export function ScoreBreakdown({ score, breakdown, showBars }: Props) {
+  const copy = useCopy();
   return (
     <View style={styles.wrap}>
       <View style={styles.headline}>
         <T style={styles.score}>{score}</T>
-        <Muted style={styles.scoreUnit}>/100 · Authenticity Confidence</Muted>
+        <Muted style={styles.scoreUnit}>/100 · {copy.authenticityConfidence}</Muted>
       </View>
 
       <Muted style={styles.caveat}>
-        An estimate of how strong the evidence is — not a claim that a score can settle cultural truth.
+        {copy.scoreCannotSettle}
       </Muted>
 
       {showBars ? (

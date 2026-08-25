@@ -27,6 +27,7 @@
  * reason, which keeps that module free of anything platform-specific.
  */
 
+import { useCopy } from '../i18n';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { NO_SESSION, loadSession, signInUrl, signOutUrl, type Session } from '../data/auth';
@@ -36,6 +37,7 @@ import { Muted, T } from './Text';
 
 /** Compact for the desktop masthead; full for the phone colophon, which has room. */
 export function SessionControl({ compact }: { compact?: boolean }) {
+  const copy = useCopy();
   const [session, setSession] = useState<Session>(NO_SESSION);
 
   useEffect(() => {
@@ -65,16 +67,16 @@ export function SessionControl({ compact }: { compact?: boolean }) {
     return (
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Signed in. Sign out."
+        accessibilityLabel={copy.signedInSignOut}
         tint="neutral"
         onPress={() => go(signOutUrl())}
         style={compact ? styles.compact : styles.full}
       >
         <T style={styles.mark}>●</T>
         <View style={compact ? undefined : styles.text}>
-          <T style={styles.label}>{compact ? 'Signed in' : 'Sign out'}</T>
+          <T style={styles.label}>{compact ? copy.signedIn : copy.signOut}</T>
           {compact ? null : (
-            <Muted style={styles.note}>Your confirmations count toward the badge.</Muted>
+            <Muted style={styles.note}>{copy.confirmationsCount}</Muted>
           )}
         </View>
       </Pressable>
@@ -84,15 +86,15 @@ export function SessionControl({ compact }: { compact?: boolean }) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="Sign in, so your confirmations count"
+      accessibilityLabel={copy.signInSoConfirmationsCount}
       tint="neutral"
       onPress={() => go(signInUrl())}
       style={compact ? styles.compact : styles.full}
     >
       <View style={compact ? undefined : styles.text}>
-        <T style={styles.label}>Sign in</T>
+        <T style={styles.label}>{copy.signIn}</T>
         {compact ? null : (
-          <Muted style={styles.note}>Only signed-in confirmations move a badge.</Muted>
+          <Muted style={styles.note}>{copy.onlySignedInMovesBadge}</Muted>
         )}
       </View>
     </Pressable>

@@ -27,6 +27,7 @@
  * `assess` returns `null` rather than 0.
  */
 
+import { useCopy } from '../i18n';
 import { StyleSheet, View } from 'react-native';
 import { accentText, color, font, radius, space } from '../theme/tokens';
 import { T } from './Text';
@@ -46,6 +47,7 @@ export function EvidenceBadge({
   score: number | null;
   size?: Size;
 }) {
+  const copy = useCopy();
   const scored = score !== null;
 
   return (
@@ -60,7 +62,7 @@ export function EvidenceBadge({
           <T style={[styles.of, SIZES[size].of]}>/100</T>
         </>
       ) : (
-        <T style={[styles.unscored, SIZES[size].of]}>Not scored</T>
+        <T style={[styles.unscored, SIZES[size].of]}>{copy.notScored}</T>
       )}
 
       {size !== 'card' ? <T style={[styles.label, SIZES[size].of]}>{label}</T> : null}

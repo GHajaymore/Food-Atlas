@@ -60,7 +60,7 @@ export function TopBar() {
       <View style={[styles.inner, { maxWidth: layout.shell }]}>
         <Pressable
           accessibilityRole="link"
-          accessibilityLabel="WikiFoodia — back to the atlas"
+          accessibilityLabel={`WikiFoodia — ${copy.backToTheAtlas}`}
           tint="none"
           onPress={() => router.push('/')}
           style={styles.brand}

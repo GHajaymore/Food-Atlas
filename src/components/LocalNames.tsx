@@ -16,6 +16,7 @@
  * method off the screen, and the method is the product.
  */
 
+import { useCopy } from '../i18n';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { languageByCode } from '../domain/language';
@@ -47,6 +48,7 @@ const articleUrl = (code: string, title: string) =>
   `https://${code}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
 
 export function LocalNames({ names, original }: Props) {
+  const copy = useCopy();
   const [open, setOpen] = useState(false);
 
   // Only languages the app knows how to label. A bare code tells a reader nothing,
@@ -63,7 +65,7 @@ export function LocalNames({ names, original }: Props) {
   return (
     <Block style={styles.wrap}>
       <View style={styles.head}>
-        <T style={styles.title}>Also called</T>
+        <T style={styles.title}>{copy.alsoCalled}</T>
         <Muted style={styles.count}>{known.length} languages</Muted>
       </View>
 
@@ -98,8 +100,7 @@ export function LocalNames({ names, original }: Props) {
       ) : null}
 
       <Muted style={styles.note}>
-        Each is the name used in that language&apos;s own encyclopaedia article — not a translation of ours, and
-        never a replacement for the name above. Tap one to read it there.
+        {copy.notATranslationOfOurs}
       </Muted>
     </Block>
   );

@@ -38,9 +38,9 @@ export function Related({ items }: { items: RelatedDish[] }) {
 
   return (
     <View style={styles.wrap}>
-      <H6>Related traditions</H6>
+      <H6>{copy.relatedTraditions}</H6>
       <Muted style={styles.note}>
-        Records sharing a place, a tradition or an ingredient with this one. Each says which.
+        {copy.relatedTraditionsNote}
       </Muted>
 
       <View style={styles.grid}>

@@ -366,6 +366,44 @@ export interface Copy {
   exampleMethodLines: string;
   inPlace: string;
   tagAtRiskShort: string;
+  readThisIn: string;
+  communityTranslation: string;
+  machineTranslation: string;
+  notTranslatedYet: string;
+  aDotMarks: string;
+  opensOnceMoreRecords: string;
+  noTranslationService: string;
+  whatTheseTermsMean: string;
+  signedIn: string;
+  signOut: string;
+  signedInSignOut: string;
+  confirmationsCount: string;
+  signIn: string;
+  signInSoConfirmationsCount: string;
+  onlySignedInMovesBadge: string;
+  watchAtSource: string;
+  originalAudio: string;
+  creatorsOwnTranslation: string;
+  translatedCaptions: string;
+  languageUnknown: string;
+  ingredientsInThisVideo: string;
+  weDontInventOne: string;
+  captureFromVideo: string;
+  dietaryPreference: string;
+  narrowItDown: string;
+  anyDiet: string;
+  whenItsEaten: string;
+  anyOccasion: string;
+  alsoCalled: string;
+  notATranslationOfOurs: string;
+  relatedTraditions: string;
+  relatedTraditionsNote: string;
+  scoreCannotSettle: string;
+  notScored: string;
+  navAtlasNote: string;
+  navProposeNote: string;
+  navConfirmNote: string;
+  navSupportNote: string;
   interfaceTranslationNote: string;
 }
 
@@ -864,6 +902,82 @@ export const EN: Copy = {
     ' in {place}',
   tagAtRiskShort:
     '🕯️ At risk',
+  readThisIn:
+    'Read this in',
+  communityTranslation:
+    'Community translation',
+  machineTranslation:
+    'Machine translation — not yet checked by anyone from the community',
+  notTranslatedYet:
+    'Not translated yet',
+  aDotMarks:
+    'A dot marks a language this record has already been translated into.',
+  opensOnceMoreRecords:
+    '{language} opens once {n} more records can be read in it.',
+  noTranslationService:
+    'No translation service is connected to this build, so nothing can be translated automatically. A translation from someone who cooks this dish is worth more than one anyway — it can be contributed through Add a tradition.',
+  whatTheseTermsMean:
+    'What these terms mean',
+  signedIn:
+    'Signed in',
+  signOut:
+    'Sign out',
+  signedInSignOut:
+    'Signed in. Sign out.',
+  confirmationsCount:
+    'Your confirmations count toward the badge.',
+  signIn:
+    'Sign in',
+  signInSoConfirmationsCount:
+    'Sign in, so your confirmations count',
+  onlySignedInMovesBadge:
+    'Only signed-in confirmations move a badge.',
+  watchAtSource:
+    'Watch at source ↗',
+  originalAudio:
+    'Original audio',
+  creatorsOwnTranslation:
+    'Creator’s own translation',
+  translatedCaptions:
+    'Translated captions',
+  languageUnknown:
+    'Language unknown',
+  ingredientsInThisVideo:
+    'Ingredients used in this video',
+  weDontInventOne:
+    'This creator published no ingredient list or written method with the video, and we don’t invent one. The traditional method above comes from the documented sources below.',
+  captureFromVideo:
+    'Capture the ingredients and steps from this video →',
+  dietaryPreference:
+    'Dietary preference',
+  narrowItDown:
+    'Narrow it down',
+  anyDiet:
+    'Any diet',
+  whenItsEaten:
+    'When it’s eaten',
+  anyOccasion:
+    'Any occasion',
+  alsoCalled:
+    'Also called',
+  notATranslationOfOurs:
+    'Each is the name used in that language’s own encyclopaedia article — not a translation of ours, and never a replacement for the name above. Tap one to read it there.',
+  relatedTraditions:
+    'Related traditions',
+  relatedTraditionsNote:
+    'Records sharing a place, a tradition or an ingredient with this one. Each says which.',
+  scoreCannotSettle:
+    'An estimate of how strong the evidence is — not a claim that a score can settle cultural truth.',
+  notScored:
+    'Not scored',
+  navAtlasNote:
+    'What is covered, and how confident it is',
+  navProposeNote:
+    'Food the atlas has no record of',
+  navConfirmNote:
+    'Dishes waiting for someone who knows them',
+  navSupportNote:
+    'What it costs to run, and who pays',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

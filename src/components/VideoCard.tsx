@@ -10,6 +10,7 @@
  * one, and offer the capture action instead.
  */
 
+import { useCopy } from '../i18n';
 import { StyleSheet, View } from 'react-native';
 import { planTranslation, withLanguage } from '../domain/language';
 import type { Video } from '../domain/types';
@@ -24,6 +25,7 @@ import { H6, Muted, T } from './Text';
 import { Tag } from './Tag';
 
 export function VideoCard({ video }: { video: Video }) {
+  const copy = useCopy();
   const hasIngredients = !!video.ingredients?.length;
   const language = useTranslations((s) => s.language);
 
@@ -72,12 +74,12 @@ export function VideoCard({ video }: { video: Video }) {
         <Tag
           label={
             plan.route === 'original'
-              ? 'Original audio'
+              ? copy.originalAudio
               : plan.route === 'creator-audio'
-                ? "Creator's own translation"
+                ? copy.creatorsOwnTranslation
                 : plan.route === 'provider-captions'
-                  ? 'Translated captions'
-                  : 'Language unknown'
+                  ? copy.translatedCaptions
+                  : copy.languageUnknown
           }
           variant={plan.route === 'creator-audio' || plan.route === 'original' ? 'outline' : 'neutral'}
           fontSize={10}
@@ -88,7 +90,7 @@ export function VideoCard({ video }: { video: Video }) {
 
       {hasIngredients ? (
         <View style={styles.panel}>
-          <H6 style={styles.panelHeading}>Ingredients used in this video</H6>
+          <H6 style={styles.panelHeading}>{copy.ingredientsInThisVideo}</H6>
           <View style={styles.chips}>
             {video.ingredients!.map((ingredient) => (
               <Tag key={ingredient} label={ingredient} variant="neutral" />
@@ -99,11 +101,10 @@ export function VideoCard({ video }: { video: Video }) {
       ) : (
         <View style={styles.panel}>
           <Muted style={styles.panelNote}>
-            This creator published no ingredient list or written method with the video, and we don&apos;t invent
-            one. The traditional method above comes from the documented sources below.
+            {copy.weDontInventOne}
           </Muted>
           <Button
-            label="Capture the ingredients and steps from this video →"
+            label={copy.captureFromVideo}
             variant="ghost"
             fontSize={12}
             onPress={() => openAtSource(url)}
