@@ -1492,3 +1492,47 @@ sandwich (Fall River), yaka mein, fortune cookie, Bananas Foster (New Orleans).
 
 Total 17,740, countries 156. Two records with region "Korea" remain elsewhere and are
 correct to: they carry recorded origin claims, so a dispute rather than a misfiling.
+
+### The 122 twins: surfaced, not merged
+
+The recommendation was to merge each cross-source twin into one record carrying both
+claims. **Tested before doing it, and it is wrong.**
+
+Only **6 of 122** pairs share a photograph or a source url with their twin. The other 116
+have nothing in common that proves they are one record — and the sample is not a list of
+mistakes:
+
+```
+Pakora       India / Pakistan      Pholourie   India / Guyana
+Gulab jamun  India / Pakistan      Pelau       India / Dominica
+Kabsa        India / Yemen         Ayran       Pakistan / Iran
+```
+
+Those are diaspora and neighbours: a dish two food cultures genuinely make. Merging would
+delete a cuisine's claim to its own food, and it would do it irreversibly on the basis of a
+shared name. Pakora is Indian **and** Pakistani, and an atlas of the world's food ought to
+be able to hold that.
+
+So neither record is deleted and neither is corrected. What was actually wrong is narrower:
+each record asserted one country in the largest text on the screen while the atlas quietly
+held a different answer on the next page. `alsoRecordedIn` surfaces that, and the record
+page now reads:
+
+> **Also recorded under Pakistan** → *The atlas holds a separate record for this dish
+> there. Neither is a correction of the other — a dish two food cultures make is not a
+> mistake in one of them.*
+
+**Derived, never stored, and deliberately kept out of `originClaims`.** That field means
+something narrower and better evidenced: the countries a record's *own article* names,
+each carrying the publication that says so. "We hold a second record" is a fact about this
+catalogue and no citation at all, and writing it into the sourced field would quietly
+weaken a thing the record page presents as sourced.
+
+The 122 remain in the totals. That is a real cost and it is the lesser one: an inflated
+count is visible and arguable, a deleted tradition is neither.
+
+**A translation bug came out of the same work.** "culинарные" shipped into the Russian
+copy — Latin "cul" spliced onto a Cyrillic word, invisible to anyone who cannot read
+Russian and obviously wrong to anyone who can. The prose script's own validator missed it,
+because it checked for Cyrillic in non-Russian strings and not the reverse. There is a test
+now that refuses any word mixing the two scripts, in any of the twelve languages.

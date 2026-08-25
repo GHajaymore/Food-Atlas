@@ -36,9 +36,9 @@ import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
-import { useCopy } from '../../src/i18n';
+import { joinAnd, useCopy } from '../../src/i18n';
 import { atRiskNote } from '../../src/domain/atRisk';
-import { relatedTo } from '../../src/domain/related';
+import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
 import {
   confirmAsk,
   confirmStanding,
@@ -56,7 +56,7 @@ import { searchUrl } from '../../src/domain/videoDiscovery';
 import { thresholds as scoreThresholds } from '../../src/data/settings';
 import { settings } from '../../src/state/store';
 import { useTranslations } from '../../src/state/translations';
-import { accentText, color, font, radius, space } from '../../src/theme/tokens';
+import { accentText, color, font, radius, space, TAP_TARGET } from '../../src/theme/tokens';
 
 export default function DishDetail() {
   const copy = useCopy();
@@ -100,6 +100,8 @@ export default function DishDetail() {
 
   const isFusion = dish.badgeLevel === 'fusion';
   const related = dish.relatedId ? dishById(dish.relatedId) : undefined;
+  /* The same dish held under another country. Derived, never stored — see related.ts. */
+  const alsoRecorded = alsoRecordedIn(dish, catalogue);
 
   // The record resolved into the reader's language. Names, ingredients and equipment
   // come back untranslated by construction — see domain/translate.ts.
@@ -290,6 +292,44 @@ export default function DishDetail() {
           where the claim was rather than left to the reader to find. */}
       {dish.originClaims && dish.originClaims.length > 1 ? (
         <Muted style={styles.contested}>{contestedNote(copy, dish.originClaims.length)}</Muted>
+      ) : null}
+
+      {/*
+       * The same dish, held again under another country.
+       *
+       * The atlas has 122 of these — pakora under India and Pakistan, pholourie under
+       * India and Guyana. They were read as duplicates to merge, and they are not: only
+       * six of the 122 share a photograph or a source with their twin, and the rest are
+       * diaspora and neighbours, a dish two food cultures genuinely make.
+       *
+       * Nothing is merged, then, and nothing is corrected. What was actually wrong is
+       * that each record asserted one country in the largest text on the screen while the
+       * atlas quietly held a different answer on another page. This is the same reasoning
+       * as the contested line above it, applied to a claim the catalogue makes rather than
+       * one an article makes — which is why it is derived here and never written into
+       * `originClaims`, where every entry carries the source that says so.
+       */}
+      {alsoRecorded.length ? (
+        <View style={styles.alsoRecorded}>
+          <Muted style={styles.contested}>
+            {copy.alsoRecordedIn.replace('{list}', joinAnd(copy, alsoRecorded.map((d) => d.loc.country)))}
+          </Muted>
+          <View style={styles.alsoLinks}>
+            {alsoRecorded.map((other) => (
+              <Pressable
+                key={other.id}
+                accessibilityRole="link"
+                accessibilityLabel={`${other.name}, ${other.loc.country}`}
+                tint="neutral"
+                onPress={() => router.push(`/dish/${other.id}`)}
+                style={styles.alsoLink}
+              >
+                <T style={styles.alsoLinkLabel}>{other.loc.country} →</T>
+              </Pressable>
+            ))}
+          </View>
+          <Muted style={styles.alsoNote}>{copy.alsoRecordedNote}</Muted>
+        </View>
       ) : null}
 
       {/* The sentence behind the 🕯️ badge, which was never shown anywhere.
@@ -780,6 +820,11 @@ const styles = StyleSheet.create({
 
   title: { marginBottom: 6 },
   contested: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 6, marginBottom: 2 },
+  alsoRecorded: { marginTop: 4, marginBottom: 4 },
+  alsoLinks: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: 4 },
+  alsoLink: { minHeight: TAP_TARGET, justifyContent: 'center' },
+  alsoLinkLabel: { fontSize: 12, color: accentText },
+  alsoNote: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 2 },
   atRisk: { padding: 12, marginTop: 14 },
   atRiskTitle: { fontSize: 12, fontFamily: font.medium },
   atRiskQuote: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 6, fontStyle: 'italic' },

@@ -1163,6 +1163,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'empieza Auténtico',
     pantryNothingUses:
       'Nada de lo registrado usa {list}. Puede que nadie haya escrito un plato que lo haga: el {p}% del atlas no tiene ningún ingrediente anotado.',
+    alsoRecordedIn:
+      'También registrado en {list}',
+    alsoRecordedNote:
+      'El atlas guarda un registro aparte de este plato allí. Ninguno corrige al otro: un plato que hacen dos culturas no es un error de ninguna.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2292,6 +2296,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Authentique commence',
     pantryNothingUses:
       'Rien de ce qui est consigné n’utilise {list}. Cela peut vouloir dire que personne n’a noté un plat qui le fasse : {p}% de l’atlas n’a aucun ingrédient renseigné.',
+    alsoRecordedIn:
+      'Également enregistré sous {list}',
+    alsoRecordedNote:
+      'L’atlas conserve une fiche distincte pour ce plat là-bas. Aucune ne corrige l’autre : un plat que deux cultures préparent n’est une erreur dans aucune des deux.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3420,6 +3428,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ab hier authentisch',
     pantryNothingUses:
       'Nichts im Bestand verwendet {list}. Vielleicht hat nur niemand ein Gericht aufgeschrieben, das es tut — bei {p}% des Atlas ist überhaupt keine Zutat vermerkt.',
+    alsoRecordedIn:
+      'Auch verzeichnet unter {list}',
+    alsoRecordedNote:
+      'Der Atlas führt dort einen eigenen Eintrag zu diesem Gericht. Keiner korrigiert den anderen — ein Gericht, das zwei Esskulturen kochen, ist in keiner von beiden ein Fehler.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4548,6 +4560,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'inizia Autentico',
     pantryNothingUses:
       'Niente di registrato usa {list}. Può darsi che nessuno abbia scritto un piatto che lo faccia: il {p}% dell’atlante non ha alcun ingrediente annotato.',
+    alsoRecordedIn:
+      'Registrato anche sotto {list}',
+    alsoRecordedNote:
+      'L’atlante tiene lì una scheda separata per questo piatto. Nessuna corregge l’altra: un piatto che due culture preparano non è un errore in nessuna delle due.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5677,6 +5693,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'começa Autêntico',
     pantryNothingUses:
       'Nada do que está registado usa {list}. Pode ser que ninguém tenha escrito um prato que use: {p}% do atlas não tem qualquer ingrediente anotado.',
+    alsoRecordedIn:
+      'Também registado em {list}',
+    alsoRecordedNote:
+      'O atlas guarda ali um registo separado deste prato. Nenhum corrige o outro — um prato que duas culturas fazem não é um erro em nenhuma delas.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6805,6 +6825,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'vanaf hier authentiek',
     pantryNothingUses:
       'Niets in de atlas gebruikt {list}. Misschien heeft alleen niemand een gerecht opgeschreven dat het doet — bij {p}% staat helemaal geen ingrediënt vermeld.',
+    alsoRecordedIn:
+      'Ook vastgelegd onder {list}',
+    alsoRecordedNote:
+      'De atlas houdt daar een apart record voor dit gerecht bij. Geen van beide corrigeert de ander — een gerecht dat twee eetculturen maken is in geen van beide een fout.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7934,6 +7958,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tu zaczyna się Autentyczne',
     pantryNothingUses:
       'Nic z zapisanego nie używa {list}. Może po prostu nikt nie zapisał dania, które używa — przy {p}% atlasu nie ma podanego żadnego składnika.',
+    alsoRecordedIn:
+      'Zapisane także pod {list}',
+    alsoRecordedNote:
+      'Atlas prowadzi tam osobny wpis dla tej potrawy. Żaden nie poprawia drugiego — potrawa, którą gotują dwie kultury, nie jest błędem w żadnej z nich.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9062,6 +9090,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Özgün burada başlar',
     pantryNothingUses:
       'Kayıtlı hiçbir şey {list} kullanmıyor. Bunu kullanan bir yemeği kimsenin yazmamış olması da olabilir — atlasın {p}% kadarında hiçbir malzeme yazılı değil.',
+    alsoRecordedIn:
+      'Şurada da kayıtlı: {list}',
+    alsoRecordedNote:
+      'Atlas bu yemek için orada ayrı bir kayıt tutuyor. Hiçbiri diğerini düzeltmiyor; iki mutfak kültürünün yaptığı bir yemek ikisinde de hata değildir.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10191,6 +10223,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'начинается Подлинное',
     pantryNothingUses:
       'Ничто из записанного не использует {list}. Возможно, просто никто не записал такое блюдо — у {p}% атласа не указано ни одного ингредиента.',
+    alsoRecordedIn:
+      'Также записано в {list}',
+    alsoRecordedNote:
+      'В атласе есть отдельная запись об этом блюде там. Ни одна не исправляет другую — блюдо, которое готовят две кулинарные традиции, не ошибка ни в одной из них.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11320,6 +11356,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'यहाँ से प्रामाणिक',
     pantryNothingUses:
       'दर्ज किसी भी चीज़ में {list} नहीं है। हो सकता है किसी ने ऐसा व्यंजन लिखा ही न हो — एटलस के {p}% हिस्से में कोई सामग्री दर्ज ही नहीं है।',
+    alsoRecordedIn:
+      '{list} में भी दर्ज',
+    alsoRecordedNote:
+      'एटलस में इस व्यंजन का वहाँ एक अलग रिकॉर्ड है। कोई भी दूसरे को सुधारता नहीं — जिस व्यंजन को दो खान-पान संस्कृतियाँ बनाती हैं, वह किसी में भी ग़लती नहीं है।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12449,6 +12489,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '本真从这里开始',
     pantryNothingUses:
       '已记录的条目都没有用到 {list}。也可能只是没人写下用它的菜——图册里有 {p}% 根本没有列出任何食材。',
+    alsoRecordedIn:
+      '也收录于 {list}',
+    alsoRecordedNote:
+      '图册在那里另有一条关于这道菜的记录。两者互不纠正——两种饮食文化都做的一道菜，在哪一方都不是错误。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -13578,6 +13622,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ここから本物',
     pantryNothingUses:
       '記録のあるものに {list} を使うものはありません。使う料理を誰も書き残していないだけかもしれません。アトラスの {p}% には材料が一つも記載されていません。',
+    alsoRecordedIn:
+      '{list} にも記録あり',
+    alsoRecordedNote:
+      'アトラスはそちらにもこの料理の別の記録を持っています。どちらかがもう一方を訂正するものではありません。二つの食文化がつくる料理は、どちらにとっても誤りではありません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

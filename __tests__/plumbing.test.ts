@@ -30,6 +30,7 @@ import { buildCatalogue } from '../src/data/build';
 import { EN } from '../src/i18n/copy';
 import { copyFor, joinOr, UI_LOCALES } from '../src/i18n';
 import { cardPlace, isWithin, notAPlaceBelow } from '../src/domain/place';
+import { alsoRecordedIn } from '../src/domain/related';
 import { continentOf, knownCountry } from '../src/domain/continents';
 import { canonicalCountry } from '../src/domain/countryNames';
 import type { Confirmation } from '../src/domain/confirmations';
@@ -743,5 +744,82 @@ describe('a card names a place that agrees with its record', () => {
      */
     const tofu = catalogue.find((x) => x.name === 'Tofu' && x.loc.country === 'United States');
     expect(tofu && cardPlace(tofu.breadcrumb, tofu.loc.country)).toBe('United States');
+  });
+});
+
+/**
+ * The atlas says out loud when it holds the same dish twice.
+ *
+ * 122 names sit under more than one country. The first reading was "duplicates to merge",
+ * and measuring killed it: only six of the 122 share a photograph or a source with their
+ * twin, and the rest are pakora under India and Pakistan, pholourie under India and
+ * Guyana — diaspora and neighbours, a dish two food cultures genuinely make. Merging would
+ * have deleted a cuisine's claim to its own food.
+ *
+ * So nothing is merged. What is fixed is that each record used to assert one country in
+ * the largest text on the page while the atlas held another answer elsewhere.
+ */
+describe('a second record under another country is surfaced, not merged', () => {
+  it('finds the twin from either side', () => {
+    const pairs = catalogue.filter((d) => alsoRecordedIn(d, catalogue).length > 0);
+    expect(pairs.length).toBeGreaterThan(100);
+
+    /* Symmetric: if A points at B's country, B points back at A's. */
+    for (const dish of pairs.slice(0, 40)) {
+      for (const other of alsoRecordedIn(dish, catalogue)) {
+        expect(alsoRecordedIn(other, catalogue).map((d) => d.loc.country)).toContain(dish.loc.country);
+      }
+    }
+  });
+
+  it('never points a record at its own country, or at itself', () => {
+    for (const dish of catalogue.slice(0, 3000)) {
+      for (const other of alsoRecordedIn(dish, catalogue)) {
+        expect(other.id).not.toBe(dish.id);
+        expect(other.loc.country).not.toBe(dish.loc.country);
+      }
+    }
+  });
+
+  it('leaves originClaims alone, because that field is sourced and this is not', () => {
+    /*
+     * The distinction this whole feature turns on: `originClaims` is what a record's own
+     * article names, each entry carrying the publication that says so. "We hold a second
+     * record" is a fact about this catalogue and no citation at all, so it must never be
+     * written into the sourced field.
+     */
+    const pakora = catalogue.find((d) => d.name === 'Pakora');
+    if (pakora && alsoRecordedIn(pakora, catalogue).length) {
+      for (const claim of pakora.originClaims ?? []) {
+        expect(claim.source?.url).toBeTruthy();
+      }
+    }
+  });
+});
+
+/**
+ * No sentence mixes two scripts.
+ *
+ * Written after shipping "culинарные" into the Russian translation — Latin "cul" spliced
+ * onto a Cyrillic word. It reads as a typo to anyone who can read Russian and is invisible
+ * to anyone who cannot, which is the whole problem with hand-written translations in
+ * twelve languages.
+ */
+describe('a translation is written in one script', () => {
+  it('never splices Latin letters into a Cyrillic word, or the reverse', () => {
+    const bad: string[] = [];
+    for (const locale of UI_LOCALES) {
+      for (const [key, value] of Object.entries(copyFor(locale))) {
+        if (typeof value !== 'string') continue;
+        // Split on whitespace and punctuation, then look at whole words only.
+        for (const word of value.split(/[\s.,;:!?()«»"'—–-]+/)) {
+          if (!word || word.length < 2) continue;
+          const cyrillic = /[\u0400-\u04FF]/.test(word);
+          const latin = /[A-Za-z]/.test(word);
+          if (cyrillic && latin) bad.push(`${locale}.${key}: "${word}"`);
+        }
+      }
+    }
+    expect(bad).toEqual([]);
   });
 });

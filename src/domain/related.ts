@@ -126,3 +126,43 @@ export function relatedTo(copy: Copy, dish: Dish, all: Dish[], limit = RELATED_L
     .slice(0, limit)
     .map(({ dish: d, reason }) => ({ dish: d, reason }));
 }
+
+/**
+ * The same dish, recorded under another country.
+ *
+ * The atlas holds 122 names under more than one country: pakora under India and Pakistan,
+ * gulab jamun under both, pholourie under India and Guyana, kabsa under India and Yemen.
+ * The first reading of that was "duplicates to merge", and it is wrong. Only six of the
+ * 122 share a photograph or a source with their twin — the rest have nothing in common to
+ * prove they are one record, and the sample above is not a list of mistakes. It is
+ * diaspora and neighbours: a dish two food cultures genuinely make, which is the thing an
+ * atlas of the world's food should be able to hold.
+ *
+ * So neither record is deleted and neither is corrected. What was actually wrong is that
+ * each one silently asserted a single country while the atlas quietly held another answer
+ * on the next page. This surfaces that, and lets a reader go and look.
+ *
+ * Derived, never stored — and deliberately kept out of `originClaims`, which means
+ * something narrower and better evidenced: the countries a record's *own article* names as
+ * its origin, each with the source that says so. Two records existing is a fact about this
+ * catalogue, not a citation, and mixing the two would quietly weaken a field the record
+ * page presents as sourced.
+ */
+export function alsoRecordedIn(dish: Dish, all: Dish[]): Dish[] {
+  const key = (value: string) =>
+    (value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+
+  const wanted = key(dish.name);
+  if (!wanted) return [];
+
+  const seen = new Set<string>([dish.loc.country]);
+  const out: Dish[] = [];
+  for (const other of all) {
+    if (other.id === dish.id) continue;
+    if (key(other.name) !== wanted) continue;
+    if (seen.has(other.loc.country)) continue;
+    seen.add(other.loc.country);
+    out.push(other);
+  }
+  return out;
+}

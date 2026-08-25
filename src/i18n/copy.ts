@@ -729,6 +729,8 @@ export interface Copy {
   scaleDocumentsStop: string;
   scaleAuthenticBegins: string;
   pantryNothingUses: string;
+  alsoRecordedIn: string;
+  alsoRecordedNote: string;
   interfaceTranslationNote: string;
 }
 
@@ -1867,6 +1869,10 @@ export const EN: Copy = {
     'Authentic begins',
   pantryNothingUses:
     'Nothing recorded uses {list}. That may mean nobody has written down a dish that does — {p}% of the atlas has no ingredients listed at all.',
+  alsoRecordedIn:
+    'Also recorded under {list}',
+  alsoRecordedNote:
+    'The atlas holds a separate record for this dish there. Neither is a correction of the other — a dish two food cultures make is not a mistake in one of them.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
