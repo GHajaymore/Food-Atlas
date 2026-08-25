@@ -1,3 +1,5 @@
+import { continentOf, knownCountry } from './continents';
+import { canonicalCountry } from './countryNames';
 /**
  * Whether a region is a place, and whether it is a place *below* its country.
  *
@@ -201,3 +203,113 @@ export function notAPlaceBelow(region: string, country: string): string | null {
 /** The region to store: the given one, or empty where it is not a place below. */
 export const placeBelow = (region: string, country: string): string =>
   notAPlaceBelow(region, country) ? '' : (region ?? '').trim();
+
+/**
+ * The place to print on a card, which is not always the last step of the breadcrumb.
+ *
+ * Cards showed `breadcrumb.slice(-1)[0]` — the most specific step, which is usually
+ * exactly right: New Orleans beats United States, Teesside beats United Kingdom. Ajay
+ * sent a screenshot of a rail headed **From United States** where the cards read
+ * *England*, *China*, *Korea* and *Japanese cakes*, each one contradicting the heading
+ * directly above it.
+ *
+ * Two different faults land in the same line of text:
+ *
+ * **A step that is not a place.** "Japanese cakes", "Anglo-Indian", "Korean pork" are
+ * branches of a category tree that arrived in `region`. `notAPlaceBelow` already knows
+ * how to recognise those and is reused here rather than re-guessed — it is the same
+ * judgement, applied at the other end of the pipeline, and it explains itself.
+ *
+ * **A step that names a different country.** For a record whose origin is contested this
+ * is a true fact recorded honestly: tofu is filed under the United States and its claims
+ * are China and the United States, so its region says China. True, and still wrong to
+ * print under a heading that says United States, because a card has no room to explain
+ * itself and a reader sees the atlas contradicting itself in two lines.
+ *
+ * In both cases the country is the answer that is certainly true, so the country is what
+ * shows. The dispute is not hidden — the record page carries every claim — it is simply
+ * not something a card can say in one word.
+ */
+export function placeLabel(
+  breadcrumb: readonly string[],
+  country: string,
+  contradicts: (tail: string, country: string) => boolean,
+): string {
+  const tail = breadcrumb.length ? breadcrumb[breadcrumb.length - 1] : '';
+  if (!tail) return country;
+  if (tail === country) return country;
+
+  // Not a place at all, by the same test the build uses when storing one.
+  if (notAPlaceBelow(tail, country)) return country;
+
+  /*
+   * Names a country somewhere else entirely.
+   *
+   * The predicate is injected rather than imported so this module keeps its one useful
+   * property — it depends on nothing — and so a caller resolves geography however it
+   * already does.
+   *
+   * The first version asked only "does this name a different country", and that deletes
+   * real geography: it suppressed **Hong Kong under China**, **England under the United
+   * Kingdom** and **Hawaii under the United States**, 43 records of correct and useful
+   * detail, because each of those is also a country the atlas files under. A card saying
+   * "England" beneath a heading about the United Kingdom is not a contradiction; it is
+   * the reason the breadcrumb exists.
+   *
+   * So the caller decides, and the caller's test is a different *continent* — which
+   * catches England under the United States and China under the United States, and keeps
+   * every sub-national case above. It under-removes: Bangladesh under India still shows,
+   * and that is the direction this file already chose to err in when the alternative is
+   * throwing away places that are real.
+   */
+  if (contradicts(tail, country)) return country;
+
+  return tail;
+}
+
+/**
+ * `placeLabel` with the atlas's own country resolver supplied.
+ *
+ * Every card wants the same answer, so the resolver is bound once here rather than passed
+ * at four call sites that would then be four chances to pass a different one.
+ */
+/**
+ * Territories the atlas files under a parent country, where a continent test gets it
+ * wrong.
+ *
+ * The continent rule handles almost everything: England under the United States is a
+ * contradiction, England under the United Kingdom is not, and the two are told apart by
+ * Europe against North America. It fails where a territory sits on a different landmass
+ * from the country it belongs to. **Hawaii** is Oceania and is a state of the United
+ * States; **Abkhazia** is filed under Georgia. Both were being stripped off cards that
+ * were entirely correct.
+ *
+ * Every entry here was found by running the rule over the whole catalogue and reading
+ * what it removed, not by trying to remember world geography. Anything not on the list
+ * still gets the continent test, so a missing entry costs a card its detail and never
+ * prints something false.
+ */
+export const WITHIN: Record<string, string> = {
+  hawaii: 'United States',
+  'puerto rico': 'United States',
+  guam: 'United States',
+  abkhazia: 'Georgia',
+  greenland: 'Denmark',
+  zanzibar: 'Tanzania',
+};
+
+export const cardPlace = (breadcrumb: readonly string[], country: string): string =>
+  placeLabel(breadcrumb, country, (tail, of) => {
+    if (WITHIN[tail.trim().toLowerCase()] === of) return false;
+    const named = knownCountry(canonicalCountry(tail)) || knownCountry(tail);
+    if (!named || named === of) return false;
+    const here = continentOf(of);
+    const there = continentOf(named);
+    // Unknown either side is not evidence of a contradiction, so it shows.
+    if (!here || !there || here === 'Elsewhere' || there === 'Elsewhere') return false;
+    return here !== there;
+  });
+
+/** True where a place is a territory the atlas files under that country. */
+export const isWithin = (place: string, country: string): boolean =>
+  WITHIN[(place ?? '').trim().toLowerCase()] === country;

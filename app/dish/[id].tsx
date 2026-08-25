@@ -27,6 +27,7 @@ import { RecordColumns } from '../../src/components/RecordColumns';
 import { Related } from '../../src/components/Related';
 import { LocalNames } from '../../src/components/LocalNames';
 import { NavRow } from '../../src/components/NavRow';
+import { cardPlace } from '../../src/domain/place';
 import { Photo } from '../../src/components/Photo';
 import { Pressable } from '../../src/components/Pressable';
 import { ScoreBreakdown } from '../../src/components/ScoreBreakdown';
@@ -439,7 +440,7 @@ export default function DishDetail() {
               <H5 style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
                 Quoted from the source below — a general account of how the dish is made, not a record of how it is
-                made in {dish.breadcrumb[dish.breadcrumb.length - 1]}.
+                made in {cardPlace(dish.breadcrumb, dish.loc.country)}.
               </Muted>
               <Block style={styles.describedBlock}>
                 <Muted style={styles.described}>{dish.prepSummary}</Muted>
@@ -497,7 +498,7 @@ export default function DishDetail() {
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
               How this dish is commonly made today. It is not a record of how it is prepared in{' '}
-              {dish.breadcrumb[dish.breadcrumb.length - 1]}, and nobody from there has confirmed it.
+              {cardPlace(dish.breadcrumb, dish.loc.country)}, and nobody from there has confirmed it.
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>

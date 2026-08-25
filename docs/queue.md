@@ -1385,3 +1385,47 @@ published coverage figure moved and a person had to look at why.
 record keeps the country it was filed under and shows its region on the card, so the US
 rail still shows "Tofu — China" and "Chicken à la King — England". The data is right and
 says so; the card just puts a place under a heading that contradicts it.
+
+### The card's place line
+
+A card printed the last step of its breadcrumb — the most specific place, which is usually
+right: New Orleans beats United States. Under a rail headed **From United States** it was
+printing *England*, *China*, *Korea* and *Japanese cakes*.
+
+Two faults in one line of text, and `cardPlace` in `domain/place.ts` handles both:
+
+- **A step that is not a place.** "Japanese cakes", "Anglo-Indian", "Korean pork" are
+  branches of a category tree that reached `region`. `notAPlaceBelow` already knows how to
+  spot those and is reused rather than re-guessed.
+- **A step naming a country somewhere else.** For a contested record this is true and
+  recorded honestly — tofu is filed under the United States and claims both China and the
+  United States — and still wrong to print under a heading saying United States, because a
+  card has no room to explain itself.
+
+In both cases the country is the answer that is certainly true, so the country shows. The
+dispute is not hidden; the record page carries every claim.
+
+**The first rule was wrong and the measurement caught it.** "Names a different country"
+suppressed 218 records — including **Hong Kong under China**, **England under the United
+Kingdom** and **Hawaii under the United States**, 43 records of correct and useful detail,
+because each of those is also a country the atlas files under. A card saying England
+beneath a heading about the United Kingdom is not a contradiction; it is the reason the
+breadcrumb exists.
+
+The test is a different continent, which keeps every sub-national case and catches the
+real ones. It under-removes on purpose — Bangladesh under India still shows — and that is
+the direction `place.ts` already chose: *"under-removal, which is the safe direction when
+the alternative is deleting real geography."* 48 records now, all of them genuine
+contradictions.
+
+`WITHIN` handles the handful where a territory sits on a different landmass from the
+country it belongs to: Hawaii, Puerto Rico, Guam, Abkhazia, Greenland, Zanzibar. Every
+entry was found by running the rule over the catalogue and reading what it removed, not by
+trying to recall world geography.
+
+**Still showing: "Bap — Korea" under United States.** That one is data, not display. `Bap`
+was origin-checked and deliberately left alone, because its article says "Korea" and the
+atlas knows South Korea and North Korea but not a bare "Korea" — and the script's rule is
+that a wrong country is worse than a coarse one. Folding bare "Korea" onto South Korea is
+an inference the project should make deliberately or not at all; `countryNames.ts` already
+warns against exactly that fold for the North.

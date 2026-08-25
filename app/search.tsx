@@ -26,6 +26,7 @@ import { catalogue as dishes, shareWithoutIngredients } from '../src/data/catalo
 import { CLASSIFICATIONS, levelLabel } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { cookWith, parsePantry } from '../src/domain/pantry';
+import { cardPlace } from '../src/domain/place';
 import { STAPLES } from '../src/domain/staples';
 import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/domain/queries';
 import { canRequest, requestUrl } from '../src/domain/requests';
@@ -239,7 +240,7 @@ export default function Search() {
                       {dish.name}
                     </T>
                     <Muted style={styles.pantryPlace} numberOfLines={1}>
-                      {dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}
+                      {cardPlace(dish.breadcrumb, dish.loc.country)}
                     </Muted>
                     {/* Named rather than counted: "uses chicken, rice" is checkable
                         against the record in a second; "3 matches" is a number to trust. */}

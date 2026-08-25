@@ -29,6 +29,9 @@ import { join, resolve } from 'node:path';
 import { buildCatalogue } from '../src/data/build';
 import { EN } from '../src/i18n/copy';
 import { copyFor, joinOr, UI_LOCALES } from '../src/i18n';
+import { cardPlace, isWithin, notAPlaceBelow } from '../src/domain/place';
+import { continentOf, knownCountry } from '../src/domain/continents';
+import { canonicalCountry } from '../src/domain/countryNames';
 import type { Confirmation } from '../src/domain/confirmations';
 import type { Dish } from '../src/domain/types';
 
@@ -656,5 +659,75 @@ describe('the pantry note counts rather than estimates', () => {
     expect(joinOr(copyFor('fr'), ['riz', 'igname'])).toBe('riz ou igname');
     expect(joinOr(copyFor('de'), ['Reis', 'Yams'])).toBe('Reis oder Yams');
     expect(joinOr(copyFor('en'), [])).toBe('');
+  });
+});
+
+/**
+ * A card never names a place that contradicts the record it sits on.
+ *
+ * Ajay sent a screenshot of a rail headed "From United States" whose cards read England,
+ * China, Korea and "Japanese cakes". Two faults arrive in the same line of text: a
+ * breadcrumb step that is not a place at all, and one that names a different country —
+ * true for a contested record, and still the atlas contradicting itself in two lines.
+ */
+describe('a card names a place that agrees with its record', () => {
+  const tail = (d: Dish) => (d.breadcrumb.length ? d.breadcrumb[d.breadcrumb.length - 1] : '');
+
+  /*
+   * Deliberately not "never prints another country". Hong Kong under China and England
+   * under the United Kingdom are each a country name sitting under a different country
+   * name, and each is correct — the first version of this rule stripped both, along with
+   * Hawaii, throwing away 43 records' worth of real geography to catch 7 contradictions.
+   * The thing worth catching is a place on another continent.
+   */
+  it('never prints a country on another continent from the record', () => {
+    const wrong = catalogue
+      .map((d) => ({ name: d.name, country: d.loc.country, shown: cardPlace(d.breadcrumb, d.loc.country) }))
+      .filter((r) => {
+        if (r.shown === r.country) return false;
+        if (isWithin(r.shown, r.country)) return false;
+        const named = knownCountry(canonicalCountry(r.shown)) || knownCountry(r.shown);
+        if (!named || named === r.country) return false;
+        const here = continentOf(r.country);
+        const there = continentOf(named);
+        if (here === 'Elsewhere' || there === 'Elsewhere') return false;
+        return here !== there;
+      });
+    expect(wrong.slice(0, 5)).toEqual([]);
+  });
+
+  it('keeps a territory that really is inside its country', () => {
+    const allKept = (place: string, country: string) =>
+      catalogue
+        .filter((d) => d.breadcrumb[d.breadcrumb.length - 1] === place && d.loc.country === country)
+        .every((d) => cardPlace(d.breadcrumb, d.loc.country) === place);
+    expect(allKept('Hong Kong', 'China')).toBe(true);
+    expect(allKept('England', 'United Kingdom')).toBe(true);
+    expect(allKept('Hawaii', 'United States')).toBe(true);
+  });
+
+  it('never prints a step the build would refuse to store as a place', () => {
+    const wrong = catalogue
+      .map((d) => ({ name: d.name, shown: cardPlace(d.breadcrumb, d.loc.country), country: d.loc.country }))
+      .filter((r) => r.shown !== r.country && notAPlaceBelow(r.shown, r.country));
+    expect(wrong.slice(0, 5)).toEqual([]);
+  });
+
+  it('keeps the specific place where it is a real one', () => {
+    /* The point of the breadcrumb tail: a card should say New Orleans, not United States.
+       Guarding against a fix that simply prints the country for everything. */
+    const specific = catalogue.filter((d) => {
+      const t = tail(d);
+      return t && t !== d.loc.country && cardPlace(d.breadcrumb, d.loc.country) === t;
+    });
+    expect(specific.length).toBeGreaterThan(1000);
+  });
+
+  it('falls back to the country for the records that prompted this', () => {
+    for (const name of ['Tofu', 'Chicken à la King']) {
+      const d = catalogue.find((x) => x.name === name);
+      if (!d) continue;
+      expect(cardPlace(d.breadcrumb, d.loc.country)).toBe(d.loc.country);
+    }
   });
 });
