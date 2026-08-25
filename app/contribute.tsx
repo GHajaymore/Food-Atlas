@@ -160,7 +160,14 @@ export default function Contribute() {
         {stepLabelsFor(copy).map((label, i) => (
           <View key={label} style={styles.railSegment}>
             <View style={[styles.bar, { backgroundColor: i <= step - 1 ? color.accent : color.neutral[800] }]} />
-            <T style={[styles.railLabel, { color: i === step - 1 ? accentText : color.faint }]}>{label}</T>
+            {/* `meta`, not `faint`. At 45% alpha the labels for steps not yet reached
+                measured 3.91 against a required 4.5 — "What exists", "Assessment",
+                "Validation" were the only unreadable text left in the app. WCAG exempts
+                inactive controls and one could argue these qualify, but a step rail is
+                wayfinding: its whole job is telling a reader what is coming, and there is
+                no point making that quiet enough to be unreadable. Still plainly quieter
+                than the step they are on, which is the accent. */}
+            <T style={[styles.railLabel, { color: i === step - 1 ? accentText : color.meta }]}>{label}</T>
           </View>
         ))}
       </View>

@@ -41,8 +41,19 @@ export const color = {
   muted: textAlpha(55),
   /** .card-meta — 50% alpha, one step quieter than muted. */
   meta: textAlpha(50),
-  /** intake step labels that have not been reached — 45% alpha. */
-  faint: textAlpha(45),
+  /*
+   * `faint` — 45% alpha — was here and is gone.
+   *
+   * It measured 3.91 against the ground, where WCAG AA asks 4.5 for text this size, so
+   * every one of its three uses was unreadable by that standard and they were the only
+   * such text left in the app. Two were the free-and-staying-free promise on the front
+   * page; the third was the intake rail's labels for steps not yet reached.
+   *
+   * Deleted rather than raised, because raising it to a passing alpha would have made it
+   * identical to `meta` and the app does not need two names for one colour. If a genuinely
+   * inactive control ever wants a quieter step, add it back with a contrast figure in this
+   * comment — the reason this one lasted is that nobody had measured it.
+   */
 
   neutral: {
     100: '#f3f5fe',

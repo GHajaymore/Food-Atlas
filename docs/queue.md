@@ -1141,3 +1141,48 @@ was done, the diff is green, and the page is unchanged. This is the same shape a
 `photoVia` key that existed while a screen typed out the English, and the same shape as
 the four features `SiteNav.tsx` was written to fix. Adding the thing is not wiring the
 thing, and only a measurement of the rendered page tells the two apart.
+
+### Contrast, which had never been measured
+
+The design work so far had measured type and spacing and never colour. Every text node in
+the app was checked against its real composited background — walking up the tree for the
+first ancestor that actually paints, and flattening the alpha, because almost every colour
+here is `rgba` over a `#161826` ground and the declared value is not the rendered one.
+
+Six failures, all one token. `color.faint` at 45% alpha measured **3.91** where WCAG AA
+asks 4.5 for text at these sizes, and it had exactly three consumers:
+
+- `Mission.free` and `Mission.pending` — "Free, and staying free. No advertising, no
+  tracking", and the note that submissions are not open. These are the promises the
+  project makes, and they were the lowest-contrast text on the front page: the claims a
+  reader has to take on trust, set in the colour reserved for steps you have not reached.
+- `contribute`'s intake rail — the labels for steps not yet reached, which is the use
+  `tokens.ts` documented the token for.
+
+The first two are now `muted`, which is the token for a secondary line still meant to be
+read. The third is `meta`. WCAG exempts inactive controls and the step labels arguably
+qualify, but a step rail is wayfinding — its job is telling a reader what is coming, and
+there is no point making that too quiet to read.
+
+`color.faint` is deleted. Raising it to a passing alpha would have made it identical to
+`meta`, and the app does not need two names for one colour.
+
+| screen | text nodes | failing AA |
+|---|---|---|
+| / | 437 | 0 |
+| /dish | 125 | 0 |
+| /atlas | 520 | 0 |
+| /contribute | 48 | 0 |
+
+**One thing to keep an eye on:** `color.meta` at 50% measures **4.52** against a required
+4.5. It passes by two hundredths. Any darkening of the ground or lightening of the text
+token flips a good part of the app's secondary text to failing, and nothing would report
+it. If the palette is ever touched, re-run this measurement rather than reasoning about it.
+
+### Unused theme tokens, after all of the above
+
+`space[24]`, `type.h1`, `type.h3`, `font.bold` and `elevation.md` are referenced nowhere.
+None is a defect — they are scale steps kept for completeness — but they are recorded here
+because `space[12]`/`[16]` sat in exactly that state while the page kept a phone's rhythm,
+and the only thing that distinguished "spare step" from "forgotten wiring" was measuring
+the rendered page.

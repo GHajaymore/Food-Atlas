@@ -400,11 +400,25 @@ const styles = StyleSheet.create({
   askBody: { fontSize: 13, lineHeight: 20 },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: space[1] },
 
-  free: { fontSize: 12.5, lineHeight: 19, color: color.faint },
+  /*
+   * `muted`, not `faint`.
+   *
+   * `faint` is 45% alpha and `tokens.ts` documents it for one thing: "intake step labels
+   * that have not been reached" — a disabled state. These two lines are not disabled.
+   * They are the promise the project is making, and they were the only text on the front
+   * page failing WCAG AA: 3.91 against a required 4.5, measured, the lowest contrast of
+   * 437 nodes.
+   *
+   * Which is an odd thing to have done to these sentences in particular. "Free, and
+   * staying free. No advertising, no tracking" is one of the few claims here a reader has
+   * to take on trust, and it was set in the colour reserved for steps you have not got to
+   * yet. `muted` is the token for a secondary line that is still meant to be read.
+   */
+  free: { fontSize: 12.5, lineHeight: 19, color: color.muted },
 
   body: { fontSize: 13, lineHeight: 20 },
   spaced: { marginTop: 8 },
-  pending: { fontSize: 12.5, lineHeight: 19, color: color.faint, marginTop: space[1] },
+  pending: { fontSize: 12.5, lineHeight: 19, color: color.muted, marginTop: space[1] },
   // Disclosure carries a 20px bottom margin for its usual place in a stack of
   // sections; here it is the last thing in a block that has its own.
   disclosure: { marginBottom: 0 },
