@@ -75,15 +75,15 @@ export default function Atlas() {
           value={metrics.total.toLocaleString()}
           label={copy.traditionsRecorded}
           trend={trendFor(history, 'total')}
-          note={metricNote('total')}
+          note={metricNote(copy, 'total')}
         />
         <StatTile
           value={String(metrics.countries)}
           label={copy.countries}
           trend={trendFor(history, 'countries')}
-          note={metricNote('countries')}
+          note={metricNote(copy, 'countries')}
         />
-        <StatTile value={String(metrics.atRisk)} label={copy.atRiskTraditions} note={metricNote('atRisk')} />
+        <StatTile value={String(metrics.atRisk)} label={copy.atRiskTraditions} note={metricNote(copy, 'atRisk')} />
       </View>
 
       {/* The country's own name is passed through, never translated — rule 1. */}
@@ -92,7 +92,7 @@ export default function Atlas() {
           .replace('{p}', String(metrics.concentration.percent))
           .replace('{country}', metrics.concentration.country)}
       </Muted>
-      <Explain note={metricNote('concentration')} />
+      <Explain note={metricNote(copy, 'concentration')} />
     </>
   );
 
@@ -124,32 +124,32 @@ export default function Atlas() {
           <Meter
             key="documented"
             ratio={{ ...metrics.documented, label: copy.meterDocumented, note: copy.meterDocumentedNote }}
-            note={metricNote('documented')}
+            note={metricNote(copy, 'documented')}
           />,
           <Meter
             key="located"
             ratio={{ ...metrics.located, label: copy.meterLocated, note: copy.meterLocatedNote }}
-            note={metricNote('located')}
+            note={metricNote(copy, 'located')}
           />,
           <Meter
             key="assessed"
             ratio={{ ...metrics.assessed, label: copy.meterAssessed, note: copy.meterAssessedNote }}
-            note={metricNote('assessed')}
+            note={metricNote(copy, 'assessed')}
           />,
           <Meter
             key="illustrated"
             ratio={{ ...metrics.illustrated, label: copy.meterIllustrated, note: copy.meterIllustratedNote }}
-            note={metricNote('illustrated')}
+            note={metricNote(copy, 'illustrated')}
           />,
           <Meter
             key="filmed"
             ratio={{ ...metrics.filmed, label: copy.meterFilmed, note: copy.meterFilmedNote }}
-            note={metricNote('filmed')}
+            note={metricNote(copy, 'filmed')}
           />,
         ]}
         tables={[
-          <CoverageTable key="where" title={copy.whereTheRecordsAre} rows={metrics.byContinent} note={metricNote('byContinent')} />,
-          <CoverageTable key="confidence" title={copy.confidence} rows={metrics.confidence} note={metricNote('confidence')} />,
+          <CoverageTable key="where" title={copy.whereTheRecordsAre} rows={metrics.byContinent} note={metricNote(copy, 'byContinent')} />,
+          <CoverageTable key="confidence" title={copy.confidence} rows={metrics.confidence} note={metricNote(copy, 'confidence')} />,
         ]}
         asks={asks}
       />

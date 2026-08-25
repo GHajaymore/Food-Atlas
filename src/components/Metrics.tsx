@@ -13,6 +13,7 @@
  * these ratios want. Values wear text tokens, never the fill colour.
  */
 
+import { useCopy } from '../i18n';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
@@ -65,6 +66,7 @@ function Sparkline({ points }: { points: number[] }) {
  * flattering figure gets contradicted, and burying it would defeat the purpose.
  */
 export function Explain({ note }: { note?: MetricNote }) {
+  const copy = useCopy();
   const [open, setOpen] = useState(false);
   if (!note) return null;
 
@@ -84,7 +86,7 @@ export function Explain({ note }: { note?: MetricNote }) {
          */
         style={styles.explainHit}
       >
-        <Muted style={styles.explainLink}>{open ? 'Hide how this is counted' : 'How is this counted?'}</Muted>
+        <Muted style={styles.explainLink}>{open ? copy.hideHowThisIsCounted : copy.howIsThisCounted}</Muted>
       </Pressable>
 
       {open ? (

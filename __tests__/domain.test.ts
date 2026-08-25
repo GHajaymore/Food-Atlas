@@ -65,7 +65,7 @@ import {
   FINDER_MAY_NEVER_WRITE,
   type RecordFacts,
 } from '../src/domain/sourceFinding';
-import { METRIC_NOTES, metricNote } from '../src/domain/metricNotes';
+import { metricNotesFor, metricNote } from '../src/domain/metricNotes';
 import { catalogueMetrics, percentLabel, trendFor } from '../src/domain/metrics';
 import {
   coverageOf,
@@ -1978,11 +1978,11 @@ describe('every headline number can be checked by the reader', () => {
       'confidence',
       'byContinent',
     ];
-    for (const key of shown) expect(metricNote(key)).toBeDefined();
+    for (const key of shown) expect(metricNote(EN, key)).toBeDefined();
   });
 
   it('gives every figure a unit, a method and a caveat', () => {
-    for (const [key, note] of Object.entries(METRIC_NOTES)) {
+    for (const [key, note] of Object.entries(metricNotesFor(EN))) {
       expect({ key, title: note.title.length > 0 }).toEqual({ key, title: true });
       expect({ key, counts: note.counts.length > 40 }).toEqual({ key, counts: true });
       expect({ key, method: note.method.length > 40 }).toEqual({ key, method: true });
@@ -1993,15 +1993,15 @@ describe('every headline number can be checked by the reader', () => {
 
   it('says plainly that the at-risk count is a floor and not a census', () => {
     // This is the number a reader is most likely to misread as reassuring.
-    const note = metricNote('atRisk')!;
+    const note = metricNote(EN, 'atRisk')!;
     expect(note.caveat).toMatch(/floor, not a census/);
     expect(note.caveat).toMatch(/Ark of Taste/);
     expect(note.method).toMatch(/evidence/);
   });
 
   it('refuses to let the total imply the atlas knows more than it does', () => {
-    expect(metricNote('total')!.caveat).toMatch(/not a count of the world/);
-    expect(metricNote('countries')!.caveat).toMatch(/Coverage is not depth/);
+    expect(metricNote(EN, 'total')!.caveat).toMatch(/not a count of the world/);
+    expect(metricNote(EN, 'countries')!.caveat).toMatch(/Coverage is not depth/);
   });
 });
 
@@ -2614,6 +2614,8 @@ describe('the chrome in other languages', () => {
     // "50 – 74" is a number range. There is nothing in it to translate, and inventing a
     // difference so the check passes would be worse than declaring it here.
     ...UI_LOCALES.filter((l) => l !== 'en').map((l) => `${l}.band50to74`),
+
+    'fr.metricConcentrationTitle', // "Concentration" is the French word, spelled the same.
   ]);
 
   it('never echoes English back as though it were a translation', () => {

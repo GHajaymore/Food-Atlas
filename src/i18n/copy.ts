@@ -498,6 +498,52 @@ export interface Copy {
   reviewShortConsider: string;
   groupSummaryCountries: string;
   groupSummaryOrigins: string;
+  metricTotalTitle: string;
+  metricTotalCounts: string;
+  metricTotalMethod: string;
+  metricTotalCaveat: string;
+  metricCountriesTitle: string;
+  metricCountriesCounts: string;
+  metricCountriesMethod: string;
+  metricCountriesCaveat: string;
+  metricAtRiskTitle: string;
+  metricAtRiskCounts: string;
+  metricAtRiskMethod: string;
+  metricAtRiskCaveat: string;
+  metricDocumentedTitle: string;
+  metricDocumentedCounts: string;
+  metricDocumentedMethod: string;
+  metricDocumentedCaveat: string;
+  metricLocatedTitle: string;
+  metricLocatedCounts: string;
+  metricLocatedMethod: string;
+  metricLocatedCaveat: string;
+  metricIllustratedTitle: string;
+  metricIllustratedCounts: string;
+  metricIllustratedMethod: string;
+  metricIllustratedCaveat: string;
+  metricFilmedTitle: string;
+  metricFilmedCounts: string;
+  metricFilmedMethod: string;
+  metricFilmedCaveat: string;
+  metricAssessedTitle: string;
+  metricAssessedCounts: string;
+  metricAssessedMethod: string;
+  metricAssessedCaveat: string;
+  metricConcentrationTitle: string;
+  metricConcentrationCounts: string;
+  metricConcentrationMethod: string;
+  metricConcentrationCaveat: string;
+  metricConfidenceTitle: string;
+  metricConfidenceCounts: string;
+  metricConfidenceMethod: string;
+  metricConfidenceCaveat: string;
+  metricByContinentTitle: string;
+  metricByContinentCounts: string;
+  metricByContinentMethod: string;
+  metricByContinentCaveat: string;
+  howIsThisCounted: string;
+  hideHowThisIsCounted: string;
   interfaceTranslationNote: string;
 }
 
@@ -1260,6 +1306,98 @@ export const EN: Copy = {
     '{c} countries · {n} traditions',
   groupSummaryOrigins:
     '{c} origins · {n} traditions',
+  metricTotalTitle:
+    'Traditions recorded',
+  metricTotalCounts:
+    'A tradition is one way of making a food in one place. The same dish made differently in two regions is two traditions, and both are kept.',
+  metricTotalMethod:
+    'Every record from the curated set and the four imported sources that has something to show — a place and a name at minimum. Rows still awaiting enrichment are held back and not counted.',
+  metricTotalCaveat:
+    'This is not a count of the world’s distinct foods, and it is not a measure of how much the atlas knows. Most of these records carry a name and a country and nothing else. The share with a written method is the number that says whether this is an atlas or a list of names.',
+  metricCountriesTitle:
+    'Countries',
+  metricCountriesCounts:
+    'Distinct countries named across all records, after the import’s place names are resolved.',
+  metricCountriesMethod:
+    'The country field of every record, de-duplicated, counting only origins that are countries. Historical and supra-national entries a source used — the Ottoman Empire, the Levant, Mesoamerica — are kept on their records rather than reassigned to a modern state we would have to guess at, and they are not counted here. Counting them added thirty-two to this figure and every one of them was imaginary.',
+  metricCountriesCaveat:
+    'Coverage is not depth. A country appears here on the strength of a single record, so this counts where the atlas has been rather than where it is any good. Read it next to the concentration figure below, which says how lopsided the total is.',
+  metricAtRiskTitle:
+    'At-risk traditions',
+  metricAtRiskCounts:
+    'Records where a source’s own words describe the tradition as declining, disappearing or no longer practised.',
+  metricAtRiskMethod:
+    'Detected by reading each article’s introduction and history for stated decline — "now rarely made", "the last remaining producer" — and rejecting near-misses that mean something else, such as an endangered species used as an ingredient or a closed restaurant chain. The sentence that triggered it is stored on the record as evidence and is shown with it.',
+  metricAtRiskCaveat:
+    'This is a floor, not a census, and it is far below the truth. It can only find decline that somebody already wrote down in a text we have read; a tradition held by four families and never documented registers as nothing at all. Slow Food’s Ark of Taste alone lists roughly six thousand endangered foods, which is a thousand times this figure.',
+  metricDocumentedTitle:
+    'Has a recorded method',
+  metricDocumentedCounts:
+    'Records carrying an ordered method — the steps someone would follow to make it.',
+  metricDocumentedMethod:
+    'Curated records have a method written and checked with the community. Imported ones have it only where a published recipe exists for them; an encyclopaedia paragraph describing how a dish is generally made is stored as prose and deliberately not promoted to steps, because presenting a description as a method claims a precision it does not have.',
+  metricDocumentedCaveat:
+    'A method being present says nothing about whether it is the traditional one. That is what the confidence score is for, and most records with a method are classified Modern Adaptation.',
+  metricLocatedTitle:
+    'Placed below country level',
+  metricLocatedCounts:
+    'Records that name a region, province, city or village, not only a country.',
+  metricLocatedMethod:
+    'Any record whose place has a level filled in beneath the country.',
+  metricLocatedCaveat:
+    'Authenticity has geographic depth, and a country is barely a start — "Kozhikode" is a record, "India" is a heading. A high total with a low share here describes an atlas that is wide and shallow.',
+  metricIllustratedTitle:
+    'Has a photograph',
+  metricIllustratedCounts:
+    'Records with an image the app has the right to display.',
+  metricIllustratedMethod:
+    'From Wikidata, from the dish’s own Wikipedia article, or contributed by a cook through Wikimedia Commons. Every one is stored with its photographer and licence, and none is marked verified: an image found by name or chosen by an editor is good evidence that it shows the dish, not this app’s confirmation of it.',
+  metricIllustratedCaveat:
+    'A photograph is not evidence of authenticity. It shows a plate somebody cooked, which may or may not be the tradition the record describes.',
+  metricFilmedTitle:
+    'Has a ranked video',
+  metricFilmedCounts:
+    'Records with at least one video, ordered by how close the cook is to the tradition.',
+  metricFilmedMethod:
+    'Ranked by locality — where the cook is, what language they speak in, whether the ingredients and equipment match the record. Never by views, likes or subscribers.',
+  metricFilmedCaveat:
+    'The ranking is about proximity to the tradition, not quality of filming, and the top video is often the least polished one.',
+  metricAssessedTitle:
+    'Classified as authentic',
+  metricAssessedCounts:
+    'Records that reached Authentic — Local or Authentic — Regional through the evidence checks.',
+  metricAssessedMethod:
+    'Seven checks, each answered or left open, with open checks lowering confidence rather than being filled in by assumption. Technique and community validation are never inferred from an import, which caps what an imported record can reach on its own.',
+  metricAssessedCaveat:
+    'A low share here is honest rather than a failure. Most of the catalogue is imported and unassessed, and calling those records authentic because they came from a reputable source is exactly the shortcut this scale exists to refuse.',
+  metricConcentrationTitle:
+    'Concentration',
+  metricConcentrationCounts:
+    'The share of the whole catalogue held by its single largest country.',
+  metricConcentrationMethod:
+    'Records in the most-represented country, over the total.',
+  metricConcentrationCaveat:
+    'This reflects which countries keep open food registries, not where the world’s food is. Italy alone publishes roughly 4,400 registered traditional products; most countries publish none, and their absence here is an absence of paperwork rather than of cooking.',
+  metricConfidenceTitle:
+    'Confidence',
+  metricConfidenceCounts:
+    'How the catalogue is distributed across the 0–100 evidence score.',
+  metricConfidenceMethod:
+    'Curated records are scored by the evidence checks. Imported records are scored only where enrichment found evidence to score, and are otherwise left unscored rather than given a default.',
+  metricConfidenceCaveat:
+    '"Not scored" is by far the largest band and will stay that way. It means nobody has assessed the record yet — not that it scored badly, and not that the food is doubtful.',
+  metricByContinentTitle:
+    'Where the records are',
+  metricByContinentCounts:
+    'Records per continent, counting every record once. A tradition sits on the continent of the country it is recorded in, not the one it may have travelled from.',
+  metricByContinentMethod:
+    'From each record’s country, through a country-to-continent map that covers around 200 states including historical ones. Supra-national and disputed entries are grouped rather than forced into a continent.',
+  metricByContinentCaveat:
+    'This is a map of the sources, not of the world’s cooking. Europe leads because European registries are online and open, which is a fact about archives.',
+  howIsThisCounted:
+    'How is this counted?',
+  hideHowThisIsCounted:
+    'Hide how this is counted',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
