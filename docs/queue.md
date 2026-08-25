@@ -1186,3 +1186,47 @@ None is a defect — they are scale steps kept for completeness — but they are
 because `space[12]`/`[16]` sat in exactly that state while the page kept a phone's rhythm,
 and the only thing that distinguished "spare step" from "forgotten wiring" was measuring
 the rendered page.
+
+### The motion pass
+
+The entrance animation was firing on page load. Measured at 1440: all five rails' rises
+were **finished** while four of them were still below the fold — tops at 1,966, 3,051,
+4,135 and 5,213 against a fold at 839. Every rail past the first performed its arrival to
+an empty room and was sitting still by the time anyone scrolled to it. The six-step
+stagger went with it: sections now arrive one at a time, and staggering things already
+separated in time only delays them.
+
+`theme/reveal.ts` is written defensively because this is the fourth encounter with the
+same failure. It degrades in four steps and the worst one is imperceptible:
+
+1. a frame after mount, anything already on screen reveals on a position check;
+2. otherwise an `IntersectionObserver` reveals it on arrival;
+3. otherwise a 3s failsafe, created in the same statement that arms the element;
+4. and if all three fail, the section is **fully visible, ten pixels low**.
+
+**The animation moves and never fades**, which is what makes step 4 possible — and the
+earlier note in `webStyles.ts` was wrong about why. It claimed that omitting the fill mode
+made the natural state visible. It does not: a *running* animation renders its own value,
+so an animation stuck at currentTime 0 shows opacity 0 with no fill mode anywhere. That is
+measured, not theorised — in an embedded browser view whose `document.timeline` never
+advanced, every animation reported `running` at time 0 and all 63 photographs were
+invisible. `photo-veil` still fades, because a fade is the point there and a real browser
+advances its timeline whether or not a tab is focused; the reveal does not, because
+movement is the point and there is no reason to pay that risk for it.
+
+**What is verified and what is not.** Verified: nothing is ever hidden, in any state, at
+any point; the failsafe reveals everything; the text is readable throughout. **Not
+verified: the scroll reveal itself.** The browser pane available here has `document.hidden`
+true, a `document.timeline` frozen at 0, and an `IntersectionObserver` that reports nothing
+at all — so the happy path could not be observed, only the degradations. It wants a look in
+a real browser.
+
+Two false starts, both caught by measuring rather than reading:
+
+- The first version skipped the gate for anything already on screen, measured in the ref
+  callback. A ref runs *before* layout, so all five rails reported a top near zero and
+  revealed at once — the mount-time behaviour this file exists to replace, wearing a new
+  attribute.
+- Backticks inside a CSS comment closed the stylesheet's template literal again, reporting
+  the error three lines further on. Second time in this session; there is now a note in the
+  file saying so.

@@ -136,11 +136,21 @@ body { margin: 0; overscroll-behavior: none; }
    * is ever attached. An animation needs no event at all: it runs when the element
    * mounts, and Photo keys the image on its URL so a new photograph is a new mount.
    *
-   * No fill mode, and that is the whole safeguard: with backwards fill the element sits at
-   * the first keyframe — opacity 0 — until the animation starts, so anything that stops
-   * it from starting leaves the photograph invisible. That is the exact failure this
-   * change exists to remove. Without fill the natural state is visible and the animation
-   * only plays over it.
+   * No fill mode, which removes one failure: with backwards fill the element sits at the
+   * first keyframe — opacity 0 — before the animation starts, so anything delaying the
+   * start leaves the photograph invisible.
+   *
+   * It does not remove all of them, and the previous version of this note claimed it did.
+   * "Without fill the natural state is visible" is wrong while the animation is *running*:
+   * a running animation renders its own value, so at currentTime 0 that is still opacity
+   * 0. Measured in an embedded browser view whose document.timeline never advanced — every
+   * animation on the page reported playState "running" at currentTime 0, and all 63
+   * photographs were invisible with no fill mode anywhere in sight.
+   *
+   * Left as it is, because that view is not a real tab and a real browser advances the
+   * timeline whether or not the tab is focused. But it is the reason the section reveal
+   * below animates transform and never opacity: where a fade is the point, this risk is
+   * the price; where movement is the point, there is no reason to pay it.
    */
   @keyframes photo-veil { from { opacity: 0; } to { opacity: 1; } }
   [data-motion="photo-veil"] { animation: photo-veil 260ms ease; }
@@ -154,9 +164,23 @@ body { margin: 0; overscroll-behavior: none; }
    * Capped at six steps: beyond that a reader is waiting for the page to finish arriving,
    * which is the opposite of the point.
    */
+  /*
+   * Movement only. No opacity, deliberately, and this is the third time this file has had
+   * to learn it.
+   *
+   * A running animation renders its own value, not the element's — so an animation whose
+   * first keyframe is opacity 0 shows nothing for as long as it fails to progress. That is
+   * not theoretical: measured in an embedded browser view where document.timeline never
+   * started, every animation sat at currentTime 0 and the whole page was invisible. Fill
+   * mode had nothing to do with it, which is what the earlier note here got wrong.
+   *
+   * A translate cannot fail that way. If the timeline never runs, or the observer never
+   * reports, or a browser throttles the tab into next week, the worst case is a section
+   * resting ten pixels low — which nobody can see and nobody loses anything to.
+   */
   @keyframes wf-rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { transform: translateY(10px); }
+    to   { transform: translateY(0); }
   }
   /*
    * The skeleton breathes while the atlas downloads.
@@ -171,12 +195,31 @@ body { margin: 0; overscroll-behavior: none; }
     50% { opacity: 0.55; }
   }
   [data-motion="pulse"] { animation: wf-pulse 1600ms ease-in-out infinite; }
-  [data-enter] { animation: wf-rise 320ms ease both; }
-  [data-enter="2"] { animation-delay: 60ms; }
-  [data-enter="3"] { animation-delay: 120ms; }
-  [data-enter="4"] { animation-delay: 180ms; }
-  [data-enter="5"] { animation-delay: 240ms; }
-  [data-enter="6"] { animation-delay: 300ms; }
+
+  /*
+   * The rise, driven by arrival on screen rather than by page load.
+   *
+   * It used to be [data-enter] with a six-step stagger, which fired on mount. Measured at
+   * 1440: all five rails finished while four were still below the fold, so every rail past
+   * the first performed its entrance to an empty room. The stagger went with it — sections
+   * now arrive one at a time as a reader reaches them, and staggering things that are
+   * already separated in time only delays them.
+   *
+   * "armed" matches the animation's first keyframe exactly, so the swap to "in" is
+   * seamless rather than a flash of the finished state. It carries no fill mode: an
+   * element that somehow gets "in" without running the animation is visible, which is the
+   * failure this is allowed to have. theme/reveal.ts explains the rest, including why
+   * nothing here may hide content without a timer already holding the other end.
+   *
+   * No backticks in this comment, and none anywhere in this file: the whole stylesheet is
+   * a template literal, so one closes it and the error lands three lines further on in
+   * something that looks fine. Cost twenty minutes once already.
+   *
+   * Both rules live inside the reduced-motion guard, so for a reader who asked for less
+   * movement the arming attribute does nothing at all and the section is simply there.
+   */
+  [data-reveal="armed"] { transform: translateY(10px); }
+  [data-reveal="in"] { animation: wf-rise 320ms ease; }
 }
 
 `;

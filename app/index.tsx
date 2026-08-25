@@ -251,7 +251,6 @@ export default function Feed() {
       key={shelf.id}
       /* Staggers the rails in as the page assembles. Capped in CSS at six steps —
          past that a reader is waiting for the page to finish arriving. */
-      enter={i + 1}
       shelf={leadDish && i === 0 ? { ...shelf, dishes: shelf.dishes.slice(1) } : shelf}
       onOpenDish={(id) => router.push(`/dish/${id}`)}
       onOpenAll={(s) => setShelfView(s.id)}

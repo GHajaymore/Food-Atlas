@@ -13,6 +13,7 @@
 import { levelLabel } from '../domain/authenticity';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
+import { useReveal } from '../theme/reveal';
 import type { Shelf as ShelfData } from '../domain/shelves';
 import { accentText, color, font, radius, space } from '../theme/tokens';
 import { EvidenceBadge } from './EvidenceBadge';
@@ -24,14 +25,12 @@ import { useCopy } from '../i18n';
 
 interface Props {
   shelf: ShelfData;
-  /** 1-based position, for the staggered entrance. Web only; inert on native. */
-  enter?: number;
   onOpenDish: (id: number) => void;
   /** Opens the whole shelf as a filtered list. */
   onOpenAll: (shelf: ShelfData) => void;
 }
 
-export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
+export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
   const copy = useCopy();
   const label = shelfLabel(copy, shelf);
   const remaining = shelf.total - shelf.dishes.length;
@@ -66,13 +65,12 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
       </ScrollView>
     );
 
-  /* Spread rather than passed: dataSet is a react-native-web extension the RN types do
-     not carry. Same resolution Photo.tsx uses for its blend. */
-  const enterProps: object =
-    Platform.OS === 'web' && enter ? { dataSet: { enter: String(Math.min(enter, 6)) } } : {};
+  /* Reveals when the reader reaches it. Returns nothing on native and on a browser with
+     no IntersectionObserver, so there is no platform branch here. */
+  const reveal = useReveal();
 
   return (
-    <View {...enterProps} style={{ ...styles.wrap, marginTop: layout.sectionGap }}>
+    <View {...reveal} style={{ ...styles.wrap, marginTop: layout.sectionGap }}>
       <View style={styles.header}>
         <H4 style={styles.title}>{label.title}</H4>
         {/*
