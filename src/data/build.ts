@@ -1424,7 +1424,7 @@ export interface CatalogueStats {
    *
    * Here because the pantry search told readers that "about half the atlas has no
    * ingredients listed" — a figure that was typed rather than counted. Counted, it is
-   * 10,429 of 17,774, or 59%: not the wild miss it might have been, but not "about half"
+   * 10,426 of 17,748, or 59%: not the wild miss it might have been, but not "about half"
    * either, and the number moves every time an enrichment pass runs. A screen that
    * reports how little is known cannot itself be guessing at how little is known.
    */

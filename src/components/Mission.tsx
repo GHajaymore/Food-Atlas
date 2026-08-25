@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
    * These are the second-largest thing on the page — 37px once the scale opens up, five
    * of them in a row — and they were the interface face, which left Fraunces carrying one
    * headline and nothing else above card size. In this app the numbers *are* the
-   * argument: 17,774 recorded, 10,098 with no method. Setting them in the face reserved
+   * argument: 17,748 recorded, most with no method. Setting them in the face reserved
    * for "anything that names or argues" is the plainest reading of the project's own
    * rule, and it gives the display face something to do between the headline and the
    * cards.

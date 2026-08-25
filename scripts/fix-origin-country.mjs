@@ -41,7 +41,33 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const CUISINES = resolve(HERE, '../src/data/cuisines.json');
+
+/**
+ * Which source to correct. `--source catalogue` for the Wikidata import.
+ *
+ * This read `cuisines.json` and nothing else, because the cuisine tree was where the
+ * category-derived country came from. The import has the same fault by a different route
+ * and was never checked: 2,063 of its rows carry an article URL and none of them had
+ * `originChecked`. That is what put Beef Wellington, Marie Rose sauce and a Hokkien rice
+ * cake on a rail headed "From United States" — the cuisine copy of each dish had been
+ * corrected while the import copy kept the category's country, and both were in the
+ * catalogue at once.
+ *
+ * Both files carry `name`, `country`, `region` and `url`, which is everything this pass
+ * reads, so the only thing that had to change is which one it opens.
+ */
+const SOURCES = {
+  cuisines: resolve(HERE, '../src/data/cuisines.json'),
+  catalogue: resolve(HERE, '../src/data/catalogue.json'),
+};
+
+const sourceArg = process.argv.indexOf('--source');
+const SOURCE_NAME = sourceArg > -1 ? process.argv[sourceArg + 1] : 'cuisines';
+const CUISINES = SOURCES[SOURCE_NAME];
+if (!CUISINES) {
+  process.stderr.write(`unknown --source "${SOURCE_NAME}". Use one of: ${Object.keys(SOURCES).join(', ')}\n`);
+  process.exit(1);
+}
 
 const API = 'https://en.wikipedia.org/w/api.php';
 const USER_AGENT = 'GlobalTaste/1.0 (food atlas origin correction; contact: via repository)';

@@ -202,7 +202,7 @@ export default function Search() {
               {/*
                * This paragraph was typed out in English inside a translated screen, and
                * the figure in it was guessed: it said "about half" where the count is
-               * 10,429 of 17,774, or 59%. Counted from the catalogue now, because a note
+               * 10,426 of 17,748, or 59%. Counted from the catalogue now, because a note
                * whose whole job is to say how little has been recorded cannot itself be
                * estimating — and because the figure moves whenever a pass adds
                * ingredients, so a number typed here would drift out of date silently.

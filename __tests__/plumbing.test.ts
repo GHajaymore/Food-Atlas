@@ -503,10 +503,21 @@ describe('a region is a place, not a branch of a category tree', () => {
    *
    * The country count stays exact, because that one IS an invariant: no repair to how a
    * region is read should ever remove a country from the atlas.
+   *
+   * 157 became 156 when the origin pass was extended to the Wikidata import. One country
+   * left the atlas: **Belize**, whose only record was `chimole`, which moved to Mexico
+   * because that is the origin its own article states. Six other values also emptied —
+   * Goryeo, the Korean Empire, the Holy Roman Empire, the Kingdom of France, the
+   * Sultanate of Maguindanao and the Confederate States of Lanao — and none of those
+   * changes this figure, because `isCountry` already excludes historical states.
+   *
+   * Deliberately still an exact number. It failed, which is the whole point of it: a
+   * published coverage figure moved and somebody had to look at why and decide. A floor
+   * here would have let the atlas quietly stop covering a country.
    */
   it('loses no country, and no large number of records, to the repair', () => {
     expect(catalogueStats.total).toBeGreaterThan(17_000);
-    expect(catalogueStats.countries).toBe(157);
+    expect(catalogueStats.countries).toBe(156);
   });
 });
 
@@ -598,7 +609,7 @@ describe('no screen types out English the catalogue already holds', () => {
  *
  * It used to say "about half the atlas has no ingredients listed", in English, inside a
  * screen every other line of which was translated. The number was not measured — counted,
- * it is 10,429 of 17,774 — and on a screen whose entire purpose is to explain how little
+ * it is 10,426 of 17,748 — and on a screen whose entire purpose is to explain how little
  * has been recorded, a guessed figure is the one thing it cannot afford. It also moves:
  * every enrichment pass changes it, so any number typed into a sentence goes stale.
  *

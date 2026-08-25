@@ -1326,3 +1326,62 @@ Proposed, not done:
    *region* names the other's *country* — that is the signature of this pair, and it is
    distinguishable from a real contested origin.
 3. Re-run coverage after both, since the published totals move.
+
+### The origin pass, extended to the import — and why the dedupe rule was abandoned
+
+**Done: the import is origin-checked.** `fix-origin-country.mjs` took a `--source` and now
+runs over `catalogue.json` as well as `cuisines.json`. 2,062 rows checked, 199 contested
+origins recorded rather than resolved. The records from Ajay's screenshot moved to where
+their own articles say they come from:
+
+```
+Beef Wellington    United States -> United Kingdom
+Marie Rose sauce   United States -> United Kingdom
+Parmo              United States -> United Kingdom
+choklate ball      United States -> Sweden
+âng-ku-kóe         United States -> China
+baozi              United States -> China
+```
+
+The rail reads as an American rail now: Po' boy, muffuletta, St. Paul sandwich, sloppy
+joe, Bananas Foster, jambalaya, poke, Sno-ball.
+
+**Abandoned: the dedupe rule as specified.** The plan was to teach `isVaguerDuplicate` that
+two records sharing a name, where one's *region* names the other's *country*, are a
+duplicate. Tested against all 163 groups before writing it, and it is wrong:
+
+```
+Pierogi      Poland,  region=People's Republic of China  -> would DELETE the Polish record
+Nyama choma  Kenya/region=Tanzania AND Tanzania/region=Kenya -> would delete BOTH
+Arepa        Venezuela, region=Colombia -> a real shared claim
+Banku        Ghana, region=Benin        -> and the origin pass moves Benin->Ghana anyway
+```
+
+It catches 14 of 163 and gets several backwards, because geography cannot tell a
+misfiling from a dispute. `build.ts` already says as much: *"where the same dish is
+recorded in two countries both records stay, both origin claims stay visible, and nothing
+here settles which is first."* That was a deliberate decision and the rule would have
+overturned it blind. **Written, measured, rejected, not shipped.**
+
+133 names remain under more than one country, and **0 of them carry recorded origin
+claims** — so they are cross-source disagreements, not disputes the pass found. Both files
+are now origin-checked, which means each twin's country came from its own article. The
+honest resolution is to merge such a pair into one record carrying *both* claims, which is
+what `originClaims` already models — not to delete either. That is a design change and it
+needs deciding, not guessing.
+
+**Done: the figures.** Every rendered figure derives from `catalogueStats`, so nothing
+needed changing in the app. The stale numbers were all in comments and are corrected:
+total 17,774 -> 17,748, ingredients 10,429 -> 10,426 of them, share still 59%.
+
+**One country left the atlas: 157 -> 156.** Belize's only record, `chimole`, moved to
+Mexico because that is the origin its article states. Six other values also emptied —
+Goryeo, the Korean Empire, the Holy Roman Empire, the Kingdom of France, the Sultanate of
+Maguindanao, the Confederate States of Lanao — and none of those counts, because
+`isCountry` excludes historical states. The exact-count test failed and was meant to: a
+published coverage figure moved and a person had to look at why.
+
+**Still visibly odd, and now a display question rather than a data one.** A contested
+record keeps the country it was filed under and shows its region on the card, so the US
+rail still shows "Tofu — China" and "Chicken à la King — England". The data is right and
+says so; the card just puts a place under a heading that contradicts it.
