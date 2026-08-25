@@ -28,6 +28,8 @@
  * picture came from, which is a different and smaller claim than saying it is right.
  */
 
+import { EN, type Copy } from '../i18n/copy';
+
 import { decodeEntities } from './text';
 
 /** How a photograph came to be on a record. */
@@ -43,15 +45,27 @@ export type PhotoSource =
   /** Provenance not recorded. Older rows, and the honest answer for them. */
   | 'unknown';
 
-const LINES: Record<PhotoSource, string> = {
-  wikidata: 'Attached to this dish’s own Wikidata entry — not matched by name',
-  article: 'The lead image of this dish’s own encyclopaedia article',
-  recipe: 'Published on this recipe’s own page',
-  search: 'Matched by name on Wikimedia Commons — the subject is not confirmed',
-  unknown: 'Source not recorded — treat the subject as unconfirmed',
+const LINES: Record<PhotoSource, keyof Copy> = {
+  wikidata: 'photoFromWikidata',
+  article: 'photoFromArticle',
+  recipe: 'photoFromRecipe',
+  search: 'photoFromSearch',
+  unknown: 'photoFromUnknown',
 };
 
-export const photoOriginLine = (source: PhotoSource): string => LINES[source];
+export const photoOriginLine = (copy: Copy, source: PhotoSource): string => copy[LINES[source]];
+
+/**
+ * The reverse: a sentence already written into a record, matched back to a key.
+ *
+ * Needed because `photoOrigin` is baked into the catalogue at build time, so the screen
+ * receives the English rather than the source it came from. An unrecognised sentence is
+ * returned as it stands — an older export still has to say something true.
+ */
+export const photoOriginLabel = (copy: Copy, line: string): string => {
+  const source = (Object.keys(LINES) as PhotoSource[]).find((s) => EN[LINES[s]] === line);
+  return source ? copy[LINES[source]] : line;
+};
 
 /**
  * Whether the picture was chosen for this subject or found by resembling its name.

@@ -21,6 +21,8 @@
  *      corrupted record, not a rough edge.
  */
 
+import type { Copy } from '../i18n/copy';
+
 import { languageName } from './language';
 import type { Dish, DishTranslation } from './types';
 
@@ -54,7 +56,7 @@ export interface ReadableDish {
  * Falls back to the original text — never to a different translation and never to a
  * machine translation the record does not actually carry.
  */
-export function readDish(dish: Dish, preferred: string): ReadableDish {
+export function readDish(copy: Copy, dish: Dish, preferred: string): ReadableDish {
   const preserved = {
     name: dish.name,
     ingredients: dish.ingredients,
@@ -98,10 +100,7 @@ export function readDish(dish: Dish, preferred: string): ReadableDish {
        * told it is Hindi is the difference between an unreadable page and a page in
        * a language you know you do not have.
        */
-      note:
-        `No translation of this account has been recorded yet, so it is shown in ` +
-        `${languageName(dish.sourceLanguage)}, the language it was documented in. ` +
-        "We'd rather show you the original than a machine's guess at a fermentation time.",
+      note: copy.noTranslationRecorded.replace('{language}', languageName(dish.sourceLanguage)),
     };
   }
 
@@ -115,10 +114,10 @@ export function readDish(dish: Dish, preferred: string): ReadableDish {
     glossary: translation.glossary ?? {},
     status: translation.machine ? 'machine' : 'human',
     translator: translation.translator,
-    note: translation.machine
-      ? `Machine translation by ${translation.translator}. No one from the community has checked it — ` +
-        'ingredient and equipment names are left in the original.'
-      : `Translated by ${translation.translator}. Ingredient and equipment names are left in the original.`,
+    note: (translation.machine ? copy.machineTranslationBy : copy.translatedBy).replace(
+      '{translator}',
+      translation.translator,
+    ),
   };
 }
 

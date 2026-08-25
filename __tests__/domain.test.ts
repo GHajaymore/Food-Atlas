@@ -773,10 +773,10 @@ describe("the sentence shown when nothing matches", () => {
     // Vegan plus breakfast produced "Nothing classified as All and vegan anywhere in
     // the atlas". The occasion was missing, so the sentence said there is no vegan
     // food here at all. There is; none of it is also breakfast.
-    expect(narrowingSummary("All", true, ["vegan", "breakfast"])).toBe(
+    expect(narrowingSummary(EN, "All", true, ["vegan", "breakfast"])).toBe(
       "Nothing recorded as vegan and breakfast",
     );
-    expect(narrowingSummary("Fusion", false, ["vegan", "breakfast"])).toBe(
+    expect(narrowingSummary(EN, "Fusion", false, ["vegan", "breakfast"])).toBe(
       "Nothing recorded as Fusion, vegan and breakfast",
     );
   });
@@ -784,12 +784,12 @@ describe("the sentence shown when nothing matches", () => {
   it("does not name the permissive filter as a reason", () => {
     // "Classified as All" is not a classification, and offering it as the reason
     // nothing matched implies a narrowing the reader never applied.
-    expect(narrowingSummary("All", true, ["vegan"])).toBe("Nothing recorded as vegan");
-    expect(narrowingSummary("All", true, [])).toBe("Nothing recorded");
+    expect(narrowingSummary(EN, "All", true, ["vegan"])).toBe("Nothing recorded as vegan");
+    expect(narrowingSummary(EN, "All", true, [])).toBe("Nothing recorded");
   });
 
   it("names the filter when the reader did choose one", () => {
-    expect(narrowingSummary("Fusion", false, [])).toBe("Nothing recorded as Fusion");
+    expect(narrowingSummary(EN, "Fusion", false, [])).toBe("Nothing recorded as Fusion");
   });
 });
 
@@ -1516,35 +1516,35 @@ describe('meal occasion is recorded in the tradition s own terms', () => {
 
 describe('translation preserves the identity of the food', () => {
   it('reads the original when no translation is needed', () => {
-    const reading = readDish(pizza(), 'en');
+    const reading = readDish(EN, pizza(), 'en');
     expect(reading.status).toBe('original');
     expect(reading.steps).toEqual(pizza().steps);
     expect(reading.note).toBe('');
   });
 
   it('says so, and shows the original, when nothing has been translated yet', () => {
-    const reading = readDish(pizza(), 'ja');
+    const reading = readDish(EN, pizza(), 'ja');
     expect(reading.status).toBe('missing');
     expect(reading.steps).toEqual(pizza().steps);
     expect(reading.note).toMatch(/No translation .* has been recorded yet/);
   });
 
   it('uses a curated translation and credits the translator', () => {
-    const reading = readDish(mole(), 'es');
+    const reading = readDish(EN, mole(), 'es');
     expect(reading.status).toBe('human');
     expect(reading.translator).toBe('Community translator, Oaxaca');
     expect(reading.steps[0]).toMatch(/comal/);
   });
 
   it('leaves the dish name, ingredients and equipment untranslated', () => {
-    const reading = readDish(mole(), 'es');
+    const reading = readDish(EN, mole(), 'es');
     expect(reading.name).toBe(mole().name);
     expect(reading.ingredients).toEqual(mole().ingredients);
     expect(reading.equipment).toEqual(mole().equipment);
   });
 
   it('keeps the same number of steps across a translation', () => {
-    expect(readDish(mole(), 'es').steps).toHaveLength(mole().steps.length);
+    expect(readDish(EN, mole(), 'es').steps).toHaveLength(mole().steps.length);
   });
 
   it('labels a machine translation as unchecked', () => {
@@ -1553,7 +1553,7 @@ describe('translation preserves the identity of the food', () => {
       translator: 'automated translation',
       machine: true,
     };
-    const reading = readDish({ ...mole(), translations: { es: machine } }, 'es');
+    const reading = readDish(EN, { ...mole(), translations: { es: machine } }, 'es');
     expect(reading.status).toBe('machine');
     expect(reading.note).toMatch(/No one from the community has checked it/);
   });
@@ -1565,14 +1565,14 @@ describe('an untranslated account says which language it is in', () => {
     // atlas began reading dishes in the language of the place they come from. A
     // reader who cannot read the script cannot tell Hindi from Marathi.
     const foreign: Dish = { ...halwa(), sourceLanguage: 'hi', translations: undefined };
-    const reading = readDish(foreign, 'en');
+    const reading = readDish(EN, foreign, 'en');
     expect(reading.status).toBe('missing');
     expect(reading.note).toMatch(/shown in Hindi/);
   });
 
   it('says nothing at all when the reader already has the original', () => {
     const foreign: Dish = { ...halwa(), sourceLanguage: 'hi' };
-    const reading = readDish(foreign, 'hi');
+    const reading = readDish(EN, foreign, 'hi');
     expect(reading.status).toBe('original');
     expect(reading.note).toBe('');
   });
@@ -1644,32 +1644,32 @@ describe('the translation provider is held to the preservation rules', () => {
 describe('video language handling never dubs over the cook', () => {
   it('leaves the URL alone when the video is already in the reader s language', () => {
     const video = { languageCode: 'it' };
-    const plan = planTranslation(video, 'it');
+    const plan = planTranslation(EN, video, 'it');
     expect(plan.route).toBe('original');
     expect(withLanguage('https://x/watch?v=1', 'it', plan)).toBe('https://x/watch?v=1');
   });
 
   it('asks the provider for captions over the original audio by default', () => {
-    const plan = planTranslation({ languageCode: 'ml' }, 'en');
+    const plan = planTranslation(EN, { languageCode: 'ml' }, 'en');
     expect(plan.route).toBe('provider-captions');
-    expect(plan.note).toMatch(/the cook's voice is not replaced/);
+    expect(plan.note).toMatch(/the cook[’']s voice is not replaced/);
     const url = withLanguage('https://x/watch?v=1', 'en', plan);
     expect(url).toContain('cc_lang_pref=en');
     expect(url).toContain('cc_load_policy=1');
   });
 
   it('prefers a creator-published audio track and credits it as theirs', () => {
-    const plan = planTranslation({ languageCode: 'ml', audioTracks: ['en'] }, 'en');
+    const plan = planTranslation(EN, { languageCode: 'ml', audioTracks: ['en'] }, 'en');
     expect(plan.route).toBe('creator-audio');
-    expect(plan.note).toMatch(/the creator's own, not ours/);
+    expect(plan.note).toMatch(/the creator[’']s own, not ours/);
     // A creator track is selected by hl, without forcing captions on top of it.
     expect(withLanguage('https://x/watch?v=1', 'en', plan)).not.toContain('cc_load_policy');
   });
 
   it('admits it does not know rather than promising a translation', () => {
-    const plan = planTranslation({}, 'en');
+    const plan = planTranslation(EN, {}, 'en');
     expect(plan.route).toBe('unavailable');
-    expect(plan.note).toMatch(/we can't promise/);
+    expect(plan.note).toMatch(/we can[’']t promise/);
   });
 });
 
@@ -2650,6 +2650,7 @@ describe('the chrome in other languages', () => {
     }).flatMap(([key, locales]) => locales.map((l) => `${l}.${key}`)),
 
     'fr.nTraditions', // "traditions" is the French word, spelled the same.
+    'fr.photoVia', // "photo via" reads the same in French.
   ]);
 
   /*

@@ -8,6 +8,7 @@
  * `scoreStyle: 'number-only'` in app settings drops the bars and keeps the number.
  */
 
+import { scoreDimensionLabel } from '../domain/authenticity';
 import { useCopy } from '../i18n';
 import { StyleSheet, View } from 'react-native';
 import { accentText, color, font, space } from '../theme/tokens';
@@ -36,8 +37,14 @@ export function ScoreBreakdown({ score, breakdown, showBars }: Props) {
       {showBars ? (
         <View style={styles.rows}>
           {breakdown.map(([label, value]) => (
-            <View key={label} style={styles.row} accessibilityLabel={copy.scoreOutOf100.replace('{label}', label).replace('{value}', String(value))}>
-              <T style={styles.label}>{label}</T>
+            <View
+              key={label}
+              style={styles.row}
+              accessibilityLabel={copy.scoreOutOf100
+                .replace('{label}', scoreDimensionLabel(copy, label))
+                .replace('{value}', String(value))}
+            >
+              <T style={styles.label}>{scoreDimensionLabel(copy, label)}</T>
               <View style={styles.track}>
                 <View style={[styles.fill, { width: `${value}%` }]} />
               </View>

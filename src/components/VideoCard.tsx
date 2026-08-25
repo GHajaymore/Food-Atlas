@@ -32,7 +32,7 @@ export function VideoCard({ video }: { video: Video }) {
   // What the viewer will actually get in their language, and the sentence that says
   // so. We ask the provider for its own translated track or captions — we never dub
   // over the cook, and we never claim a translation that does not exist.
-  const plan = planTranslation(video, language);
+  const plan = planTranslation(copy, video, language);
   const url = withLanguage(watchUrl(video), language, plan);
 
   return (

@@ -138,6 +138,28 @@ export const SCORE_DIMENSIONS = [
 ] as const;
 
 /**
+ * What a score-dimension row is called, in the reader's language.
+ *
+ * Takes the English label rather than an index, because a breakdown is data: it is
+ * written into the catalogue at build time and a seed record, an older export or a
+ * future pipeline change could reorder or omit a row. An index would then quietly put
+ * the wrong name on a number; an unmatched label falls through unchanged instead.
+ */
+export const scoreDimensionLabel = (copy: Copy, english: string): string => {
+  const key = (
+    {
+      'Geographic connection': 'scoreDimGeographic',
+      'Traditional ingredients': 'scoreDimIngredients',
+      'Traditional technique': 'scoreDimTechnique',
+      'Local source': 'scoreDimLocalSource',
+      'Cultural documentation': 'scoreDimDocumentation',
+      'Community validation': 'scoreDimCommunity',
+    } satisfies Record<(typeof SCORE_DIMENSIONS)[number], keyof Copy>
+  )[english as (typeof SCORE_DIMENSIONS)[number]];
+  return key ? copy[key] : english;
+};
+
+/**
  * Video ranking order, from the brief. Videos are ordered by the cook's closeness to
  * the tradition; a highly-viewed international video never outranks a local one on
  * view count alone. Recorded here so the discovery pipeline has one definition to

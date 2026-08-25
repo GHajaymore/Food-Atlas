@@ -319,15 +319,15 @@ export const randomAtRisk = (dishes: Dish[]): Dish | undefined => {
 };
 
 /** '6 traditions documented across 6 countries…' — coverage, stated honestly. */
-export const atlasCoverage = (dishes: Dish[]): string =>
+export const atlasCoverage = (copy: Copy, dishes: Dish[]): string =>
   // Countries, counted as countries. An origin recorded as "Levant" or "Mesoamerica"
   // is kept on its record and is not one of these.
   // Grouped. "17828 traditions" printed unseparated beside "157 countries" reads as a
   // reference number rather than a quantity, and this is the one figure on the page
   // whose size is the point.
-  `${dishes.length.toLocaleString()} traditions documented across ` +
-  `${new Set(dishes.map((d) => d.loc.country).filter(isCountry)).size} countries. ` +
-  `Coverage is stated honestly: a country absent here has nothing recorded yet, not nothing to record.`;
+  copy.atlasSummary
+    .replace('{n}', dishes.length.toLocaleString())
+    .replace('{c}', String(new Set(dishes.map((d) => d.loc.country).filter(isCountry)).size));
 
 /**
  * What the reader asked for, said back to them when nothing matches.
@@ -343,14 +343,17 @@ export const atlasCoverage = (dishes: Dish[]): string =>
  * the other direction — it implies a narrowing the reader never applied.
  */
 export function narrowingSummary(
+  copy: Copy,
   filterLabel: string,
   isDefaultFilter: boolean,
   constraints: string[],
 ): string {
   const parts = [...(isDefaultFilter ? [] : [filterLabel]), ...constraints].filter(Boolean);
-  if (!parts.length) return 'Nothing recorded';
-  if (parts.length === 1) return `Nothing recorded as ${parts[0]}`;
-  return `Nothing recorded as ${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+  if (!parts.length) return copy.nothingRecorded;
+  if (parts.length === 1) return copy.nothingRecordedAs.replace('{what}', parts[0]);
+  return copy.nothingRecordedAsAnd
+    .replace('{list}', parts.slice(0, -1).join(', '))
+    .replace('{last}', parts[parts.length - 1]);
 }
 
 /**

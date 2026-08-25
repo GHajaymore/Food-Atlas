@@ -313,7 +313,7 @@ export default function Feed() {
         <Card style={styles.emptyCard}>
           <CardKicker>{copy.nothingRecordedHere}</CardKicker>
           <CardBody>
-            {narrowingSummary(filterLabel(copy, activeFilter), activeFilter === settings.defaultFilter, [
+            {narrowingSummary(copy, filterLabel(copy, activeFilter), activeFilter === settings.defaultFilter, [
               ...dietNames,
               ...meals.map((m) => copy[MEAL_LABELS[m]].toLowerCase()),
             ])}

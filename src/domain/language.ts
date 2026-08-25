@@ -23,6 +23,8 @@
  */
 
 /** BCP-47 codes the provider accepts for `hl` / `cc_lang_pref`. */
+import type { Copy } from '../i18n/copy';
+
 export interface Language {
   code: string;
   /** The language in English, for the app's own chrome. */
@@ -249,6 +251,7 @@ export interface TranslationPlan {
  * creator published a track in that language, which is a curated field, not a guess.
  */
 export function planTranslation(
+  copy: Copy,
   video: { languageCode?: string; audioTracks?: string[] },
   preferred: string,
 ): TranslationPlan {
@@ -257,34 +260,29 @@ export function planTranslation(
   if (spoken && spoken === preferred) {
     return {
       route: 'original',
-      note: `Spoken in ${languageName(spoken)} — the cook's own language. Nothing is translated.`,
+      note: copy.videoOriginalAudio.replace('{language}', languageName(spoken)),
     };
   }
 
   if (video.audioTracks?.includes(preferred)) {
     return {
       route: 'creator-audio',
-      note:
-        `The creator published a ${languageName(preferred)} audio track. It opens in that track at the source — ` +
-        `the translation is the creator's own, not ours.`,
+      note: copy.videoCreatorTrack.replace('{language}', languageName(preferred)),
     };
   }
 
   if (spoken) {
     return {
       route: 'provider-captions',
-      note:
-        `Spoken in ${languageName(spoken)}. Opens with machine-translated ${languageName(preferred)} captions ` +
-        `over the original audio — the cook's voice is not replaced, and the translation is the video ` +
-        `platform's, not a human one.`,
+      note: copy.videoPlatformCaptions
+        .replace('{spoken}', languageName(spoken))
+        .replace('{preferred}', languageName(preferred)),
     };
   }
 
   return {
     route: 'unavailable',
-    note:
-      `We don't have this video's spoken language on record, so we can't promise ${languageName(preferred)}. ` +
-      `It opens at the source, where the platform's own caption options apply.`,
+    note: copy.videoLanguageUnknown.replace('{language}', languageName(preferred)),
   };
 }
 

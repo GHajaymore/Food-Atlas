@@ -670,6 +670,39 @@ export interface Copy {
   containsAlcohol: string;
   nothingElseRequired: string;
   opensTheFormPrefilled: string;
+  scoreDimGeographic: string;
+  scoreDimIngredients: string;
+  scoreDimTechnique: string;
+  scoreDimLocalSource: string;
+  scoreDimDocumentation: string;
+  scoreDimCommunity: string;
+  photoFromWikidata: string;
+  photoFromArticle: string;
+  photoFromRecipe: string;
+  photoFromSearch: string;
+  photoFromUnknown: string;
+  noTranslationRecorded: string;
+  machineTranslationBy: string;
+  translatedBy: string;
+  videoOriginalAudio: string;
+  videoCreatorTrack: string;
+  videoPlatformCaptions: string;
+  videoLanguageUnknown: string;
+  figureDocumented: string;
+  figureDocumentedNote: string;
+  figureLocated: string;
+  figureLocatedNote: string;
+  figureIllustrated: string;
+  figureIllustratedNote: string;
+  figureFilmed: string;
+  figureFilmedNote: string;
+  figureAssessed: string;
+  figureAssessedNote: string;
+  atlasSummary: string;
+  nothingRecorded: string;
+  nothingRecordedAs: string;
+  nothingRecordedAsAnd: string;
+  photoVia: string;
   interfaceTranslationNote: string;
 }
 
@@ -1690,6 +1723,72 @@ export const EN: Copy = {
     'Everything else is welcome and none of it is required — knowing where a food is from and that nobody has written it down is already more than any source here holds.',
   opensTheFormPrefilled:
     'It opens the form at its source with what you have written already filled in. Nothing about you is collected by this app, and nothing is published until people from the place confirm it.',
+  scoreDimGeographic:
+    'Geographic connection',
+  scoreDimIngredients:
+    'Traditional ingredients',
+  scoreDimTechnique:
+    'Traditional technique',
+  scoreDimLocalSource:
+    'Local source',
+  scoreDimDocumentation:
+    'Cultural documentation',
+  scoreDimCommunity:
+    'Community validation',
+  photoFromWikidata:
+    'Attached to this dish’s own Wikidata entry — not matched by name',
+  photoFromArticle:
+    'The lead image of this dish’s own encyclopaedia article',
+  photoFromRecipe:
+    'Published on this recipe’s own page',
+  photoFromSearch:
+    'Matched by name on Wikimedia Commons — the subject is not confirmed',
+  photoFromUnknown:
+    'Source not recorded — treat the subject as unconfirmed',
+  noTranslationRecorded:
+    'No translation of this account has been recorded yet, so it is shown in {language}, the language it was documented in. We’d rather show you the original than a machine’s guess at a fermentation time.',
+  machineTranslationBy:
+    'Machine translation by {translator}. No one from the community has checked it — ingredient and equipment names are left in the original.',
+  translatedBy:
+    'Translated by {translator}. Ingredient and equipment names are left in the original.',
+  videoOriginalAudio:
+    'Spoken in {language} — the cook’s own language. Nothing is translated.',
+  videoCreatorTrack:
+    'The creator published an audio track in {language}. It opens in that track at the source — the translation is the creator’s own, not ours.',
+  videoPlatformCaptions:
+    'Spoken in {spoken}. Opens with machine-translated {preferred} captions over the original audio — the cook’s voice is not replaced, and the translation is the video platform’s, not a human one.',
+  videoLanguageUnknown:
+    'We don’t have this video’s spoken language on record, so we can’t promise {language}. It opens at the source, where the platform’s own caption options apply.',
+  figureDocumented:
+    'Has a recorded method',
+  figureDocumentedNote:
+    'The number that says whether this is an atlas or a list of names. Everything else is secondary to it.',
+  figureLocated:
+    'Placed below country level',
+  figureLocatedNote:
+    'Authenticity has geographic depth. “Kozhikode” is a record; “India” is barely a start.',
+  figureIllustrated:
+    'Has a photograph',
+  figureIllustratedNote:
+    'A dish nobody can picture is hard to care about, and harder to recognise.',
+  figureFilmed:
+    'Has a ranked video',
+  figureFilmedNote:
+    'Ranked by the cook’s closeness to the tradition — not a search result.',
+  figureAssessed:
+    'Classified as authentic',
+  figureAssessedNote:
+    'Earned through the evidence checks. A low share here is honest, not a failure.',
+  atlasSummary:
+    '{n} traditions documented across {c} countries. Coverage is stated honestly: a country absent here has nothing recorded yet, not nothing to record.',
+  nothingRecorded:
+    'Nothing recorded',
+  nothingRecordedAs:
+    'Nothing recorded as {what}',
+  nothingRecordedAsAnd:
+    'Nothing recorded as {list} and {last}',
+  photoVia:
+    'photo via',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

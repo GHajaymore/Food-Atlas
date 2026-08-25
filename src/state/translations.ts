@@ -8,6 +8,7 @@
  * what would promote it, exactly as it is for the record itself.
  */
 
+import type { Copy } from '../i18n/copy';
 import { create } from 'zustand';
 import { readDish, type ReadableDish } from '../domain/translate';
 import { translationProvider } from '../domain/translationProvider';
@@ -33,7 +34,8 @@ interface TranslationState {
   /** Clear a failed attempt and try again, on the reader's explicit request. */
   retryTranslation: (dish: Dish) => Promise<void>;
   /** Resolve a record for reading, preferring curated then fetched translations. */
-  read: (dish: Dish) => ReadableDish;
+  /** Takes copy because the notes it builds are prose, not data. */
+  read: (copy: Copy, dish: Dish) => ReadableDish;
   statusFor: (dish: Dish) => Status;
   errorFor: (dish: Dish) => string | undefined;
   /** False when no translation service is wired up; the UI then says so plainly. */
@@ -90,7 +92,7 @@ export const useTranslations = create<TranslationState>((set, get) => ({
     await get().requestTranslation(dish);
   },
 
-  read: (dish) => {
+  read: (copy, dish) => {
     const { language, cache } = get();
     const fetched = cache[key(dish.id, language)];
 
@@ -101,7 +103,7 @@ export const useTranslations = create<TranslationState>((set, get) => ({
         ? { ...dish, translations: { ...(dish.translations ?? {}), [language]: fetched } }
         : dish;
 
-    return readDish(forReading, language);
+    return readDish(copy, forReading, language);
   },
 
   statusFor: (dish) => get().status[key(dish.id, get().language)] ?? 'idle',

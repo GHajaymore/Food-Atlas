@@ -19,6 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
+import { EN } from '../i18n/copy';
 import { DEFAULT_THRESHOLDS, assess, type Evidence, type Thresholds } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
 import { confirmationsFor, confirmedLocally, validationsOf, type ConfirmationIndex } from '../domain/confirmations';
@@ -313,7 +314,9 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
     photo: secure(row.photo),
     credit: row.licence ? `${artist} · ${row.licence}` : artist,
     creditHref: secure(row.photo),
-    photoOrigin: photoOriginLine(source),
+    /* EN explicitly: the build runs outside React, has no reader and no locale. The
+       record screen matches this sentence back to a key on the way out. */
+    photoOrigin: photoOriginLine(EN, source),
     // False for every source, deliberately. Knowing a picture was attached to the
     // right subject is not knowing it shows the dish as made in the place.
     photoVerified: false,

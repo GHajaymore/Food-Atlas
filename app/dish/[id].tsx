@@ -11,6 +11,7 @@
  *     adaptation. It is never merged into the authentic ingredient list above it.
  */
 
+import { photoOriginLabel } from '../../src/domain/photoProvenance';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
 import { useEffect, useMemo } from 'react';
@@ -101,7 +102,7 @@ export default function DishDetail() {
 
   // The record resolved into the reader's language. Names, ingredients and equipment
   // come back untranslated by construction — see domain/translate.ts.
-  const reading = read(dish);
+  const reading = read(copy, dish);
 
   // Imported records carry a name and a place and nothing else. The sections below
   // describe a preparation, so they only render where there is one.
@@ -199,7 +200,7 @@ export default function DishDetail() {
               <CameraIcon size={12} color={color.muted} />
             </View>
             <Muted style={styles.photoProvenanceText}>
-              {dish.photoOrigin} · photo via {dish.credit}
+              {photoOriginLabel(copy, dish.photoOrigin)} · {copy.photoVia} {dish.credit}
             </Muted>
           </View>
         </>

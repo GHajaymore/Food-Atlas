@@ -1045,6 +1045,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Todo lo demás es bienvenido y nada es obligatorio: saber de dónde es una comida y que nadie la ha escrito ya es más de lo que tiene cualquier fuente de aquí.',
     opensTheFormPrefilled:
       'Abre el formulario en su origen con lo que ya has escrito relleno. Esta aplicación no recoge nada sobre ti, y nada se publica hasta que gente del lugar lo confirme.',
+    scoreDimGeographic:
+      'Vínculo geográfico',
+    scoreDimIngredients:
+      'Ingredientes tradicionales',
+    scoreDimTechnique:
+      'Técnica tradicional',
+    scoreDimLocalSource:
+      'Fuente local',
+    scoreDimDocumentation:
+      'Documentación cultural',
+    scoreDimCommunity:
+      'Validación de la comunidad',
+    photoFromWikidata:
+      'Adjunta a la propia entrada de Wikidata de este plato — no encontrada por el nombre',
+    photoFromArticle:
+      'La imagen principal del propio artículo enciclopédico de este plato',
+    photoFromRecipe:
+      'Publicada en la página de esta misma receta',
+    photoFromSearch:
+      'Encontrada por el nombre en Wikimedia Commons — el motivo no está confirmado',
+    photoFromUnknown:
+      'Origen no registrado — trata el motivo como no confirmado',
+    noTranslationRecorded:
+      'Todavía no se ha registrado ninguna traducción de este relato, así que se muestra en {language}, el idioma en que se documentó. Preferimos enseñarte el original antes que la conjetura de una máquina sobre un tiempo de fermentación.',
+    machineTranslationBy:
+      'Traducción automática de {translator}. Nadie de la comunidad la ha revisado; los nombres de ingredientes y utensilios se dejan en el original.',
+    translatedBy:
+      'Traducido por {translator}. Los nombres de ingredientes y utensilios se dejan en el original.',
+    videoOriginalAudio:
+      'Hablado en {language}: el propio idioma de quien cocina. No se traduce nada.',
+    videoCreatorTrack:
+      'Quien lo hizo publicó una pista de audio en {language}. Se abre en esa pista en el origen: la traducción es suya, no nuestra.',
+    videoPlatformCaptions:
+      'Hablado en {spoken}. Se abre con subtítulos en {preferred} traducidos automáticamente sobre el audio original: la voz de quien cocina no se sustituye, y la traducción es de la plataforma de vídeo, no de una persona.',
+    videoLanguageUnknown:
+      'No tenemos registrado el idioma hablado de este vídeo, así que no podemos prometer {language}. Se abre en el origen, donde se aplican las opciones de subtítulos de la propia plataforma.',
+    figureDocumented:
+      'Tiene método registrado',
+    figureDocumentedNote:
+      'La cifra que dice si esto es un atlas o una lista de nombres. Todo lo demás es secundario.',
+    figureLocated:
+      'Situado por debajo del país',
+    figureLocatedNote:
+      'La autenticidad tiene profundidad geográfica. “Kozhikode” es un registro; “India” es apenas un comienzo.',
+    figureIllustrated:
+      'Tiene fotografía',
+    figureIllustratedNote:
+      'Un plato que nadie puede imaginarse cuesta que importe, y cuesta más reconocerlo.',
+    figureFilmed:
+      'Tiene vídeo ordenado',
+    figureFilmedNote:
+      'Ordenado por lo cerca que está quien cocina de la tradición, no por resultado de búsqueda.',
+    figureAssessed:
+      'Clasificados como auténticos',
+    figureAssessedNote:
+      'Ganado con las comprobaciones de pruebas. Que esta proporción sea baja es honesto, no un fracaso.',
+    atlasSummary:
+      '{n} tradiciones documentadas en {c} países. La cobertura se declara con honestidad: un país ausente aquí no tiene nada registrado todavía, no es que no haya nada que registrar.',
+    nothingRecorded:
+      'Nada registrado',
+    nothingRecordedAs:
+      'Nada registrado como {what}',
+    nothingRecordedAsAnd:
+      'Nada registrado como {list} y {last}',
+    photoVia:
+      'foto vía',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2056,6 +2122,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tout le reste est bienvenu et rien n’est obligatoire — savoir d’où vient un plat et que personne ne l’a écrit, c’est déjà plus que ce que contient n’importe quelle source ici.',
     opensTheFormPrefilled:
       'Cela ouvre le formulaire à sa source avec ce que vous avez déjà écrit prérempli. Cette application ne recueille rien sur vous, et rien n’est publié tant que des gens du lieu ne l’ont pas confirmé.',
+    scoreDimGeographic:
+      'Lien géographique',
+    scoreDimIngredients:
+      'Ingrédients traditionnels',
+    scoreDimTechnique:
+      'Technique traditionnelle',
+    scoreDimLocalSource:
+      'Source locale',
+    scoreDimDocumentation:
+      'Documentation culturelle',
+    scoreDimCommunity:
+      'Validation par la communauté',
+    photoFromWikidata:
+      'Jointe à la fiche Wikidata de ce plat — pas trouvée par le nom',
+    photoFromArticle:
+      'L’image principale de l’article d’encyclopédie de ce plat',
+    photoFromRecipe:
+      'Publiée sur la page de cette recette',
+    photoFromSearch:
+      'Trouvée par le nom sur Wikimedia Commons — le sujet n’est pas confirmé',
+    photoFromUnknown:
+      'Provenance non consignée — considérez le sujet comme non confirmé',
+    noTranslationRecorded:
+      'Aucune traduction de ce témoignage n’a encore été consignée ; il est donc affiché en {language}, la langue dans laquelle il a été consigné. Nous préférons vous montrer l’original que la supposition d’une machine sur un temps de fermentation.',
+    machineTranslationBy:
+      'Traduction automatique par {translator}. Personne de la communauté ne l’a vérifiée — les noms d’ingrédients et d’ustensiles restent dans l’original.',
+    translatedBy:
+      'Traduit par {translator}. Les noms d’ingrédients et d’ustensiles restent dans l’original.',
+    videoOriginalAudio:
+      'Parlé en {language} — la langue de la personne qui cuisine. Rien n’est traduit.',
+    videoCreatorTrack:
+      'L’auteur a publié une piste audio en {language}. La vidéo s’ouvre sur cette piste à la source — la traduction est la sienne, pas la nôtre.',
+    videoPlatformCaptions:
+      'Parlé en {spoken}. S’ouvre avec des sous-titres en {preferred} traduits automatiquement par-dessus l’audio d’origine — la voix de la personne qui cuisine n’est pas remplacée, et la traduction est celle de la plateforme vidéo, pas celle d’un humain.',
+    videoLanguageUnknown:
+      'Nous n’avons pas la langue parlée de cette vidéo, nous ne pouvons donc pas promettre {language}. Elle s’ouvre à la source, où s’appliquent les options de sous-titres de la plateforme.',
+    figureDocumented:
+      'A une méthode consignée',
+    figureDocumentedNote:
+      'Le chiffre qui dit s’il s’agit d’un atlas ou d’une liste de noms. Tout le reste lui est secondaire.',
+    figureLocated:
+      'Situé en dessous du pays',
+    figureLocatedNote:
+      'L’authenticité a une profondeur géographique. « Kozhikode » est une fiche ; « Inde » est à peine un début.',
+    figureIllustrated:
+      'A une photographie',
+    figureIllustratedNote:
+      'Un plat que personne ne peut se représenter est difficile à aimer, et plus difficile encore à reconnaître.',
+    figureFilmed:
+      'A une vidéo classée',
+    figureFilmedNote:
+      'Classée selon la proximité de la personne qui cuisine avec la tradition — pas un résultat de recherche.',
+    figureAssessed:
+      'Classés authentiques',
+    figureAssessedNote:
+      'Obtenu par les vérifications de preuves. Une part faible ici est honnête, pas un échec.',
+    atlasSummary:
+      '{n} traditions consignées dans {c} pays. La couverture est annoncée honnêtement : un pays absent ici n’a encore rien de consigné, ce n’est pas qu’il n’y ait rien à consigner.',
+    nothingRecorded:
+      'Rien de consigné',
+    nothingRecordedAs:
+      'Rien de consigné comme {what}',
+    nothingRecordedAsAnd:
+      'Rien de consigné comme {list} et {last}',
+    photoVia:
+      'photo via',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3066,6 +3198,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Alles andere ist willkommen und nichts davon ist Pflicht — zu wissen, woher ein Essen kommt und dass es niemand aufgeschrieben hat, ist bereits mehr, als hier irgendeine Quelle hat.',
     opensTheFormPrefilled:
       'Es öffnet das Formular an seiner Quelle, mit dem bereits Geschriebenen ausgefüllt. Diese App sammelt nichts über Sie, und nichts wird veröffentlicht, bevor Menschen von dort es bestätigt haben.',
+    scoreDimGeographic:
+      'Geografische Verbindung',
+    scoreDimIngredients:
+      'Traditionelle Zutaten',
+    scoreDimTechnique:
+      'Traditionelle Technik',
+    scoreDimLocalSource:
+      'Örtliche Quelle',
+    scoreDimDocumentation:
+      'Kulturelle Belege',
+    scoreDimCommunity:
+      'Bestätigung durch die Gemeinschaft',
+    photoFromWikidata:
+      'Am Wikidata-Eintrag dieses Gerichts selbst hinterlegt — nicht über den Namen gefunden',
+    photoFromArticle:
+      'Das Titelbild des Enzyklopädieartikels dieses Gerichts',
+    photoFromRecipe:
+      'Auf der Seite dieses Rezepts veröffentlicht',
+    photoFromSearch:
+      'Über den Namen auf Wikimedia Commons gefunden — das Motiv ist nicht bestätigt',
+    photoFromUnknown:
+      'Herkunft nicht erfasst — behandeln Sie das Motiv als unbestätigt',
+    noTranslationRecorded:
+      'Für diese Schilderung ist noch keine Übersetzung erfasst, sie steht daher auf {language}, in der Sprache, in der sie festgehalten wurde. Wir zeigen Ihnen lieber das Original als die Vermutung einer Maschine über eine Gärzeit.',
+    machineTranslationBy:
+      'Maschinelle Übersetzung von {translator}. Niemand aus der Gemeinschaft hat sie geprüft — Namen von Zutaten und Geräten bleiben im Original.',
+    translatedBy:
+      'Übersetzt von {translator}. Namen von Zutaten und Geräten bleiben im Original.',
+    videoOriginalAudio:
+      'Gesprochen auf {language} — der eigenen Sprache der kochenden Person. Es wird nichts übersetzt.',
+    videoCreatorTrack:
+      'Die Urheberin hat eine Tonspur auf {language} veröffentlicht. Das Video öffnet an der Quelle in dieser Spur — die Übersetzung ist ihre, nicht unsere.',
+    videoPlatformCaptions:
+      'Gesprochen auf {spoken}. Öffnet mit maschinell übersetzten Untertiteln auf {preferred} über dem Originalton — die Stimme der kochenden Person wird nicht ersetzt, und die Übersetzung stammt von der Videoplattform, nicht von einem Menschen.',
+    videoLanguageUnknown:
+      'Uns liegt die gesprochene Sprache dieses Videos nicht vor, wir können {language} also nicht zusagen. Es öffnet an der Quelle, wo die Untertiteloptionen der Plattform gelten.',
+    figureDocumented:
+      'Hat eine festgehaltene Zubereitung',
+    figureDocumentedNote:
+      'Die Zahl, die sagt, ob dies ein Atlas ist oder eine Namensliste. Alles andere ist ihr nachgeordnet.',
+    figureLocated:
+      'Unterhalb der Landesebene verortet',
+    figureLocatedNote:
+      'Authentizität hat geografische Tiefe. „Kozhikode“ ist ein Eintrag; „Indien“ ist kaum ein Anfang.',
+    figureIllustrated:
+      'Hat ein Foto',
+    figureIllustratedNote:
+      'Ein Gericht, das sich niemand vorstellen kann, liegt einem schwerer am Herzen und ist noch schwerer wiederzuerkennen.',
+    figureFilmed:
+      'Hat ein eingestuftes Video',
+    figureFilmedNote:
+      'Sortiert nach der Nähe der kochenden Person zur Tradition — kein Suchergebnis.',
+    figureAssessed:
+      'Als authentisch eingestuft',
+    figureAssessedNote:
+      'Über die Belegprüfungen erreicht. Ein niedriger Anteil hier ist ehrlich, kein Versagen.',
+    atlasSummary:
+      '{n} Traditionen aus {c} Ländern erfasst. Die Abdeckung wird ehrlich angegeben: Ein Land, das hier fehlt, hat noch nichts Erfasstes — nicht nichts zu erfassen.',
+    nothingRecorded:
+      'Nichts erfasst',
+    nothingRecordedAs:
+      'Nichts erfasst als {what}',
+    nothingRecordedAsAnd:
+      'Nichts erfasst als {list} und {last}',
+    photoVia:
+      'Foto über',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4076,6 +4274,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tutto il resto è benvenuto e niente è obbligatorio: sapere da dove viene un cibo e che nessuno l’ha scritto è già più di quanto abbia qualsiasi fonte qui.',
     opensTheFormPrefilled:
       'Apre il modulo alla sua fonte con quello che hai già scritto compilato. Questa applicazione non raccoglie niente su di te, e niente viene pubblicato finché non lo confermano persone del posto.',
+    scoreDimGeographic:
+      'Legame geografico',
+    scoreDimIngredients:
+      'Ingredienti tradizionali',
+    scoreDimTechnique:
+      'Tecnica tradizionale',
+    scoreDimLocalSource:
+      'Fonte locale',
+    scoreDimDocumentation:
+      'Documentazione culturale',
+    scoreDimCommunity:
+      'Conferma della comunità',
+    photoFromWikidata:
+      'Allegata alla voce Wikidata di questo piatto — non trovata per nome',
+    photoFromArticle:
+      'L’immagine di apertura della voce enciclopedica di questo piatto',
+    photoFromRecipe:
+      'Pubblicata sulla pagina di questa ricetta',
+    photoFromSearch:
+      'Trovata per nome su Wikimedia Commons — il soggetto non è confermato',
+    photoFromUnknown:
+      'Provenienza non registrata — considera il soggetto non confermato',
+    noTranslationRecorded:
+      'Di questo racconto non è ancora registrata nessuna traduzione, quindi compare in {language}, la lingua in cui è stato documentato. Preferiamo mostrarti l’originale piuttosto che l’ipotesi di una macchina su un tempo di fermentazione.',
+    machineTranslationBy:
+      'Traduzione automatica di {translator}. Nessuno della comunità l’ha controllata: i nomi di ingredienti e attrezzi restano nell’originale.',
+    translatedBy:
+      'Tradotto da {translator}. I nomi di ingredienti e attrezzi restano nell’originale.',
+    videoOriginalAudio:
+      'Parlato in {language}: la lingua di chi cucina. Non si traduce nulla.',
+    videoCreatorTrack:
+      'Chi l’ha fatto ha pubblicato una traccia audio in {language}. Si apre su quella traccia alla fonte: la traduzione è sua, non nostra.',
+    videoPlatformCaptions:
+      'Parlato in {spoken}. Si apre con sottotitoli in {preferred} tradotti automaticamente sopra l’audio originale: la voce di chi cucina non viene sostituita, e la traduzione è della piattaforma video, non di una persona.',
+    videoLanguageUnknown:
+      'Non abbiamo agli atti la lingua parlata di questo video, quindi non possiamo promettere {language}. Si apre alla fonte, dove valgono le opzioni di sottotitoli della piattaforma.',
+    figureDocumented:
+      'Ha un metodo registrato',
+    figureDocumentedNote:
+      'La cifra che dice se questo è un atlante o un elenco di nomi. Tutto il resto le è secondario.',
+    figureLocated:
+      'Collocato sotto il livello del paese',
+    figureLocatedNote:
+      'L’autenticità ha profondità geografica. “Kozhikode” è una scheda; “India” è appena un inizio.',
+    figureIllustrated:
+      'Ha una fotografia',
+    figureIllustratedNote:
+      'Un piatto che nessuno riesce a immaginare è difficile da amare, e più difficile da riconoscere.',
+    figureFilmed:
+      'Ha un video ordinato',
+    figureFilmedNote:
+      'Ordinato per quanto chi cucina è vicino alla tradizione, non per risultato di ricerca.',
+    figureAssessed:
+      'Classificati come autentici',
+    figureAssessedNote:
+      'Ottenuto tramite le verifiche di prova. Una quota bassa qui è onesta, non un fallimento.',
+    atlasSummary:
+      '{n} tradizioni registrate in {c} paesi. La copertura è dichiarata onestamente: un paese assente qui non ha ancora nulla di registrato, non è che non ci sia nulla da registrare.',
+    nothingRecorded:
+      'Niente registrato',
+    nothingRecordedAs:
+      'Niente registrato come {what}',
+    nothingRecordedAsAnd:
+      'Niente registrato come {list} e {last}',
+    photoVia:
+      'foto via',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5087,6 +5351,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tudo o resto é bem-vindo e nada é obrigatório — saber de onde é uma comida e que ninguém a escreveu já é mais do que qualquer fonte daqui tem.',
     opensTheFormPrefilled:
       'Abre o formulário na origem com o que já escreveu preenchido. Esta aplicação não recolhe nada sobre si, e nada é publicado até que pessoas do lugar o confirmem.',
+    scoreDimGeographic:
+      'Ligação geográfica',
+    scoreDimIngredients:
+      'Ingredientes tradicionais',
+    scoreDimTechnique:
+      'Técnica tradicional',
+    scoreDimLocalSource:
+      'Fonte local',
+    scoreDimDocumentation:
+      'Documentação cultural',
+    scoreDimCommunity:
+      'Validação da comunidade',
+    photoFromWikidata:
+      'Anexada à própria entrada do Wikidata deste prato — não encontrada pelo nome',
+    photoFromArticle:
+      'A imagem principal do próprio artigo enciclopédico deste prato',
+    photoFromRecipe:
+      'Publicada na página desta mesma receita',
+    photoFromSearch:
+      'Encontrada pelo nome no Wikimedia Commons — o motivo não está confirmado',
+    photoFromUnknown:
+      'Origem não registada — trate o motivo como não confirmado',
+    noTranslationRecorded:
+      'Ainda não há nenhuma tradução registada deste relato, por isso é mostrado em {language}, a língua em que foi documentado. Preferimos mostrar-lhe o original do que o palpite de uma máquina sobre um tempo de fermentação.',
+    machineTranslationBy:
+      'Tradução automática de {translator}. Ninguém da comunidade a verificou — os nomes de ingredientes e utensílios ficam no original.',
+    translatedBy:
+      'Traduzido por {translator}. Os nomes de ingredientes e utensílios ficam no original.',
+    videoOriginalAudio:
+      'Falado em {language} — a própria língua de quem cozinha. Nada é traduzido.',
+    videoCreatorTrack:
+      'Quem o fez publicou uma faixa de áudio em {language}. Abre nessa faixa na origem — a tradução é dele, não nossa.',
+    videoPlatformCaptions:
+      'Falado em {spoken}. Abre com legendas em {preferred} traduzidas automaticamente por cima do áudio original — a voz de quem cozinha não é substituída, e a tradução é da plataforma de vídeo, não de uma pessoa.',
+    videoLanguageUnknown:
+      'Não temos registada a língua falada deste vídeo, por isso não podemos prometer {language}. Abre na origem, onde se aplicam as opções de legendas da própria plataforma.',
+    figureDocumented:
+      'Tem método registado',
+    figureDocumentedNote:
+      'O número que diz se isto é um atlas ou uma lista de nomes. Tudo o resto lhe é secundário.',
+    figureLocated:
+      'Situado abaixo do nível do país',
+    figureLocatedNote:
+      'A autenticidade tem profundidade geográfica. “Kozhikode” é um registo; “Índia” é apenas um começo.',
+    figureIllustrated:
+      'Tem fotografia',
+    figureIllustratedNote:
+      'Um prato que ninguém consegue imaginar custa a interessar, e custa mais a reconhecer.',
+    figureFilmed:
+      'Tem vídeo ordenado',
+    figureFilmedNote:
+      'Ordenado pela proximidade de quem cozinha à tradição — não é um resultado de pesquisa.',
+    figureAssessed:
+      'Classificados como autênticos',
+    figureAssessedNote:
+      'Conseguido através das verificações de prova. Uma parcela baixa aqui é honesta, não um fracasso.',
+    atlasSummary:
+      '{n} tradições registadas em {c} países. A cobertura é declarada com honestidade: um país ausente aqui ainda não tem nada registado, não é que não haja nada para registar.',
+    nothingRecorded:
+      'Nada registado',
+    nothingRecordedAs:
+      'Nada registado como {what}',
+    nothingRecordedAsAnd:
+      'Nada registado como {list} e {last}',
+    photoVia:
+      'foto via',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6097,6 +6427,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Al het andere is welkom en niets ervan is verplicht — weten waar een gerecht vandaan komt en dat niemand het heeft opgeschreven, is al meer dan welke bron hier ook heeft.',
     opensTheFormPrefilled:
       'Het opent het formulier bij de bron met wat u al geschreven hebt ingevuld. Deze app verzamelt niets over u, en er wordt niets gepubliceerd tot mensen uit die plaats het bevestigen.',
+    scoreDimGeographic:
+      'Geografische band',
+    scoreDimIngredients:
+      'Traditionele ingrediënten',
+    scoreDimTechnique:
+      'Traditionele techniek',
+    scoreDimLocalSource:
+      'Lokale bron',
+    scoreDimDocumentation:
+      'Culturele documentatie',
+    scoreDimCommunity:
+      'Bevestiging door de gemeenschap',
+    photoFromWikidata:
+      'Bij het eigen Wikidata-item van dit gerecht gevoegd — niet op naam gevonden',
+    photoFromArticle:
+      'De hoofdafbeelding van het eigen encyclopedie-artikel van dit gerecht',
+    photoFromRecipe:
+      'Gepubliceerd op de pagina van dit recept',
+    photoFromSearch:
+      'Op naam gevonden op Wikimedia Commons — het onderwerp is niet bevestigd',
+    photoFromUnknown:
+      'Herkomst niet vastgelegd — beschouw het onderwerp als onbevestigd',
+    noTranslationRecorded:
+      'Van dit verhaal is nog geen vertaling vastgelegd, dus het staat er in het {language}, de taal waarin het is vastgelegd. We laten u liever het origineel zien dan de gok van een machine over een fermentatietijd.',
+    machineTranslationBy:
+      'Machinevertaling door {translator}. Niemand uit de gemeenschap heeft haar nagekeken — namen van ingrediënten en gereedschap blijven in het origineel.',
+    translatedBy:
+      'Vertaald door {translator}. Namen van ingrediënten en gereedschap blijven in het origineel.',
+    videoOriginalAudio:
+      'Gesproken in het {language} — de eigen taal van de kok. Er wordt niets vertaald.',
+    videoCreatorTrack:
+      'De maker heeft een audiospoor gepubliceerd in het {language}. Het opent bij de bron in dat spoor — de vertaling is die van de maker, niet die van ons.',
+    videoPlatformCaptions:
+      'Gesproken in het {spoken}. Opent met machinaal vertaalde ondertitels in het {preferred} over het oorspronkelijke geluid — de stem van de kok wordt niet vervangen, en de vertaling is van het videoplatform, niet van een mens.',
+    videoLanguageUnknown:
+      'We hebben de gesproken taal van deze video niet vastgelegd, dus we kunnen {language} niet beloven. Hij opent bij de bron, waar de ondertitelopties van het platform zelf gelden.',
+    figureDocumented:
+      'Heeft een vastgelegde werkwijze',
+    figureDocumentedNote:
+      'Het getal dat zegt of dit een atlas is of een namenlijst. Al het andere komt daarna.',
+    figureLocated:
+      'Geplaatst onder landniveau',
+    figureLocatedNote:
+      'Authenticiteit heeft geografische diepte. “Kozhikode” is een record; “India” is nauwelijks een begin.',
+    figureIllustrated:
+      'Heeft een foto',
+    figureIllustratedNote:
+      'Een gerecht dat niemand voor zich ziet, gaat je moeilijk aan het hart en is nog moeilijker te herkennen.',
+    figureFilmed:
+      'Heeft een gerangschikte video',
+    figureFilmedNote:
+      'Gerangschikt naar hoe dicht de kok bij de traditie staat — geen zoekresultaat.',
+    figureAssessed:
+      'Als authentiek geclassificeerd',
+    figureAssessedNote:
+      'Verdiend via de bewijscontroles. Een laag aandeel hier is eerlijk, geen falen.',
+    atlasSummary:
+      '{n} tradities vastgelegd in {c} landen. De dekking wordt eerlijk vermeld: een land dat hier ontbreekt, heeft nog niets vastgelegd — niet niets om vast te leggen.',
+    nothingRecorded:
+      'Niets vastgelegd',
+    nothingRecordedAs:
+      'Niets vastgelegd als {what}',
+    nothingRecordedAsAnd:
+      'Niets vastgelegd als {list} en {last}',
+    photoVia:
+      'foto via',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7108,6 +7504,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wszystko inne jest mile widziane i nic nie jest wymagane — wiedza o tym, skąd jest potrawa i że nikt jej nie zapisał, to już więcej, niż ma jakiekolwiek źródło tutaj.',
     opensTheFormPrefilled:
       'Otwiera formularz u źródła z wypełnionym tym, co już napisałeś. Ta aplikacja nie zbiera o tobie niczego, a nic nie zostaje opublikowane, dopóki nie potwierdzą tego ludzie z tego miejsca.',
+    scoreDimGeographic:
+      'Związek geograficzny',
+    scoreDimIngredients:
+      'Składniki tradycyjne',
+    scoreDimTechnique:
+      'Technika tradycyjna',
+    scoreDimLocalSource:
+      'Źródło miejscowe',
+    scoreDimDocumentation:
+      'Dokumentacja kulturowa',
+    scoreDimCommunity:
+      'Potwierdzenie społeczności',
+    photoFromWikidata:
+      'Dołączone do własnego wpisu tego dania w Wikidanych — nie znalezione po nazwie',
+    photoFromArticle:
+      'Główna ilustracja własnego artykułu encyklopedycznego tego dania',
+    photoFromRecipe:
+      'Opublikowane na stronie tego przepisu',
+    photoFromSearch:
+      'Znalezione po nazwie w Wikimedia Commons — temat niepotwierdzony',
+    photoFromUnknown:
+      'Pochodzenie niezapisane — traktuj temat jako niepotwierdzony',
+    noTranslationRecorded:
+      'Do tej relacji nie zapisano jeszcze żadnego tłumaczenia, więc pokazana jest w języku {language}, w którym ją udokumentowano. Wolimy pokazać ci oryginał niż zgadywanie maszyny co do czasu fermentacji.',
+    machineTranslationBy:
+      'Tłumaczenie maszynowe: {translator}. Nikt ze społeczności go nie sprawdził — nazwy składników i sprzętu zostają w oryginale.',
+    translatedBy:
+      'Tłumaczenie: {translator}. Nazwy składników i sprzętu zostają w oryginale.',
+    videoOriginalAudio:
+      'Mówione w języku {language} — własnym języku osoby gotującej. Nic nie jest tłumaczone.',
+    videoCreatorTrack:
+      'Autor opublikował ścieżkę dźwiękową w języku {language}. Otwiera się u źródła na tej ścieżce — tłumaczenie jest jego, nie nasze.',
+    videoPlatformCaptions:
+      'Mówione w języku {spoken}. Otwiera się z maszynowo przetłumaczonymi napisami w języku {preferred} na oryginalnym dźwięku — głos osoby gotującej nie jest zastępowany, a tłumaczenie pochodzi od platformy wideo, a nie od człowieka.',
+    videoLanguageUnknown:
+      'Nie mamy zapisanego języka mówionego tego nagrania, więc nie możemy obiecać języka {language}. Otwiera się u źródła, gdzie działają opcje napisów samej platformy.',
+    figureDocumented:
+      'Ma zapisany sposób przygotowania',
+    figureDocumentedNote:
+      'Liczba, która mówi, czy to atlas, czy lista nazw. Wszystko inne jest wobec niej wtórne.',
+    figureLocated:
+      'Umiejscowione poniżej poziomu kraju',
+    figureLocatedNote:
+      'Autentyczność ma głębię geograficzną. „Kozhikode” to wpis; „Indie” to ledwie początek.',
+    figureIllustrated:
+      'Ma zdjęcie',
+    figureIllustratedNote:
+      'O potrawę, której nikt sobie nie wyobraża, trudno się troszczyć, a jeszcze trudniej ją rozpoznać.',
+    figureFilmed:
+      'Ma uszeregowane nagranie',
+    figureFilmedNote:
+      'Uszeregowane według bliskości osoby gotującej do tradycji — to nie wynik wyszukiwania.',
+    figureAssessed:
+      'Sklasyfikowane jako autentyczne',
+    figureAssessedNote:
+      'Zdobyte przez kontrole dowodowe. Niski udział tutaj jest uczciwy, a nie jest porażką.',
+    atlasSummary:
+      'Zapisanych tradycji: {n}, z {c} krajów. Zasięg podajemy uczciwie: kraj, którego tu nie ma, nie ma jeszcze nic zapisanego — a nie nic do zapisania.',
+    nothingRecorded:
+      'Nic nie zapisano',
+    nothingRecordedAs:
+      'Nic nie zapisano jako {what}',
+    nothingRecordedAsAnd:
+      'Nic nie zapisano jako {list} i {last}',
+    photoVia:
+      'zdjęcie przez',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -8118,6 +8580,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Geri kalan her şey memnuniyetle karşılanır ve hiçbiri zorunlu değil — bir yemeğin nereden geldiğini ve kimsenin bunu yazmadığını bilmek, buradaki herhangi bir kaynağın elindekinden zaten fazlasıdır.',
     opensTheFormPrefilled:
       'Formu, yazdıklarınız önceden doldurulmuş hâlde kendi kaynağında açar. Bu uygulama sizinle ilgili hiçbir şey toplamaz ve oradan insanlar doğrulayana kadar hiçbir şey yayımlanmaz.',
+    scoreDimGeographic:
+      'Coğrafi bağ',
+    scoreDimIngredients:
+      'Geleneksel malzemeler',
+    scoreDimTechnique:
+      'Geleneksel teknik',
+    scoreDimLocalSource:
+      'Yerel kaynak',
+    scoreDimDocumentation:
+      'Kültürel belge',
+    scoreDimCommunity:
+      'Topluluk doğrulaması',
+    photoFromWikidata:
+      'Bu yemeğin kendi Wikidata kaydına eklenmiş — adla bulunmuş değil',
+    photoFromArticle:
+      'Bu yemeğin kendi ansiklopedi maddesinin ana görseli',
+    photoFromRecipe:
+      'Bu tarifin kendi sayfasında yayımlanmış',
+    photoFromSearch:
+      'Wikimedia Commons’ta adla bulunmuş — konusu doğrulanmadı',
+    photoFromUnknown:
+      'Kaynağı kaydedilmemiş — konusunu doğrulanmamış sayın',
+    noTranslationRecorded:
+      'Bu anlatının henüz kaydedilmiş bir çevirisi yok; bu yüzden belgelendiği dil olan {language} dilinde gösteriliyor. Size bir makinenin mayalanma süresi hakkındaki tahminini göstermektense aslını göstermeyi yeğleriz.',
+    machineTranslationBy:
+      '{translator} tarafından makine çevirisi. Topluluktan kimse denetlemedi — malzeme ve gereç adları aslında bırakılmıştır.',
+    translatedBy:
+      '{translator} tarafından çevrildi. Malzeme ve gereç adları aslında bırakılmıştır.',
+    videoOriginalAudio:
+      '{language} konuşuluyor — pişiren kişinin kendi dili. Hiçbir şey çevrilmiyor.',
+    videoCreatorTrack:
+      'Videoyu yapan kişi {language} dilinde bir ses parçası yayımlamış. Kaynağında o parçayla açılıyor — çeviri ona ait, bize değil.',
+    videoPlatformCaptions:
+      '{spoken} konuşuluyor. Özgün sesin üzerine makineyle çevrilmiş {preferred} altyazılarla açılıyor — pişiren kişinin sesi değiştirilmiyor ve çeviri video platformuna ait, bir insana değil.',
+    videoLanguageUnknown:
+      'Bu videonun konuşulan dili kayıtlarımızda yok, bu yüzden {language} sözü veremeyiz. Kaynağında açılır; orada platformun kendi altyazı seçenekleri geçerlidir.',
+    figureDocumented:
+      'Kayıtlı bir yapılışı var',
+    figureDocumentedNote:
+      'Bunun bir atlas mı yoksa bir ad listesi mi olduğunu söyleyen sayı. Geri kalan her şey ona göre ikincildir.',
+    figureLocated:
+      'Ülke düzeyinin altında konumlanmış',
+    figureLocatedNote:
+      'Özgünlüğün coğrafi derinliği vardır. “Kozhikode” bir kayıttır; “Hindistan” ancak bir başlangıçtır.',
+    figureIllustrated:
+      'Fotoğrafı var',
+    figureIllustratedNote:
+      'Kimsenin gözünde canlandıramadığı bir yemeği önemsemek de tanımak da zordur.',
+    figureFilmed:
+      'Sıralanmış videosu var',
+    figureFilmedNote:
+      'Pişiren kişinin geleneğe yakınlığına göre sıralanır — arama sonucu değildir.',
+    figureAssessed:
+      'Özgün olarak sınıflandırılmış',
+    figureAssessedNote:
+      'Kanıt denetimleriyle kazanılır. Buradaki oranın düşük olması dürüstlüktür, başarısızlık değil.',
+    atlasSummary:
+      '{c} ülkeden {n} gelenek kayda geçti. Kapsam dürüstçe belirtilir: burada olmayan bir ülkenin henüz kaydı yoktur, kaydedecek şeyi yok demek değildir.',
+    nothingRecorded:
+      'Kayıt yok',
+    nothingRecordedAs:
+      '{what} olarak kayıt yok',
+    nothingRecordedAsAnd:
+      '{list} ve {last} olarak kayıt yok',
+    photoVia:
+      'fotoğraf:',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -9129,6 +9657,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Всё остальное приветствуется, и ничего из этого не обязательно: знать, откуда блюдо и что его никто не записал, — уже больше, чем есть у любого здешнего источника.',
     opensTheFormPrefilled:
       'Откроется форма в её источнике с уже заполненным тем, что вы написали. Это приложение ничего о вас не собирает, и ничего не публикуется, пока это не подтвердят люди из того места.',
+    scoreDimGeographic:
+      'Географическая связь',
+    scoreDimIngredients:
+      'Традиционные ингредиенты',
+    scoreDimTechnique:
+      'Традиционная техника',
+    scoreDimLocalSource:
+      'Местный источник',
+    scoreDimDocumentation:
+      'Культурная документация',
+    scoreDimCommunity:
+      'Подтверждение сообществом',
+    photoFromWikidata:
+      'Приложено к собственной записи этого блюда в Wikidata — не найдено по названию',
+    photoFromArticle:
+      'Заглавное изображение собственной энциклопедической статьи этого блюда',
+    photoFromRecipe:
+      'Опубликовано на странице самого этого рецепта',
+    photoFromSearch:
+      'Найдено по названию на Wikimedia Commons — сюжет не подтверждён',
+    photoFromUnknown:
+      'Источник не записан — считайте сюжет неподтверждённым',
+    noTranslationRecorded:
+      'Перевода этого рассказа пока не записано, поэтому он показан на языке {language}, на котором его задокументировали. Мы предпочитаем показать вам оригинал, а не догадку машины о времени брожения.',
+    machineTranslationBy:
+      'Машинный перевод: {translator}. Никто из сообщества его не проверял — названия ингредиентов и посуды оставлены в оригинале.',
+    translatedBy:
+      'Перевод: {translator}. Названия ингредиентов и посуды оставлены в оригинале.',
+    videoOriginalAudio:
+      'Говорят на языке {language} — родном языке готовящего. Ничего не переводится.',
+    videoCreatorTrack:
+      'Автор опубликовал звуковую дорожку на языке {language}. В источнике открывается именно она — перевод его, а не наш.',
+    videoPlatformCaptions:
+      'Говорят на языке {spoken}. Открывается с машинно переведёнными субтитрами на языке {preferred} поверх оригинального звука: голос готовящего не заменяется, а перевод сделан видеоплатформой, а не человеком.',
+    videoLanguageUnknown:
+      'Разговорный язык этого видео у нас не записан, поэтому обещать {language} мы не можем. Оно открывается в источнике, где действуют настройки субтитров самой платформы.',
+    figureDocumented:
+      'Есть записанный способ приготовления',
+    figureDocumentedNote:
+      'Число, которое говорит, атлас это или список названий. Всё остальное по отношению к нему второстепенно.',
+    figureLocated:
+      'Указано точнее страны',
+    figureLocatedNote:
+      'У подлинности есть географическая глубина. «Кожикоде» — это запись; «Индия» — едва начало.',
+    figureIllustrated:
+      'Есть фотография',
+    figureIllustratedNote:
+      'Блюдо, которое никто не может себе представить, труднее полюбить и ещё труднее узнать.',
+    figureFilmed:
+      'Есть упорядоченное видео',
+    figureFilmedNote:
+      'Упорядочено по близости готовящего к традиции, а не по выдаче поиска.',
+    figureAssessed:
+      'Отнесены к подлинным',
+    figureAssessedNote:
+      'Заработано через проверки доказательств. Низкая доля здесь — это честность, а не неудача.',
+    atlasSummary:
+      'Записано традиций: {n}, из {c} стран. Охват указан честно: у страны, которой здесь нет, пока ничего не записано, а не нечего записывать.',
+    nothingRecorded:
+      'Ничего не записано',
+    nothingRecordedAs:
+      'Ничего не записано как «{what}»',
+    nothingRecordedAsAnd:
+      'Ничего не записано как «{list}» и «{last}»',
+    photoVia:
+      'фото через',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -10140,6 +10734,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'बाक़ी सब कुछ स्वागत योग्य है और कुछ भी ज़रूरी नहीं — यह जानना कि कोई खाना कहाँ का है और उसे किसी ने लिखा नहीं, यहाँ के किसी भी स्रोत के पास जितना है उससे पहले ही ज़्यादा है।',
     opensTheFormPrefilled:
       'यह फ़ॉर्म को उसके स्रोत पर खोलता है, आपके लिखे हुए के साथ पहले से भरा हुआ। यह ऐप आपके बारे में कुछ नहीं जुटाता, और जब तक उस जगह के लोग पुष्टि न करें तब तक कुछ प्रकाशित नहीं होता।',
+    scoreDimGeographic:
+      'भौगोलिक जुड़ाव',
+    scoreDimIngredients:
+      'पारंपरिक सामग्री',
+    scoreDimTechnique:
+      'पारंपरिक तकनीक',
+    scoreDimLocalSource:
+      'स्थानीय स्रोत',
+    scoreDimDocumentation:
+      'सांस्कृतिक प्रलेखन',
+    scoreDimCommunity:
+      'समुदाय की पुष्टि',
+    photoFromWikidata:
+      'इस व्यंजन की अपनी Wikidata प्रविष्टि से जुड़ी — नाम से खोजी हुई नहीं',
+    photoFromArticle:
+      'इस व्यंजन के अपने विश्वकोश लेख की मुख्य तस्वीर',
+    photoFromRecipe:
+      'इसी विधि के अपने पन्ने पर प्रकाशित',
+    photoFromSearch:
+      'Wikimedia Commons पर नाम से मिली — विषय की पुष्टि नहीं है',
+    photoFromUnknown:
+      'स्रोत दर्ज नहीं — विषय को अपुष्ट ही मानें',
+    noTranslationRecorded:
+      'इस विवरण का अभी कोई अनुवाद दर्ज नहीं है, इसलिए यह {language} में दिख रहा है — उसी भाषा में जिसमें इसे दर्ज किया गया। किण्वन के समय पर मशीन के अनुमान से बेहतर हमें आपको मूल दिखाना लगता है।',
+    machineTranslationBy:
+      '{translator} द्वारा मशीनी अनुवाद। समुदाय के किसी व्यक्ति ने इसे जाँचा नहीं — सामग्री और बर्तनों के नाम मूल रूप में ही रखे गए हैं।',
+    translatedBy:
+      '{translator} द्वारा अनूदित। सामग्री और बर्तनों के नाम मूल रूप में ही रखे गए हैं।',
+    videoOriginalAudio:
+      '{language} में बोला गया — पकाने वाले की अपनी भाषा। कुछ भी अनूदित नहीं है।',
+    videoCreatorTrack:
+      'बनाने वाले ने {language} में एक ऑडियो ट्रैक प्रकाशित किया है। यह स्रोत पर उसी ट्रैक में खुलता है — अनुवाद उन्हीं का है, हमारा नहीं।',
+    videoPlatformCaptions:
+      '{spoken} में बोला गया। मूल ऑडियो के ऊपर मशीन से अनूदित {preferred} उपशीर्षकों के साथ खुलता है — पकाने वाले की आवाज़ बदली नहीं जाती, और अनुवाद वीडियो मंच का है, किसी व्यक्ति का नहीं।',
+    videoLanguageUnknown:
+      'इस वीडियो की बोली जाने वाली भाषा हमारे पास दर्ज नहीं है, इसलिए हम {language} का वादा नहीं कर सकते। यह स्रोत पर खुलता है, जहाँ मंच के अपने उपशीर्षक विकल्प लागू होते हैं।',
+    figureDocumented:
+      'दर्ज विधि है',
+    figureDocumentedNote:
+      'वह संख्या जो बताती है कि यह एटलस है या नामों की सूची। बाक़ी सब उसके बाद आता है।',
+    figureLocated:
+      'देश से नीचे के स्तर पर रखा गया',
+    figureLocatedNote:
+      'प्रामाणिकता की भौगोलिक गहराई होती है। "कोझिकोड" एक रिकॉर्ड है; "भारत" तो बस एक शुरुआत है।',
+    figureIllustrated:
+      'तस्वीर है',
+    figureIllustratedNote:
+      'जिस व्यंजन की कोई कल्पना ही न कर सके, उसकी परवाह करना कठिन है और पहचानना उससे भी कठिन।',
+    figureFilmed:
+      'क्रमित वीडियो है',
+    figureFilmedNote:
+      'पकाने वाले की परंपरा से नज़दीकी के क्रम में — यह खोज का परिणाम नहीं है।',
+    figureAssessed:
+      'प्रामाणिक के रूप में वर्गीकृत',
+    figureAssessedNote:
+      'प्रमाण-जाँचों से अर्जित। यहाँ का अनुपात कम होना ईमानदारी है, विफलता नहीं।',
+    atlasSummary:
+      '{c} देशों से {n} परंपराएँ दर्ज। व्याप्ति ईमानदारी से बताई जाती है: यहाँ अनुपस्थित देश का अभी कुछ दर्ज नहीं है — यह नहीं कि दर्ज करने को कुछ है ही नहीं।',
+    nothingRecorded:
+      'कुछ दर्ज नहीं',
+    nothingRecordedAs:
+      '{what} के रूप में कुछ दर्ज नहीं',
+    nothingRecordedAsAnd:
+      '{list} और {last} के रूप में कुछ दर्ज नहीं',
+    photoVia:
+      'तस्वीर स्रोत',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -11151,6 +11811,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '其余的都欢迎，而且没有一样是必填的 — 知道一道菜出自哪里、而且没有人写下过它，这已经比这里任何来源掌握的都多。',
     opensTheFormPrefilled:
       '它会在原处打开表单，并把你已经写的内容预先填好。这个应用不收集任何关于你的信息，在当地人确认之前也不会发布任何内容。',
+    scoreDimGeographic:
+      '地理关联',
+    scoreDimIngredients:
+      '传统食材',
+    scoreDimTechnique:
+      '传统技法',
+    scoreDimLocalSource:
+      '本地来源',
+    scoreDimDocumentation:
+      '文化文献',
+    scoreDimCommunity:
+      '社区确认',
+    photoFromWikidata:
+      '附在这道菜自己的 Wikidata 条目上 — 不是按名字找到的',
+    photoFromArticle:
+      '这道菜自己的百科条目的首图',
+    photoFromRecipe:
+      '发表在这份食谱自己的页面上',
+    photoFromSearch:
+      '在 Wikimedia Commons 上按名字匹配到 — 拍的是不是它，尚未确认',
+    photoFromUnknown:
+      '来源未记录 — 请把拍摄内容当作未确认',
+    noTranslationRecorded:
+      '这段讲述还没有登记过任何译文，所以按记录时所用的{language}显示。比起机器对发酵时间的猜测，我们宁愿给你看原文。',
+    machineTranslationBy:
+      '由 {translator} 机器翻译。社区里还没有人核对过 — 食材和器具的名字保留原文。',
+    translatedBy:
+      '由 {translator} 翻译。食材和器具的名字保留原文。',
+    videoOriginalAudio:
+      '讲的是{language} — 做菜的人自己的语言。没有翻译任何内容。',
+    videoCreatorTrack:
+      '作者发布了{language}的音轨。在原处会以该音轨打开 — 那是作者自己的翻译，不是我们的。',
+    videoPlatformCaptions:
+      '讲的是{spoken}。打开时会在原声之上叠加机器翻译的{preferred}字幕 — 做菜的人的声音没有被替换，翻译来自视频平台，不是人做的。',
+    videoLanguageUnknown:
+      '我们没有这段视频所讲语言的记录，所以无法保证{language}。它会在原处打开，那里适用平台自己的字幕选项。',
+    figureDocumented:
+      '有记录在案的做法',
+    figureDocumentedNote:
+      '这个数字说明这究竟是图册还是名单。其余一切都排在它之后。',
+    figureLocated:
+      '定位到国家以下',
+    figureLocatedNote:
+      '本真是有地理纵深的。"科泽科德"是一条记录；"印度"几乎只是个开头。',
+    figureIllustrated:
+      '有照片',
+    figureIllustratedNote:
+      '一道谁都想象不出来的菜，很难让人上心，更难让人认出来。',
+    figureFilmed:
+      '有排过序的视频',
+    figureFilmedNote:
+      '按做菜的人离传统有多近排序 — 不是搜索结果。',
+    figureAssessed:
+      '被判定为本真',
+    figureAssessedNote:
+      '通过证据核查取得。这里比例低是诚实，不是失败。',
+    atlasSummary:
+      '已记录 {n} 项传统，来自 {c} 个国家。覆盖范围如实说明：这里没有的国家，是还没有记录，不是没有可记录的。',
+    nothingRecorded:
+      '没有记录',
+    nothingRecordedAs:
+      '没有记录为{what}的',
+    nothingRecordedAsAnd:
+      '没有记录为{list}和{last}的',
+    photoVia:
+      '照片来自',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -12162,6 +12888,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ほかは何でも歓迎で、必須のものはありません。ある料理がどこのもので、それを誰も書き残していないと分かること自体が、ここにあるどの資料が持っているものより多いのです。',
     opensTheFormPrefilled:
       'すでに書いた内容を入れた状態で、元の場所にある用紙を開きます。このアプリはあなたについて何も集めず、その土地の人が確認するまで何も公開されません。',
+    scoreDimGeographic:
+      '土地とのつながり',
+    scoreDimIngredients:
+      '伝統的な材料',
+    scoreDimTechnique:
+      '伝統的な技法',
+    scoreDimLocalSource:
+      'その土地の情報源',
+    scoreDimDocumentation:
+      '文化的な記録',
+    scoreDimCommunity:
+      '地域の人による確認',
+    photoFromWikidata:
+      'この料理自身の Wikidata 項目に添えられたもの — 名前で探して見つけたものではありません',
+    photoFromArticle:
+      'この料理自身の百科事典記事の先頭画像',
+    photoFromRecipe:
+      'このレシピ自身のページに掲載されたもの',
+    photoFromSearch:
+      'Wikimedia Commons で名前が一致したもの — 写っているものは未確認です',
+    photoFromUnknown:
+      '出どころは記録されていません — 写っているものは未確認として扱ってください',
+    noTranslationRecorded:
+      'この語りの訳はまだ記録されていないので、記録された言語である{language}のまま表示しています。発酵時間について機械が当てずっぽうを言うより、原文をお見せするほうを選びます。',
+    machineTranslationBy:
+      '{translator} による機械翻訳です。地域の人による確認はまだありません。材料と道具の名前は原文のままです。',
+    translatedBy:
+      '{translator} による翻訳です。材料と道具の名前は原文のままです。',
+    videoOriginalAudio:
+      '{language}で話されています。作る人自身の言葉なので、訳しているものはありません。',
+    videoCreatorTrack:
+      '作った人が{language}の音声を公開しています。元の場所ではその音声で開きます。訳はその人自身のもので、こちらのものではありません。',
+    videoPlatformCaptions:
+      '{spoken}で話されています。元の音声の上に、機械翻訳された{preferred}の字幕を載せて開きます。作る人の声は差し替えず、訳は動画プラットフォームのもので、人によるものではありません。',
+    videoLanguageUnknown:
+      'この動画で話されている言語は記録にないので、{language}をお約束できません。元の場所で開き、そこではプラットフォーム自身の字幕設定が使えます。',
+    figureDocumented:
+      '作り方が記録されている',
+    figureDocumentedNote:
+      'これがアトラスなのか名前の一覧なのかを言い当てる数字です。ほかはすべてこれに次ぎます。',
+    figureLocated:
+      '国より細かい場所が入っている',
+    figureLocatedNote:
+      '本物かどうかには地理的な深さがあります。「コーリコード」は記録で、「インド」はまだ入り口です。',
+    figureIllustrated:
+      '写真がある',
+    figureIllustratedNote:
+      '思い浮かべられない料理は、心にかけるのも難しく、見分けるのはもっと難しいものです。',
+    figureFilmed:
+      '順位のついた動画がある',
+    figureFilmedNote:
+      '作る人が伝統にどれだけ近いかで並べています。検索結果ではありません。',
+    figureAssessed:
+      '本物と判定されたもの',
+    figureAssessedNote:
+      '根拠の確認を経て得られます。ここの割合が低いのは正直さであって、失敗ではありません。',
+    atlasSummary:
+      '{c} か国から {n} 件の伝統を記録しています。網羅の度合いは正直に述べます。ここに無い国は、まだ何も記録されていないということで、記録するものが無いということではありません。',
+    nothingRecorded:
+      '記録はありません',
+    nothingRecordedAs:
+      '{what}としての記録はありません',
+    nothingRecordedAsAnd:
+      '{list}と{last}としての記録はありません',
+    photoVia:
+      '写真提供',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
