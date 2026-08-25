@@ -88,7 +88,7 @@ export default function DishDetail() {
         <Card>
           <CardKicker>{copy.noRecord}</CardKicker>
           <CardBody>
-            Nothing in the atlas is recorded under that reference. Absence here means no record, not no food.
+            {copy.noRecordUnderThatReference}
           </CardBody>
           <Button label={copy.backToTheFeed} onPress={() => router.replace('/')} block />
         </Card>
@@ -223,8 +223,8 @@ export default function DishDetail() {
         {dish.photo && !dish.photoVerified ? (
           <Tag label={copy.photoOriginUnverified} variant="outline" style={styles.unverified} />
         ) : null}
-        {dish.traditionalBadge ? <Tag label="🏺 Traditional Preparation" variant="outline" /> : null}
-        {dish.atRisk ? <Tag label="🕯️ At-Risk Tradition" variant="outline" /> : null}
+        {dish.traditionalBadge ? <Tag label={copy.tagTraditionalPreparation} variant="outline" /> : null}
+        {dish.atRisk ? <Tag label={copy.tagAtRiskTradition} variant="outline" /> : null}
       </View>
 
       <H2 style={styles.title}>{dish.name}</H2>
@@ -313,12 +313,12 @@ export default function DishDetail() {
       {isFusion ? (
         <>
           <Card style={styles.fusionCard}>
-            <CardKicker>Not eligible for authentic classification</CardKicker>
+            <CardKicker>{copy.notEligibleForAuthentic}</CardKicker>
             <CardBody>{dish.fusionNote}</CardBody>
           </Card>
           {related ? (
             <>
-              <Muted style={styles.fusionLead}>Looking for the tradition it borrows from?</Muted>
+              <Muted style={styles.fusionLead}>{copy.lookingForWhatItBorrows}</Muted>
               <Button
                 label={`View ${related.name} — Authentic`}
                 variant="secondary"
@@ -434,7 +434,7 @@ export default function DishDetail() {
               someone who cooks it. */}
           {!isDocumented && dish.prepSummary ? (
             <>
-              <H5 style={styles.tightHeading}>How it&apos;s described</H5>
+              <H5 style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
                 Quoted from the source below — a general account of how the dish is made, not a record of how it is
                 made in {dish.breadcrumb[dish.breadcrumb.length - 1]}.
@@ -457,8 +457,7 @@ export default function DishDetail() {
               <Card style={styles.undocumented}>
                 <CardKicker>{copy.methodStillOpen}</CardKicker>
                 <CardBody>
-                  Nobody has recorded the technique — the timings, the vessel, the order things happen in. That is
-                  what would lift this record out of Unverified, and it takes someone who cooks it.
+                  {copy.nobodyRecordedTechnique}
                 </CardBody>
                 <Button label={copy.recordHowItsMade} block onPress={() => router.push('/contribute')} />
               </Card>
@@ -478,10 +477,9 @@ export default function DishDetail() {
                * that they would be the first, because they would be.
                */}
               <CardBody>
-                Nobody has recorded how {dish.name} is made
-                {askPlace ? ` in ${askPlace}` : ''}. We could copy the most-published recipe from the internet and
-                call it authentic, but that is the thing this atlas exists not to do — so the record stays as it is
-                until someone who cooks it fills it in. If you do, you would be the first to write it down.
+                {copy.nobodyHasRecorded
+                  .replace('{dish}', dish.name)
+                  .replace('{place}', askPlace ? copy.inPlace.replace('{place}', askPlace) : '')}
               </CardBody>
               <Button label={copy.recordHowItsMade} block onPress={() => router.push('/contribute')} />
             </Card>
@@ -537,7 +535,7 @@ export default function DishDetail() {
             </>
           ) : null}
 
-          <H5 style={styles.tightHeading}>How it&apos;s made</H5>
+          <H5 style={styles.tightHeading}>{copy.howItsMade}</H5>
           <Muted style={styles.sectionLead}>
             {isAdaptation
               ? 'The method as published. Modern equipment and shortcuts are part of it.'
@@ -555,17 +553,17 @@ export default function DishDetail() {
           </View>
 
           {reading.adaptation ? (
-            <Disclosure summary="If the traditional ingredient is unavailable">
+            <Disclosure summary={copy.ifIngredientUnavailable}>
               <Muted style={styles.adaptationLine}>
                 <T style={styles.adaptationLabel}>Traditional: </T>
                 {reading.adaptation.traditional}
               </Muted>
               <Muted style={styles.adaptationLine}>
-                <T style={styles.adaptationLabel}>Common modern substitute: </T>
+                <T style={styles.adaptationLabel}>{copy.commonModernSubstitute}</T>
                 {reading.adaptation.substitute}
               </Muted>
               <T style={styles.adaptationWarning}>
-                This is an adaptation and should not be considered the authentic preparation.
+                {copy.adaptationNotAuthentic}
               </T>
             </Disclosure>
           ) : null}
@@ -576,7 +574,7 @@ export default function DishDetail() {
             <>
               <H5 style={styles.tightHeading}>{copy.mostPopularVersion}</H5>
               <Muted style={styles.sectionLead}>
-                What the internet mostly serves for this dish, and how it departs from the tradition above.
+                {copy.whatTheInternetServes}
               </Muted>
               <Block style={styles.popularBlock}>
                 <View style={styles.popularHead}>
@@ -599,7 +597,7 @@ export default function DishDetail() {
                   <T style={styles.sourceLink}>{dish.popular.source} ↗</T>
                 </Pressable>
                 <T style={styles.popularClosing}>
-                  Popular, but not the authentic preparation. The version above remains the reference.
+                  {copy.popularNotAuthentic}
                 </T>
               </Block>
             </>
@@ -609,7 +607,7 @@ export default function DishDetail() {
             <>
               <H5 style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
               <Muted style={styles.sectionLead}>
-                Real videos, ranked by how close the cook is to the tradition — not by view count.
+                {copy.videosRankedByCloseness}
               </Muted>
               <View style={styles.videos}>
                 {dish.videos.map((video) => (
@@ -617,7 +615,7 @@ export default function DishDetail() {
                 ))}
               </View>
               <Muted style={styles.videoNote}>
-                Still frames are taken from the videos themselves, so the dish you see is the dish that cook made.
+                {copy.stillFramesFromVideos}
                 Engagement figures are deliberately not shown — they don&apos;t measure authenticity.
               </Muted>
             </>
@@ -628,7 +626,7 @@ export default function DishDetail() {
             <>
               <H5 style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
               <Muted style={styles.sectionLead}>
-                No video from the tradition has been recorded for this dish yet.
+                {copy.noVideoRecordedYet}
               </Muted>
               <Block style={styles.discoverBlock}>
                 <Muted style={styles.discoverNote}>
@@ -643,8 +641,7 @@ export default function DishDetail() {
                   onPress={() => openAtSource(searchUrl(dish))}
                 />
                 <Muted style={styles.discoverNote}>
-                  If you find one made by someone from the place, it can be added through Add a tradition — that is
-                  what would give this dish a ranked video.
+                  {copy.findOneFromThePlace}
                 </Muted>
               </Block>
             </>
@@ -677,7 +674,7 @@ export default function DishDetail() {
             <>
               <H5 style={styles.tightHeading}>{copy.alsoMadeThisWay}</H5>
               <Muted style={styles.sectionLead}>
-                The same dish, recorded separately where it is made differently. Neither is the real one.
+                {copy.siblingsNeitherIsReal}
               </Muted>
               <View style={styles.sources}>
                 {siblings.map((sibling) => (
@@ -702,7 +699,7 @@ export default function DishDetail() {
               score, which measures how a dish is made here, not who invented it. */}
           {dish.originClaims?.length ? (
             <>
-              <H5 style={styles.tightHeading}>Origin &amp; cultural attribution</H5>
+              <H5 style={styles.tightHeading}>{copy.originAndAttribution}</H5>
               <Muted style={styles.sectionLead}>{ORIGIN_DISCLAIMER}</Muted>
               <View style={styles.sources}>
                 {dish.originClaims.map((claim) => (

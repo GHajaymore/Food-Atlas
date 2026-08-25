@@ -449,6 +449,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Elige un país · {c} registrados',
     chooseCountryHintBroader:
       'Elige un país · {c} registrados, y {b} orígenes más amplios',
+    noRecordUnderThatReference:
+      'No hay nada registrado en el atlas con esa referencia. Que falte aquí significa que no hay registro, no que no haya comida.',
+    tagTraditionalPreparation:
+      '🏺 Preparación tradicional',
+    tagAtRiskTradition:
+      '🕯️ Tradición en riesgo',
+    notEligibleForAuthentic:
+      'No puede optar a la clasificación de auténtico',
+    lookingForWhatItBorrows:
+      '¿Buscas la tradición de la que toma prestado?',
+    howItsDescribed:
+      'Cómo se describe',
+    howItsMade:
+      'Cómo se hace',
+    originAndAttribution:
+      'Origen y atribución cultural',
+    nobodyRecordedTechnique:
+      'Nadie ha registrado la técnica: los tiempos, el recipiente, el orden en que ocurren las cosas. Eso es lo que sacaría a este registro de Sin verificar, y hace falta alguien que lo cocine.',
+    nobodyHasRecorded:
+      'Nadie ha registrado cómo se hace {dish}{place}. Podríamos copiar la receta más publicada de internet y llamarla auténtica, pero eso es justo lo que este atlas existe para no hacer, así que el registro se queda como está hasta que alguien que lo cocine lo complete. Si lo haces tú, serías la primera persona en escribirlo.',
+    ifIngredientUnavailable:
+      'Si el ingrediente tradicional no está disponible',
+    commonModernSubstitute:
+      'Sustituto moderno habitual: ',
+    adaptationNotAuthentic:
+      'Esto es una adaptación y no debe considerarse la preparación auténtica.',
+    whatTheInternetServes:
+      'Lo que internet sirve mayoritariamente para este plato, y en qué se aparta de la tradición de arriba.',
+    popularNotAuthentic:
+      'Popular, pero no es la preparación auténtica. La versión de arriba sigue siendo la referencia.',
+    videosRankedByCloseness:
+      'Vídeos reales, ordenados por lo cerca que está quien cocina de la tradición, no por número de visitas.',
+    stillFramesFromVideos:
+      'Los fotogramas se toman de los propios vídeos, así que el plato que ves es el plato que hizo esa persona.',
+    noVideoRecordedYet:
+      'Todavía no se ha registrado ningún vídeo de la tradición para este plato.',
+    findOneFromThePlace:
+      'Si encuentras uno hecho por alguien del lugar, se puede añadir desde Añadir una tradición: eso es lo que le daría a este plato un vídeo ordenado.',
+    siblingsNeitherIsReal:
+      'El mismo plato, registrado aparte allí donde se hace de otra manera. Ninguno es el verdadero.',
+    doYouKnow:
+      '¿Conoces {subject}?',
+    confirmWhatYouKnow:
+      'Confirma lo que sabes de verdad. No tienes que responder por todo el registro: una cosa concreta de alguien que lo cocina vale más que un acuerdo general.',
+    recordedThankYou:
+      'Registrado. Gracias.',
+    shownWithYourConnection:
+      'Se muestra en el registro con tu vínculo al lado, para que quien lea pueda valorarlo por sí mismo.',
+    signedInCounts:
+      'Sesión iniciada: esto contará para la insignia.',
+    notSignedInNote:
+      'Sin sesión iniciada. Lo que escribas se mostrará en el registro con tu vínculo, y no moverá la insignia: esa cuenta solo sube con personas que han iniciado sesión, para que una persona no pueda ser tres.',
+    signInSoItCounts:
+      'Inicia sesión para que cuente',
+    shownOnTheRecord:
+      'Se muestra en el registro',
+    whatCanYouConfirm:
+      '¿Qué puedes confirmar?',
+    exampleSaid:
+      'Usamos ghee, no aceite, y se hace en Eid, no todo el año.',
+    fromTheTownItself:
+      'Soy del pueblo o la aldea en sí, no solo de la región más amplia',
+    fromTheTownItselfLabel:
+      'Soy del pueblo o la aldea en sí, no de la región más amplia',
+    exampleWhoMakesIt:
+      'Se hace en casa para Eid, por las abuelas — opcional',
+    exampleIngredientLines:
+      'plátano maduro\nhuevo\nghee',
+    exampleMethodLines:
+      'Machaca el plátano.\nIncorpora el huevo batido.',
+    inPlace:
+      ' en {place}',
+    tagAtRiskShort:
+      '🕯️ En riesgo',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -864,6 +938,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Choisissez un pays · {c} enregistrés',
     chooseCountryHintBroader:
       'Choisissez un pays · {c} enregistrés, et {b} origines plus larges',
+    noRecordUnderThatReference:
+      'Rien n’est enregistré dans l’atlas sous cette référence. Une absence ici signifie pas de fiche, pas pas de plat.',
+    tagTraditionalPreparation:
+      '🏺 Préparation traditionnelle',
+    tagAtRiskTradition:
+      '🕯️ Tradition menacée',
+    notEligibleForAuthentic:
+      'Ne peut pas prétendre au classement authentique',
+    lookingForWhatItBorrows:
+      'Vous cherchez la tradition dont il s’inspire ?',
+    howItsDescribed:
+      'Comment on le décrit',
+    howItsMade:
+      'Comment on le prépare',
+    originAndAttribution:
+      'Origine et attribution culturelle',
+    nobodyRecordedTechnique:
+      'Personne n’a consigné la technique — les durées, le récipient, l’ordre des gestes. C’est cela qui sortirait cette fiche de Non vérifié, et il faut quelqu’un qui le cuisine.',
+    nobodyHasRecorded:
+      'Personne n’a consigné comment se prépare {dish}{place}. Nous pourrions copier la recette la plus publiée d’internet et la dire authentique, mais c’est précisément ce que cet atlas existe pour ne pas faire — la fiche reste donc en l’état jusqu’à ce que quelqu’un qui le cuisine la remplisse. Si vous le faites, vous seriez la première personne à l’écrire.',
+    ifIngredientUnavailable:
+      'Si l’ingrédient traditionnel est introuvable',
+    commonModernSubstitute:
+      'Substitut moderne courant : ',
+    adaptationNotAuthentic:
+      'Il s’agit d’une adaptation et elle ne doit pas être prise pour la préparation authentique.',
+    whatTheInternetServes:
+      'Ce qu’internet sert le plus souvent pour ce plat, et en quoi cela s’écarte de la tradition ci-dessus.',
+    popularNotAuthentic:
+      'Populaire, mais ce n’est pas la préparation authentique. La version ci-dessus reste la référence.',
+    videosRankedByCloseness:
+      'De vraies vidéos, classées selon la proximité de la personne qui cuisine avec la tradition — pas selon le nombre de vues.',
+    stillFramesFromVideos:
+      'Les images fixes sont tirées des vidéos elles-mêmes : le plat que vous voyez est le plat que cette personne a fait.',
+    noVideoRecordedYet:
+      'Aucune vidéo issue de la tradition n’a encore été enregistrée pour ce plat.',
+    findOneFromThePlace:
+      'Si vous en trouvez une faite par quelqu’un du lieu, elle peut être ajoutée via Ajouter une tradition — c’est cela qui donnerait à ce plat une vidéo classée.',
+    siblingsNeitherIsReal:
+      'Le même plat, consigné séparément là où il se fait autrement. Aucun des deux n’est le vrai.',
+    doYouKnow:
+      'Connaissez-vous {subject} ?',
+    confirmWhatYouKnow:
+      'Confirmez ce que vous savez réellement. Vous n’avez pas à répondre de toute la fiche : une chose précise, dite par quelqu’un qui le cuisine, vaut mieux qu’un accord général.',
+    recordedThankYou:
+      'Enregistré. Merci.',
+    shownWithYourConnection:
+      'C’est affiché sur la fiche avec votre lien au lieu, pour que chacun puisse en juger.',
+    signedInCounts:
+      'Connecté — cela comptera pour le badge.',
+    notSignedInNote:
+      'Non connecté. Ce que vous écrivez sera affiché sur la fiche avec votre lien au lieu, et ne fera pas bouger le badge : ce compte ne monte que pour les personnes connectées, afin qu’une seule personne ne puisse pas en valoir trois.',
+    signInSoItCounts:
+      'Connectez-vous pour que cela compte',
+    shownOnTheRecord:
+      'Affiché sur la fiche',
+    whatCanYouConfirm:
+      'Que pouvez-vous confirmer ?',
+    exampleSaid:
+      'On met du ghee, pas de l’huile — et cela se fait à l’Aïd, pas toute l’année.',
+    fromTheTownItself:
+      'Je suis de la ville ou du village même, pas seulement de la région',
+    fromTheTownItselfLabel:
+      'Je suis de la ville ou du village même, pas de la région',
+    exampleWhoMakesIt:
+      'Préparé à la maison pour l’Aïd, par les grand-mères — facultatif',
+    exampleIngredientLines:
+      'banane plantain mûre\nœuf\nghee',
+    exampleMethodLines:
+      'Écrasez la banane plantain.\nIncorporez l’œuf battu.',
+    inPlace:
+      ' à {place}',
+    tagAtRiskShort:
+      '🕯️ Menacé',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -1278,6 +1426,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Land wählen · {c} erfasst',
     chooseCountryHintBroader:
       'Land wählen · {c} erfasst, dazu {b} weiter gefasste Herkünfte',
+    noRecordUnderThatReference:
+      'Unter dieser Kennung ist im Atlas nichts erfasst. Was hier fehlt, fehlt im Verzeichnis — nicht in der Küche.',
+    tagTraditionalPreparation:
+      '🏺 Traditionelle Zubereitung',
+    tagAtRiskTradition:
+      '🕯️ Bedrohte Tradition',
+    notEligibleForAuthentic:
+      'Kommt für die Einstufung als authentisch nicht in Frage',
+    lookingForWhatItBorrows:
+      'Suchen Sie die Tradition, bei der es sich bedient?',
+    howItsDescribed:
+      'Wie es beschrieben wird',
+    howItsMade:
+      'Wie es gemacht wird',
+    originAndAttribution:
+      'Herkunft und kulturelle Zuordnung',
+    nobodyRecordedTechnique:
+      'Die Technik hat niemand festgehalten — die Zeiten, das Gefäß, die Reihenfolge der Handgriffe. Genau das würde diesen Eintrag aus Ungeprüft herausholen, und dafür braucht es jemanden, der es kocht.',
+    nobodyHasRecorded:
+      'Niemand hat festgehalten, wie {dish} gemacht wird{place}. Wir könnten das meistveröffentlichte Rezept aus dem Internet übernehmen und es authentisch nennen, aber genau dafür gibt es diesen Atlas nicht — also bleibt der Eintrag, wie er ist, bis jemand ihn ausfüllt, der es kocht. Wenn Sie das tun, wären Sie die erste Person, die es aufschreibt.',
+    ifIngredientUnavailable:
+      'Wenn die traditionelle Zutat nicht zu bekommen ist',
+    commonModernSubstitute:
+      'Üblicher moderner Ersatz: ',
+    adaptationNotAuthentic:
+      'Das ist eine Abwandlung und sollte nicht für die authentische Zubereitung gehalten werden.',
+    whatTheInternetServes:
+      'Was das Internet für dieses Gericht meist auftischt, und worin es von der Tradition oben abweicht.',
+    popularNotAuthentic:
+      'Beliebt, aber nicht die authentische Zubereitung. Maßgeblich bleibt die Fassung darüber.',
+    videosRankedByCloseness:
+      'Echte Videos, sortiert danach, wie nah die kochende Person an der Tradition ist — nicht nach Aufrufen.',
+    stillFramesFromVideos:
+      'Die Standbilder stammen aus den Videos selbst, das gezeigte Gericht ist also das Gericht dieser Person.',
+    noVideoRecordedYet:
+      'Für dieses Gericht ist noch kein Video aus der Tradition erfasst.',
+    findOneFromThePlace:
+      'Wenn Sie eines finden, das jemand von dort gemacht hat, lässt es sich über Eine Tradition hinzufügen ergänzen — das wäre es, was diesem Gericht ein eingestuftes Video gäbe.',
+    siblingsNeitherIsReal:
+      'Dasselbe Gericht, getrennt erfasst, wo es anders gemacht wird. Keines davon ist das echte.',
+    doYouKnow:
+      'Kennen Sie {subject}?',
+    confirmWhatYouKnow:
+      'Bestätigen Sie, was Sie wirklich wissen. Sie müssen nicht für den ganzen Eintrag geradestehen — eine bestimmte Sache von jemandem, der es kocht, wiegt mehr als allgemeine Zustimmung.',
+    recordedThankYou:
+      'Erfasst. Danke.',
+    shownWithYourConnection:
+      'Es steht auf dem Eintrag, mit Ihrer Verbindung daneben, damit Lesende selbst abwägen können.',
+    signedInCounts:
+      'Angemeldet — das zählt für das Abzeichen.',
+    notSignedInNote:
+      'Nicht angemeldet. Was Sie schreiben, steht mit Ihrer Verbindung auf dem Eintrag und bewegt das Abzeichen nicht: Diese Zahl steigt nur für angemeldete Menschen, damit eine Person nicht drei sein kann.',
+    signInSoItCounts:
+      'Anmelden, damit es zählt',
+    shownOnTheRecord:
+      'Steht auf dem Eintrag',
+    whatCanYouConfirm:
+      'Was können Sie bestätigen?',
+    exampleSaid:
+      'Wir nehmen Ghee, kein Öl — und es wird zum Eid gemacht, nicht das ganze Jahr.',
+    fromTheTownItself:
+      'Ich komme aus dem Ort oder Dorf selbst, nicht nur aus der weiteren Region',
+    fromTheTownItselfLabel:
+      'Ich komme aus dem Ort oder Dorf selbst, nicht aus der weiteren Region',
+    exampleWhoMakesIt:
+      'Zu Hause zum Eid gemacht, von den Großmüttern — optional',
+    exampleIngredientLines:
+      'reife Kochbanane\nEi\nGhee',
+    exampleMethodLines:
+      'Die Kochbanane zerdrücken.\nDas verquirlte Ei unterheben.',
+    inPlace:
+      ' in {place}',
+    tagAtRiskShort:
+      '🕯️ Bedroht',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -1692,6 +1914,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Scegli un paese · {c} registrati',
     chooseCountryHintBroader:
       'Scegli un paese · {c} registrati, e {b} origini più ampie',
+    noRecordUnderThatReference:
+      'Nell’atlante non c’è nulla registrato con quel riferimento. Un vuoto qui vuol dire nessuna scheda, non nessun piatto.',
+    tagTraditionalPreparation:
+      '🏺 Preparazione tradizionale',
+    tagAtRiskTradition:
+      '🕯️ Tradizione a rischio',
+    notEligibleForAuthentic:
+      'Non può rientrare nella classificazione di autentico',
+    lookingForWhatItBorrows:
+      'Cerchi la tradizione da cui prende?',
+    howItsDescribed:
+      'Come viene descritto',
+    howItsMade:
+      'Come si fa',
+    originAndAttribution:
+      'Origine e attribuzione culturale',
+    nobodyRecordedTechnique:
+      'Nessuno ha registrato la tecnica: i tempi, il recipiente, l’ordine delle cose. È questo che porterebbe la scheda fuori da Non verificato, e serve qualcuno che lo cucini.',
+    nobodyHasRecorded:
+      'Nessuno ha registrato come si fa {dish}{place}. Potremmo copiare la ricetta più pubblicata di internet e chiamarla autentica, ma è esattamente ciò che questo atlante esiste per non fare — quindi la scheda resta com’è finché non la compila qualcuno che lo cucina. Se lo fai tu, saresti la prima persona a scriverlo.',
+    ifIngredientUnavailable:
+      'Se l’ingrediente tradizionale non si trova',
+    commonModernSubstitute:
+      'Sostituto moderno comune: ',
+    adaptationNotAuthentic:
+      'Questo è un adattamento e non va considerato la preparazione autentica.',
+    whatTheInternetServes:
+      'Quello che internet serve di solito per questo piatto, e in cosa si allontana dalla tradizione qui sopra.',
+    popularNotAuthentic:
+      'Popolare, ma non è la preparazione autentica. Resta di riferimento la versione qui sopra.',
+    videosRankedByCloseness:
+      'Video veri, ordinati per quanto chi cucina è vicino alla tradizione, non per numero di visualizzazioni.',
+    stillFramesFromVideos:
+      'I fermi immagine sono presi dai video stessi, quindi il piatto che vedi è il piatto che quella persona ha fatto.',
+    noVideoRecordedYet:
+      'Per questo piatto non è ancora stato registrato nessun video della tradizione.',
+    findOneFromThePlace:
+      'Se ne trovi uno fatto da qualcuno del posto, si può aggiungere da Aggiungi una tradizione: è questo che darebbe a questo piatto un video ordinato.',
+    siblingsNeitherIsReal:
+      'Lo stesso piatto, registrato a parte dove si fa diversamente. Nessuno dei due è quello vero.',
+    doYouKnow:
+      'Conosci {subject}?',
+    confirmWhatYouKnow:
+      'Conferma quello che sai davvero. Non devi rispondere di tutta la scheda: una cosa precisa detta da chi lo cucina vale più di un consenso generico.',
+    recordedThankYou:
+      'Registrato. Grazie.',
+    shownWithYourConnection:
+      'Compare sulla scheda con accanto il tuo legame, così chi legge può valutarlo da sé.',
+    signedInCounts:
+      'Hai effettuato l’accesso: questo conterà per il distintivo.',
+    notSignedInNote:
+      'Non hai effettuato l’accesso. Quello che scrivi comparirà sulla scheda con il tuo legame, e non muoverà il distintivo: quel conteggio sale solo per chi ha effettuato l’accesso, così una persona non può valerne tre.',
+    signInSoItCounts:
+      'Accedi, così conta',
+    shownOnTheRecord:
+      'Compare sulla scheda',
+    whatCanYouConfirm:
+      'Cosa puoi confermare?',
+    exampleSaid:
+      'Usiamo ghee, non olio — e si fa per l’Eid, non tutto l’anno.',
+    fromTheTownItself:
+      'Sono del paese o del villaggio stesso, non solo della regione',
+    fromTheTownItselfLabel:
+      'Sono del paese o del villaggio stesso, non della regione',
+    exampleWhoMakesIt:
+      'Fatto in casa per l’Eid, dalle nonne — facoltativo',
+    exampleIngredientLines:
+      'banana da cuocere matura\nuovo\nghee',
+    exampleMethodLines:
+      'Schiaccia la banana.\nIncorpora l’uovo sbattuto.',
+    inPlace:
+      ' a {place}',
+    tagAtRiskShort:
+      '🕯️ A rischio',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -2107,6 +2403,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Escolha um país · {c} registados',
     chooseCountryHintBroader:
       'Escolha um país · {c} registados, e {b} origens mais amplas',
+    noRecordUnderThatReference:
+      'Não há nada registado no atlas com essa referência. A ausência aqui quer dizer que não há registo, não que não haja comida.',
+    tagTraditionalPreparation:
+      '🏺 Preparação tradicional',
+    tagAtRiskTradition:
+      '🕯️ Tradição em risco',
+    notEligibleForAuthentic:
+      'Não pode ser classificado como autêntico',
+    lookingForWhatItBorrows:
+      'Procura a tradição de que isto se serve?',
+    howItsDescribed:
+      'Como é descrito',
+    howItsMade:
+      'Como se faz',
+    originAndAttribution:
+      'Origem e atribuição cultural',
+    nobodyRecordedTechnique:
+      'Ninguém registou a técnica — os tempos, o recipiente, a ordem das coisas. É isso que tiraria este registo de Por verificar, e é preciso alguém que o cozinhe.',
+    nobodyHasRecorded:
+      'Ninguém registou como se faz {dish}{place}. Podíamos copiar a receita mais publicada da internet e chamar-lhe autêntica, mas é exatamente isso que este atlas existe para não fazer — por isso o registo fica como está até que alguém que o cozinhe o preencha. Se o fizer, seria a primeira pessoa a escrevê-lo.',
+    ifIngredientUnavailable:
+      'Se o ingrediente tradicional não se encontrar',
+    commonModernSubstitute:
+      'Substituto moderno habitual: ',
+    adaptationNotAuthentic:
+      'Isto é uma adaptação e não deve ser tomado como a preparação autêntica.',
+    whatTheInternetServes:
+      'O que a internet serve mais para este prato, e em que se afasta da tradição acima.',
+    popularNotAuthentic:
+      'Popular, mas não é a preparação autêntica. A versão acima continua a ser a referência.',
+    videosRankedByCloseness:
+      'Vídeos reais, ordenados pela proximidade de quem cozinha à tradição — não por número de visualizações.',
+    stillFramesFromVideos:
+      'As imagens fixas saem dos próprios vídeos, por isso o prato que vê é o prato que aquela pessoa fez.',
+    noVideoRecordedYet:
+      'Ainda não há nenhum vídeo da tradição registado para este prato.',
+    findOneFromThePlace:
+      'Se encontrar um feito por alguém do lugar, pode ser acrescentado em Adicionar uma tradição — é isso que daria a este prato um vídeo ordenado.',
+    siblingsNeitherIsReal:
+      'O mesmo prato, registado à parte onde é feito de outra maneira. Nenhum é o verdadeiro.',
+    doYouKnow:
+      'Conhece {subject}?',
+    confirmWhatYouKnow:
+      'Confirme o que sabe mesmo. Não tem de responder pelo registo todo — uma coisa concreta de quem o cozinha vale mais do que uma concordância geral.',
+    recordedThankYou:
+      'Registado. Obrigado.',
+    shownWithYourConnection:
+      'Aparece no registo com a sua ligação ao lado, para que quem lê possa avaliar por si.',
+    signedInCounts:
+      'Sessão iniciada — isto vai contar para o distintivo.',
+    notSignedInNote:
+      'Sem sessão iniciada. O que escrever aparece no registo com a sua ligação, e não mexe no distintivo: essa contagem só sobe com pessoas com sessão iniciada, para que uma pessoa não possa valer três.',
+    signInSoItCounts:
+      'Inicie sessão para contar',
+    shownOnTheRecord:
+      'Aparece no registo',
+    whatCanYouConfirm:
+      'O que pode confirmar?',
+    exampleSaid:
+      'Usamos ghee, não óleo — e faz-se no Eid, não o ano todo.',
+    fromTheTownItself:
+      'Sou da vila ou da aldeia em si, não só da região mais ampla',
+    fromTheTownItselfLabel:
+      'Sou da vila ou da aldeia em si, não da região mais ampla',
+    exampleWhoMakesIt:
+      'Feito em casa para o Eid, pelas avós — opcional',
+    exampleIngredientLines:
+      'banana-pão madura\novo\nghee',
+    exampleMethodLines:
+      'Esmague a banana.\nEnvolva o ovo batido.',
+    inPlace:
+      ' em {place}',
+    tagAtRiskShort:
+      '🕯️ Em risco',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -2521,6 +2891,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Kies een land · {c} vastgelegd',
     chooseCountryHintBroader:
       'Kies een land · {c} vastgelegd, en {b} bredere herkomsten',
+    noRecordUnderThatReference:
+      'Onder die verwijzing staat niets in de atlas. Wat hier ontbreekt, ontbreekt in het register — niet in de keuken.',
+    tagTraditionalPreparation:
+      '🏺 Traditionele bereiding',
+    tagAtRiskTradition:
+      '🕯️ Bedreigde traditie',
+    notEligibleForAuthentic:
+      'Komt niet in aanmerking voor de classificatie authentiek',
+    lookingForWhatItBorrows:
+      'Zoekt u de traditie waaraan dit ontleend is?',
+    howItsDescribed:
+      'Hoe het beschreven wordt',
+    howItsMade:
+      'Hoe het gemaakt wordt',
+    originAndAttribution:
+      'Herkomst en culturele toeschrijving',
+    nobodyRecordedTechnique:
+      'Niemand heeft de techniek vastgelegd — de tijden, de pan, de volgorde van de handelingen. Juist dat zou dit record uit Niet geverifieerd halen, en daar is iemand voor nodig die het kookt.',
+    nobodyHasRecorded:
+      'Niemand heeft vastgelegd hoe {dish} gemaakt wordt{place}. We zouden het meest gepubliceerde recept van internet kunnen overnemen en authentiek noemen, maar dat is precies wat deze atlas bestaat om niet te doen — dus het record blijft zoals het is tot iemand die het kookt het invult. Doet u dat, dan bent u de eerste die het opschrijft.',
+    ifIngredientUnavailable:
+      'Als het traditionele ingrediënt niet te krijgen is',
+    commonModernSubstitute:
+      'Gangbare moderne vervanger: ',
+    adaptationNotAuthentic:
+      'Dit is een bewerking en moet niet voor de authentieke bereiding worden gehouden.',
+    whatTheInternetServes:
+      'Wat het internet meestal opdient voor dit gerecht, en waarin het afwijkt van de traditie hierboven.',
+    popularNotAuthentic:
+      'Populair, maar niet de authentieke bereiding. De versie hierboven blijft de maatstaf.',
+    videosRankedByCloseness:
+      'Echte video’s, gerangschikt naar hoe dicht de kok bij de traditie staat — niet naar aantal weergaven.',
+    stillFramesFromVideos:
+      'De stilstaande beelden komen uit de video’s zelf, dus het gerecht dat u ziet is het gerecht dat die kok maakte.',
+    noVideoRecordedYet:
+      'Voor dit gerecht is nog geen video uit de traditie vastgelegd.',
+    findOneFromThePlace:
+      'Vindt u er een die gemaakt is door iemand uit die plaats, dan kan die via Een traditie toevoegen erbij — dat is wat dit gerecht een gerangschikte video zou geven.',
+    siblingsNeitherIsReal:
+      'Hetzelfde gerecht, apart vastgelegd waar het anders gemaakt wordt. Geen van beide is de echte.',
+    doYouKnow:
+      'Kent u {subject}?',
+    confirmWhatYouKnow:
+      'Bevestig wat u werkelijk weet. U hoeft niet voor het hele record in te staan — één specifiek ding van iemand die het kookt weegt zwaarder dan algemene instemming.',
+    recordedThankYou:
+      'Vastgelegd. Dank u.',
+    shownWithYourConnection:
+      'Het staat op het record met uw band ernaast, zodat lezers het zelf kunnen wegen.',
+    signedInCounts:
+      'Aangemeld — dit telt mee voor het insigne.',
+    notSignedInNote:
+      'Niet aangemeld. Wat u schrijft komt met uw band op het record te staan en verandert het insigne niet: die telling stijgt alleen voor aangemelde mensen, zodat één persoon er niet drie kan zijn.',
+    signInSoItCounts:
+      'Meld u aan, dan telt het',
+    shownOnTheRecord:
+      'Staat op het record',
+    whatCanYouConfirm:
+      'Wat kunt u bevestigen?',
+    exampleSaid:
+      'Wij nemen ghee, geen olie — en het wordt met Eid gemaakt, niet het hele jaar.',
+    fromTheTownItself:
+      'Ik kom uit de stad of het dorp zelf, niet alleen uit de bredere regio',
+    fromTheTownItselfLabel:
+      'Ik kom uit de stad of het dorp zelf, niet uit de bredere regio',
+    exampleWhoMakesIt:
+      'Thuis gemaakt met Eid, door de grootmoeders — optioneel',
+    exampleIngredientLines:
+      'rijpe bakbanaan\nei\nghee',
+    exampleMethodLines:
+      'Pureer de bakbanaan.\nSpatel het geklopte ei erdoor.',
+    inPlace:
+      ' in {place}',
+    tagAtRiskShort:
+      '🕯️ Bedreigd',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -2936,6 +3380,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wybierz kraj · zapisanych: {c}',
     chooseCountryHintBroader:
       'Wybierz kraj · zapisanych: {c}, oraz {b} szerszych pochodzeń',
+    noRecordUnderThatReference:
+      'Pod tym odnośnikiem w atlasie nic nie jest zapisane. Brak tutaj znaczy brak wpisu, a nie brak potrawy.',
+    tagTraditionalPreparation:
+      '🏺 Przygotowanie tradycyjne',
+    tagAtRiskTradition:
+      '🕯️ Tradycja zagrożona',
+    notEligibleForAuthentic:
+      'Nie kwalifikuje się do klasyfikacji jako autentyczne',
+    lookingForWhatItBorrows:
+      'Szukasz tradycji, z której to czerpie?',
+    howItsDescribed:
+      'Jak się to opisuje',
+    howItsMade:
+      'Jak się to robi',
+    originAndAttribution:
+      'Pochodzenie i przypisanie kulturowe',
+    nobodyRecordedTechnique:
+      'Nikt nie zapisał techniki — czasów, naczynia, kolejności czynności. To właśnie wyciągnęłoby ten wpis z Niesprawdzonych, a potrzeba do tego kogoś, kto to gotuje.',
+    nobodyHasRecorded:
+      'Nikt nie zapisał, jak się robi {dish}{place}. Moglibyśmy skopiować z internetu najczęściej publikowany przepis i nazwać go autentycznym, ale właśnie po to ten atlas istnieje, żeby tego nie robić — więc wpis zostaje taki, jaki jest, dopóki nie uzupełni go ktoś, kto to gotuje. Jeśli zrobisz to ty, będziesz pierwszą osobą, która to spisze.',
+    ifIngredientUnavailable:
+      'Jeśli tradycyjnego składnika nie da się zdobyć',
+    commonModernSubstitute:
+      'Częsty współczesny zamiennik: ',
+    adaptationNotAuthentic:
+      'To jest adaptacja i nie należy jej brać za autentyczne przygotowanie.',
+    whatTheInternetServes:
+      'To, co internet najczęściej podaje jako tę potrawę, i czym odbiega od tradycji powyżej.',
+    popularNotAuthentic:
+      'Popularne, ale to nie jest autentyczne przygotowanie. Punktem odniesienia pozostaje wersja powyżej.',
+    videosRankedByCloseness:
+      'Prawdziwe nagrania, uszeregowane według tego, jak blisko tradycji jest osoba gotująca — nie według liczby wyświetleń.',
+    stillFramesFromVideos:
+      'Kadry pochodzą z samych nagrań, więc potrawa, którą widzisz, to potrawa, którą ta osoba zrobiła.',
+    noVideoRecordedYet:
+      'Do tej potrawy nie zapisano jeszcze żadnego nagrania z tradycji.',
+    findOneFromThePlace:
+      'Jeśli znajdziesz nagranie zrobione przez kogoś z tego miejsca, można je dodać przez Dodaj tradycję — to właśnie dałoby tej potrawie uszeregowane nagranie.',
+    siblingsNeitherIsReal:
+      'Ta sama potrawa, zapisana osobno tam, gdzie robi się ją inaczej. Żadna z nich nie jest tą prawdziwą.',
+    doYouKnow:
+      'Znasz {subject}?',
+    confirmWhatYouKnow:
+      'Potwierdź to, co naprawdę wiesz. Nie musisz ręczyć za cały wpis — jedna konkretna rzecz od kogoś, kto to gotuje, waży więcej niż ogólna zgoda.',
+    recordedThankYou:
+      'Zapisane. Dziękujemy.',
+    shownWithYourConnection:
+      'Pokazuje się na wpisie z twoim związkiem z miejscem obok, żeby czytający mogli sami to ocenić.',
+    signedInCounts:
+      'Zalogowano — to policzy się do odznaki.',
+    notSignedInNote:
+      'Nie zalogowano. To, co napiszesz, pokaże się na wpisie razem z twoim związkiem z miejscem i nie ruszy odznaki: ten licznik rośnie tylko dla osób zalogowanych, żeby jedna osoba nie mogła być trzema.',
+    signInSoItCounts:
+      'Zaloguj się, żeby to się liczyło',
+    shownOnTheRecord:
+      'Pokazuje się na wpisie',
+    whatCanYouConfirm:
+      'Co możesz potwierdzić?',
+    exampleSaid:
+      'Używamy ghee, nie oleju — i robi się to na Eid, a nie przez cały rok.',
+    fromTheTownItself:
+      'Jestem z samego miasta lub wsi, a nie tylko z szerszego regionu',
+    fromTheTownItselfLabel:
+      'Jestem z samego miasta lub wsi, a nie z szerszego regionu',
+    exampleWhoMakesIt:
+      'Robione w domu na Eid, przez babcie — opcjonalnie',
+    exampleIngredientLines:
+      'dojrzały platan\njajko\nghee',
+    exampleMethodLines:
+      'Rozgnieć platana.\nWmieszaj roztrzepane jajko.',
+    inPlace:
+      ' w miejscowości {place}',
+    tagAtRiskShort:
+      '🕯️ Zagrożone',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -3350,6 +3868,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Bir ülke seçin · {c} kayıtlı',
     chooseCountryHintBroader:
       'Bir ülke seçin · {c} kayıtlı, ayrıca {b} daha geniş köken',
+    noRecordUnderThatReference:
+      'Atlasta bu künyeyle kayıtlı bir şey yok. Burada olmaması kayıt yok demektir, yemek yok demek değil.',
+    tagTraditionalPreparation:
+      '🏺 Geleneksel hazırlık',
+    tagAtRiskTradition:
+      '🕯️ Tehlikedeki gelenek',
+    notEligibleForAuthentic:
+      'Özgün sınıflandırmasına giremez',
+    lookingForWhatItBorrows:
+      'Ödünç aldığı geleneği mi arıyorsunuz?',
+    howItsDescribed:
+      'Nasıl anlatılıyor',
+    howItsMade:
+      'Nasıl yapılıyor',
+    originAndAttribution:
+      'Köken ve kültürel atıf',
+    nobodyRecordedTechnique:
+      'Tekniği kimse kaydetmemiş — süreleri, kabı, işlerin sırasını. Bu kaydı Doğrulanmamış olmaktan çıkaracak olan tam da budur ve bunun için onu pişiren birine ihtiyaç var.',
+    nobodyHasRecorded:
+      '{dish} nasıl yapılır{place}, kimse kaydetmemiş. İnternette en çok yayımlanan tarifi kopyalayıp özgün diyebilirdik, ama bu atlas tam da bunu yapmamak için var — bu yüzden kayıt, onu pişiren biri dolduruncaya kadar olduğu gibi kalıyor. Siz doldurursanız, bunu yazan ilk kişi olursunuz.',
+    ifIngredientUnavailable:
+      'Geleneksel malzeme bulunamıyorsa',
+    commonModernSubstitute:
+      'Yaygın modern karşılığı: ',
+    adaptationNotAuthentic:
+      'Bu bir uyarlamadır ve özgün hazırlık sayılmamalıdır.',
+    whatTheInternetServes:
+      'İnternetin bu yemek için çoğunlukla önüne koyduğu şey ve yukarıdaki gelenekten nerede ayrıldığı.',
+    popularNotAuthentic:
+      'Yaygın, ama özgün hazırlık değil. Ölçüt yukarıdaki sürüm olmaya devam ediyor.',
+    videosRankedByCloseness:
+      'Gerçek videolar, izlenme sayısına göre değil, pişiren kişinin geleneğe ne kadar yakın olduğuna göre sıralanmış.',
+    stillFramesFromVideos:
+      'Kareler videoların kendisinden alınıyor, yani gördüğünüz yemek o kişinin yaptığı yemek.',
+    noVideoRecordedYet:
+      'Bu yemek için gelenekten gelen bir video henüz kaydedilmedi.',
+    findOneFromThePlace:
+      'Oradan birinin yaptığı bir video bulursanız, Bir gelenek ekleyin üzerinden eklenebilir — bu yemeğe sıralanmış bir video kazandıracak olan budur.',
+    siblingsNeitherIsReal:
+      'Aynı yemek, farklı yapıldığı yerde ayrıca kaydedilmiş. İkisinden hiçbiri gerçek olan değil.',
+    doYouKnow:
+      '{subject} biliyor musunuz?',
+    confirmWhatYouKnow:
+      'Gerçekten bildiğinizi doğrulayın. Kaydın tamamına kefil olmanız gerekmez — onu pişiren birinden gelen belirli bir şey, genel bir onaydan daha değerlidir.',
+    recordedThankYou:
+      'Kaydedildi. Teşekkürler.',
+    shownWithYourConnection:
+      'Kayıtta, yanında sizin bağınızla birlikte görünür; böylece okuyanlar kendileri tartabilir.',
+    signedInCounts:
+      'Oturum açık — bu, işaret için sayılacak.',
+    notSignedInNote:
+      'Oturum açık değil. Yazdıklarınız bağınızla birlikte kayıtta görünecek ama işareti oynatmayacak: o sayı yalnızca oturum açmış kişilerle yükselir, böylece bir kişi üç kişi olamaz.',
+    signInSoItCounts:
+      'Sayılması için oturum açın',
+    shownOnTheRecord:
+      'Kayıtta görünür',
+    whatCanYouConfirm:
+      'Neyi doğrulayabilirsiniz?',
+    exampleSaid:
+      'Biz sadeyağ kullanırız, yağ değil — ve yıl boyu değil, Ramazan Bayramı’nda yapılır.',
+    fromTheTownItself:
+      'Ben kasabanın ya da köyün kendisindenim, yalnızca geniş bölgeden değil',
+    fromTheTownItselfLabel:
+      'Ben kasabanın ya da köyün kendisindenim, geniş bölgeden değil',
+    exampleWhoMakesIt:
+      'Bayramda evde, büyükanneler yapar — isteğe bağlı',
+    exampleIngredientLines:
+      'olgun muz\nyumurta\nsadeyağ',
+    exampleMethodLines:
+      'Muzu ezin.\nÇırpılmış yumurtayı katın.',
+    inPlace:
+      ' {place} bölgesinde',
+    tagAtRiskShort:
+      '🕯️ Tehlikede',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -3765,6 +4357,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Выберите страну · записано: {c}',
     chooseCountryHintBroader:
       'Выберите страну · записано: {c}, и ещё {b} более широких источников',
+    noRecordUnderThatReference:
+      'В атласе ничего не записано под этой ссылкой. Отсутствие здесь означает отсутствие записи, а не блюда.',
+    tagTraditionalPreparation:
+      '🏺 Традиционное приготовление',
+    tagAtRiskTradition:
+      '🕯️ Традиция под угрозой',
+    notEligibleForAuthentic:
+      'Не может претендовать на статус подлинного',
+    lookingForWhatItBorrows:
+      'Ищете традицию, у которой это заимствовано?',
+    howItsDescribed:
+      'Как это описывают',
+    howItsMade:
+      'Как это готовят',
+    originAndAttribution:
+      'Происхождение и культурная принадлежность',
+    nobodyRecordedTechnique:
+      'Технику никто не записал — время, посуду, порядок действий. Именно это вывело бы запись из Не проверено, и для этого нужен человек, который это готовит.',
+    nobodyHasRecorded:
+      'Никто не записал, как готовят {dish}{place}. Мы могли бы скопировать самый растиражированный рецепт из интернета и назвать его подлинным, но именно ради того, чтобы этого не делать, атлас и существует, — поэтому запись остаётся как есть, пока её не заполнит тот, кто это готовит. Если это сделаете вы, вы будете первым человеком, который это записал.',
+    ifIngredientUnavailable:
+      'Если традиционного ингредиента не достать',
+    commonModernSubstitute:
+      'Обычная современная замена: ',
+    adaptationNotAuthentic:
+      'Это адаптация, и её не следует считать подлинным приготовлением.',
+    whatTheInternetServes:
+      'То, что интернет чаще всего подаёт под этим названием, и чем оно расходится с традицией выше.',
+    popularNotAuthentic:
+      'Популярно, но это не подлинное приготовление. Ориентиром остаётся версия выше.',
+    videosRankedByCloseness:
+      'Настоящие видео, упорядоченные по тому, насколько готовящий близок к традиции, а не по числу просмотров.',
+    stillFramesFromVideos:
+      'Кадры взяты из самих видео, так что блюдо, которое вы видите, — это блюдо, которое приготовил тот человек.',
+    noVideoRecordedYet:
+      'Для этого блюда пока не записано ни одного видео из традиции.',
+    findOneFromThePlace:
+      'Если вы найдёте видео, снятое человеком оттуда, его можно добавить через Добавить традицию — именно это дало бы блюду упорядоченное видео.',
+    siblingsNeitherIsReal:
+      'То же блюдо, записанное отдельно там, где его готовят иначе. Ни одно из них не является настоящим.',
+    doYouKnow:
+      'Вы знаете {subject}?',
+    confirmWhatYouKnow:
+      'Подтвердите то, что вы действительно знаете. Ручаться за всю запись не нужно: одна конкретная вещь от человека, который это готовит, весит больше, чем общее согласие.',
+    recordedThankYou:
+      'Записано. Спасибо.',
+    shownWithYourConnection:
+      'Это показывается в записи вместе с вашей связью с местом, чтобы читатель мог взвесить сам.',
+    signedInCounts:
+      'Вы вошли — это будет засчитано к знаку.',
+    notSignedInNote:
+      'Вы не вошли. Написанное вами появится в записи вместе с вашей связью с местом, но знак не сдвинет: этот счёт растёт только за счёт вошедших, чтобы один человек не мог быть тремя.',
+    signInSoItCounts:
+      'Войдите, чтобы это засчиталось',
+    shownOnTheRecord:
+      'Показывается в записи',
+    whatCanYouConfirm:
+      'Что вы можете подтвердить?',
+    exampleSaid:
+      'Мы кладём гхи, а не масло, и делают это на Ид, а не круглый год.',
+    fromTheTownItself:
+      'Я из самого города или села, а не только из более широкого региона',
+    fromTheTownItselfLabel:
+      'Я из самого города или села, а не из более широкого региона',
+    exampleWhoMakesIt:
+      'Готовят дома на Ид, бабушки — необязательно',
+    exampleIngredientLines:
+      'спелый плантан\nяйцо\nгхи',
+    exampleMethodLines:
+      'Разомните плантан.\nВмешайте взбитое яйцо.',
+    inPlace:
+      ' в месте {place}',
+    tagAtRiskShort:
+      '🕯️ Под угрозой',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -4180,6 +4846,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'कोई देश चुनें · {c} दर्ज',
     chooseCountryHintBroader:
       'कोई देश चुनें · {c} दर्ज, और {b} व्यापक मूल',
+    noRecordUnderThatReference:
+      'उस संदर्भ से एटलस में कुछ भी दर्ज नहीं है। यहाँ न होने का मतलब है कोई रिकॉर्ड नहीं, यह नहीं कि खाना नहीं।',
+    tagTraditionalPreparation:
+      '🏺 पारंपरिक विधि',
+    tagAtRiskTradition:
+      '🕯️ ख़तरे में परंपरा',
+    notEligibleForAuthentic:
+      'प्रामाणिक वर्गीकरण के योग्य नहीं',
+    lookingForWhatItBorrows:
+      'जिस परंपरा से यह लिया गया है, वह ढूँढ रहे हैं?',
+    howItsDescribed:
+      'इसका वर्णन कैसे है',
+    howItsMade:
+      'यह कैसे बनता है',
+    originAndAttribution:
+      'मूल और सांस्कृतिक श्रेय',
+    nobodyRecordedTechnique:
+      'तकनीक किसी ने दर्ज नहीं की — समय, बर्तन, चीज़ों का क्रम। यही इस रिकॉर्ड को असत्यापित से बाहर निकालेगा, और इसके लिए कोई ऐसा चाहिए जो इसे पकाता हो।',
+    nobodyHasRecorded:
+      'किसी ने दर्ज नहीं किया कि {dish} कैसे बनता है{place}। हम इंटरनेट से सबसे ज़्यादा छपी विधि उठाकर उसे प्रामाणिक कह सकते थे, पर यह एटलस ठीक यही न करने के लिए है — इसलिए रिकॉर्ड वैसा ही रहता है जब तक कोई इसे पकाने वाला इसे न भरे। अगर आप भरें, तो इसे लिखने वाले पहले व्यक्ति आप होंगे।',
+    ifIngredientUnavailable:
+      'अगर पारंपरिक सामग्री न मिले',
+    commonModernSubstitute:
+      'आम आधुनिक विकल्प: ',
+    adaptationNotAuthentic:
+      'यह एक रूपांतर है और इसे प्रामाणिक विधि नहीं माना जाना चाहिए।',
+    whatTheInternetServes:
+      'इस व्यंजन के लिए इंटरनेट पर ज़्यादातर जो परोसा जाता है, और वह ऊपर की परंपरा से कहाँ हटता है।',
+    popularNotAuthentic:
+      'लोकप्रिय, पर प्रामाणिक विधि नहीं। ऊपर वाला रूप ही संदर्भ बना रहता है।',
+    videosRankedByCloseness:
+      'असली वीडियो, इस क्रम में कि पकाने वाला परंपरा के कितने क़रीब है — व्यू की गिनती से नहीं।',
+    stillFramesFromVideos:
+      'तस्वीरें वीडियो से ही ली गई हैं, इसलिए जो व्यंजन आप देखते हैं वही उस व्यक्ति ने बनाया था।',
+    noVideoRecordedYet:
+      'इस व्यंजन के लिए परंपरा का कोई वीडियो अभी दर्ज नहीं है।',
+    findOneFromThePlace:
+      'अगर आपको उस जगह के किसी व्यक्ति का बनाया वीडियो मिले, तो उसे परंपरा जोड़ें से जोड़ा जा सकता है — यही इस व्यंजन को क्रमित वीडियो देगा।',
+    siblingsNeitherIsReal:
+      'वही व्यंजन, वहाँ अलग से दर्ज जहाँ वह अलग तरह बनता है। इनमें से कोई भी असली नहीं है।',
+    doYouKnow:
+      'क्या आप {subject} जानते हैं?',
+    confirmWhatYouKnow:
+      'वही पुष्टि करें जो आप सचमुच जानते हैं। आपको पूरे रिकॉर्ड की ज़िम्मेदारी नहीं लेनी — इसे पकाने वाले किसी व्यक्ति की एक ठोस बात, आम सहमति से ज़्यादा क़ीमती है।',
+    recordedThankYou:
+      'दर्ज हो गया। धन्यवाद।',
+    shownWithYourConnection:
+      'यह रिकॉर्ड पर आपके जुड़ाव के साथ दिखता है, ताकि पढ़ने वाले ख़ुद तौल सकें।',
+    signedInCounts:
+      'साइन इन है — यह बैज के लिए गिना जाएगा।',
+    notSignedInNote:
+      'साइन इन नहीं है। आप जो लिखेंगे वह आपके जुड़ाव के साथ रिकॉर्ड पर दिखेगा, पर बैज नहीं हिलाएगा: वह गिनती सिर्फ़ साइन इन लोगों से बढ़ती है, ताकि एक व्यक्ति तीन न बन सके।',
+    signInSoItCounts:
+      'साइन इन करें, ताकि गिना जाए',
+    shownOnTheRecord:
+      'रिकॉर्ड पर दिखता है',
+    whatCanYouConfirm:
+      'आप क्या पुष्टि कर सकते हैं?',
+    exampleSaid:
+      'हम घी डालते हैं, तेल नहीं — और यह ईद पर बनता है, साल भर नहीं।',
+    fromTheTownItself:
+      'मैं ख़ुद उसी क़स्बे या गाँव से हूँ, सिर्फ़ बड़े इलाक़े से नहीं',
+    fromTheTownItselfLabel:
+      'मैं ख़ुद उसी क़स्बे या गाँव से हूँ, बड़े इलाक़े से नहीं',
+    exampleWhoMakesIt:
+      'ईद पर घर में, दादी-नानी बनाती हैं — वैकल्पिक',
+    exampleIngredientLines:
+      'पका केला\nअंडा\nघी',
+    exampleMethodLines:
+      'केले को मसल लें।\nफेंटा हुआ अंडा मिलाएँ।',
+    inPlace:
+      ' {place} में',
+    tagAtRiskShort:
+      '🕯️ ख़तरे में',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -4595,6 +5335,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '选择一个国家 · 已记录 {c} 个',
     chooseCountryHintBroader:
       '选择一个国家 · 已记录 {c} 个，另有 {b} 个更宽泛的来源',
+    noRecordUnderThatReference:
+      '图册里没有以这个编号登记的内容。这里没有，意思是没有记录，不是没有这道菜。',
+    tagTraditionalPreparation:
+      '🏺 传统做法',
+    tagAtRiskTradition:
+      '🕯️ 濒危传统',
+    notEligibleForAuthentic:
+      '不具备评为本真的资格',
+    lookingForWhatItBorrows:
+      '在找它借鉴的那个传统吗？',
+    howItsDescribed:
+      '别人怎么描述它',
+    howItsMade:
+      '它怎么做',
+    originAndAttribution:
+      '来源与文化归属',
+    nobodyRecordedTechnique:
+      '没有人记下做法 — 火候、器具、先后次序。正是这些才能让这条记录脱离未核实，而这需要一个真正做这道菜的人。',
+    nobodyHasRecorded:
+      '没有人记下 {dish} 怎么做{place}。我们大可以把网上流传最广的食谱抄过来，称它本真，但这份图册存在的意义恰恰是不这么做 — 所以这条记录就这样留着，等一个会做的人来填。如果那个人是你，你就是第一个把它写下来的人。',
+    ifIngredientUnavailable:
+      '如果买不到传统的那种食材',
+    commonModernSubstitute:
+      '常见的现代替代品：',
+    adaptationNotAuthentic:
+      '这是改良做法，不应当作本真做法看待。',
+    whatTheInternetServes:
+      '网上多数情况下拿来当这道菜的东西，以及它与上面那个传统的出入。',
+    popularNotAuthentic:
+      '流行，但不是本真做法。上面那个版本仍然是标准。',
+    videosRankedByCloseness:
+      '真实的视频，按做菜的人离传统有多近排序 — 不按播放量。',
+    stillFramesFromVideos:
+      '截图取自视频本身，所以你看到的这道菜，就是那个人做的那道菜。',
+    noVideoRecordedYet:
+      '这道菜还没有登记任何来自传统的视频。',
+    findOneFromThePlace:
+      '如果你找到当地人做的视频，可以通过添加一项传统加进来 — 这才能让这道菜有一个排过序的视频。',
+    siblingsNeitherIsReal:
+      '同一道菜，在做法不同的地方分开登记。哪一个都不是"真的那个"。',
+    doYouKnow:
+      '你了解{subject}吗？',
+    confirmWhatYouKnow:
+      '只确认你真正知道的。你不必为整条记录背书 — 一个做这道菜的人说出的一件具体的事，比笼统的赞同更有分量。',
+    recordedThankYou:
+      '已记录。谢谢。',
+    shownWithYourConnection:
+      '它会连同你与当地的关系一起显示在记录上，让读的人自己掂量。',
+    signedInCounts:
+      '已登录 — 这会计入徽章。',
+    notSignedInNote:
+      '未登录。你写的内容会连同你与当地的关系显示在记录上，但不会推动徽章：那个数字只因登录的人而上升，这样一个人就不能顶三个人。',
+    signInSoItCounts:
+      '登录，让它算数',
+    shownOnTheRecord:
+      '显示在记录上',
+    whatCanYouConfirm:
+      '你能确认什么？',
+    exampleSaid:
+      '我们用酥油，不用油 — 而且是开斋节做的，不是一年到头都做。',
+    fromTheTownItself:
+      '我就是那个镇或村的人，不只是那一片大区域的',
+    fromTheTownItselfLabel:
+      '我就是那个镇或村的人，不是那一片大区域的',
+    exampleWhoMakesIt:
+      '开斋节在家做，由祖母们做 — 可不填',
+    exampleIngredientLines:
+      '熟的大蕉\n鸡蛋\n酥油',
+    exampleMethodLines:
+      '把大蕉压成泥。\n拌入打散的鸡蛋。',
+    inPlace:
+      '（在{place}）',
+    tagAtRiskShort:
+      '🕯️ 濒危',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -5010,6 +5824,80 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '国を選ぶ · {c} か国',
     chooseCountryHintBroader:
       '国を選ぶ · {c} か国、ほかに広い範囲の出自が {b} 件',
+    noRecordUnderThatReference:
+      'その参照でアトラスに記録されているものはありません。ここに無いのは記録が無いということで、料理が無いということではありません。',
+    tagTraditionalPreparation:
+      '🏺 伝統の作り方',
+    tagAtRiskTradition:
+      '🕯️ 途絶えかけている伝統',
+    notEligibleForAuthentic:
+      '本物の区分には入りません',
+    lookingForWhatItBorrows:
+      '元になった伝統をお探しですか。',
+    howItsDescribed:
+      'どう説明されているか',
+    howItsMade:
+      'どう作るか',
+    originAndAttribution:
+      '由来と文化的な帰属',
+    nobodyRecordedTechnique:
+      '作り方を誰も書き残していません。時間も、道具も、手順の順序も。それこそがこの記録を未確認から引き上げるものであり、そのためには実際に作る人が要ります。',
+    nobodyHasRecorded:
+      '{dish} の作り方{place}を、誰も記録していません。インターネットでいちばん多く公開されているレシピを写して本物と呼ぶこともできますが、このアトラスはまさにそれをしないために在ります。ですから、作る人が書き入れるまで記録はこのままです。あなたが書けば、それを書き留めた最初の人になります。',
+    ifIngredientUnavailable:
+      '伝統の材料が手に入らないとき',
+    commonModernSubstitute:
+      'よくある現代の代用品：',
+    adaptationNotAuthentic:
+      'これはアレンジであり、本物の作り方とみなすべきものではありません。',
+    whatTheInternetServes:
+      'この料理としてインターネットが出してくるものと、それが上の伝統からどう離れているか。',
+    popularNotAuthentic:
+      '広まってはいますが、本物の作り方ではありません。基準は上の版のままです。',
+    videosRankedByCloseness:
+      '本物の動画を、再生数ではなく、作る人が伝統にどれだけ近いかで並べています。',
+    stillFramesFromVideos:
+      '静止画は動画そのものから取っているので、見えている料理はその人が作った料理です。',
+    noVideoRecordedYet:
+      'この料理には、伝統からの動画がまだ記録されていません。',
+    findOneFromThePlace:
+      'その土地の人が作った動画を見つけたら、伝統を追加するから加えられます。それがこの料理に順位のついた動画をもたらします。',
+    siblingsNeitherIsReal:
+      '同じ料理を、作り方が違う土地ごとに別々に記録したものです。どちらかが本物というわけではありません。',
+    doYouKnow:
+      '{subject} をご存じですか。',
+    confirmWhatYouKnow:
+      '本当に知っていることだけを確認してください。記録の全体を保証する必要はありません。作っている人が挙げる具体的な一点は、全体としての同意より重みがあります。',
+    recordedThankYou:
+      '記録しました。ありがとうございます。',
+    shownWithYourConnection:
+      'あなたとその土地とのつながりを添えて記録に表示されるので、読む人が自分で重みを量れます。',
+    signedInCounts:
+      'サインイン済みです。これは印に数えられます。',
+    notSignedInNote:
+      'サインインしていません。書いた内容はつながりとともに記録に表示されますが、印は動きません。その数はサインインした人の分しか増えないからで、一人が三人になれないようにするためです。',
+    signInSoItCounts:
+      '数えられるようにサインインする',
+    shownOnTheRecord:
+      '記録に表示されます',
+    whatCanYouConfirm:
+      '何を確認できますか。',
+    exampleSaid:
+      'うちは油ではなくギーです。それに、一年中ではなくイードのときに作ります。',
+    fromTheTownItself:
+      '広い地域というだけでなく、その町や村そのものの出身です',
+    fromTheTownItselfLabel:
+      '広い地域ではなく、その町や村そのものの出身です',
+    exampleWhoMakesIt:
+      'イードに家で、祖母たちが作ります — 任意',
+    exampleIngredientLines:
+      '熟したプランテン\n卵\nギー',
+    exampleMethodLines:
+      'プランテンをつぶす。\n溶いた卵を混ぜ込む。',
+    inPlace:
+      '（{place}での）',
+    tagAtRiskShort:
+      '🕯️ 途絶えかけ',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

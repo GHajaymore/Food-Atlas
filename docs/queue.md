@@ -862,3 +862,34 @@ screen before translating anything else, or each new key means twelve retranslat
 **Stage 0.** A memory fix, not a bandwidth one — 122 MB heap, and the shipped payload is
 mostly solved by compression at the host. `docs/architecture.md` says to measure again on
 the real host before spending the refactor.
+
+## Design: it reads as generic, and the reason is measurable
+
+Ajay, 2026-08-24: *"give me a proposal of website/app design because I do not want it to
+look like build by Claude. need a real good design"*. A proposal was written; nothing has
+been changed yet.
+
+The diagnosis is not the colour. `#161826` ground with `#d9a441` grain gold is an
+unusual, warm pairing and is one of the better things about the app. The problem is
+**type size and the absence of contrast**, and it can be measured rather than argued:
+
+At a 1440px viewport, on the front page:
+- **84% of the 442 text nodes render below 14px.** 63 of them are 9px.
+- The largest thing on the whole page is 44px, and there is exactly one of it.
+- `tokens.ts` defines h1 42 / h2 32 / h3 25 / h4 20 / h5 16 — **h2, h3 and h4 barely
+  appear**. The scale exists and is not used.
+- `space` tops out at 22.4px (`space[8]`, density 0.70x). There is no large spacing token
+  at all, so a desktop page has a phone's rhythm.
+- One typeface, Inter, at two weights. Inter is the single most common typeface in
+  software built in the last five years, which is most of why the app reads as generic.
+
+`PHONE_WIDTH = 430` is still exported and still describes the design's intent even though
+the responsive components now override it per screen.
+
+The proposal, in priority order: a display face paired with Inter (Fraunces or Instrument
+Serif, both free on Google Fonts, and `@expo-google-fonts` is already a dependency);
+restore the type scale on desktop; add spacing steps above 22px; let the photographs be
+large; and make the six-dimension evidence breakdown the app's signature element rather
+than a list of numbers.
+
+**Cost: zero.** Google Fonts are free and self-hosted through the existing dependency.

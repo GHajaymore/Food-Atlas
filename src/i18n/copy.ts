@@ -329,6 +329,43 @@ export interface Copy {
   within: string;
   chooseCountryHint: string;
   chooseCountryHintBroader: string;
+  noRecordUnderThatReference: string;
+  tagTraditionalPreparation: string;
+  tagAtRiskTradition: string;
+  notEligibleForAuthentic: string;
+  lookingForWhatItBorrows: string;
+  howItsDescribed: string;
+  howItsMade: string;
+  originAndAttribution: string;
+  nobodyRecordedTechnique: string;
+  nobodyHasRecorded: string;
+  ifIngredientUnavailable: string;
+  commonModernSubstitute: string;
+  adaptationNotAuthentic: string;
+  whatTheInternetServes: string;
+  popularNotAuthentic: string;
+  videosRankedByCloseness: string;
+  stillFramesFromVideos: string;
+  noVideoRecordedYet: string;
+  findOneFromThePlace: string;
+  siblingsNeitherIsReal: string;
+  doYouKnow: string;
+  confirmWhatYouKnow: string;
+  recordedThankYou: string;
+  shownWithYourConnection: string;
+  signedInCounts: string;
+  notSignedInNote: string;
+  signInSoItCounts: string;
+  shownOnTheRecord: string;
+  whatCanYouConfirm: string;
+  exampleSaid: string;
+  fromTheTownItself: string;
+  fromTheTownItselfLabel: string;
+  exampleWhoMakesIt: string;
+  exampleIngredientLines: string;
+  exampleMethodLines: string;
+  inPlace: string;
+  tagAtRiskShort: string;
   interfaceTranslationNote: string;
 }
 
@@ -753,6 +790,80 @@ export const EN: Copy = {
     'Choose a country · {c} recorded',
   chooseCountryHintBroader:
     'Choose a country · {c} recorded, and {b} broader origins',
+  noRecordUnderThatReference:
+    'Nothing in the atlas is recorded under that reference. Absence here means no record, not no food.',
+  tagTraditionalPreparation:
+    '🏺 Traditional Preparation',
+  tagAtRiskTradition:
+    '🕯️ At-Risk Tradition',
+  notEligibleForAuthentic:
+    'Not eligible for authentic classification',
+  lookingForWhatItBorrows:
+    'Looking for the tradition it borrows from?',
+  howItsDescribed:
+    'How it’s described',
+  howItsMade:
+    'How it’s made',
+  originAndAttribution:
+    'Origin & cultural attribution',
+  nobodyRecordedTechnique:
+    'Nobody has recorded the technique — the timings, the vessel, the order things happen in. That is what would lift this record out of Unverified, and it takes someone who cooks it.',
+  nobodyHasRecorded:
+    'Nobody has recorded how {dish} is made{place}. We could copy the most-published recipe from the internet and call it authentic, but that is the thing this atlas exists not to do — so the record stays as it is until someone who cooks it fills it in. If you do, you would be the first to write it down.',
+  ifIngredientUnavailable:
+    'If the traditional ingredient is unavailable',
+  commonModernSubstitute:
+    'Common modern substitute: ',
+  adaptationNotAuthentic:
+    'This is an adaptation and should not be considered the authentic preparation.',
+  whatTheInternetServes:
+    'What the internet mostly serves for this dish, and how it departs from the tradition above.',
+  popularNotAuthentic:
+    'Popular, but not the authentic preparation. The version above remains the reference.',
+  videosRankedByCloseness:
+    'Real videos, ranked by how close the cook is to the tradition — not by view count.',
+  stillFramesFromVideos:
+    'Still frames are taken from the videos themselves, so the dish you see is the dish that cook made.',
+  noVideoRecordedYet:
+    'No video from the tradition has been recorded for this dish yet.',
+  findOneFromThePlace:
+    'If you find one made by someone from the place, it can be added through Add a tradition — that is what would give this dish a ranked video.',
+  siblingsNeitherIsReal:
+    'The same dish, recorded separately where it is made differently. Neither is the real one.',
+  doYouKnow:
+    'Do you know {subject}?',
+  confirmWhatYouKnow:
+    'Confirm what you actually know. You do not have to vouch for the whole record — one specific thing from somebody who cooks it is worth more than general agreement.',
+  recordedThankYou:
+    'Recorded. Thank you.',
+  shownWithYourConnection:
+    'It is shown on the record with your connection beside it, so readers can weigh it themselves.',
+  signedInCounts:
+    'Signed in — this will count toward the badge.',
+  notSignedInNote:
+    'Not signed in. What you write will be shown on the record with your connection, and it will not move the badge — that count only rises for signed-in people, so one person cannot be three of them.',
+  signInSoItCounts:
+    'Sign in, so it counts',
+  shownOnTheRecord:
+    'Shown on the record',
+  whatCanYouConfirm:
+    'What can you confirm?',
+  exampleSaid:
+    'We use ghee, not oil — and it is made at Eid, not year round.',
+  fromTheTownItself:
+    'I am from the town or village itself, not just the wider region',
+  fromTheTownItselfLabel:
+    'I am from the town or village itself, not the wider region',
+  exampleWhoMakesIt:
+    'Made at home for Eid, by the grandmothers — optional',
+  exampleIngredientLines:
+    'ripe plantain\negg\nghee',
+  exampleMethodLines:
+    'Mash the plantain.\nFold through beaten egg.',
+  inPlace:
+    ' in {place}',
+  tagAtRiskShort:
+    '🕯️ At risk',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

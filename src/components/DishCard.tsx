@@ -70,7 +70,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
            */}
           <View style={styles.rowEvidence}>
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />
-            {dish.atRisk ? <Muted style={styles.rowRisk}>🕯️ At risk</Muted> : null}
+            {dish.atRisk ? <Muted style={styles.rowRisk}>{copy.tagAtRiskShort}</Muted> : null}
           </View>
         </View>
       </Pressable>
@@ -93,7 +93,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
         <View style={styles.body}>
           <View style={styles.badges}>
             <Tag label={`${dish.badgeIcon} ${levelLabel(copy, dish.badgeLevel)}`} variant="neutral" />
-            {dish.atRisk ? <Tag label="🕯️ At-Risk Tradition" variant="outline" /> : null}
+            {dish.atRisk ? <Tag label={copy.tagAtRiskTradition} variant="outline" /> : null}
           </View>
 
           <CardTitle>{dish.name}</CardTitle>

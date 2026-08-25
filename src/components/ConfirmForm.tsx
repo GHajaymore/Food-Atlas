@@ -85,9 +85,9 @@ export function ConfirmForm({
   if (done) {
     return (
       <Block accent style={styles.wrap}>
-        <T style={styles.thanks}>Recorded. Thank you.</T>
+        <T style={styles.thanks}>{copy.recordedThankYou}</T>
         <Muted style={styles.note}>
-          It is shown on the record with your connection beside it, so readers can weigh it themselves.
+          {copy.shownWithYourConnection}
         </Muted>
       </Block>
     );
@@ -95,10 +95,9 @@ export function ConfirmForm({
 
   return (
     <Block style={styles.wrap}>
-      <T style={styles.prompt}>Do you know {subject}?</T>
+      <T style={styles.prompt}>{copy.doYouKnow.replace('{subject}', subject)}</T>
       <Muted style={styles.note}>
-        Confirm what you actually know. You do not have to vouch for the whole record — one specific thing
-        from somebody who cooks it is worth more than general agreement.
+        {copy.confirmWhatYouKnow}
       </Muted>
 
       {/*
@@ -116,16 +115,14 @@ export function ConfirmForm({
        */}
       {session.available ? (
         session.signedIn ? (
-          <T style={styles.counts}>Signed in — this will count toward the badge.</T>
+          <T style={styles.counts}>{copy.signedInCounts}</T>
         ) : (
           <View style={styles.signIn}>
             <Muted style={styles.note}>
-              Not signed in. What you write will be shown on the record with your connection, and it will
-              not move the badge — that count only rises for signed-in people, so one person cannot be
-              three of them.
+              {copy.notSignedInNote}
             </Muted>
             <Button
-              label="Sign in, so it counts"
+              label={copy.signInSoItCounts}
               variant="secondary"
               compact
               style={styles.signInButton}
@@ -139,39 +136,39 @@ export function ConfirmForm({
         )
       ) : null}
 
-      <Field label="Your name" style={styles.field}>
+      <Field label={copy.yourName} style={styles.field}>
         <Input
           value={form.name}
           onChangeText={(v) => set('name', v)}
-          placeholder="Shown on the record"
-          accessibilityLabel="Your name"
+          placeholder={copy.shownOnTheRecord}
+          accessibilityLabel={copy.yourName}
         />
       </Field>
 
-      <Field label="Your connection to the place" style={styles.field}>
+      <Field label={copy.yourConnectionToThePlace} style={styles.field}>
         <Input
           value={form.connection}
           onChangeText={(v) => set('connection', v)}
-          placeholder="Born and cooking in Kozhikode"
-          accessibilityLabel="Your connection to the place"
+          placeholder={copy.exampleConnection}
+          accessibilityLabel={copy.yourConnectionToThePlace}
         />
       </Field>
 
-      <Field label="What can you confirm?" style={styles.field}>
+      <Field label={copy.whatCanYouConfirm} style={styles.field}>
         <Input
           value={form.said}
           onChangeText={(v) => set('said', v)}
-          placeholder="We use ghee, not oil — and it is made at Eid, not year round."
+          placeholder={copy.exampleSaid}
           multiline
           numberOfLines={3}
-          accessibilityLabel="What can you confirm"
+          accessibilityLabel={copy.whatCanYouConfirm}
         />
       </Field>
 
       <Pressable
         accessibilityRole="checkbox"
         accessibilityState={{ checked: form.local }}
-        accessibilityLabel="I am from the town or village itself, not the wider region"
+        accessibilityLabel={copy.fromTheTownItselfLabel}
         tint="neutral"
         onPress={() => set('local', !form.local)}
         style={styles.check}
@@ -180,7 +177,7 @@ export function ConfirmForm({
           {form.local ? <T style={styles.tick}>✓</T> : null}
         </View>
         <T style={styles.checkLabel}>
-          I am from the town or village itself, not just the wider region
+          {copy.fromTheTownItself}
         </T>
       </Pressable>
 

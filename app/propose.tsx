@@ -152,7 +152,7 @@ export default function Propose() {
                 value={form.name}
                 onChangeText={(v) => set('name', v)}
                 placeholder={copy.writtenTheWayYouWriteIt}
-                accessibilityLabel="The dish"
+                accessibilityLabel={copy.theDish}
               />
             </Field>
 
@@ -179,7 +179,7 @@ export default function Propose() {
             {/* One question asked twice, so one line. See `FieldPair`. */}
             <FieldPair>
               <Field label={copy.country} style={styles.field}>
-                <Input value={form.country} onChangeText={(v) => set('country', v)} accessibilityLabel="Country" />
+                <Input value={form.country} onChangeText={(v) => set('country', v)} accessibilityLabel={copy.country} />
               </Field>
 
               <Field label={copy.regionDistrictOrTown} style={styles.field}>
@@ -187,7 +187,7 @@ export default function Propose() {
                   value={form.region}
                   onChangeText={(v) => set('region', v)}
                   placeholder={copy.oftenTheWholePoint}
-                  accessibilityLabel="Region, district or town"
+                  accessibilityLabel={copy.regionDistrictOrTown}
                 />
               </Field>
             </FieldPair>
@@ -196,10 +196,10 @@ export default function Propose() {
               <Input
                 value={form.cooks}
                 onChangeText={(v) => set('cooks', v)}
-                placeholder="Made at home for Eid, by the grandmothers — optional"
+                placeholder={copy.exampleWhoMakesIt}
                 multiline
                 numberOfLines={2}
-                accessibilityLabel="Who makes it, and when"
+                accessibilityLabel={copy.whoMakesItAndWhen}
               />
             </Field>
 
@@ -209,8 +209,8 @@ export default function Propose() {
                 onChangeText={(v) => set('ingredients', v)}
                 multiline
                 numberOfLines={4}
-                placeholder={'ripe plantain\negg\nghee'}
-                accessibilityLabel="Ingredients, one per line"
+                placeholder={copy.exampleIngredientLines}
+                accessibilityLabel={copy.ingredientsOnePerLine}
               />
             </Field>
 
@@ -220,8 +220,8 @@ export default function Propose() {
                 onChangeText={(v) => set('steps', v)}
                 multiline
                 numberOfLines={5}
-                placeholder={'Mash the plantain.\nFold through beaten egg.'}
-                accessibilityLabel="How it is made, one step per line"
+                placeholder={copy.exampleMethodLines}
+                accessibilityLabel={copy.howItIsMadeOnePerLine}
               />
             </Field>
 
@@ -234,7 +234,7 @@ export default function Propose() {
                   value={form.submitter}
                   onChangeText={(v) => set('submitter', v)}
                   placeholder={copy.shownOnTheProposal}
-                  accessibilityLabel="Your name"
+                  accessibilityLabel={copy.yourName}
                 />
               </Field>
 
@@ -243,7 +243,7 @@ export default function Propose() {
                   value={form.connection}
                   onChangeText={(v) => set('connection', v)}
                   placeholder={copy.grewUpInMalabar}
-                  accessibilityLabel="Your connection to the place"
+                  accessibilityLabel={copy.yourConnectionToThePlace}
                 />
               </Field>
             </FieldPair>

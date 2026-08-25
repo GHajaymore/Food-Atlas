@@ -2605,6 +2605,9 @@ describe('the chrome in other languages', () => {
     'tr.levelFusion', 'tr.filterFusion',
 
     'pl.geoRegion', // "region" is the Polish word, spelled the same.
+
+    // " in {place}" — German and Dutch use the same preposition, spelled the same way.
+    'de.inPlace', 'nl.inPlace',
   ]);
 
   it('never echoes English back as though it were a translation', () => {
