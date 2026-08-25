@@ -75,8 +75,10 @@ exist. The id is safe to commit: it names the database, it authorises nothing.
 npx wrangler d1 migrations apply wikifoodia --remote
 ```
 
-Six migrations. Verified against a local D1 on 2026-08-24 — they apply cleanly in order
-and produce nine tables, so nothing here should surprise you remotely.
+Seven migrations. The first six were verified against a local D1 on 2026-08-24 — they
+apply cleanly in order and produce nine tables. The seventh (`0007_translations.sql`) adds
+two more and is verified the same way; see **Machine translation** below for what it is
+for and why you may want to leave it off for now.
 
 Then create the Pages project (dashboard → Workers & Pages → Create → Pages → Connect to
 Git → `GHajaymore/Food-Atlas`) with the three settings above.
@@ -204,3 +206,90 @@ of this that has ever needed to cost anything, and it is optional.
 returns false and the confirmation UI stays hidden — the app deploys and works
 without it. Set it in the host's environment variables when the shared database
 exists. See `docs/confirmations-api.md`.
+
+---
+
+## Machine translation
+
+The interface already speaks twelve languages, and none of that costs anything: the
+catalogues are compiled into the bundle, so a Spanish reader gets a Spanish app with no
+service, no key and no request. **This section is only about the records themselves** —
+the dish descriptions, the method steps, and confirmations somebody writes in their own
+language.
+
+That part needs a model, and a model call has a price. It is the only thing in this
+project that does. Read this before turning it on.
+
+### What it costs, honestly
+
+Cloudflare Workers AI has a **free daily allocation**, measured in units Cloudflare calls
+Neurons, and bills beyond it. **Check the current allowance and the per-model rate on
+Cloudflare's pricing page before enabling this** — the figures move, and a number written
+into a document is a number that goes stale.
+
+What this codebase does about that is more useful than any figure:
+
+**A translation is paid for once, ever.** `translation` in D1 holds one row per
+(record, language). The thousandth reader of the same Kozhikode record in Spanish costs
+nothing at all. The bill therefore scales with *content*, which is finite, rather than
+with *readers*, which is not.
+
+**There is a hard daily ceiling.** `DAILY_LIMIT` in `functions/api/translate.ts` is 500
+model calls a day, counted in D1 so it survives restarts. Past it the endpoint refuses
+and says so in a sentence the reader sees: a free project, a daily limit, the original
+still shown in full, try tomorrow. Raise it with a `TRANSLATION_DAILY_LIMIT` environment
+variable — no deploy needed — once you know what a day actually costs.
+
+**It cannot be switched on by accident.** No `AI` binding means the endpoint returns 503
+and the app hides the translate control entirely, which is exactly how the site behaves
+today.
+
+### Turning it on
+
+Two steps, in this order.
+
+```bash
+npx wrangler d1 migrations apply wikifoodia --remote   # applies 0007_translations.sql
+```
+
+Then in the dashboard: **Workers & Pages → your project → Settings → Bindings → Add →
+Workers AI**, variable name `AI`. That is the whole of it — there is no API key, because
+Cloudflare binds the model to the Function itself. This matters: `EXPO_PUBLIC_*` values
+ship inside the app bundle, so a key put there would be readable by anyone who downloads
+the app. There is no key to leak.
+
+Last, point the app at it:
+
+```
+EXPO_PUBLIC_TRANSLATION_ENDPOINT = /api/translate
+```
+
+A relative path with nothing secret in it. **Re-run the build after setting it** — see
+the `EXPO_PUBLIC_*` trap above; Metro bakes these in and a stale bundle will not pick it
+up.
+
+### Checking it
+
+```bash
+curl https://your-site.pages.dev/api/translate
+```
+
+Returns `{"available":false,...}` before the binding exists and
+`{"available":true,"spent":0,"limit":500,"model":"..."}` after. `spent` is how many model
+calls today — the honest answer to "is this costing me anything yet".
+
+### What has not been tested
+
+The endpoint, the migration and the client wiring are written, typechecked and unit
+tested; the refusal path is covered by three tests in `domain.test.ts`. **The model call
+itself has never run**, because Workers AI needs your account and an assistant cannot log
+in. Expect the first real translation to need one round of adjustment — most likely the
+model returning prose around the JSON, which `translationProvider.ts` already trims for,
+or a preserved term coming back altered, which it already rejects rather than displays.
+
+### If you would rather not
+
+Leave the binding off. Everything else works, and a record with no translation says so
+plainly: it shows the original with a line naming the language it was documented in, and
+the reasoning for that — *"we'd rather show you the original than a machine's guess at a
+fermentation time"* — is already on screen in all twelve languages.

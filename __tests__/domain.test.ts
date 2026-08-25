@@ -102,7 +102,7 @@ import {
 } from '../src/domain/photoSubmission';
 import { buildShelves, shelfLabel, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
-import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
+import { assertPreserved, buildPrompt, preservedTerms, RemoteTranslationProvider } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
 import { thumbnailUrl, watchUrl } from '../src/domain/video';
 import { isAcceptable, needsDiscovery, searchQuery, searchUrl } from '../src/domain/videoDiscovery';
@@ -1636,6 +1636,53 @@ describe('the translation provider is held to the preservation rules', () => {
       machine: true,
     };
     expect(() => assertPreserved(dish, bad)).toThrow(/dropped or renamed the preserved term/);
+  });
+
+  /*
+   * The endpoint is the only thing in this project that can spend money, and it explains
+   * a daily limit in a sentence a reader can act on. These check the app does not throw
+   * that sentence away — the earlier code showed "Translation service returned 429."
+   * instead, which is a status code wearing a sentence's clothes.
+   *
+   * Fetch is stubbed rather than mocked through a library: the provider takes its
+   * endpoint by constructor argument precisely so it can be pointed at anything.
+   */
+  describe('what the reader is told when a translation is refused', () => {
+    const withFetch = async (response: Response, run: () => Promise<unknown>) => {
+      const original = globalThis.fetch;
+      globalThis.fetch = (async () => response) as typeof fetch;
+      try {
+        return await run().then(
+          () => null,
+          (error: Error) => error,
+        );
+      } finally {
+        globalThis.fetch = original;
+      }
+    };
+
+    it('quotes the service when it explains itself', async () => {
+      const provider = new RemoteTranslationProvider('/api/translate');
+      const refused = new Response(
+        JSON.stringify({ error: 'No more translations today. The original is still shown in full.' }),
+        { status: 429 },
+      );
+      const error = await withFetch(refused, () => provider.translateText({ text: 'ghee, not oil', target: 'es' }));
+      expect(error?.message).toBe('No more translations today. The original is still shown in full.');
+    });
+
+    it('falls back to the status when the service says nothing useful', async () => {
+      const provider = new RemoteTranslationProvider('/api/translate');
+      const error = await withFetch(new Response('<html>502</html>', { status: 502 }), () =>
+        provider.translateText({ text: 'ghee, not oil', target: 'es' }),
+      );
+      expect(error?.message).toBe('Translation service returned 502.');
+    });
+
+    it('is switched off, not broken, when no endpoint is configured', () => {
+      // How the deployment behaves today: the control does not render at all.
+      expect(new RemoteTranslationProvider('').isConfigured()).toBe(false);
+    });
   });
 });
 

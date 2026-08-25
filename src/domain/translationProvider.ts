@@ -138,6 +138,23 @@ export function buildPrompt(dish: Dish, target: string): string {
  *
  * The endpoint should accept `{ prompt, target }` and return `{ text }`.
  */
+/**
+ * What went wrong, in the service's own words where it has any.
+ *
+ * The endpoint explains a daily limit in a sentence a reader can act on; a bare status
+ * code explains nothing and reads as a fault in the app. Anything unreadable falls back
+ * to the status, which is at least honest about being unhelpful.
+ */
+async function refusal(response: Response): Promise<Error> {
+  try {
+    const body = (await response.json()) as { error?: string };
+    if (typeof body.error === 'string' && body.error.trim()) return new Error(body.error.trim());
+  } catch {
+    /* Not JSON. The status is all there is. */
+  }
+  return new Error(`Translation service returned ${response.status}.`);
+}
+
 export class RemoteTranslationProvider implements TranslationProvider {
   readonly name = 'automated translation';
 
@@ -155,11 +172,14 @@ export class RemoteTranslationProvider implements TranslationProvider {
     const response = await fetch(this.endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: buildPrompt(dish, target), target }),
+      /* The record id is the cache key at the other end: a (record, language) pair is
+         translated once and read for ever. Testimony sends none — one sentence by one
+         person has nothing to be reused under. */
+      body: JSON.stringify({ prompt: buildPrompt(dish, target), target, dish: dish.id }),
     });
 
     if (!response.ok) {
-      throw new Error(`Translation service returned ${response.status}.`);
+      throw await refusal(response);
     }
 
     const payload = (await response.json()) as { text?: string };
@@ -202,7 +222,7 @@ export class RemoteTranslationProvider implements TranslationProvider {
     });
 
     if (!response.ok) {
-      throw new Error(`Translation service returned ${response.status}.`);
+      throw await refusal(response);
     }
 
     const payload = (await response.json()) as { text?: string };
