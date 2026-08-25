@@ -2608,6 +2608,8 @@ describe('the chrome in other languages', () => {
 
     // " in {place}" — German and Dutch use the same preposition, spelled the same way.
     'de.inPlace', 'nl.inPlace',
+
+    'fr.stepValidation', // "Validation" is the French word, identically spelled.
   ]);
 
   it('never echoes English back as though it were a translation', () => {

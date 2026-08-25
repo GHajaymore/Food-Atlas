@@ -27,7 +27,7 @@ import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
-import { useCopy } from '../src/i18n';
+import { useCopy, type Copy } from '../src/i18n';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
@@ -43,61 +43,42 @@ import { stillNeeded, tidyText } from '../src/domain/entry';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
-const STEP_LABELS = ['Submit', 'What exists', 'Assessment', 'Validation'];
-
-const FINDINGS = [
-  {
-    title: 'Recipe aggregator page',
-    tag: 'Popular candidate',
-    note: 'Highest-ranked result. Author gives no connection to Malabar; uses butter in place of ghee.',
-  },
-  {
-    title: 'Malayalam cooking channel video',
-    tag: 'Local source',
-    note: 'Filmed in Kerala, spoken in Malayalam, ghee and nendran banana as described.',
-  },
-  {
-    title: 'No village-level record found',
-    tag: 'Gap',
-    note: 'Nothing documents how it is made in Kozhikode specifically. This submission would be the first.',
-  },
+/**
+ * Built per render rather than once at import.
+ *
+ * A module-level array is evaluated before any locale is known, so it would hold
+ * whichever language happened to be current when the module first loaded and never
+ * change again. Everything on this screen that names something takes `copy` for the
+ * same reason.
+ */
+const stepLabelsFor = (copy: Copy): string[] => [
+  copy.stepSubmit,
+  copy.stepWhatExists,
+  copy.stepAssessment,
+  copy.stepValidation,
 ];
 
-const CHECKS = [
-  {
-    mark: '✓',
-    label: 'Geographic origin',
-    note: 'Malabar, Kozhikode — stated by the submitter and consistent with the video source.',
-  },
-  { mark: '✓', label: 'Local preparation', note: 'Described as household cooking for iftar and family occasions.' },
-  {
-    mark: '✓',
-    label: 'Traditional ingredients',
-    note: 'Nendran banana, eggs, ghee — matches the local-source video.',
-  },
-  { mark: '✓', label: 'Traditional technique', note: 'Low flame, lid weighted with embers.' },
-  {
-    mark: '~',
-    label: 'Historical or cultural documentation',
-    note: 'Thin. No scholarship or archive record located.',
-  },
-  { mark: '✓', label: 'Local source', note: 'Submitter reports being born and cooking in Kozhikode.' },
-  {
-    mark: '✗',
-    label: 'Community validation',
-    note: 'Not yet sought. This is why the record cannot be called authentic yet.',
-  },
+const findingsFor = (copy: Copy): { title: string; tag: string; note: string }[] => [
+  { title: copy.findingAggregatorTitle, tag: copy.findingAggregatorTag, note: copy.findingAggregatorNote },
+  { title: copy.findingVideoTitle, tag: copy.findingVideoTag, note: copy.findingVideoNote },
+  { title: copy.findingGapTitle, tag: copy.findingGapTag, note: copy.findingGapNote },
 ];
 
-const VALIDATORS = [
-  { mark: '✓', who: 'Home cook, Kozhikode', said: 'Confirmed the ingredients and the embers-on-the-lid method.' },
-  { mark: '✓', who: 'Bakery owner, Thalassery', said: 'Confirmed, notes their version adds less sugar.' },
-  {
-    mark: '✓',
-    who: 'Food writer, Kerala',
-    said: 'Confirmed as a Malabar household dish; documentation is genuinely scarce.',
-  },
-  { mark: '·', who: 'Two more reviewers invited', said: 'Awaiting response — the record publishes without them.' },
+const checksFor = (copy: Copy): { mark: string; label: string; note: string }[] => [
+  { mark: '✓', label: copy.checkOriginLabel, note: copy.checkOriginNote },
+  { mark: '✓', label: copy.checkLocalPrepLabel, note: copy.checkLocalPrepNote },
+  { mark: '✓', label: copy.checkIngredientsLabel, note: copy.checkIngredientsNote },
+  { mark: '✓', label: copy.checkTechniqueLabel, note: copy.checkTechniqueNote },
+  { mark: '~', label: copy.checkDocumentationLabel, note: copy.checkDocumentationNote },
+  { mark: '✓', label: copy.checkLocalSourceLabel, note: copy.checkLocalSourceNote },
+  { mark: '✗', label: copy.checkCommunityLabel, note: copy.checkCommunityNote },
+];
+
+const validatorsFor = (copy: Copy): { mark: string; who: string; said: string }[] => [
+  { mark: '✓', who: copy.validatorHomeCook, said: copy.validatorHomeCookSaid },
+  { mark: '✓', who: copy.validatorBakery, said: copy.validatorBakerySaid },
+  { mark: '✓', who: copy.validatorWriter, said: copy.validatorWriterSaid },
+  { mark: '·', who: copy.validatorPending, said: copy.validatorPendingSaid },
 ];
 
 export default function Contribute() {
@@ -175,7 +156,7 @@ export default function Contribute() {
       <NavRow title={copy.addATraditionShort} onBack={back} />
 
       <View style={styles.rail}>
-        {STEP_LABELS.map((label, i) => (
+        {stepLabelsFor(copy).map((label, i) => (
           <View key={label} style={styles.railSegment}>
             <View style={[styles.bar, { backgroundColor: i <= step - 1 ? color.accent : color.neutral[800] }]} />
             <T style={[styles.railLabel, { color: i === step - 1 ? accentText : color.faint }]}>{label}</T>
@@ -255,8 +236,7 @@ export default function Contribute() {
                 <View style={styles.photoFeedback}>
                   <T style={styles.photoGood}>{photoResult.file}</T>
                   <Muted style={styles.photoFix}>
-                    Checked against Commons when the record is submitted, and shown with its photographer and
-                    licence. It stays Unverified until the community confirms it, exactly as the method does.
+                    {copy.photoCheckedNote}
                   </Muted>
                 </View>
               )
@@ -272,10 +252,10 @@ export default function Contribute() {
         <>
           <H5 style={styles.stepHeading}>{copy.whatTheInternetAlreadyHas}</H5>
           <Muted style={styles.lead}>
-            The most-published version is taken as the popular candidate. It does not become the authentic record.
+            {copy.mostPublishedNote}
           </Muted>
           <View style={styles.list}>
-            {FINDINGS.map((finding) => (
+            {findingsFor(copy).map((finding) => (
               <Block key={finding.title} style={styles.findingBlock}>
                 <View style={styles.findingHead}>
                   <T style={styles.findingTitle}>{finding.title}</T>
@@ -293,11 +273,10 @@ export default function Contribute() {
         <>
           <H5 style={styles.stepHeading}>{copy.evidenceAssessment}</H5>
           <Muted style={styles.lead}>
-            Seven checks, each answered or left open. Open checks lower confidence — they are never filled in by
-            assumption.
+            {copy.sevenChecksNote}
           </Muted>
           <View style={styles.checks}>
-            {CHECKS.map((check) => (
+            {checksFor(copy).map((check) => (
               <View key={check.label} style={styles.checkRow}>
                 <T style={styles.mark}>{check.mark}</T>
                 <View style={styles.checkText}>
@@ -311,17 +290,16 @@ export default function Contribute() {
           <Block style={styles.draftBlock}>
             <View style={styles.draftHead}>
               <T style={styles.draftScore}>61</T>
-              <Muted style={styles.draftUnit}>/100 draft confidence</Muted>
+              <Muted style={styles.draftUnit}>{copy.draftConfidence}</Muted>
             </View>
             <Tag
-              label="⚪ Unverified — pending community validation"
+              label={copy.unverifiedPendingTag}
               variant="neutral"
               fontSize={10}
               style={styles.draftTag}
             />
             <Muted style={styles.draftNote}>
-              One submitter from the place is evidence, not proof. The record stays Unverified until people from the
-              community confirm it.
+              {copy.oneSubmitterNote}
             </Muted>
           </Block>
 
@@ -333,10 +311,10 @@ export default function Contribute() {
         <>
           <H5 style={styles.stepHeading}>{copy.communityValidation}</H5>
           <Muted style={styles.lead}>
-            Three confirmations from people who live or cook in the place lift a record out of Unverified.
+            {copy.threeConfirmationsNote}
           </Muted>
           <View style={styles.list}>
-            {VALIDATORS.map((validator) => (
+            {validatorsFor(copy).map((validator) => (
               <Block key={validator.who} style={styles.validatorBlock}>
                 <T style={styles.validatorMark}>{validator.mark}</T>
                 <View style={styles.checkText}>
@@ -350,16 +328,14 @@ export default function Contribute() {
           <Card style={styles.disagreeCard}>
             <CardKicker>{copy.ifTheyDisagree}</CardKicker>
             <CardBody>
-              Conflicting accounts are both kept. The record splits into the traditions people actually described —
-              one per region or community — and no version is declared the true one.
+              {copy.conflictingAccountsNote}
             </CardBody>
           </Card>
 
           <Block accent style={styles.publishedBlock}>
             <Tag label="🟢 Authentic — Local · 78/100" variant="neutral" fontSize={10} />
             <Muted style={styles.publishedNote}>
-              That is where the example record ends up: published with its evidence visible, its open checks named,
-              and every claim traceable to who said it.
+              {copy.whereTheExampleEndsUp}
             </Muted>
           </Block>
 
@@ -391,9 +367,7 @@ export default function Contribute() {
             <Card style={styles.sendCard}>
               <CardKicker>{copy.submissionsNotOpenYet}</CardKicker>
               <CardBody>
-                There is nowhere to send this to. The atlas has read everything the free sources hold, so what is
-                missing now is food nobody has written down — which means this form is how it grows, and it will be
-                switched on as soon as there is somewhere for it to go.
+                {copy.nowhereToSendNote}
               </CardBody>
             </Card>
           )}

@@ -430,6 +430,51 @@ export interface Copy {
   whyThisIsAnAdaptation: string;
   whyConsideredAuthentic: string;
   whatThisRecordIs: string;
+  stepSubmit: string;
+  stepWhatExists: string;
+  stepAssessment: string;
+  stepValidation: string;
+  findingAggregatorTitle: string;
+  findingAggregatorTag: string;
+  findingAggregatorNote: string;
+  findingVideoTitle: string;
+  findingVideoTag: string;
+  findingVideoNote: string;
+  findingGapTitle: string;
+  findingGapTag: string;
+  findingGapNote: string;
+  checkOriginLabel: string;
+  checkOriginNote: string;
+  checkLocalPrepLabel: string;
+  checkLocalPrepNote: string;
+  checkIngredientsLabel: string;
+  checkIngredientsNote: string;
+  checkTechniqueLabel: string;
+  checkTechniqueNote: string;
+  checkDocumentationLabel: string;
+  checkDocumentationNote: string;
+  checkLocalSourceLabel: string;
+  checkLocalSourceNote: string;
+  checkCommunityLabel: string;
+  checkCommunityNote: string;
+  validatorHomeCook: string;
+  validatorHomeCookSaid: string;
+  validatorBakery: string;
+  validatorBakerySaid: string;
+  validatorWriter: string;
+  validatorWriterSaid: string;
+  validatorPending: string;
+  validatorPendingSaid: string;
+  photoCheckedNote: string;
+  mostPublishedNote: string;
+  sevenChecksNote: string;
+  draftConfidence: string;
+  unverifiedPendingTag: string;
+  oneSubmitterNote: string;
+  threeConfirmationsNote: string;
+  conflictingAccountsNote: string;
+  nowhereToSendNote: string;
+  whereTheExampleEndsUp: string;
   interfaceTranslationNote: string;
 }
 
@@ -1056,6 +1101,96 @@ export const EN: Copy = {
     'Why is this considered authentic?',
   whatThisRecordIs:
     'What this record is',
+  stepSubmit:
+    'Submit',
+  stepWhatExists:
+    'What exists',
+  stepAssessment:
+    'Assessment',
+  stepValidation:
+    'Validation',
+  findingAggregatorTitle:
+    'Recipe aggregator page',
+  findingAggregatorTag:
+    'Popular candidate',
+  findingAggregatorNote:
+    'Highest-ranked result. Author gives no connection to Malabar; uses butter in place of ghee.',
+  findingVideoTitle:
+    'Malayalam cooking channel video',
+  findingVideoTag:
+    'Local source',
+  findingVideoNote:
+    'Filmed in Kerala, spoken in Malayalam, ghee and nendran banana as described.',
+  findingGapTitle:
+    'No village-level record found',
+  findingGapTag:
+    'Gap',
+  findingGapNote:
+    'Nothing documents how it is made in Kozhikode specifically. This submission would be the first.',
+  checkOriginLabel:
+    'Geographic origin',
+  checkOriginNote:
+    'Malabar, Kozhikode — stated by the submitter and consistent with the video source.',
+  checkLocalPrepLabel:
+    'Local preparation',
+  checkLocalPrepNote:
+    'Described as household cooking for iftar and family occasions.',
+  checkIngredientsLabel:
+    'Traditional ingredients',
+  checkIngredientsNote:
+    'Nendran banana, eggs, ghee — matches the local-source video.',
+  checkTechniqueLabel:
+    'Traditional technique',
+  checkTechniqueNote:
+    'Low flame, lid weighted with embers.',
+  checkDocumentationLabel:
+    'Historical or cultural documentation',
+  checkDocumentationNote:
+    'Thin. No scholarship or archive record located.',
+  checkLocalSourceLabel:
+    'Local source',
+  checkLocalSourceNote:
+    'Submitter reports being born and cooking in Kozhikode.',
+  checkCommunityLabel:
+    'Community validation',
+  checkCommunityNote:
+    'Not yet sought. This is why the record cannot be called authentic yet.',
+  validatorHomeCook:
+    'Home cook, Kozhikode',
+  validatorHomeCookSaid:
+    'Confirmed the ingredients and the embers-on-the-lid method.',
+  validatorBakery:
+    'Bakery owner, Thalassery',
+  validatorBakerySaid:
+    'Confirmed, notes their version adds less sugar.',
+  validatorWriter:
+    'Food writer, Kerala',
+  validatorWriterSaid:
+    'Confirmed as a Malabar household dish; documentation is genuinely scarce.',
+  validatorPending:
+    'Two more reviewers invited',
+  validatorPendingSaid:
+    'Awaiting response — the record publishes without them.',
+  photoCheckedNote:
+    'Checked against Commons when the record is submitted, and shown with its photographer and licence. It stays Unverified until the community confirms it, exactly as the method does.',
+  mostPublishedNote:
+    'The most-published version is taken as the popular candidate. It does not become the authentic record.',
+  sevenChecksNote:
+    'Seven checks, each answered or left open. Open checks lower confidence — they are never filled in by assumption.',
+  draftConfidence:
+    '/100 draft confidence',
+  unverifiedPendingTag:
+    '⚪ Unverified — pending community validation',
+  oneSubmitterNote:
+    'One submitter from the place is evidence, not proof. The record stays Unverified until people from the community confirm it.',
+  threeConfirmationsNote:
+    'Three confirmations from people who live or cook in the place lift a record out of Unverified.',
+  conflictingAccountsNote:
+    'Conflicting accounts are both kept. The record splits into the traditions people actually described — one per region or community — and no version is declared the true one.',
+  nowhereToSendNote:
+    'There is nowhere to send this to. The atlas has read everything the free sources hold, so what is missing now is food nobody has written down — which means this form is how it grows, and it will be switched on as soon as there is somewhere for it to go.',
+  whereTheExampleEndsUp:
+    'That is where the example record ends up: published with its evidence visible, its open checks named, and every claim traceable to who said it.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

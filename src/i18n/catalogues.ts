@@ -651,6 +651,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '¿Por qué se considera auténtico?',
     whatThisRecordIs:
       'Qué es este registro',
+    stepSubmit:
+      'Enviar',
+    stepWhatExists:
+      'Qué existe',
+    stepAssessment:
+      'Evaluación',
+    stepValidation:
+      'Validación',
+    findingAggregatorTitle:
+      'Página agregadora de recetas',
+    findingAggregatorTag:
+      'Candidata popular',
+    findingAggregatorNote:
+      'Resultado mejor posicionado. Quien lo firma no declara vínculo con Malabar; usa mantequilla en lugar de ghee.',
+    findingVideoTitle:
+      'Vídeo de un canal de cocina en malayalam',
+    findingVideoTag:
+      'Fuente local',
+    findingVideoNote:
+      'Grabado en Kerala, hablado en malayalam, con ghee y plátano nendran tal como se describe.',
+    findingGapTitle:
+      'Sin registro a nivel de localidad',
+    findingGapTag:
+      'Vacío',
+    findingGapNote:
+      'Nada documenta cómo se hace concretamente en Kozhikode. Este envío sería el primero.',
+    checkOriginLabel:
+      'Origen geográfico',
+    checkOriginNote:
+      'Malabar, Kozhikode: declarado por quien lo envía y coherente con la fuente en vídeo.',
+    checkLocalPrepLabel:
+      'Preparación local',
+    checkLocalPrepNote:
+      'Descrito como cocina doméstica para el iftar y para ocasiones familiares.',
+    checkIngredientsLabel:
+      'Ingredientes tradicionales',
+    checkIngredientsNote:
+      'Plátano nendran, huevos, ghee: coincide con el vídeo de fuente local.',
+    checkTechniqueLabel:
+      'Técnica tradicional',
+    checkTechniqueNote:
+      'Fuego bajo, tapa cargada con brasas.',
+    checkDocumentationLabel:
+      'Documentación histórica o cultural',
+    checkDocumentationNote:
+      'Escasa. No se ha localizado estudio ni registro de archivo.',
+    checkLocalSourceLabel:
+      'Fuente local',
+    checkLocalSourceNote:
+      'Quien lo envía dice haber nacido y cocinar en Kozhikode.',
+    checkCommunityLabel:
+      'Validación de la comunidad',
+    checkCommunityNote:
+      'Todavía no solicitada. Por eso el registro aún no puede llamarse auténtico.',
+    validatorHomeCook:
+      'Cocinera de casa, Kozhikode',
+    validatorHomeCookSaid:
+      'Confirmó los ingredientes y el método de las brasas sobre la tapa.',
+    validatorBakery:
+      'Dueño de una pastelería, Thalassery',
+    validatorBakerySaid:
+      'Confirma, y señala que su versión lleva menos azúcar.',
+    validatorWriter:
+      'Periodista gastronómica, Kerala',
+    validatorWriterSaid:
+      'Confirmado como plato doméstico de Malabar; la documentación es realmente escasa.',
+    validatorPending:
+      'Dos revisores más invitados',
+    validatorPendingSaid:
+      'A la espera de respuesta: el registro se publica sin ellos.',
+    photoCheckedNote:
+      'Se comprueba contra Commons cuando se envía el registro, y se muestra con su autoría y su licencia. Sigue Sin verificar hasta que la comunidad lo confirme, igual que el método.',
+    mostPublishedNote:
+      'La versión más publicada se toma como candidata popular. No se convierte en el registro auténtico.',
+    sevenChecksNote:
+      'Siete comprobaciones, cada una respondida o dejada abierta. Las abiertas bajan la confianza; nunca se rellenan por suposición.',
+    draftConfidence:
+      '/100 de confianza provisional',
+    unverifiedPendingTag:
+      '⚪ Sin verificar — pendiente de validación de la comunidad',
+    oneSubmitterNote:
+      'Una sola persona del lugar es una prueba, no una demostración. El registro sigue Sin verificar hasta que lo confirme gente de la comunidad.',
+    threeConfirmationsNote:
+      'Tres confirmaciones de personas que viven o cocinan en el lugar sacan un registro de Sin verificar.',
+    conflictingAccountsNote:
+      'Los relatos que no coinciden se conservan los dos. El registro se divide en las tradiciones que la gente describió realmente — una por región o comunidad — y no se declara verdadera ninguna versión.',
+    nowhereToSendNote:
+      'No hay adónde mandar esto. El atlas ya ha leído todo lo que tienen las fuentes libres, así que lo que falta ahora es comida que nadie ha escrito — lo que significa que este formulario es como crece, y se activará en cuanto haya un sitio al que enviarlo.',
+    whereTheExampleEndsUp:
+      'Ahí es donde acaba el registro de ejemplo: publicado con sus pruebas a la vista, sus comprobaciones abiertas nombradas y cada afirmación rastreable hasta quien la dijo.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -1268,6 +1358,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Pourquoi est-ce considéré comme authentique ?',
     whatThisRecordIs:
       'Ce qu’est cette fiche',
+    stepSubmit:
+      'Envoyer',
+    stepWhatExists:
+      'Ce qui existe',
+    stepAssessment:
+      'Évaluation',
+    stepValidation:
+      'Validation',
+    findingAggregatorTitle:
+      'Page d’agrégateur de recettes',
+    findingAggregatorTag:
+      'Candidate populaire',
+    findingAggregatorNote:
+      'Résultat le mieux classé. L’auteur ne déclare aucun lien avec le Malabar ; utilise du beurre à la place du ghee.',
+    findingVideoTitle:
+      'Vidéo d’une chaîne de cuisine en malayalam',
+    findingVideoTag:
+      'Source locale',
+    findingVideoNote:
+      'Filmée au Kerala, parlée en malayalam, avec le ghee et la banane nendran tels que décrits.',
+    findingGapTitle:
+      'Aucun document à l’échelle de la ville',
+    findingGapTag:
+      'Lacune',
+    findingGapNote:
+      'Rien ne documente la façon dont on le prépare précisément à Kozhikode. Cet envoi serait le premier.',
+    checkOriginLabel:
+      'Origine géographique',
+    checkOriginNote:
+      'Malabar, Kozhikode — indiqué par la personne qui soumet et cohérent avec la source vidéo.',
+    checkLocalPrepLabel:
+      'Préparation locale',
+    checkLocalPrepNote:
+      'Décrit comme une cuisine de maison, pour l’iftar et les occasions familiales.',
+    checkIngredientsLabel:
+      'Ingrédients traditionnels',
+    checkIngredientsNote:
+      'Banane nendran, œufs, ghee — correspond à la vidéo de source locale.',
+    checkTechniqueLabel:
+      'Technique traditionnelle',
+    checkTechniqueNote:
+      'Feu doux, couvercle chargé de braises.',
+    checkDocumentationLabel:
+      'Documentation historique ou culturelle',
+    checkDocumentationNote:
+      'Mince. Aucun travail savant ni document d’archive trouvé.',
+    checkLocalSourceLabel:
+      'Source locale',
+    checkLocalSourceNote:
+      'La personne qui soumet indique être née à Kozhikode et y cuisiner.',
+    checkCommunityLabel:
+      'Validation par la communauté',
+    checkCommunityNote:
+      'Pas encore sollicitée. C’est pourquoi la fiche ne peut pas encore être dite authentique.',
+    validatorHomeCook:
+      'Cuisinière à la maison, Kozhikode',
+    validatorHomeCookSaid:
+      'A confirmé les ingrédients et la méthode des braises sur le couvercle.',
+    validatorBakery:
+      'Pâtissier, Thalassery',
+    validatorBakerySaid:
+      'Confirme, et note que sa version met moins de sucre.',
+    validatorWriter:
+      'Journaliste culinaire, Kerala',
+    validatorWriterSaid:
+      'Confirmé comme un plat de maison du Malabar ; la documentation est vraiment rare.',
+    validatorPending:
+      'Deux autres relecteurs invités',
+    validatorPendingSaid:
+      'En attente de réponse — la fiche paraît sans eux.',
+    photoCheckedNote:
+      'Vérifiée sur Commons au moment de l’envoi de la fiche, et affichée avec son auteur et sa licence. Elle reste Non vérifiée jusqu’à ce que la communauté la confirme, exactement comme la méthode.',
+    mostPublishedNote:
+      'La version la plus publiée est retenue comme candidate populaire. Elle ne devient pas la fiche authentique.',
+    sevenChecksNote:
+      'Sept vérifications, chacune répondue ou laissée ouverte. Les vérifications ouvertes abaissent la confiance ; elles ne sont jamais comblées par supposition.',
+    draftConfidence:
+      '/100 de confiance provisoire',
+    unverifiedPendingTag:
+      '⚪ Non vérifié — validation par la communauté en attente',
+    oneSubmitterNote:
+      'Une seule personne du lieu est une preuve, pas une démonstration. La fiche reste Non vérifiée tant que des membres de la communauté ne l’ont pas confirmée.',
+    threeConfirmationsNote:
+      'Trois confirmations de personnes qui vivent ou cuisinent sur place sortent une fiche de Non vérifié.',
+    conflictingAccountsNote:
+      'Les témoignages qui divergent sont tous les deux conservés. La fiche se scinde selon les traditions réellement décrites — une par région ou communauté — et aucune version n’est déclarée la vraie.',
+    nowhereToSendNote:
+      'Il n’y a nulle part où envoyer cela. L’atlas a lu tout ce que contiennent les sources libres ; ce qui manque désormais, c’est la nourriture que personne n’a écrite — ce formulaire est donc la façon dont il grandit, et il sera activé dès qu’il y aura une destination.',
+    whereTheExampleEndsUp:
+      'Voilà où aboutit la fiche donnée en exemple : publiée avec ses preuves visibles, ses vérifications restées ouvertes nommées, et chaque affirmation traçable jusqu’à qui l’a dite.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -1884,6 +2064,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Warum gilt das als authentisch?',
     whatThisRecordIs:
       'Was dieser Eintrag ist',
+    stepSubmit:
+      'Einreichen',
+    stepWhatExists:
+      'Was es gibt',
+    stepAssessment:
+      'Bewertung',
+    stepValidation:
+      'Bestätigung',
+    findingAggregatorTitle:
+      'Rezeptsammel-Seite',
+    findingAggregatorTag:
+      'Beliebte Kandidatin',
+    findingAggregatorNote:
+      'Bestplatziertes Ergebnis. Die Autorin nennt keine Verbindung zu Malabar; nimmt Butter statt Ghee.',
+    findingVideoTitle:
+      'Video eines Kochkanals auf Malayalam',
+    findingVideoTag:
+      'Örtliche Quelle',
+    findingVideoNote:
+      'In Kerala gefilmt, auf Malayalam gesprochen, mit Ghee und Nendran-Banane wie beschrieben.',
+    findingGapTitle:
+      'Kein Beleg auf Ortsebene gefunden',
+    findingGapTag:
+      'Lücke',
+    findingGapNote:
+      'Nichts belegt, wie es speziell in Kozhikode gemacht wird. Diese Einreichung wäre die erste.',
+    checkOriginLabel:
+      'Geografische Herkunft',
+    checkOriginNote:
+      'Malabar, Kozhikode — von der einreichenden Person angegeben und mit der Videoquelle stimmig.',
+    checkLocalPrepLabel:
+      'Örtliche Zubereitung',
+    checkLocalPrepNote:
+      'Beschrieben als Hausmannskost zum Iftar und zu Familienanlässen.',
+    checkIngredientsLabel:
+      'Traditionelle Zutaten',
+    checkIngredientsNote:
+      'Nendran-Banane, Eier, Ghee — stimmt mit dem Video der örtlichen Quelle überein.',
+    checkTechniqueLabel:
+      'Traditionelle Technik',
+    checkTechniqueNote:
+      'Niedrige Flamme, Deckel mit Glut beschwert.',
+    checkDocumentationLabel:
+      'Historische oder kulturelle Belege',
+    checkDocumentationNote:
+      'Dünn. Weder Forschung noch Archivbeleg gefunden.',
+    checkLocalSourceLabel:
+      'Örtliche Quelle',
+    checkLocalSourceNote:
+      'Die einreichende Person gibt an, in Kozhikode geboren zu sein und dort zu kochen.',
+    checkCommunityLabel:
+      'Bestätigung durch die Gemeinschaft',
+    checkCommunityNote:
+      'Noch nicht eingeholt. Deshalb kann der Eintrag noch nicht authentisch heißen.',
+    validatorHomeCook:
+      'Hausköchin, Kozhikode',
+    validatorHomeCookSaid:
+      'Hat die Zutaten und die Methode mit der Glut auf dem Deckel bestätigt.',
+    validatorBakery:
+      'Bäckereibesitzer, Thalassery',
+    validatorBakerySaid:
+      'Bestätigt, merkt an, dass seine Fassung weniger Zucker nimmt.',
+    validatorWriter:
+      'Gastronomiejournalistin, Kerala',
+    validatorWriterSaid:
+      'Als Hausgericht aus Malabar bestätigt; die Belegdichte ist wirklich dünn.',
+    validatorPending:
+      'Zwei weitere Prüfende eingeladen',
+    validatorPendingSaid:
+      'Antwort steht aus — der Eintrag erscheint auch ohne sie.',
+    photoCheckedNote:
+      'Wird beim Einreichen gegen Commons geprüft und mit Urheberin und Lizenz gezeigt. Es bleibt Ungeprüft, bis die Gemeinschaft es bestätigt, genau wie die Zubereitung.',
+    mostPublishedNote:
+      'Die meistveröffentlichte Fassung gilt als beliebte Kandidatin. Sie wird dadurch nicht zum authentischen Eintrag.',
+    sevenChecksNote:
+      'Sieben Prüfungen, jede beantwortet oder offen gelassen. Offene Prüfungen senken die Belegstärke — ausgefüllt wird nie nach Vermutung.',
+    draftConfidence:
+      '/100 vorläufige Belegstärke',
+    unverifiedPendingTag:
+      '⚪ Ungeprüft — Bestätigung der Gemeinschaft steht aus',
+    oneSubmitterNote:
+      'Eine einreichende Person von dort ist ein Beleg, kein Beweis. Der Eintrag bleibt Ungeprüft, bis Menschen aus der Gemeinschaft ihn bestätigen.',
+    threeConfirmationsNote:
+      'Drei Bestätigungen von Menschen, die dort leben oder kochen, holen einen Eintrag aus Ungeprüft heraus.',
+    conflictingAccountsNote:
+      'Widersprechende Schilderungen bleiben beide stehen. Der Eintrag teilt sich in die Traditionen, die Menschen tatsächlich beschrieben haben — eine je Region oder Gemeinschaft — und keine Fassung wird zur wahren erklärt.',
+    nowhereToSendNote:
+      'Es gibt keinen Ort, an den das gehen könnte. Der Atlas hat alles gelesen, was die freien Quellen hergeben; was jetzt fehlt, ist Essen, das niemand aufgeschrieben hat — dieses Formular ist also der Weg, wie er wächst, und es wird freigeschaltet, sobald es ein Ziel dafür gibt.',
+    whereTheExampleEndsUp:
+      'Dort landet der Beispieleintrag: veröffentlicht, mit sichtbaren Belegen, benannten offenen Prüfungen und jeder Aussage rückverfolgbar bis zu der Person, die sie gemacht hat.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -2500,6 +2770,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Perché è considerato autentico?',
     whatThisRecordIs:
       'Cos’è questa scheda',
+    stepSubmit:
+      'Invia',
+    stepWhatExists:
+      'Cosa esiste',
+    stepAssessment:
+      'Valutazione',
+    stepValidation:
+      'Conferma',
+    findingAggregatorTitle:
+      'Pagina aggregatrice di ricette',
+    findingAggregatorTag:
+      'Candidata popolare',
+    findingAggregatorNote:
+      'Risultato in cima. Chi firma non dichiara alcun legame col Malabar; usa burro al posto del ghee.',
+    findingVideoTitle:
+      'Video di un canale di cucina in malayalam',
+    findingVideoTag:
+      'Fonte locale',
+    findingVideoNote:
+      'Girato in Kerala, parlato in malayalam, con ghee e banana nendran come descritto.',
+    findingGapTitle:
+      'Nessuna testimonianza a livello di città',
+    findingGapTag:
+      'Vuoto',
+    findingGapNote:
+      'Niente documenta come si faccia proprio a Kozhikode. Questo invio sarebbe il primo.',
+    checkOriginLabel:
+      'Origine geografica',
+    checkOriginNote:
+      'Malabar, Kozhikode — indicato da chi invia e coerente con la fonte video.',
+    checkLocalPrepLabel:
+      'Preparazione locale',
+    checkLocalPrepNote:
+      'Descritto come cucina di casa, per l’iftar e per le occasioni di famiglia.',
+    checkIngredientsLabel:
+      'Ingredienti tradizionali',
+    checkIngredientsNote:
+      'Banana nendran, uova, ghee — coincide con il video di fonte locale.',
+    checkTechniqueLabel:
+      'Tecnica tradizionale',
+    checkTechniqueNote:
+      'Fiamma bassa, coperchio caricato di braci.',
+    checkDocumentationLabel:
+      'Documentazione storica o culturale',
+    checkDocumentationNote:
+      'Scarsa. Nessuno studio né documento d’archivio reperito.',
+    checkLocalSourceLabel:
+      'Fonte locale',
+    checkLocalSourceNote:
+      'Chi invia dichiara di essere nato a Kozhikode e di cucinarlo lì.',
+    checkCommunityLabel:
+      'Conferma della comunità',
+    checkCommunityNote:
+      'Non ancora richiesta. È per questo che la scheda non può ancora dirsi autentica.',
+    validatorHomeCook:
+      'Cuoca di casa, Kozhikode',
+    validatorHomeCookSaid:
+      'Ha confermato gli ingredienti e il metodo delle braci sul coperchio.',
+    validatorBakery:
+      'Titolare di pasticceria, Thalassery',
+    validatorBakerySaid:
+      'Conferma, e segnala che la sua versione mette meno zucchero.',
+    validatorWriter:
+      'Giornalista gastronomica, Kerala',
+    validatorWriterSaid:
+      'Confermato come piatto di casa del Malabar; la documentazione è davvero scarsa.',
+    validatorPending:
+      'Invitati altri due revisori',
+    validatorPendingSaid:
+      'In attesa di risposta: la scheda esce anche senza di loro.',
+    photoCheckedNote:
+      'Viene verificata su Commons quando la scheda è inviata, e mostrata con l’autore e la licenza. Resta Non verificata finché la comunità non la conferma, esattamente come il metodo.',
+    mostPublishedNote:
+      'La versione più pubblicata è presa come candidata popolare. Non diventa per questo la scheda autentica.',
+    sevenChecksNote:
+      'Sette verifiche, ciascuna con risposta o lasciata aperta. Quelle aperte abbassano l’affidabilità: non si riempiono mai per supposizione.',
+    draftConfidence:
+      '/100 di affidabilità provvisoria',
+    unverifiedPendingTag:
+      '⚪ Non verificato — in attesa della conferma della comunità',
+    oneSubmitterNote:
+      'Una sola persona del posto è una prova, non una dimostrazione. La scheda resta Non verificata finché non la confermano persone della comunità.',
+    threeConfirmationsNote:
+      'Tre conferme da persone che vivono o cucinano sul posto portano una scheda fuori da Non verificato.',
+    conflictingAccountsNote:
+      'I racconti che non coincidono si tengono entrambi. La scheda si divide nelle tradizioni che le persone hanno davvero descritto — una per regione o comunità — e nessuna versione viene dichiarata quella vera.',
+    nowhereToSendNote:
+      'Non c’è dove mandarlo. L’atlante ha letto tutto quello che le fonti libere contengono, quindi quello che manca adesso è il cibo che nessuno ha scritto — vuol dire che questo modulo è il modo in cui cresce, e verrà attivato appena ci sarà una destinazione.',
+    whereTheExampleEndsUp:
+      'È lì che finisce la scheda d’esempio: pubblicata con le prove in vista, le verifiche rimaste aperte dichiarate, e ogni affermazione riconducibile a chi l’ha fatta.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -3117,6 +3477,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Porque é que isto é considerado autêntico?',
     whatThisRecordIs:
       'O que é este registo',
+    stepSubmit:
+      'Enviar',
+    stepWhatExists:
+      'O que existe',
+    stepAssessment:
+      'Avaliação',
+    stepValidation:
+      'Validação',
+    findingAggregatorTitle:
+      'Página agregadora de receitas',
+    findingAggregatorTag:
+      'Candidata popular',
+    findingAggregatorNote:
+      'Resultado mais bem posicionado. Quem assina não declara ligação ao Malabar; usa manteiga em vez de ghee.',
+    findingVideoTitle:
+      'Vídeo de um canal de cozinha em malaiala',
+    findingVideoTag:
+      'Fonte local',
+    findingVideoNote:
+      'Filmado no Kerala, falado em malaiala, com ghee e banana nendran tal como descrito.',
+    findingGapTitle:
+      'Sem registo ao nível da cidade',
+    findingGapTag:
+      'Lacuna',
+    findingGapNote:
+      'Nada documenta como se faz especificamente em Kozhikode. Esta submissão seria a primeira.',
+    checkOriginLabel:
+      'Origem geográfica',
+    checkOriginNote:
+      'Malabar, Kozhikode — indicado por quem submete e coerente com a fonte em vídeo.',
+    checkLocalPrepLabel:
+      'Preparação local',
+    checkLocalPrepNote:
+      'Descrito como cozinha de casa, para o iftar e para ocasiões de família.',
+    checkIngredientsLabel:
+      'Ingredientes tradicionais',
+    checkIngredientsNote:
+      'Banana nendran, ovos, ghee — coincide com o vídeo de fonte local.',
+    checkTechniqueLabel:
+      'Técnica tradicional',
+    checkTechniqueNote:
+      'Lume brando, tampa carregada de brasas.',
+    checkDocumentationLabel:
+      'Documentação histórica ou cultural',
+    checkDocumentationNote:
+      'Escassa. Não se localizou estudo nem registo de arquivo.',
+    checkLocalSourceLabel:
+      'Fonte local',
+    checkLocalSourceNote:
+      'Quem submete diz ter nascido em Kozhikode e cozinhar lá.',
+    checkCommunityLabel:
+      'Validação da comunidade',
+    checkCommunityNote:
+      'Ainda não pedida. É por isso que o registo ainda não pode ser chamado autêntico.',
+    validatorHomeCook:
+      'Cozinheira de casa, Kozhikode',
+    validatorHomeCookSaid:
+      'Confirmou os ingredientes e o método das brasas sobre a tampa.',
+    validatorBakery:
+      'Dono de pastelaria, Thalassery',
+    validatorBakerySaid:
+      'Confirma, e nota que a versão dele leva menos açúcar.',
+    validatorWriter:
+      'Jornalista de gastronomia, Kerala',
+    validatorWriterSaid:
+      'Confirmado como prato de casa do Malabar; a documentação é mesmo escassa.',
+    validatorPending:
+      'Convidados mais dois revisores',
+    validatorPendingSaid:
+      'A aguardar resposta — o registo publica-se sem eles.',
+    photoCheckedNote:
+      'É verificada no Commons quando o registo é submetido, e mostrada com o autor e a licença. Fica Por verificar até a comunidade a confirmar, tal como o método.',
+    mostPublishedNote:
+      'A versão mais publicada é tomada como candidata popular. Não passa por isso a ser o registo autêntico.',
+    sevenChecksNote:
+      'Sete verificações, cada uma respondida ou deixada em aberto. As que ficam em aberto baixam a confiança — nunca se preenchem por suposição.',
+    draftConfidence:
+      '/100 de confiança provisória',
+    unverifiedPendingTag:
+      '⚪ Por verificar — à espera de validação da comunidade',
+    oneSubmitterNote:
+      'Uma só pessoa do lugar é prova, não demonstração. O registo fica Por verificar até que pessoas da comunidade o confirmem.',
+    threeConfirmationsNote:
+      'Três confirmações de pessoas que vivem ou cozinham no lugar tiram um registo de Por verificar.',
+    conflictingAccountsNote:
+      'Os relatos que divergem guardam-se os dois. O registo divide-se nas tradições que as pessoas realmente descreveram — uma por região ou comunidade — e nenhuma versão é declarada a verdadeira.',
+    nowhereToSendNote:
+      'Não há para onde enviar isto. O atlas já leu tudo o que as fontes livres têm, por isso o que falta agora é comida que ninguém escreveu — o que quer dizer que este formulário é como ele cresce, e será ligado assim que houver para onde enviar.',
+    whereTheExampleEndsUp:
+      'É aí que o registo de exemplo acaba: publicado com as provas à vista, as verificações em aberto nomeadas, e cada afirmação rastreável até quem a fez.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -3733,6 +4183,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Waarom geldt dit als authentiek?',
     whatThisRecordIs:
       'Wat dit record is',
+    stepSubmit:
+      'Insturen',
+    stepWhatExists:
+      'Wat er bestaat',
+    stepAssessment:
+      'Beoordeling',
+    stepValidation:
+      'Bevestiging',
+    findingAggregatorTitle:
+      'Receptenverzamelsite',
+    findingAggregatorTag:
+      'Populaire kandidaat',
+    findingAggregatorNote:
+      'Hoogst geplaatste resultaat. De auteur noemt geen band met Malabar; gebruikt boter in plaats van ghee.',
+    findingVideoTitle:
+      'Video van een kookkanaal in het Malayalam',
+    findingVideoTag:
+      'Lokale bron',
+    findingVideoNote:
+      'Gefilmd in Kerala, gesproken in het Malayalam, met ghee en nendran-banaan zoals beschreven.',
+    findingGapTitle:
+      'Geen vastlegging op plaatsniveau gevonden',
+    findingGapTag:
+      'Gat',
+    findingGapNote:
+      'Niets documenteert hoe het juist in Kozhikode gemaakt wordt. Deze inzending zou de eerste zijn.',
+    checkOriginLabel:
+      'Geografische herkomst',
+    checkOriginNote:
+      'Malabar, Kozhikode — opgegeven door de inzender en in lijn met de videobron.',
+    checkLocalPrepLabel:
+      'Lokale bereiding',
+    checkLocalPrepNote:
+      'Beschreven als thuiskoken, voor de iftar en voor familiegelegenheden.',
+    checkIngredientsLabel:
+      'Traditionele ingrediënten',
+    checkIngredientsNote:
+      'Nendran-banaan, eieren, ghee — komt overeen met de video van de lokale bron.',
+    checkTechniqueLabel:
+      'Traditionele techniek',
+    checkTechniqueNote:
+      'Laag vuur, deksel verzwaard met gloeiende kolen.',
+    checkDocumentationLabel:
+      'Historische of culturele documentatie',
+    checkDocumentationNote:
+      'Mager. Geen studie of archiefstuk gevonden.',
+    checkLocalSourceLabel:
+      'Lokale bron',
+    checkLocalSourceNote:
+      'De inzender geeft aan in Kozhikode geboren te zijn en daar te koken.',
+    checkCommunityLabel:
+      'Bevestiging door de gemeenschap',
+    checkCommunityNote:
+      'Nog niet gevraagd. Daarom mag het record nog niet authentiek heten.',
+    validatorHomeCook:
+      'Thuiskok, Kozhikode',
+    validatorHomeCookSaid:
+      'Bevestigde de ingrediënten en de methode met kolen op het deksel.',
+    validatorBakery:
+      'Bakkerijeigenaar, Thalassery',
+    validatorBakerySaid:
+      'Bevestigt, en merkt op dat zijn versie minder suiker gebruikt.',
+    validatorWriter:
+      'Culinair journalist, Kerala',
+    validatorWriterSaid:
+      'Bevestigd als een huisgerecht uit Malabar; de documentatie is werkelijk schaars.',
+    validatorPending:
+      'Nog twee beoordelaars uitgenodigd',
+    validatorPendingSaid:
+      'Wachten op antwoord — het record verschijnt ook zonder hen.',
+    photoCheckedNote:
+      'Wordt bij het insturen tegen Commons gecontroleerd en getoond met fotograaf en licentie. Het blijft Niet geverifieerd tot de gemeenschap het bevestigt, net als de werkwijze.',
+    mostPublishedNote:
+      'De meest gepubliceerde versie geldt als populaire kandidaat. Daarmee wordt zij nog niet het authentieke record.',
+    sevenChecksNote:
+      'Zeven controles, elk beantwoord of opengelaten. Open controles verlagen de bewijskracht — ze worden nooit op aanname ingevuld.',
+    draftConfidence:
+      '/100 voorlopige bewijskracht',
+    unverifiedPendingTag:
+      '⚪ Niet geverifieerd — wacht op bevestiging door de gemeenschap',
+    oneSubmitterNote:
+      'Eén inzender van die plek is bewijs, geen bewijsvoering. Het record blijft Niet geverifieerd tot mensen uit de gemeenschap het bevestigen.',
+    threeConfirmationsNote:
+      'Drie bevestigingen van mensen die er wonen of koken halen een record uit Niet geverifieerd.',
+    conflictingAccountsNote:
+      'Tegenstrijdige verhalen blijven allebei staan. Het record splitst zich in de tradities die mensen werkelijk beschreven — één per streek of gemeenschap — en geen enkele versie wordt de ware genoemd.',
+    nowhereToSendNote:
+      'Er is nergens om dit heen te sturen. De atlas heeft alles gelezen wat de vrije bronnen bevatten, dus wat nu ontbreekt is eten dat niemand heeft opgeschreven — dit formulier is dus hoe hij groeit, en het gaat aan zodra er een bestemming voor is.',
+    whereTheExampleEndsUp:
+      'Daar komt het voorbeeldrecord uit: gepubliceerd, met het bewijs zichtbaar, de openstaande controles benoemd, en elke bewering herleidbaar tot wie haar deed.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -4350,6 +4890,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Dlaczego uznaje się to za autentyczne?',
     whatThisRecordIs:
       'Czym jest ten wpis',
+    stepSubmit:
+      'Wyślij',
+    stepWhatExists:
+      'Co istnieje',
+    stepAssessment:
+      'Ocena',
+    stepValidation:
+      'Potwierdzenie',
+    findingAggregatorTitle:
+      'Strona zbierająca przepisy',
+    findingAggregatorTag:
+      'Kandydat popularny',
+    findingAggregatorNote:
+      'Najwyżej wyświetlany wynik. Autor nie podaje żadnego związku z Malabarem; używa masła zamiast ghee.',
+    findingVideoTitle:
+      'Nagranie z kanału kulinarnego po malajalam',
+    findingVideoTag:
+      'Źródło miejscowe',
+    findingVideoNote:
+      'Nakręcone w Kerali, mówione po malajalam, z ghee i bananem nendran zgodnie z opisem.',
+    findingGapTitle:
+      'Brak zapisu na poziomie miejscowości',
+    findingGapTag:
+      'Luka',
+    findingGapNote:
+      'Nic nie dokumentuje, jak robi się to akurat w Kozhikode. To zgłoszenie byłoby pierwsze.',
+    checkOriginLabel:
+      'Pochodzenie geograficzne',
+    checkOriginNote:
+      'Malabar, Kozhikode — podane przez zgłaszającego i zgodne ze źródłem wideo.',
+    checkLocalPrepLabel:
+      'Miejscowe przygotowanie',
+    checkLocalPrepNote:
+      'Opisane jako gotowanie domowe, na iftar i na okazje rodzinne.',
+    checkIngredientsLabel:
+      'Składniki tradycyjne',
+    checkIngredientsNote:
+      'Banan nendran, jajka, ghee — zgadza się z nagraniem ze źródła miejscowego.',
+    checkTechniqueLabel:
+      'Technika tradycyjna',
+    checkTechniqueNote:
+      'Mały ogień, pokrywka obciążona żarem.',
+    checkDocumentationLabel:
+      'Dokumentacja historyczna lub kulturowa',
+    checkDocumentationNote:
+      'Uboga. Nie znaleziono opracowania ani zapisu archiwalnego.',
+    checkLocalSourceLabel:
+      'Źródło miejscowe',
+    checkLocalSourceNote:
+      'Zgłaszający podaje, że urodził się w Kozhikode i tam gotuje.',
+    checkCommunityLabel:
+      'Potwierdzenie społeczności',
+    checkCommunityNote:
+      'Jeszcze nieszukane. Dlatego wpisu nie można jeszcze nazwać autentycznym.',
+    validatorHomeCook:
+      'Domowa kucharka, Kozhikode',
+    validatorHomeCookSaid:
+      'Potwierdziła składniki i sposób z żarem na pokrywce.',
+    validatorBakery:
+      'Właściciel cukierni, Thalassery',
+    validatorBakerySaid:
+      'Potwierdza, zaznacza, że u niego jest mniej cukru.',
+    validatorWriter:
+      'Dziennikarka kulinarna, Kerala',
+    validatorWriterSaid:
+      'Potwierdzone jako danie domowe z Malabaru; dokumentacja naprawdę uboga.',
+    validatorPending:
+      'Zaproszono jeszcze dwoje recenzentów',
+    validatorPendingSaid:
+      'Czekamy na odpowiedź — wpis ukazuje się i bez nich.',
+    photoCheckedNote:
+      'Sprawdzane w Commons przy wysłaniu wpisu i pokazywane z autorem i licencją. Zostaje Niesprawdzone, dopóki społeczność tego nie potwierdzi, dokładnie tak jak sposób przygotowania.',
+    mostPublishedNote:
+      'Najczęściej publikowana wersja jest brana jako kandydat popularny. Nie staje się przez to wpisem autentycznym.',
+    sevenChecksNote:
+      'Siedem kontroli, każda z odpowiedzią albo zostawiona otwarta. Otwarte obniżają pewność — nigdy nie uzupełnia się ich domysłem.',
+    draftConfidence:
+      '/100 wstępnej pewności',
+    unverifiedPendingTag:
+      '⚪ Niesprawdzone — oczekuje na potwierdzenie społeczności',
+    oneSubmitterNote:
+      'Jedna osoba stamtąd to dowód, a nie rozstrzygnięcie. Wpis zostaje Niesprawdzony, dopóki nie potwierdzą go ludzie ze społeczności.',
+    threeConfirmationsNote:
+      'Trzy potwierdzenia od osób, które tam mieszkają albo gotują, wyciągają wpis z Niesprawdzonych.',
+    conflictingAccountsNote:
+      'Sprzeczne relacje zachowuje się obie. Wpis dzieli się na tradycje, które ludzie naprawdę opisali — po jednej na region albo społeczność — i żadnej wersji nie ogłasza się prawdziwą.',
+    nowhereToSendNote:
+      'Nie ma dokąd tego wysłać. Atlas przeczytał wszystko, co mają wolne źródła, więc brakuje teraz jedzenia, którego nikt nie spisał — to znaczy, że ten formularz jest sposobem, w jaki atlas rośnie, i zostanie włączony, gdy tylko będzie dokąd wysyłać.',
+    whereTheExampleEndsUp:
+      'Tam kończy przykładowy wpis: opublikowany, z widocznymi dowodami, z nazwanymi otwartymi kontrolami i z każdym twierdzeniem dającym się przypisać temu, kto je wypowiedział.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -4966,6 +5596,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Bu neden özgün sayılıyor?',
     whatThisRecordIs:
       'Bu kayıt nedir',
+    stepSubmit:
+      'Gönder',
+    stepWhatExists:
+      'Var olanlar',
+    stepAssessment:
+      'Değerlendirme',
+    stepValidation:
+      'Doğrulama',
+    findingAggregatorTitle:
+      'Tarif toplayıcı sayfa',
+    findingAggregatorTag:
+      'Yaygın aday',
+    findingAggregatorNote:
+      'En üstteki sonuç. Yazarı Malabar ile herhangi bir bağ belirtmiyor; sadeyağ yerine tereyağı kullanıyor.',
+    findingVideoTitle:
+      'Malayalam yemek kanalı videosu',
+    findingVideoTag:
+      'Yerel kaynak',
+    findingVideoNote:
+      'Kerala’da çekilmiş, Malayalam konuşuluyor, anlatıldığı gibi sadeyağ ve nendran muzuyla.',
+    findingGapTitle:
+      'Kasaba düzeyinde kayıt bulunamadı',
+    findingGapTag:
+      'Boşluk',
+    findingGapNote:
+      'Özellikle Kozhikode’de nasıl yapıldığını belgeleyen bir şey yok. Bu gönderi ilk olurdu.',
+    checkOriginLabel:
+      'Coğrafi köken',
+    checkOriginNote:
+      'Malabar, Kozhikode — gönderen kişinin belirttiği gibi ve video kaynağıyla tutarlı.',
+    checkLocalPrepLabel:
+      'Yerel hazırlık',
+    checkLocalPrepNote:
+      'Ev yemeği olarak, iftar ve aile günleri için anlatılıyor.',
+    checkIngredientsLabel:
+      'Geleneksel malzemeler',
+    checkIngredientsNote:
+      'Nendran muzu, yumurta, sadeyağ — yerel kaynak videosuyla örtüşüyor.',
+    checkTechniqueLabel:
+      'Geleneksel teknik',
+    checkTechniqueNote:
+      'Kısık ateş, korla ağırlaştırılmış kapak.',
+    checkDocumentationLabel:
+      'Tarihsel ya da kültürel belge',
+    checkDocumentationNote:
+      'Zayıf. Ne bir çalışma ne de bir arşiv kaydı bulunabildi.',
+    checkLocalSourceLabel:
+      'Yerel kaynak',
+    checkLocalSourceNote:
+      'Gönderen kişi Kozhikode doğumlu olduğunu ve orada pişirdiğini bildiriyor.',
+    checkCommunityLabel:
+      'Topluluk doğrulaması',
+    checkCommunityNote:
+      'Henüz istenmedi. Kaydın şimdilik özgün denememesinin nedeni bu.',
+    validatorHomeCook:
+      'Ev aşçısı, Kozhikode',
+    validatorHomeCookSaid:
+      'Malzemeleri ve kapağın üstündeki kor yöntemini doğruladı.',
+    validatorBakery:
+      'Tatlıcı sahibi, Thalassery',
+    validatorBakerySaid:
+      'Doğruluyor, kendi yaptıklarında daha az şeker olduğunu belirtiyor.',
+    validatorWriter:
+      'Yemek yazarı, Kerala',
+    validatorWriterSaid:
+      'Malabar ev yemeği olarak doğrulandı; belge gerçekten az.',
+    validatorPending:
+      'İki inceleyici daha çağrıldı',
+    validatorPendingSaid:
+      'Yanıt bekleniyor — kayıt onlarsız da yayımlanır.',
+    photoCheckedNote:
+      'Kayıt gönderildiğinde Commons ile karşılaştırılır ve çekenin adı ve lisansıyla birlikte gösterilir. Yöntemde olduğu gibi, topluluk doğrulayana kadar Doğrulanmamış kalır.',
+    mostPublishedNote:
+      'En çok yayımlanan sürüm yaygın aday sayılır. Bu, onu özgün kayıt yapmaz.',
+    sevenChecksNote:
+      'Yedi denetim; her biri ya yanıtlanır ya açık bırakılır. Açık kalanlar güveni düşürür — asla varsayımla doldurulmaz.',
+    draftConfidence:
+      '/100 taslak güven',
+    unverifiedPendingTag:
+      '⚪ Doğrulanmamış — topluluk doğrulaması bekleniyor',
+    oneSubmitterNote:
+      'Oradan tek bir gönderen kanıttır, ispat değil. Topluluktan insanlar doğrulayana kadar kayıt Doğrulanmamış kalır.',
+    threeConfirmationsNote:
+      'Orada yaşayan ya da pişiren üç kişinin doğrulaması, bir kaydı Doğrulanmamış olmaktan çıkarır.',
+    conflictingAccountsNote:
+      'Çelişen anlatıların ikisi de saklanır. Kayıt, insanların gerçekten anlattığı geleneklere ayrılır — bölge ya da topluluk başına bir tane — ve hiçbir sürüm doğru ilan edilmez.',
+    nowhereToSendNote:
+      'Bunu gönderecek bir yer yok. Atlas serbest kaynakların elindeki her şeyi okudu, dolayısıyla şimdi eksik olan, kimsenin yazmadığı yemekler — yani bu form atlasın büyüme yolu ve gidecek bir yer olur olmaz açılacak.',
+    whereTheExampleEndsUp:
+      'Örnek kayıt oraya varır: kanıtları görünür, açık kalan denetimleri adlarıyla belirtilmiş ve her iddiası onu söyleyene kadar izlenebilir biçimde yayımlanmış olarak.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -5583,6 +6303,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Почему это считается подлинным?',
     whatThisRecordIs:
       'Что это за запись',
+    stepSubmit:
+      'Отправить',
+    stepWhatExists:
+      'Что уже есть',
+    stepAssessment:
+      'Оценка',
+    stepValidation:
+      'Подтверждение',
+    findingAggregatorTitle:
+      'Сайт-сборник рецептов',
+    findingAggregatorTag:
+      'Популярный кандидат',
+    findingAggregatorNote:
+      'Результат на первом месте. Автор не указывает связи с Малабаром; берёт масло вместо гхи.',
+    findingVideoTitle:
+      'Видео кулинарного канала на малаялам',
+    findingVideoTag:
+      'Местный источник',
+    findingVideoNote:
+      'Снято в Керале, речь на малаялам, гхи и банан нендран — как и описано.',
+    findingGapTitle:
+      'Записи на уровне города не найдено',
+    findingGapTag:
+      'Пробел',
+    findingGapNote:
+      'Ничто не описывает, как это делают именно в Кожикоде. Эта присланная запись стала бы первой.',
+    checkOriginLabel:
+      'Географическое происхождение',
+    checkOriginNote:
+      'Малабар, Кожикоде — указано приславшим и согласуется с видеоисточником.',
+    checkLocalPrepLabel:
+      'Местное приготовление',
+    checkLocalPrepNote:
+      'Описано как домашняя готовка — на ифтар и к семейным поводам.',
+    checkIngredientsLabel:
+      'Традиционные ингредиенты',
+    checkIngredientsNote:
+      'Банан нендран, яйца, гхи — совпадает с видео местного источника.',
+    checkTechniqueLabel:
+      'Традиционная техника',
+    checkTechniqueNote:
+      'Слабый огонь, крышка, придавленная углями.',
+    checkDocumentationLabel:
+      'Историческая или культурная документация',
+    checkDocumentationNote:
+      'Скудная. Ни исследования, ни архивной записи не найдено.',
+    checkLocalSourceLabel:
+      'Местный источник',
+    checkLocalSourceNote:
+      'Приславший сообщает, что родился в Кожикоде и готовит там.',
+    checkCommunityLabel:
+      'Подтверждение сообществом',
+    checkCommunityNote:
+      'Пока не запрашивалось. Именно поэтому запись ещё нельзя назвать подлинной.',
+    validatorHomeCook:
+      'Домашняя кухарка, Кожикоде',
+    validatorHomeCookSaid:
+      'Подтвердила ингредиенты и способ с углями на крышке.',
+    validatorBakery:
+      'Владелец кондитерской, Талассери',
+    validatorBakerySaid:
+      'Подтверждает, отмечает, что в его версии меньше сахара.',
+    validatorWriter:
+      'Гастрономический журналист, Керала',
+    validatorWriterSaid:
+      'Подтверждено как домашнее малабарское блюдо; документации действительно мало.',
+    validatorPending:
+      'Приглашены ещё двое',
+    validatorPendingSaid:
+      'Ответа пока нет — запись публикуется и без них.',
+    photoCheckedNote:
+      'При отправке записи сверяется с Commons и показывается с автором съёмки и лицензией. Остаётся Не проверенной, пока сообщество её не подтвердит, ровно как и способ приготовления.',
+    mostPublishedNote:
+      'Самая растиражированная версия берётся как популярный кандидат. Подлинной записью она от этого не становится.',
+    sevenChecksNote:
+      'Семь проверок, каждая либо отвечена, либо оставлена открытой. Открытые снижают уверенность — их никогда не заполняют по предположению.',
+    draftConfidence:
+      '/100 черновой уверенности',
+    unverifiedPendingTag:
+      '⚪ Не проверено — ждёт подтверждения сообществом',
+    oneSubmitterNote:
+      'Один человек оттуда — это доказательство, а не решение вопроса. Запись остаётся Не проверенной, пока её не подтвердят люди из сообщества.',
+    threeConfirmationsNote:
+      'Три подтверждения от людей, которые там живут или готовят, выводят запись из состояния «Не проверено».',
+    conflictingAccountsNote:
+      'Расходящиеся рассказы сохраняются оба. Запись делится на традиции, которые люди действительно описали — по одной на регион или общину, — и ни одна версия не объявляется настоящей.',
+    nowhereToSendNote:
+      'Отправлять это некуда. Атлас прочитал всё, что есть в свободных источниках, поэтому не хватает теперь той еды, которую никто не записал, — а значит, эта форма и есть то, за счёт чего атлас растёт, и она будет включена, как только появится куда отправлять.',
+    whereTheExampleEndsUp:
+      'Вот чем заканчивается запись из примера: она опубликована, доказательства видны, оставшиеся открытыми проверки названы, а каждое утверждение прослеживается до того, кто его высказал.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -6200,6 +7010,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'इसे प्रामाणिक क्यों माना जाता है?',
     whatThisRecordIs:
       'यह रिकॉर्ड क्या है',
+    stepSubmit:
+      'भेजें',
+    stepWhatExists:
+      'क्या मौजूद है',
+    stepAssessment:
+      'आकलन',
+    stepValidation:
+      'पुष्टि',
+    findingAggregatorTitle:
+      'विधियाँ जुटाने वाला पन्ना',
+    findingAggregatorTag:
+      'लोकप्रिय दावेदार',
+    findingAggregatorNote:
+      'सबसे ऊपर आने वाला नतीजा। लिखने वाला मालाबार से कोई जुड़ाव नहीं बताता; घी की जगह मक्खन डालता है।',
+    findingVideoTitle:
+      'मलयालम रसोई चैनल का वीडियो',
+    findingVideoTag:
+      'स्थानीय स्रोत',
+    findingVideoNote:
+      'केरल में फ़िल्माया, मलयालम में बोला गया, घी और नेंद्रन केला — जैसा बताया गया है।',
+    findingGapTitle:
+      'क़स्बे के स्तर का कोई रिकॉर्ड नहीं मिला',
+    findingGapTag:
+      'कमी',
+    findingGapNote:
+      'ख़ास कोझिकोड में यह कैसे बनता है, इसका कोई प्रलेख नहीं। यह प्रविष्टि पहली होगी।',
+    checkOriginLabel:
+      'भौगोलिक मूल',
+    checkOriginNote:
+      'मालाबार, कोझिकोड — भेजने वाले ने बताया और वीडियो स्रोत से मेल खाता है।',
+    checkLocalPrepLabel:
+      'स्थानीय विधि',
+    checkLocalPrepNote:
+      'घर की रसोई के रूप में बताया गया — इफ़्तार और पारिवारिक अवसरों के लिए।',
+    checkIngredientsLabel:
+      'पारंपरिक सामग्री',
+    checkIngredientsNote:
+      'नेंद्रन केला, अंडे, घी — स्थानीय स्रोत वाले वीडियो से मेल खाता है।',
+    checkTechniqueLabel:
+      'पारंपरिक तकनीक',
+    checkTechniqueNote:
+      'धीमी आँच, अंगारों से दबा हुआ ढक्कन।',
+    checkDocumentationLabel:
+      'ऐतिहासिक या सांस्कृतिक प्रलेखन',
+    checkDocumentationNote:
+      'बहुत कम। न कोई अध्ययन मिला, न अभिलेख।',
+    checkLocalSourceLabel:
+      'स्थानीय स्रोत',
+    checkLocalSourceNote:
+      'भेजने वाला बताता है कि वह कोझिकोड में जन्मा है और वहीं पकाता है।',
+    checkCommunityLabel:
+      'समुदाय की पुष्टि',
+    checkCommunityNote:
+      'अभी माँगी नहीं गई। इसीलिए रिकॉर्ड को अभी प्रामाणिक नहीं कहा जा सकता।',
+    validatorHomeCook:
+      'घर की रसोइया, कोझिकोड',
+    validatorHomeCookSaid:
+      'सामग्री और ढक्कन पर अंगारे वाली विधि की पुष्टि की।',
+    validatorBakery:
+      'बेकरी के मालिक, तलश्शेरी',
+    validatorBakerySaid:
+      'पुष्टि करते हैं, बताते हैं कि उनके यहाँ चीनी कम पड़ती है।',
+    validatorWriter:
+      'खानपान पत्रकार, केरल',
+    validatorWriterSaid:
+      'मालाबार के घरेलू व्यंजन के रूप में पुष्ट; प्रलेखन सचमुच बहुत कम है।',
+    validatorPending:
+      'दो और समीक्षक बुलाए गए',
+    validatorPendingSaid:
+      'उत्तर की प्रतीक्षा — रिकॉर्ड उनके बिना भी प्रकाशित होता है।',
+    photoCheckedNote:
+      'रिकॉर्ड भेजे जाने पर Commons से मिलान किया जाता है, और छायाकार तथा लाइसेंस के साथ दिखाया जाता है। जब तक समुदाय पुष्टि न करे यह असत्यापित ही रहती है — ठीक जैसे विधि रहती है।',
+    mostPublishedNote:
+      'सबसे ज़्यादा छपा रूप लोकप्रिय दावेदार माना जाता है। इससे वह प्रामाणिक रिकॉर्ड नहीं बन जाता।',
+    sevenChecksNote:
+      'सात जाँचें, हर एक या तो उत्तरित या खुली छोड़ी हुई। खुली जाँचें भरोसा घटाती हैं — उन्हें अनुमान से कभी नहीं भरा जाता।',
+    draftConfidence:
+      '/100 कच्चा भरोसा',
+    unverifiedPendingTag:
+      '⚪ असत्यापित — समुदाय की पुष्टि बाक़ी',
+    oneSubmitterNote:
+      'उस जगह का एक भेजने वाला प्रमाण है, सबूत नहीं। जब तक समुदाय के लोग पुष्टि न करें, रिकॉर्ड असत्यापित ही रहता है।',
+    threeConfirmationsNote:
+      'उस जगह रहने या पकाने वाले तीन लोगों की पुष्टि किसी रिकॉर्ड को असत्यापित से बाहर ले आती है।',
+    conflictingAccountsNote:
+      'आपस में न मिलने वाले विवरण दोनों रखे जाते हैं। रिकॉर्ड उन परंपराओं में बँट जाता है जिन्हें लोगों ने सचमुच बताया — हर क्षेत्र या समुदाय की एक — और किसी रूप को सच्चा घोषित नहीं किया जाता।',
+    nowhereToSendNote:
+      'इसे भेजने की कोई जगह ही नहीं है। मुफ़्त स्रोतों में जो कुछ था, एटलस सब पढ़ चुका है, इसलिए अब जो कमी है वह ऐसा खाना है जिसे किसी ने लिखा ही नहीं — यानी यह फ़ॉर्म ही वह रास्ता है जिससे यह बढ़ेगा, और जैसे ही भेजने की जगह होगी, इसे चालू कर दिया जाएगा।',
+    whereTheExampleEndsUp:
+      'उदाहरण वाला रिकॉर्ड यहीं पहुँचता है: प्रकाशित, अपने प्रमाण सामने रखते हुए, खुली जाँचें नाम लेकर बताते हुए, और हर दावा उस तक पहुँचाने योग्य जिसने वह कहा।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -6817,6 +7717,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '为什么这被认为是本真的？',
     whatThisRecordIs:
       '这条记录是什么',
+    stepSubmit:
+      '提交',
+    stepWhatExists:
+      '现有什么',
+    stepAssessment:
+      '评估',
+    stepValidation:
+      '确认',
+    findingAggregatorTitle:
+      '食谱聚合网页',
+    findingAggregatorTag:
+      '流行候选',
+    findingAggregatorNote:
+      '排在最前的结果。作者没有说明与马拉巴尔的任何关系；用黄油代替了酥油。',
+    findingVideoTitle:
+      '马拉雅拉姆语烹饪频道视频',
+    findingVideoTag:
+      '本地来源',
+    findingVideoNote:
+      '在喀拉拉拍摄，讲马拉雅拉姆语，用酥油和 nendran 香蕉，与描述一致。',
+    findingGapTitle:
+      '没有找到镇一级的记载',
+    findingGapTag:
+      '空白',
+    findingGapNote:
+      '没有任何资料记载它在科泽科德具体怎么做。这份提交会是第一份。',
+    checkOriginLabel:
+      '地理来源',
+    checkOriginNote:
+      '马拉巴尔、科泽科德 — 提交者所述，且与视频来源一致。',
+    checkLocalPrepLabel:
+      '本地做法',
+    checkLocalPrepNote:
+      '被描述为家庭烹饪，用于开斋饭和家庭场合。',
+    checkIngredientsLabel:
+      '传统食材',
+    checkIngredientsNote:
+      'nendran 香蕉、鸡蛋、酥油 — 与本地来源的视频吻合。',
+    checkTechniqueLabel:
+      '传统技法',
+    checkTechniqueNote:
+      '小火，锅盖上压着炭火。',
+    checkDocumentationLabel:
+      '历史或文化文献',
+    checkDocumentationNote:
+      '薄弱。没有找到研究，也没有档案记载。',
+    checkLocalSourceLabel:
+      '本地来源',
+    checkLocalSourceNote:
+      '提交者称自己生在科泽科德，并在那里做这道菜。',
+    checkCommunityLabel:
+      '社区确认',
+    checkCommunityNote:
+      '尚未征询。这就是这条记录目前还不能称为本真的原因。',
+    validatorHomeCook:
+      '家庭厨师，科泽科德',
+    validatorHomeCookSaid:
+      '确认了食材和锅盖压炭火的做法。',
+    validatorBakery:
+      '糕饼店老板，特拉瑟里',
+    validatorBakerySaid:
+      '确认，并指出他们那边糖放得少些。',
+    validatorWriter:
+      '美食记者，喀拉拉',
+    validatorWriterSaid:
+      '确认为马拉巴尔的家常菜；相关文献确实很少。',
+    validatorPending:
+      '又邀请了两位评审',
+    validatorPendingSaid:
+      '等待回复 — 没有他们这条记录也会发布。',
+    photoCheckedNote:
+      '提交记录时会与 Commons 核对，并连同拍摄者和许可一起显示。在社区确认之前它一直是未核实，和做法一样。',
+    mostPublishedNote:
+      '流传最广的版本被当作流行候选。它并不因此成为本真记录。',
+    sevenChecksNote:
+      '七项核查，每一项要么有答案，要么留空。留空会降低信心 — 绝不靠猜测填上。',
+    draftConfidence:
+      '/100 草拟信心',
+    unverifiedPendingTag:
+      '⚪ 未核实 — 等待社区确认',
+    oneSubmitterNote:
+      '一位当地提交者是证据，不是定论。在社区里的人确认之前，记录一直是未核实。',
+    threeConfirmationsNote:
+      '三位住在当地或在当地做这道菜的人确认，就能让一条记录脱离未核实。',
+    conflictingAccountsNote:
+      '互相矛盾的说法两边都保留。记录会拆成人们实际描述的那些传统 — 每个地区或群体一条 — 并且不宣布哪个版本是真的。',
+    nowhereToSendNote:
+      '目前没有地方可以送。免费来源里有的，图册都已读过，所以现在缺的是没有人写下来的食物 — 也就是说，这份表格正是它生长的方式，一旦有了去处就会开放。',
+    whereTheExampleEndsUp:
+      '这就是那条示例记录的归宿：公开发布，证据可见，未答的核查一一列明，每一项说法都能追溯到是谁说的。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -7434,6 +8424,96 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'これが本物とされる理由',
     whatThisRecordIs:
       'この記録が何であるか',
+    stepSubmit:
+      '送信',
+    stepWhatExists:
+      '今あるもの',
+    stepAssessment:
+      '評価',
+    stepValidation:
+      '確認',
+    findingAggregatorTitle:
+      'レシピまとめサイトのページ',
+    findingAggregatorTag:
+      '広まっている候補',
+    findingAggregatorNote:
+      '検索の最上位。書き手はマラバールとのつながりを示しておらず、ギーの代わりにバターを使っています。',
+    findingVideoTitle:
+      'マラヤーラム語の料理チャンネルの動画',
+    findingVideoTag:
+      'その土地の情報源',
+    findingVideoNote:
+      'ケーララで撮影、マラヤーラム語、ギーとネンドラン バナナも説明のとおり。',
+    findingGapTitle:
+      '町の単位での記録は見つからず',
+    findingGapTag:
+      '欠落',
+    findingGapNote:
+      'コーリコードで具体的にどう作るのかを記した資料はありません。この投稿が最初になります。',
+    checkOriginLabel:
+      '地理的な由来',
+    checkOriginNote:
+      'マラバール、コーリコード — 投稿者の申告で、動画の出典とも一致。',
+    checkLocalPrepLabel:
+      'その土地の作り方',
+    checkLocalPrepNote:
+      'イフタールや家の行事のための家庭料理として説明されています。',
+    checkIngredientsLabel:
+      '伝統的な材料',
+    checkIngredientsNote:
+      'ネンドラン バナナ、卵、ギー — 現地の動画と一致します。',
+    checkTechniqueLabel:
+      '伝統的な技法',
+    checkTechniqueNote:
+      '弱火、熾火を載せた蓋。',
+    checkDocumentationLabel:
+      '歴史的・文化的な記録',
+    checkDocumentationNote:
+      '乏しい。研究も文書館の記録も見つかりませんでした。',
+    checkLocalSourceLabel:
+      'その土地の情報源',
+    checkLocalSourceNote:
+      '投稿者はコーリコード生まれで、そこで作っていると述べています。',
+    checkCommunityLabel:
+      '地域の人による確認',
+    checkCommunityNote:
+      'まだ求めていません。この記録がまだ本物と呼べないのはそのためです。',
+    validatorHomeCook:
+      '家庭で作る人、コーリコード',
+    validatorHomeCookSaid:
+      '材料と、蓋に熾火を載せる方法を確認しました。',
+    validatorBakery:
+      '菓子店の主人、タラッシェリ',
+    validatorBakerySaid:
+      '確認。自分のところは砂糖が少なめだと述べています。',
+    validatorWriter:
+      '食の書き手、ケーララ',
+    validatorWriterSaid:
+      'マラバールの家庭料理として確認。資料は実際にごくわずかです。',
+    validatorPending:
+      'さらに二人に確認を依頼',
+    validatorPendingSaid:
+      '返答待ち — 記録はこの二人がなくても公開されます。',
+    photoCheckedNote:
+      '記録が送られた時点で Commons と照合し、撮影者とライセンスとともに表示します。作り方と同じく、地域の人が確認するまでは未確認のままです。',
+    mostPublishedNote:
+      'いちばん多く公開されている版を、広まっている候補として扱います。それで本物の記録になるわけではありません。',
+    sevenChecksNote:
+      '七つの確認があり、それぞれ答えが付くか、空のまま残ります。空のままだと確からしさは下がります。推測で埋めることは決してありません。',
+    draftConfidence:
+      '/100 暫定の確からしさ',
+    unverifiedPendingTag:
+      '⚪ 未確認 — 地域の人による確認待ち',
+    oneSubmitterNote:
+      'その土地の投稿者が一人いることは根拠であって、証明ではありません。地域の人たちが確認するまで、記録は未確認のままです。',
+    threeConfirmationsNote:
+      'その土地に住む人、あるいはそこで作る人による三件の確認が、記録を未確認から引き上げます。',
+    conflictingAccountsNote:
+      '食い違う証言はどちらも残します。記録は、人が実際に語った伝統ごとに — 地域や集団ごとに一つずつ — 分かれ、どれかが本当のものだと宣言されることはありません。',
+    nowhereToSendNote:
+      '今のところ送り先がありません。自由に使える資料が持っているものはすべて読み終えたので、これから足りないのは、誰も書き残していない料理です。つまりこの用紙こそがアトラスの育ち方であり、送り先ができ次第、開きます。',
+    whereTheExampleEndsUp:
+      '例に挙げた記録は、こうして落ち着きます。根拠が見える形で公開され、空のままの確認は名指しされ、どの主張も誰が言ったのかまでたどれます。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
