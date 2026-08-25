@@ -1262,3 +1262,67 @@ so shipping it would have made the exact problem it was meant to fix slightly wo
 1.30 belonged to a different candidate in the working notes and was quoted against the wrong
 colour. Caught by computing the value before writing it into the token rather than trusting
 the proposal it came from.
+
+## The "From United States" rail is showing Korean and Chinese food
+
+Ajay, 2026-08-25, with a screenshot of the front page: *"is this correct?"* No. The rail
+headed **From United States** was showing Beef Wellington, Parmo, four Korean dishes and a
+breakfast burrito, each card's own place line naming a country other than the heading
+above it.
+
+### It is not the shelf, and it is not the origin script
+
+The shelf filter is `d.loc.country === country` and it is doing exactly that: built and
+inspected, **0 of the 12 records on the rail have a country other than "United States"**.
+Every card genuinely carries that country.
+
+`scripts/fix-origin-country.mjs` exists for the neighbouring problem — the cuisine ingest
+assigning a country from the category an article sits under, so pierogi came out Georgian.
+A dry run reports **0 records to check**: all 5,256 rows of `cuisines.json` are already
+`originChecked`, with 178 contested origins recorded. That pass is finished and it worked.
+
+### It is a duplicate that was never merged
+
+The catalogue holds the same dish twice, under two different countries:
+
+```
+Hotteok     South Korea/Korea    |  United States/Korea
+Ulmyeon     South Korea/-        |  United States/Korea
+Douzhi      China/Beijing        |  United States/China
+Huangjiu    China/-              |  United States/China
+```
+
+**142 names are held under more than one country.** The origin script corrected one twin
+and the other — imported by a different route, never origin-checked — kept the category's
+country. `isVaguerDuplicate` did not recognise the pair, so both survive into the
+catalogue, and the country rail picks up whichever half matches it. The bad halves all
+match "United States", which is why they arrive in a heap on that one rail.
+
+This is the same shape as the fault already recorded in `build.ts`: *"the ordering became
+visible when names were sentence-cased and 'pierogi' met 'Pierogi': the atlas held both."*
+That was fixed for casing. This pair differs by country, not by name.
+
+### What it costs beyond the rail
+
+- The catalogue total (17,774) counts duplicates, so every coverage figure the atlas
+  publishes is overstated by an unknown amount.
+- A reader can meet the same dish twice with two different origins and two scores, which
+  is precisely the claim the project exists to make carefully.
+
+### What to decide before fixing
+
+Not every same-name pair is a duplicate, and the difference matters here more than most
+places. `kabsa` sits under India and Yemen; `fish and chips` under the United Kingdom and
+the United States. One of those is a duplicate to merge and the other may be a genuinely
+contested origin, which the app already models properly with `originClaims` and must not
+resolve by picking a winner. A merge rule that cannot tell them apart would replace a
+visible error with an invisible one.
+
+Proposed, not done:
+
+1. Extend the origin check to `catalogue.json` — 2,063 rows carry a URL and none has ever
+   been origin-checked. That is where 8 of the 12 rail records come from.
+2. Teach `isVaguerDuplicate` the case where two records share a name and one record's
+   *region* names the other's *country* — that is the signature of this pair, and it is
+   distinguishable from a real contested origin.
+3. Re-run coverage after both, since the published totals move.
