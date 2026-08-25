@@ -89,7 +89,13 @@ const retryAfter = (res, attempt) => {
 const ALIASES = {
   'United States': ['united states', 'usa', 'u.s.', 'us', 'america', 'united states of america'],
   'United Kingdom': ['united kingdom', 'uk', 'britain', 'great britain', 'england', 'scotland', 'wales'],
-  'South Korea': ['south korea', 'korea', 'republic of korea'],
+  /*
+   * "Korean Peninsula" is what several articles say, and the atlas files Korean cuisine
+   * under South Korea — that is this project's existing convention, visible in the 22
+   * records already there, rather than a claim about the peninsula. Without this entry
+   * bossam read as unresolvable and stayed American.
+   */
+  'South Korea': ['south korea', 'korea', 'republic of korea', 'korean peninsula'],
   'North Korea': ['north korea'],
   Russia: ['russia', 'russian empire', 'soviet union', 'ussr'],
   'Czech Republic': ['czech republic', 'czechia', 'bohemia'],
@@ -237,11 +243,41 @@ async function wikitext(titles, attempt = 1) {
  * `place_of_origin` found one correction in three hundred records and left borscht
  * filed under China.
  */
+/**
+ * Read an infobox field, including the templated kind that runs over several lines.
+ *
+ * This took everything up to the first newline or pipe, which is right for
+ * `| country = Japan` and useless for the form a well-maintained food article uses:
+ *
+ *     | country = {{Flatlist|
+ *       * [[North Korea]]
+ *       * [[South Korea]]
+ *       }}
+ *
+ * The old expression captured the literal text "{{Flatlist" and matched no country at
+ * all — so seventeen unmistakably Korean dishes (bap, bossam, namul, sikhye) sat under
+ * the United States while their own articles named Korea one line further down. The pass
+ * reported them checked, and it had checked them: it looked in the right field and
+ * honestly found nothing it could read.
+ *
+ * A templated value is now read to the end of its template. Everything else is unchanged,
+ * and `countriesIn` still decides what any of it means.
+ */
+function fieldValue(source, name) {
+  const at = new RegExp(`\\|\\s*${name}\\s*=`, 'i').exec(source);
+  if (!at) return '';
+  const rest = source.slice(at.index + at[0].length);
+  const firstLine = rest.split('\n', 1)[0];
+  if (!firstLine.includes('{{')) return firstLine.split('|')[0];
+
+  // Templated: read to the closing braces, or to the next field at this level.
+  const end = rest.search(/\n\s*\}\}|\n\s*\|\s*\w+\s*=/);
+  return end === -1 ? rest.slice(0, 400) : rest.slice(0, end);
+}
+
 function originFields(text) {
   const source = text ?? '';
-  const place = /\|\s*place_of_origin\s*=\s*([^\n|]*)/i.exec(source)?.[1] ?? '';
-  const country = /\|\s*country\s*=\s*([^\n|]*)/i.exec(source)?.[1] ?? '';
-  return `${place} , ${country}`;
+  return `${fieldValue(source, 'place_of_origin')} , ${fieldValue(source, 'country')}`;
 }
 
 const titleFrom = (url) => {
@@ -257,8 +293,10 @@ const main = async () => {
   const i = process.argv.indexOf('--limit');
   const limit = i > -1 ? Number(process.argv[i + 1]) : 0;
 
+  /* --recheck re-reads rows already marked, for when the reader itself gets better. */
+  const recheck = process.argv.includes('--recheck');
   const rows = JSON.parse(await readFile(CUISINES, 'utf8'));
-  const pending = rows.filter((r) => r.url && !r.originChecked);
+  const pending = rows.filter((r) => r.url && (recheck || !r.originChecked));
   const targets = limit ? pending.slice(0, limit) : pending;
   process.stdout.write(`${targets.length} records to check.\n`);
 

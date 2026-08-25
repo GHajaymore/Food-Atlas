@@ -723,11 +723,25 @@ describe('a card names a place that agrees with its record', () => {
     expect(specific.length).toBeGreaterThan(1000);
   });
 
-  it('falls back to the country for the records that prompted this', () => {
-    for (const name of ['Tofu', 'Chicken à la King']) {
-      const d = catalogue.find((x) => x.name === name);
-      if (!d) continue;
-      expect(cardPlace(d.breadcrumb, d.loc.country)).toBe(d.loc.country);
-    }
+  it('falls back to the country for a record whose origin is contested', () => {
+    /*
+     * Tofu is the case that has to keep working: filed under the United States, claiming
+     * nine countries including China, so its region says China and its card must not.
+     *
+     * "Chicken à la King" was here too and has been removed on purpose. Its country was
+     * United States with region England, and the misfiling repair moved it to the United
+     * Kingdom — so its card now reads "England", which is correct, sub-national and the
+     * whole reason the breadcrumb exists. It stopped being a fallback case because the
+     * data underneath it got fixed, not because the rule changed.
+     */
+    /*
+     * By country, not by name. The atlas still holds two tofu records — one Chinese, one
+     * American — which is the unresolved duplicate problem recorded in docs/queue.md, and
+     * a plain `find` returns whichever the build happens to order first. This test wants
+     * the American one specifically, and said so only after picking up the other by
+     * accident.
+     */
+    const tofu = catalogue.find((x) => x.name === 'Tofu' && x.loc.country === 'United States');
+    expect(tofu && cardPlace(tofu.breadcrumb, tofu.loc.country)).toBe('United States');
   });
 });

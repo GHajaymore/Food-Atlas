@@ -1429,3 +1429,66 @@ atlas knows South Korea and North Korea but not a bare "Korea" — and the scrip
 that a wrong country is worse than a coarse one. Folding bare "Korea" onto South Korea is
 an inference the project should make deliberately or not at all; `countryNames.ts` already
 warns against exactly that fold for the North.
+
+### Bap, and the fifteen dishes behind it
+
+`Bap` was showing "Korea" under a rail headed *From United States*. It was origin-checked
+and deliberately left, and finding out why turned up two real gaps in the reader rather
+than one stubborn record.
+
+**The infobox reader could not see a templated field.** It took everything up to the first
+newline, which is right for `| country = Japan` and useless for what a well-maintained
+article actually has:
+
+```
+| country = {{Flatlist|
+  * [[North Korea]]
+  * [[South Korea]]
+  }}
+```
+
+It captured the literal text `{{Flatlist` and matched no country at all. The pass reported
+those records checked and it had checked them — it looked in the right field and honestly
+found nothing it could read. Reading a templated value to the end of its template fixed
+`bap` and `bossam`, and incidentally found tofu's full nine origin claims where it had
+previously seen two.
+
+**"Korean Peninsula" was not an alias.** Several articles say that rather than naming a
+state. The atlas files Korean cuisine under South Korea — its own existing convention,
+visible in the 22 records already there — so that is where the alias points.
+
+`--recheck` re-runs rows already marked, which is what a better reader needs.
+
+**Fifteen were left, and needed a different kind of evidence.** Eight have no article at
+all and the rest name no origin in a field the reader understands, so `fix-origin-country`
+could never reach them. Their `region` says "Korea" while their country says United States
+— and the country is the category-derived value this whole exercise has shown to be
+unreliable. `scripts/fix-misfiled-country.mjs` promotes the region where the two are on
+different continents. 31 records moved: 15 Korean, 9 British, 6 Chinese, 1 Czech.
+
+**Cross-continent is the whole design of that script.** Without the limit it also moves
+`sour rye soup` from Poland to the Czech Republic, `alu tikki` from India to Bangladesh and
+`matta rice` from India to Sri Lanka. Żurek is Polish and aloo tikki is Indian; those are
+neighbours sharing a dish, which is a fact about food rather than a filing error. Korea is
+not a neighbouring claim on an American dish. Same discriminator as the card's place line,
+and the same reasoning.
+
+Two bugs in that script were caught by measuring rather than reading:
+
+- Resolving the target with the app's general country lookup moved nine British dishes to
+  a country called **"England"** and five American ones to a country called **"Hawaii"**.
+  The atlas files those under the United Kingdom and the United States, and inventing them
+  as countries would have corrupted the coverage figure. It uses `fix-origin-country`'s
+  curated alias table instead, read from that file so the two cannot drift.
+- The continent map took the last row's word for each country, which is circular: the
+  records this script exists to move are the ones carrying a correct continent beside a
+  wrong country. "United States" appears against Elsewhere, Asia, Europe and North America,
+  so the United States came out in Europe and the cross-continent test silently stopped
+  firing. Nine British dishes were skipped and the run looked clean. A majority vote is not
+  fooled by twenty-two strays.
+
+The rail now reads: peanut butter and jelly, muffuletta, St. Paul sandwich, chow mein
+sandwich (Fall River), yaka mein, fortune cookie, Bananas Foster (New Orleans).
+
+Total 17,740, countries 156. Two records with region "Korea" remain elsewhere and are
+correct to: they carry recorded origin claims, so a dispute rather than a misfiling.
