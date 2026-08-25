@@ -18,7 +18,24 @@ export const accentAlpha = (pct: number) => `rgba(217, 164, 65, ${pct / 100})`;
 
 export const color = {
   bg: '#161826',
-  surface: '#232532',
+  /*
+   * A card, and it has to be visible as one.
+   *
+   * #232532 measured 1.16:1 against the ground, which is not a surface — it is the page
+   * with a hairline drawn round it. Every card in the app was held together by its 1px
+   * border alone: remove the border and the card disappeared. Cards, fields, the language
+   * dropdown and the feed's tinted panel all draw from this, so all four were doing it.
+   *
+   * #2a2d43 measures 1.30:1 — hue 233, the same blue family as the ground at lightness 21
+   * against 12, so this is the surface lifted rather than tinted. Still quiet, because the
+   * design's rule is that this ground stays dark and the accent does the pointing, but a
+   * card is now a thing laid on a page rather than an outline of one.
+   *
+   * The proposal that led here first named #1f2233 and claimed 1.30:1 for it. That value
+   * measures 1.12 — darker than what it replaced, so it would have made the problem worse.
+   * The 1.30 belonged to a different candidate and was quoted against the wrong hex.
+   */
+  surface: '#2a2d43',
   text: '#e9e9ed',
   /**
    * Grain gold.
@@ -37,10 +54,26 @@ export const color = {
   /** --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent) */
   divider: textAlpha(16),
 
-  /** .text-muted — 55% alpha. Used for every secondary line in the design. */
-  muted: textAlpha(55),
-  /** .card-meta — 50% alpha, one step quieter than muted. */
-  meta: textAlpha(50),
+  /*
+   * The secondary-text ladder, raised so both steps have somewhere to fall.
+   *
+   * It was 55% and 50%. On the page those measure 5.19 and 4.52 against a required 4.5 —
+   * the second passing by two hundredths. On a card they are worse, because the ground
+   * beneath the alpha is lighter: 4.83 and **4.25**, so `meta` was already failing AA
+   * anywhere it sat on a surface, which is most of where card metadata lives.
+   *
+   * 64% and 58% measure 6.59 and 5.63 on the page, and 5.54 and 4.84 on the new card —
+   * the card being the tightest ground either now lands on. Both pass everywhere with room
+   * that a rounding change cannot eat.
+   *
+   * Two steps, not the three the proposal sketched. The third would have no consumer, and
+   * a token with no consumer is the failure this file has already hosted twice: `faint`
+   * lasted for months because nobody measured it, and three spacing steps sat here unused
+   * while the pages kept a phone's rhythm. If a quieter role appears, add the step then,
+   * with its contrast figure in the comment.
+   */
+  muted: textAlpha(64),
+  meta: textAlpha(58),
   /*
    * `faint` — 45% alpha — was here and is gone.
    *

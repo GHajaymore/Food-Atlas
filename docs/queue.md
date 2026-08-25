@@ -1230,3 +1230,35 @@ Two false starts, both caught by measuring rather than reading:
 - Backticks inside a CSS comment closed the stylesheet's template literal again, reporting
   the error three lines further on. Second time in this session; there is now a note in the
   file saying so.
+
+### Option A applied — the two palette values that were wrong
+
+Ajay chose option A from the colour proposal: keep the theme, fix what measures badly.
+
+**The card surface, #232532 → #2a2d43.** 1.16:1 becomes 1.30:1. Hue 233 either way, so this
+is the surface lifted rather than tinted — lightness 21 against the ground's 12. Cards,
+form fields, the language dropdown and the feed's tinted panel all draw from this token, so
+all four were previously an outline with the page showing through.
+
+**The secondary-text ladder, 55/50 → 64/58.** The old pair measured 5.19 and 4.52 on the
+page. On a *card* they measured 4.83 and **4.25** — so `meta` was already failing AA
+wherever it sat on a surface, which is most of where card metadata lives. The earlier
+contrast sweep missed it because the pages it checked happened to render few cards. The new
+pair measures 6.59 / 5.63 on the page and 5.54 / 4.84 on the new card, which is the
+tightest ground either lands on.
+
+Two steps, not the three the proposal sketched: the third would have had no consumer, and a
+token with no consumer is the failure this file has hosted twice already.
+
+| | before | after |
+|---|---|---|
+| card against the page | 1.16:1 | 1.30:1 |
+| worst text node in the app | 4.52:1 | 5.54:1 |
+| text nodes failing AA | 0 on the pages sampled, but `meta` on any card was 4.25 | 0, verified on /, /how, /dish |
+
+**A correction worth recording.** The proposal named **#1f2233** for the new surface and
+claimed 1.30:1 for it. That hex measures **1.12** — *darker* than the value it was replacing,
+so shipping it would have made the exact problem it was meant to fix slightly worse. The
+1.30 belonged to a different candidate in the working notes and was quoted against the wrong
+colour. Caught by computing the value before writing it into the token rather than trusting
+the proposal it came from.
