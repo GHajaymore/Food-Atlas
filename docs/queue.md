@@ -1536,3 +1536,39 @@ copy — Latin "cul" spliced onto a Cyrillic word, invisible to anyone who canno
 Russian and obviously wrong to anyone who can. The prose script's own validator missed it,
 because it checked for Cyrillic in non-Russian strings and not the reverse. There is a test
 now that refuses any word mixing the two scripts, in any of the twelve languages.
+
+### The record page on a phone: three caveats ahead of the name
+
+The record screen had never been measured at phone size. At 375 a reader met, in order:
+
+```
+  63  [photograph]
+ 322  "Matched by name on Wikimedia Commons — the subject may differ · photo via …"
+ 372  "⚪ Unverified — insufficient evidence"
+ 401  "Photo origin unverified"
+ 429  Pakora
+```
+
+Three disclaimers before the name of the thing. This is the same fault as the score
+outranking the dish on the desktop record, in a different costume.
+
+The provenance sentence was there because it carried the attribution in full, which is why
+the photograph had `hideCredit`. Letting the image carry its own credit — the overlay every
+other photograph in the app already uses — satisfies the licence where the licence wants
+it, beside the picture, and frees the sentence to move below the title.
+
+```
+  63  [photograph]
+ 291  Rajeeb Dutta · CC BY-SA 4.0      (inside the image, 63–314)
+ 344  Pakora
+ 390  ⚪ Unverified — insufficient evidence
+```
+
+The name moves 429 → 344 and is the first text after the photograph rather than the
+fourth. Desktop keeps its order and its 46px title. Nothing fails AA on either.
+
+**A note on the measurement, not the page.** A probe reported five contrast failures and
+they were `<title>`, `<style>` and `<noscript>` — head content, picked up because that
+version of the probe had dropped the `getBoundingClientRect()` visibility filter the
+earlier audits used. Worth recording because it is the shape of a false alarm that wastes a
+morning: the tool changed, not the app.

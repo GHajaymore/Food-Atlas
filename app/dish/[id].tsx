@@ -187,27 +187,25 @@ export default function DishDetail() {
           actually knows: its classification and its name. */}
       {dish.photo ? (
         <>
-          <Photo
-            uri={dish.photo}
-            credit={dish.credit}
-            label={dish.name}
-            style={styles.hero}
-            // The provenance line directly below carries the attribution in full.
-            hideCredit
-          />
-
-          {/* Where the photograph itself was taken, or that the source does not
-              record it. */}
-          <View style={styles.photoProvenance}>
-            <View style={styles.cameraIcon}>
-              <CameraIcon size={12} color={color.muted} />
-            </View>
-            <Muted style={styles.photoProvenanceText}>
-              {photoOriginLabel(copy, dish.photoOrigin)} · {copy.photoVia} {dish.credit}
-            </Muted>
-          </View>
+          {/*
+           * The credit rides on the photograph again.
+           *
+           * It was hidden here because the provenance sentence below carried the
+           * attribution in full — which was true, and the reason that sentence had to sit
+           * between the photograph and the dish's name. Measured on a 375 phone, a reader
+           * met the image, then a line about how the image was matched, then two caveat
+           * tags, and only at 429px the word "Pakora". Three disclaimers ahead of the name
+           * of the thing.
+           *
+           * Letting the image carry its own credit — the overlay every other photograph in
+           * the app uses — keeps the licence satisfied where the licence requires it,
+           * beside the picture, and frees the sentence to move below the title.
+           */}
+          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.hero} />
         </>
       ) : null}
+
+      <H2 style={styles.title}>{dish.name}</H2>
 
       <View style={styles.badges}>
         {/*
@@ -232,12 +230,26 @@ export default function DishDetail() {
         {dish.atRisk ? <Tag label={copy.tagAtRiskTradition} variant="outline" /> : null}
       </View>
 
-      <H2 style={styles.title}>{dish.name}</H2>
-
       {/* Directly under the name, because that is what these are about, and above
           everything else because a reader looking for their own language should not
-          have to scroll past the method to find out the app knows it. */}
+          have to scroll past the method to find out the app knows it. The badges sit
+          between the two now and cost about thirty pixels, which is not the scroll that
+          rule was written against. */}
       <LocalNames names={dish.localNames} original={dish.name} />
+
+      {/* Where the photograph itself was taken, or that the source does not record it.
+          Below the record's own identity rather than above it: this is a caveat about an
+          image, and it was standing in front of the name of the dish. */}
+      {dish.photo ? (
+        <View style={styles.photoProvenance}>
+          <View style={styles.cameraIcon}>
+            <CameraIcon size={12} color={color.muted} />
+          </View>
+          <Muted style={styles.photoProvenanceText}>
+            {photoOriginLabel(copy, dish.photoOrigin)} · {copy.photoVia} {dish.credit}
+          </Muted>
+        </View>
+      ) : null}
 
       {/*
        * The breadcrumb, with every step a link to that place.
@@ -818,7 +830,9 @@ const styles = StyleSheet.create({
   badges: { flexDirection: 'row', gap: 6, flexWrap: 'wrap', marginBottom: 10 },
   unverified: { opacity: 0.75 },
 
-  title: { marginBottom: 6 },
+  /* Space above, now that it follows the photograph directly rather than a line of
+     provenance that was supplying the gap. */
+  title: { marginTop: 14, marginBottom: 6 },
   contested: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 6, marginBottom: 2 },
   alsoRecorded: { marginTop: 4, marginBottom: 4 },
   alsoLinks: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: 4 },
