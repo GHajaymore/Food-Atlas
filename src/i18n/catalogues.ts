@@ -1133,6 +1133,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Todavía falta: {list}.',
     listAnd:
       '{list} y {last}',
+    listOr:
+      '{list} o {last}',
     proposalConfirmed:
       'Confirmado. Entra en el atlas en la próxima actualización.',
     proposalNobodyYet:
@@ -1159,6 +1161,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'aquí paran los documentos',
     scaleAuthenticBegins:
       'empieza Auténtico',
+    pantryNothingUses:
+      'Nada de lo registrado usa {list}. Puede que nadie haya escrito un plato que lo haga: el {p}% del atlas no tiene ningún ingrediente anotado.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2258,6 +2262,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Il manque encore : {list}.',
     listAnd:
       '{list} et {last}',
+    listOr:
+      '{list} ou {last}',
     proposalConfirmed:
       'Confirmé. Entre dans l’atlas à la prochaine mise à jour.',
     proposalNobodyYet:
@@ -2284,6 +2290,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'les documents s’arrêtent ici',
     scaleAuthenticBegins:
       'Authentique commence',
+    pantryNothingUses:
+      'Rien de ce qui est consigné n’utilise {list}. Cela peut vouloir dire que personne n’a noté un plat qui le fasse : {p}% de l’atlas n’a aucun ingrédient renseigné.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3382,6 +3390,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Es fehlt noch: {list}.',
     listAnd:
       '{list} und {last}',
+    listOr:
+      '{list} oder {last}',
     proposalConfirmed:
       'Bestätigt. Kommt beim nächsten Update in den Atlas.',
     proposalNobodyYet:
@@ -3408,6 +3418,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'hier enden die Belege',
     scaleAuthenticBegins:
       'ab hier authentisch',
+    pantryNothingUses:
+      'Nichts im Bestand verwendet {list}. Vielleicht hat nur niemand ein Gericht aufgeschrieben, das es tut — bei {p}% des Atlas ist überhaupt keine Zutat vermerkt.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4506,6 +4518,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Manca ancora: {list}.',
     listAnd:
       '{list} e {last}',
+    listOr:
+      '{list} o {last}',
     proposalConfirmed:
       'Confermato. Entra nell’atlante al prossimo aggiornamento.',
     proposalNobodyYet:
@@ -4532,6 +4546,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'qui finiscono i documenti',
     scaleAuthenticBegins:
       'inizia Autentico',
+    pantryNothingUses:
+      'Niente di registrato usa {list}. Può darsi che nessuno abbia scritto un piatto che lo faccia: il {p}% dell’atlante non ha alcun ingrediente annotato.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5631,6 +5647,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ainda falta: {list}.',
     listAnd:
       '{list} e {last}',
+    listOr:
+      '{list} ou {last}',
     proposalConfirmed:
       'Confirmado. Entra no atlas na próxima atualização.',
     proposalNobodyYet:
@@ -5657,6 +5675,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'aqui param os documentos',
     scaleAuthenticBegins:
       'começa Autêntico',
+    pantryNothingUses:
+      'Nada do que está registado usa {list}. Pode ser que ninguém tenha escrito um prato que use: {p}% do atlas não tem qualquer ingrediente anotado.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6755,6 +6775,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nog nodig: {list}.',
     listAnd:
       '{list} en {last}',
+    listOr:
+      '{list} of {last}',
     proposalConfirmed:
       'Bevestigd. Komt bij de volgende bijwerking in de atlas.',
     proposalNobodyYet:
@@ -6781,6 +6803,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'hier houden bronnen op',
     scaleAuthenticBegins:
       'vanaf hier authentiek',
+    pantryNothingUses:
+      'Niets in de atlas gebruikt {list}. Misschien heeft alleen niemand een gerecht opgeschreven dat het doet — bij {p}% staat helemaal geen ingrediënt vermeld.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7880,6 +7904,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Brakuje jeszcze: {list}.',
     listAnd:
       '{list} i {last}',
+    listOr:
+      '{list} lub {last}',
     proposalConfirmed:
       'Potwierdzone. Trafi do atlasu przy najbliższej aktualizacji.',
     proposalNobodyYet:
@@ -7906,6 +7932,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tu kończą się dokumenty',
     scaleAuthenticBegins:
       'tu zaczyna się Autentyczne',
+    pantryNothingUses:
+      'Nic z zapisanego nie używa {list}. Może po prostu nikt nie zapisał dania, które używa — przy {p}% atlasu nie ma podanego żadnego składnika.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9004,6 +9032,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Hâlâ gereken: {list}.',
     listAnd:
       '{list} ve {last}',
+    listOr:
+      '{list} ya da {last}',
     proposalConfirmed:
       'Doğrulandı. Bir sonraki güncellemede atlasa girer.',
     proposalNobodyYet:
@@ -9030,6 +9060,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'belgeler burada biter',
     scaleAuthenticBegins:
       'Özgün burada başlar',
+    pantryNothingUses:
+      'Kayıtlı hiçbir şey {list} kullanmıyor. Bunu kullanan bir yemeği kimsenin yazmamış olması da olabilir — atlasın {p}% kadarında hiçbir malzeme yazılı değil.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10129,6 +10161,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ещё нужно: {list}.',
     listAnd:
       '{list} и {last}',
+    listOr:
+      '{list} или {last}',
     proposalConfirmed:
       'Подтверждено. Попадёт в атлас при следующем обновлении.',
     proposalNobodyYet:
@@ -10155,6 +10189,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'здесь документы кончаются',
     scaleAuthenticBegins:
       'начинается Подлинное',
+    pantryNothingUses:
+      'Ничто из записанного не использует {list}. Возможно, просто никто не записал такое блюдо — у {p}% атласа не указано ни одного ингредиента.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11254,6 +11290,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'अब भी चाहिए: {list}।',
     listAnd:
       '{list} और {last}',
+    listOr:
+      '{list} या {last}',
     proposalConfirmed:
       'पुष्ट। अगली बार अद्यतन होने पर यह एटलस में आ जाएगा।',
     proposalNobodyYet:
@@ -11280,6 +11318,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'यहाँ दस्तावेज़ रुक जाते हैं',
     scaleAuthenticBegins:
       'यहाँ से प्रामाणिक',
+    pantryNothingUses:
+      'दर्ज किसी भी चीज़ में {list} नहीं है। हो सकता है किसी ने ऐसा व्यंजन लिखा ही न हो — एटलस के {p}% हिस्से में कोई सामग्री दर्ज ही नहीं है।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12379,6 +12419,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '还需要：{list}。',
     listAnd:
       '{list}和{last}',
+    listOr:
+      '{list} 或 {last}',
     proposalConfirmed:
       '已确认。下次更新时会进入图册。',
     proposalNobodyYet:
@@ -12405,6 +12447,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '文献到此为止',
     scaleAuthenticBegins:
       '本真从这里开始',
+    pantryNothingUses:
+      '已记录的条目都没有用到 {list}。也可能只是没人写下用它的菜——图册里有 {p}% 根本没有列出任何食材。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -13504,6 +13548,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'あと必要なもの：{list}。',
     listAnd:
       '{list}と{last}',
+    listOr:
+      '{list} か {last}',
     proposalConfirmed:
       '確認されました。次の更新でアトラスに入ります。',
     proposalNobodyYet:
@@ -13530,6 +13576,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '資料はここまで',
     scaleAuthenticBegins:
       'ここから本物',
+    pantryNothingUses:
+      '記録のあるものに {list} を使うものはありません。使う料理を誰も書き残していないだけかもしれません。アトラスの {p}% には材料が一つも記載されていません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

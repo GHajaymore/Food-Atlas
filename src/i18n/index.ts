@@ -133,3 +133,30 @@ export const useLocale = create<LocaleState>((set) => {
  * component from re-rendering when the locale is set to what it already was.
  */
 export const useCopy = (): Copy => useLocale((state) => state.copy);
+
+/**
+ * Join a list with the reader's own conjunction.
+ *
+ * Three places built a list by hand, and one of them joined with a literal `' or '` — so
+ * the single word holding a French reader's ingredients together was English. The
+ * conjunction is the part of a list that has to be translated, which makes it exactly the
+ * part that should not be typed at a call site.
+ *
+ * Everything before the final pair is comma-joined; only the last join takes the word.
+ * That is wrong for a handful of languages that punctuate lists differently, and right for
+ * the twelve shipped here — a real list formatter is `Intl.ListFormat`, which is worth
+ * moving to if the locale set ever grows past what these catalogues cover.
+ */
+function join(pattern: string, items: string[]): string {
+  const parts = items.filter(Boolean);
+  if (parts.length <= 1) return parts[0] ?? '';
+  return pattern
+    .replace('{list}', parts.slice(0, -1).join(', '))
+    .replace('{last}', parts[parts.length - 1]);
+}
+
+/** "a, b and c". */
+export const joinAnd = (copy: Copy, items: string[]): string => join(copy.listAnd, items);
+
+/** "a, b or c" — for a list of things any one of which would do. */
+export const joinOr = (copy: Copy, items: string[]): string => join(copy.listOr, items);

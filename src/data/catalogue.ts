@@ -40,10 +40,26 @@ export let catalogueStats: CatalogueStats = {
   imported: 0,
   withheld: 0,
   countries: 0,
+  withIngredients: 0,
 };
 
 export const dishById = (id: number | null | undefined): Dish | undefined =>
   catalogue.find((d) => d.id === id);
+
+/**
+ * What share of the atlas lists no ingredients at all, as a whole percentage.
+ *
+ * The pantry search needs this to explain an empty result honestly, and it was asserting
+ * "about half" — a figure nobody counted, and wrong by a factor that mattered. Counted
+ * here instead, from the same stats the atlas page reports.
+ *
+ * Zero before the catalogue has loaded, which is the truthful answer to "what share of
+ * nothing": the screens that use it only render after `loadCatalogue` has resolved.
+ */
+export const shareWithoutIngredients = (): number =>
+  catalogueStats.total === 0
+    ? 0
+    : Math.round(((catalogueStats.total - catalogueStats.withIngredients) / catalogueStats.total) * 100);
 
 /**
  * Where the data sits.

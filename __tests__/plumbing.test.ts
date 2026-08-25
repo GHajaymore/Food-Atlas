@@ -24,9 +24,11 @@
  * value is *right* — the domain tests do that — only that it arrives.
  */
 
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { buildCatalogue } from '../src/data/build';
+import { EN } from '../src/i18n/copy';
+import { copyFor, joinOr, UI_LOCALES } from '../src/i18n';
 import type { Confirmation } from '../src/domain/confirmations';
 import type { Dish } from '../src/domain/types';
 
@@ -505,5 +507,143 @@ describe('a region is a place, not a branch of a category tree', () => {
   it('loses no country, and no large number of records, to the repair', () => {
     expect(catalogueStats.total).toBeGreaterThan(17_000);
     expect(catalogueStats.countries).toBe(157);
+  });
+});
+
+/**
+ * English typed into a screen that already had the sentence translated.
+ *
+ * `LeadDish` rendered the literal text "photo via" while `copy.photoVia` existed and was
+ * used correctly two screens away, so the hero card on the front page was English in all
+ * twelve languages. The pantry search had a whole paragraph the same way — and the figure
+ * inside it was guessed: it claimed about half the atlas lists no ingredients, where the
+ * counted share is 59%.
+ *
+ * Nothing catches this by construction. `keyof Copy` is a string, so a screen that simply
+ * never looks a key up compiles and passes every other test; the only symptom is a reader
+ * in another language meeting a sentence of English.
+ *
+ * So this looks the other way round: for every English value in the catalogue, does that
+ * exact text appear in a screen or a component? If it does, either the screen should be
+ * reading the key or the key is dead.
+ *
+ * Deliberately not applied to `src/domain` and `src/data`. Those hold English canonical
+ * values on purpose — a dimension is stored as "Traditional technique" and translated at
+ * render by `scoreDimensionLabel` — and asserting against them would be asserting the
+ * design is wrong.
+ */
+describe('no screen types out English the catalogue already holds', () => {
+  /* Each entry carries the path to read and the name to report, so nothing has to
+     un-mangle a Windows separator back into a repo-relative path afterwards. */
+  const uiFiles = (() => {
+    const out: { path: string; name: string }[] = [];
+    const walk = (dir: string, prefix: string) => {
+      for (const entry of readdirSync(dir)) {
+        const p = join(dir, entry);
+        const name = `${prefix}/${entry}`;
+        if (statSync(p).isDirectory()) walk(p, name);
+        else if (entry.endsWith('.tsx')) out.push({ path: p, name });
+      }
+    };
+    walk(resolve(__dirname, '../app'), 'app');
+    walk(resolve(__dirname, '../src/components'), 'src/components');
+    return out;
+  })();
+
+  /*
+   * The admin console's "Source checks" block is English on purpose and is the one
+   * exception. It is one person's maintenance screen, it is reached from nowhere in the
+   * public navigation, and translating it into twelve languages would be work for an
+   * audience of one. Named here rather than left to look like an oversight — if it ever
+   * becomes a screen more than one person opens, this entry is the reminder.
+   */
+  const ALLOWED = new Set(['app/admin.tsx']);
+
+  /*
+   * Single words match prose by coincidence — "Stew" appears in any number of sentences —
+   * so a value has to be at least two words and six characters to be checked.
+   *
+   * Six, not twelve. Twelve was the first guess and it let the original defect straight
+   * through: "photo via" is nine characters, so the guard written for that bug did not
+   * catch that bug. Measured at every floor from six to twelve; six adds exactly two more
+   * hits across the whole UI and both are in the allow-listed console, so the strictest
+   * useful floor is free.
+   */
+  const worthChecking = Object.entries(EN).filter(
+    ([, v]) => typeof v === 'string' && v.length >= 6 && v.trim().split(/\s+/).length >= 2 && !/[{}]/.test(v),
+  ) as [string, string][];
+
+  it('has values long enough to be worth checking', () => {
+    expect(worthChecking.length).toBeGreaterThan(100);
+  });
+
+  it('finds no screen rendering a copy value as a literal', () => {
+    const found: string[] = [];
+    for (const { path, name } of uiFiles) {
+      if (ALLOWED.has(name)) continue;
+      // A doc comment quoting the copy it documents is not a defect.
+      const code = readFileSync(path, 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/^\s*\/\/.*$/gm, '');
+      for (const [key, value] of worthChecking) {
+        if (code.includes(value)) found.push(`${name} types out copy.${key}: "${value}"`);
+      }
+    }
+    expect(found).toEqual([]);
+  });
+});
+
+/**
+ * The pantry note reports a counted figure, in the reader's own language.
+ *
+ * It used to say "about half the atlas has no ingredients listed", in English, inside a
+ * screen every other line of which was translated. The number was not measured — counted,
+ * it is 10,429 of 17,774 — and on a screen whose entire purpose is to explain how little
+ * has been recorded, a guessed figure is the one thing it cannot afford. It also moves:
+ * every enrichment pass changes it, so any number typed into a sentence goes stale.
+ *
+ * Both halves are asserted here: the share comes from the catalogue, and the sentence
+ * that carries it exists in every language with both placeholders intact.
+ */
+describe('the pantry note counts rather than estimates', () => {
+  const share = Math.round(((catalogueStats.total - catalogueStats.withIngredients) / catalogueStats.total) * 100);
+
+  it('counts records that list an ingredient', () => {
+    expect(catalogueStats.withIngredients).toBe(catalogue.filter((d) => (d.ingredients?.length ?? 0) > 0).length);
+    expect(catalogueStats.withIngredients).toBeGreaterThan(0);
+    expect(catalogueStats.withIngredients).toBeLessThan(catalogueStats.total);
+  });
+
+  /* Deliberately a wide band rather than 59. The point is that the sentence reports a
+     counted figure, not that the figure holds still — an enrichment pass is supposed to
+     move it, and a test pinned to today's value would fail on a successful pass. */
+  it('reports a real share, not the "about half" it used to claim', () => {
+    expect(share).toBeGreaterThan(50);
+    expect(share).toBeLessThan(100);
+  });
+
+  it('carries the sentence, with both placeholders, in every language', () => {
+    const missing: string[] = [];
+    for (const locale of UI_LOCALES) {
+      const value = copyFor(locale).pantryNothingUses;
+      if (!value) missing.push(`${locale}: absent`);
+      else {
+        for (const token of ['{list}', '{p}']) {
+          if (value.split(token).length - 1 !== 1) missing.push(`${locale}: ${token}`);
+        }
+        // The figure must arrive through the placeholder, never be baked into a sentence.
+        if (/\d/.test(value.replace('{p}', ''))) missing.push(`${locale}: has a typed number`);
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+
+  it('joins the reader list with their own conjunction, not "or"', () => {
+    expect(joinOr(copyFor('en'), ['rice'])).toBe('rice');
+    expect(joinOr(copyFor('en'), ['rice', 'yam'])).toBe('rice or yam');
+    expect(joinOr(copyFor('en'), ['rice', 'yam', 'okra'])).toBe('rice, yam or okra');
+    expect(joinOr(copyFor('fr'), ['riz', 'igname'])).toBe('riz ou igname');
+    expect(joinOr(copyFor('de'), ['Reis', 'Yams'])).toBe('Reis oder Yams');
+    expect(joinOr(copyFor('en'), [])).toBe('');
   });
 });

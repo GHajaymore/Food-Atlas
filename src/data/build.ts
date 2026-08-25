@@ -1405,6 +1405,7 @@ const validImported = [...fromCuisines, ...imported]
   // Countries only. An origin recorded as a region or a former state is kept on the
   // record and is not counted as a country here — see `isCountry`.
   countries: new Set(catalogue.map((d) => d.loc.country).filter(isCountry)).size,
+  withIngredients: catalogue.filter((d) => (d.ingredients?.length ?? 0) > 0).length,
 };
 
   return { catalogue, stats };
@@ -1418,6 +1419,16 @@ export interface CatalogueStats {
   /** Rows on disk with nothing to show yet, awaiting enrichment. */
   withheld: number;
   countries: number;
+  /**
+   * Records that list at least one ingredient.
+   *
+   * Here because the pantry search told readers that "about half the atlas has no
+   * ingredients listed" — a figure that was typed rather than counted. Counted, it is
+   * 10,429 of 17,774, or 59%: not the wild miss it might have been, but not "about half"
+   * either, and the number moves every time an enrichment pass runs. A screen that
+   * reports how little is known cannot itself be guessing at how little is known.
+   */
+  withIngredients: number;
 }
 
 /**

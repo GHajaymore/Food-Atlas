@@ -599,7 +599,7 @@ export default function Admin() {
           placeholder={copy.tokenNotStored}
           secureTextEntry
           autoCapitalize="none"
-          accessibilityLabel="Administrator token"
+          accessibilityLabel={copy.administratorToken}
         />
       </Field>
 

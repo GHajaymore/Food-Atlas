@@ -101,7 +101,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
           {/* The quietest line on the card. A photograph this size with its attribution
               burned into the corner reads as stock imagery. */}
           <Muted style={styles.credit} numberOfLines={1}>
-            photo via {dish.credit}
+            {copy.photoVia} {dish.credit}
           </Muted>
         </View>
       </Card>

@@ -22,7 +22,7 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
-import { catalogue as dishes } from '../src/data/catalogue';
+import { catalogue as dishes, shareWithoutIngredients } from '../src/data/catalogue';
 import { CLASSIFICATIONS, levelLabel } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { cookWith, parsePantry } from '../src/domain/pantry';
@@ -31,7 +31,7 @@ import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
-import { useCopy, type Copy } from '../src/i18n';
+import { joinOr, useCopy, type Copy } from '../src/i18n';
 import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
@@ -199,10 +199,19 @@ export default function Search() {
 
           {pantryTerms.length ? (
             <>
+              {/*
+               * This paragraph was typed out in English inside a translated screen, and
+               * the figure in it was guessed: it said "about half" where the count is
+               * 10,429 of 17,774, or 59%. Counted from the catalogue now, because a note
+               * whose whole job is to say how little has been recorded cannot itself be
+               * estimating — and because the figure moves whenever a pass adds
+               * ingredients, so a number typed here would drift out of date silently.
+               */}
               {pantry.missing.length ? (
                 <Muted style={styles.pantryNote}>
-                  Nothing recorded uses {pantry.missing.join(' or ')}. That may mean nobody has
-                  written down a dish that does — about half the atlas has no ingredients listed.
+                  {copy.pantryNothingUses
+                    .replace('{list}', joinOr(copy, pantry.missing))
+                    .replace('{p}', String(shareWithoutIngredients()))}
                 </Muted>
               ) : null}
 

@@ -38,6 +38,7 @@ import {
   REQUIRED_LABELS,
   type Contribution,
 } from '../src/domain/contribution';
+import { levelLabel } from '../src/domain/authenticity';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
 import { stillNeeded, tidyText } from '../src/domain/entry';
 import { openAtSource } from '../src/domain/video';
@@ -333,7 +334,11 @@ export default function Contribute() {
           </Card>
 
           <Block accent style={styles.publishedBlock}>
-            <Tag label="🟢 Authentic — Local · 78/100" variant="neutral" fontSize={10} />
+            {/* The badge this example would end up carrying, built the way a real one is.
+                It was typed out in English, so a reader in any other language met the one
+                badge in the app that had not been translated — inside the screen that
+                explains what the badges mean. */}
+            <Tag label={`🟢 ${levelLabel(copy, 'local')} · 78/100`} variant="neutral" fontSize={10} />
             <Muted style={styles.publishedNote}>
               {copy.whereTheExampleEndsUp}
             </Muted>

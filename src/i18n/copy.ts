@@ -714,6 +714,7 @@ export interface Copy {
   youProposedThis: string;
   stillNeededList: string;
   listAnd: string;
+  listOr: string;
   proposalConfirmed: string;
   proposalNobodyYet: string;
   proposalSoFar: string;
@@ -727,6 +728,7 @@ export interface Copy {
   answeredByPeople: string;
   scaleDocumentsStop: string;
   scaleAuthenticBegins: string;
+  pantryNothingUses: string;
   interfaceTranslationNote: string;
 }
 
@@ -1835,6 +1837,8 @@ export const EN: Copy = {
     'Still needed: {list}.',
   listAnd:
     '{list} and {last}',
+  listOr:
+    '{list} or {last}',
   proposalConfirmed:
     'Confirmed. This enters the atlas at the next update.',
   proposalNobodyYet:
@@ -1861,6 +1865,8 @@ export const EN: Copy = {
     'documents stop here',
   scaleAuthenticBegins:
     'Authentic begins',
+  pantryNothingUses:
+    'Nothing recorded uses {list}. That may mean nobody has written down a dish that does — {p}% of the atlas has no ingredients listed at all.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
