@@ -21,7 +21,6 @@ import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import {
-  EDITORIAL_RULE,
   nearbyNames,
   reviewProse,
   tidyProse,
@@ -44,7 +43,6 @@ import {
   contributionUrl,
   missingFrom,
   REQUIRED,
-  WALKTHROUGH_NOTE,
 } from '../src/domain/contribution';
 import { continentOf, isCountry, isHistoricalState, placeKind } from '../src/domain/continents';
 import { confirmAsk, contestedNote } from '../src/domain/traditions';
@@ -897,8 +895,8 @@ describe('sending a tradition in', () => {
   it('says on the screen that the later steps are an example', () => {
     // Not only in a comment. A worked example presented as a result is the same
     // untruth as a score that does not match its own breakdown.
-    expect(WALKTHROUGH_NOTE).toMatch(/worked example/i);
-    expect(WALKTHROUGH_NOTE).toMatch(/not from what you have just typed/i);
+    expect(EN.walkthroughNoteBody).toMatch(/worked example/i);
+    expect(EN.walkthroughNoteBody).toMatch(/not from what you have just typed/i);
   });
 });
 
@@ -1902,9 +1900,9 @@ describe('correcting a contribution never tidies away the food', () => {
   });
 
   it('tells the reviewer the rule in the app s own voice', () => {
-    expect(EDITORIAL_RULE).toMatch(/Fix our writing freely/);
-    expect(EDITORIAL_RULE).toMatch(/accents and all/);
-    expect(EDITORIAL_RULE).toMatch(/two communities rather than a mistake/);
+    expect(EN.editorialRuleBody).toMatch(/Fix our writing freely/);
+    expect(EN.editorialRuleBody).toMatch(/accents and all/);
+    expect(EN.editorialRuleBody).toMatch(/two communities rather than a mistake/);
   });
 });
 
@@ -2556,6 +2554,22 @@ describe('the chrome in other languages', () => {
     }
   });
 
+  /**
+   * The handful of strings where the correct translation *is* the English word.
+   *
+   * The rule below — a catalogue may be silent but may not put English in a key and
+   * call it done — has one honest exception: some words are simply the same word.
+   * Listing them one by one, rather than loosening the rule, keeps each exception a
+   * decision somebody made rather than a hole anything can fall through.
+   */
+  const SAME_WORD_IN_BOTH = new Set<string>([
+    'fr.administration', // Administration — same spelling, same meaning, in French.
+    'de.needHostingTitle', // Hosting is the loanword in daily use in all four of
+    'it.needHostingTitle', // these languages; the native coinages (Webspeicherplatz,
+    'nl.needHostingTitle', // hébergement-style compounds) would read as translationese
+    'pl.needHostingTitle', // on a page whose whole job is to be plainly understood.
+  ]);
+
   it('never echoes English back as though it were a translation', () => {
     /*
      * A catalogue may be incomplete — the English key set is still growing as strings
@@ -2564,14 +2578,19 @@ describe('the chrome in other languages', () => {
      * coverage figure below says a language is done when it is not.
      *
      * Missing is honest. Present-but-untranslated is not.
+     *
+     * Every locale is collected before asserting, rather than asserted one at a time,
+     * because the per-locale form stopped at the first language that failed and hid the
+     * rest — which is how `fr.administration` sat red through four commits.
      */
-    for (const locale of UI_LOCALES.filter((l) => l !== 'en')) {
-      const catalogue = CATALOGUES[locale];
-      const echoed = Object.entries(catalogue).filter(
-        ([key, value]) => value === EN[key as keyof typeof EN],
-      );
-      expect({ locale, echoed }).toEqual({ locale, echoed: [] });
-    }
+    const echoed = UI_LOCALES.filter((l) => l !== 'en')
+      .flatMap((locale) =>
+        Object.entries(CATALOGUES[locale])
+          .filter(([key, value]) => value === EN[key as keyof typeof EN])
+          .map(([key]) => `${locale}.${key}`),
+      )
+      .filter((pair) => !SAME_WORD_IN_BOTH.has(pair));
+    expect(echoed).toEqual([]);
   });
 
   it('reports how much of each language is done', () => {

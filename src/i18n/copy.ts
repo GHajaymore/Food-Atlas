@@ -235,6 +235,47 @@ export interface Copy {
   mostUsefulThing: string;
   administration: string;
   administrationNote: string;
+  needTranslationTitle: string;
+  needTranslationWhat: string;
+  needTranslationWhy: string;
+  needTranslationCost: string;
+  needHostingTitle: string;
+  needHostingWhat: string;
+  needHostingWhy: string;
+  needHostingCost: string;
+  needSourcesTitle: string;
+  needSourcesWhat: string;
+  needSourcesWhy: string;
+  needSourcesCost: string;
+  howLead: string;
+  sixDimensionsBody: string;
+  ceilingBody: string;
+  thresholdBody: string;
+  whatClosesItBody: string;
+  accountsBody: string;
+  whichIsWhereYouComeInBody: string;
+  notRatings: string;
+  notComments: string;
+  notAlgorithm: string;
+  notAdvertising: string;
+  notPopularity: string;
+  dimensionOrigin: string;
+  dimensionIngredients: string;
+  dimensionTechnique: string;
+  dimensionLocalSource: string;
+  dimensionDocumentation: string;
+  dimensionCommunity: string;
+  fromDocuments: string;
+  fromPeople: string;
+  contributeLead: string;
+  writeItTheWayYouWriteIt: string;
+  editorialRuleBody: string;
+  photographTitle: string;
+  photographBody: string;
+  walkthroughNoteBody: string;
+  examplePreparedBy: string;
+  exampleConnection: string;
+  exampleIngredients: string;
   interfaceTranslationNote: string;
 }
 
@@ -471,6 +512,88 @@ export const EN: Copy = {
     'Administration',
   administrationNote:
     'Thresholds, moderation, source checks and usage. Needs a token.',
+  needTranslationTitle:
+    'Translation',
+  needTranslationWhat:
+    'Five thousand records describe a dish in the language of the place it comes from — Hindi, Korean, Indonesian, Chinese. A reader who does not speak it is shown the original and told which language it is, which is honest and not much use to them.',
+  needTranslationWhy:
+    'It is the only part of this project that costs money. Translating on demand needs a model behind a key, and the rules it has to follow are already written and tested: no ingredient renamed, no number altered, and the result labelled as machine-made until somebody from the place checks it.',
+  needTranslationCost:
+    'Tens of dollars a month at real usage, because a translation is done once and then kept.',
+  needHostingTitle:
+    'Hosting',
+  needHostingWhat:
+    'The app and its fourteen megabytes of records, served to anyone who opens it.',
+  needHostingWhy:
+    'It fits inside a free tier today. It would stop fitting if enough people used it.',
+  needHostingCost:
+    'Nothing so far.',
+  needSourcesTitle:
+    'The sources',
+  needSourcesWhat:
+    'Every photograph, article, recipe and register entry in the atlas.',
+  needSourcesWhy:
+    'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data are free to read and openly licensed. No key, no tier, no bill.',
+  needSourcesCost:
+    'Nothing, and it will stay nothing.',
+  howLead:
+    'That is the rule this atlas is built on, and it is arithmetic rather than a policy — which means you can check it rather than trust it.',
+  sixDimensionsBody:
+    'Every record is scored on the same six dimensions, and all six are printed on the record itself. The score is their average, so a reader who doubts it can add up the numbers.',
+  ceilingBody:
+    'Three of those six cannot be answered by any document ever written. No encyclopaedia knows whether a method is the method of a place; no register is a person from the town. With those three empty, the best a record can score on published sources alone is {ceiling}.',
+  thresholdBody:
+    'A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish.',
+  whatClosesItBody:
+    '{n} confirmations from people who state their connection to the place — and who say what they are confirming, not merely that they approve. Both are shown on the record, because a sentence like “born in Kozhikode — we use ghee, not oil” is evidence a reader can weigh, and “{n} confirmations” is a number they have to trust.',
+  accountsBody:
+    'Those {n} have to be {n} different people, so a confirmation counts toward the badge only when the person was signed in. An anonymous one is still recorded and still shown on the record — what somebody knows is worth having whether or not they hold an account — it simply does not move the number. Reading the atlas never requires signing in.',
+  whichIsWhereYouComeInBody:
+    'Most of the atlas has nobody speaking for it. If you know how a dish is made where you are from, that is the one thing no source can supply and no amount of scraping can reach.',
+  notRatings:
+    'No ratings. Nobody scores a dish out of five.',
+  notComments:
+    'No comments, and no feed. There is nothing here to engage with.',
+  notAlgorithm:
+    'No algorithm deciding what you see. The order is evidence, and you can change it.',
+  notAdvertising:
+    'No advertising, and no reader is tracked.',
+  notPopularity:
+    'Popularity is recorded and kept apart. The most-published version of a dish never becomes the authentic one.',
+  dimensionOrigin:
+    'Where the dish is from, and how precisely. A town beats a country.',
+  dimensionIngredients:
+    'What it is made of, as the tradition makes it.',
+  dimensionTechnique:
+    'How it is made — not that somebody published a recipe, but that this is the method of the place.',
+  dimensionLocalSource:
+    'Somebody with a stated connection to the place has spoken for it.',
+  dimensionDocumentation:
+    'A register, an inscription or an encyclopaedia has recorded it.',
+  dimensionCommunity:
+    'People from the place have confirmed it, and said what they are confirming.',
+  fromDocuments:
+    'documents can',
+  fromPeople:
+    'only people',
+  contributeLead:
+    'Record it as it is made where you are. Nothing is published from this form alone — it goes through assessment and community validation first.',
+  writeItTheWayYouWriteIt:
+    'Write the food’s name the way you write it',
+  editorialRuleBody:
+    'Fix our writing freely — spelling, grammar, anything that reads badly. Do not tidy the food itself. A dish name, an ingredient, a piece of equipment and a place stay exactly as the people who cook it write them, accents and all. If two spellings disagree, that is usually two communities rather than a mistake, and both are kept.',
+  photographTitle:
+    'A photograph of it, if you have one',
+  photographBody:
+    'Publish your own photograph to Wikimedia Commons, then paste its file name here. It stays yours, you are credited everywhere it appears, and it costs neither of us anything. We cannot take one from Instagram or TikTok — a photograph there is its author’s copyright, and a credit line is not permission.',
+  walkthroughNoteBody:
+    'What follows is a worked example of what happens to a submission — the findings, the checks and the draft score below are from a record already in the atlas, not from what you have just typed. Your entry is not assessed here; it is assessed by people, after it is sent.',
+  examplePreparedBy:
+    'Malabar households, made for iftar and family occasions',
+  exampleConnection:
+    'Born and cooking in Kozhikode',
+  exampleIngredients:
+    'Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

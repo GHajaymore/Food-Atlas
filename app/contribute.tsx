@@ -36,10 +36,8 @@ import {
   contributionUrl,
   missingFrom,
   REQUIRED_LABELS,
-  WALKTHROUGH_NOTE,
   type Contribution,
 } from '../src/domain/contribution';
-import { EDITORIAL_RULE } from '../src/domain/editorial';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
 import { stillNeeded, tidyText } from '../src/domain/entry';
 import { openAtSource } from '../src/domain/video';
@@ -188,15 +186,14 @@ export default function Contribute() {
       {step === 1 ? (
         <>
           <Muted style={styles.lead}>
-            Record it as it is made where you are. Nothing is published from this form alone — it goes through
-            assessment and community validation first.
+            {copy.contributeLead}
           </Muted>
 
           {/* Said before the fields rather than after, because the instinct to tidy a
               name is strongest while typing it. */}
           <Block style={styles.ruleBlock}>
-            <T style={styles.ruleTitle}>Write the food&apos;s name the way you write it</T>
-            <Muted style={styles.ruleNote}>{EDITORIAL_RULE}</Muted>
+            <T style={styles.ruleTitle}>{copy.writeItTheWayYouWriteIt}</T>
+            <Muted style={styles.ruleNote}>{copy.editorialRuleBody}</Muted>
           </Block>
 
           {/* The food and the place it is made that way are one answer. See `FieldPair`. */}
@@ -212,10 +209,10 @@ export default function Contribute() {
               than a recipe copied off the internet. One answer, so one line. */}
           <FieldPair>
             <Field label={copy.whoPreparesIt} style={styles.field}>
-              <Input value={entry.cooks} onChangeText={set('cooks')} placeholder="Malabar households, made for iftar and family occasions" />
+              <Input value={entry.cooks} onChangeText={set('cooks')} placeholder={copy.examplePreparedBy} />
             </Field>
             <Field label={copy.yourConnectionToThePlace} style={styles.field}>
-              <Input value={entry.connection} onChangeText={set('connection')} placeholder="Born and cooking in Kozhikode" />
+              <Input value={entry.connection} onChangeText={set('connection')} placeholder={copy.exampleConnection} />
             </Field>
           </FieldPair>
           <Field label={copy.traditionalIngredientsAndEquipment} style={styles.field}>
@@ -223,7 +220,7 @@ export default function Contribute() {
               multiline
               value={entry.ingredients}
               onChangeText={set('ingredients')}
-              placeholder="Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers"
+              placeholder={copy.exampleIngredients}
             />
           </Field>
 
@@ -231,12 +228,9 @@ export default function Contribute() {
               they only reach food someone has already documented, and the food this
               app most wants to show is the food nobody has. */}
           <Block style={styles.photoBlock}>
-            <T style={styles.photoTitle}>A photograph of it, if you have one</T>
+            <T style={styles.photoTitle}>{copy.photographTitle}</T>
             <Muted style={styles.photoNote}>
-              Publish your own photograph to Wikimedia Commons, then paste its file name here. It stays yours, you
-              are credited everywhere it appears, and it costs neither of us anything. We cannot take one from
-              Instagram or TikTok — a photograph there is its author&apos;s copyright, and a credit line is not
-              permission.
+              {copy.photographBody}
             </Muted>
 
             <Button
@@ -269,7 +263,7 @@ export default function Contribute() {
             ) : null}
           </Block>
 
-          <Muted style={styles.walkthroughNote}>{WALKTHROUGH_NOTE}</Muted>
+          <Muted style={styles.walkthroughNote}>{copy.walkthroughNoteBody}</Muted>
           <Button label={copy.checkWhatExistsOnline} block onPress={() => setStep(2)} />
         </>
       ) : null}

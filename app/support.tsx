@@ -31,7 +31,6 @@ import {
   canAcceptDonations,
   CURRENCY,
   DONATION_URL,
-  FUNDING_NEEDS,
   LEDGER_URL,
   NOT_FOR_SALE,
 } from '../src/domain/support';
@@ -55,7 +54,14 @@ export default function Support() {
           .replace('{currency}', CURRENCY)}
       </Muted>
 
-      {FUNDING_NEEDS.map((need) => (
+      {/* Built from the copy rather than mapped over `FUNDING_NEEDS`, so the table a
+          reader sees is in their language. The domain list stays as the record of what
+          the project actually spends; this is the same list, said. */}
+      {[
+        { title: copy.needTranslationTitle, what: copy.needTranslationWhat, why: copy.needTranslationWhy, cost: copy.needTranslationCost },
+        { title: copy.needHostingTitle, what: copy.needHostingWhat, why: copy.needHostingWhy, cost: copy.needHostingCost },
+        { title: copy.needSourcesTitle, what: copy.needSourcesWhat, why: copy.needSourcesWhy, cost: copy.needSourcesCost },
+      ].map((need) => (
         <Block key={need.title} style={styles.need}>
           <View style={styles.needHead}>
             <T style={styles.needTitle}>{need.title}</T>

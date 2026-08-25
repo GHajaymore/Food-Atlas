@@ -206,14 +206,3 @@ export function reviewProse(text: string, field: string): Advisory[] {
   return out;
 }
 
-/**
- * The rule stated for the reviewer, in the app's own voice.
- *
- * Shown wherever someone is invited to correct a record, because the instinct to
- * tidy is strong and correct almost everywhere else.
- */
-export const EDITORIAL_RULE =
-  'Fix our writing freely — spelling, grammar, anything that reads badly. Do not tidy the food itself. ' +
-  'A dish name, an ingredient, a piece of equipment and a place stay exactly as the people who cook it write ' +
-  'them, accents and all. If two spellings disagree, that is usually two communities rather than a mistake, ' +
-  'and both are kept.';

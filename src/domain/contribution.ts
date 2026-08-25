@@ -107,16 +107,3 @@ export function contributionUrl(entry: Contribution): string {
   return `${CONTRIBUTION_FORM}?${params.toString()}`;
 }
 
-/**
- * What the walkthrough's later steps are.
- *
- * Said in the app rather than only in a comment, because the findings and the seven
- * checks shown from step two on are example content — they describe how an assessment
- * works, not what this reader's entry scored. Presenting a worked example as a result
- * is the same category of untruth as a confidence score that does not match its own
- * breakdown, and this app has just fixed one of those.
- */
-export const WALKTHROUGH_NOTE =
-  'What follows is a worked example of what happens to a submission — the findings, the checks and the draft ' +
-  'score below are from a record already in the atlas, not from what you have just typed. Your entry is not ' +
-  'assessed here; it is assessed by people, after it is sent.';

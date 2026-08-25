@@ -261,6 +261,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Administración',
     administrationNote:
       'Umbrales, moderación, comprobación de fuentes y uso. Requiere un token.',
+    needTranslationTitle:
+      'Traducción',
+    needTranslationWhat:
+      'Cinco mil registros describen un plato en la lengua del lugar del que viene: hindi, coreano, indonesio, chino. A quien no la habla se le muestra el original y se le dice en qué lengua está, lo cual es honesto y no le sirve de mucho.',
+    needTranslationWhy:
+      'Es la única parte de este proyecto que cuesta dinero. Traducir a demanda necesita un modelo detrás de una clave, y las reglas que debe seguir ya están escritas y probadas: ningún ingrediente renombrado, ninguna cifra alterada, y el resultado etiquetado como hecho por máquina hasta que alguien del lugar lo revise.',
+    needTranslationCost:
+      'Decenas de dólares al mes con uso real, porque una traducción se hace una vez y se guarda.',
+    needHostingTitle:
+      'Alojamiento',
+    needHostingWhat:
+      'La app y sus catorce megabytes de registros, servidos a quien la abra.',
+    needHostingWhy:
+      'Hoy cabe dentro de un plan gratuito. Dejaría de caber si la usara suficiente gente.',
+    needHostingCost:
+      'Nada hasta ahora.',
+    needSourcesTitle:
+      'Las fuentes',
+    needSourcesWhat:
+      'Cada fotografía, artículo, receta y entrada de registro del atlas.',
+    needSourcesWhy:
+      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks y los datos abiertos regionales de Italia son libres de leer y de licencia abierta. Sin clave, sin plan, sin factura.',
+    needSourcesCost:
+      'Nada, y seguirá siendo nada.',
+    howLead:
+      'Esa es la regla sobre la que está construido este atlas, y es aritmética, no una política, lo que significa que puedes comprobarla en vez de confiar en ella.',
+    sixDimensionsBody:
+      'Cada registro se puntúa en las mismas seis dimensiones, y las seis se imprimen en el propio registro. La puntuación es su media, así que quien dude puede sumar las cifras.',
+    ceilingBody:
+      'Tres de esas seis no puede responderlas ningún documento jamás escrito. Ninguna enciclopedia sabe si un método es el método de un lugar; ningún registro es una persona del pueblo. Con esas tres vacías, lo máximo que un registro puede puntuar solo con fuentes publicadas es {ceiling}.',
+    thresholdBody:
+      'Un registro se llama Auténtico a partir de {threshold}. La distancia entre esas dos cifras es deliberada, y es todo el argumento: solo pueden cerrarla quienes conocen el plato.',
+    whatClosesItBody:
+      '{n} confirmaciones de personas que declaran su vínculo con el lugar, y que dicen qué están confirmando, no solo que lo aprueban. Ambas cosas se muestran en el registro, porque una frase como “nací en Kozhikode: usamos ghee, no aceite” es una prueba que se puede sopesar, y “{n} confirmaciones” es un número en el que hay que confiar.',
+    accountsBody:
+      'Esas {n} tienen que ser {n} personas distintas, así que una confirmación cuenta para la insignia solo si la persona había iniciado sesión. Una anónima se registra igual y se muestra igual en el registro — lo que alguien sabe vale la pena tenerlo, tenga cuenta o no — simplemente no mueve el número. Leer el atlas nunca exige iniciar sesión.',
+    whichIsWhereYouComeInBody:
+      'La mayor parte del atlas no tiene a nadie que hable por ella. Si sabes cómo se hace un plato donde tú eres, eso es lo único que ninguna fuente puede aportar y ningún rastreo puede alcanzar.',
+    notRatings:
+      'Sin valoraciones. Nadie puntúa un plato sobre cinco.',
+    notComments:
+      'Sin comentarios y sin muro. Aquí no hay nada con lo que interactuar.',
+    notAlgorithm:
+      'Ningún algoritmo decide lo que ves. El orden son las pruebas, y puedes cambiarlo.',
+    notAdvertising:
+      'Sin publicidad, y ningún lector es rastreado.',
+    notPopularity:
+      'La popularidad se registra y se mantiene aparte. La versión más publicada de un plato nunca se convierte en la auténtica.',
+    dimensionOrigin:
+      'De dónde es el plato, y con cuánta precisión. Un pueblo vale más que un país.',
+    dimensionIngredients:
+      'De qué está hecho, tal como lo hace la tradición.',
+    dimensionTechnique:
+      'Cómo se hace: no que alguien publicara una receta, sino que este es el método del lugar.',
+    dimensionLocalSource:
+      'Alguien con un vínculo declarado con el lugar ha hablado por él.',
+    dimensionDocumentation:
+      'Un registro, una inscripción o una enciclopedia lo ha recogido.',
+    dimensionCommunity:
+      'Gente del lugar lo ha confirmado, y ha dicho qué confirma.',
+    fromDocuments:
+      'los documentos pueden',
+    fromPeople:
+      'solo las personas',
+    contributeLead:
+      'Regístralo tal como se hace donde tú estás. Nada se publica solo con este formulario: primero pasa por la evaluación y por la validación de la comunidad.',
+    writeItTheWayYouWriteIt:
+      'Escribe el nombre de la comida como tú lo escribes',
+    editorialRuleBody:
+      'Corrige nuestra redacción con libertad: ortografía, gramática, cualquier cosa que se lea mal. No arregles la comida en sí. El nombre de un plato, un ingrediente, un utensilio y un lugar se quedan exactamente como los escribe la gente que lo cocina, con sus tildes y todo. Si dos grafías no coinciden, eso suele ser dos comunidades y no un error, y se conservan las dos.',
+    photographTitle:
+      'Una fotografía, si tienes alguna',
+    photographBody:
+      'Publica tu propia fotografía en Wikimedia Commons y luego pega aquí su nombre de archivo. Sigue siendo tuya, se te acredita en todas partes donde aparezca, y no nos cuesta nada ni a ti ni a nosotros. No podemos tomar una de Instagram o TikTok: allí la fotografía es propiedad intelectual de su autor, y una línea de crédito no es un permiso.',
+    walkthroughNoteBody:
+      'Lo que sigue es un ejemplo resuelto de lo que le ocurre a un envío: los hallazgos, las comprobaciones y la puntuación provisional de abajo son de un registro que ya está en el atlas, no de lo que acabas de escribir. Tu entrada no se evalúa aquí; la evalúan personas, después de enviarla.',
+    examplePreparedBy:
+      'Hogares de Malabar, preparado para el iftar y para ocasiones familiares',
+    exampleConnection:
+      'Nacido y cocinando en Kozhikode',
+    exampleIngredients:
+      'Plátano nendran maduro, huevos, ghee, azúcar, anacardos, pasas; cocinado en una sartén gruesa a fuego bajo de carbón o de gas, tapado con una tapa cargada con brasas',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -488,6 +570,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Administration',
     administrationNote:
       'Seuils, modération, vérification des sources et usage. Nécessite un jeton.',
+    needTranslationTitle:
+      'Traduction',
+    needTranslationWhat:
+      'Cinq mille fiches décrivent un plat dans la langue du lieu d’où il vient — hindi, coréen, indonésien, chinois. À qui ne la parle pas, on montre l’original en indiquant de quelle langue il s’agit : c’est honnête et cela ne lui sert pas à grand-chose.',
+    needTranslationWhy:
+      'C’est la seule partie de ce projet qui coûte de l’argent. Traduire à la demande exige un modèle derrière une clé, et les règles qu’il doit suivre sont déjà écrites et testées : aucun ingrédient renommé, aucun chiffre modifié, et le résultat étiqueté comme fait par une machine jusqu’à ce que quelqu’un du lieu le vérifie.',
+    needTranslationCost:
+      'Quelques dizaines de dollars par mois à usage réel, car une traduction est faite une fois puis conservée.',
+    needHostingTitle:
+      'Hébergement',
+    needHostingWhat:
+      'L’application et ses quatorze mégaoctets de fiches, servis à quiconque l’ouvre.',
+    needHostingWhy:
+      'Cela tient aujourd’hui dans une offre gratuite. Cela cesserait de tenir si assez de gens l’utilisaient.',
+    needHostingCost:
+      'Rien jusqu’ici.',
+    needSourcesTitle:
+      'Les sources',
+    needSourcesWhat:
+      'Chaque photographie, article, recette et entrée de registre de l’atlas.',
+    needSourcesWhy:
+      'Wikipédia, Wikidata, Wikimedia Commons, Wikibooks et les données ouvertes régionales italiennes sont libres à lire et sous licence ouverte. Pas de clé, pas de palier, pas de facture.',
+    needSourcesCost:
+      'Rien, et cela restera rien.',
+    howLead:
+      'C’est la règle sur laquelle cet atlas est bâti, et c’est de l’arithmétique et non une politique — ce qui veut dire que vous pouvez la vérifier plutôt que la croire.',
+    sixDimensionsBody:
+      'Chaque fiche est notée sur les mêmes six dimensions, et les six sont imprimées sur la fiche elle-même. La note est leur moyenne, si bien que qui en doute peut additionner les chiffres.',
+    ceilingBody:
+      'Trois de ces six ne peuvent être établies par aucun document jamais écrit. Aucune encyclopédie ne sait si une méthode est la méthode d’un lieu ; aucun registre n’est une personne du village. Ces trois-là vides, le mieux qu’une fiche puisse obtenir sur des sources publiées seules est {ceiling}.',
+    thresholdBody:
+      'Une fiche est dite Authentique à partir de {threshold}. L’écart entre ces deux chiffres est délibéré, et c’est tout l’argument : seules les personnes qui connaissent le plat peuvent le combler.',
+    whatClosesItBody:
+      '{n} confirmations de personnes qui déclarent leur lien avec le lieu — et qui disent ce qu’elles confirment, pas seulement qu’elles approuvent. Les deux figurent sur la fiche, car une phrase comme « né à Kozhikode — nous utilisons du ghee, pas de l’huile » est une preuve que l’on peut peser, tandis que « {n} confirmations » est un chiffre qu’il faut croire.',
+    accountsBody:
+      'Ces {n} doivent être {n} personnes différentes ; une confirmation ne compte donc pour le badge que si la personne était connectée. Une confirmation anonyme est tout de même enregistrée et affichée sur la fiche — ce que quelqu’un sait vaut d’être recueilli, qu’il ait un compte ou non — elle ne fait simplement pas bouger le chiffre. Lire l’atlas n’exige jamais de se connecter.',
+    whichIsWhereYouComeInBody:
+      'La plus grande partie de l’atlas n’a personne pour parler en son nom. Si vous savez comment un plat se prépare là d’où vous venez, c’est la seule chose qu’aucune source ne peut fournir et qu’aucun moissonnage ne peut atteindre.',
+    notRatings:
+      'Pas de notes. Personne ne note un plat sur cinq.',
+    notComments:
+      'Pas de commentaires, pas de fil. Il n’y a rien ici avec quoi interagir.',
+    notAlgorithm:
+      'Aucun algorithme ne décide de ce que vous voyez. L’ordre, ce sont les preuves, et vous pouvez le changer.',
+    notAdvertising:
+      'Pas de publicité, et aucun lecteur n’est pisté.',
+    notPopularity:
+      'La popularité est enregistrée et tenue à part. La version la plus publiée d’un plat ne devient jamais l’authentique.',
+    dimensionOrigin:
+      'D’où vient le plat, et avec quelle précision. Une ville vaut mieux qu’un pays.',
+    dimensionIngredients:
+      'Ce dont il est fait, tel que la tradition le fait.',
+    dimensionTechnique:
+      'Comment il se prépare — non pas que quelqu’un ait publié une recette, mais que ce soit la méthode du lieu.',
+    dimensionLocalSource:
+      'Quelqu’un ayant déclaré un lien avec le lieu a parlé en son nom.',
+    dimensionDocumentation:
+      'Un registre, une inscription ou une encyclopédie l’a consigné.',
+    dimensionCommunity:
+      'Des gens du lieu l’ont confirmé, et ont dit ce qu’ils confirment.',
+    fromDocuments:
+      'les documents peuvent',
+    fromPeople:
+      'seules les personnes',
+    contributeLead:
+      'Enregistrez-le tel qu’il se fait là où vous êtes. Rien n’est publié à partir de ce seul formulaire : cela passe d’abord par l’évaluation et par la validation de la communauté.',
+    writeItTheWayYouWriteIt:
+      'Écrivez le nom du plat comme vous l’écrivez',
+    editorialRuleBody:
+      'Corrigez librement notre texte : orthographe, grammaire, tout ce qui se lit mal. Ne corrigez pas le plat lui-même. Un nom de plat, un ingrédient, un ustensile et un lieu restent exactement comme les écrivent celles et ceux qui le cuisinent, accents compris. Si deux graphies divergent, ce sont généralement deux communautés plutôt qu’une faute, et les deux sont conservées.',
+    photographTitle:
+      'Une photographie, si vous en avez une',
+    photographBody:
+      'Publiez votre propre photographie sur Wikimedia Commons, puis collez ici son nom de fichier. Elle reste la vôtre, vous êtes crédité partout où elle paraît, et cela ne coûte rien ni à vous ni à nous. Nous ne pouvons pas en prendre une sur Instagram ou TikTok : là-bas, la photographie relève du droit d’auteur de celui qui l’a prise, et une ligne de crédit n’est pas une autorisation.',
+    walkthroughNoteBody:
+      'Ce qui suit est un exemple traité de ce qui arrive à une proposition : les constats, les vérifications et la note provisoire ci-dessous proviennent d’une fiche déjà présente dans l’atlas, pas de ce que vous venez de saisir. Votre saisie n’est pas évaluée ici ; elle est évaluée par des personnes, après envoi.',
+    examplePreparedBy:
+      'Foyers du Malabar, préparé pour l’iftar et les occasions familiales',
+    exampleConnection:
+      'Né à Kozhikode et j’y cuisine',
+    exampleIngredients:
+      'Banane nendran mûre, œufs, ghee, sucre, noix de cajou, raisins secs ; cuit dans une poêle épaisse sur feu doux de charbon ou de gaz, couvert d’un couvercle chargé de braises',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -714,6 +878,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Verwaltung',
     administrationNote:
       'Schwellenwerte, Moderation, Quellenprüfungen und Nutzung. Erfordert ein Token.',
+    needTranslationTitle:
+      'Übersetzung',
+    needTranslationWhat:
+      'Fünftausend Einträge beschreiben ein Gericht in der Sprache des Ortes, aus dem es kommt — Hindi, Koreanisch, Indonesisch, Chinesisch. Wer sie nicht spricht, bekommt das Original zu sehen und erfährt, welche Sprache es ist: ehrlich, und wenig hilfreich.',
+    needTranslationWhy:
+      'Es ist der einzige Teil dieses Projekts, der Geld kostet. Übersetzen auf Abruf braucht ein Modell hinter einem Schlüssel, und die Regeln dafür sind bereits geschrieben und geprüft: keine Zutat umbenannt, keine Zahl verändert, und das Ergebnis als maschinell gemacht gekennzeichnet, bis jemand von dort es prüft.',
+    needTranslationCost:
+      'Bei echter Nutzung einige zehn Dollar im Monat, weil eine Übersetzung einmal gemacht und dann behalten wird.',
+    needHostingTitle:
+      'Hosting',
+    needHostingWhat:
+      'Die App und ihre vierzehn Megabyte an Einträgen, ausgeliefert an alle, die sie öffnen.',
+    needHostingWhy:
+      'Heute passt es in ein kostenloses Kontingent. Es würde nicht mehr passen, wenn genug Menschen sie nutzten.',
+    needHostingCost:
+      'Bisher nichts.',
+    needSourcesTitle:
+      'Die Quellen',
+    needSourcesWhat:
+      'Jede Fotografie, jeder Artikel, jedes Rezept und jeder Registereintrag im Atlas.',
+    needSourcesWhy:
+      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks und Italiens regionale offene Daten sind frei zu lesen und offen lizenziert. Kein Schlüssel, keine Stufe, keine Rechnung.',
+    needSourcesCost:
+      'Nichts, und es wird nichts bleiben.',
+    howLead:
+      'Das ist die Regel, auf der dieser Atlas gebaut ist, und sie ist Arithmetik statt Politik — Sie können sie also prüfen, statt ihr zu glauben.',
+    sixDimensionsBody:
+      'Jeder Eintrag wird nach denselben sechs Dimensionen bewertet, und alle sechs stehen auf dem Eintrag selbst. Der Wert ist ihr Durchschnitt, wer ihn also bezweifelt, kann die Zahlen zusammenzählen.',
+    ceilingBody:
+      'Drei dieser sechs kann kein jemals geschriebenes Dokument beantworten. Keine Enzyklopädie weiß, ob eine Zubereitung die Zubereitung eines Ortes ist; kein Register ist ein Mensch aus dem Ort. Sind diese drei leer, ist das Beste, was ein Eintrag allein aus veröffentlichten Quellen erreichen kann, {ceiling}.',
+    thresholdBody:
+      'Ein Eintrag heißt ab {threshold} echt. Der Abstand zwischen diesen beiden Zahlen ist Absicht und ist das ganze Argument: Schließen können ihn nur Menschen, die das Gericht kennen.',
+    whatClosesItBody:
+      '{n} Bestätigungen von Menschen, die ihre Verbindung zu dem Ort angeben — und die sagen, was sie bestätigen, nicht bloß, dass sie zustimmen. Beides steht auf dem Eintrag, denn ein Satz wie „in Kozhikode geboren — wir nehmen Ghee, nicht Öl“ ist ein Beleg, den man abwägen kann, während „{n} Bestätigungen“ eine Zahl ist, der man glauben muss.',
+    accountsBody:
+      'Diese {n} müssen {n} verschiedene Menschen sein, deshalb zählt eine Bestätigung nur dann für das Abzeichen, wenn die Person angemeldet war. Eine anonyme wird dennoch erfasst und auf dem Eintrag gezeigt — was jemand weiß, ist es wert, festgehalten zu werden, ob mit Konto oder ohne — sie bewegt nur die Zahl nicht. Zum Lesen des Atlas ist nie eine Anmeldung nötig.',
+    whichIsWhereYouComeInBody:
+      'Für den größten Teil des Atlas spricht niemand. Wenn Sie wissen, wie ein Gericht dort gemacht wird, wo Sie herkommen, ist das das Einzige, was keine Quelle liefern und kein Sammeln erreichen kann.',
+    notRatings:
+      'Keine Bewertungen. Niemand gibt einem Gericht Sterne.',
+    notComments:
+      'Keine Kommentare und kein Feed. Es gibt hier nichts, womit man interagieren soll.',
+    notAlgorithm:
+      'Kein Algorithmus entscheidet, was Sie sehen. Die Reihenfolge sind die Belege, und Sie können sie ändern.',
+    notAdvertising:
+      'Keine Werbung, und kein Lesender wird verfolgt.',
+    notPopularity:
+      'Beliebtheit wird erfasst und getrennt gehalten. Die meistveröffentlichte Fassung eines Gerichts wird nie die echte.',
+    dimensionOrigin:
+      'Woher das Gericht kommt, und wie genau. Ein Ort schlägt ein Land.',
+    dimensionIngredients:
+      'Woraus es besteht, so wie die Tradition es macht.',
+    dimensionTechnique:
+      'Wie es gemacht wird — nicht dass jemand ein Rezept veröffentlicht hat, sondern dass dies die Zubereitung des Ortes ist.',
+    dimensionLocalSource:
+      'Jemand mit angegebener Verbindung zu dem Ort hat dafür gesprochen.',
+    dimensionDocumentation:
+      'Ein Register, eine Inschrift oder eine Enzyklopädie hat es festgehalten.',
+    dimensionCommunity:
+      'Menschen von dort haben es bestätigt und gesagt, was sie bestätigen.',
+    fromDocuments:
+      'Dokumente können',
+    fromPeople:
+      'nur Menschen',
+    contributeLead:
+      'Halten Sie es so fest, wie es dort gemacht wird, wo Sie sind. Aus diesem Formular allein wird nichts veröffentlicht — es geht zuerst durch die Bewertung und durch die Bestätigung der Gemeinschaft.',
+    writeItTheWayYouWriteIt:
+      'Schreiben Sie den Namen des Gerichts so, wie Sie ihn schreiben',
+    editorialRuleBody:
+      'Bessern Sie unseren Text frei aus — Rechtschreibung, Grammatik, alles, was sich schlecht liest. Bessern Sie das Gericht selbst nicht aus. Ein Gerichtsname, eine Zutat, ein Gerät und ein Ort bleiben genau so, wie die Menschen sie schreiben, die es kochen, samt aller Zeichen. Wenn zwei Schreibweisen auseinandergehen, sind das meist zwei Gemeinschaften und kein Fehler, und beide bleiben stehen.',
+    photographTitle:
+      'Ein Foto davon, falls Sie eines haben',
+    photographBody:
+      'Veröffentlichen Sie Ihr eigenes Foto auf Wikimedia Commons und fügen Sie hier den Dateinamen ein. Es bleibt Ihres, Sie werden überall genannt, wo es erscheint, und es kostet weder Sie noch uns etwas. Von Instagram oder TikTok dürfen wir keines nehmen — ein Foto dort steht unter dem Urheberrecht seines Urhebers, und eine Namenszeile ist keine Erlaubnis.',
+    walkthroughNoteBody:
+      'Was folgt, ist ein durchgerechnetes Beispiel dafür, was mit einer Einreichung geschieht — die Befunde, die Prüfungen und die vorläufige Punktzahl unten stammen aus einem Eintrag, der bereits im Atlas steht, nicht aus dem, was Sie gerade eingegeben haben. Ihre Eingabe wird hier nicht bewertet; sie wird von Menschen bewertet, nachdem sie abgeschickt wurde.',
+    examplePreparedBy:
+      'Haushalte in Malabar, zubereitet zum Iftar und zu Familienanlässen',
+    exampleConnection:
+      'In Kozhikode geboren und dort am Herd',
+    exampleIngredients:
+      'Reife Nendran-Banane, Eier, Ghee, Zucker, Cashewkerne, Rosinen; in einer schweren Pfanne bei niedriger Kohle- oder Gasflamme gegart, mit einem Deckel bedeckt, der mit Glut beschwert ist',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -940,6 +1186,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Amministrazione',
     administrationNote:
       'Soglie, moderazione, controllo delle fonti e utilizzo. Richiede un token.',
+    needTranslationTitle:
+      'Traduzione',
+    needTranslationWhat:
+      'Cinquemila schede descrivono un piatto nella lingua del luogo da cui viene — hindi, coreano, indonesiano, cinese. A chi non la parla si mostra l’originale dicendo di che lingua si tratta: onesto, e di scarsa utilità.',
+    needTranslationWhy:
+      'È l’unica parte di questo progetto che costa denaro. Tradurre su richiesta richiede un modello dietro una chiave, e le regole che deve seguire sono già scritte e verificate: nessun ingrediente rinominato, nessun numero alterato, e il risultato etichettato come fatto a macchina finché qualcuno del posto non lo controlla.',
+    needTranslationCost:
+      'Qualche decina di dollari al mese con un uso reale, perché una traduzione si fa una volta e poi si conserva.',
+    needHostingTitle:
+      'Hosting',
+    needHostingWhat:
+      'L’app e i suoi quattordici megabyte di schede, serviti a chiunque la apra.',
+    needHostingWhy:
+      'Oggi rientra in un piano gratuito. Smetterebbe di rientrarci se la usassero abbastanza persone.',
+    needHostingCost:
+      'Finora nulla.',
+    needSourcesTitle:
+      'Le fonti',
+    needSourcesWhat:
+      'Ogni fotografia, articolo, ricetta e voce di registro nell’atlante.',
+    needSourcesWhy:
+      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks e i dati aperti regionali italiani sono liberi da leggere e con licenza aperta. Nessuna chiave, nessun piano, nessuna fattura.',
+    needSourcesCost:
+      'Nulla, e resterà nulla.',
+    howLead:
+      'È la regola su cui questo atlante è costruito, ed è aritmetica e non una politica — il che significa che puoi verificarla invece di fidarti.',
+    sixDimensionsBody:
+      'Ogni scheda è valutata sulle stesse sei dimensioni, e tutte e sei sono stampate sulla scheda stessa. Il punteggio è la loro media, così chi ne dubita può sommare i numeri.',
+    ceilingBody:
+      'Tre di quelle sei non possono essere risolte da nessun documento mai scritto. Nessuna enciclopedia sa se un metodo è il metodo di un luogo; nessun registro è una persona del paese. Con quelle tre vuote, il massimo che una scheda può ottenere con le sole fonti pubblicate è {ceiling}.',
+    thresholdBody:
+      'Una scheda si dice Autentica a {threshold}. La distanza fra quei due numeri è voluta ed è tutto l’argomento: può colmarla solo chi conosce il piatto.',
+    whatClosesItBody:
+      '{n} conferme da persone che dichiarano il proprio legame con il luogo — e che dicono che cosa stanno confermando, non solo che approvano. Entrambe compaiono sulla scheda, perché una frase come “nato a Kozhikode: usiamo ghee, non olio” è una prova che si può soppesare, mentre “{n} conferme” è un numero di cui bisogna fidarsi.',
+    accountsBody:
+      'Quelle {n} devono essere {n} persone diverse, quindi una conferma vale per il distintivo solo se la persona aveva effettuato l’accesso. Una anonima viene comunque registrata e mostrata sulla scheda — ciò che qualcuno sa vale la pena averlo, con o senza account — semplicemente non muove il numero. Leggere l’atlante non richiede mai di accedere.',
+    whichIsWhereYouComeInBody:
+      'Per gran parte dell’atlante non parla nessuno. Se sai come si prepara un piatto da dove vieni, quella è l’unica cosa che nessuna fonte può fornire e che nessuna raccolta automatica può raggiungere.',
+    notRatings:
+      'Niente valutazioni. Nessuno dà voti a un piatto.',
+    notComments:
+      'Niente commenti e niente feed. Qui non c’è nulla con cui interagire.',
+    notAlgorithm:
+      'Nessun algoritmo decide che cosa vedi. L’ordine sono le prove, e puoi cambiarlo.',
+    notAdvertising:
+      'Niente pubblicità, e nessun lettore viene tracciato.',
+    notPopularity:
+      'La popolarità è registrata e tenuta separata. La versione più pubblicata di un piatto non diventa mai quella autentica.',
+    dimensionOrigin:
+      'Da dove viene il piatto, e con quanta precisione. Un paese vale più di una nazione.',
+    dimensionIngredients:
+      'Di che cosa è fatto, come lo fa la tradizione.',
+    dimensionTechnique:
+      'Come si prepara — non che qualcuno abbia pubblicato una ricetta, ma che questo sia il metodo del luogo.',
+    dimensionLocalSource:
+      'Qualcuno con un legame dichiarato con il luogo ha parlato per esso.',
+    dimensionDocumentation:
+      'Un registro, un’iscrizione o un’enciclopedia lo ha annotato.',
+    dimensionCommunity:
+      'Gente del posto lo ha confermato, e ha detto che cosa conferma.',
+    fromDocuments:
+      'i documenti possono',
+    fromPeople:
+      'solo le persone',
+    contributeLead:
+      'Registralo com’è fatto dove sei tu. Da questo modulo da solo non viene pubblicato nulla: prima passa dalla valutazione e dalla conferma della comunità.',
+    writeItTheWayYouWriteIt:
+      'Scrivi il nome del piatto come lo scrivi tu',
+    editorialRuleBody:
+      'Correggi liberamente il nostro testo: ortografia, grammatica, tutto ciò che si legge male. Non sistemare il piatto in sé. Il nome di un piatto, un ingrediente, un attrezzo e un luogo restano esattamente come li scrive chi lo cucina, accenti compresi. Se due grafie non coincidono, di solito sono due comunità e non un errore, e si tengono entrambe.',
+    photographTitle:
+      'Una fotografia, se ne hai una',
+    photographBody:
+      'Pubblica la tua fotografia su Wikimedia Commons, poi incolla qui il nome del file. Resta tua, sei accreditato ovunque compaia, e non costa nulla né a te né a noi. Non possiamo prenderne una da Instagram o TikTok: lì la fotografia è sotto il diritto d’autore di chi l’ha scattata, e una riga di credito non è un permesso.',
+    walkthroughNoteBody:
+      'Quello che segue è un esempio svolto di cosa succede a una proposta: i riscontri, le verifiche e il punteggio provvisorio qui sotto vengono da una scheda già presente nell’atlante, non da ciò che hai appena scritto. La tua voce non viene valutata qui; la valutano delle persone, dopo l’invio.',
+    examplePreparedBy:
+      'Case del Malabar, preparato per l’iftar e per le occasioni di famiglia',
+    exampleConnection:
+      'Nato a Kozhikode e cucino lì',
+    exampleIngredients:
+      'Banana nendran matura, uova, ghee, zucchero, anacardi, uvetta; cotto in una padella pesante su fiamma bassa di carbone o di gas, coperto con un coperchio caricato di braci',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -1167,6 +1495,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Administração',
     administrationNote:
       'Limiares, moderação, verificação de fontes e utilização. Precisa de um token.',
+    needTranslationTitle:
+      'Tradução',
+    needTranslationWhat:
+      'Cinco mil registos descrevem um prato na língua do lugar de onde vem — hindi, coreano, indonésio, chinês. A quem não a fala mostra-se o original, dizendo de que língua se trata: honesto, e de pouca utilidade.',
+    needTranslationWhy:
+      'É a única parte deste projeto que custa dinheiro. Traduzir a pedido exige um modelo por trás de uma chave, e as regras que tem de seguir já estão escritas e testadas: nenhum ingrediente renomeado, nenhum número alterado, e o resultado rotulado como feito por máquina até alguém do lugar o verificar.',
+    needTranslationCost:
+      'Dezenas de dólares por mês com uso real, porque uma tradução é feita uma vez e depois guardada.',
+    needHostingTitle:
+      'Alojamento',
+    needHostingWhat:
+      'A aplicação e os seus catorze megabytes de registos, servidos a quem a abrir.',
+    needHostingWhy:
+      'Hoje cabe num plano gratuito. Deixaria de caber se gente suficiente a usasse.',
+    needHostingCost:
+      'Nada até agora.',
+    needSourcesTitle:
+      'As fontes',
+    needSourcesWhat:
+      'Cada fotografia, artigo, receita e entrada de registo no atlas.',
+    needSourcesWhy:
+      'A Wikipédia, o Wikidata, o Wikimedia Commons, os Wikibooks e os dados abertos regionais de Itália são livres de ler e com licença aberta. Sem chave, sem escalão, sem fatura.',
+    needSourcesCost:
+      'Nada, e continuará a ser nada.',
+    howLead:
+      'É a regra sobre a qual este atlas é construído, e é aritmética e não uma política — o que significa que a pode verificar em vez de confiar nela.',
+    sixDimensionsBody:
+      'Cada registo é pontuado nas mesmas seis dimensões, e as seis estão impressas no próprio registo. A pontuação é a sua média, por isso quem duvidar pode somar os números.',
+    ceilingBody:
+      'Três dessas seis não podem ser respondidas por nenhum documento alguma vez escrito. Nenhuma enciclopédia sabe se um método é o método de um lugar; nenhum registo é uma pessoa da aldeia. Com essas três vazias, o máximo que um registo pode pontuar só com fontes publicadas é {ceiling}.',
+    thresholdBody:
+      'Um registo é chamado Autêntico a partir de {threshold}. A distância entre esses dois números é deliberada e é todo o argumento: só pode ser fechada por quem conhece o prato.',
+    whatClosesItBody:
+      '{n} confirmações de pessoas que declaram a sua ligação ao lugar — e que dizem o que estão a confirmar, não apenas que aprovam. Ambas aparecem no registo, porque uma frase como “nasci em Kozhikode — usamos ghee, não óleo” é uma prova que se pode pesar, e “{n} confirmações” é um número em que é preciso confiar.',
+    accountsBody:
+      'Essas {n} têm de ser {n} pessoas diferentes, por isso uma confirmação só conta para o distintivo se a pessoa tiver iniciado sessão. Uma anónima é na mesma registada e mostrada no registo — o que alguém sabe vale a pena ter, tenha conta ou não — apenas não mexe no número. Ler o atlas nunca exige iniciar sessão.',
+    whichIsWhereYouComeInBody:
+      'A maior parte do atlas não tem ninguém a falar por ela. Se sabe como um prato se faz no sítio de onde é, isso é a única coisa que nenhuma fonte pode fornecer e nenhuma recolha automática alcança.',
+    notRatings:
+      'Sem classificações. Ninguém dá nota a um prato.',
+    notComments:
+      'Sem comentários e sem mural. Não há aqui nada com que interagir.',
+    notAlgorithm:
+      'Nenhum algoritmo decide o que vê. A ordem são as provas, e pode mudá-la.',
+    notAdvertising:
+      'Sem publicidade, e nenhum leitor é rastreado.',
+    notPopularity:
+      'A popularidade é registada e mantida à parte. A versão mais publicada de um prato nunca se torna a autêntica.',
+    dimensionOrigin:
+      'De onde é o prato, e com que precisão. Uma vila vale mais do que um país.',
+    dimensionIngredients:
+      'De que é feito, tal como a tradição o faz.',
+    dimensionTechnique:
+      'Como se faz — não que alguém tenha publicado uma receita, mas que este é o método do lugar.',
+    dimensionLocalSource:
+      'Alguém com ligação declarada ao lugar falou por ele.',
+    dimensionDocumentation:
+      'Um registo, uma inscrição ou uma enciclopédia registou-o.',
+    dimensionCommunity:
+      'Gente do lugar confirmou-o, e disse o que está a confirmar.',
+    fromDocuments:
+      'os documentos podem',
+    fromPeople:
+      'só as pessoas',
+    contributeLead:
+      'Registe-o tal como é feito onde você está. Nada é publicado só com este formulário — passa primeiro pela avaliação e pela validação da comunidade.',
+    writeItTheWayYouWriteIt:
+      'Escreva o nome do prato como você o escreve',
+    editorialRuleBody:
+      'Corrija o nosso texto à vontade — ortografia, gramática, tudo o que se leia mal. Não arrume o prato em si. O nome de um prato, um ingrediente, um utensílio e um lugar ficam exatamente como os escreve quem o cozinha, com acentos e tudo. Se duas grafias divergirem, isso costuma ser duas comunidades e não um erro, e ambas se mantêm.',
+    photographTitle:
+      'Uma fotografia, se tiver alguma',
+    photographBody:
+      'Publique a sua própria fotografia no Wikimedia Commons e depois cole aqui o nome do ficheiro. Continua a ser sua, é creditado em todo o lado onde apareça, e não custa nada nem a si nem a nós. Não podemos tirar uma do Instagram ou do TikTok — ali a fotografia é direito de autor de quem a fez, e uma linha de crédito não é uma autorização.',
+    walkthroughNoteBody:
+      'O que se segue é um exemplo resolvido do que acontece a uma submissão — os achados, as verificações e a pontuação provisória abaixo são de um registo que já está no atlas, não do que acabou de escrever. A sua entrada não é avaliada aqui; é avaliada por pessoas, depois de enviada.',
+    examplePreparedBy:
+      'Casas do Malabar, feito para o iftar e para ocasiões de família',
+    exampleConnection:
+      'Nascido em Kozhikode e a cozinhar lá',
+    exampleIngredients:
+      'Banana nendran madura, ovos, ghee, açúcar, castanhas de caju, passas; cozinhado numa frigideira pesada em lume brando de carvão ou de gás, tapado com uma tampa carregada de brasas',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -1393,6 +1803,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Beheer',
     administrationNote:
       'Drempels, moderatie, broncontroles en gebruik. Vereist een token.',
+    needTranslationTitle:
+      'Vertaling',
+    needTranslationWhat:
+      'Vijfduizend records beschrijven een gerecht in de taal van de plek waar het vandaan komt — Hindi, Koreaans, Indonesisch, Chinees. Wie die taal niet spreekt krijgt het origineel te zien met de vermelding welke taal het is: eerlijk, en weinig bruikbaar.',
+    needTranslationWhy:
+      'Het is het enige deel van dit project dat geld kost. Vertalen op verzoek vraagt een model achter een sleutel, en de regels die het moet volgen zijn al geschreven en getest: geen ingrediënt hernoemd, geen getal veranderd, en het resultaat gemarkeerd als machinaal gemaakt tot iemand van die plek het nakijkt.',
+    needTranslationCost:
+      'Tientallen dollars per maand bij echt gebruik, omdat een vertaling één keer gemaakt en daarna bewaard wordt.',
+    needHostingTitle:
+      'Hosting',
+    needHostingWhat:
+      'De app en haar veertien megabyte aan records, geleverd aan iedereen die haar opent.',
+    needHostingWhy:
+      'Het past vandaag binnen een gratis pakket. Dat zou ophouden als genoeg mensen haar gebruikten.',
+    needHostingCost:
+      'Tot nu toe niets.',
+    needSourcesTitle:
+      'De bronnen',
+    needSourcesWhat:
+      'Elke foto, elk artikel, elk recept en elke registervermelding in de atlas.',
+    needSourcesWhy:
+      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks en de regionale open data van Italië zijn vrij te lezen en open gelicentieerd. Geen sleutel, geen staffel, geen rekening.',
+    needSourcesCost:
+      'Niets, en dat blijft niets.',
+    howLead:
+      'Dat is de regel waarop deze atlas is gebouwd, en het is rekenkunde en geen beleid — u kunt haar dus controleren in plaats van erop te vertrouwen.',
+    sixDimensionsBody:
+      'Elk record wordt op dezelfde zes dimensies beoordeeld, en alle zes staan op het record zelf. De score is hun gemiddelde, dus wie eraan twijfelt kan de getallen optellen.',
+    ceilingBody:
+      'Drie van die zes kunnen door geen enkel ooit geschreven document worden beantwoord. Geen encyclopedie weet of een bereiding de bereiding van een plek is; geen register is een mens uit het dorp. Met die drie leeg is het hoogste dat een record op alleen gepubliceerde bronnen kan halen {ceiling}.',
+    thresholdBody:
+      'Een record heet Echt vanaf {threshold}. De afstand tussen die twee getallen is bewust en is het hele argument: alleen mensen die het gerecht kennen kunnen hem dichten.',
+    whatClosesItBody:
+      '{n} bevestigingen van mensen die hun band met de plek noemen — en die zeggen wát ze bevestigen, niet alleen dat ze het eens zijn. Beide staan op het record, want een zin als “geboren in Kozhikode — wij gebruiken ghee, geen olie” is bewijs dat je kunt wegen, terwijl “{n} bevestigingen” een getal is dat je moet geloven.',
+    accountsBody:
+      'Die {n} moeten {n} verschillende mensen zijn, dus een bevestiging telt alleen mee voor het kenmerk als de persoon was ingelogd. Een anonieme wordt evengoed vastgelegd en op het record getoond — wat iemand weet is het waard, met of zonder account — het verzet alleen het getal niet. De atlas lezen vraagt nooit om inloggen.',
+    whichIsWhereYouComeInBody:
+      'Voor het grootste deel van de atlas spreekt niemand. Als u weet hoe een gerecht wordt gemaakt waar u vandaan komt, is dat het enige dat geen bron kan leveren en geen verzameling kan bereiken.',
+    notRatings:
+      'Geen beoordelingen. Niemand geeft een gerecht een cijfer.',
+    notComments:
+      'Geen reacties en geen feed. Er is hier niets om mee te interacteren.',
+    notAlgorithm:
+      'Geen algoritme bepaalt wat u ziet. De volgorde is het bewijs, en u kunt haar veranderen.',
+    notAdvertising:
+      'Geen reclame, en geen lezer wordt gevolgd.',
+    notPopularity:
+      'Populariteit wordt vastgelegd en apart gehouden. De meest gepubliceerde versie van een gerecht wordt nooit de echte.',
+    dimensionOrigin:
+      'Waar het gerecht vandaan komt, en hoe precies. Een dorp wint van een land.',
+    dimensionIngredients:
+      'Waarvan het gemaakt is, zoals de traditie het maakt.',
+    dimensionTechnique:
+      'Hoe het gemaakt wordt — niet dat iemand een recept publiceerde, maar dat dit de bereiding van die plek is.',
+    dimensionLocalSource:
+      'Iemand met een genoemde band met de plek heeft ervoor gesproken.',
+    dimensionDocumentation:
+      'Een register, een inschrijving of een encyclopedie heeft het vastgelegd.',
+    dimensionCommunity:
+      'Mensen van die plek hebben het bevestigd, en gezegd wát ze bevestigen.',
+    fromDocuments:
+      'documenten kunnen',
+    fromPeople:
+      'alleen mensen',
+    contributeLead:
+      'Leg het vast zoals het gemaakt wordt waar u bent. Uit dit formulier alleen wordt niets gepubliceerd — het gaat eerst door de beoordeling en door de bevestiging van de gemeenschap.',
+    writeItTheWayYouWriteIt:
+      'Schrijf de naam van het gerecht zoals u hem schrijft',
+    editorialRuleBody:
+      'Verbeter onze tekst gerust — spelling, grammatica, alles wat slecht leest. Verbeter het gerecht zelf niet. Een gerechtsnaam, een ingrediënt, een stuk gereedschap en een plaats blijven precies zoals de mensen die het koken ze schrijven, accenten en al. Als twee spellingen van elkaar afwijken, zijn dat meestal twee gemeenschappen en geen fout, en beide blijven staan.',
+    photographTitle:
+      'Een foto ervan, als u er een hebt',
+    photographBody:
+      'Publiceer uw eigen foto op Wikimedia Commons en plak hier de bestandsnaam. Hij blijft van u, u wordt overal genoemd waar hij verschijnt, en het kost u noch ons iets. Van Instagram of TikTok mogen we er geen nemen — een foto daar valt onder het auteursrecht van de maker, en een naamsvermelding is geen toestemming.',
+    walkthroughNoteBody:
+      'Wat volgt is een uitgewerkt voorbeeld van wat er met een inzending gebeurt — de bevindingen, de controles en de voorlopige score hieronder komen van een record dat al in de atlas staat, niet van wat u zojuist hebt getypt. Uw inzending wordt hier niet beoordeeld; die wordt door mensen beoordeeld, nadat ze verstuurd is.',
+    examplePreparedBy:
+      'Huishoudens in Malabar, gemaakt voor de iftar en voor familiegelegenheden',
+    exampleConnection:
+      'Geboren in Kozhikode en kook daar',
+    exampleIngredients:
+      'Rijpe nendran-banaan, eieren, ghee, suiker, cashewnoten, rozijnen; gegaard in een zware pan op een lage houtskool- of gasvlam, afgedekt met een deksel dat met gloeiende kolen is verzwaard',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -1620,6 +2112,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Administracja',
     administrationNote:
       'Progi, moderacja, sprawdzanie źródeł i użycie. Wymaga tokenu.',
+    needTranslationTitle:
+      'Tłumaczenie',
+    needTranslationWhat:
+      'Pięć tysięcy wpisów opisuje potrawę w języku miejsca, z którego pochodzi — hindi, koreańskim, indonezyjskim, chińskim. Komu ten język jest obcy, pokazujemy oryginał i mówimy, jaki to język: uczciwie i niewiele mu to daje.',
+    needTranslationWhy:
+      'To jedyna część tego projektu, która kosztuje pieniądze. Tłumaczenie na żądanie wymaga modelu za kluczem, a reguły, których musi przestrzegać, są już spisane i sprawdzone: żaden składnik nieprzemianowany, żadna liczba niezmieniona, a wynik oznaczony jako maszynowy, dopóki ktoś stamtąd go nie sprawdzi.',
+    needTranslationCost:
+      'Kilkadziesiąt dolarów miesięcznie przy realnym użyciu, bo tłumaczenie robi się raz i zostaje.',
+    needHostingTitle:
+      'Hosting',
+    needHostingWhat:
+      'Aplikacja i jej czternaście megabajtów wpisów, dostarczane każdemu, kto ją otworzy.',
+    needHostingWhy:
+      'Dziś mieści się w darmowym progu. Przestałoby się mieścić, gdyby korzystało z niej dość osób.',
+    needHostingCost:
+      'Jak dotąd nic.',
+    needSourcesTitle:
+      'Źródła',
+    needSourcesWhat:
+      'Każde zdjęcie, artykuł, przepis i wpis rejestrowy w atlasie.',
+    needSourcesWhy:
+      'Wikipedia, Wikidane, Wikimedia Commons, Wikibooks i regionalne dane otwarte Włoch są darmowe do czytania i na otwartej licencji. Bez klucza, bez progu, bez rachunku.',
+    needSourcesCost:
+      'Nic, i nic pozostanie.',
+    howLead:
+      'To reguła, na której zbudowany jest ten atlas, i jest arytmetyką, a nie polityką — czyli możesz ją sprawdzić, zamiast w nią wierzyć.',
+    sixDimensionsBody:
+      'Każdy wpis oceniany jest w tych samych sześciu wymiarach, a wszystkie sześć wydrukowane są na samym wpisie. Wynik to ich średnia, więc kto w niego wątpi, może dodać liczby.',
+    ceilingBody:
+      'Na trzy z tych sześciu nie odpowie żaden kiedykolwiek napisany dokument. Żadna encyklopedia nie wie, czy dany sposób jest sposobem danego miejsca; żaden rejestr nie jest człowiekiem z tej wsi. Przy tych trzech pustych, najwięcej, co wpis może uzyskać z samych publikacji, to {ceiling}.',
+    thresholdBody:
+      'Wpis nazywa się Autentycznym od {threshold}. Odstęp między tymi dwiema liczbami jest zamierzony i jest całym argumentem: zamknąć go mogą tylko ludzie, którzy znają tę potrawę.',
+    whatClosesItBody:
+      '{n} potwierdzeń od osób, które podają swój związek z tym miejscem — i mówią, co potwierdzają, a nie tylko że się zgadzają. Oba są pokazane przy wpisie, bo zdanie w rodzaju „urodzony w Kozhikode — używamy ghee, nie oleju” to dowód, który można zważyć, a „{n} potwierdzeń” to liczba, w którą trzeba uwierzyć.',
+    accountsBody:
+      'Te {n} musi być {n} różnymi osobami, więc potwierdzenie liczy się do odznaki tylko wtedy, gdy osoba była zalogowana. Anonimowe i tak jest zapisywane i pokazywane przy wpisie — to, co ktoś wie, warto mieć, z kontem czy bez — po prostu nie rusza liczby. Czytanie atlasu nigdy nie wymaga logowania.',
+    whichIsWhereYouComeInBody:
+      'Za większość atlasu nikt nie mówi. Jeśli wiesz, jak przyrządza się potrawę tam, skąd jesteś, to jedyna rzecz, której nie dostarczy żadne źródło i nie sięgnie żadne zbieranie danych.',
+    notRatings:
+      'Bez ocen. Nikt nie wystawia potrawie gwiazdek.',
+    notComments:
+      'Bez komentarzy i bez tablicy. Nie ma tu z czym wchodzić w interakcję.',
+    notAlgorithm:
+      'Żaden algorytm nie decyduje, co widzisz. Kolejnością są dowody, i możesz ją zmienić.',
+    notAdvertising:
+      'Bez reklam, i żaden czytelnik nie jest śledzony.',
+    notPopularity:
+      'Popularność jest zapisywana i trzymana osobno. Najczęściej publikowana wersja potrawy nigdy nie staje się tą autentyczną.',
+    dimensionOrigin:
+      'Skąd potrawa pochodzi i jak dokładnie. Miasteczko bije kraj.',
+    dimensionIngredients:
+      'Z czego jest zrobiona, tak jak robi ją tradycja.',
+    dimensionTechnique:
+      'Jak się ją robi — nie to, że ktoś opublikował przepis, ale że to jest sposób tego miejsca.',
+    dimensionLocalSource:
+      'Ktoś z zadeklarowanym związkiem z tym miejscem przemówił w jej sprawie.',
+    dimensionDocumentation:
+      'Rejestr, wpis na listę lub encyklopedia to odnotowały.',
+    dimensionCommunity:
+      'Ludzie z tego miejsca to potwierdzili i powiedzieli, co potwierdzają.',
+    fromDocuments:
+      'dokumenty mogą',
+    fromPeople:
+      'tylko ludzie',
+    contributeLead:
+      'Zapisz to tak, jak robi się to tam, gdzie jesteś. Z samego tego formularza nic nie zostaje opublikowane — najpierw przechodzi przez ocenę i przez potwierdzenie społeczności.',
+    writeItTheWayYouWriteIt:
+      'Zapisz nazwę potrawy tak, jak sam ją zapisujesz',
+    editorialRuleBody:
+      'Poprawiaj nasz tekst swobodnie — ortografię, gramatykę, wszystko, co źle się czyta. Nie poprawiaj samej potrawy. Nazwa dania, składnik, sprzęt i miejsce zostają dokładnie tak, jak zapisują je ludzie, którzy to gotują, ze wszystkimi znakami. Jeśli dwie pisownie się różnią, to zwykle dwie społeczności, a nie błąd, i zostają obie.',
+    photographTitle:
+      'Zdjęcie, jeśli je masz',
+    photographBody:
+      'Opublikuj własne zdjęcie w Wikimedia Commons, a potem wklej tutaj nazwę pliku. Zostaje twoje, jesteś podpisany wszędzie, gdzie się pojawi, i nie kosztuje to ani ciebie, ani nas. Nie możemy wziąć zdjęcia z Instagrama ani TikToka — tam zdjęcie objęte jest prawem autorskim tego, kto je zrobił, a wiersz z podpisem nie jest zgodą.',
+    walkthroughNoteBody:
+      'To, co następuje, jest przerobionym przykładem tego, co dzieje się ze zgłoszeniem — ustalenia, sprawdzenia i wstępna punktacja poniżej pochodzą z wpisu, który już jest w atlasie, a nie z tego, co przed chwilą wpisałeś. Twój wpis nie jest tutaj oceniany; oceniają go ludzie, po wysłaniu.',
+    examplePreparedBy:
+      'Domy w Malabarze, przygotowywane na iftar i na okazje rodzinne',
+    exampleConnection:
+      'Urodzony w Kozhikode i tam gotuję',
+    exampleIngredients:
+      'Dojrzały banan nendran, jajka, ghee, cukier, nerkowce, rodzynki; smażone na ciężkiej patelni na małym ogniu z węgla lub gazu, przykryte pokrywką obciążoną żarem',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -1846,6 +2420,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Yönetim',
     administrationNote:
       'Eşikler, denetim, kaynak kontrolleri ve kullanım. Bir belirteç gerektirir.',
+    needTranslationTitle:
+      'Çeviri',
+    needTranslationWhat:
+      'Beş bin kayıt, bir yemeği geldiği yerin dilinde anlatıyor — Hintçe, Korece, Endonezce, Çince. O dili bilmeyene özgün metin gösterilip hangi dil olduğu söyleniyor: dürüst, ama pek işine yaramıyor.',
+    needTranslationWhy:
+      'Bu projenin para tutan tek parçası. İstek üzerine çeviri, bir anahtarın ardındaki modeli gerektirir ve uyması gereken kurallar zaten yazılı ve sınanmış: hiçbir malzemenin adı değişmez, hiçbir sayı değiştirilmez ve sonuç, oradan biri denetleyene kadar makine yapımı olarak etiketlenir.',
+    needTranslationCost:
+      'Gerçek kullanımda ayda onlarca dolar; çünkü bir çeviri bir kez yapılır ve saklanır.',
+    needHostingTitle:
+      'Barındırma',
+    needHostingWhat:
+      'Uygulama ve on dört megabaytlık kayıtları, açan herkese sunuluyor.',
+    needHostingWhy:
+      'Bugün ücretsiz bir kotaya sığıyor. Yeterince insan kullansa sığmaz olurdu.',
+    needHostingCost:
+      'Şimdiye kadar hiç.',
+    needSourcesTitle:
+      'Kaynaklar',
+    needSourcesWhat:
+      'Atlastaki her fotoğraf, makale, tarif ve sicil kaydı.',
+    needSourcesWhy:
+      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks ve İtalya’nın bölgesel açık verileri okumaya serbest ve açık lisanslı. Anahtar yok, kademe yok, fatura yok.',
+    needSourcesCost:
+      'Hiç, ve hiç kalacak.',
+    howLead:
+      'Bu atlasın kurulduğu kural budur ve bir politika değil, aritmetiktir — yani ona güvenmek yerine denetleyebilirsiniz.',
+    sixDimensionsBody:
+      'Her kayıt aynı altı boyutta puanlanır ve altısı da kaydın kendisinde yazar. Puan bunların ortalamasıdır; kuşku duyan sayıları toplayabilir.',
+    ceilingBody:
+      'Bu altıdan üçü, şimdiye kadar yazılmış hiçbir belgeyle yanıtlanamaz. Hiçbir ansiklopedi bir yapılışın o yerin yapılışı olup olmadığını bilmez; hiçbir sicil o kasabadan bir insan değildir. O üçü boşken, bir kaydın yalnızca yayımlanmış kaynaklarla alabileceği en yüksek puan {ceiling}.',
+    thresholdBody:
+      'Bir kayda {threshold} puandan itibaren Otantik denir. Bu iki sayı arasındaki mesafe bilinçlidir ve bütün mesele odur: onu ancak yemeği bilenler kapatabilir.',
+    whatClosesItBody:
+      'O yerle bağını belirten kişilerden {n} doğrulama — ve yalnızca onayladıklarını değil, neyi doğruladıklarını söyleyen kişilerden. İkisi de kayıtta görünür; çünkü “Kozhikode doğumluyum — yağ değil, sadeyağ kullanırız” gibi bir cümle tartılabilecek bir kanıttır, “{n} doğrulama” ise inanılması gereken bir sayıdır.',
+    accountsBody:
+      'O {n} kişinin {n} farklı kişi olması gerekir; bu yüzden bir doğrulama, ancak kişi oturum açmışsa rozete sayılır. Anonim olan yine de kaydedilir ve kayıtta gösterilir — birinin bildiği şey, hesabı olsun olmasın, edinilmeye değer — yalnızca sayıyı oynatmaz. Atlası okumak hiçbir zaman oturum açmayı gerektirmez.',
+    whichIsWhereYouComeInBody:
+      'Atlasın çoğu için konuşan kimse yok. Bir yemeğin, geldiğiniz yerde nasıl yapıldığını biliyorsanız, bu hiçbir kaynağın sağlayamayacağı ve hiçbir taramanın ulaşamayacağı tek şeydir.',
+    notRatings:
+      'Puanlama yok. Kimse bir yemeğe beş üzerinden not vermiyor.',
+    notComments:
+      'Yorum yok, akış yok. Burada etkileşime girilecek bir şey yok.',
+    notAlgorithm:
+      'Ne göreceğinize bir algoritma karar vermiyor. Sıralama kanıttır ve onu değiştirebilirsiniz.',
+    notAdvertising:
+      'Reklam yok ve hiçbir okur izlenmiyor.',
+    notPopularity:
+      'Popülerlik kaydedilir ve ayrı tutulur. Bir yemeğin en çok yayımlanan sürümü asla otantik olan hâline gelmez.',
+    dimensionOrigin:
+      'Yemeğin nereden geldiği ve ne kadar kesin olarak. Bir kasaba, bir ülkeyi geçer.',
+    dimensionIngredients:
+      'Neyden yapıldığı — geleneğin yaptığı biçimiyle.',
+    dimensionTechnique:
+      'Nasıl yapıldığı — birinin tarif yayımlamış olması değil, bunun o yerin yöntemi olması.',
+    dimensionLocalSource:
+      'O yerle bağını belirten biri onun için konuşmuş.',
+    dimensionDocumentation:
+      'Bir sicil, bir tescil ya da bir ansiklopedi onu kaydetmiş.',
+    dimensionCommunity:
+      'O yerden insanlar doğrulamış ve neyi doğruladıklarını söylemiş.',
+    fromDocuments:
+      'belgeler yapabilir',
+    fromPeople:
+      'yalnızca insanlar',
+    contributeLead:
+      'Bulunduğunuz yerde nasıl yapılıyorsa öyle kaydedin. Yalnızca bu formdan hiçbir şey yayımlanmaz — önce değerlendirmeden ve topluluk doğrulamasından geçer.',
+    writeItTheWayYouWriteIt:
+      'Yemeğin adını siz nasıl yazıyorsanız öyle yazın',
+    editorialRuleBody:
+      'Bizim yazdığımızı gönlünüzce düzeltin — yazım, dilbilgisi, kötü okunan her şey. Yemeğin kendisini düzeltmeyin. Bir yemek adı, bir malzeme, bir alet ve bir yer, onu pişiren insanlar nasıl yazıyorsa tam olarak öyle kalır, işaretleriyle birlikte. İki yazım birbirini tutmuyorsa, bu genellikle bir hata değil iki topluluktur ve ikisi de saklanır.',
+    photographTitle:
+      'Varsa bir fotoğrafı',
+    photographBody:
+      'Kendi fotoğrafınızı Wikimedia Commons’a yükleyin, sonra dosya adını buraya yapıştırın. Fotoğraf sizin kalır, göründüğü her yerde adınız yazılır ve ne size ne bize bir şeye mal olur. Instagram’dan ya da TikTok’tan alamayız — oradaki bir fotoğraf, onu çekenin telif hakkındadır ve bir künye satırı izin demek değildir.',
+    walkthroughNoteBody:
+      'Aşağıdaki, bir gönderiye ne olduğunu gösteren çözülmüş bir örnektir — bulgular, denetimler ve taslak puan, az önce yazdığınızdan değil, atlasta zaten bulunan bir kayıttan gelir. Girdiğiniz burada değerlendirilmez; gönderildikten sonra insanlar değerlendirir.',
+    examplePreparedBy:
+      'Malabar evleri, iftar için ve aile günleri için yapılır',
+    exampleConnection:
+      'Kozhikode doğumluyum ve orada pişiriyorum',
+    exampleIngredients:
+      'Olgun nendran muzu, yumurta, sadeyağ, şeker, kaju, kuru üzüm; ağır bir tavada kısık kömür ya da gaz ateşinde, korla ağırlaştırılmış bir kapakla örtülerek pişirilir',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -2073,6 +2729,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Администрирование',
     administrationNote:
       'Пороги, модерация, проверка источников и использование. Нужен токен.',
+    needTranslationTitle:
+      'Перевод',
+    needTranslationWhat:
+      'Пять тысяч записей описывают блюдо на языке места, откуда оно родом, — хинди, корейском, индонезийском, китайском. Тому, кто им не владеет, показывают оригинал и говорят, что это за язык: честно и мало чем полезно.',
+    needTranslationWhy:
+      'Это единственная часть проекта, которая стоит денег. Перевод по запросу требует модели за ключом, а правила, которым он должен следовать, уже написаны и проверены: ни один ингредиент не переименован, ни одно число не изменено, и результат помечен как машинный, пока кто-то оттуда его не проверит.',
+    needTranslationCost:
+      'Десятки долларов в месяц при реальном использовании, потому что перевод делается один раз и сохраняется.',
+    needHostingTitle:
+      'Хостинг',
+    needHostingWhat:
+      'Приложение и его четырнадцать мегабайт записей, отдаваемые каждому, кто его открывает.',
+    needHostingWhy:
+      'Сегодня это укладывается в бесплатный тариф. Перестало бы укладываться, если бы им пользовалось достаточно людей.',
+    needHostingCost:
+      'Пока ничего.',
+    needSourcesTitle:
+      'Источники',
+    needSourcesWhat:
+      'Каждая фотография, статья, рецепт и запись реестра в атласе.',
+    needSourcesWhy:
+      'Википедия, Викиданные, Викисклад, Викиучебники и региональные открытые данные Италии свободны для чтения и под открытой лицензией. Ни ключа, ни тарифа, ни счёта.',
+    needSourcesCost:
+      'Ничего, и останется ничего.',
+    howLead:
+      'Это правило, на котором построен атлас, и это арифметика, а не политика — значит, его можно проверить, а не принимать на веру.',
+    sixDimensionsBody:
+      'Каждая запись оценивается по одним и тем же шести измерениям, и все шесть напечатаны на самой записи. Оценка — их среднее, так что сомневающийся может сложить числа сам.',
+    ceilingBody:
+      'На три из этих шести не ответит ни один когда-либо написанный документ. Ни одна энциклопедия не знает, является ли способ приготовления способом данного места; ни один реестр не человек из этого посёлка. При этих трёх пустых максимум, который запись может набрать на одних опубликованных источниках, — {ceiling}.',
+    thresholdBody:
+      'Запись называется подлинной начиная с {threshold}. Расстояние между этими двумя числами задумано намеренно, и в нём весь смысл: закрыть его могут только люди, которые знают это блюдо.',
+    whatClosesItBody:
+      '{n} подтверждений от людей, которые называют свою связь с этим местом, — и говорят, что именно они подтверждают, а не просто что одобряют. И то и другое показано на записи, потому что фраза вроде «родился в Кожикоде — мы берём гхи, а не масло» — это свидетельство, которое можно взвесить, а «{n} подтверждения» — число, которому приходится верить.',
+    accountsBody:
+      'Эти {n} должны быть {n} разными людьми, поэтому подтверждение засчитывается к значку только если человек вошёл в систему. Анонимное всё равно записывается и показывается на записи — то, что человек знает, стоит сохранить, есть у него учётная запись или нет, — просто оно не двигает число. Чтобы читать атлас, вход не нужен никогда.',
+    whichIsWhereYouComeInBody:
+      'За большую часть атласа не говорит никто. Если вы знаете, как готовят блюдо там, откуда вы, — это единственное, чего не даст ни один источник и до чего не дотянется никакой сбор данных.',
+    notRatings:
+      'Никаких оценок. Никто не ставит блюду баллы.',
+    notComments:
+      'Никаких комментариев и никакой ленты. Здесь не с чем взаимодействовать.',
+    notAlgorithm:
+      'Никакой алгоритм не решает, что вы видите. Порядок — это свидетельства, и вы можете его изменить.',
+    notAdvertising:
+      'Никакой рекламы, и ни за одним читателем не следят.',
+    notPopularity:
+      'Популярность записывается и держится отдельно. Самая публикуемая версия блюда никогда не становится подлинной.',
+    dimensionOrigin:
+      'Откуда блюдо и насколько точно. Город весомее страны.',
+    dimensionIngredients:
+      'Из чего оно сделано — так, как делает традиция.',
+    dimensionTechnique:
+      'Как его готовят — не то, что кто-то опубликовал рецепт, а то, что это способ данного места.',
+    dimensionLocalSource:
+      'Кто-то с заявленной связью с этим местом высказался за него.',
+    dimensionDocumentation:
+      'Реестр, запись в списке или энциклопедия это зафиксировали.',
+    dimensionCommunity:
+      'Люди оттуда подтвердили это и сказали, что именно подтверждают.',
+    fromDocuments:
+      'документы могут',
+    fromPeople:
+      'только люди',
+    contributeLead:
+      'Запишите так, как это делают там, где вы находитесь. Из одной этой формы ничего не публикуется — сначала идёт оценка и подтверждение сообществом.',
+    writeItTheWayYouWriteIt:
+      'Пишите название блюда так, как пишете его вы',
+    editorialRuleBody:
+      'Правьте наш текст свободно — орфографию, грамматику, всё, что плохо читается. Само блюдо не правьте. Название блюда, ингредиент, посуда и место остаются ровно такими, как их пишут те, кто это готовит, со всеми знаками. Если два написания расходятся, это обычно две общины, а не ошибка, и сохраняются оба.',
+    photographTitle:
+      'Фотография, если она у вас есть',
+    photographBody:
+      'Опубликуйте свою фотографию на Wikimedia Commons, а затем вставьте сюда имя файла. Она остаётся вашей, ваше имя указано везде, где она появляется, и это ничего не стоит ни вам, ни нам. Взять фотографию из Instagram или TikTok мы не можем — там она принадлежит автору по авторскому праву, а строка с указанием имени — не разрешение.',
+    walkthroughNoteBody:
+      'Ниже — разобранный пример того, что происходит с присланной записью: находки, проверки и черновая оценка взяты из записи, которая уже есть в атласе, а не из того, что вы только что набрали. Ваша запись здесь не оценивается; её оценивают люди, после отправки.',
+    examplePreparedBy:
+      'Дома Малабара, готовят на ифтар и к семейным поводам',
+    exampleConnection:
+      'Родился в Кожикоде и готовлю там',
+    exampleIngredients:
+      'Спелый банан нендран, яйца, топлёное масло гхи, сахар, кешью, изюм; готовится в тяжёлой сковороде на слабом угольном или газовом огне, под крышкой, придавленной углями',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -2300,6 +3038,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'प्रशासन',
     administrationNote:
       'सीमाएँ, मॉडरेशन, स्रोत जाँच और उपयोग। टोकन चाहिए।',
+    needTranslationTitle:
+      'अनुवाद',
+    needTranslationWhat:
+      'पाँच हज़ार रिकॉर्ड किसी व्यंजन को उसी जगह की भाषा में बताते हैं जहाँ से वह आता है — हिंदी, कोरियाई, इंडोनेशियाई, चीनी। जो वह भाषा नहीं जानता, उसे मूल पाठ दिखाया जाता है और बताया जाता है कि वह कौन सी भाषा है: ईमानदार, और उसके ज़्यादा काम का नहीं।',
+    needTranslationWhy:
+      'इस परियोजना का यही एक हिस्सा है जिसमें पैसे लगते हैं। माँग पर अनुवाद के लिए किसी कुंजी के पीछे एक मॉडल चाहिए, और जिन नियमों का उसे पालन करना है वे पहले ही लिखे और परखे जा चुके हैं: कोई सामग्री का नाम न बदले, कोई संख्या न बदले, और परिणाम पर तब तक मशीन-निर्मित का लेबल रहे जब तक वहाँ का कोई उसे जाँच न ले।',
+    needTranslationCost:
+      'वास्तविक उपयोग पर महीने के कुछ दसियों डॉलर, क्योंकि अनुवाद एक बार होता है और फिर रख लिया जाता है।',
+    needHostingTitle:
+      'होस्टिंग',
+    needHostingWhat:
+      'ऐप और उसके चौदह मेगाबाइट रिकॉर्ड, हर उस व्यक्ति को परोसे जाते हैं जो इसे खोलता है।',
+    needHostingWhy:
+      'आज यह मुफ़्त सीमा में आ जाता है। अगर काफ़ी लोग इस्तेमाल करने लगें तो नहीं आएगा।',
+    needHostingCost:
+      'अब तक कुछ नहीं।',
+    needSourcesTitle:
+      'स्रोत',
+    needSourcesWhat:
+      'एटलस की हर तस्वीर, लेख, विधि और रजिस्टर प्रविष्टि।',
+    needSourcesWhy:
+      'विकिपीडिया, विकिडेटा, विकिमीडिया कॉमन्स, विकिबुक्स और इटली के क्षेत्रीय खुले डेटा पढ़ने को स्वतंत्र और खुली लाइसेंस वाले हैं। न कुंजी, न श्रेणी, न बिल।',
+    needSourcesCost:
+      'कुछ नहीं, और कुछ नहीं ही रहेगा।',
+    howLead:
+      'यही वह नियम है जिस पर यह एटलस टिका है, और यह नीति नहीं, अंकगणित है — यानी आप इस पर भरोसा करने के बजाय इसे जाँच सकते हैं।',
+    sixDimensionsBody:
+      'हर रिकॉर्ड उन्हीं छह आयामों पर आँका जाता है, और छहों रिकॉर्ड पर ही छपे होते हैं। अंक उनका औसत है, इसलिए जिसे संदेह हो वह संख्याएँ जोड़ सकता है।',
+    ceilingBody:
+      'उन छह में से तीन का उत्तर आज तक लिखा गया कोई दस्तावेज़ नहीं दे सकता। कोई विश्वकोश नहीं जानता कि कोई विधि उस जगह की विधि है या नहीं; कोई रजिस्टर उस कस्बे का व्यक्ति नहीं होता। वे तीन खाली होने पर, केवल प्रकाशित स्रोतों से कोई रिकॉर्ड अधिकतम {ceiling} तक ही पहुँच सकता है।',
+    thresholdBody:
+      'किसी रिकॉर्ड को {threshold} पर प्रामाणिक कहा जाता है। इन दो संख्याओं की दूरी जान-बूझकर है, और यही पूरा तर्क है: इसे केवल वही लोग पाट सकते हैं जो उस व्यंजन को जानते हैं।',
+    whatClosesItBody:
+      'उन लोगों से {n} पुष्टियाँ जो उस जगह से अपना नाता बताते हैं — और जो कहते हैं कि वे क्या पुष्ट कर रहे हैं, केवल यह नहीं कि वे सहमत हैं। दोनों रिकॉर्ड पर दिखते हैं, क्योंकि “कोझिकोड में जन्मा — हम तेल नहीं, घी डालते हैं” जैसा वाक्य ऐसा प्रमाण है जिसे तौला जा सकता है, जबकि “{n} पुष्टियाँ” वह संख्या है जिस पर भरोसा करना पड़ता है।',
+    accountsBody:
+      'वे {n} पुष्टियाँ {n} अलग-अलग लोगों की होनी चाहिए, इसलिए कोई पुष्टि बैज की ओर तभी गिनी जाती है जब व्यक्ति साइन इन था। गुमनाम पुष्टि फिर भी दर्ज होती है और रिकॉर्ड पर दिखती है — किसी की जानकारी रखने योग्य है, खाता हो या न हो — बस वह संख्या नहीं बढ़ाती। एटलस पढ़ने के लिए साइन इन कभी ज़रूरी नहीं।',
+    whichIsWhereYouComeInBody:
+      'एटलस के अधिकांश हिस्से के लिए कोई नहीं बोलता। अगर आप जानते हैं कि आपके यहाँ कोई व्यंजन कैसे बनता है, तो वही एक चीज़ है जो कोई स्रोत नहीं दे सकता और कोई स्क्रैपिंग नहीं पहुँच सकती।',
+    notRatings:
+      'कोई रेटिंग नहीं। कोई किसी व्यंजन को पाँच में से अंक नहीं देता।',
+    notComments:
+      'कोई टिप्पणी नहीं, कोई फ़ीड नहीं। यहाँ जुड़ने-भिड़ने को कुछ नहीं है।',
+    notAlgorithm:
+      'कोई एल्गोरिदम तय नहीं करता कि आप क्या देखें। क्रम प्रमाण है, और आप उसे बदल सकते हैं।',
+    notAdvertising:
+      'कोई विज्ञापन नहीं, और किसी पाठक को ट्रैक नहीं किया जाता।',
+    notPopularity:
+      'लोकप्रियता दर्ज होती है और अलग रखी जाती है। किसी व्यंजन का सबसे ज़्यादा प्रकाशित रूप कभी प्रामाणिक नहीं बनता।',
+    dimensionOrigin:
+      'व्यंजन कहाँ का है, और कितनी बारीकी से। कस्बा देश से बेहतर है।',
+    dimensionIngredients:
+      'वह किस चीज़ से बनता है, जैसा परंपरा बनाती है।',
+    dimensionTechnique:
+      'वह कैसे बनता है — यह नहीं कि किसी ने विधि छापी, बल्कि यह कि यही उस जगह की विधि है।',
+    dimensionLocalSource:
+      'उस जगह से घोषित नाता रखने वाले किसी व्यक्ति ने उसके लिए कहा है।',
+    dimensionDocumentation:
+      'किसी रजिस्टर, सूची या विश्वकोश ने उसे दर्ज किया है।',
+    dimensionCommunity:
+      'उस जगह के लोगों ने उसकी पुष्टि की है, और बताया है कि वे क्या पुष्ट कर रहे हैं।',
+    fromDocuments:
+      'दस्तावेज़ बता सकते हैं',
+    fromPeople:
+      'केवल लोग',
+    contributeLead:
+      'जहाँ आप हैं वहाँ जैसे बनता है, वैसे ही दर्ज करें। सिर्फ़ इस फ़ॉर्म से कुछ भी प्रकाशित नहीं होता — पहले आकलन और समुदाय की पुष्टि से गुज़रता है।',
+    writeItTheWayYouWriteIt:
+      'खाने का नाम वैसे ही लिखें जैसे आप लिखते हैं',
+    editorialRuleBody:
+      'हमारी लिखावट को बेझिझक सुधारें — वर्तनी, व्याकरण, जो कुछ भी ठीक से नहीं पढ़ा जाता। खाने को ही मत सुधारिए। व्यंजन का नाम, कोई सामग्री, कोई बर्तन और कोई जगह ठीक वैसे ही रहते हैं जैसे उन्हें वे लोग लिखते हैं जो उसे पकाते हैं, मात्राओं समेत। अगर दो वर्तनियाँ अलग हैं, तो वह आम तौर पर दो समुदाय होते हैं, ग़लती नहीं, और दोनों रखी जाती हैं।',
+    photographTitle:
+      'उसकी एक तस्वीर, अगर आपके पास हो',
+    photographBody:
+      'अपनी तस्वीर Wikimedia Commons पर प्रकाशित करें, फिर उसका फ़ाइल नाम यहाँ चिपकाएँ। वह आपकी ही रहती है, जहाँ भी दिखे वहाँ आपका नाम रहता है, और इसमें न आपका कुछ ख़र्च होता है न हमारा। हम Instagram या TikTok से कोई तस्वीर नहीं ले सकते — वहाँ तस्वीर उसके बनाने वाले के कॉपीराइट में है, और नाम की एक पंक्ति अनुमति नहीं है।',
+    walkthroughNoteBody:
+      'आगे जो है वह एक हल किया हुआ उदाहरण है कि भेजी गई प्रविष्टि के साथ क्या होता है — नीचे दिए निष्कर्ष, जाँचें और कच्चा अंक एटलस में पहले से मौजूद एक रिकॉर्ड के हैं, उसके नहीं जो आपने अभी लिखा। आपकी प्रविष्टि यहाँ नहीं आँकी जाती; भेजे जाने के बाद उसे लोग आँकते हैं।',
+    examplePreparedBy:
+      'मालाबार के घर, इफ़्तार और पारिवारिक अवसरों के लिए बनाया जाता है',
+    exampleConnection:
+      'कोझिकोड में जन्मा और वहीं पकाता हूँ',
+    exampleIngredients:
+      'पका नेंद्रन केला, अंडे, घी, चीनी, काजू, किशमिश; भारी कड़ाही में कोयले या गैस की धीमी आँच पर, अंगारों से दबाए ढक्कन से ढककर पकाया जाता है',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -2527,6 +3347,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '管理',
     administrationNote:
       '阈值、审核、来源检查与使用情况。需要令牌。',
+    needTranslationTitle:
+      '翻译',
+    needTranslationWhat:
+      '有五千条记录用食物来源地的语言描述这道菜 — 印地语、韩语、印尼语、中文。不懂这门语言的读者会看到原文，并被告知那是哪种语言：诚实，但对他帮助不大。',
+    needTranslationWhy:
+      '这是本项目唯一花钱的部分。按需翻译需要一个放在密钥之后的模型，而它必须遵守的规则已经写好并经过测试：不改任何食材的名字，不改任何数字，并在当地的人核对之前，把结果标注为机器翻译。',
+    needTranslationCost:
+      '按真实使用量计，每月数十美元，因为一次翻译做完就会保存下来。',
+    needHostingTitle:
+      '托管',
+    needHostingWhat:
+      '这个应用及其十四兆字节的记录，提供给每一位打开它的人。',
+    needHostingWhy:
+      '今天它还在免费额度之内。如果使用的人够多，就不会了。',
+    needHostingCost:
+      '到目前为止没有。',
+    needSourcesTitle:
+      '资料来源',
+    needSourcesWhat:
+      '图谱里的每一张照片、每一篇文章、每一份食谱和每一条登记条目。',
+    needSourcesWhy:
+      '维基百科、维基数据、维基共享资源、维基教科书，以及意大利的地区开放数据，都可自由阅读并采用开放许可。没有密钥，没有档位，没有账单。',
+    needSourcesCost:
+      '没有，而且将继续没有。',
+    howLead:
+      '这就是这份图谱赖以建立的规则，它是算术而不是政策 — 也就是说你可以核对它，而不必相信它。',
+    sixDimensionsBody:
+      '每条记录都按同样的六个维度评分，六项都印在记录本身上。总分是它们的平均值，所以怀疑的人可以自己把数字加起来。',
+    ceilingBody:
+      '这六项中有三项，是任何写下来的文献都回答不了的。没有哪部百科全书知道某种做法是不是某地的做法；没有哪份登记簿是那个镇上的一个人。这三项空着时，一条记录仅凭已发表的资料最高只能得到 {ceiling}。',
+    thresholdBody:
+      '一条记录达到 {threshold} 才被称为正宗。这两个数字之间的距离是刻意的，也正是全部论点所在：只有了解这道菜的人才能把它补上。',
+    whatClosesItBody:
+      '来自说明自己与当地关系的人的 {n} 条确认 — 而且要说出他们确认的是什么，而不只是表示赞同。两者都会显示在记录上，因为“我在科泽科德出生 — 我们用酥油，不用油”这样的句子是可以掂量的证据，而“{n} 条确认”只是一个你不得不相信的数字。',
+    accountsBody:
+      '这 {n} 条必须来自 {n} 个不同的人，所以只有当事人已登录时，确认才计入标记。匿名的确认照样记录、照样显示在记录上 — 一个人知道的事情值得留下，无论他有没有账号 — 只是不会改变那个数字。阅读图谱从不需要登录。',
+    whichIsWhereYouComeInBody:
+      '图谱的大部分没有人为它发声。如果你知道你家乡的一道菜是怎么做的，那正是任何资料都提供不了、任何抓取都触及不到的东西。',
+    notRatings:
+      '没有评分。没有人给一道菜打五分制的分数。',
+    notComments:
+      '没有评论，也没有信息流。这里没有什么可供你互动。',
+    notAlgorithm:
+      '没有算法决定你看到什么。顺序就是证据，而且你可以改变它。',
+    notAdvertising:
+      '没有广告，也不追踪任何读者。',
+    notPopularity:
+      '热度会被记录并单独存放。一道菜流传最广的版本，永远不会因此成为正宗的那一个。',
+    dimensionOrigin:
+      '这道菜来自哪里，以及有多精确。一个镇胜过一个国家。',
+    dimensionIngredients:
+      '它用什么做成 — 按传统的做法。',
+    dimensionTechnique:
+      '它怎么做 — 不是有人发表过食谱，而是这就是当地的做法。',
+    dimensionLocalSource:
+      '一位说明了与当地关系的人为它作了证。',
+    dimensionDocumentation:
+      '有登记簿、名录或百科全书记载过它。',
+    dimensionCommunity:
+      '当地的人确认过它，并说明了他们确认的是什么。',
+    fromDocuments:
+      '文献可以',
+    fromPeople:
+      '只有人可以',
+    contributeLead:
+      '按你所在地的做法记录下来。仅凭这份表格不会发布任何内容 — 它要先经过评估和社区确认。',
+    writeItTheWayYouWriteIt:
+      '这道菜的名字，你怎么写就怎么写',
+    editorialRuleBody:
+      '请随意修改我们的文字 — 拼写、语法、任何读起来不顺的地方。但不要去修正这道菜本身。菜名、食材、器具和地名，一律保持做这道菜的人所写的样子，连符号也不动。如果两种写法不一致，那通常是两个地方的人，而不是错误，两种都保留。',
+    photographTitle:
+      '如果你有，一张它的照片',
+    photographBody:
+      '把你自己拍的照片发布到 Wikimedia Commons，然后把文件名粘贴到这里。照片仍然是你的，凡是出现的地方都会署你的名，而且对你我都不花钱。我们不能从 Instagram 或 TikTok 上取用 — 那里的照片归拍摄者著作权所有，一行署名不等于许可。',
+    walkthroughNoteBody:
+      '下面是一个做完的示例，说明一份提交会经历什么 — 下方的发现、核查和草拟分数来自图册中已有的一条记录，而不是你刚才输入的内容。你的条目不在这里评定；发送之后由人来评定。',
+    examplePreparedBy:
+      '马拉巴尔的家庭，为开斋饭和家庭场合而做',
+    exampleConnection:
+      '生在科泽科德，也在那里做菜',
+    exampleIngredients:
+      '熟的 nendran 香蕉、鸡蛋、酥油、糖、腰果、葡萄干；用厚底锅在炭火或煤气小火上烹制，盖上压了炭火的锅盖',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -2754,6 +3656,88 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '管理',
     administrationNote:
       'しきい値、モデレーション、出典の確認、利用状況。トークンが必要です。',
+    needTranslationTitle:
+      '翻訳',
+    needTranslationWhat:
+      '五千件の記録は、その料理を生まれた土地の言語で説明しています — ヒンディー語、韓国語、インドネシア語、中国語。その言語を解さない読者には原文が示され、何語かが伝えられます。正直ですが、その人の役にはあまり立ちません。',
+    needTranslationWhy:
+      'この計画で費用がかかるのはここだけです。求めに応じた翻訳には鍵の向こうのモデルが必要で、守るべき規則はすでに書かれ、試されています。材料の名前を置き換えない、数字を変えない、そして現地の誰かが確かめるまで機械によるものと明示する。',
+    needTranslationCost:
+      '実際の利用で月に数十ドル。翻訳は一度行えば保存されるからです。',
+    needHostingTitle:
+      'ホスティング',
+    needHostingWhat:
+      'アプリと、その十四メガバイトの記録を、開いた人すべてに届けること。',
+    needHostingWhy:
+      '今は無料の枠に収まっています。使う人が十分に増えれば収まらなくなります。',
+    needHostingCost:
+      '今のところ、ありません。',
+    needSourcesTitle:
+      '出典',
+    needSourcesWhat:
+      'アトラスにあるすべての写真、記事、レシピ、登録簿の記載。',
+    needSourcesWhy:
+      'ウィキペディア、ウィキデータ、ウィキメディア・コモンズ、ウィキブックス、そしてイタリアの地域オープンデータは、自由に読めてオープンライセンスです。鍵も、段階も、請求もありません。',
+    needSourcesCost:
+      'ありません。そしてこれからもありません。',
+    howLead:
+      'これがこのアトラスの土台にある規則です。方針ではなく算術なので、信じるのではなく確かめられます。',
+    sixDimensionsBody:
+      'どの記録も同じ六つの観点で採点され、六つとも記録そのものに印刷されています。点数はその平均なので、疑う人は数字を足してみればわかります。',
+    ceilingBody:
+      'この六つのうち三つは、これまでに書かれたどんな文献でも答えられません。ある作り方がその土地の作り方かどうかを知っている百科事典はなく、登録簿がその町の人であることもありません。その三つが空のままなら、公表された資料だけで記録が届く上限は {ceiling} です。',
+    thresholdBody:
+      '記録が本物と呼ばれるのは {threshold} からです。この二つの数字の隔たりは意図されたもので、それこそが論の全部です。埋められるのは、その料理を知る人だけです。',
+    whatClosesItBody:
+      'その土地との関わりを述べた人による {n} 件の確認 — しかも、賛成だというだけでなく、何を確認しているのかを述べたもの。どちらも記録に表示されます。「コーリコード生まれ — うちは油ではなくギーです」という一文は重みを量れる根拠ですが、「{n} 件の確認」は信じるしかない数字だからです。',
+    accountsBody:
+      'その {n} 件は {n} 人の別々の人でなければならないので、確認が印に数えられるのは、その人がサインインしていたときだけです。匿名のものも記録され、記録上に表示されます — 誰かが知っていることは、アカウントの有無にかかわらず得るに値します — ただ数字を動かさないだけです。アトラスを読むのにサインインは決して要りません。',
+    whichIsWhereYouComeInBody:
+      'アトラスの大半には、代わりに語る人がいません。あなたの土地でその料理がどう作られるかを知っているなら、それはどんな資料にも出せず、どれだけ収集しても届かない唯一のものです。',
+    notRatings:
+      '評価はありません。料理に五段階の点をつける人はいません。',
+    notComments:
+      'コメントもフィードもありません。ここに「反応する」対象はありません。',
+    notAlgorithm:
+      '何を見るかをアルゴリズムが決めることはありません。並び順は根拠であり、変えられます。',
+    notAdvertising:
+      '広告はなく、読む人が追跡されることもありません。',
+    notPopularity:
+      '人気は記録され、別に扱われます。最も多く公開された版が、そのために本物になることはありません。',
+    dimensionOrigin:
+      'その料理がどこのものか、そしてどこまで細かく特定できるか。町は国に勝ります。',
+    dimensionIngredients:
+      '何から作られるか — 伝統が作るとおりに。',
+    dimensionTechnique:
+      'どう作るか — 誰かがレシピを公開したことではなく、これがその土地の作り方であること。',
+    dimensionLocalSource:
+      'その土地との関わりを述べた人が、それについて語っている。',
+    dimensionDocumentation:
+      '登録簿、登録、あるいは百科事典がそれを記している。',
+    dimensionCommunity:
+      'その土地の人が確認し、何を確認しているかを述べている。',
+    fromDocuments:
+      '文献でわかる',
+    fromPeople:
+      '人だけがわかる',
+    contributeLead:
+      'あなたのいる土地での作り方のまま記録してください。この用紙だけで公開されるものはありません — まず評価と、地域の人による確認を通ります。',
+    writeItTheWayYouWriteIt:
+      '料理の名前は、あなたが書くとおりに書いてください',
+    editorialRuleBody:
+      '私たちの文章は自由に直してください — 表記、文法、読みにくいところは何でも。ただし料理そのものは直さないでください。料理名、材料、道具、地名は、それを作る人が書くとおりにそのまま残します。符号もそのままです。二つの表記が食い違うなら、たいていは誤りではなく二つの土地なので、両方を残します。',
+    photographTitle:
+      '写真があれば、その一枚',
+    photographBody:
+      'ご自分で撮った写真を Wikimedia Commons に公開し、そのファイル名をここに貼ってください。写真はあなたのもののままで、出るところすべてにあなたの名前が載り、あなたにも私たちにも費用はかかりません。Instagram や TikTok から取ることはできません — そこにある写真は撮った人の著作権のもとにあり、クレジット一行は許可ではないからです。',
+    walkthroughNoteBody:
+      '以下は、送られた内容がどう扱われるかを示した記入済みの例です — 下に出る所見、確認、暫定の点数は、すでにアトラスにある記録のもので、あなたが今入力したものではありません。あなたの入力はここでは評価されません。送信されたあと、人が評価します。',
+    examplePreparedBy:
+      'マラバールの家庭で、イフタールや家の行事のために作られる',
+    exampleConnection:
+      'コーリコード生まれ、そこで作っています',
+    exampleIngredients:
+      '熟したネンドラン バナナ、卵、ギー、砂糖、カシューナッツ、レーズン。厚手の鍋で炭火かガスの弱火にかけ、熾火を載せた蓋をして火を通す',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
