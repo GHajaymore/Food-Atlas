@@ -134,7 +134,7 @@ export default function Browse() {
         </>
       ) : (
         <View style={styles.empty}>
-          <T style={styles.emptyHead}>Nothing matches all of these at once.</T>
+          <T style={styles.emptyHead}>{copy.nothingMatchesAll}</T>
           <Muted style={styles.emptyNote}>
             Each filter above can be lifted on its own. The atlas holds{' '}
             {catalogue.length.toLocaleString()} records; this combination is not one of them.

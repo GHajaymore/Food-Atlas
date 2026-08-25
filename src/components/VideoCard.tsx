@@ -54,7 +54,7 @@ export function VideoCard({ video }: { video: Video }) {
             <PlayIcon size={16} color={color.accent} weight="fill" />
           </View>
         </View>
-        <Tag label="Watch at source ↗" variant="neutral" fontSize={10} style={styles.watchChip} noWrap />
+        <Tag label={copy.watchAtSource} variant="neutral" fontSize={10} style={styles.watchChip} noWrap />
       </Pressable>
 
       <View style={styles.meta}>

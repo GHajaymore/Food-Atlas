@@ -29,6 +29,8 @@
  * because of a desktop change.
  */
 
+import { useCopy } from '../i18n';
+import type { Copy } from '../i18n/copy';
 import { useState } from 'react';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
 import type { AtlasGroup } from '../domain/queries';
@@ -43,7 +45,7 @@ import { H6, Muted, T } from './Text';
 const caretMotion: object = { dataSet: { motion: 'caret' } };
 
 /** How the header of a continent describes itself, on either layout. */
-function groupSummary(group: AtlasGroup) {
+function groupSummary(copy: Copy, group: AtlasGroup) {
   const dishCount = group.countries.reduce((sum, c) => sum + c.count, 0);
   /*
    * "Elsewhere" holds origins recorded as a region or a former state — Levant,
@@ -51,8 +53,14 @@ function groupSummary(group: AtlasGroup) {
    * ones on the screen, in the group least likely to be checked.
    */
   const realCountries = group.countries.filter((c) => isCountry(c.name)).length;
-  const placeWord = realCountries === group.countries.length ? 'countries' : 'origins';
-  return { dishCount, placeWord, label: `${group.countries.length} ${placeWord} · ${dishCount.toLocaleString()} traditions` };
+  const allCountries = realCountries === group.countries.length;
+  const template = allCountries ? copy.groupSummaryCountries : copy.groupSummaryOrigins;
+  return {
+    dishCount,
+    label: template
+      .replace('{c}', String(group.countries.length))
+      .replace('{n}', dishCount.toLocaleString()),
+  };
 }
 
 interface Props {
@@ -90,6 +98,7 @@ export function AtlasDirectory({ groups, onPick }: Props) {
  * the others. One-at-a-time is a space constraint, and there is no space constraint here.
  */
 function Open({ groups, onPick, columns }: Props & { columns: number }) {
+  const copy = useCopy();
   /* Closed rather than open, so the empty set means "everything open" and a continent
      added tomorrow arrives expanded like the rest. */
   const [closed, setClosed] = useState<ReadonlySet<string>>(new Set());
@@ -104,7 +113,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
   return (
     <View style={styles.openGroups}>
       {groups.map((group) => {
-        const summary = groupSummary(group);
+        const summary = groupSummary(copy, group);
         const open = !closed.has(group.label);
         return (
           <View key={group.label}>
@@ -159,13 +168,14 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
 
 /** The phone shape, unchanged: seven collapsed rows, one open at a time. */
 function Collapsed({ groups, onPick }: Props) {
+  const copy = useCopy();
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
     <View style={styles.groups}>
       {groups.map((group) => {
         const open = expanded === group.label;
-        const summary = groupSummary(group);
+        const summary = groupSummary(copy, group);
 
         return (
           <View key={group.label}>

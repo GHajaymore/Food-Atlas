@@ -1266,7 +1266,7 @@ describe('cuisine is its own axis, not a synonym for country', () => {
 });
 
 describe('the atlas reports its own gaps', () => {
-  const m = () => catalogueMetrics(dishes);
+  const m = () => catalogueMetrics(EN, dishes);
 
   it('counts what is actually there', () => {
     expect(m().total).toBe(dishes.length);
@@ -1338,7 +1338,7 @@ describe('the atlas reports its own gaps', () => {
   });
 
   it('never divides by zero on an empty catalogue', () => {
-    const empty = catalogueMetrics([]);
+    const empty = catalogueMetrics(EN, []);
     expect(empty.documented.percent).toBe(0);
     expect(empty.concentration.percent).toBe(0);
     expect(empty.total).toBe(0);
@@ -1894,9 +1894,9 @@ describe('correcting a contribution never tidies away the food', () => {
   });
 
   it('flags shouting and stuck keys in prose, and applies neither fix', () => {
-    expect(reviewProse('COOKED OVER EMBERS', 'blurb')[0].note).toMatch(/capitals/);
-    expect(reviewProse('Cooked over embersssss.', 'blurb')[0].note).toMatch(/repeats/);
-    expect(reviewProse('Fry it.', 'method')[0].consider).toMatch(/including the waiting/);
+    expect(reviewProse(EN, 'COOKED OVER EMBERS', 'blurb')[0].note).toMatch(/capitals/);
+    expect(reviewProse(EN, 'Cooked over embersssss.', 'blurb')[0].note).toMatch(/repeats/);
+    expect(reviewProse(EN, 'Fry it.', 'method')[0].consider).toMatch(/including the waiting/);
   });
 
   it('tells the reviewer the rule in the app s own voice', () => {
@@ -2610,6 +2610,10 @@ describe('the chrome in other languages', () => {
     'de.inPlace', 'nl.inPlace',
 
     'fr.stepValidation', // "Validation" is the French word, identically spelled.
+
+    // "50 – 74" is a number range. There is nothing in it to translate, and inventing a
+    // difference so the check passes would be worse than declaring it here.
+    ...UI_LOCALES.filter((l) => l !== 'en').map((l) => `${l}.band50to74`),
   ]);
 
   it('never echoes English back as though it were a translation', () => {

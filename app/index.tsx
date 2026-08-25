@@ -352,8 +352,7 @@ export default function Feed() {
             <>
               <H6 style={styles.unassessedHeading}>{copy.recordedNotAssessed}</H6>
               <Muted style={styles.unassessedNote}>
-                These are in the atlas by name and place only. Nobody has documented how they are made, so they carry
-                no method and no score.
+                {copy.byNameAndPlaceOnly}
               </Muted>
             </>
           ) : null}
@@ -422,9 +421,7 @@ export default function Feed() {
         </ScrollView>
 
         <Muted style={styles.popularNote}>
-          How many people read about each dish on English Wikipedia over the last year. That is interest, not
-          authenticity and not how widely a dish is eaten — and it favours what English speakers look up. Tap
-          through for each one&apos;s classification.
+          {copy.wikipediaViewsNote}
         </Muted>
       </View>
       ) : null}

@@ -44,7 +44,7 @@ import {
   PROPOSAL_CONFIRMATIONS,
   canPropose,
   missingFrom,
-  REQUIRED_LABELS,
+  requiredLabels,
   possibleDuplicates,
   type Proposal,
 } from '../src/domain/proposals';
@@ -262,12 +262,12 @@ export default function Propose() {
                   if (busy) return;
                   const missing = missingFrom(entry());
                   if (missing.length) {
-                    setError(stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS])));
+                    setError(stillNeeded(missing.map((f) => requiredLabels(copy)[f as keyof ReturnType<typeof requiredLabels>])));
                     return;
                   }
                   setError('');
                   setBusy(true);
-                  const result = await submitProposal(entry());
+                  const result = await submitProposal(copy, entry());
                   setBusy(false);
                   if (result.ok) setSent(true);
                   else setError(result.error);

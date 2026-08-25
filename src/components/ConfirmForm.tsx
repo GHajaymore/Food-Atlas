@@ -42,7 +42,7 @@ import { Button } from './Button';
 import { Block } from './Card';
 import { Field, Input } from './Field';
 import { Pressable } from './Pressable';
-import { SAID_LABELS, SAID_REQUIRED } from '../domain/confirmations';
+import { saidLabels, SAID_REQUIRED } from '../domain/confirmations';
 import { stillNeeded, tidyName, tidyText } from '../domain/entry';
 import { Muted, T } from './Text';
 import { useCopy } from '../i18n';
@@ -190,7 +190,7 @@ export function ConfirmForm({
         onPress={async () => {
           if (busy) return;
           if (missing.length) {
-            setError(stillNeeded(missing.map((k) => SAID_LABELS[k])));
+            setError(stillNeeded(missing.map((k) => saidLabels(copy)[k])));
             return;
           }
           setError('');

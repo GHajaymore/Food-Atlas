@@ -168,7 +168,7 @@ export default function Proposals() {
 
                   {p.people.length ? (
                     <View style={styles.list}>
-                      <T style={styles.listHead}>Confirmed by</T>
+                      <T style={styles.listHead}>{copy.confirmedBy}</T>
                       {p.people.map((person, i) => (
                         <View key={`${person.name}-${i}`} style={styles.person}>
                           <T style={styles.personName}>
@@ -189,7 +189,7 @@ export default function Proposals() {
                     busy={busy}
                     onSubmit={async (said: Said) => {
                       setBusy(true);
-                      const result = await confirmProposal(p.id, said);
+                      const result = await confirmProposal(copy, p.id, said);
                       setBusy(false);
                       if (result.ok) {
                         /* Reflect it immediately. The server is the truth, but a reader

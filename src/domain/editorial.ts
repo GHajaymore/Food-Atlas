@@ -33,6 +33,7 @@
  * nothing.
  */
 
+import type { Copy } from '../i18n/copy';
 import type { Dish } from './types';
 
 /**
@@ -176,7 +177,7 @@ export function nearbyNames(name: string, country: string, catalogue: Dish[], ta
  * These are about the app's own prose only, and none of them is applied
  * automatically — a contributor is told, and decides.
  */
-export function reviewProse(text: string, field: string): Advisory[] {
+export function reviewProse(copy: Copy, text: string, field: string): Advisory[] {
   const out: Advisory[] = [];
   const clean = tidyProse(text);
   if (!clean) return out;
@@ -184,22 +185,21 @@ export function reviewProse(text: string, field: string): Advisory[] {
   if (clean === clean.toUpperCase() && /[A-Z]{4,}/.test(clean)) {
     out.push({
       field,
-      note: 'This is written in capitals throughout.',
-      consider: 'Sentence case reads better and is easier to translate. The dish name keeps whatever case you gave it.',
+      note: copy.reviewCapitals,
+      consider: copy.reviewCapitalsConsider,
     });
   }
 
   if (/(.)\1{3,}/.test(clean)) {
-    out.push({ field, note: 'A character repeats several times over.', consider: 'Check it is not a stuck key.' });
+    out.push({ field, note: copy.reviewRepeats, consider: copy.reviewRepeatsConsider });
   }
 
   // The method is the product. A one-line "how to make it" is a description.
   if (field === 'method' && clean.length < 40) {
     out.push({
       field,
-      note: 'The method is very short.',
-      consider:
-        'Write what someone would have to do to make it, including the waiting. A record without a method cannot reach the recipe shelves.',
+      note: copy.reviewShort,
+      consider: copy.reviewShortConsider,
     });
   }
 

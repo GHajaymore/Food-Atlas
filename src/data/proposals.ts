@@ -20,11 +20,12 @@
  * one failure this app must never produce.
  */
 
-import { SAID_LABELS, SAID_REQUIRED } from '../domain/confirmations';
+import type { Copy } from '../i18n/copy';
+import { saidLabels, SAID_REQUIRED } from '../domain/confirmations';
 import { stillNeeded } from '../domain/entry';
 import {
   PROPOSALS_URL,
-  REQUIRED_LABELS,
+  requiredLabels,
   canPropose,
   missingFrom,
   type Proposal,
@@ -100,12 +101,12 @@ function failed(error: unknown): Sent {
  * proposal missing its `connection` is not a weaker submission, it is a different kind
  * of thing entirely. See `REQUIRED` in the domain layer for why those four.
  */
-export async function submitProposal(entry: Partial<Proposal>): Promise<Sent> {
+export async function submitProposal(copy: Copy, entry: Partial<Proposal>): Promise<Sent> {
   if (!canPropose()) return { ok: false, error: 'Proposals are not open yet.' };
 
   const missing = missingFrom(entry);
   if (missing.length) {
-    return { ok: false, error: stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS])) };
+    return { ok: false, error: stillNeeded(missing.map((f) => requiredLabels(copy)[f as keyof ReturnType<typeof requiredLabels>])) };
   }
 
   try {
@@ -119,7 +120,7 @@ export async function submitProposal(entry: Partial<Proposal>): Promise<Sent> {
     if (response.status === 409) {
       return { ok: false, error: 'This dish has already been proposed. Open it and confirm it instead — that is what moves it.' };
     }
-    if (!response.ok) return { ok: false, error: await refusal(response, REQUIRED_LABELS) };
+    if (!response.ok) return { ok: false, error: await refusal(response, requiredLabels(copy)) };
 
     return { ok: true, proposal: (await response.json()) as Proposal };
   } catch (error) {
@@ -187,6 +188,7 @@ export async function setProposalStatus(
  * either, because it never sees an identity — see `docs/proposals-api.md`.
  */
 export async function confirmProposal(
+  copy: Copy,
   id: string,
   said: { name: string; connection: string; said: string; local: boolean },
 ): Promise<Sent> {
@@ -196,7 +198,7 @@ export async function confirmProposal(
      name them `name`, `connection` and `said` — the last being a column nobody has seen. */
   const incomplete = SAID_REQUIRED.filter((field) => !said[field]?.trim());
   if (incomplete.length) {
-    return { ok: false, error: stillNeeded(incomplete.map((f) => SAID_LABELS[f])) };
+    return { ok: false, error: stillNeeded(incomplete.map((f) => saidLabels(copy)[f])) };
   }
 
   try {
@@ -213,7 +215,7 @@ export async function confirmProposal(
     if (response.status === 403) {
       return { ok: false, error: 'You proposed this dish, so it needs somebody else to confirm it.' };
     }
-    if (!response.ok) return { ok: false, error: await refusal(response, SAID_LABELS) };
+    if (!response.ok) return { ok: false, error: await refusal(response, saidLabels(copy)) };
 
     return { ok: true };
   } catch (error) {

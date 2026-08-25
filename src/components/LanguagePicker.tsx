@@ -27,6 +27,7 @@
  * produced what you are reading.
  */
 
+import { useCopy } from '../i18n';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { UI_LOCALES, translationCoverage, useLocale } from '../i18n';
@@ -60,6 +61,7 @@ const NAMES: Record<string, string> = {
 const label = (locale: string) => NAMES[locale] ?? locale;
 
 export function LanguagePicker({ compact }: { compact?: boolean }) {
+  const copy = useCopy();
   const locale = useLocale((s) => s.locale);
   const setLocale = useLocale((s) => s.setLocale);
   const [open, setOpen] = useState(false);
@@ -115,8 +117,7 @@ export function LanguagePicker({ compact }: { compact?: boolean }) {
           })}
 
           <Muted style={styles.footnote}>
-            Translates the app&apos;s own words. Dishes stay in the language they were recorded in —
-            a record has its own translation controls.
+            {copy.translatesTheAppsWords}
           </Muted>
         </View>
       ) : null}

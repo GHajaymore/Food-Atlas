@@ -227,10 +227,12 @@ export function whatItNeeds(c: DishConfirmations, required: number): string {
  * layer further down, and the reason to keep the words next to the requirement is that
  * two places checking the same thing should not describe it two ways.
  */
-export const SAID_LABELS = {
-  name: 'your name',
-  connection: 'your connection to the place',
-  said: 'what you can confirm',
-} as const;
+export const saidLabels = (copy: Copy) => ({
+  name: copy.requiredYourName,
+  connection: copy.requiredYourConnection,
+  said: copy.requiredWhatYouConfirm,
+});
 
-export const SAID_REQUIRED = Object.keys(SAID_LABELS) as (keyof typeof SAID_LABELS)[];
+/* Listed rather than derived, for the same reason as `REQUIRED` in proposals.ts. */
+export const SAID_REQUIRED = ['name', 'connection', 'said'] as const;import type { Copy } from '../i18n/copy';
+

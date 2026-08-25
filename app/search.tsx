@@ -209,7 +209,7 @@ export default function Search() {
               <View style={styles.resultsHeader}>
                 <H6>{pantry.matches.length ? `${pantry.matches.length} traditions` : 'Nothing yet'}</H6>
                 {pantry.matches.length ? (
-                  <Muted style={styles.resultCount}>Most of your list first</Muted>
+                  <Muted style={styles.resultCount}>{copy.mostOfYourListFirst}</Muted>
                 ) : null}
               </View>
 

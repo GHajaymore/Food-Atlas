@@ -741,6 +741,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'No hay adónde mandar esto. El atlas ya ha leído todo lo que tienen las fuentes libres, así que lo que falta ahora es comida que nadie ha escrito — lo que significa que este formulario es como crece, y se activará en cuanto haya un sitio al que enviarlo.',
     whereTheExampleEndsUp:
       'Ahí es donde acaba el registro de ejemplo: publicado con sus pruebas a la vista, sus comprobaciones abiertas nombradas y cada afirmación rastreable hasta quien la dijo.',
+    confirmedBy:
+      'Confirmado por',
+    nothingMatchesAll:
+      'Nada coincide con todo esto a la vez.',
+    mostOfYourListFirst:
+      'Primero lo que más coincide con tu lista',
+    translatesTheAppsWords:
+      'Traduce las palabras de la propia aplicación. Los platos siguen en el idioma en que se registraron: cada registro tiene sus propios controles de traducción.',
+    byNameAndPlaceOnly:
+      'Estos están en el atlas solo por nombre y lugar. Nadie ha documentado cómo se hacen, así que no llevan método ni puntuación.',
+    wikipediaViewsNote:
+      'Cuánta gente leyó sobre cada plato en la Wikipedia en inglés durante el último año. Eso es interés, no autenticidad, y tampoco indica cuánto se come un plato: favorece lo que buscan los angloparlantes. Entra en cada uno para ver su clasificación.',
+    requiredDishName:
+      'el nombre del plato',
+    requiredCountry:
+      'el país',
+    requiredYourName:
+      'tu nombre',
+    requiredYourConnection:
+      'tu vínculo con el lugar',
+    requiredWhatYouConfirm:
+      'qué puedes confirmar',
+    bandNotScored:
+      'Sin puntuar',
+    bandUnder50:
+      'Menos de 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 o más',
+    reviewCapitals:
+      'Esto está escrito todo en mayúsculas.',
+    reviewCapitalsConsider:
+      'En minúsculas se lee mejor y es más fácil de traducir. El nombre del plato conserva las mayúsculas que le hayas puesto.',
+    reviewRepeats:
+      'Un carácter se repite varias veces seguidas.',
+    reviewRepeatsConsider:
+      'Comprueba que no sea una tecla atascada.',
+    reviewShort:
+      'El método es muy corto.',
+    reviewShortConsider:
+      'Escribe lo que habría que hacer para prepararlo, incluidas las esperas. Un registro sin método no puede llegar a los estantes de recetas.',
+    groupSummaryCountries:
+      '{c} países · {n} tradiciones',
+    groupSummaryOrigins:
+      '{c} orígenes · {n} tradiciones',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -1448,6 +1494,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Il n’y a nulle part où envoyer cela. L’atlas a lu tout ce que contiennent les sources libres ; ce qui manque désormais, c’est la nourriture que personne n’a écrite — ce formulaire est donc la façon dont il grandit, et il sera activé dès qu’il y aura une destination.',
     whereTheExampleEndsUp:
       'Voilà où aboutit la fiche donnée en exemple : publiée avec ses preuves visibles, ses vérifications restées ouvertes nommées, et chaque affirmation traçable jusqu’à qui l’a dite.',
+    confirmedBy:
+      'Confirmé par',
+    nothingMatchesAll:
+      'Rien ne correspond à tout cela à la fois.',
+    mostOfYourListFirst:
+      'Ce qui recoupe le plus votre liste d’abord',
+    translatesTheAppsWords:
+      'Traduit les mots de l’application elle-même. Les plats restent dans la langue où ils ont été consignés — chaque fiche a ses propres commandes de traduction.',
+    byNameAndPlaceOnly:
+      'Ceux-ci ne figurent dans l’atlas que par leur nom et leur lieu. Personne n’a consigné leur préparation, ils n’ont donc ni méthode ni note.',
+    wikipediaViewsNote:
+      'Combien de personnes ont lu sur chaque plat dans la Wikipédia anglophone au cours de l’année écoulée. C’est de l’intérêt, pas de l’authenticité, et ce n’est pas non plus la mesure de ce qu’on mange — cela favorise ce que cherchent les anglophones. Ouvrez chacun pour voir son classement.',
+    requiredDishName:
+      'le nom du plat',
+    requiredCountry:
+      'le pays',
+    requiredYourName:
+      'votre nom',
+    requiredYourConnection:
+      'votre lien avec le lieu',
+    requiredWhatYouConfirm:
+      'ce que vous pouvez confirmer',
+    bandNotScored:
+      'Non noté',
+    bandUnder50:
+      'Moins de 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 et plus',
+    reviewCapitals:
+      'Ceci est écrit tout en capitales.',
+    reviewCapitalsConsider:
+      'La casse normale se lit mieux et se traduit plus facilement. Le nom du plat garde la casse que vous lui avez donnée.',
+    reviewRepeats:
+      'Un caractère se répète plusieurs fois de suite.',
+    reviewRepeatsConsider:
+      'Vérifiez qu’une touche n’est pas restée enfoncée.',
+    reviewShort:
+      'La méthode est très courte.',
+    reviewShortConsider:
+      'Écrivez ce qu’il faudrait faire pour le préparer, temps d’attente compris. Une fiche sans méthode ne peut pas atteindre les rayons de recettes.',
+    groupSummaryCountries:
+      '{c} pays · {n} traditions',
+    groupSummaryOrigins:
+      '{c} origines · {n} traditions',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -2154,6 +2246,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Es gibt keinen Ort, an den das gehen könnte. Der Atlas hat alles gelesen, was die freien Quellen hergeben; was jetzt fehlt, ist Essen, das niemand aufgeschrieben hat — dieses Formular ist also der Weg, wie er wächst, und es wird freigeschaltet, sobald es ein Ziel dafür gibt.',
     whereTheExampleEndsUp:
       'Dort landet der Beispieleintrag: veröffentlicht, mit sichtbaren Belegen, benannten offenen Prüfungen und jeder Aussage rückverfolgbar bis zu der Person, die sie gemacht hat.',
+    confirmedBy:
+      'Bestätigt von',
+    nothingMatchesAll:
+      'Nichts passt auf all das zugleich.',
+    mostOfYourListFirst:
+      'Zuerst, was am meisten aus Ihrer Liste enthält',
+    translatesTheAppsWords:
+      'Übersetzt die Worte der App selbst. Gerichte bleiben in der Sprache, in der sie erfasst wurden — jeder Eintrag hat seine eigenen Übersetzungsschalter.',
+    byNameAndPlaceOnly:
+      'Diese stehen im Atlas nur mit Namen und Ort. Wie sie gemacht werden, hat niemand festgehalten, also tragen sie weder Zubereitung noch Bewertung.',
+    wikipediaViewsNote:
+      'Wie viele Menschen im letzten Jahr in der englischsprachigen Wikipedia über das jeweilige Gericht gelesen haben. Das ist Interesse, nicht Authentizität, und auch kein Maß dafür, wie verbreitet ein Gericht ist — es begünstigt, wonach Englischsprachige suchen. Tippen Sie eines an, um seine Einstufung zu sehen.',
+    requiredDishName:
+      'den Namen des Gerichts',
+    requiredCountry:
+      'das Land',
+    requiredYourName:
+      'Ihren Namen',
+    requiredYourConnection:
+      'Ihre Verbindung zu dem Ort',
+    requiredWhatYouConfirm:
+      'was Sie bestätigen können',
+    bandNotScored:
+      'Nicht bewertet',
+    bandUnder50:
+      'Unter 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 und mehr',
+    reviewCapitals:
+      'Das ist durchgehend in Großbuchstaben geschrieben.',
+    reviewCapitalsConsider:
+      'Normale Schreibung liest sich besser und lässt sich leichter übersetzen. Der Gerichtsname behält die Schreibung, die Sie ihm gegeben haben.',
+    reviewRepeats:
+      'Ein Zeichen wiederholt sich mehrfach hintereinander.',
+    reviewRepeatsConsider:
+      'Prüfen Sie, ob eine Taste geklemmt hat.',
+    reviewShort:
+      'Die Zubereitung ist sehr kurz.',
+    reviewShortConsider:
+      'Schreiben Sie, was jemand tun müsste, um es zu machen, samt der Wartezeiten. Ein Eintrag ohne Zubereitung kann die Rezeptregale nicht erreichen.',
+    groupSummaryCountries:
+      '{c} Länder · {n} Traditionen',
+    groupSummaryOrigins:
+      '{c} Herkünfte · {n} Traditionen',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -2860,6 +2998,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Non c’è dove mandarlo. L’atlante ha letto tutto quello che le fonti libere contengono, quindi quello che manca adesso è il cibo che nessuno ha scritto — vuol dire che questo modulo è il modo in cui cresce, e verrà attivato appena ci sarà una destinazione.',
     whereTheExampleEndsUp:
       'È lì che finisce la scheda d’esempio: pubblicata con le prove in vista, le verifiche rimaste aperte dichiarate, e ogni affermazione riconducibile a chi l’ha fatta.',
+    confirmedBy:
+      'Confermato da',
+    nothingMatchesAll:
+      'Non c’è niente che corrisponda a tutto questo insieme.',
+    mostOfYourListFirst:
+      'Prima quello che usa di più la tua lista',
+    translatesTheAppsWords:
+      'Traduce le parole dell’applicazione stessa. I piatti restano nella lingua in cui sono stati registrati: ogni scheda ha i suoi comandi di traduzione.',
+    byNameAndPlaceOnly:
+      'Questi stanno nell’atlante solo con nome e luogo. Come si facciano non l’ha documentato nessuno, quindi non hanno né metodo né punteggio.',
+    wikipediaViewsNote:
+      'Quante persone hanno letto di ciascun piatto sulla Wikipedia in inglese nell’ultimo anno. È interesse, non autenticità, e non dice nemmeno quanto un piatto sia mangiato: favorisce ciò che cercano gli anglofoni. Apri ciascuno per vederne la classificazione.',
+    requiredDishName:
+      'il nome del piatto',
+    requiredCountry:
+      'il paese',
+    requiredYourName:
+      'il tuo nome',
+    requiredYourConnection:
+      'il tuo legame con il luogo',
+    requiredWhatYouConfirm:
+      'cosa puoi confermare',
+    bandNotScored:
+      'Senza punteggio',
+    bandUnder50:
+      'Sotto 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 e oltre',
+    reviewCapitals:
+      'Questo è scritto tutto in maiuscolo.',
+    reviewCapitalsConsider:
+      'Il minuscolo si legge meglio ed è più facile da tradurre. Il nome del piatto mantiene le maiuscole che gli hai dato.',
+    reviewRepeats:
+      'Un carattere si ripete più volte di seguito.',
+    reviewRepeatsConsider:
+      'Controlla che non sia un tasto rimasto premuto.',
+    reviewShort:
+      'Il metodo è molto corto.',
+    reviewShortConsider:
+      'Scrivi cosa dovrebbe fare qualcuno per prepararlo, attese comprese. Una scheda senza metodo non può arrivare agli scaffali delle ricette.',
+    groupSummaryCountries:
+      '{c} paesi · {n} tradizioni',
+    groupSummaryOrigins:
+      '{c} origini · {n} tradizioni',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -3567,6 +3751,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Não há para onde enviar isto. O atlas já leu tudo o que as fontes livres têm, por isso o que falta agora é comida que ninguém escreveu — o que quer dizer que este formulário é como ele cresce, e será ligado assim que houver para onde enviar.',
     whereTheExampleEndsUp:
       'É aí que o registo de exemplo acaba: publicado com as provas à vista, as verificações em aberto nomeadas, e cada afirmação rastreável até quem a fez.',
+    confirmedBy:
+      'Confirmado por',
+    nothingMatchesAll:
+      'Nada corresponde a tudo isto ao mesmo tempo.',
+    mostOfYourListFirst:
+      'Primeiro o que usa mais da sua lista',
+    translatesTheAppsWords:
+      'Traduz as palavras da própria aplicação. Os pratos ficam na língua em que foram registados — cada registo tem os seus próprios controlos de tradução.',
+    byNameAndPlaceOnly:
+      'Estes estão no atlas só por nome e lugar. Ninguém documentou como se fazem, por isso não têm método nem pontuação.',
+    wikipediaViewsNote:
+      'Quantas pessoas leram sobre cada prato na Wikipédia em inglês no último ano. Isso é interesse, não autenticidade, e também não diz o quanto um prato é comido — favorece o que os falantes de inglês procuram. Abra cada um para ver a sua classificação.',
+    requiredDishName:
+      'o nome do prato',
+    requiredCountry:
+      'o país',
+    requiredYourName:
+      'o seu nome',
+    requiredYourConnection:
+      'a sua ligação ao lugar',
+    requiredWhatYouConfirm:
+      'o que pode confirmar',
+    bandNotScored:
+      'Sem pontuação',
+    bandUnder50:
+      'Abaixo de 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 ou mais',
+    reviewCapitals:
+      'Isto está escrito todo em maiúsculas.',
+    reviewCapitalsConsider:
+      'Em minúsculas lê-se melhor e traduz-se mais facilmente. O nome do prato mantém as maiúsculas que lhe deu.',
+    reviewRepeats:
+      'Um carácter repete-se várias vezes seguidas.',
+    reviewRepeatsConsider:
+      'Verifique se não foi uma tecla presa.',
+    reviewShort:
+      'O método é muito curto.',
+    reviewShortConsider:
+      'Escreva o que alguém teria de fazer para o preparar, incluindo as esperas. Um registo sem método não chega às prateleiras de receitas.',
+    groupSummaryCountries:
+      '{c} países · {n} tradições',
+    groupSummaryOrigins:
+      '{c} origens · {n} tradições',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -4273,6 +4503,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Er is nergens om dit heen te sturen. De atlas heeft alles gelezen wat de vrije bronnen bevatten, dus wat nu ontbreekt is eten dat niemand heeft opgeschreven — dit formulier is dus hoe hij groeit, en het gaat aan zodra er een bestemming voor is.',
     whereTheExampleEndsUp:
       'Daar komt het voorbeeldrecord uit: gepubliceerd, met het bewijs zichtbaar, de openstaande controles benoemd, en elke bewering herleidbaar tot wie haar deed.',
+    confirmedBy:
+      'Bevestigd door',
+    nothingMatchesAll:
+      'Niets voldoet aan dit alles tegelijk.',
+    mostOfYourListFirst:
+      'Eerst wat het meest van uw lijst gebruikt',
+    translatesTheAppsWords:
+      'Vertaalt de woorden van de app zelf. Gerechten blijven in de taal waarin ze zijn vastgelegd — elk record heeft zijn eigen vertaalknoppen.',
+    byNameAndPlaceOnly:
+      'Deze staan alleen met naam en plaats in de atlas. Niemand heeft vastgelegd hoe ze gemaakt worden, dus ze dragen geen werkwijze en geen score.',
+    wikipediaViewsNote:
+      'Hoeveel mensen het afgelopen jaar over elk gerecht lazen op de Engelstalige Wikipedia. Dat is belangstelling, geen authenticiteit, en het zegt ook niet hoeveel een gerecht gegeten wordt — het bevoordeelt wat Engelstaligen opzoeken. Tik er een aan voor de classificatie.',
+    requiredDishName:
+      'de naam van het gerecht',
+    requiredCountry:
+      'het land',
+    requiredYourName:
+      'uw naam',
+    requiredYourConnection:
+      'uw band met de plaats',
+    requiredWhatYouConfirm:
+      'wat u kunt bevestigen',
+    bandNotScored:
+      'Niet beoordeeld',
+    bandUnder50:
+      'Onder 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 en hoger',
+    reviewCapitals:
+      'Dit is helemaal in hoofdletters geschreven.',
+    reviewCapitalsConsider:
+      'Gewone schrijfwijze leest beter en is makkelijker te vertalen. De naam van het gerecht houdt de schrijfwijze die u gaf.',
+    reviewRepeats:
+      'Een teken herhaalt zich een aantal keer achter elkaar.',
+    reviewRepeatsConsider:
+      'Controleer of er geen toets bleef hangen.',
+    reviewShort:
+      'De werkwijze is erg kort.',
+    reviewShortConsider:
+      'Schrijf wat iemand zou moeten doen om het te maken, wachttijden inbegrepen. Een record zonder werkwijze haalt de receptenplanken niet.',
+    groupSummaryCountries:
+      '{c} landen · {n} tradities',
+    groupSummaryOrigins:
+      '{c} herkomsten · {n} tradities',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -4980,6 +5256,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nie ma dokąd tego wysłać. Atlas przeczytał wszystko, co mają wolne źródła, więc brakuje teraz jedzenia, którego nikt nie spisał — to znaczy, że ten formularz jest sposobem, w jaki atlas rośnie, i zostanie włączony, gdy tylko będzie dokąd wysyłać.',
     whereTheExampleEndsUp:
       'Tam kończy przykładowy wpis: opublikowany, z widocznymi dowodami, z nazwanymi otwartymi kontrolami i z każdym twierdzeniem dającym się przypisać temu, kto je wypowiedział.',
+    confirmedBy:
+      'Potwierdzone przez',
+    nothingMatchesAll:
+      'Nic nie pasuje do tego wszystkiego naraz.',
+    mostOfYourListFirst:
+      'Najpierw to, co najbardziej korzysta z twojej listy',
+    translatesTheAppsWords:
+      'Tłumaczy własne słowa aplikacji. Potrawy zostają w języku, w którym je zapisano — każdy wpis ma swoje osobne sterowanie tłumaczeniem.',
+    byNameAndPlaceOnly:
+      'Te są w atlasie tylko z nazwy i miejsca. Nikt nie udokumentował, jak się je robi, więc nie mają ani sposobu przygotowania, ani punktacji.',
+    wikipediaViewsNote:
+      'Ile osób czytało o każdej potrawie w anglojęzycznej Wikipedii przez ostatni rok. To zainteresowanie, a nie autentyczność, i nie mówi też, jak często coś się je — sprzyja temu, czego szukają osoby anglojęzyczne. Wejdź w każdą, żeby zobaczyć jej klasyfikację.',
+    requiredDishName:
+      'nazwy potrawy',
+    requiredCountry:
+      'kraju',
+    requiredYourName:
+      'twojego imienia',
+    requiredYourConnection:
+      'twojego związku z miejscem',
+    requiredWhatYouConfirm:
+      'co możesz potwierdzić',
+    bandNotScored:
+      'Bez oceny',
+    bandUnder50:
+      'Poniżej 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 i więcej',
+    reviewCapitals:
+      'To jest napisane w całości wielkimi literami.',
+    reviewCapitalsConsider:
+      'Zwykły zapis czyta się lepiej i łatwiej go przetłumaczyć. Nazwa potrawy zachowuje taki zapis, jaki jej nadano.',
+    reviewRepeats:
+      'Jeden znak powtarza się kilka razy pod rząd.',
+    reviewRepeatsConsider:
+      'Sprawdź, czy nie zaciął się klawisz.',
+    reviewShort:
+      'Opis sposobu jest bardzo krótki.',
+    reviewShortConsider:
+      'Napisz, co trzeba by zrobić, żeby to przygotować, razem z czekaniem. Wpis bez sposobu przygotowania nie trafi na półki z przepisami.',
+    groupSummaryCountries:
+      'kraje: {c} · tradycje: {n}',
+    groupSummaryOrigins:
+      'pochodzenia: {c} · tradycje: {n}',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -5686,6 +6008,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Bunu gönderecek bir yer yok. Atlas serbest kaynakların elindeki her şeyi okudu, dolayısıyla şimdi eksik olan, kimsenin yazmadığı yemekler — yani bu form atlasın büyüme yolu ve gidecek bir yer olur olmaz açılacak.',
     whereTheExampleEndsUp:
       'Örnek kayıt oraya varır: kanıtları görünür, açık kalan denetimleri adlarıyla belirtilmiş ve her iddiası onu söyleyene kadar izlenebilir biçimde yayımlanmış olarak.',
+    confirmedBy:
+      'Doğrulayan',
+    nothingMatchesAll:
+      'Bunların hepsine birden uyan bir şey yok.',
+    mostOfYourListFirst:
+      'Önce listenizden en çok kullananlar',
+    translatesTheAppsWords:
+      'Uygulamanın kendi sözlerini çevirir. Yemekler kaydedildikleri dilde kalır — her kaydın kendi çeviri düğmeleri vardır.',
+    byNameAndPlaceOnly:
+      'Bunlar atlasta yalnızca adı ve yeriyle var. Nasıl yapıldıklarını kimse belgelememiş, bu yüzden ne yapılışları ne de puanları var.',
+    wikipediaViewsNote:
+      'Geçen yıl her yemek hakkında İngilizce Vikipedi’de kaç kişinin okuduğu. Bu ilgidir; özgünlük değildir ve bir yemeğin ne kadar yendiğini de göstermez — İngilizce konuşanların aradıklarını öne çıkarır. Sınıflandırmasını görmek için her birine dokunun.',
+    requiredDishName:
+      'yemeğin adı',
+    requiredCountry:
+      'ülke',
+    requiredYourName:
+      'adınız',
+    requiredYourConnection:
+      'o yerle bağınız',
+    requiredWhatYouConfirm:
+      'neyi doğrulayabildiğiniz',
+    bandNotScored:
+      'Puanlanmadı',
+    bandUnder50:
+      '50’nin altı',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 ve üzeri',
+    reviewCapitals:
+      'Bu, baştan sona büyük harfle yazılmış.',
+    reviewCapitalsConsider:
+      'Normal yazım daha kolay okunur ve çevrilmesi daha kolaydır. Yemeğin adı, siz nasıl yazdıysanız öyle kalır.',
+    reviewRepeats:
+      'Bir karakter arka arkaya birkaç kez yineleniyor.',
+    reviewRepeatsConsider:
+      'Bir tuşun takılı kalmadığından emin olun.',
+    reviewShort:
+      'Yapılışı çok kısa.',
+    reviewShortConsider:
+      'Birinin bunu yapmak için ne yapması gerektiğini, beklemeler dahil, yazın. Yapılışı olmayan bir kayıt tarif raflarına ulaşamaz.',
+    groupSummaryCountries:
+      '{c} ülke · {n} gelenek',
+    groupSummaryOrigins:
+      '{c} köken · {n} gelenek',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -6393,6 +6761,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Отправлять это некуда. Атлас прочитал всё, что есть в свободных источниках, поэтому не хватает теперь той еды, которую никто не записал, — а значит, эта форма и есть то, за счёт чего атлас растёт, и она будет включена, как только появится куда отправлять.',
     whereTheExampleEndsUp:
       'Вот чем заканчивается запись из примера: она опубликована, доказательства видны, оставшиеся открытыми проверки названы, а каждое утверждение прослеживается до того, кто его высказал.',
+    confirmedBy:
+      'Подтвердили',
+    nothingMatchesAll:
+      'Ничего не подходит подо всё это сразу.',
+    mostOfYourListFirst:
+      'Сначала то, что берёт из вашего списка больше всего',
+    translatesTheAppsWords:
+      'Переводит собственные слова приложения. Блюда остаются на том языке, на котором их записали, — у каждой записи свои средства перевода.',
+    byNameAndPlaceOnly:
+      'Эти есть в атласе только по названию и месту. Как их готовят, никто не записал, поэтому у них нет ни способа приготовления, ни оценки.',
+    wikipediaViewsNote:
+      'Сколько людей читали о каждом блюде в англоязычной Википедии за последний год. Это интерес, а не подлинность, и не мера того, насколько блюдо распространено: показатель смещён в сторону того, что ищут англоязычные. Откройте любое, чтобы увидеть его классификацию.',
+    requiredDishName:
+      'название блюда',
+    requiredCountry:
+      'страна',
+    requiredYourName:
+      'ваше имя',
+    requiredYourConnection:
+      'ваша связь с этим местом',
+    requiredWhatYouConfirm:
+      'что вы можете подтвердить',
+    bandNotScored:
+      'Без оценки',
+    bandUnder50:
+      'Меньше 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 и выше',
+    reviewCapitals:
+      'Это написано целиком заглавными буквами.',
+    reviewCapitalsConsider:
+      'Обычная запись читается лучше и легче переводится. Название блюда сохраняет тот регистр, который вы ему задали.',
+    reviewRepeats:
+      'Один символ повторяется несколько раз подряд.',
+    reviewRepeatsConsider:
+      'Проверьте, не залипла ли клавиша.',
+    reviewShort:
+      'Описание способа очень короткое.',
+    reviewShortConsider:
+      'Напишите, что нужно сделать, чтобы это приготовить, включая ожидание. Запись без способа приготовления не попадёт на полки с рецептами.',
+    groupSummaryCountries:
+      'стран: {c} · традиций: {n}',
+    groupSummaryOrigins:
+      'источников: {c} · традиций: {n}',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -7100,6 +7514,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'इसे भेजने की कोई जगह ही नहीं है। मुफ़्त स्रोतों में जो कुछ था, एटलस सब पढ़ चुका है, इसलिए अब जो कमी है वह ऐसा खाना है जिसे किसी ने लिखा ही नहीं — यानी यह फ़ॉर्म ही वह रास्ता है जिससे यह बढ़ेगा, और जैसे ही भेजने की जगह होगी, इसे चालू कर दिया जाएगा।',
     whereTheExampleEndsUp:
       'उदाहरण वाला रिकॉर्ड यहीं पहुँचता है: प्रकाशित, अपने प्रमाण सामने रखते हुए, खुली जाँचें नाम लेकर बताते हुए, और हर दावा उस तक पहुँचाने योग्य जिसने वह कहा।',
+    confirmedBy:
+      'पुष्टि करने वाले',
+    nothingMatchesAll:
+      'इन सबसे एक साथ कुछ भी मेल नहीं खाता।',
+    mostOfYourListFirst:
+      'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
+    translatesTheAppsWords:
+      'ऐप के अपने शब्दों का अनुवाद करता है। व्यंजन उसी भाषा में रहते हैं जिसमें वे दर्ज हुए — हर रिकॉर्ड के अपने अनुवाद नियंत्रण हैं।',
+    byNameAndPlaceOnly:
+      'ये एटलस में सिर्फ़ नाम और जगह के साथ हैं। ये कैसे बनते हैं यह किसी ने दर्ज नहीं किया, इसलिए इनके पास न विधि है न अंक।',
+    wikipediaViewsNote:
+      'पिछले एक साल में अंग्रेज़ी विकिपीडिया पर हर व्यंजन के बारे में कितने लोगों ने पढ़ा। यह रुचि है — न प्रामाणिकता, न यह कि कोई व्यंजन कितना खाया जाता है — और इसका झुकाव उसी ओर है जो अंग्रेज़ी बोलने वाले खोजते हैं। हर एक का वर्गीकरण देखने के लिए उस पर जाएँ।',
+    requiredDishName:
+      'व्यंजन का नाम',
+    requiredCountry:
+      'देश',
+    requiredYourName:
+      'आपका नाम',
+    requiredYourConnection:
+      'उस जगह से आपका जुड़ाव',
+    requiredWhatYouConfirm:
+      'आप क्या पुष्टि कर सकते हैं',
+    bandNotScored:
+      'अंक नहीं',
+    bandUnder50:
+      '50 से कम',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 और ऊपर',
+    reviewCapitals:
+      'यह पूरा बड़े अक्षरों में लिखा है।',
+    reviewCapitalsConsider:
+      'सामान्य लेखन पढ़ने में बेहतर है और अनुवाद में आसान। व्यंजन का नाम वैसा ही रहेगा जैसा आपने लिखा।',
+    reviewRepeats:
+      'एक ही अक्षर लगातार कई बार आया है।',
+    reviewRepeatsConsider:
+      'देख लें कि कोई कुंजी अटकी तो नहीं थी।',
+    reviewShort:
+      'विधि बहुत छोटी है।',
+    reviewShortConsider:
+      'लिखें कि इसे बनाने के लिए किसी को क्या करना पड़ेगा, इंतज़ार समेत। बिना विधि वाला रिकॉर्ड विधियों की शेल्फ़ तक नहीं पहुँच सकता।',
+    groupSummaryCountries:
+      '{c} देश · {n} परंपराएँ',
+    groupSummaryOrigins:
+      '{c} मूल · {n} परंपराएँ',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -7807,6 +8267,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '目前没有地方可以送。免费来源里有的，图册都已读过，所以现在缺的是没有人写下来的食物 — 也就是说，这份表格正是它生长的方式，一旦有了去处就会开放。',
     whereTheExampleEndsUp:
       '这就是那条示例记录的归宿：公开发布，证据可见，未答的核查一一列明，每一项说法都能追溯到是谁说的。',
+    confirmedBy:
+      '确认者',
+    nothingMatchesAll:
+      '没有同时符合这一切的。',
+    mostOfYourListFirst:
+      '用到你清单最多的排在前面',
+    translatesTheAppsWords:
+      '翻译的是这个应用自己的用语。菜品仍保持记录时所用的语言 — 每条记录有自己的翻译选项。',
+    byNameAndPlaceOnly:
+      '这些在图册里只有名字和地方。没有人记载过它们怎么做，所以它们既没有做法也没有分数。',
+    wikipediaViewsNote:
+      '过去一年里有多少人在英文维基百科上读过每道菜。这是关注度，不是本真度，也不代表一道菜吃的人有多少 — 它偏向英语使用者会去查的东西。点进去看各自的分类。',
+    requiredDishName:
+      '菜名',
+    requiredCountry:
+      '国家',
+    requiredYourName:
+      '你的名字',
+    requiredYourConnection:
+      '你与当地的关系',
+    requiredWhatYouConfirm:
+      '你能确认什么',
+    bandNotScored:
+      '未评分',
+    bandUnder50:
+      '低于 50',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 及以上',
+    reviewCapitals:
+      '这一段通篇都是大写。',
+    reviewCapitalsConsider:
+      '按正常大小写更好读，也更容易翻译。菜名会保留你给的写法。',
+    reviewRepeats:
+      '有一个字符连续重复了好几次。',
+    reviewRepeatsConsider:
+      '看看是不是按键卡住了。',
+    reviewShort:
+      '做法写得很短。',
+    reviewShortConsider:
+      '写下别人要做这道菜得做些什么，包括等待的时间。没有做法的记录进不了食谱那几排。',
+    groupSummaryCountries:
+      '{c} 个国家 · {n} 项传统',
+    groupSummaryOrigins:
+      '{c} 个来源 · {n} 项传统',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -8514,6 +9020,52 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '今のところ送り先がありません。自由に使える資料が持っているものはすべて読み終えたので、これから足りないのは、誰も書き残していない料理です。つまりこの用紙こそがアトラスの育ち方であり、送り先ができ次第、開きます。',
     whereTheExampleEndsUp:
       '例に挙げた記録は、こうして落ち着きます。根拠が見える形で公開され、空のままの確認は名指しされ、どの主張も誰が言ったのかまでたどれます。',
+    confirmedBy:
+      '確認した人',
+    nothingMatchesAll:
+      'これらすべてに同時に当てはまるものはありません。',
+    mostOfYourListFirst:
+      '手持ちの材料をいちばん使うものから',
+    translatesTheAppsWords:
+      '訳すのはこのアプリ自身の言葉です。料理は記録された言語のまま残ります。記録ごとに翻訳の操作があります。',
+    byNameAndPlaceOnly:
+      'これらは名前と土地だけでアトラスに入っています。どう作るのかを誰も記録していないので、作り方も点数もありません。',
+    wikipediaViewsNote:
+      'この一年に英語版ウィキペディアで各料理について読んだ人の数です。これは関心であって、本物かどうかでも、どれだけ食べられているかでもありません。英語話者が調べるものに偏ります。それぞれの区分は開いて確かめてください。',
+    requiredDishName:
+      '料理の名前',
+    requiredCountry:
+      '国',
+    requiredYourName:
+      'あなたの名前',
+    requiredYourConnection:
+      'その土地とのつながり',
+    requiredWhatYouConfirm:
+      '確認できること',
+    bandNotScored:
+      '採点なし',
+    bandUnder50:
+      '50 未満',
+    band50to74:
+      '50 – 74',
+    band75Plus:
+      '75 以上',
+    reviewCapitals:
+      'これは全体が大文字で書かれています。',
+    reviewCapitalsConsider:
+      '通常の書き方のほうが読みやすく、訳しやすくなります。料理名は書いたとおりの形が残ります。',
+    reviewRepeats:
+      '同じ文字が続けて何度も出ています。',
+    reviewRepeatsConsider:
+      'キーが押されたままになっていないか確かめてください。',
+    reviewShort:
+      '作り方がとても短いです。',
+    reviewShortConsider:
+      '作るために何をすればよいかを、待ち時間も含めて書いてください。作り方のない記録は、レシピの棚には並びません。',
+    groupSummaryCountries:
+      '{c} か国 · {n} 件の伝統',
+    groupSummaryOrigins:
+      '{c} の出自 · {n} 件の伝統',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

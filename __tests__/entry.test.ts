@@ -7,8 +7,9 @@
  * do with a typed value; these assert the one rule they now share.
  */
 
+import { EN } from '../src/i18n/copy';
 import { stillNeeded, tidyCountry, tidyLines, tidyName, tidyPlace, tidyText } from '../src/domain/entry';
-import { REQUIRED, REQUIRED_LABELS } from '../src/domain/proposals';
+import { REQUIRED, requiredLabels } from '../src/domain/proposals';
 import { REQUIRED as CONTRIB_REQUIRED, REQUIRED_LABELS as CONTRIB_LABELS } from '../src/domain/contribution';
 
 describe('typed values get the treatment imported ones get', () => {
@@ -67,12 +68,12 @@ describe('what a form says is missing', () => {
    * stays that way — a required field with no label would now be a missing key.
    */
   test('every required field has words to describe it', () => {
-    for (const field of REQUIRED) expect(REQUIRED_LABELS[field]).toBeTruthy();
+    for (const field of REQUIRED) expect(requiredLabels(EN)[field]).toBeTruthy();
     for (const field of CONTRIB_REQUIRED) expect(CONTRIB_LABELS[field]).toBeTruthy();
   });
 
   test('no label is just the field key', () => {
-    for (const [field, label] of Object.entries(REQUIRED_LABELS)) expect(label).not.toBe(field);
+    for (const [field, label] of Object.entries(requiredLabels(EN))) expect(label).not.toBe(field);
     for (const [field, label] of Object.entries(CONTRIB_LABELS)) expect(label).not.toBe(field);
   });
 });

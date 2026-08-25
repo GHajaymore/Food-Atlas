@@ -12,6 +12,7 @@
  * including where the evidence is thin. Hiding these would be off-mission.
  */
 
+import type { Copy } from '../i18n/copy';
 import { continentOf, isCountry } from './continents';
 import { isAuthentic } from './authenticity';
 import type { Dish } from './types';
@@ -142,7 +143,7 @@ const ratio = (label: string, count: number, total: number, note: string): Ratio
   note,
 });
 
-export function catalogueMetrics(dishes: Dish[]): CatalogueMetrics {
+export function catalogueMetrics(copy: Copy, dishes: Dish[]): CatalogueMetrics {
   const total = dishes.length;
 
   const countries = new Map<string, number>();
@@ -163,10 +164,10 @@ export function catalogueMetrics(dishes: Dish[]): CatalogueMetrics {
     scored.filter((d) => d.score! >= min && d.score! < max).length;
 
   const confidence: CoverageRow[] = [
-    { label: 'Not scored', count: total - scored.length, percent: 0 },
-    { label: 'Under 50', count: band(0, 50), percent: 0 },
-    { label: '50 – 74', count: band(50, 75), percent: 0 },
-    { label: '75 and above', count: band(75, 101), percent: 0 },
+    { label: copy.bandNotScored, count: total - scored.length, percent: 0 },
+    { label: copy.bandUnder50, count: band(0, 50), percent: 0 },
+    { label: copy.band50to74, count: band(50, 75), percent: 0 },
+    { label: copy.band75Plus, count: band(75, 101), percent: 0 },
   ].map((row) => ({ ...row, percent: total ? Math.round((row.count / total) * 100) : 0 }));
 
   const byContinent: CoverageRow[] = [...continents.entries()]

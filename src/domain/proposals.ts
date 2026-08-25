@@ -58,6 +58,7 @@
  * yet, rather than offering a control that goes nowhere.
  */
 
+import type { Copy } from '../i18n/copy';
 import { assess, type Assessment, type Evidence } from './assess';
 import { VALIDATIONS_REQUIRED } from './authenticity';
 import type { Confirmation } from './confirmations';
@@ -161,14 +162,18 @@ export const PROPOSAL_CONFIRMATIONS = VALIDATIONS_REQUIRED;
  * submitter."* Deriving one from the other means a field cannot become required without
  * somebody deciding what to call it.
  */
-export const REQUIRED_LABELS = {
-  name: 'the dish’s name',
-  country: 'the country',
-  submitter: 'your name',
-  connection: 'your connection to the place',
-} satisfies Partial<Record<keyof Proposal, string>>;
+export const requiredLabels = (copy: Copy) =>
+  ({
+    name: copy.requiredDishName,
+    country: copy.requiredCountry,
+    submitter: copy.requiredYourName,
+    connection: copy.requiredYourConnection,
+  }) satisfies Partial<Record<keyof Proposal, string>>;
 
-export const REQUIRED = Object.keys(REQUIRED_LABELS) as (keyof typeof REQUIRED_LABELS)[];
+/* Listed rather than derived from `requiredLabels`. Which fields are required has
+   nothing to do with language, and deriving these would mean calling that function with
+   some locale just to learn the field names. */
+export const REQUIRED = ['name', 'country', 'submitter', 'connection'] as const;
 
 export const missingFrom = (p: Partial<Proposal>): (keyof Proposal)[] =>
   REQUIRED.filter((field) => !String(p[field] ?? '').trim());

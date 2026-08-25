@@ -475,6 +475,29 @@ export interface Copy {
   conflictingAccountsNote: string;
   nowhereToSendNote: string;
   whereTheExampleEndsUp: string;
+  confirmedBy: string;
+  nothingMatchesAll: string;
+  mostOfYourListFirst: string;
+  translatesTheAppsWords: string;
+  byNameAndPlaceOnly: string;
+  wikipediaViewsNote: string;
+  requiredDishName: string;
+  requiredCountry: string;
+  requiredYourName: string;
+  requiredYourConnection: string;
+  requiredWhatYouConfirm: string;
+  bandNotScored: string;
+  bandUnder50: string;
+  band50to74: string;
+  band75Plus: string;
+  reviewCapitals: string;
+  reviewCapitalsConsider: string;
+  reviewRepeats: string;
+  reviewRepeatsConsider: string;
+  reviewShort: string;
+  reviewShortConsider: string;
+  groupSummaryCountries: string;
+  groupSummaryOrigins: string;
   interfaceTranslationNote: string;
 }
 
@@ -1191,6 +1214,52 @@ export const EN: Copy = {
     'There is nowhere to send this to. The atlas has read everything the free sources hold, so what is missing now is food nobody has written down — which means this form is how it grows, and it will be switched on as soon as there is somewhere for it to go.',
   whereTheExampleEndsUp:
     'That is where the example record ends up: published with its evidence visible, its open checks named, and every claim traceable to who said it.',
+  confirmedBy:
+    'Confirmed by',
+  nothingMatchesAll:
+    'Nothing matches all of these at once.',
+  mostOfYourListFirst:
+    'Most of your list first',
+  translatesTheAppsWords:
+    'Translates the app’s own words. Dishes stay in the language they were recorded in — a record has its own translation controls.',
+  byNameAndPlaceOnly:
+    'These are in the atlas by name and place only. Nobody has documented how they are made, so they carry no method and no score.',
+  wikipediaViewsNote:
+    'How many people read about each dish on English Wikipedia over the last year. That is interest, not authenticity and not how widely a dish is eaten — and it favours what English speakers look up. Tap through for each one’s classification.',
+  requiredDishName:
+    'the dish’s name',
+  requiredCountry:
+    'the country',
+  requiredYourName:
+    'your name',
+  requiredYourConnection:
+    'your connection to the place',
+  requiredWhatYouConfirm:
+    'what you can confirm',
+  bandNotScored:
+    'Not scored',
+  bandUnder50:
+    'Under 50',
+  band50to74:
+    '50 – 74',
+  band75Plus:
+    '75 and above',
+  reviewCapitals:
+    'This is written in capitals throughout.',
+  reviewCapitalsConsider:
+    'Sentence case reads better and is easier to translate. The dish name keeps whatever case you gave it.',
+  reviewRepeats:
+    'A character repeats several times over.',
+  reviewRepeatsConsider:
+    'Check it is not a stuck key.',
+  reviewShort:
+    'The method is very short.',
+  reviewShortConsider:
+    'Write what someone would have to do to make it, including the waiting. A record without a method cannot reach the recipe shelves.',
+  groupSummaryCountries:
+    '{c} countries · {n} traditions',
+  groupSummaryOrigins:
+    '{c} origins · {n} traditions',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
