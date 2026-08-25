@@ -73,14 +73,56 @@ interface LocaleState {
   setLocale: (locale: string) => void;
 }
 
+/**
+ * Where a reader's choice is kept between visits.
+ *
+ * Only a *chosen* locale is stored, never a detected one, and the distinction is the
+ * whole point. A reader whose browser is set to Spanish should keep getting Spanish
+ * even if that guess improves later; a reader who explicitly picked Japanese on an
+ * English machine must not have that overridden on the next load. Storing the guess
+ * would freeze it and make the two indistinguishable.
+ *
+ * `localStorage` directly rather than a storage library, because the web build is what
+ * is launching and this needs no dependency at all. Every access is guarded: Safari in
+ * private mode throws on write, and a locale is not worth a blank page.
+ *
+ * Native (the App Store / Play Store build) has no `localStorage`, so the choice lasts
+ * only as long as the process. Fixing that properly needs AsyncStorage — one small free
+ * dependency — and is queued rather than added here.
+ */
+const CHOICE = 'wikifoodia.locale';
+
+const storedChoice = (): string | null => {
+  try {
+    return typeof localStorage === 'undefined' ? null : localStorage.getItem(CHOICE);
+  } catch {
+    return null;
+  }
+};
+
+const rememberChoice = (locale: string): void => {
+  try {
+    if (typeof localStorage !== 'undefined') localStorage.setItem(CHOICE, locale);
+  } catch {
+    /* A reader who cannot be remembered still gets the language they just picked. */
+  }
+};
+
 export const useLocale = create<LocaleState>((set) => {
-  const detected = negotiateLocale(devicePreferences(), UI_LOCALES);
+  /* The stored choice wins over the device, but only if it is still a language we
+     have — a catalogue removed in a later release must not strand a reader. */
+  const remembered = storedChoice();
+  const chosen = remembered !== null && UI_LOCALES.includes(remembered);
+  const locale = chosen ? remembered : negotiateLocale(devicePreferences(), UI_LOCALES);
 
   return {
-    locale: detected,
-    copy: copyFor(detected),
-    chosen: false,
-    setLocale: (locale) => set({ locale, copy: copyFor(locale), chosen: true }),
+    locale,
+    copy: copyFor(locale),
+    chosen,
+    setLocale: (next) => {
+      rememberChoice(next);
+      set({ locale: next, copy: copyFor(next), chosen: true });
+    },
   };
 });
 

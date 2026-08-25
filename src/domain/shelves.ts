@@ -23,14 +23,18 @@
  * views rail to the bottom.
  */
 
+import type { Copy } from '../i18n/copy';
 import { isAuthentic } from './authenticity';
 import type { Dish, Level } from './types';
 
 export interface Shelf {
   id: string;
-  title: string;
-  /** What this shelf is for, in the app's voice. */
-  note: string;
+  /** The copy key for the shelf's name. Resolved by the screen, not here. */
+  titleKey: keyof Copy;
+  /** The copy key for what this shelf is for, in the app's voice. */
+  noteKey: keyof Copy;
+  /** Substituted into {country} for the shelf that names one. See `shelfLabel`. */
+  country?: string;
   /** The records on it, already ordered. */
   dishes: Dish[];
   /** How many exist in total, which is usually more than are shown. */
@@ -220,8 +224,9 @@ function spreadByPlace(dishes: Dish[], take: number): Dish[] {
  */
 export interface ShelfDef {
   id: string;
-  title: string;
-  note: string;
+  titleKey: keyof Copy;
+  noteKey: keyof Copy;
+  country?: string;
   match: (d: Dish) => boolean;
   /** Order the rail for variety instead of rank. See `spreadByPlace`. */
   spread?: boolean;
@@ -232,8 +237,8 @@ export interface ShelfDef {
 export const SHELF_DEFS: ShelfDef[] = [
   {
     id: 'at-risk',
-    title: 'Disappearing',
-    note: 'Traditions a source describes as declining — the undocumented ones first, because those are the ones that go.',
+    titleKey: 'shelfDisappearing',
+    noteKey: 'shelfDisappearingNote',
     match: (d) => Boolean(d.atRisk),
     /*
      * Undocumented first, which is the opposite of every other shelf.
@@ -252,20 +257,20 @@ export const SHELF_DEFS: ShelfDef[] = [
   },
   {
     id: 'authentic',
-    title: 'Authenticated',
-    note: 'The records that carry real evidence of how they are made, and where.',
+    titleKey: 'shelfAuthenticated',
+    noteKey: 'shelfAuthenticatedNote',
     match: (d) => isAuthentic(d.badgeLevel),
   },
   {
     id: 'cookable',
-    title: 'You could cook this tonight',
-    note: 'Records with a written method — traditional where we have one, published where we do not.',
+    titleKey: 'shelfCookable',
+    noteKey: 'shelfCookableNote',
     match: (d) => d.steps.length > 0,
   },
   {
     id: 'illustrated',
-    title: 'Worth looking at',
-    note: 'Photographed traditions, for browsing rather than searching.',
+    titleKey: 'shelfIllustrated',
+    noteKey: 'shelfIllustratedNote',
     match: (d) => Boolean(d.photo),
     spread: true,
   },
@@ -293,8 +298,9 @@ export const SHELF_DEFS: ShelfDef[] = [
  */
 const nearbyShelf = (country: string): ShelfDef => ({
   id: 'nearby',
-  title: `From ${country}`,
-  note: `What the atlas holds from ${country}. Its accuracy here is worth more to you than anywhere else — you can tell whether it is right.`,
+  titleKey: 'shelfFromCountry',
+  noteKey: 'shelfFromCountryNote',
+  country,
   match: (d) => d.loc.country === country,
 });
 
@@ -392,8 +398,9 @@ export function buildShelves(
 
       return {
         id: def.id,
-        title: def.title,
-        note: def.note,
+        titleKey: def.titleKey,
+        noteKey: def.noteKey,
+        country: def.country,
         dishes: rail,
         // The count is of everything that matches, not of what fits on the rail.
         total: matching.length,
@@ -414,4 +421,24 @@ export function shelfMatch(id: string | null): ((d: Dish) => boolean) | null {
 }
 
 /** The heading shown once a shelf is opened in full. */
-export const shelfTitle = (id: string | null) => SHELF_DEFS.find((def) => def.id === id)?.title ?? null;
+/**
+ * The name of an opened shelf, in the reader's language.
+ *
+ * Takes `copy` rather than reaching for it, because this file is domain code and is
+ * called from tests and from the intake pipeline as well as from a screen.
+ */
+export const shelfTitle = (copy: Copy, id: string | null): string | null => {
+  const def = SHELF_DEFS.find((d) => d.id === id);
+  return def ? copy[def.titleKey] : null;
+};
+
+/**
+ * A shelf's name and note, with any country substituted in.
+ *
+ * One function for both so that a caller cannot resolve the title and forget the note,
+ * which is exactly how the note kept its English through four translation batches.
+ */
+export const shelfLabel = (copy: Copy, shelf: Pick<Shelf, 'titleKey' | 'noteKey' | 'country'>) => ({
+  title: copy[shelf.titleKey].replace('{country}', shelf.country ?? ''),
+  note: copy[shelf.noteKey].replace('{country}', shelf.country ?? ''),
+});

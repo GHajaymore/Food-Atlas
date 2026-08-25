@@ -343,6 +343,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nacido y cocinando en Kozhikode',
     exampleIngredients:
       'Plátano nendran maduro, huevos, ghee, azúcar, anacardos, pasas; cocinado en una sartén gruesa a fuego bajo de carbón o de gas, tapado con una tapa cargada con brasas',
+    shelfFromCountry:
+      'De {country}',
+    shelfFromCountryNote:
+      'Lo que el atlas tiene de {country}. Que aquí sea exacto vale más para ti que en ningún otro sitio: tú puedes saber si está bien.',
+    sending:
+      'Enviando…',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -652,6 +658,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Né à Kozhikode et j’y cuisine',
     exampleIngredients:
       'Banane nendran mûre, œufs, ghee, sucre, noix de cajou, raisins secs ; cuit dans une poêle épaisse sur feu doux de charbon ou de gaz, couvert d’un couvercle chargé de braises',
+    shelfFromCountry:
+      'Du {country}',
+    shelfFromCountryNote:
+      'Ce que l’atlas contient pour {country}. Sa justesse ici vaut plus pour vous que partout ailleurs : vous, vous pouvez savoir si c’est exact.',
+    sending:
+      'Envoi…',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -960,6 +972,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'In Kozhikode geboren und dort am Herd',
     exampleIngredients:
       'Reife Nendran-Banane, Eier, Ghee, Zucker, Cashewkerne, Rosinen; in einer schweren Pfanne bei niedriger Kohle- oder Gasflamme gegart, mit einem Deckel bedeckt, der mit Glut beschwert ist',
+    shelfFromCountry:
+      'Aus {country}',
+    shelfFromCountryNote:
+      'Was der Atlas aus {country} hat. Dass es hier stimmt, ist für Sie mehr wert als irgendwo sonst — Sie können beurteilen, ob es richtig ist.',
+    sending:
+      'Wird gesendet…',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -1268,6 +1286,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nato a Kozhikode e cucino lì',
     exampleIngredients:
       'Banana nendran matura, uova, ghee, zucchero, anacardi, uvetta; cotto in una padella pesante su fiamma bassa di carbone o di gas, coperto con un coperchio caricato di braci',
+    shelfFromCountry:
+      'Da {country}',
+    shelfFromCountryNote:
+      'Quello che l’atlante ha da {country}. Che qui sia esatto vale per te più che altrove: tu puoi capire se è giusto.',
+    sending:
+      'Invio…',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -1577,6 +1601,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nascido em Kozhikode e a cozinhar lá',
     exampleIngredients:
       'Banana nendran madura, ovos, ghee, açúcar, castanhas de caju, passas; cozinhado numa frigideira pesada em lume brando de carvão ou de gás, tapado com uma tampa carregada de brasas',
+    shelfFromCountry:
+      'De {country}',
+    shelfFromCountryNote:
+      'O que o atlas tem de {country}. A exatidão aqui vale-lhe mais do que em qualquer outro lado — você consegue perceber se está certo.',
+    sending:
+      'A enviar…',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -1885,6 +1915,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Geboren in Kozhikode en kook daar',
     exampleIngredients:
       'Rijpe nendran-banaan, eieren, ghee, suiker, cashewnoten, rozijnen; gegaard in een zware pan op een lage houtskool- of gasvlam, afgedekt met een deksel dat met gloeiende kolen is verzwaard',
+    shelfFromCountry:
+      'Uit {country}',
+    shelfFromCountryNote:
+      'Wat de atlas uit {country} heeft. Dat het hier klopt, is voor u meer waard dan waar ook — u kunt beoordelen of het juist is.',
+    sending:
+      'Versturen…',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -2194,6 +2230,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Urodzony w Kozhikode i tam gotuję',
     exampleIngredients:
       'Dojrzały banan nendran, jajka, ghee, cukier, nerkowce, rodzynki; smażone na ciężkiej patelni na małym ogniu z węgla lub gazu, przykryte pokrywką obciążoną żarem',
+    shelfFromCountry:
+      'Z: {country}',
+    shelfFromCountryNote:
+      'To, co atlas ma z kraju {country}. To, że tutaj jest dokładnie, znaczy dla ciebie więcej niż gdziekolwiek indziej — ty potrafisz ocenić, czy się zgadza.',
+    sending:
+      'Wysyłanie…',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -2502,6 +2544,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Kozhikode doğumluyum ve orada pişiriyorum',
     exampleIngredients:
       'Olgun nendran muzu, yumurta, sadeyağ, şeker, kaju, kuru üzüm; ağır bir tavada kısık kömür ya da gaz ateşinde, korla ağırlaştırılmış bir kapakla örtülerek pişirilir',
+    shelfFromCountry:
+      '{country} mutfağından',
+    shelfFromCountryNote:
+      'Atlasın {country} için tuttukları. Burada doğru olması sizin için başka her yerden daha değerli — doğru olup olmadığını siz anlayabilirsiniz.',
+    sending:
+      'Gönderiliyor…',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -2811,6 +2859,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Родился в Кожикоде и готовлю там',
     exampleIngredients:
       'Спелый банан нендран, яйца, топлёное масло гхи, сахар, кешью, изюм; готовится в тяжёлой сковороде на слабом угольном или газовом огне, под крышкой, придавленной углями',
+    shelfFromCountry:
+      'Из страны {country}',
+    shelfFromCountryNote:
+      'То, что атлас содержит по стране {country}. Точность именно здесь для вас важнее, чем где бы то ни было: вы можете судить, верно ли это.',
+    sending:
+      'Отправляется…',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -3120,6 +3174,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'कोझिकोड में जन्मा और वहीं पकाता हूँ',
     exampleIngredients:
       'पका नेंद्रन केला, अंडे, घी, चीनी, काजू, किशमिश; भारी कड़ाही में कोयले या गैस की धीमी आँच पर, अंगारों से दबाए ढक्कन से ढककर पकाया जाता है',
+    shelfFromCountry:
+      '{country} से',
+    shelfFromCountryNote:
+      'एटलस के पास {country} से जो कुछ है। यहाँ का सही होना आपके लिए और कहीं से ज़्यादा मायने रखता है — आप बता सकते हैं कि यह ठीक है या नहीं।',
+    sending:
+      'भेजा जा रहा है…',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -3429,6 +3489,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '生在科泽科德，也在那里做菜',
     exampleIngredients:
       '熟的 nendran 香蕉、鸡蛋、酥油、糖、腰果、葡萄干；用厚底锅在炭火或煤气小火上烹制，盖上压了炭火的锅盖',
+    shelfFromCountry:
+      '来自{country}',
+    shelfFromCountryNote:
+      '图册中来自{country}的内容。这里准不准，对你比别处更要紧 — 因为你分得出对错。',
+    sending:
+      '发送中…',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -3738,6 +3804,12 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'コーリコード生まれ、そこで作っています',
     exampleIngredients:
       '熟したネンドラン バナナ、卵、ギー、砂糖、カシューナッツ、レーズン。厚手の鍋で炭火かガスの弱火にかけ、熾火を載せた蓋をして火を通す',
+    shelfFromCountry:
+      '{country}から',
+    shelfFromCountryNote:
+      'このアトラスが{country}について持っているもの。ここが正しいかどうかは、ほかのどこよりもあなたにとって値打ちがあります。正しいかどうかを見分けられるのは、あなただからです。',
+    sending:
+      '送信中…',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

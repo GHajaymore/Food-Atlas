@@ -20,8 +20,10 @@ import { placeKind } from '../src/domain/continents';
 import { feedFor, nextLevel, placeGroups } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { accentText, color, space } from '../src/theme/tokens';
+import { useCopy } from '../src/i18n';
 
 export default function PlacePicker() {
+  const copy = useCopy();
   const { activeFilter, path, placeQuery, setPlaceQuery, pushPlace } = useApp();
 
   const matching = feedFor(dishes, activeFilter, path);
@@ -68,7 +70,7 @@ export default function PlacePicker() {
         }}
         style={styles.row}
       >
-        <T style={styles.anywhere}>Anywhere</T>
+        <T style={styles.anywhere}>{copy.anywhere}</T>
         <Muted style={styles.count}>{matching.length}</Muted>
       </Pressable>
 

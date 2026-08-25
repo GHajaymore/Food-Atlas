@@ -18,6 +18,8 @@ import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
+import { shelfLabel } from '../domain/shelves';
+import { useCopy } from '../i18n';
 
 interface Props {
   shelf: ShelfData;
@@ -29,6 +31,8 @@ interface Props {
 }
 
 export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
+  const copy = useCopy();
+  const label = shelfLabel(copy, shelf);
   const remaining = shelf.total - shelf.dishes.length;
   const layout = useLayout();
 
@@ -66,7 +70,7 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
   return (
     <View {...enterProps} style={styles.wrap}>
       <View style={styles.header}>
-        <H6 style={styles.title}>{shelf.title}</H6>
+        <H6 style={styles.title}>{label.title}</H6>
         {/*
          * "See all" as a header link on wide screens rather than a card at the end.
          *
@@ -79,18 +83,20 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
         {layout.wide && remaining > 0 ? (
           <Pressable
             accessibilityRole="link"
-            accessibilityLabel={`See all ${shelf.total} in ${shelf.title}`}
+            accessibilityLabel={`${copy.seeAll} ${shelf.total} · ${label.title}`}
             tint="neutral"
             onPress={() => onOpenAll(shelf)}
             style={styles.headerLink}
           >
-            <T style={styles.headerLinkLabel}>See all {shelf.total.toLocaleString()} →</T>
+            <T style={styles.headerLinkLabel}>
+              {copy.seeAll} {shelf.total.toLocaleString()} →
+            </T>
           </Pressable>
         ) : (
           <Muted style={styles.count}>{shelf.total.toLocaleString()}</Muted>
         )}
       </View>
-      <Muted style={styles.note}>{shelf.note}</Muted>
+      <Muted style={styles.note}>{label.note}</Muted>
 
       <Rail>
         {shelf.dishes.map((dish) => (
@@ -116,12 +122,12 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
         {!layout.wide && remaining > 0 ? (
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={`See all ${shelf.total} in ${shelf.title}`}
+            accessibilityLabel={`${copy.seeAll} ${shelf.total} · ${label.title}`}
             tint="accent"
             onPress={() => onOpenAll(shelf)}
             style={{ ...styles.more, width: cardSize, height: cardSize }}
           >
-            <T style={styles.moreLabel}>See all</T>
+            <T style={styles.moreLabel}>{copy.seeAll}</T>
             <Muted style={styles.moreCount}>{shelf.total.toLocaleString()}</Muted>
           </Pressable>
         ) : null}

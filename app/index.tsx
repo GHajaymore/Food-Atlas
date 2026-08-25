@@ -123,7 +123,7 @@ export default function Feed() {
 
   // Says what the list is, in the reader's own terms: the shelf they opened, or the
   // place they narrowed to, so a long list is never unexplained.
-  const openShelf = shelfTitle(shelfView);
+  const openShelf = shelfTitle(copy, shelfView);
   const resultSummary = `${feed.length.toLocaleString()} ${feed.length === 1 ? 'tradition' : 'traditions'}${
     path.length ? ` in ${place}` : openShelf ? '' : ' worldwide'
   }${openShelf ? ` · ${openShelf}` : ''}`;

@@ -276,6 +276,9 @@ export interface Copy {
   examplePreparedBy: string;
   exampleConnection: string;
   exampleIngredients: string;
+  shelfFromCountry: string;
+  shelfFromCountryNote: string;
+  sending: string;
   interfaceTranslationNote: string;
 }
 
@@ -594,6 +597,12 @@ export const EN: Copy = {
     'Born and cooking in Kozhikode',
   exampleIngredients:
     'Ripe nendran banana, eggs, ghee, sugar, cashews, raisins; cooked in a heavy pan over low charcoal or gas flame, covered with a lid weighted with embers',
+  shelfFromCountry:
+    'From {country}',
+  shelfFromCountryNote:
+    'What the atlas holds from {country}. Its accuracy here is worth more to you than anywhere else — you can tell whether it is right.',
+  sending:
+    'Sending…',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

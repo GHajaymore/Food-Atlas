@@ -255,7 +255,7 @@ export default function Propose() {
 
             {canPropose() ? (
               <Button
-                label={busy ? 'Sending…' : 'Propose this dish'}
+                label={busy ? 'Sending…' : copy.proposeThisDish}
                 block
                 style={styles.cta}
                 onPress={async () => {

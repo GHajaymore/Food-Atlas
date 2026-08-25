@@ -364,7 +364,7 @@ export default function Search() {
         results={
           <>
       <View style={styles.resultsHeader}>
-        <H6>Results</H6>
+        <H6>{copy.results}</H6>
         <Muted style={styles.resultCount}>
           {results.length} {results.length === 1 ? 'match' : 'matches'}
         </Muted>

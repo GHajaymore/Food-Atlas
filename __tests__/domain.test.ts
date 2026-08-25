@@ -102,7 +102,7 @@ import {
   parsePhotoReference,
   type PhotoRejection,
 } from '../src/domain/photoSubmission';
-import { buildShelves, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
+import { buildShelves, shelfLabel, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
 import { assertPreserved, buildPrompt, preservedTerms } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
@@ -1774,12 +1774,12 @@ describe('the home shelves are doorways, not decoration', () => {
     // opens onto nothing is worse than one that opens onto everything.
     expect(shelfMatch('all')).toBeNull();
     expect(shelfMatch(null)).toBeNull();
-    expect(shelfTitle('all')).toBeNull();
+    expect(shelfTitle(EN, 'all')).toBeNull();
   });
 
   it('names every shelf it can open', () => {
     for (const shelf of buildShelves(dishes)) {
-      expect(shelfTitle(shelf.id)).toBe(shelf.title);
+      expect(shelfTitle(EN, shelf.id)).toBe(shelfLabel(EN, shelf).title);
     }
   });
 });
@@ -2537,6 +2537,32 @@ describe('which language the app speaks to the reader in', () => {
     expect(negotiateLocale(['mt', 'is'], AVAILABLE)).toBe('en');
     expect(negotiateLocale([], AVAILABLE)).toBe('en');
     expect(negotiateLocale(['fr'], [])).toBe('en');
+  });
+});
+
+describe('remembering which language a reader picked', () => {
+  /*
+   * The store reads storage once, when the module first evaluates, so these test the
+   * rule rather than the store: a stored value is honoured only if it is still a
+   * language we ship, and a detected locale is never stored. The second half is what
+   * matters — storing the guess would make "my browser is Spanish" and "I chose
+   * Spanish" indistinguishable, and the first should improve when the guess does.
+   */
+  const honours = (stored: string | null) => stored !== null && UI_LOCALES.includes(stored);
+
+  it('honours a stored language that is still shipped', () => {
+    for (const locale of UI_LOCALES) expect(honours(locale)).toBe(true);
+  });
+
+  it('falls back to the device when nothing was stored', () => {
+    expect(honours(null)).toBe(false);
+  });
+
+  it('ignores a stored language that no longer exists', () => {
+    // A catalogue dropped in a later release must not strand the reader on a blank
+    // vocabulary; they fall back to detection like anyone else.
+    expect(honours('kl')).toBe(false);
+    expect(honours('')).toBe(false);
   });
 });
 

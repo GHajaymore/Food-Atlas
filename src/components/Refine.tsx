@@ -19,6 +19,7 @@ import { accentText, color, radius, space } from '../theme/tokens';
 import { CaretDownIcon } from './icons';
 import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
+import { useCopy } from '../i18n';
 
 interface Props {
   /** The row's own label, e.g. 'Diet & occasion' or 'Filters'. */
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export function Refine({ label = 'Diet & occasion', summary, count, emptyLabel = 'Any', children }: Props) {
+  const copy = useCopy();
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,7 +42,7 @@ export function Refine({ label = 'Diet & occasion', summary, count, emptyLabel =
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`${label}. ${count ? summary : 'nothing applied'}`}
+        accessibilityLabel={`${label}. ${count ? summary : copy.nothingApplied}`}
         tint="neutral"
         onPress={() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
