@@ -88,7 +88,7 @@ export default function Contribute() {
   // Judged as it is typed, so someone pasting an Instagram link learns immediately
   // that the photograph is theirs to publish rather than after submitting the form.
   const [photoInput, setPhotoInput] = useState('');
-  const photoResult = photoInput.trim() ? parsePhotoReference(photoInput) : null;
+  const photoResult = photoInput.trim() ? parsePhotoReference(copy, photoInput) : null;
 
   /** The dish a fruitless search was for, where the reader arrived from one. */
   const { dish: askedFor } = useLocalSearchParams<{ dish?: string }>();
@@ -347,7 +347,7 @@ export default function Contribute() {
               <CardKicker>{copy.nowSendYours}</CardKicker>
               <CardBody>
                 {missing.length
-                  ? `${stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS]))} ` +
+                  ? `${stillNeeded(copy, missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS]))} ` +
                     copy.nothingElseRequired
                   : copy.opensTheFormPrefilled}
               </CardBody>

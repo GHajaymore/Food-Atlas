@@ -206,15 +206,18 @@ export const confirmedLocally = (c: DishConfirmations): boolean =>
  * describes is the state of our evidence — and because a reader who knows the dish is
  * exactly the person who can fix it, if anybody tells them how.
  */
-export function whatItNeeds(c: DishConfirmations, required: number): string {
+export function whatItNeeds(copy: Copy, c: DishConfirmations, required: number): string {
   const have = validationsOf(c);
   if (have >= required) return '';
 
   const short = required - have;
   if (have === 0) {
-    return `Nobody from the place has confirmed this yet. ${required} confirmations would authenticate it.`;
+    return copy.recordNobodyYet.replace('{n}', String(required));
   }
-  return `${have} of ${required} confirmations. ${short} more from people who know the dish would authenticate it.`;
+  return copy.recordSoFar
+    .replace('{have}', String(have))
+    .replace('{n}', String(required))
+    .replace('{short}', String(short));
 }
 
 /**

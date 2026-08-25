@@ -1,3 +1,5 @@
+import type { Copy } from '../i18n/copy';
+
 /**
  * Photographs contributed by the people who cooked the food.
  *
@@ -122,10 +124,10 @@ const KNOWN_HOSTS: { pattern: RegExp; reason: string }[] = [
  * what to do next — and what they should do is upload that same photograph, which
  * is theirs, to Commons.
  */
-export function parsePhotoReference(input: string): PhotoReference {
+export function parsePhotoReference(copy: Copy, input: string): PhotoReference {
   const text = (input ?? '').trim();
   if (!text) {
-    return { reason: 'Nothing entered yet.', fix: 'Paste the Commons file name or the link to its file page.' };
+    return { reason: copy.photoNothingEntered, fix: copy.photoNothingEnteredFix };
   }
 
   const host = KNOWN_HOSTS.find((h) => h.pattern.test(text));
@@ -133,47 +135,45 @@ export function parsePhotoReference(input: string): PhotoReference {
     return {
       // Phrased around the host name rather than before it: the list runs from
       // "Instagram" to "X", and no single article fits them all.
-      reason: `That link goes to ${host.reason}, and we have no right to publish a photograph from there.`,
-      fix:
-        'If the photograph is yours, upload it to Wikimedia Commons under a free licence and paste the file name ' +
-        'here. It stays yours, you are credited wherever it appears, and it costs nothing.',
+      reason: copy.photoWrongHost.replace('{host}', host.reason),
+      fix: copy.photoWrongHostFix,
     };
   }
 
   // upload.wikimedia.org/wikipedia/commons/a/ab/Kaipola.jpg — the file is last, and
   // may be preceded by a thumbnail width segment.
   const upload = /upload\.wikimedia\.org\/wikipedia\/commons\/(?:thumb\/)?[^/]+\/[^/]+\/([^/?#]+)/i.exec(text);
-  if (upload) return validateFile(decodeURIComponent(upload[1]));
+  if (upload) return validateFile(copy, decodeURIComponent(upload[1]));
 
   // commons.wikimedia.org/wiki/File:Kaipola.jpg, desktop or mobile.
   const page = /commons\.m?\.?wikimedia\.org\/wiki\/(?:File|Image):([^?#]+)/i.exec(text);
-  if (page) return validateFile(decodeURIComponent(page[1]));
+  if (page) return validateFile(copy, decodeURIComponent(page[1]));
 
   if (/^https?:\/\//i.test(text)) {
     return {
-      reason: 'That link is not on Wikimedia Commons.',
-      fix: 'Only Commons files can be published here, because only they carry a licence that lets us show them.',
+      reason: copy.photoNotCommons,
+      fix: copy.photoNotCommonsFix,
     };
   }
 
-  return validateFile(text.replace(/^(File|Image):/i, ''));
+  return validateFile(copy, text.replace(/^(File|Image):/i, ''));
 }
 
 /** The file name itself has to name an image we can actually display. */
-function validateFile(raw: string): PhotoReference {
+function validateFile(copy: Copy, raw: string): PhotoReference {
   const file = raw.replace(/_/g, ' ').trim();
 
   if (!file) {
-    return { reason: 'No file name found in that.', fix: 'Paste the file name, for example Kaipola.jpg.' };
+    return { reason: copy.photoNoFileName, fix: copy.photoNoFileNameFix };
   }
   if (!/\.(jpe?g|png|webp|tiff?|gif)$/i.test(file)) {
     return {
-      reason: 'That is not a photograph file.',
-      fix: 'Commons photographs end in .jpg, .png or .webp. Diagrams and logos are not used here.',
+      reason: copy.photoNotAPhotograph,
+      fix: copy.photoNotAPhotographFix,
     };
   }
   if (/\.svg$/i.test(file)) {
-    return { reason: 'That is a drawing, not a photograph.', fix: 'Use a photograph of the food as it was made.' };
+    return { reason: copy.photoIsADrawing, fix: copy.photoIsADrawingFix };
   }
 
   return { file };

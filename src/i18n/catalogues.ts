@@ -1111,6 +1111,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nada registrado como {list} y {last}',
     photoVia:
       'foto vía',
+    photoNothingEntered:
+      'Todavía no has escrito nada.',
+    photoNothingEnteredFix:
+      'Pega el nombre del archivo de Commons o el enlace a su página.',
+    photoWrongHost:
+      'Ese enlace lleva a {host}, y no tenemos derecho a publicar una fotografía de ahí.',
+    photoWrongHostFix:
+      'Si la fotografía es tuya, súbela a Wikimedia Commons con una licencia libre y pega aquí el nombre del archivo. Sigue siendo tuya, se te acredita allí donde aparezca, y no cuesta nada.',
+    photoNotCommons:
+      'Ese enlace no está en Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Aquí solo se pueden publicar archivos de Commons, porque solo ellos llevan una licencia que nos permite mostrarlos.',
+    photoNoFileName:
+      'No se ha encontrado ningún nombre de archivo ahí.',
+    photoNoFileNameFix:
+      'Pega el nombre del archivo, por ejemplo Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Eso no es un archivo de fotografía.',
+    photoNotAPhotographFix:
+      'Las fotografías de Commons terminan en .jpg, .png o .webp. Los diagramas y logotipos no se usan aquí.',
+    photoIsADrawing:
+      'Eso es un dibujo, no una fotografía.',
+    photoIsADrawingFix:
+      'Usa una fotografía de la comida tal como se hizo.',
+    serverRefused:
+      'El servidor lo ha rechazado ({status}).',
+    serverTookTooLong:
+      'El servidor ha tardado demasiado en responder.',
+    couldNotReachServer:
+      'No se ha podido contactar con el servidor.',
+    nothingYouTypedIsLost:
+      '{message} Tu entrada no se ha enviado; nada de lo que escribiste se pierde, inténtalo de nuevo en un momento.',
+    proposalsNotOpen:
+      'Las propuestas todavía no están abiertas.',
+    confirmationsNotOpen:
+      'Las confirmaciones todavía no están abiertas.',
+    alreadyProposed:
+      'Este plato ya se ha propuesto. Ábrelo y confírmalo: eso es lo que lo hace avanzar.',
+    alreadyConfirmed:
+      'Ya has confirmado este.',
+    youProposedThis:
+      'Tú propusiste este plato, así que necesita que lo confirme otra persona.',
+    stillNeededList:
+      'Todavía falta: {list}.',
+    listAnd:
+      '{list} y {last}',
+    proposalConfirmed:
+      'Confirmado. Entra en el atlas en la próxima actualización.',
+    proposalNobodyYet:
+      'Todavía no lo ha confirmado nadie. {n} personas que conozcan el plato lo traerían al atlas.',
+    proposalSoFar:
+      '{have} de {n} confirmaciones. {short} más de gente que conozca el plato lo traerían.',
+    recordNobodyYet:
+      'Todavía no lo ha confirmado nadie del lugar. {n} confirmaciones lo autenticarían.',
+    recordSoFar:
+      '{have} de {n} confirmaciones. {short} más de gente que conozca el plato lo autenticarían.',
+    atRiskNote:
+      'Marcado porque una fuente describe esta tradición en declive; la frase se muestra con el registro. Nunca se deduce de lo poco que hayamos documentado: un vacío en nuestros registros no es prueba de que nadie haya dejado de cocinar.',
+    originDisclaimer:
+      'Este plato tiene más de una reivindicación histórica documentada. Las tradiciones de abajo se recogen tal como las describe cada lugar, con sus fuentes. Ninguna se presenta aquí como la ganadora, y nada de esto afecta a la puntuación de autenticidad: esa mide cómo se hace el plato en un lugar, no quién lo hizo primero.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2188,6 +2248,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Rien de consigné comme {list} et {last}',
     photoVia:
       'photo via',
+    photoNothingEntered:
+      'Rien n’a encore été saisi.',
+    photoNothingEnteredFix:
+      'Collez le nom du fichier Commons ou le lien vers sa page.',
+    photoWrongHost:
+      'Ce lien mène à {host}, et nous n’avons pas le droit d’y publier une photographie.',
+    photoWrongHostFix:
+      'Si la photographie est la vôtre, déposez-la sur Wikimedia Commons sous licence libre et collez ici le nom du fichier. Elle reste la vôtre, vous êtes crédité partout où elle paraît, et cela ne coûte rien.',
+    photoNotCommons:
+      'Ce lien n’est pas sur Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Seuls les fichiers de Commons peuvent être publiés ici, car eux seuls portent une licence qui nous permet de les montrer.',
+    photoNoFileName:
+      'Aucun nom de fichier trouvé là-dedans.',
+    photoNoFileNameFix:
+      'Collez le nom du fichier, par exemple Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Ce n’est pas un fichier de photographie.',
+    photoNotAPhotographFix:
+      'Les photographies de Commons finissent en .jpg, .png ou .webp. Les schémas et les logos ne sont pas utilisés ici.',
+    photoIsADrawing:
+      'C’est un dessin, pas une photographie.',
+    photoIsADrawingFix:
+      'Utilisez une photographie du plat tel qu’il a été préparé.',
+    serverRefused:
+      'Le serveur l’a refusé ({status}).',
+    serverTookTooLong:
+      'Le serveur a mis trop de temps à répondre.',
+    couldNotReachServer:
+      'Impossible de joindre le serveur.',
+    nothingYouTypedIsLost:
+      '{message} Votre saisie n’a pas été envoyée — rien de ce que vous avez tapé n’est perdu, réessayez dans un instant.',
+    proposalsNotOpen:
+      'Les propositions ne sont pas encore ouvertes.',
+    confirmationsNotOpen:
+      'Les confirmations ne sont pas encore ouvertes.',
+    alreadyProposed:
+      'Ce plat a déjà été proposé. Ouvrez-le et confirmez-le : c’est cela qui le fait avancer.',
+    alreadyConfirmed:
+      'Vous avez déjà confirmé celui-ci.',
+    youProposedThis:
+      'Vous avez proposé ce plat, il faut donc que quelqu’un d’autre le confirme.',
+    stillNeededList:
+      'Il manque encore : {list}.',
+    listAnd:
+      '{list} et {last}',
+    proposalConfirmed:
+      'Confirmé. Entre dans l’atlas à la prochaine mise à jour.',
+    proposalNobodyYet:
+      'Personne ne l’a encore confirmé. {n} personnes qui connaissent le plat le feraient entrer dans l’atlas.',
+    proposalSoFar:
+      '{have} confirmations sur {n}. {short} de plus, venant de gens qui connaissent le plat, le feraient entrer.',
+    recordNobodyYet:
+      'Personne du lieu ne l’a encore confirmé. {n} confirmations l’authentifieraient.',
+    recordSoFar:
+      '{have} confirmations sur {n}. {short} de plus, venant de gens qui connaissent le plat, l’authentifieraient.',
+    atRiskNote:
+      'Signalé parce qu’une source décrit cette tradition comme en déclin ; la phrase est affichée avec la fiche. Cela ne se déduit jamais du peu que nous avons consigné : un vide dans nos fiches n’est pas la preuve que quiconque a cessé de cuisiner.',
+    originDisclaimer:
+      'Ce plat fait l’objet de plusieurs revendications historiques documentées. Les traditions ci-dessous sont consignées telles que chaque lieu les décrit, avec leurs sources. Aucune revendication n’est présentée ici comme la gagnante, et rien de tout cela n’affecte la note d’authenticité : celle-ci mesure comment le plat est préparé dans un lieu, pas qui l’a fait en premier.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3264,6 +3384,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nichts erfasst als {list} und {last}',
     photoVia:
       'Foto über',
+    photoNothingEntered:
+      'Noch nichts eingegeben.',
+    photoNothingEnteredFix:
+      'Fügen Sie den Commons-Dateinamen oder den Link zu seiner Dateiseite ein.',
+    photoWrongHost:
+      'Dieser Link führt zu {host}, und wir dürfen von dort kein Foto veröffentlichen.',
+    photoWrongHostFix:
+      'Wenn das Foto Ihres ist, laden Sie es unter einer freien Lizenz zu Wikimedia Commons hoch und fügen Sie den Dateinamen hier ein. Es bleibt Ihres, Sie werden überall genannt, wo es erscheint, und es kostet nichts.',
+    photoNotCommons:
+      'Dieser Link liegt nicht auf Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Hier können nur Commons-Dateien veröffentlicht werden, weil nur sie eine Lizenz tragen, die uns das Zeigen erlaubt.',
+    photoNoFileName:
+      'Darin war kein Dateiname zu finden.',
+    photoNoFileNameFix:
+      'Fügen Sie den Dateinamen ein, zum Beispiel Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Das ist keine Fotodatei.',
+    photoNotAPhotographFix:
+      'Fotos auf Commons enden auf .jpg, .png oder .webp. Diagramme und Logos werden hier nicht verwendet.',
+    photoIsADrawing:
+      'Das ist eine Zeichnung, kein Foto.',
+    photoIsADrawingFix:
+      'Nehmen Sie ein Foto des Essens, so wie es gemacht wurde.',
+    serverRefused:
+      'Der Server hat es abgelehnt ({status}).',
+    serverTookTooLong:
+      'Der Server hat zu lange für die Antwort gebraucht.',
+    couldNotReachServer:
+      'Der Server war nicht erreichbar.',
+    nothingYouTypedIsLost:
+      '{message} Ihre Eingabe wurde nicht gesendet — nichts von dem, was Sie getippt haben, ist verloren, versuchen Sie es gleich noch einmal.',
+    proposalsNotOpen:
+      'Einreichungen sind noch nicht offen.',
+    confirmationsNotOpen:
+      'Bestätigungen sind noch nicht offen.',
+    alreadyProposed:
+      'Dieses Gericht wurde bereits eingereicht. Öffnen Sie es und bestätigen Sie es stattdessen — das bringt es weiter.',
+    alreadyConfirmed:
+      'Sie haben dieses hier schon bestätigt.',
+    youProposedThis:
+      'Sie haben dieses Gericht eingereicht, es braucht also jemand anderen zur Bestätigung.',
+    stillNeededList:
+      'Es fehlt noch: {list}.',
+    listAnd:
+      '{list} und {last}',
+    proposalConfirmed:
+      'Bestätigt. Kommt beim nächsten Update in den Atlas.',
+    proposalNobodyYet:
+      'Das hat noch niemand bestätigt. {n} Menschen, die das Gericht kennen, würden es in den Atlas bringen.',
+    proposalSoFar:
+      '{have} von {n} Bestätigungen. {short} weitere von Menschen, die das Gericht kennen, würden es hineinbringen.',
+    recordNobodyYet:
+      'Von dort hat das noch niemand bestätigt. {n} Bestätigungen würden es beglaubigen.',
+    recordSoFar:
+      '{have} von {n} Bestätigungen. {short} weitere von Menschen, die das Gericht kennen, würden es beglaubigen.',
+    atRiskNote:
+      'Gekennzeichnet, weil eine Quelle diese Tradition als schwindend beschreibt — der Satz wird mit dem Eintrag gezeigt. Es wird nie daraus abgeleitet, wie wenig wir festgehalten haben: eine Lücke in unseren Einträgen ist kein Beleg dafür, dass jemand aufgehört hat zu kochen.',
+    originDisclaimer:
+      'Für dieses Gericht gibt es mehr als einen belegten historischen Anspruch. Die Traditionen unten stehen so, wie jeder Ort sie beschreibt, mit ihren Quellen. Kein Anspruch wird hier als Sieger dargestellt, und nichts davon wirkt sich auf die Belegstärke aus — die misst, wie das Gericht an einem Ort gemacht wird, nicht wer es zuerst gemacht hat.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4340,6 +4520,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Niente registrato come {list} e {last}',
     photoVia:
       'foto via',
+    photoNothingEntered:
+      'Non hai ancora scritto niente.',
+    photoNothingEnteredFix:
+      'Incolla il nome del file di Commons o il link alla sua pagina.',
+    photoWrongHost:
+      'Quel link porta a {host}, e non abbiamo il diritto di pubblicare una fotografia presa da lì.',
+    photoWrongHostFix:
+      'Se la fotografia è tua, caricala su Wikimedia Commons con una licenza libera e incolla qui il nome del file. Resta tua, sei accreditato ovunque compaia, e non costa nulla.',
+    photoNotCommons:
+      'Quel link non è su Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Qui si possono pubblicare solo file di Commons, perché solo loro hanno una licenza che ci permette di mostrarli.',
+    photoNoFileName:
+      'Lì dentro non si trova nessun nome di file.',
+    photoNoFileNameFix:
+      'Incolla il nome del file, per esempio Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Quello non è un file di fotografia.',
+    photoNotAPhotographFix:
+      'Le fotografie di Commons finiscono in .jpg, .png o .webp. Diagrammi e loghi qui non si usano.',
+    photoIsADrawing:
+      'Quello è un disegno, non una fotografia.',
+    photoIsADrawingFix:
+      'Usa una fotografia del cibo com’è stato fatto.',
+    serverRefused:
+      'Il server lo ha rifiutato ({status}).',
+    serverTookTooLong:
+      'Il server ci ha messo troppo a rispondere.',
+    couldNotReachServer:
+      'Non si è riusciti a raggiungere il server.',
+    nothingYouTypedIsLost:
+      '{message} La tua voce non è stata inviata: niente di quello che hai scritto va perso, riprova tra un momento.',
+    proposalsNotOpen:
+      'Le proposte non sono ancora aperte.',
+    confirmationsNotOpen:
+      'Le conferme non sono ancora aperte.',
+    alreadyProposed:
+      'Questo piatto è già stato proposto. Aprilo e confermalo: è questo che lo fa muovere.',
+    alreadyConfirmed:
+      'Questo l’hai già confermato.',
+    youProposedThis:
+      'Questo piatto l’hai proposto tu, quindi serve che lo confermi qualcun altro.',
+    stillNeededList:
+      'Manca ancora: {list}.',
+    listAnd:
+      '{list} e {last}',
+    proposalConfirmed:
+      'Confermato. Entra nell’atlante al prossimo aggiornamento.',
+    proposalNobodyYet:
+      'Non l’ha ancora confermato nessuno. {n} persone che conoscono il piatto lo porterebbero nell’atlante.',
+    proposalSoFar:
+      '{have} conferme su {n}. Altre {short} da chi conosce il piatto lo porterebbero dentro.',
+    recordNobodyYet:
+      'Non l’ha ancora confermato nessuno del posto. {n} conferme lo autenticherebbero.',
+    recordSoFar:
+      '{have} conferme su {n}. Altre {short} da chi conosce il piatto lo autenticherebbero.',
+    atRiskNote:
+      'Segnalato perché una fonte descrive questa tradizione in declino: la frase è mostrata insieme alla scheda. Non si deduce mai da quanto poco abbiamo documentato: un vuoto nelle nostre schede non è prova che qualcuno abbia smesso di cucinare.',
+    originDisclaimer:
+      'Questo piatto ha più di una rivendicazione storica documentata. Le tradizioni qui sotto sono registrate come le descrive ciascun luogo, con le loro fonti. Nessuna rivendicazione è presentata come vincitrice, e niente di tutto ciò incide sul punteggio di autenticità: quello misura come il piatto si fa in un luogo, non chi l’ha fatto per primo.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5417,6 +5657,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nada registado como {list} e {last}',
     photoVia:
       'foto via',
+    photoNothingEntered:
+      'Ainda não escreveu nada.',
+    photoNothingEnteredFix:
+      'Cole o nome do ficheiro do Commons ou o link para a sua página.',
+    photoWrongHost:
+      'Esse link vai para {host}, e não temos direito a publicar uma fotografia de lá.',
+    photoWrongHostFix:
+      'Se a fotografia é sua, carregue-a no Wikimedia Commons com uma licença livre e cole aqui o nome do ficheiro. Continua a ser sua, é creditado onde quer que apareça, e não custa nada.',
+    photoNotCommons:
+      'Esse link não está no Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Aqui só podem ser publicados ficheiros do Commons, porque só eles têm uma licença que nos deixa mostrá-los.',
+    photoNoFileName:
+      'Não se encontrou nenhum nome de ficheiro nisso.',
+    photoNoFileNameFix:
+      'Cole o nome do ficheiro, por exemplo Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Isso não é um ficheiro de fotografia.',
+    photoNotAPhotographFix:
+      'As fotografias do Commons acabam em .jpg, .png ou .webp. Diagramas e logótipos não são usados aqui.',
+    photoIsADrawing:
+      'Isso é um desenho, não uma fotografia.',
+    photoIsADrawingFix:
+      'Use uma fotografia da comida tal como foi feita.',
+    serverRefused:
+      'O servidor recusou ({status}).',
+    serverTookTooLong:
+      'O servidor demorou demasiado a responder.',
+    couldNotReachServer:
+      'Não foi possível chegar ao servidor.',
+    nothingYouTypedIsLost:
+      '{message} A sua entrada não foi enviada — nada do que escreveu se perde, tente outra vez daqui a pouco.',
+    proposalsNotOpen:
+      'As propostas ainda não estão abertas.',
+    confirmationsNotOpen:
+      'As confirmações ainda não estão abertas.',
+    alreadyProposed:
+      'Este prato já foi proposto. Abra-o e confirme-o: é isso que o faz avançar.',
+    alreadyConfirmed:
+      'Já confirmou este.',
+    youProposedThis:
+      'Foi você que propôs este prato, por isso precisa que outra pessoa o confirme.',
+    stillNeededList:
+      'Ainda falta: {list}.',
+    listAnd:
+      '{list} e {last}',
+    proposalConfirmed:
+      'Confirmado. Entra no atlas na próxima atualização.',
+    proposalNobodyYet:
+      'Ainda ninguém confirmou isto. {n} pessoas que conheçam o prato trá-lo-iam para o atlas.',
+    proposalSoFar:
+      '{have} de {n} confirmações. Mais {short} de quem conheça o prato trá-lo-iam.',
+    recordNobodyYet:
+      'Ainda ninguém do lugar confirmou isto. {n} confirmações autenticá-lo-iam.',
+    recordSoFar:
+      '{have} de {n} confirmações. Mais {short} de quem conheça o prato autenticá-lo-iam.',
+    atRiskNote:
+      'Assinalado porque uma fonte descreve esta tradição como em declínio — a frase é mostrada com o registo. Nunca é deduzido do pouco que documentámos: uma falha nos nossos registos não é prova de que alguém deixou de cozinhar.',
+    originDisclaimer:
+      'Este prato tem mais do que uma reivindicação histórica documentada. As tradições abaixo estão registadas tal como cada lugar as descreve, com as suas fontes. Nenhuma reivindicação é aqui apresentada como vencedora, e nada disto afeta a pontuação de autenticidade: essa mede como o prato é feito num lugar, não quem o fez primeiro.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6493,6 +6793,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Niets vastgelegd als {list} en {last}',
     photoVia:
       'foto via',
+    photoNothingEntered:
+      'Nog niets ingevuld.',
+    photoNothingEnteredFix:
+      'Plak de Commons-bestandsnaam of de link naar de bestandspagina.',
+    photoWrongHost:
+      'Die link gaat naar {host}, en wij hebben geen recht om daar een foto van te publiceren.',
+    photoWrongHostFix:
+      'Is de foto van u, zet hem dan onder een vrije licentie op Wikimedia Commons en plak hier de bestandsnaam. Hij blijft van u, u wordt genoemd waar hij ook verschijnt, en het kost niets.',
+    photoNotCommons:
+      'Die link staat niet op Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Hier kunnen alleen Commons-bestanden gepubliceerd worden, omdat alleen die een licentie hebben die ons toestaat ze te tonen.',
+    photoNoFileName:
+      'Daar zat geen bestandsnaam in.',
+    photoNoFileNameFix:
+      'Plak de bestandsnaam, bijvoorbeeld Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Dat is geen fotobestand.',
+    photoNotAPhotographFix:
+      'Foto’s op Commons eindigen op .jpg, .png of .webp. Diagrammen en logo’s worden hier niet gebruikt.',
+    photoIsADrawing:
+      'Dat is een tekening, geen foto.',
+    photoIsADrawingFix:
+      'Gebruik een foto van het gerecht zoals het gemaakt is.',
+    serverRefused:
+      'De server heeft het geweigerd ({status}).',
+    serverTookTooLong:
+      'De server deed er te lang over om te antwoorden.',
+    couldNotReachServer:
+      'De server was niet bereikbaar.',
+    nothingYouTypedIsLost:
+      '{message} Uw inzending is niet verstuurd — niets van wat u getypt hebt is kwijt, probeer het zo dadelijk opnieuw.',
+    proposalsNotOpen:
+      'Inzendingen staan nog niet open.',
+    confirmationsNotOpen:
+      'Bevestigingen staan nog niet open.',
+    alreadyProposed:
+      'Dit gerecht is al ingezonden. Open het en bevestig het — dat is wat het verder helpt.',
+    alreadyConfirmed:
+      'U hebt deze al bevestigd.',
+    youProposedThis:
+      'U hebt dit gerecht ingezonden, dus iemand anders moet het bevestigen.',
+    stillNeededList:
+      'Nog nodig: {list}.',
+    listAnd:
+      '{list} en {last}',
+    proposalConfirmed:
+      'Bevestigd. Komt bij de volgende bijwerking in de atlas.',
+    proposalNobodyYet:
+      'Nog niemand heeft dit bevestigd. {n} mensen die het gerecht kennen zouden het in de atlas brengen.',
+    proposalSoFar:
+      '{have} van {n} bevestigingen. {short} meer van mensen die het gerecht kennen zouden het erin brengen.',
+    recordNobodyYet:
+      'Nog niemand uit die plaats heeft dit bevestigd. {n} bevestigingen zouden het staven.',
+    recordSoFar:
+      '{have} van {n} bevestigingen. {short} meer van mensen die het gerecht kennen zouden het staven.',
+    atRiskNote:
+      'Gemarkeerd omdat een bron deze traditie als teruglopend beschrijft — die zin wordt bij het record getoond. Het wordt nooit afgeleid uit hoe weinig wij hebben vastgelegd: een gat in onze records is geen bewijs dat iemand is gestopt met koken.',
+    originDisclaimer:
+      'Dit gerecht kent meer dan één gedocumenteerde historische aanspraak. De tradities hieronder staan zoals elke plaats ze beschrijft, met hun bronnen. Geen enkele aanspraak wordt hier als winnaar gepresenteerd, en niets hiervan raakt de bewijskracht — die meet hoe het gerecht op een plek gemaakt wordt, niet wie het als eerste maakte.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7570,6 +7930,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nic nie zapisano jako {list} i {last}',
     photoVia:
       'zdjęcie przez',
+    photoNothingEntered:
+      'Jeszcze nic nie wpisano.',
+    photoNothingEnteredFix:
+      'Wklej nazwę pliku z Commons albo link do jego strony.',
+    photoWrongHost:
+      'Ten odnośnik prowadzi do: {host}, a my nie mamy prawa publikować stamtąd zdjęcia.',
+    photoWrongHostFix:
+      'Jeśli zdjęcie jest twoje, wgraj je do Wikimedia Commons na wolnej licencji i wklej tutaj nazwę pliku. Zostaje twoje, jesteś podpisany wszędzie, gdzie się pojawi, i nic to nie kosztuje.',
+    photoNotCommons:
+      'Ten odnośnik nie jest w Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Publikować można tu tylko pliki z Commons, bo tylko one mają licencję pozwalającą nam je pokazywać.',
+    photoNoFileName:
+      'Nie znaleziono w tym nazwy pliku.',
+    photoNoFileNameFix:
+      'Wklej nazwę pliku, na przykład Kaipola.jpg.',
+    photoNotAPhotograph:
+      'To nie jest plik ze zdjęciem.',
+    photoNotAPhotographFix:
+      'Zdjęcia w Commons kończą się na .jpg, .png albo .webp. Schematów i logotypów tu nie używamy.',
+    photoIsADrawing:
+      'To jest rysunek, a nie zdjęcie.',
+    photoIsADrawingFix:
+      'Użyj zdjęcia potrawy takiej, jaką zrobiono.',
+    serverRefused:
+      'Serwer to odrzucił ({status}).',
+    serverTookTooLong:
+      'Serwer odpowiadał za długo.',
+    couldNotReachServer:
+      'Nie udało się połączyć z serwerem.',
+    nothingYouTypedIsLost:
+      '{message} Twój wpis nie został wysłany — nic z tego, co napisałeś, nie przepadło, spróbuj za chwilę jeszcze raz.',
+    proposalsNotOpen:
+      'Zgłoszenia nie są jeszcze otwarte.',
+    confirmationsNotOpen:
+      'Potwierdzenia nie są jeszcze otwarte.',
+    alreadyProposed:
+      'Ta potrawa została już zgłoszona. Otwórz ją i potwierdź — to jest to, co ją posuwa.',
+    alreadyConfirmed:
+      'Tę już potwierdziłeś.',
+    youProposedThis:
+      'To ty zgłosiłeś tę potrawę, więc potrzeba, żeby potwierdził ją ktoś inny.',
+    stillNeededList:
+      'Brakuje jeszcze: {list}.',
+    listAnd:
+      '{list} i {last}',
+    proposalConfirmed:
+      'Potwierdzone. Trafi do atlasu przy najbliższej aktualizacji.',
+    proposalNobodyYet:
+      'Nikt jeszcze tego nie potwierdził. {n} osób znających tę potrawę wprowadziłoby ją do atlasu.',
+    proposalSoFar:
+      'Potwierdzeń: {have} z {n}. Jeszcze {short} od osób znających tę potrawę by ją wprowadziło.',
+    recordNobodyYet:
+      'Nikt z tego miejsca jeszcze tego nie potwierdził. {n} potwierdzenia uwierzytelniłyby to.',
+    recordSoFar:
+      'Potwierdzeń: {have} z {n}. Jeszcze {short} od osób znających tę potrawę by to uwierzytelniło.',
+    atRiskNote:
+      'Oznaczone, bo źródło opisuje tę tradycję jako zanikającą — to zdanie pokazujemy przy wpisie. Nigdy nie wnioskujemy tego z tego, jak mało udokumentowaliśmy: luka w naszych zapisach nie jest dowodem, że ktokolwiek przestał gotować.',
+    originDisclaimer:
+      'Ta potrawa ma więcej niż jedno udokumentowane roszczenie historyczne. Tradycje poniżej zapisano tak, jak opisuje je każde miejsce, wraz ze źródłami. Żadnego roszczenia nie przedstawia się tu jako zwycięskiego i nic z tego nie wpływa na punktację autentyczności — ta mierzy, jak potrawę robi się w danym miejscu, a nie kto zrobił ją pierwszy.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -8646,6 +9066,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{list} ve {last} olarak kayıt yok',
     photoVia:
       'fotoğraf:',
+    photoNothingEntered:
+      'Henüz bir şey girilmedi.',
+    photoNothingEnteredFix:
+      'Commons dosya adını ya da dosya sayfasının bağlantısını yapıştırın.',
+    photoWrongHost:
+      'Bu bağlantı {host} adresine gidiyor ve oradan bir fotoğrafı yayımlama hakkımız yok.',
+    photoWrongHostFix:
+      'Fotoğraf sizinse, onu özgür bir lisansla Wikimedia Commons’a yükleyin ve dosya adını buraya yapıştırın. Sizin kalır, göründüğü her yerde adınız yazılır ve hiçbir şeye mal olmaz.',
+    photoNotCommons:
+      'Bu bağlantı Wikimedia Commons’ta değil.',
+    photoNotCommonsFix:
+      'Burada yalnızca Commons dosyaları yayımlanabilir, çünkü göstermemize izin veren lisans yalnızca onlarda var.',
+    photoNoFileName:
+      'Bunun içinde bir dosya adı bulunamadı.',
+    photoNoFileNameFix:
+      'Dosya adını yapıştırın, örneğin Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Bu bir fotoğraf dosyası değil.',
+    photoNotAPhotographFix:
+      'Commons fotoğrafları .jpg, .png ya da .webp ile biter. Şemalar ve logolar burada kullanılmaz.',
+    photoIsADrawing:
+      'Bu bir çizim, fotoğraf değil.',
+    photoIsADrawingFix:
+      'Yemeğin yapıldığı hâliyle bir fotoğrafını kullanın.',
+    serverRefused:
+      'Sunucu bunu geri çevirdi ({status}).',
+    serverTookTooLong:
+      'Sunucu yanıt vermekte fazla gecikti.',
+    couldNotReachServer:
+      'Sunucuya ulaşılamadı.',
+    nothingYouTypedIsLost:
+      '{message} Girdiğiniz gönderilmedi — yazdıklarınızdan hiçbiri kaybolmadı, birazdan yeniden deneyin.',
+    proposalsNotOpen:
+      'Gönderiler henüz açık değil.',
+    confirmationsNotOpen:
+      'Doğrulamalar henüz açık değil.',
+    alreadyProposed:
+      'Bu yemek daha önce gönderilmiş. Onu açıp doğrulayın — asıl ilerleten budur.',
+    alreadyConfirmed:
+      'Bunu zaten doğruladınız.',
+    youProposedThis:
+      'Bu yemeği siz gönderdiniz, bu yüzden başka birinin doğrulaması gerekir.',
+    stillNeededList:
+      'Hâlâ gereken: {list}.',
+    listAnd:
+      '{list} ve {last}',
+    proposalConfirmed:
+      'Doğrulandı. Bir sonraki güncellemede atlasa girer.',
+    proposalNobodyYet:
+      'Bunu henüz kimse doğrulamadı. Yemeği bilen {n} kişi onu atlasa sokardı.',
+    proposalSoFar:
+      '{n} doğrulamadan {have} tanesi tamam. Yemeği bilenlerden {short} tane daha onu içeri alırdı.',
+    recordNobodyYet:
+      'Oradan bunu henüz kimse doğrulamadı. {n} doğrulama bunu özgün kılardı.',
+    recordSoFar:
+      '{n} doğrulamadan {have} tanesi tamam. Yemeği bilenlerden {short} tane daha bunu özgün kılardı.',
+    atRiskNote:
+      'Bir kaynak bu geleneği gerilemekte diye tanımladığı için işaretlendi — o cümle kayıtla birlikte gösterilir. Ne kadar az belgelediğimizden asla çıkarsanmaz: kayıtlarımızdaki bir boşluk, kimsenin pişirmeyi bıraktığının kanıtı değildir.',
+    originDisclaimer:
+      'Bu yemeğin belgelenmiş birden çok tarihsel iddiası var. Aşağıdaki gelenekler, her yerin anlattığı gibi, kaynaklarıyla birlikte kaydedilmiştir. Burada hiçbir iddia kazanan olarak sunulmaz ve bunların hiçbiri özgünlük puanını etkilemez — o puan, yemeğin bir yerde nasıl yapıldığını ölçer, onu ilk kimin yaptığını değil.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -9723,6 +10203,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ничего не записано как «{list}» и «{last}»',
     photoVia:
       'фото через',
+    photoNothingEntered:
+      'Пока ничего не введено.',
+    photoNothingEnteredFix:
+      'Вставьте имя файла на Commons или ссылку на страницу файла.',
+    photoWrongHost:
+      'Эта ссылка ведёт на {host}, и мы не вправе публиковать оттуда фотографию.',
+    photoWrongHostFix:
+      'Если фотография ваша, загрузите её на Wikimedia Commons под свободной лицензией и вставьте сюда имя файла. Она останется вашей, ваше имя будет указано везде, где она появится, и это ничего не стоит.',
+    photoNotCommons:
+      'Эта ссылка не на Wikimedia Commons.',
+    photoNotCommonsFix:
+      'Публиковать здесь можно только файлы с Commons, потому что лицензия, позволяющая нам их показывать, есть только у них.',
+    photoNoFileName:
+      'Имени файла в этом не нашлось.',
+    photoNoFileNameFix:
+      'Вставьте имя файла, например Kaipola.jpg.',
+    photoNotAPhotograph:
+      'Это не файл фотографии.',
+    photoNotAPhotographFix:
+      'Фотографии на Commons оканчиваются на .jpg, .png или .webp. Схемы и логотипы здесь не используются.',
+    photoIsADrawing:
+      'Это рисунок, а не фотография.',
+    photoIsADrawingFix:
+      'Возьмите фотографию блюда таким, каким его приготовили.',
+    serverRefused:
+      'Сервер отклонил это ({status}).',
+    serverTookTooLong:
+      'Сервер слишком долго не отвечал.',
+    couldNotReachServer:
+      'Не удалось связаться с сервером.',
+    nothingYouTypedIsLost:
+      '{message} Ваша запись не отправлена — ничего из набранного не потеряно, попробуйте через минуту.',
+    proposalsNotOpen:
+      'Приём предложений пока не открыт.',
+    confirmationsNotOpen:
+      'Приём подтверждений пока не открыт.',
+    alreadyProposed:
+      'Это блюдо уже предлагали. Откройте его и подтвердите — именно это двигает дело.',
+    alreadyConfirmed:
+      'Вы это уже подтверждали.',
+    youProposedThis:
+      'Это блюдо предложили вы, поэтому подтвердить его должен кто-то другой.',
+    stillNeededList:
+      'Ещё нужно: {list}.',
+    listAnd:
+      '{list} и {last}',
+    proposalConfirmed:
+      'Подтверждено. Попадёт в атлас при следующем обновлении.',
+    proposalNobodyYet:
+      'Это ещё никто не подтвердил. {n} человека, знающих блюдо, ввели бы его в атлас.',
+    proposalSoFar:
+      'Подтверждений: {have} из {n}. Ещё {short} от знающих блюдо ввели бы его.',
+    recordNobodyYet:
+      'Из того места это ещё никто не подтвердил. {n} подтверждения удостоверили бы это.',
+    recordSoFar:
+      'Подтверждений: {have} из {n}. Ещё {short} от знающих блюдо удостоверили бы это.',
+    atRiskNote:
+      'Отмечено потому, что источник описывает эту традицию как угасающую, — эта фраза показана вместе с записью. Это никогда не выводится из того, как мало мы задокументировали: пробел в наших записях не доказывает, что кто-то перестал готовить.',
+    originDisclaimer:
+      'У этого блюда больше одного задокументированного исторического притязания. Традиции ниже записаны так, как их описывает каждое место, с их источниками. Ни одно притязание здесь не подаётся как победившее, и ничто из этого не влияет на оценку подлинности — она измеряет, как блюдо готовят в том или ином месте, а не кто приготовил его первым.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -10800,6 +11340,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{list} और {last} के रूप में कुछ दर्ज नहीं',
     photoVia:
       'तस्वीर स्रोत',
+    photoNothingEntered:
+      'अभी कुछ नहीं भरा गया।',
+    photoNothingEnteredFix:
+      'Commons का फ़ाइल नाम या उसके पन्ने का लिंक चिपकाएँ।',
+    photoWrongHost:
+      'वह लिंक {host} पर जाता है, और वहाँ से कोई तस्वीर प्रकाशित करने का हमें अधिकार नहीं है।',
+    photoWrongHostFix:
+      'अगर तस्वीर आपकी है, तो उसे मुक्त लाइसेंस के साथ Wikimedia Commons पर चढ़ाएँ और फ़ाइल नाम यहाँ चिपकाएँ। वह आपकी ही रहती है, जहाँ भी दिखे वहाँ आपका नाम रहता है, और इसमें कुछ ख़र्च नहीं होता।',
+    photoNotCommons:
+      'वह लिंक Wikimedia Commons पर नहीं है।',
+    photoNotCommonsFix:
+      'यहाँ सिर्फ़ Commons की फ़ाइलें प्रकाशित हो सकती हैं, क्योंकि दिखाने की अनुमति देने वाला लाइसेंस सिर्फ़ उन्हीं पर है।',
+    photoNoFileName:
+      'उसमें कोई फ़ाइल नाम नहीं मिला।',
+    photoNoFileNameFix:
+      'फ़ाइल नाम चिपकाएँ, जैसे Kaipola.jpg।',
+    photoNotAPhotograph:
+      'वह तस्वीर की फ़ाइल नहीं है।',
+    photoNotAPhotographFix:
+      'Commons की तस्वीरें .jpg, .png या .webp पर ख़त्म होती हैं। आरेख और लोगो यहाँ इस्तेमाल नहीं होते।',
+    photoIsADrawing:
+      'वह चित्र है, तस्वीर नहीं।',
+    photoIsADrawingFix:
+      'खाने की वैसी ही तस्वीर लें जैसा वह बना था।',
+    serverRefused:
+      'सर्वर ने इसे अस्वीकार कर दिया ({status})।',
+    serverTookTooLong:
+      'सर्वर ने जवाब देने में बहुत देर लगाई।',
+    couldNotReachServer:
+      'सर्वर तक नहीं पहुँचा जा सका।',
+    nothingYouTypedIsLost:
+      '{message} आपकी प्रविष्टि भेजी नहीं गई — आपने जो लिखा उसमें से कुछ भी नहीं खोया, थोड़ी देर में फिर कोशिश करें।',
+    proposalsNotOpen:
+      'प्रस्ताव अभी खुले नहीं हैं।',
+    confirmationsNotOpen:
+      'पुष्टियाँ अभी खुली नहीं हैं।',
+    alreadyProposed:
+      'यह व्यंजन पहले ही प्रस्तावित है। उसे खोलकर पुष्टि करें — यही उसे आगे बढ़ाता है।',
+    alreadyConfirmed:
+      'आप इसकी पुष्टि पहले ही कर चुके हैं।',
+    youProposedThis:
+      'यह व्यंजन आपने प्रस्तावित किया था, इसलिए इसकी पुष्टि किसी और को करनी होगी।',
+    stillNeededList:
+      'अब भी चाहिए: {list}।',
+    listAnd:
+      '{list} और {last}',
+    proposalConfirmed:
+      'पुष्ट। अगली बार अद्यतन होने पर यह एटलस में आ जाएगा।',
+    proposalNobodyYet:
+      'अभी तक इसकी किसी ने पुष्टि नहीं की। व्यंजन को जानने वाले {n} लोग इसे एटलस में ले आएँगे।',
+    proposalSoFar:
+      '{n} में से {have} पुष्टियाँ। व्यंजन को जानने वालों की {short} और इसे भीतर ले आएँगी।',
+    recordNobodyYet:
+      'उस जगह के किसी व्यक्ति ने अभी इसकी पुष्टि नहीं की। {n} पुष्टियाँ इसे प्रमाणित कर देंगी।',
+    recordSoFar:
+      '{n} में से {have} पुष्टियाँ। व्यंजन को जानने वालों की {short} और इसे प्रमाणित कर देंगी।',
+    atRiskNote:
+      'इसलिए चिह्नित क्योंकि कोई स्रोत इस परंपरा को घटती हुई बताता है — वह वाक्य रिकॉर्ड के साथ दिखाया जाता है। यह कभी इस बात से नहीं निकाला जाता कि हमने कितना कम दर्ज किया है: हमारे रिकॉर्ड में कमी इस बात का प्रमाण नहीं कि किसी ने पकाना छोड़ दिया।',
+    originDisclaimer:
+      'इस व्यंजन पर एक से ज़्यादा प्रलेखित ऐतिहासिक दावे हैं। नीचे की परंपराएँ वैसे ही दर्ज हैं जैसे हर जगह उन्हें बताती है, अपने स्रोतों समेत। यहाँ किसी दावे को विजेता की तरह पेश नहीं किया जाता, और इसमें से कुछ भी प्रामाणिकता के अंक को प्रभावित नहीं करता — वह मापता है कि किसी जगह व्यंजन कैसे बनता है, यह नहीं कि सबसे पहले किसने बनाया।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -11877,6 +12477,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '没有记录为{list}和{last}的',
     photoVia:
       '照片来自',
+    photoNothingEntered:
+      '还什么都没填。',
+    photoNothingEnteredFix:
+      '粘贴 Commons 的文件名，或指向该文件页面的链接。',
+    photoWrongHost:
+      '这个链接指向{host}，我们没有权利从那里发布照片。',
+    photoWrongHostFix:
+      '如果照片是你拍的，请以自由许可上传到 Wikimedia Commons，再把文件名粘贴到这里。照片仍然是你的，凡是出现的地方都会署你的名，而且不花一分钱。',
+    photoNotCommons:
+      '这个链接不在 Wikimedia Commons 上。',
+    photoNotCommonsFix:
+      '这里只能发布 Commons 上的文件，因为只有它们带着允许我们展示的许可。',
+    photoNoFileName:
+      '在这里面没找到文件名。',
+    photoNoFileNameFix:
+      '请粘贴文件名，例如 Kaipola.jpg。',
+    photoNotAPhotograph:
+      '那不是照片文件。',
+    photoNotAPhotographFix:
+      'Commons 的照片以 .jpg、.png 或 .webp 结尾。这里不使用图示和标志。',
+    photoIsADrawing:
+      '那是画，不是照片。',
+    photoIsADrawingFix:
+      '请用这道菜做出来时的照片。',
+    serverRefused:
+      '服务器拒绝了（{status}）。',
+    serverTookTooLong:
+      '服务器回应得太慢了。',
+    couldNotReachServer:
+      '联系不上服务器。',
+    nothingYouTypedIsLost:
+      '{message} 你的条目没有送出 — 你打的字一个都没丢，过一会儿再试一次。',
+    proposalsNotOpen:
+      '投稿还没有开放。',
+    confirmationsNotOpen:
+      '确认还没有开放。',
+    alreadyProposed:
+      '这道菜已经有人提过了。把它打开并确认 — 那才是推动它的办法。',
+    alreadyConfirmed:
+      '这一条你已经确认过了。',
+    youProposedThis:
+      '这道菜是你提的，所以需要别人来确认。',
+    stillNeededList:
+      '还需要：{list}。',
+    listAnd:
+      '{list}和{last}',
+    proposalConfirmed:
+      '已确认。下次更新时会进入图册。',
+    proposalNobodyYet:
+      '还没有人确认过。{n} 位懂这道菜的人就能把它带进图册。',
+    proposalSoFar:
+      '{n} 个确认里已有 {have} 个。再有 {short} 位懂这道菜的人就能把它带进来。',
+    recordNobodyYet:
+      '当地还没有人确认过。{n} 个确认就能让它通过认证。',
+    recordSoFar:
+      '{n} 个确认里已有 {have} 个。再有 {short} 位懂这道菜的人就能让它通过认证。',
+    atRiskNote:
+      '标记是因为有来源把这项传统描述为正在衰退 — 那句话会随记录一同显示。它绝不是从我们记载得多少推断出来的：我们记录里的空白，不能证明有谁停止了烹饪。',
+    originDisclaimer:
+      '这道菜有不止一项有据可查的历史主张。下面的传统按各地自己的说法记录，并附上来源。这里不把任何一项主张当作胜出者，而且这些都不影响本真度分数 — 那个分数衡量的是这道菜在某地怎么做，而不是谁最先做出来。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -12954,6 +13614,66 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{list}と{last}としての記録はありません',
     photoVia:
       '写真提供',
+    photoNothingEntered:
+      'まだ何も入力されていません。',
+    photoNothingEnteredFix:
+      'Commons のファイル名か、そのファイルページへのリンクを貼ってください。',
+    photoWrongHost:
+      'そのリンクは{host}に向いています。そこから写真を公開する権利は、こちらにはありません。',
+    photoWrongHostFix:
+      'その写真がご自分のものなら、自由なライセンスで Wikimedia Commons に上げ、ファイル名をここに貼ってください。写真はあなたのもののままで、出るところすべてに名前が載り、費用もかかりません。',
+    photoNotCommons:
+      'そのリンクは Wikimedia Commons のものではありません。',
+    photoNotCommonsFix:
+      'ここで公開できるのは Commons のファイルだけです。表示を許すライセンスが付いているのはそれだけだからです。',
+    photoNoFileName:
+      'その中にファイル名が見つかりませんでした。',
+    photoNoFileNameFix:
+      'ファイル名を貼ってください。たとえば Kaipola.jpg です。',
+    photoNotAPhotograph:
+      'それは写真のファイルではありません。',
+    photoNotAPhotographFix:
+      'Commons の写真は .jpg、.png、.webp で終わります。図やロゴはここでは使いません。',
+    photoIsADrawing:
+      'それは絵であって、写真ではありません。',
+    photoIsADrawingFix:
+      '作られたままの料理の写真を使ってください。',
+    serverRefused:
+      'サーバーに断られました（{status}）。',
+    serverTookTooLong:
+      'サーバーの応答に時間がかかりすぎました。',
+    couldNotReachServer:
+      'サーバーに接続できませんでした。',
+    nothingYouTypedIsLost:
+      '{message} 入力は送信されていません。書いたものは何も失われていないので、少ししてからもう一度お試しください。',
+    proposalsNotOpen:
+      '投稿はまだ開いていません。',
+    confirmationsNotOpen:
+      '確認はまだ開いていません。',
+    alreadyProposed:
+      'この料理はすでに投稿されています。それを開いて確認してください。動くのはそちらです。',
+    alreadyConfirmed:
+      'これはすでに確認済みです。',
+    youProposedThis:
+      'この料理はあなたが投稿したものなので、確認は別の人が行う必要があります。',
+    stillNeededList:
+      'あと必要なもの：{list}。',
+    listAnd:
+      '{list}と{last}',
+    proposalConfirmed:
+      '確認されました。次の更新でアトラスに入ります。',
+    proposalNobodyYet:
+      'まだ誰も確認していません。この料理を知る {n} 人がいれば、アトラスに入ります。',
+    proposalSoFar:
+      '{n} 件中 {have} 件の確認。この料理を知る人があと {short} 人いれば入ります。',
+    recordNobodyYet:
+      'その土地の人からの確認はまだありません。{n} 件の確認があれば裏づけになります。',
+    recordSoFar:
+      '{n} 件中 {have} 件の確認。この料理を知る人があと {short} 人いれば裏づけになります。',
+    atRiskNote:
+      'ある資料がこの伝統を衰えつつあると述べているために印を付けています。その一文は記録とともに示します。こちらの記録が少ないことから推し量ることは決してありません。こちらの記録の空白は、誰かが作るのをやめた証拠ではないからです。',
+    originDisclaimer:
+      'この料理には、裏づけのある歴史的な由来の主張が複数あります。下の伝統は、それぞれの土地が述べるとおりに、出典とともに記録しています。どの主張も勝ったものとしては示しませんし、これらが本物らしさの点数に影響することもありません。点数が測るのは、ある土地でその料理がどう作られるかであって、誰が最初に作ったかではありません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

@@ -38,6 +38,7 @@
  * them would be a form that only accepts food somebody has already catalogued.
  */
 
+import type { Copy } from '../i18n/copy';
 import { knownCountry } from './continents';
 import { canonicalCountry } from './countryNames';
 import { sentenceCase } from './text';
@@ -115,16 +116,16 @@ export const tidyLines = (raw: string): string[] =>
  * the one moment in the app where a contributor has been stopped and is being asked to
  * do more work.
  */
-export function stillNeeded(labels: string[]): string {
+export function stillNeeded(copy: Copy, labels: string[]): string {
   const wanted = labels.filter(Boolean);
   if (!wanted.length) return '';
 
   const listed =
     wanted.length === 1
       ? wanted[0]
-      : `${wanted.slice(0, -1).join(', ')} and ${wanted[wanted.length - 1]}`;
+      : copy.listAnd.replace('{list}', wanted.slice(0, -1).join(', ')).replace('{last}', wanted[wanted.length - 1]);
 
-  return `Still needed: ${listed}.`;
+  return copy.stillNeededList.replace('{list}', listed);
 }
 
 /**

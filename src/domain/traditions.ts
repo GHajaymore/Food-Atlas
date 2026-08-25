@@ -85,10 +85,7 @@ export const originAffectsScore = false;
  * The line shown on a record whose origin is contested. Neutral by construction: it
  * names the claims and refuses to rank them.
  */
-export const ORIGIN_DISCLAIMER =
-  'This dish has more than one documented historical claim. The traditions below are recorded as they are ' +
-  'described by each place, with their sources. No claim here is presented as the winner, and none of this ' +
-  'affects the authenticity score — that measures how the dish is made in a place, not who first made it.';
+export const originDisclaimer = (copy: Copy): string => copy.originDisclaimer;
 
 /** The prompt that turns a reader into a validator. Two taps, not a form. */
 

@@ -190,7 +190,7 @@ export function ConfirmForm({
         onPress={async () => {
           if (busy) return;
           if (missing.length) {
-            setError(stillNeeded(missing.map((k) => saidLabels(copy)[k])));
+            setError(stillNeeded(copy, missing.map((k) => saidLabels(copy)[k])));
             return;
           }
           setError('');

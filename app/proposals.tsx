@@ -116,7 +116,7 @@ export default function Proposals() {
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ expanded: isOpen }}
-                accessibilityLabel={`${p.name}. ${whatItNeeds(p)}`}
+                accessibilityLabel={`${p.name}. ${whatItNeeds(copy, p)}`}
                 tint="neutral"
                 onPress={() => setOpen(isOpen ? '' : p.id)}
                 style={styles.head}
@@ -134,7 +134,7 @@ export default function Proposals() {
                 />
               </Pressable>
 
-              <T style={styles.needs}>{whatItNeeds(p)}</T>
+              <T style={styles.needs}>{whatItNeeds(copy, p)}</T>
 
               {isOpen ? (
                 <View style={styles.detail}>

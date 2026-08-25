@@ -7,6 +7,7 @@
  * gentler ladder, and no admission without other people.
  */
 
+import { EN } from '../src/i18n/copy';
 import { AUTHENTIC_AT } from '../src/domain/assess';
 import type { Confirmation } from '../src/domain/confirmations';
 import {
@@ -164,10 +165,10 @@ describe('duplicate detection', () => {
 
 describe('what it tells the reader', () => {
   test('asks for what is missing rather than reporting a verdict', () => {
-    expect(whatItNeeds(proposal())).toMatch(/Nobody has confirmed/);
-    expect(whatItNeeds(proposal({ people: [person('A')] }))).toMatch(/1 of 3/);
+    expect(whatItNeeds(EN, proposal())).toMatch(/Nobody has confirmed/);
+    expect(whatItNeeds(EN, proposal({ people: [person('A')] }))).toMatch(/1 of 3/);
     const full = Array.from({ length: PROPOSAL_CONFIRMATIONS }, (_, i) => person(`P${i}`));
-    expect(whatItNeeds(proposal({ people: full }))).toMatch(/enters the atlas/);
-    expect(whatItNeeds(proposal({ status: 'published' }))).toBe('');
+    expect(whatItNeeds(EN, proposal({ people: full }))).toMatch(/enters the atlas/);
+    expect(whatItNeeds(EN, proposal({ status: 'published' }))).toBe('');
   });
 });

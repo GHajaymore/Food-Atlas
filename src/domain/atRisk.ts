@@ -1,3 +1,5 @@
+import type { Copy } from '../i18n/copy';
+
 /**
  * Deciding whether a tradition is at risk.
  *
@@ -271,7 +273,4 @@ export function detectAtRisk(text: string, subject = ''): RiskFinding {
 }
 
 /** The line shown wherever the flag appears, so the badge is never bare. */
-export const AT_RISK_NOTE =
-  'Flagged because a source describes this tradition as declining — the sentence is shown with the record. ' +
-  'It is never inferred from how little we have documented: a gap in our records is not evidence that anyone ' +
-  'has stopped cooking.';
+export const atRiskNote = (copy: Copy): string => copy.atRiskNote;

@@ -262,7 +262,7 @@ export default function Propose() {
                   if (busy) return;
                   const missing = missingFrom(entry());
                   if (missing.length) {
-                    setError(stillNeeded(missing.map((f) => requiredLabels(copy)[f as keyof ReturnType<typeof requiredLabels>])));
+                    setError(stillNeeded(copy, missing.map((f) => requiredLabels(copy)[f as keyof ReturnType<typeof requiredLabels>])));
                     return;
                   }
                   setError('');

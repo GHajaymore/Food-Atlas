@@ -25,60 +25,6 @@
  */
 export const CURRENCY = 'USD';
 
-/** Something money would change, and what it costs. Nothing here is aspirational. */
-export interface FundingNeed {
-  title: string;
-  /** What it would do for a reader, in the app's own voice. */
-  what: string;
-  /** Why it is not already done. Honest, including when the answer is "nothing". */
-  why: string;
-  /** Roughly what it costs, or that it costs nothing. */
-  cost: string;
-}
-
-export const FUNDING_NEEDS: FundingNeed[] = [
-  {
-    title: 'Translation',
-    what:
-      'Five thousand records describe a dish in the language of the place it comes from — Hindi, Korean, ' +
-      'Indonesian, Chinese. A reader who does not speak it is shown the original and told which language it is, ' +
-      'which is honest and not much use to them.',
-    why:
-      'It is the only part of this project that costs money. Translating on demand needs a model behind a key, ' +
-      'and the rules it has to follow are already written and tested: no ingredient renamed, no number altered, ' +
-      'and the result labelled as machine-made until somebody from the place checks it.',
-    cost: 'Tens of dollars a month at real usage, because a translation is done once and then kept.',
-  },
-  {
-    title: 'Hosting',
-    what: 'The app and its fourteen megabytes of records, served to anyone who opens it.',
-    why: 'It fits inside a free tier today. It would stop fitting if enough people used it.',
-    cost: 'Nothing so far.',
-  },
-  {
-    title: 'The sources',
-    what: 'Every photograph, article, recipe and register entry in the atlas.',
-    why:
-      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data are free to read and ' +
-      'openly licensed. No key, no tier, no bill.',
-    cost: 'Nothing, and it will stay nothing.',
-  },
-];
-
-/**
- * What a donation explicitly does not buy.
- *
- * Stated because the product's whole claim is that its classifications come from
- * evidence and from people who cook the food. A reader who has just been asked for
- * money is entitled to know that the money does not move a badge, and saying it
- * plainly costs nothing.
- */
-export const NOT_FOR_SALE = [
-  'A record cannot be made Authentic by paying for it. That comes from evidence and from people who cook the dish.',
-  'No dish is promoted, ranked higher, or featured because somebody paid.',
-  'Nothing here is advertising, and no reader is tracked.',
-];
-
 /**
  * Where to give: an Open Collective.
  *

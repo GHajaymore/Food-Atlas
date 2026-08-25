@@ -32,7 +32,6 @@ import {
   CURRENCY,
   DONATION_URL,
   LEDGER_URL,
-  NOT_FOR_SALE,
 } from '../src/domain/support';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';

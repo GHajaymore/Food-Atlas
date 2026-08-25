@@ -36,14 +36,14 @@ import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
 import { useCopy } from '../../src/i18n';
-import { AT_RISK_NOTE } from '../../src/domain/atRisk';
+import { atRiskNote } from '../../src/domain/atRisk';
 import { relatedTo } from '../../src/domain/related';
 import {
   confirmAsk,
   confirmStanding,
   contestedNote,
   forkedDisputes,
-  ORIGIN_DISCLAIMER,
+  originDisclaimer,
   openDisputes,
   siblingsOf,
 } from '../../src/domain/traditions';
@@ -305,7 +305,7 @@ export default function DishDetail() {
         <Block style={styles.atRisk}>
           <T style={styles.atRiskTitle}>{copy.whyFlaggedAtRisk}</T>
           <Muted style={styles.atRiskQuote}>“{dish.atRiskEvidence}”</Muted>
-          <Muted style={styles.atRiskNote}>{AT_RISK_NOTE}</Muted>
+          <Muted style={styles.atRiskNote}>{atRiskNote(copy)}</Muted>
         </Block>
       ) : null}
           </>
@@ -702,7 +702,7 @@ export default function DishDetail() {
           {dish.originClaims?.length ? (
             <>
               <H5 style={styles.tightHeading}>{copy.originAndAttribution}</H5>
-              <Muted style={styles.sectionLead}>{ORIGIN_DISCLAIMER}</Muted>
+              <Muted style={styles.sectionLead}>{originDisclaimer(copy)}</Muted>
               <View style={styles.sources}>
                 {dish.originClaims.map((claim) => (
                   <Pressable

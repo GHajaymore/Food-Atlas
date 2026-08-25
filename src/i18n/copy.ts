@@ -703,6 +703,36 @@ export interface Copy {
   nothingRecordedAs: string;
   nothingRecordedAsAnd: string;
   photoVia: string;
+  photoNothingEntered: string;
+  photoNothingEnteredFix: string;
+  photoWrongHost: string;
+  photoWrongHostFix: string;
+  photoNotCommons: string;
+  photoNotCommonsFix: string;
+  photoNoFileName: string;
+  photoNoFileNameFix: string;
+  photoNotAPhotograph: string;
+  photoNotAPhotographFix: string;
+  photoIsADrawing: string;
+  photoIsADrawingFix: string;
+  serverRefused: string;
+  serverTookTooLong: string;
+  couldNotReachServer: string;
+  nothingYouTypedIsLost: string;
+  proposalsNotOpen: string;
+  confirmationsNotOpen: string;
+  alreadyProposed: string;
+  alreadyConfirmed: string;
+  youProposedThis: string;
+  stillNeededList: string;
+  listAnd: string;
+  proposalConfirmed: string;
+  proposalNobodyYet: string;
+  proposalSoFar: string;
+  recordNobodyYet: string;
+  recordSoFar: string;
+  atRiskNote: string;
+  originDisclaimer: string;
   interfaceTranslationNote: string;
 }
 
@@ -1789,6 +1819,66 @@ export const EN: Copy = {
     'Nothing recorded as {list} and {last}',
   photoVia:
     'photo via',
+  photoNothingEntered:
+    'Nothing entered yet.',
+  photoNothingEnteredFix:
+    'Paste the Commons file name or the link to its file page.',
+  photoWrongHost:
+    'That link goes to {host}, and we have no right to publish a photograph from there.',
+  photoWrongHostFix:
+    'If the photograph is yours, upload it to Wikimedia Commons under a free licence and paste the file name here. It stays yours, you are credited wherever it appears, and it costs nothing.',
+  photoNotCommons:
+    'That link is not on Wikimedia Commons.',
+  photoNotCommonsFix:
+    'Only Commons files can be published here, because only they carry a licence that lets us show them.',
+  photoNoFileName:
+    'No file name found in that.',
+  photoNoFileNameFix:
+    'Paste the file name, for example Kaipola.jpg.',
+  photoNotAPhotograph:
+    'That is not a photograph file.',
+  photoNotAPhotographFix:
+    'Commons photographs end in .jpg, .png or .webp. Diagrams and logos are not used here.',
+  photoIsADrawing:
+    'That is a drawing, not a photograph.',
+  photoIsADrawingFix:
+    'Use a photograph of the food as it was made.',
+  serverRefused:
+    'The server refused it ({status}).',
+  serverTookTooLong:
+    'The server took too long to answer.',
+  couldNotReachServer:
+    'Could not reach the server.',
+  nothingYouTypedIsLost:
+    '{message} Your entry has not been sent — nothing you typed is lost, try again in a moment.',
+  proposalsNotOpen:
+    'Proposals are not open yet.',
+  confirmationsNotOpen:
+    'Confirmations are not open yet.',
+  alreadyProposed:
+    'This dish has already been proposed. Open it and confirm it instead — that is what moves it.',
+  alreadyConfirmed:
+    'You have already confirmed this one.',
+  youProposedThis:
+    'You proposed this dish, so it needs somebody else to confirm it.',
+  stillNeededList:
+    'Still needed: {list}.',
+  listAnd:
+    '{list} and {last}',
+  proposalConfirmed:
+    'Confirmed. This enters the atlas at the next update.',
+  proposalNobodyYet:
+    'Nobody has confirmed this yet. {n} people who know the dish would bring it into the atlas.',
+  proposalSoFar:
+    '{have} of {n} confirmations. {short} more from people who know the dish would bring it in.',
+  recordNobodyYet:
+    'Nobody from the place has confirmed this yet. {n} confirmations would authenticate it.',
+  recordSoFar:
+    '{have} of {n} confirmations. {short} more from people who know the dish would authenticate it.',
+  atRiskNote:
+    'Flagged because a source describes this tradition as declining — the sentence is shown with the record. It is never inferred from how little we have documented: a gap in our records is not evidence that anyone has stopped cooking.',
+  originDisclaimer:
+    'This dish has more than one documented historical claim. The traditions below are recorded as they are described by each place, with their sources. No claim here is presented as the winner, and none of this affects the authenticity score — that measures how the dish is made in a place, not who first made it.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

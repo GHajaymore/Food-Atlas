@@ -52,13 +52,13 @@ describe('typed values get the treatment imported ones get', () => {
 
 describe('what a form says is missing', () => {
   test('reads as a sentence rather than a list of columns', () => {
-    expect(stillNeeded(['your name'])).toBe('Still needed: your name.');
-    expect(stillNeeded(['the country', 'your name'])).toBe('Still needed: the country and your name.');
-    expect(stillNeeded(['a', 'b', 'c'])).toBe('Still needed: a, b and c.');
+    expect(stillNeeded(EN, ['your name'])).toBe('Still needed: your name.');
+    expect(stillNeeded(EN, ['the country', 'your name'])).toBe('Still needed: the country and your name.');
+    expect(stillNeeded(EN, ['a', 'b', 'c'])).toBe('Still needed: a, b and c.');
   });
 
   test('says nothing when nothing is missing', () => {
-    expect(stillNeeded([])).toBe('');
+    expect(stillNeeded(EN, [])).toBe('');
   });
 
   /*

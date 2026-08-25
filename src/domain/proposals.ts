@@ -290,13 +290,16 @@ export const isPublishable = (p: Proposal): boolean =>
  * reader who knows this dish is the one person who can move it, and "2 of 3" tells them
  * nothing about what to do.
  */
-export function whatItNeeds(p: Proposal): string {
+export function whatItNeeds(copy: Copy, p: Proposal): string {
   if (p.status === 'published') return '';
   const have = p.people.length;
   const short = PROPOSAL_CONFIRMATIONS - have;
-  if (short <= 0) return 'Confirmed. This enters the atlas at the next update.';
+  if (short <= 0) return copy.proposalConfirmed;
   if (have === 0) {
-    return `Nobody has confirmed this yet. ${PROPOSAL_CONFIRMATIONS} people who know the dish would bring it into the atlas.`;
+    return copy.proposalNobodyYet.replace('{n}', String(PROPOSAL_CONFIRMATIONS));
   }
-  return `${have} of ${PROPOSAL_CONFIRMATIONS} confirmations. ${short} more from people who know the dish would bring it in.`;
+  return copy.proposalSoFar
+    .replace('{have}', String(have))
+    .replace('{n}', String(PROPOSAL_CONFIRMATIONS))
+    .replace('{short}', String(short));
 }

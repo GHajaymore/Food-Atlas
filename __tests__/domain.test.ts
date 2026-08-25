@@ -33,9 +33,7 @@ import { canonicalCountry } from '../src/domain/countryNames';
 import {
   canAcceptDonations,
   DONATION_URL,
-  FUNDING_NEEDS,
   LEDGER_URL,
-  NOT_FOR_SALE,
   OPEN_COLLECTIVE_SLUG,
 } from '../src/domain/support';
 import {
@@ -91,7 +89,7 @@ import {
 import {
   forkedDisputes,
   isDisputed,
-  ORIGIN_DISCLAIMER,
+  originDisclaimer,
   originAffectsScore,
   routeDispute,
   siblingsOf,
@@ -1121,7 +1119,7 @@ describe('disagreement forks the record rather than picking a winner', () => {
     const claims = byId(6).originClaims!;
     expect(claims.length).toBeGreaterThan(1);
     for (const claim of claims) expect(claim.source.url).toMatch(/^https?:\/\//);
-    expect(ORIGIN_DISCLAIMER).toMatch(/No claim here is presented as the winner/);
+    expect(originDisclaimer(EN)).toMatch(/No claim here is presented as the winner/);
   });
 
   it('rejects a single origin claim, which is not a dispute', () => {
@@ -1795,7 +1793,7 @@ describe('contributed photographs stay free and lawful', () => {
       'https://www.tiktok.com/@cook/video/123',
       'https://x.com/cook/status/123',
     ]) {
-      const result = parsePhotoReference(link);
+      const result = parsePhotoReference(EN, link);
       expect(isRejection(result)).toBe(true);
       const rejection = result as PhotoRejection;
       expect(rejection.reason).toMatch(/no right to publish a photograph from there/);
@@ -1812,27 +1810,27 @@ describe('contributed photographs stay free and lawful', () => {
       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Kaipola.jpg',
     ];
     for (const shape of shapes) {
-      const result = parsePhotoReference(shape);
+      const result = parsePhotoReference(EN, shape);
       expect(isRejection(result)).toBe(false);
       expect((result as { file: string }).file).toBe('Kaipola.jpg');
     }
   });
 
   it('turns underscores back into spaces, as Commons titles do', () => {
-    expect(parsePhotoReference('File:Bowl_of_Ukrainian_Borscht.jpg')).toEqual({
+    expect(parsePhotoReference(EN, 'File:Bowl_of_Ukrainian_Borscht.jpg')).toEqual({
       file: 'Bowl of Ukrainian Borscht.jpg',
     });
   });
 
   it('refuses a link that is simply not on Commons', () => {
-    const result = parsePhotoReference('https://example.com/my-photo.jpg');
+    const result = parsePhotoReference(EN, 'https://example.com/my-photo.jpg');
     expect(isRejection(result)).toBe(true);
     expect((result as PhotoRejection).reason).toMatch(/not on Wikimedia Commons/);
   });
 
   it('refuses anything that is not a photograph', () => {
     for (const file of ['Kaipola.svg', 'Kaipola.pdf', 'Kaipola']) {
-      expect(isRejection(parsePhotoReference(file))).toBe(true);
+      expect(isRejection(parsePhotoReference(EN, file))).toBe(true);
     }
   });
 
@@ -2252,13 +2250,13 @@ describe('the donation page does not invent a budget', () => {
   it('says plainly that most of it costs nothing', () => {
     // "Support our servers" is the standard line and it is false for most small
     // projects. An app that deletes fabricated view counts cannot invent a budget.
-    const free = FUNDING_NEEDS.filter((n) => /nothing/i.test(n.cost));
-    expect(free.length).toBeGreaterThanOrEqual(2);
-    expect(FUNDING_NEEDS.some((n) => /Wikipedia|Wikidata|Commons/.test(n.why))).toBe(true);
+    // Asserted on the copy the screen renders, not on a second table beside it.
+    expect(EN.needSourcesCost).toMatch(/nothing/i);
+    expect(EN.needSourcesWhy).toMatch(/Wikipedia|Wikidata|Commons/);
   });
 
   it('names the one thing that actually costs money', () => {
-    const translation = FUNDING_NEEDS.find((n) => n.title === 'Translation')!;
+    const translation = { title: EN.needTranslationTitle, cost: EN.needTranslationCost, why: EN.needTranslationWhy };
     expect(translation.why).toMatch(/only part of this project that costs money/);
     expect(translation.cost).not.toMatch(/nothing/i);
   });
@@ -2267,8 +2265,8 @@ describe('the donation page does not invent a budget', () => {
     // Said because the product's claim is that classification comes from evidence
     // and from people who cook the food. Somebody just asked for money is entitled
     // to know the money does not move a badge.
-    expect(NOT_FOR_SALE.join(' ')).toMatch(/cannot be made Authentic by paying/);
-    expect(NOT_FOR_SALE.join(' ')).toMatch(/no reader is tracked/);
+    expect(EN.notForSaleAuthentic).toMatch(/cannot be made Authentic by paying/);
+    expect(EN.notForSaleAdvertising).toMatch(/no reader is tracked/);
   });
 
   it('builds an Open Collective destination from a slug, not a pasted URL', () => {

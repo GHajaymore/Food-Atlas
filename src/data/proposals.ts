@@ -20,7 +20,7 @@
  * one failure this app must never produce.
  */
 
-import type { Copy } from '../i18n/copy';
+import { EN, type Copy } from '../i18n/copy';
 import { saidLabels, SAID_REQUIRED } from '../domain/confirmations';
 import { stillNeeded } from '../domain/entry';
 import {
@@ -40,16 +40,16 @@ import {
  * has them. Falls back to whatever the server said when it sent no list — a 400 for some
  * other reason is still a 400.
  */
-async function refusal(response: Response, labels: Record<string, string>): Promise<string> {
+async function refusal(copy: Copy, response: Response, labels: Record<string, string>): Promise<string> {
   try {
     const body = (await response.json()) as { error?: string; missing?: string[] };
     const named = (body.missing ?? []).map((field) => labels[field]).filter(Boolean);
-    if (named.length) return stillNeeded(named);
+    if (named.length) return stillNeeded(copy, named);
     if (body.error) return body.error;
   } catch {
     /* A body that is not JSON tells us nothing; fall through to the status. */
   }
-  return `The server refused it (${response.status}).`;
+  return copy.serverRefused.replace('{status}', String(response.status));
 }
 
 /** What the caller needs to know about a write that did not happen. */
@@ -85,12 +85,12 @@ export async function loadProposals(): Promise<Proposal[]> {
  * reads as though they broke something; what they need to know is whether to try again
  * and whether their work is lost.
  */
-function failed(error: unknown): Sent {
+function failed(copy: Copy, error: unknown): Sent {
   const message =
     error instanceof DOMException && error.name === 'TimeoutError'
-      ? 'The server took too long to answer.'
-      : 'Could not reach the server.';
-  return { ok: false, error: `${message} Your entry has not been sent — nothing you typed is lost, try again in a moment.` };
+      ? copy.serverTookTooLong
+      : copy.couldNotReachServer;
+  return { ok: false, error: copy.nothingYouTypedIsLost.replace('{message}', message) };
 }
 
 /**
@@ -102,11 +102,11 @@ function failed(error: unknown): Sent {
  * of thing entirely. See `REQUIRED` in the domain layer for why those four.
  */
 export async function submitProposal(copy: Copy, entry: Partial<Proposal>): Promise<Sent> {
-  if (!canPropose()) return { ok: false, error: 'Proposals are not open yet.' };
+  if (!canPropose()) return { ok: false, error: copy.proposalsNotOpen };
 
   const missing = missingFrom(entry);
   if (missing.length) {
-    return { ok: false, error: stillNeeded(missing.map((f) => requiredLabels(copy)[f as keyof ReturnType<typeof requiredLabels>])) };
+    return { ok: false, error: stillNeeded(copy, missing.map((f) => requiredLabels(copy)[f as keyof ReturnType<typeof requiredLabels>])) };
   }
 
   try {
@@ -118,13 +118,13 @@ export async function submitProposal(copy: Copy, entry: Partial<Proposal>): Prom
     });
 
     if (response.status === 409) {
-      return { ok: false, error: 'This dish has already been proposed. Open it and confirm it instead — that is what moves it.' };
+      return { ok: false, error: copy.alreadyProposed };
     }
-    if (!response.ok) return { ok: false, error: await refusal(response, requiredLabels(copy)) };
+    if (!response.ok) return { ok: false, error: await refusal(copy, response, requiredLabels(copy)) };
 
     return { ok: true, proposal: (await response.json()) as Proposal };
   } catch (error) {
-    return failed(error);
+    return failed(copy, error);
   }
 }
 
@@ -175,7 +175,7 @@ export async function setProposalStatus(
     if (!response.ok) return { ok: false, error: `The server refused it (${response.status}).` };
     return { ok: true };
   } catch (error) {
-    return failed(error);
+    return failed(EN, error);
   }
 }
 
@@ -192,13 +192,13 @@ export async function confirmProposal(
   id: string,
   said: { name: string; connection: string; said: string; local: boolean },
 ): Promise<Sent> {
-  if (!canPropose()) return { ok: false, error: 'Confirmations are not open yet.' };
+  if (!canPropose()) return { ok: false, error: copy.confirmationsNotOpen };
 
   /* The same three fields the form checks, described the same way. This layer used to
      name them `name`, `connection` and `said` — the last being a column nobody has seen. */
   const incomplete = SAID_REQUIRED.filter((field) => !said[field]?.trim());
   if (incomplete.length) {
-    return { ok: false, error: stillNeeded(incomplete.map((f) => saidLabels(copy)[f])) };
+    return { ok: false, error: stillNeeded(copy, incomplete.map((f) => saidLabels(copy)[f])) };
   }
 
   try {
@@ -210,15 +210,15 @@ export async function confirmProposal(
     });
 
     if (response.status === 409) {
-      return { ok: false, error: 'You have already confirmed this one.' };
+      return { ok: false, error: copy.alreadyConfirmed };
     }
     if (response.status === 403) {
-      return { ok: false, error: 'You proposed this dish, so it needs somebody else to confirm it.' };
+      return { ok: false, error: copy.youProposedThis };
     }
-    if (!response.ok) return { ok: false, error: await refusal(response, saidLabels(copy)) };
+    if (!response.ok) return { ok: false, error: await refusal(copy, response, saidLabels(copy)) };
 
     return { ok: true };
   } catch (error) {
-    return failed(error);
+    return failed(copy, error);
   }
 }
