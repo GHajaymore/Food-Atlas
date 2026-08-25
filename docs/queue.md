@@ -1049,3 +1049,30 @@ Verified at 1440, 768 and 375: no name clamped at any size (the longest in the c
 "Torta di ciliegie della Foresta Nera", still shows whole in two lines on a 152px phone
 card), every rail row keeps one distinct y for its place line and its badge, and no page
 scrolls sideways.
+
+### The record page
+
+Same measurement, applied to `/dish/[id]` rather than the front page. Two findings.
+
+**The score outranked the dish.** At 36 declared it rendered 51.8 on a desktop, making it
+the largest thing on a record page — larger than "Fricot" at 46.1 — and in the two-column
+layout the right column starts higher, so it sat 360px *above* the name. A reader arriving
+at a record met "27" before they met the dish. The same inversion on a phone: 36 against a
+32 title. It is 28 now — 40.3 wide, 28 narrow — which keeps the name ahead by the same
+ratio at both sizes and still leaves the score the second-largest thing on the page. It
+also takes the display face, for the reason the front page's figures did: in this app the
+numbers are the argument.
+
+**One section heading out of four was an eyebrow.** "Related traditions" was `H6` — 13px
+uppercase — while "Watch it being made", "Where the method comes from" and "What this
+record is" are all `H5`. Now `H5` too.
+
+The four remaining uppercase labels on the page are all the legitimate use of the device:
+two card kickers, and the two group labels inside the evidence panel. They label, they do
+not announce a section.
+
+| /dish at 1440 | before | after |
+|---|---|---|
+| largest element | score, 51.8, Inter | dish name, 46.1, display |
+| score | 51.8 Inter | 40.3 display |
+| section headings | three at 18.2, one at 13 uppercase | four at 18.2 |

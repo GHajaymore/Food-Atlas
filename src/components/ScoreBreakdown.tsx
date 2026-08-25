@@ -148,7 +148,24 @@ export function ScoreBreakdown({ score, breakdown, showBars }: Props) {
 const styles = StyleSheet.create({
   wrap: { marginBottom: 24 },
   headline: { flexDirection: 'row', alignItems: 'baseline', gap: space[2], marginBottom: 12 },
-  score: { fontFamily: font.heading, fontSize: 36, lineHeight: 36 * 1.12, color: accentText },
+  /*
+   * The display face, and smaller than the dish's own name.
+   *
+   * At 36 this rendered 51.8 on a desktop, which made it the largest thing on a record
+   * page — larger than "Fricot" at 46.1, and in the two-column layout it sits 360px above
+   * it, so a reader arriving at a record met "27" before they met the dish. Same
+   * inversion on a phone: 36 against a 32 title.
+   *
+   * 28 renders 40.3 wide and 28 narrow, which holds the name ahead of the score by the
+   * same ratio at both sizes and still leaves this the second-largest thing on the page.
+   * The score is what the record is *for*, and it loses nothing by being unmistakably
+   * second to the name of the thing it describes.
+   *
+   * The face matches the figures on the front page for the same reason they were changed:
+   * in this app the numbers are the argument, and `tokens.ts` reserves Fraunces for
+   * anything that names or argues.
+   */
+  score: { fontFamily: font.display, fontSize: 28, lineHeight: 28 * 1.12, color: accentText },
   scoreUnit: { fontSize: 13 },
   caveat: { fontSize: 11, lineHeight: 11 * 1.45, marginTop: -6, marginBottom: 16 },
 

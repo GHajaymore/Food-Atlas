@@ -29,7 +29,7 @@ import { color, font, radius, space } from '../theme/tokens';
 import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
-import { H6, Muted, T } from './Text';
+import { H5, Muted, T } from './Text';
 
 export function Related({ items }: { items: RelatedDish[] }) {
   const copy = useCopy();
@@ -38,7 +38,10 @@ export function Related({ items }: { items: RelatedDish[] }) {
 
   return (
     <View style={styles.wrap}>
-      <H6>{copy.relatedTraditions}</H6>
+      {/* H5, matching every other section heading on a record — "Watch it being
+          made", "Where the method comes from", "How it's made". This was the one
+          section of the page announced by a 13px uppercase eyebrow instead. */}
+      <H5>{copy.relatedTraditions}</H5>
       <Muted style={styles.note}>
         {copy.relatedTraditionsNote}
       </Muted>
