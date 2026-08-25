@@ -928,3 +928,75 @@ name on a number.
 **Still English and genuinely reader-facing:** nothing known. Record prose — the dish
 descriptions, method steps and source notes — is data and still needs the translation
 provider (Cloudflare Workers AI recommended, free tier).
+
+## 2026-08-25 — the evidence panel, four English leaks, and the desktop photographs
+
+### The evidence breakdown is now the signature element
+
+`ScoreBreakdown` was six labelled bars in a flat list, and every number on it was true
+while the panel said nothing. It now renders a 0–100 track with the documented ceiling
+(43) and the Authentic threshold marked on it, then splits the six dimensions into
+"documents can answer these" and "only people can answer these", drawing the
+people-answered bars outlined rather than filled. The split comes from `answeredBy()` in
+the domain so the panel and `/how` cannot drift; both marks are read from settings.
+
+The two tick labels took four attempts and the failures are the useful part. The marks
+sit about 25px apart on a real column, so sharing one line put the labels 27px into each
+other. A downward offset on the second did not fix it — the first label wraps to two
+lines at a readable width and its second line landed on the second label. A row of fixed
+height still left 3px, because an absolutely positioned label is outside its row's flow
+and `wideType` scales the text but not a number typed into a stylesheet. What works uses
+no measured constant at all: a spacer takes the same percentage as the tick, the label
+flows after it, and each row is as tall as the label it holds. Verified at 1440 and 375
+in English, French and Polish.
+
+### Four screens rendered English the catalogue already held
+
+`keyof Copy` is a string, so a screen that never looks a key up compiles and passes every
+test. Found: `LeadDish` printed "photo via" while `copy.photoVia` existed and was used
+correctly on the dish screen — the hero card, in all twelve languages; `contribute`
+printed its example badge as a literal, inside the screen explaining what badges mean;
+the pantry search printed a whole paragraph; `admin` passed an English accessibility
+label two lines under the translated label for the same field.
+
+There is now a check in `plumbing.test.ts` that runs the other way round — for every
+English value in the catalogue, does that text appear in a screen? **It is proven to fail
+on the defect that prompted it**, which the first version was not: the floor was twelve
+characters and "photo via" is nine, so the guard written for the bug missed the bug.
+Measured at every floor down to six; six costs two extra hits, both in the allow-listed
+console. Write the guard, then break the code and watch it fail.
+
+The admin console's Source checks block stays English and is named in the allow-list
+rather than left looking like an oversight.
+
+### A figure nobody had counted
+
+The pantry note claimed "about half the atlas has no ingredients listed". Counted, it is
+10,429 of 17,774 — **59%** — and it is derived from `catalogueStats` now.
+
+Worth recording how the number was got wrong twice. The first count said 86%, taken from
+`public/data/catalogue.json`, which is one of five source files and is read *before*
+`buildCatalogue` enriches ingredients from the cookbook. Only the built catalogue is what
+a reader sees. The test asserts a wide band rather than 59, because an enrichment pass is
+*supposed* to move it and a test pinned to today's value would fail on success.
+
+### Desktop photographs
+
+Measured at 1440x900 first: the desktop opening screen held no photograph at all — the
+first sat at y=951, and all 63 images were 176x176 in a 1,160px column. `FeedOrder`'s
+wide branch asserted the opposite in a comment. The first rail now sits above the
+controls, and cards follow the phone's own rule applied to the real width — pick how many
+a row should hold, and the arithmetic gives the card: five across 1,160 is 220, four
+across a tablet's 820 is 192. At 1440x1080 five photographs are fully above the fold
+where there were none.
+
+### Open, and needing a decision rather than a fix
+
+**The top navigation overflows at 768.** It needs 683px for its links and gets 569, so
+the page scrolls 74px sideways at iPad-portrait width. Pre-existing — confirmed present
+with the old card sizes — and left alone because the fix is choosing which links give way
+at that width, which is a design decision rather than a bug fix.
+
+Still queued and unchanged: the Cloudflare deploy, Google OAuth, `EXPO_PUBLIC_DONATE_URL`
+and the Workers AI binding all wait on Ajay; native locale persistence needs AsyncStorage,
+which is a new dependency and should be flagged before it is added.
