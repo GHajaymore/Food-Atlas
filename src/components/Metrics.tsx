@@ -184,7 +184,10 @@ export function CoverageTable({
 
 const styles = StyleSheet.create({
   tile: { flex: 1, minWidth: 96 },
-  tileValue: { fontFamily: font.heading, fontSize: 28, lineHeight: 28 * 1.12, color: accentText },
+  /* The display face, matching the front page's figures and a record's score. These are
+     the coverage numbers the atlas is judged on; in this app the numbers are the
+     argument, and `tokens.ts` reserves Fraunces for anything that names or argues. */
+  tileValue: { fontFamily: font.display, fontSize: 28, lineHeight: 28 * 1.12, color: accentText },
   tileLabel: { fontSize: 11, lineHeight: 11 * 1.4, marginTop: 2 },
   trendRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 },
   delta: { fontSize: 10, fontVariant: ['tabular-nums'] },

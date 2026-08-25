@@ -11,7 +11,7 @@ import { useCopy } from '../i18n';
 import { color, space } from '../theme/tokens';
 import { IconButton } from './Button';
 import { CaretLeftIcon } from './icons';
-import { H4 } from './Text';
+import { H2 } from './Text';
 
 interface Props {
   title?: string;
@@ -33,7 +33,7 @@ export function NavRow({ title, onBack, right, style }: Props) {
       <IconButton label={copy.goBack} onPress={back} style={styles.backButton}>
         <CaretLeftIcon size={18} color={color.text} />
       </IconButton>
-      {title ? <H4 style={styles.title}>{title}</H4> : <View style={styles.spacer} />}
+      {title ? <H2 style={styles.title}>{title}</H2> : <View style={styles.spacer} />}
       {right}
     </View>
   );
@@ -48,6 +48,17 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   backButton: { marginLeft: -10 },
+  /*
+   * A page title, not a toolbar label.
+   *
+   * This was H4 — 25.6 on a desktop — on all ten screens that pass a title, which put a
+   * page's own name below the figures printed on it: /atlas announced itself at 25.6
+   * above three 40.3 numbers. Meanwhile the record screen sets its subject in H2 at 46.1,
+   * so the app named a dish twice the size it named a whole section of itself.
+   *
+   * H2 matches that. The record screen passes no title here — its H2 is the dish name —
+   * so nothing ends up with two.
+   */
   title: { flex: 1 },
   spacer: { flex: 1 },
 });

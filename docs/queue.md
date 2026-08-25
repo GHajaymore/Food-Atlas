@@ -1076,3 +1076,38 @@ not announce a section.
 | largest element | score, 51.8, Inter | dish name, 46.1, display |
 | score | 51.8 Inter | 40.3 display |
 | section headings | three at 18.2, one at 13 uppercase | four at 18.2 |
+
+### The other nine screens
+
+Running the same measurement across `/atlas`, `/search`, `/how` and `/support` found one
+thing wrong everywhere rather than four things wrong separately.
+
+**A page title was smaller than the numbers printed on it.** `NavRow` set every screen
+title in `H4` — 25.6 on a desktop — on the ten screens that pass one. `/atlas` therefore
+announced itself at 25.6 above three 40.3 figures. Meanwhile the record screen sets its
+subject in `H2` at 46.1, so the app named one dish at nearly twice the size it named a
+whole section of itself. `NavRow` uses `H2` now. The record screen passes no title to it —
+its `H2` is the dish name — so nothing gets two.
+
+That is the same inversion the record page had, fixed from the other end: there the number
+came down, here the title goes up. The difference is which one was wrong. A score of 27 has
+no business being the largest thing on a page about Fricot; "Food Atlas" has every business
+being the largest thing on the Food Atlas.
+
+**`Metrics` figures took the display face**, the third and last place numbers were still
+set in the interface face, after the front page's figures and a record's score.
+
+| screen | title before | title after |
+|---|---|---|
+| /atlas | 25.6, under its own 40.3 figures | 46.1, above them |
+| /search, /how, /support, /propose, /proposals, /browse, /place, /contribute, /admin | 25.6 | 46.1 |
+
+**Uppercase labels were left alone where they are doing their job.** `/search` has six —
+"Dietary preference", "Sort results by" — and they label control groups rather than
+announce sections, which is what the device is for. Same for the two card kickers on
+`/how`. The ones worth removing were the ones standing in for headings, and those are gone.
+
+Checked for the case a bigger title breaks: the longest page title in any of the twelve
+languages is Portuguese "Acrescentar uma tradição" on `/contribute`, then Hindi on
+`/propose`. At 375 the Portuguese one wraps to two lines and is not clipped; the Hindi one
+holds one line. Neither scrolls the page sideways.
