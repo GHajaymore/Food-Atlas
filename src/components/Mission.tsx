@@ -39,6 +39,8 @@ import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { catalogue, catalogueStats } from '../data/catalogue';
 import { isAuthentic, VALIDATIONS_REQUIRED } from '../domain/authenticity';
+import { settings } from '../data/settings';
+import { useCopy } from '../i18n';
 import { canConfirm } from '../domain/confirmations';
 import { useLayout } from '../theme/layout';
 import { canContribute } from '../domain/contribution';
@@ -96,6 +98,15 @@ export function useMissionNumbers() {
 }
 
 /**
+ * The best a record can score on published sources alone.
+ *
+ * Six dimensions, three of which no document can answer, so the arithmetic caps there.
+ * /how derives the same figure the same way; both must move together or the app
+ * contradicts itself on the one page that argues its figures are checkable.
+ */
+const DOCUMENTED_CEILING = 43;
+
+/**
  * The headline and the sentence under it.
  *
  * Leads with what the atlas holds, not with what it lacks. An earlier headline opened
@@ -115,15 +126,15 @@ export function useMissionNumbers() {
  * counting, so the headline says what the atlas is *for*.
  */
 export function MissionPitch() {
+  const copy = useCopy();
   const { wide } = useLayout();
 
   return (
     <>
-      <T style={wide ? styles.headlineWide : styles.headline}>Every dish here shows its evidence.</T>
+      <T style={wide ? styles.headlineWide : styles.headline}>{copy.missionHeadline}</T>
 
       <Muted style={[styles.stakes, wide ? styles.stakesWide : null]}>
-        Where it came from, who says so, and how much has actually been established — printed on
-        every record, and checkable by anybody who doubts it.
+        {copy.missionStakes}
       </Muted>
     </>
   );
@@ -139,17 +150,18 @@ export function MissionPitch() {
  * move, and a reader sees the gap without being told about it.
  */
 export function MissionFigures() {
+  const copy = useCopy();
   const { wide } = useLayout();
   const { total, countries, documented, heritage, authenticated } = useMissionNumbers();
 
   return (
     <View style={[styles.stats, wide ? styles.statsWide : null]}>
-      <Stat value={n(total)} label="dishes" />
-      <Stat value={String(countries)} label="countries" />
-      <Stat value={n(documented)} label="documented" />
-      <Stat value={n(heritage)} label="registered" />
+      <Stat value={n(total)} label={copy.statDishes} />
+      <Stat value={String(countries)} label={copy.statCountries} />
+      <Stat value={n(documented)} label={copy.statDocumented} />
+      <Stat value={n(heritage)} label={copy.statRegistered} />
       {/* The accent goes on the only figure a person, rather than a source, can move. */}
-      <Stat value={n(authenticated)} label="authentic" accent />
+      <Stat value={n(authenticated)} label={copy.statAuthentic} accent />
     </View>
   );
 }
@@ -162,33 +174,29 @@ export function MissionFigures() {
  * treatment by moving would cost it the thing that marks it out.
  */
 export function MissionCallout() {
+  const copy = useCopy();
   const { wide } = useLayout();
   const { unwritten, open } = useMissionNumbers();
 
   return (
     <View style={wide ? styles.heroAside : styles.callout}>
       <T style={styles.ask}>
-        {n(unwritten)} of these have no method recorded. {VALIDATIONS_REQUIRED} people from a place
-        can fix one for good.
+        {copy.missionAsk.replace('{n}', n(unwritten)).replace('{people}', String(VALIDATIONS_REQUIRED))}
       </T>
       <Muted style={styles.askBody}>
-        Nobody has set down how they are made — not in English, not in any language, nowhere a
-        machine can reach. No archive, no encyclopaedia and nothing automatic can authenticate them
-        instead; that is arithmetic in the scoring, not a policy. If you cook one, you are the only
-        person who can.
+        {copy.missionAskBody}
       </Muted>
       <View style={styles.actions}>
-        <Button label="Record a dish you know" onPress={() => router.push('/contribute')} />
+        <Button label={copy.recordADishYouKnow} onPress={() => router.push('/contribute')} />
         <Button
-          label="How it gets authenticated"
+          label={copy.howItGetsAuthenticated}
           variant="secondary"
           onPress={() => router.push('/how')}
         />
       </View>
       {!open ? (
         <Muted style={styles.pending}>
-          Submissions are not open yet — there is nowhere to send them. The route above explains
-          what happens when they are.
+          {copy.submissionsNotOpen}
         </Muted>
       ) : null}
     </View>
@@ -202,6 +210,8 @@ export function MissionCallout() {
  * first thing to move down a phone.
  */
 export function MissionFootnotes() {
+  const copy = useCopy();
+  const { authenticAt } = settings;
   const { unwritten } = useMissionNumbers();
 
   return (
@@ -219,8 +229,7 @@ export function MissionFootnotes() {
          * The alternative was leaving four words that had stopped being true. A promise
          * this app cannot keep is worth less than a narrower one it can.
          */}
-        Free, and staying free. No advertising, no tracking, no money collected. An account is
-        needed only to confirm a dish — never to read one.
+        {copy.freeAndStayingFree}
       </Muted>
 
       {/*
@@ -248,21 +257,17 @@ export function MissionFootnotes() {
        * worst possible place to overstate one.
        */}
       <Muted style={styles.free}>
-        No ratings, no comments, and no algorithm deciding what you see — lists lead with
-        evidence rather than with popularity. Openings are counted as a dish and a date, never
-        as a person.
+        {copy.noRatingsNoComments}
       </Muted>
 
-      <Disclosure style={styles.disclosure} summary="Why a source cannot authenticate a dish">
+      <Disclosure style={styles.disclosure} summary={copy.whyASourceCannot}>
         <Muted style={styles.body}>
-          Published documentation cannot score above 43 here, and a record becomes Authentic at 55.
-          The gap is closable only by people connected to the place. The six figures behind every
-          score are printed on the record, so a reader who doubts the number can add it up.
+          {copy.whyASourceCannotBody
+            .replace('{ceiling}', String(DOCUMENTED_CEILING))
+            .replace('{threshold}', String(authenticAt))}
         </Muted>
         <Muted style={[styles.body, styles.spaced]}>
-          It is also why the atlas stops where it does. Every free source has been read —
-          encyclopaedias, cookbooks, heritage registers, gazetteers — and {n(unwritten)} records
-          still have nothing recorded about how they are made. What is left was never written down.
+          {copy.whyTheAtlasStops.replace('{n}', n(unwritten))}
         </Muted>
       </Disclosure>
     </>

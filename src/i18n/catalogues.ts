@@ -349,6 +349,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Lo que el atlas tiene de {country}. Que aquí sea exacto vale más para ti que en ningún otro sitio: tú puedes saber si está bien.',
     sending:
       'Enviando…',
+    missionHeadline:
+      'Cada plato de aquí muestra sus pruebas.',
+    missionStakes:
+      'De dónde viene, quién lo dice y cuánto se ha establecido realmente: impreso en cada registro, y comprobable por cualquiera que lo dude.',
+    statDishes:
+      'platos',
+    statCountries:
+      'países',
+    statDocumented:
+      'documentados',
+    statRegistered:
+      'registrados',
+    statAuthentic:
+      'auténticos',
+    missionAsk:
+      '{n} de estos no tienen ningún método registrado. {people} personas de un lugar pueden arreglar uno para siempre.',
+    missionAskBody:
+      'Nadie ha dejado escrito cómo se hacen: ni en inglés, ni en ningún idioma, en ningún sitio al que llegue una máquina. Ningún archivo, ninguna enciclopedia y nada automático puede autenticarlos en su lugar; eso es aritmética de la puntuación, no una política. Si tú lo cocinas, eres la única persona que puede.',
+    recordADishYouKnow:
+      'Registra un plato que conozcas',
+    howItGetsAuthenticated:
+      'Cómo se autentica',
+    submissionsNotOpen:
+      'Los envíos aún no están abiertos: no hay adónde mandarlos. La ruta de arriba explica qué pasará cuando lo estén.',
+    freeAndStayingFree:
+      'Gratis, y seguirá siéndolo. Sin publicidad, sin rastreo, sin dinero de por medio. Solo hace falta una cuenta para confirmar un plato, nunca para leer uno.',
+    noRatingsNoComments:
+      'Sin valoraciones, sin comentarios y sin ningún algoritmo que decida lo que ves: las listas encabezan por pruebas, no por popularidad. Las aperturas se cuentan como un plato y una fecha, nunca como una persona.',
+    whyASourceCannot:
+      'Por qué una fuente no puede autenticar un plato',
+    whyASourceCannotBody:
+      'La documentación publicada no puede pasar de {ceiling} aquí, y un registro se vuelve Auténtico a partir de {threshold}. Esa distancia solo pueden cerrarla personas vinculadas al lugar. Las seis cifras que hay detrás de cada puntuación están impresas en el registro, así que quien dude del número puede sumarlo.',
+    whyTheAtlasStops:
+      'Es también por lo que el atlas se detiene donde se detiene. Se han leído todas las fuentes libres — enciclopedias, recetarios, registros de patrimonio, nomenclátores — y {n} registros siguen sin nada anotado sobre cómo se hacen. Lo que queda nunca se escribió.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -664,6 +698,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ce que l’atlas contient pour {country}. Sa justesse ici vaut plus pour vous que partout ailleurs : vous, vous pouvez savoir si c’est exact.',
     sending:
       'Envoi…',
+    missionHeadline:
+      'Chaque plat ici montre ses preuves.',
+    missionStakes:
+      'D’où il vient, qui l’affirme et ce qui a réellement été établi : imprimé sur chaque fiche, et vérifiable par quiconque en doute.',
+    statDishes:
+      'plats',
+    statCountries:
+      'pays',
+    statDocumented:
+      'documentés',
+    statRegistered:
+      'inscrits',
+    statAuthentic:
+      'authentiques',
+    missionAsk:
+      '{n} d’entre eux n’ont aucune méthode consignée. {people} personnes d’un lieu peuvent en régler un pour de bon.',
+    missionAskBody:
+      'Personne n’a écrit comment on les prépare — ni en anglais, ni dans aucune langue, nulle part où une machine puisse aller. Aucune archive, aucune encyclopédie et rien d’automatique ne peut les authentifier à leur place ; c’est de l’arithmétique dans la notation, pas une règle. Si vous en cuisinez un, vous êtes la seule personne qui le puisse.',
+    recordADishYouKnow:
+      'Consignez un plat que vous connaissez',
+    howItGetsAuthenticated:
+      'Comment se fait l’authentification',
+    submissionsNotOpen:
+      'Les envois ne sont pas encore ouverts : il n’y a nulle part où les adresser. Le parcours ci-dessus explique ce qui se passera alors.',
+    freeAndStayingFree:
+      'Gratuit, et cela le restera. Aucune publicité, aucun pistage, aucun argent collecté. Un compte ne sert qu’à confirmer un plat — jamais à en lire un.',
+    noRatingsNoComments:
+      'Pas de notes, pas de commentaires, aucun algorithme pour décider de ce que vous voyez — les listes commencent par les preuves, pas par la popularité. Les ouvertures sont comptées comme un plat et une date, jamais comme une personne.',
+    whyASourceCannot:
+      'Pourquoi une source ne peut pas authentifier un plat',
+    whyASourceCannotBody:
+      'La documentation publiée ne peut pas dépasser {ceiling} ici, et une fiche devient Authentique à {threshold}. Cet écart n’est comblé que par des personnes liées au lieu. Les six chiffres derrière chaque note sont imprimés sur la fiche, si bien que qui doute du total peut l’additionner.',
+    whyTheAtlasStops:
+      'C’est aussi pourquoi l’atlas s’arrête là où il s’arrête. Toutes les sources libres ont été lues — encyclopédies, livres de cuisine, inventaires du patrimoine, dictionnaires géographiques — et {n} fiches n’ont toujours rien de consigné sur leur préparation. Ce qui reste n’a jamais été écrit.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -978,6 +1046,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Was der Atlas aus {country} hat. Dass es hier stimmt, ist für Sie mehr wert als irgendwo sonst — Sie können beurteilen, ob es richtig ist.',
     sending:
       'Wird gesendet…',
+    missionHeadline:
+      'Jedes Gericht hier zeigt seine Belege.',
+    missionStakes:
+      'Woher es kommt, wer das sagt und wie viel tatsächlich belegt ist — auf jedem Eintrag abgedruckt und von jedem nachprüfbar, der daran zweifelt.',
+    statDishes:
+      'Gerichte',
+    statCountries:
+      'Länder',
+    statDocumented:
+      'belegt',
+    statRegistered:
+      'eingetragen',
+    statAuthentic:
+      'authentisch',
+    missionAsk:
+      'Bei {n} davon ist keine Zubereitung festgehalten. {people} Menschen von einem Ort können eines davon dauerhaft schließen.',
+    missionAskBody:
+      'Niemand hat aufgeschrieben, wie sie gemacht werden — nicht auf Englisch, in keiner Sprache, nirgends, wo eine Maschine hinkommt. Kein Archiv, keine Enzyklopädie und nichts Automatisches kann sie stattdessen bestätigen; das ist Arithmetik in der Bewertung, keine Vorschrift. Wenn Sie eines kochen, sind Sie die einzige Person, die es kann.',
+    recordADishYouKnow:
+      'Halten Sie ein Gericht fest, das Sie kennen',
+    howItGetsAuthenticated:
+      'Wie ein Gericht bestätigt wird',
+    submissionsNotOpen:
+      'Einreichungen sind noch nicht offen — es gibt keinen Ort, an den sie gehen könnten. Der Weg oben erklärt, was dann geschieht.',
+    freeAndStayingFree:
+      'Kostenlos, und das bleibt so. Keine Werbung, kein Tracking, kein eingesammeltes Geld. Ein Konto braucht es nur, um ein Gericht zu bestätigen — nie, um eines zu lesen.',
+    noRatingsNoComments:
+      'Keine Bewertungen, keine Kommentare und kein Algorithmus, der entscheidet, was Sie sehen — Listen beginnen mit Belegen, nicht mit Beliebtheit. Aufrufe werden als Gericht und Datum gezählt, nie als Person.',
+    whyASourceCannot:
+      'Warum eine Quelle ein Gericht nicht bestätigen kann',
+    whyASourceCannotBody:
+      'Veröffentlichte Belege kommen hier über {ceiling} nicht hinaus, und ein Eintrag gilt ab {threshold} als authentisch. Diesen Abstand schließen nur Menschen, die mit dem Ort verbunden sind. Die sechs Zahlen hinter jeder Bewertung stehen auf dem Eintrag, sodass jeder, der der Zahl misstraut, sie nachrechnen kann.',
+    whyTheAtlasStops:
+      'Deshalb hört der Atlas auch dort auf, wo er aufhört. Jede freie Quelle wurde gelesen — Enzyklopädien, Kochbücher, Denkmalregister, Ortsverzeichnisse — und bei {n} Einträgen ist immer noch nichts darüber festgehalten, wie sie gemacht werden. Was übrig ist, wurde nie aufgeschrieben.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -1292,6 +1394,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Quello che l’atlante ha da {country}. Che qui sia esatto vale per te più che altrove: tu puoi capire se è giusto.',
     sending:
       'Invio…',
+    missionHeadline:
+      'Ogni piatto qui mostra le sue prove.',
+    missionStakes:
+      'Da dove viene, chi lo dice e quanto è stato davvero accertato: stampato su ogni scheda, e verificabile da chiunque ne dubiti.',
+    statDishes:
+      'piatti',
+    statCountries:
+      'paesi',
+    statDocumented:
+      'documentati',
+    statRegistered:
+      'iscritti',
+    statAuthentic:
+      'autentici',
+    missionAsk:
+      'Di questi, {n} non hanno alcun metodo registrato. {people} persone di un luogo possono sistemarne uno per sempre.',
+    missionAskBody:
+      'Nessuno ha messo per iscritto come si fanno — non in inglese, in nessuna lingua, in nessun posto dove arrivi una macchina. Nessun archivio, nessuna enciclopedia e niente di automatico può autenticarli al loro posto; è aritmetica del punteggio, non una regola. Se lo cucini tu, sei l’unica persona che può.',
+    recordADishYouKnow:
+      'Registra un piatto che conosci',
+    howItGetsAuthenticated:
+      'Come viene autenticato',
+    submissionsNotOpen:
+      'Gli invii non sono ancora aperti: non c’è dove mandarli. Il percorso qui sopra spiega cosa succederà quando lo saranno.',
+    freeAndStayingFree:
+      'Gratis, e resterà così. Nessuna pubblicità, nessun tracciamento, nessun denaro raccolto. Un account serve solo per confermare un piatto — mai per leggerne uno.',
+    noRatingsNoComments:
+      'Niente voti, niente commenti e nessun algoritmo che decide cosa vedi: gli elenchi partono dalle prove, non dalla popolarità. Le aperture si contano come un piatto e una data, mai come una persona.',
+    whyASourceCannot:
+      'Perché una fonte non può autenticare un piatto',
+    whyASourceCannotBody:
+      'La documentazione pubblicata qui non può superare {ceiling}, e una scheda diventa Autentica a {threshold}. Quella distanza la colmano solo persone legate al luogo. Le sei cifre dietro ogni punteggio sono stampate sulla scheda, così chi dubita del numero può rifare la somma.',
+    whyTheAtlasStops:
+      'È anche il motivo per cui l’atlante si ferma dove si ferma. Ogni fonte libera è stata letta — enciclopedie, ricettari, registri del patrimonio, dizionari geografici — e {n} schede non hanno ancora nulla di annotato su come si fanno. Quel che resta non è mai stato scritto.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -1607,6 +1743,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'O que o atlas tem de {country}. A exatidão aqui vale-lhe mais do que em qualquer outro lado — você consegue perceber se está certo.',
     sending:
       'A enviar…',
+    missionHeadline:
+      'Cada prato aqui mostra as suas provas.',
+    missionStakes:
+      'De onde veio, quem o diz e quanto foi realmente estabelecido — impresso em cada registo, e verificável por qualquer pessoa que duvide.',
+    statDishes:
+      'pratos',
+    statCountries:
+      'países',
+    statDocumented:
+      'documentados',
+    statRegistered:
+      'inscritos',
+    statAuthentic:
+      'autênticos',
+    missionAsk:
+      '{n} destes não têm método nenhum registado. {people} pessoas de um lugar podem resolver um de vez.',
+    missionAskBody:
+      'Ninguém deixou escrito como se fazem — nem em inglês, nem em língua nenhuma, em lado nenhum onde uma máquina chegue. Nenhum arquivo, nenhuma enciclopédia e nada automático os pode autenticar em vez disso; isso é aritmética da pontuação, não uma política. Se você cozinha um, é a única pessoa que o pode fazer.',
+    recordADishYouKnow:
+      'Registe um prato que conhece',
+    howItGetsAuthenticated:
+      'Como é autenticado',
+    submissionsNotOpen:
+      'As submissões ainda não estão abertas — não há para onde as enviar. O percurso acima explica o que acontece quando estiverem.',
+    freeAndStayingFree:
+      'Gratuito, e vai continuar. Sem publicidade, sem rastreio, sem dinheiro recolhido. Só é preciso conta para confirmar um prato — nunca para ler um.',
+    noRatingsNoComments:
+      'Sem classificações, sem comentários e sem algoritmo nenhum a decidir o que vê — as listas começam pelas provas, não pela popularidade. As aberturas são contadas como um prato e uma data, nunca como uma pessoa.',
+    whyASourceCannot:
+      'Porque é que uma fonte não pode autenticar um prato',
+    whyASourceCannotBody:
+      'A documentação publicada não passa de {ceiling} aqui, e um registo torna-se Autêntico a partir de {threshold}. Essa distância só é fechada por pessoas ligadas ao lugar. Os seis números por trás de cada pontuação estão impressos no registo, por isso quem duvide do total pode somá-lo.',
+    whyTheAtlasStops:
+      'É também por isso que o atlas para onde para. Todas as fontes livres foram lidas — enciclopédias, livros de cozinha, registos de património, dicionários geográficos — e {n} registos continuam sem nada anotado sobre como se fazem. O que resta nunca foi escrito.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -1921,6 +2091,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wat de atlas uit {country} heeft. Dat het hier klopt, is voor u meer waard dan waar ook — u kunt beoordelen of het juist is.',
     sending:
       'Versturen…',
+    missionHeadline:
+      'Elk gerecht hier laat zijn bewijs zien.',
+    missionStakes:
+      'Waar het vandaan komt, wie dat zegt en hoeveel er werkelijk is vastgesteld — op elk record afgedrukt, en na te rekenen door iedereen die eraan twijfelt.',
+    statDishes:
+      'gerechten',
+    statCountries:
+      'landen',
+    statDocumented:
+      'gedocumenteerd',
+    statRegistered:
+      'ingeschreven',
+    statAuthentic:
+      'authentiek',
+    missionAsk:
+      'Van {n} hiervan is geen bereidingswijze vastgelegd. {people} mensen uit een plaats kunnen er één voorgoed oplossen.',
+    missionAskBody:
+      'Niemand heeft opgeschreven hoe ze gemaakt worden — niet in het Engels, in geen enkele taal, nergens waar een machine bij kan. Geen archief, geen encyclopedie en niets automatisch kan ze in plaats daarvan bevestigen; dat is rekenwerk in de score, geen beleid. Als u er een kookt, bent u de enige die het kan.',
+    recordADishYouKnow:
+      'Leg een gerecht vast dat u kent',
+    howItGetsAuthenticated:
+      'Hoe iets bevestigd wordt',
+    submissionsNotOpen:
+      'Inzendingen staan nog niet open — er is nergens om ze heen te sturen. De route hierboven legt uit wat er gebeurt als dat wel zo is.',
+    freeAndStayingFree:
+      'Gratis, en dat blijft zo. Geen advertenties, geen tracking, geen geld ingezameld. Een account is alleen nodig om een gerecht te bevestigen — nooit om er een te lezen.',
+    noRatingsNoComments:
+      'Geen beoordelingen, geen reacties en geen algoritme dat bepaalt wat u ziet — lijsten beginnen met bewijs, niet met populariteit. Openingen worden geteld als een gerecht en een datum, nooit als een persoon.',
+    whyASourceCannot:
+      'Waarom een bron een gerecht niet kan bevestigen',
+    whyASourceCannotBody:
+      'Gepubliceerde documentatie komt hier niet boven {ceiling}, en een record heet Authentiek vanaf {threshold}. Dat gat wordt alleen gedicht door mensen die met de plaats verbonden zijn. De zes cijfers achter elke score staan op het record, zodat wie het getal wantrouwt het kan natellen.',
+    whyTheAtlasStops:
+      'Het is ook waarom de atlas ophoudt waar hij ophoudt. Elke vrije bron is gelezen — encyclopedieën, kookboeken, erfgoedregisters, plaatsnaamlijsten — en bij {n} records staat nog steeds niets over hoe ze gemaakt worden. Wat overblijft is nooit opgeschreven.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -2236,6 +2440,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'To, co atlas ma z kraju {country}. To, że tutaj jest dokładnie, znaczy dla ciebie więcej niż gdziekolwiek indziej — ty potrafisz ocenić, czy się zgadza.',
     sending:
       'Wysyłanie…',
+    missionHeadline:
+      'Każda potrawa tutaj pokazuje swoje dowody.',
+    missionStakes:
+      'Skąd pochodzi, kto tak mówi i ile naprawdę udało się ustalić — wydrukowane na każdym wpisie i możliwe do sprawdzenia przez każdego, kto wątpi.',
+    statDishes:
+      'potraw',
+    statCountries:
+      'krajów',
+    statDocumented:
+      'udokumentowanych',
+    statRegistered:
+      'wpisanych',
+    statAuthentic:
+      'autentycznych',
+    missionAsk:
+      'W {n} z nich nie zapisano żadnego sposobu przygotowania. {people} osoby z danego miejsca mogą naprawić jeden raz na zawsze.',
+    missionAskBody:
+      'Nikt nie zapisał, jak się je robi — ani po angielsku, ani w żadnym języku, nigdzie, dokąd sięga maszyna. Żadne archiwum, żadna encyklopedia ani nic automatycznego nie potwierdzi ich zamiast tego; to arytmetyka punktacji, a nie polityka. Jeśli któreś gotujesz, jesteś jedyną osobą, która może.',
+    recordADishYouKnow:
+      'Zapisz potrawę, którą znasz',
+    howItGetsAuthenticated:
+      'Jak potrawa jest uwierzytelniana',
+    submissionsNotOpen:
+      'Zgłoszenia nie są jeszcze otwarte — nie ma dokąd ich wysłać. Powyższa ścieżka wyjaśnia, co się stanie, gdy będą.',
+    freeAndStayingFree:
+      'Za darmo i tak zostanie. Bez reklam, bez śledzenia, bez zbierania pieniędzy. Konto jest potrzebne tylko po to, by potwierdzić potrawę — nigdy po to, by ją przeczytać.',
+    noRatingsNoComments:
+      'Bez ocen, bez komentarzy i bez algorytmu decydującego, co widzisz — listy zaczynają się od dowodów, a nie od popularności. Otwarcia liczy się jako potrawa i data, nigdy jako osoba.',
+    whyASourceCannot:
+      'Dlaczego źródło nie może uwierzytelnić potrawy',
+    whyASourceCannotBody:
+      'Opublikowana dokumentacja nie przekroczy tutaj {ceiling}, a wpis staje się Autentyczny od {threshold}. Tę różnicę zamykają wyłącznie ludzie związani z danym miejscem. Sześć liczb stojących za każdą punktacją jest wydrukowanych na wpisie, więc kto nie wierzy w wynik, może go zsumować.',
+    whyTheAtlasStops:
+      'To także powód, dla którego atlas kończy się tam, gdzie się kończy. Przeczytano każde wolne źródło — encyklopedie, książki kucharskie, rejestry dziedzictwa, słowniki geograficzne — a przy {n} wpisach wciąż nie ma nic o tym, jak się je robi. To, co zostało, nigdy nie zostało zapisane.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -2550,6 +2788,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Atlasın {country} için tuttukları. Burada doğru olması sizin için başka her yerden daha değerli — doğru olup olmadığını siz anlayabilirsiniz.',
     sending:
       'Gönderiliyor…',
+    missionHeadline:
+      'Buradaki her yemek kanıtını gösterir.',
+    missionStakes:
+      'Nereden geldiği, bunu kimin söylediği ve gerçekte ne kadarının saptandığı — her kaydın üzerinde yazılı ve kuşkulanan herkesin denetleyebileceği biçimde.',
+    statDishes:
+      'yemek',
+    statCountries:
+      'ülke',
+    statDocumented:
+      'belgelenmiş',
+    statRegistered:
+      'tescilli',
+    statAuthentic:
+      'özgün',
+    missionAsk:
+      'Bunlardan {n} tanesinin yapılışı hiç kayda geçmemiş. Bir yerden {people} kişi, birini kalıcı olarak tamamlayabilir.',
+    missionAskBody:
+      'Nasıl yapıldıklarını kimse yazmamış — ne İngilizce, ne başka bir dilde, bir makinenin ulaşabileceği hiçbir yerde. Hiçbir arşiv, hiçbir ansiklopedi ve hiçbir otomatik yöntem onların yerine doğrulayamaz; bu, puanlamanın aritmetiğidir, bir kural değil. Birini siz pişiriyorsanız, bunu yapabilecek tek kişi sizsiniz.',
+    recordADishYouKnow:
+      'Bildiğiniz bir yemeği kaydedin',
+    howItGetsAuthenticated:
+      'Bir yemek nasıl doğrulanır',
+    submissionsNotOpen:
+      'Gönderiler henüz açık değil — gönderilecek bir yer yok. Yukarıdaki yol, açıldığında ne olacağını anlatıyor.',
+    freeAndStayingFree:
+      'Ücretsiz ve öyle kalacak. Reklam yok, izleme yok, toplanan para yok. Hesap yalnızca bir yemeği doğrulamak için gerekir — okumak için asla.',
+    noRatingsNoComments:
+      'Puan yok, yorum yok ve ne göreceğinize karar veren bir algoritma yok — listeler popülerlikle değil kanıtla başlar. Açılışlar bir yemek ve bir tarih olarak sayılır, asla bir kişi olarak değil.',
+    whyASourceCannot:
+      'Bir kaynak bir yemeği neden doğrulayamaz',
+    whyASourceCannotBody:
+      'Yayımlanmış belgeler burada {ceiling} puanı geçemez ve bir kayıt {threshold} puandan itibaren Özgün sayılır. Bu aradaki farkı yalnızca o yerle bağı olan insanlar kapatabilir. Her puanın arkasındaki altı sayı kaydın üzerinde yazılıdır, böylece sayıdan kuşkulanan onu toplayabilir.',
+    whyTheAtlasStops:
+      'Atlasın bittiği yerde bitmesinin nedeni de budur. Serbest kaynakların hepsi okundu — ansiklopediler, yemek kitapları, miras kayıtları, yer adları sözlükleri — ve {n} kaydın nasıl yapıldığına dair hâlâ hiçbir şey yok. Geriye kalan hiç yazılmamış olandır.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -2865,6 +3137,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'То, что атлас содержит по стране {country}. Точность именно здесь для вас важнее, чем где бы то ни было: вы можете судить, верно ли это.',
     sending:
       'Отправляется…',
+    missionHeadline:
+      'Каждое блюдо здесь показывает свои доказательства.',
+    missionStakes:
+      'Откуда оно, кто это утверждает и что на самом деле установлено — напечатано на каждой записи и доступно для проверки любому, кто сомневается.',
+    statDishes:
+      'блюд',
+    statCountries:
+      'стран',
+    statDocumented:
+      'задокументировано',
+    statRegistered:
+      'внесено в реестр',
+    statAuthentic:
+      'подлинных',
+    missionAsk:
+      'У {n} из них не записан ни один способ приготовления. {people} человека из того места могут закрыть один раз и навсегда.',
+    missionAskBody:
+      'Никто не записал, как их готовят, — ни по-английски, ни на одном языке, нигде, куда дотягивается машина. Ни архив, ни энциклопедия и ничто автоматическое не подтвердит их вместо людей; это арифметика оценки, а не правило. Если вы готовите такое блюдо, вы единственный, кто может.',
+    recordADishYouKnow:
+      'Запишите блюдо, которое знаете',
+    howItGetsAuthenticated:
+      'Как блюдо подтверждают',
+    submissionsNotOpen:
+      'Приём пока не открыт — отправлять некуда. Путь выше объясняет, что произойдёт, когда откроется.',
+    freeAndStayingFree:
+      'Бесплатно и останется бесплатным. Без рекламы, без слежки, без сбора денег. Учётная запись нужна только чтобы подтвердить блюдо — никогда чтобы прочитать о нём.',
+    noRatingsNoComments:
+      'Ни оценок, ни комментариев, ни алгоритма, решающего, что вам показать: списки начинаются с доказательств, а не с популярности. Открытия считаются как блюдо и дата, никогда как человек.',
+    whyASourceCannot:
+      'Почему источник не может подтвердить блюдо',
+    whyASourceCannotBody:
+      'Опубликованные материалы здесь не могут набрать больше {ceiling}, а Подлинной запись становится с {threshold}. Этот разрыв закрывают только люди, связанные с местом. Шесть чисел, из которых складывается каждая оценка, напечатаны на записи, так что усомнившийся может сложить их сам.',
+    whyTheAtlasStops:
+      'По той же причине атлас кончается там, где кончается. Прочитан каждый свободный источник — энциклопедии, кулинарные книги, реестры наследия, географические словари, — и у {n} записей по-прежнему нет ничего о том, как их готовят. То, что осталось, никогда не было записано.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -3180,6 +3486,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'एटलस के पास {country} से जो कुछ है। यहाँ का सही होना आपके लिए और कहीं से ज़्यादा मायने रखता है — आप बता सकते हैं कि यह ठीक है या नहीं।',
     sending:
       'भेजा जा रहा है…',
+    missionHeadline:
+      'यहाँ हर व्यंजन अपने सबूत दिखाता है।',
+    missionStakes:
+      'वह कहाँ से आया, यह कौन कहता है, और सचमुच कितना स्थापित हुआ है — हर रिकॉर्ड पर छपा हुआ, और संदेह करने वाले किसी भी व्यक्ति के जाँचने लायक।',
+    statDishes:
+      'व्यंजन',
+    statCountries:
+      'देश',
+    statDocumented:
+      'प्रलेखित',
+    statRegistered:
+      'पंजीकृत',
+    statAuthentic:
+      'प्रामाणिक',
+    missionAsk:
+      'इनमें से {n} का कोई तरीक़ा दर्ज ही नहीं है। किसी जगह के {people} लोग एक को हमेशा के लिए ठीक कर सकते हैं।',
+    missionAskBody:
+      'किसी ने नहीं लिखा कि वे कैसे बनते हैं — न अंग्रेज़ी में, न किसी भाषा में, कहीं भी नहीं जहाँ मशीन पहुँच सके। न कोई अभिलेखागार, न कोई विश्वकोश और न कोई स्वचालित चीज़ उनकी जगह प्रमाणित कर सकती है; यह अंक-गणित है, कोई नीति नहीं। अगर आप इनमें से कोई पकाते हैं, तो यह कर सकने वाले आप अकेले हैं।',
+    recordADishYouKnow:
+      'जो व्यंजन आप जानते हैं उसे दर्ज करें',
+    howItGetsAuthenticated:
+      'प्रमाणन कैसे होता है',
+    submissionsNotOpen:
+      'भेजना अभी खुला नहीं है — भेजने की कोई जगह ही नहीं। ऊपर का रास्ता बताता है कि खुलने पर क्या होगा।',
+    freeAndStayingFree:
+      'मुफ़्त, और मुफ़्त ही रहेगा। कोई विज्ञापन नहीं, कोई ट्रैकिंग नहीं, कोई पैसा नहीं लिया जाता। खाता सिर्फ़ किसी व्यंजन की पुष्टि के लिए चाहिए — पढ़ने के लिए कभी नहीं।',
+    noRatingsNoComments:
+      'कोई रेटिंग नहीं, कोई टिप्पणी नहीं, और कोई एल्गोरिद्म यह तय नहीं करता कि आप क्या देखें — सूचियाँ लोकप्रियता से नहीं, सबूत से शुरू होती हैं। खोले जाने को एक व्यंजन और एक तारीख़ के रूप में गिना जाता है, कभी किसी व्यक्ति के रूप में नहीं।',
+    whyASourceCannot:
+      'कोई स्रोत किसी व्यंजन को प्रमाणित क्यों नहीं कर सकता',
+    whyASourceCannotBody:
+      'प्रकाशित प्रलेखन यहाँ {ceiling} से ऊपर नहीं जा सकता, और रिकॉर्ड {threshold} पर प्रामाणिक कहलाता है। यह फ़ासला सिर्फ़ उस जगह से जुड़े लोग ही पाट सकते हैं। हर अंक के पीछे के छह आँकड़े रिकॉर्ड पर छपे होते हैं, ताकि संख्या पर संदेह करने वाला उसे जोड़कर देख सके।',
+    whyTheAtlasStops:
+      'यही वजह है कि एटलस वहीं रुकता है जहाँ रुकता है। हर मुफ़्त स्रोत पढ़ा जा चुका है — विश्वकोश, पाककला की किताबें, धरोहर रजिस्टर, भू-नाम कोश — और {n} रिकॉर्ड में अब भी यह दर्ज नहीं है कि वे कैसे बनते हैं। जो बचा है वह कभी लिखा ही नहीं गया।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -3495,6 +3835,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '图册中来自{country}的内容。这里准不准，对你比别处更要紧 — 因为你分得出对错。',
     sending:
       '发送中…',
+    missionHeadline:
+      '这里的每一道菜都亮出它的依据。',
+    missionStakes:
+      '它从哪里来、谁这么说、真正查实了多少 — 都印在每一条记录上，任何有疑问的人都能自己核。',
+    statDishes:
+      '道菜',
+    statCountries:
+      '个国家',
+    statDocumented:
+      '有文献',
+    statRegistered:
+      '已登录',
+    statAuthentic:
+      '已认证',
+    missionAsk:
+      '其中 {n} 道没有记下任何做法。来自同一个地方的 {people} 个人就能把一道彻底补上。',
+    missionAskBody:
+      '没有人写下它们怎么做 — 英文里没有，任何语言里都没有，机器能到的地方都没有。没有档案、没有百科、也没有任何自动的东西能代替人来认证；这是评分里的算术，不是规定。如果你会做其中一道，你就是唯一能做这件事的人。',
+    recordADishYouKnow:
+      '记下你知道的一道菜',
+    howItGetsAuthenticated:
+      '认证是怎么进行的',
+    submissionsNotOpen:
+      '投稿还没有开放 — 目前没有地方可以送。上面那条路径说明了开放后会发生什么。',
+    freeAndStayingFree:
+      '免费，而且会一直免费。没有广告，没有追踪，不收任何钱。只有确认一道菜才需要账号 — 阅读从来不需要。',
+    noRatingsNoComments:
+      '没有评分，没有评论，也没有算法替你决定看什么 — 列表以依据排前，而不是以人气。打开次数只记成一道菜和一个日期，绝不记成一个人。',
+    whyASourceCannot:
+      '为什么资料本身无法认证一道菜',
+    whyASourceCannotBody:
+      '已发表的文献在这里最高只能到 {ceiling} 分，而记录要到 {threshold} 分才算认证。这段差距只有与当地有关系的人才能补上。每个分数背后的六项数字都印在记录上，怀疑这个数的人可以自己加一遍。',
+    whyTheAtlasStops:
+      '这也是图册止步于此的原因。所有免费来源都已读过 — 百科、食谱书、遗产名录、地名录 — 仍有 {n} 条记录完全没有关于做法的记载。剩下的，从来就没有被写下来过。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -3810,6 +4184,40 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'このアトラスが{country}について持っているもの。ここが正しいかどうかは、ほかのどこよりもあなたにとって値打ちがあります。正しいかどうかを見分けられるのは、あなただからです。',
     sending:
       '送信中…',
+    missionHeadline:
+      'ここにある料理は、どれも根拠を示します。',
+    missionStakes:
+      'どこから来たのか、誰がそう言っているのか、実際にどこまで確かめられたのか — どの記録にも印刷され、疑う人が自分で確かめられます。',
+    statDishes:
+      '品',
+    statCountries:
+      'か国',
+    statDocumented:
+      '文献あり',
+    statRegistered:
+      '登録済み',
+    statAuthentic:
+      '本物',
+    missionAsk:
+      'このうち {n} 件は作り方が何も記録されていません。その土地の {people} 人がいれば、一件を確かなものにできます。',
+    missionAskBody:
+      'どう作るのかを誰も書き残していません。英語にもなく、どの言語にもなく、機械が届くどこにもありません。文書館も百科事典も、自動的な何かも、人の代わりに裏づけることはできません。それは方針ではなく、採点上の算術です。あなたが作れるなら、できるのはあなただけです。',
+    recordADishYouKnow:
+      '知っている料理を記録する',
+    howItGetsAuthenticated:
+      'どう裏づけられるのか',
+    submissionsNotOpen:
+      '投稿はまだ開いていません。送る先がないからです。上の道筋が、開いたときに何が起きるかを説明しています。',
+    freeAndStayingFree:
+      '無料で、これからも無料です。広告はなく、追跡もなく、お金も集めません。アカウントが要るのは料理を確認するときだけで、読むのに要ることはありません。',
+    noRatingsNoComments:
+      '評価もコメントもなく、何を見せるかを決めるアルゴリズムもありません。一覧は人気ではなく根拠から並びます。閲覧は料理と日付として数え、人としては数えません。',
+    whyASourceCannot:
+      '資料だけでは料理を裏づけられない理由',
+    whyASourceCannotBody:
+      '公表された資料だけでは、ここでは {ceiling} を超えられません。記録が本物と呼ばれるのは {threshold} からです。この隔たりを埋められるのは、その土地とつながりのある人だけです。どの点数もその内訳の六つの数字が記録に印刷されているので、数字を疑う人は自分で足せます。',
+    whyTheAtlasStops:
+      'アトラスがここで止まっている理由も同じです。自由に使える資料はすべて読みました。百科事典、料理書、文化財の登録簿、地名辞典 — それでも {n} 件は、どう作るのかについて何も残っていません。残っているのは、書かれたことのないものです。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

@@ -45,6 +45,7 @@ import { Pressable } from './Pressable';
 import { SAID_LABELS, SAID_REQUIRED } from '../domain/confirmations';
 import { stillNeeded, tidyName, tidyText } from '../domain/entry';
 import { Muted, T } from './Text';
+import { useCopy } from '../i18n';
 
 export interface Said {
   name: string;
@@ -66,6 +67,7 @@ export function ConfirmForm({
   onSubmit: (said: Said) => Promise<{ ok: boolean; error?: string }>;
   busy?: boolean;
 }) {
+  const copy = useCopy();
   const [form, setForm] = useState<Said>(EMPTY);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
@@ -185,7 +187,7 @@ export function ConfirmForm({
       {error ? <T style={styles.error}>{error}</T> : null}
 
       <Button
-        label={busy ? 'Sending…' : 'Confirm'}
+        label={busy ? copy.sending : copy.confirm}
         block
         style={styles.submit}
         onPress={async () => {

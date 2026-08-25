@@ -279,6 +279,23 @@ export interface Copy {
   shelfFromCountry: string;
   shelfFromCountryNote: string;
   sending: string;
+  missionHeadline: string;
+  missionStakes: string;
+  statDishes: string;
+  statCountries: string;
+  statDocumented: string;
+  statRegistered: string;
+  statAuthentic: string;
+  missionAsk: string;
+  missionAskBody: string;
+  recordADishYouKnow: string;
+  howItGetsAuthenticated: string;
+  submissionsNotOpen: string;
+  freeAndStayingFree: string;
+  noRatingsNoComments: string;
+  whyASourceCannot: string;
+  whyASourceCannotBody: string;
+  whyTheAtlasStops: string;
   interfaceTranslationNote: string;
 }
 
@@ -603,6 +620,40 @@ export const EN: Copy = {
     'What the atlas holds from {country}. Its accuracy here is worth more to you than anywhere else — you can tell whether it is right.',
   sending:
     'Sending…',
+  missionHeadline:
+    'Every dish here shows its evidence.',
+  missionStakes:
+    'Where it came from, who says so, and how much has actually been established — printed on every record, and checkable by anybody who doubts it.',
+  statDishes:
+    'dishes',
+  statCountries:
+    'countries',
+  statDocumented:
+    'documented',
+  statRegistered:
+    'registered',
+  statAuthentic:
+    'authentic',
+  missionAsk:
+    '{n} of these have no method recorded. {people} people from a place can fix one for good.',
+  missionAskBody:
+    'Nobody has set down how they are made — not in English, not in any language, nowhere a machine can reach. No archive, no encyclopaedia and nothing automatic can authenticate them instead; that is arithmetic in the scoring, not a policy. If you cook one, you are the only person who can.',
+  recordADishYouKnow:
+    'Record a dish you know',
+  howItGetsAuthenticated:
+    'How it gets authenticated',
+  submissionsNotOpen:
+    'Submissions are not open yet — there is nowhere to send them. The route above explains what happens when they are.',
+  freeAndStayingFree:
+    'Free, and staying free. No advertising, no tracking, no money collected. An account is needed only to confirm a dish — never to read one.',
+  noRatingsNoComments:
+    'No ratings, no comments, and no algorithm deciding what you see — lists lead with evidence rather than with popularity. Openings are counted as a dish and a date, never as a person.',
+  whyASourceCannot:
+    'Why a source cannot authenticate a dish',
+  whyASourceCannotBody:
+    'Published documentation cannot score above {ceiling} here, and a record becomes Authentic at {threshold}. The gap is closable only by people connected to the place. The six figures behind every score are printed on the record, so a reader who doubts the number can add it up.',
+  whyTheAtlasStops:
+    'It is also why the atlas stops where it does. Every free source has been read — encyclopaedias, cookbooks, heritage registers, gazetteers — and {n} records still have nothing recorded about how they are made. What is left was never written down.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
