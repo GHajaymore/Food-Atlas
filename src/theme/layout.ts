@@ -66,9 +66,18 @@ export const COLUMNS = { phone: 1, tablet: 2, desktop: 3 } as const;
  * The atlas holds 3,055 photographs and was showing them at roughly the size of a
  * favicon.
  *
- * Tablet and desktop keep exactly what they had, so the desktop pass cannot move.
+ * Tablet and desktop follow the same rule, applied to the width they actually get. The
+ * desktop content column measures 1,160px, and 176 fitted six cards across it with a
+ * seventh peeking — a contact sheet, not an atlas. Five across at 220 leaves the same
+ * ~20px of the next card, and each photograph gains a quarter of its width.
+ *
+ *   desktop  (1160 - 4 gaps x 10 - 20 sliver) / 5 = 220
+ *   tablet   ( 820 - 3 gaps x 10 - 20 sliver) / 4 = 192
+ *
+ * The count is the thing being chosen, not the pixel value: pick how many photographs a
+ * row should hold at that width, and the arithmetic gives the card.
  */
-export const CARD_WIDTH = { phone: 152, tablet: 156, desktop: 176 } as const;
+export const CARD_WIDTH = { phone: 152, tablet: 192, desktop: 220 } as const;
 
 export function sizeFor(width: number): Size {
   if (width >= BREAKPOINT.desktop) return 'desktop';

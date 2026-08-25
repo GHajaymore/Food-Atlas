@@ -78,20 +78,30 @@ export function FeedOrder({
   const rails = shelves.map((shelf, i) => <Fragment key={i}>{shelf}</Fragment>);
 
   /*
-   * Today's order, unchanged, and deliberately written as one readable block rather than
-   * assembled conditionally. A desktop has room for the argument and the grid at once —
-   * `Mission` puts them side by side — so none of the problem this file exists to solve
-   * applies there, and the fix should not visit.
+   * Desktop: the argument, then something to look at, then the controls.
    *
-   * `lead` is dropped: a wide screen already opens on six photographs in a grid, and a
-   * seventh at hero size above them would be repetition rather than impact.
+   * This branch used to run mission → controls → rails, on the stated grounds that "a wide
+   * screen already opens on six photographs in a grid" so the phone's problem did not
+   * visit. Measured at 1440x900, that was not true. The first photograph sat at y=951,
+   * fifty pixels below the fold, behind a mission block, four figures, the free-and-
+   * staying-free strip, a callout, a country picker, six authenticity chips and a diet
+   * row. The desktop opening screen held no photograph at all.
+   *
+   * So the first rail moves above the controls, which is what the phone branch below has
+   * always done and for the same reason: show a reader the atlas, then offer them the
+   * means to narrow it. Narrowing controls are useless to somebody who has not yet seen
+   * what there is to narrow.
+   *
+   * `lead` is still dropped here, and now for a reason that holds: a rail above the fold
+   * shows five photographs, and a sixth at hero size on top of them would be repetition.
    */
   if (wide) {
     return (
       <>
         {mission}
+        {rails[0]}
         {controls}
-        {rails}
+        {rails.slice(1)}
         {tail}
       </>
     );
