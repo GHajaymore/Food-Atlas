@@ -1447,8 +1447,8 @@ describe('dietary classification', () => {
   });
 
   it('labels a dish with its group and kinds', () => {
-    expect(dietLabel(mole().diet)).toBe('Non-vegetarian · Pork, Poultry');
-    expect(dietLabel(halwa().diet)).toBe('Vegan');
+    expect(dietLabel(EN, mole().diet)).toBe('Non-vegetarian · Pork, Poultry');
+    expect(dietLabel(EN, halwa().diet)).toBe('Vegan');
   });
 });
 
@@ -2616,6 +2616,36 @@ describe('the chrome in other languages', () => {
     ...UI_LOCALES.filter((l) => l !== 'en').map((l) => `${l}.band50to74`),
 
     'fr.metricConcentrationTitle', // "Concentration" is the French word, spelled the same.
+
+    /*
+     * The pantry vocabulary is full of foods whose name travelled with the food. Teff,
+     * taro, tofu, paneer, ghee, jaggery, okra — most of these languages simply use the
+     * word, and coining a native term nobody says would be worse than the loanword,
+     * because a reader cannot map an invented word to anything on their shelf.
+     *
+     * Listed per food rather than per pair: the whole point is that one word is shared
+     * by many languages, and a flat list of 65 strings hides that.
+     */
+    ...Object.entries({
+      stapleMillet: ['fr'],
+      stapleSorghum: ['de', 'nl'],
+      stapleTeff: ['es', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'tr'],
+      stapleYam: ['nl'],
+      stapleTaro: ['es', 'fr', 'de', 'it', 'pt', 'nl', 'pl'],
+      staplePlantain: ['fr'],
+      stapleTofu: ['es', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'tr'],
+      stapleYoghurt: ['nl'],
+      staplePaneer: ['es', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'tr'],
+      stapleGhee: ['es', 'fr', 'de', 'it', 'pt', 'nl', 'pl'],
+      stapleButter: ['de'],
+      stapleAubergine: ['fr', 'de', 'nl'],
+      stapleOkra: ['es', 'de', 'it', 'nl', 'pl'],
+      stapleJaggery: ['fr', 'de', 'it', 'nl', 'pl', 'tr'],
+      stapleOlive: ['fr', 'de'],
+      dietVegan: ['de', 'tr'],
+      mealLunch: ['nl'],
+      mealSnack: ['de'],
+    }).flatMap(([key, locales]) => locales.map((l) => `${l}.${key}`)),
   ]);
 
   it('never echoes English back as though it were a translation', () => {

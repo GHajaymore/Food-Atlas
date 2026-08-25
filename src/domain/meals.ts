@@ -17,6 +17,8 @@
  * disappear from every meal filter.
  */
 
+import type { Copy } from '../i18n/copy';
+
 export type MealOccasion =
   | 'breakfast'
   | 'lunch'
@@ -28,16 +30,16 @@ export type MealOccasion =
   | 'anytime'
   | 'unclassified';
 
-export const MEAL_LABELS: Record<MealOccasion, string> = {
-  breakfast: 'Breakfast',
-  lunch: 'Lunch',
-  dinner: 'Dinner',
-  supper: 'Supper',
-  snack: 'Snack',
-  'street-food': 'Street food',
-  celebration: 'Celebration & feast',
-  anytime: 'Any time',
-  unclassified: 'Not recorded',
+export const MEAL_LABELS: Record<MealOccasion, keyof Copy> = {
+  breakfast: 'mealBreakfast',
+  lunch: 'mealLunch',
+  dinner: 'mealDinner',
+  supper: 'mealSupper',
+  snack: 'mealSnack',
+  'street-food': 'mealStreetFood',
+  celebration: 'mealCelebration',
+  anytime: 'mealAnytime',
+  unclassified: 'mealUnclassified',
 };
 
 /** The order the chips appear in: the day, then the occasions outside it. */

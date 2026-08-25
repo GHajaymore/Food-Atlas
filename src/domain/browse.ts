@@ -130,9 +130,13 @@ export function dietOf(query: BrowseQuery): { groups: DietGroup[]; kinds: DietKi
 export const mealsOf = (query: BrowseQuery): MealOccasion[] =>
   query.meal && query.meal in MEAL_LABELS ? [query.meal as MealOccasion] : [];
 
-/** What a diet value should be called, whichever of the two vocabularies it came from. */
-const dietLabelOf = (value: string): string =>
-  GROUP_LABELS[value as DietGroup] ?? KIND_LABELS[value as DietKind] ?? '';
+/**
+ * Which copy key a diet value should be shown under, whichever of the two vocabularies
+ * it came from. Returns undefined for a value that is in neither, which is also how the
+ * caller tells a real diet from a made-up one in a URL.
+ */
+const dietKeyOf = (value: string): keyof Copy | undefined =>
+  GROUP_LABELS[value as DietGroup] ?? KIND_LABELS[value as DietKind];
 
 /**
  * Run the query. Composition of the two existing engines, in that order.
@@ -184,8 +188,9 @@ export function describe(copy: Copy, query: BrowseQuery): string {
   if (query.ingredient) parts.push(copy.browseMadeWith.replace('{ingredient}', query.ingredient));
   /* Built from the resolved value rather than the raw one, so a heading cannot announce
      a diet that was not applied — the exact failure this file is defensive about. */
-  if (query.diet && dietLabelOf(query.diet)) parts.push(dietLabelOf(query.diet));
-  if (mealsOf(query).length) parts.push(MEAL_LABELS[mealsOf(query)[0]]);
+  const dietKey = query.diet ? dietKeyOf(query.diet) : undefined;
+  if (dietKey) parts.push(copy[dietKey]);
+  if (mealsOf(query).length) parts.push(copy[MEAL_LABELS[mealsOf(query)[0]]]);
 
   const where = [query.region, query.country].filter(Boolean).join(', ');
   const what = parts.filter(Boolean).join(' · ');

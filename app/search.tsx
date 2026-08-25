@@ -122,7 +122,7 @@ export default function Search() {
 
   const activeSummary = [
     ...active.map((f) => f.label),
-    ...meals.map((m) => MEAL_LABELS[m]),
+    ...meals.map((m) => copy[MEAL_LABELS[m]]),
     ...(sortBy === 'authenticity' ? [] : [SORTS.find((s) => s.key === sortBy)!.label]),
   ].join(' · ');
 
@@ -188,7 +188,7 @@ export default function Search() {
             {PANTRY_SUGGESTIONS.map((staple) => (
               <Tag
                 key={staple.key}
-                label={`+ ${staple.label}`}
+                label={`+ ${copy[staple.label]}`}
                 variant="outline"
                 onPress={() =>
                   setPantryInput((was) => (was.trim() ? `${was.trim()}, ${staple.key}` : staple.key))

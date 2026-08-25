@@ -106,7 +106,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
           {/* The dietary read and the occasion, so a reader does not open a dish
               only to find out it is not for them or not for now. */}
           <Muted style={styles.diet}>
-            {dietLabel(dish.diet)}
+            {dietLabel(copy, dish.diet)}
             {dish.meals.occasions.length ? ` · ${mealLabel(dish.meals)}` : ''}
           </Muted>
 

@@ -25,6 +25,8 @@
  */
 
 /** The top level of the preference menu. */
+import type { Copy } from '../i18n/copy';
+
 export type DietGroup = 'vegan' | 'vegetarian' | 'seafood' | 'meat' | 'unclassified';
 
 /** The sub-menu under Meat and Seafood. */
@@ -57,29 +59,29 @@ export interface Diet {
   basis: string;
 }
 
-export const GROUP_LABELS: Record<DietGroup, string> = {
-  vegan: 'Vegan',
-  vegetarian: 'Vegetarian',
-  seafood: 'Seafood',
-  meat: 'Non-vegetarian',
-  unclassified: 'Not classified',
+export const GROUP_LABELS: Record<DietGroup, keyof Copy> = {
+  vegan: 'dietVegan',
+  vegetarian: 'dietVegetarian',
+  seafood: 'dietSeafood',
+  meat: 'dietMeat',
+  unclassified: 'dietUnclassified',
 };
 
-export const KIND_LABELS: Record<DietKind, string> = {
-  poultry: 'Poultry',
-  pork: 'Pork',
-  beef: 'Beef & red meat',
-  'lamb-goat': 'Lamb & goat',
-  game: 'Game',
-  fish: 'Fish',
-  shellfish: 'Shellfish',
-  'other-seafood': 'Other seafood',
+export const KIND_LABELS: Record<DietKind, keyof Copy> = {
+  poultry: 'dietPoultry',
+  pork: 'dietPork',
+  beef: 'dietBeef',
+  'lamb-goat': 'dietLambGoat',
+  game: 'dietGame',
+  fish: 'dietFish',
+  shellfish: 'dietShellfish',
+  'other-seafood': 'dietOtherSeafood',
 };
 
 export const TRACE_LABELS: Record<DietaryTrace, string> = {
-  dairy: 'Contains dairy',
-  egg: 'Contains egg',
-  honey: 'Contains honey',
+  dairy: 'dietDairy',
+  egg: 'dietEgg',
+  honey: 'dietHoney',
   alcohol: 'Contains alcohol',
 };
 
@@ -124,10 +126,10 @@ export function matchesDiet(diet: Diet, groups: DietGroup[], kinds: DietKind[]):
 }
 
 /** The chip shown on a card and on the detail screen, e.g. 'Non-vegetarian · Poultry'. */
-export function dietLabel(diet: Diet): string {
-  const group = GROUP_LABELS[diet.group];
+export function dietLabel(copy: Copy, diet: Diet): string {
+  const group = copy[GROUP_LABELS[diet.group]];
   if (!diet.kinds.length) return group;
-  return `${group} · ${diet.kinds.map((k) => KIND_LABELS[k]).join(', ')}`;
+  return `${group} · ${diet.kinds.map((k) => copy[KIND_LABELS[k]]).join(', ')}`;
 }
 
 /** Trace labels for the detail screen, e.g. ['Contains dairy']. */

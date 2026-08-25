@@ -544,6 +544,92 @@ export interface Copy {
   metricByContinentCaveat: string;
   howIsThisCounted: string;
   hideHowThisIsCounted: string;
+  stapleGrains: string;
+  stapleRoots: string;
+  staplePulses: string;
+  stapleDairy: string;
+  stapleMeatFish: string;
+  stapleVegetables: string;
+  stapleAromatics: string;
+  stapleSweetSour: string;
+  stapleRice: string;
+  stapleWheat: string;
+  stapleMaize: string;
+  stapleMillet: string;
+  stapleSorghum: string;
+  stapleBarley: string;
+  stapleOats: string;
+  stapleBuckwheat: string;
+  stapleTeff: string;
+  staplePotato: string;
+  stapleCassava: string;
+  stapleSweetPotato: string;
+  stapleYam: string;
+  stapleTaro: string;
+  staplePlantain: string;
+  stapleLentil: string;
+  stapleChickpea: string;
+  stapleSoy: string;
+  stapleTofu: string;
+  stapleBlackBean: string;
+  stapleMungBean: string;
+  staplePigeonPea: string;
+  stapleMilk: string;
+  stapleYoghurt: string;
+  stapleCheese: string;
+  staplePaneer: string;
+  stapleGhee: string;
+  stapleButter: string;
+  stapleCoconut: string;
+  stapleChicken: string;
+  stapleBeef: string;
+  staplePork: string;
+  stapleLamb: string;
+  stapleGoat: string;
+  stapleFish: string;
+  staplePrawn: string;
+  stapleEgg: string;
+  stapleOnion: string;
+  stapleGarlic: string;
+  stapleGinger: string;
+  stapleChilli: string;
+  stapleLemongrass: string;
+  stapleTomato: string;
+  stapleAubergine: string;
+  stapleCabbage: string;
+  stapleSpinach: string;
+  stapleOkra: string;
+  stapleTamarind: string;
+  stapleHoney: string;
+  stapleJaggery: string;
+  stapleDate: string;
+  stapleLemon: string;
+  stapleOlive: string;
+  dietVegan: string;
+  dietVegetarian: string;
+  dietSeafood: string;
+  dietMeat: string;
+  dietUnclassified: string;
+  dietPoultry: string;
+  dietPork: string;
+  dietBeef: string;
+  dietLambGoat: string;
+  dietGame: string;
+  dietFish: string;
+  dietShellfish: string;
+  dietOtherSeafood: string;
+  dietDairy: string;
+  dietEgg: string;
+  dietHoney: string;
+  mealBreakfast: string;
+  mealLunch: string;
+  mealDinner: string;
+  mealSupper: string;
+  mealSnack: string;
+  mealStreetFood: string;
+  mealCelebration: string;
+  mealAnytime: string;
+  mealUnclassified: string;
   interfaceTranslationNote: string;
 }
 
@@ -1398,6 +1484,92 @@ export const EN: Copy = {
     'How is this counted?',
   hideHowThisIsCounted:
     'Hide how this is counted',
+  stapleGrains: 'Grains',
+  stapleRoots: 'Roots',
+  staplePulses: 'Pulses',
+  stapleDairy: 'Dairy',
+  stapleMeatFish: 'Meat & fish',
+  stapleVegetables: 'Vegetables',
+  stapleAromatics: 'Aromatics',
+  stapleSweetSour: 'Sweet & sour',
+  stapleRice: 'Rice',
+  stapleWheat: 'Wheat',
+  stapleMaize: 'Maize',
+  stapleMillet: 'Millet',
+  stapleSorghum: 'Sorghum',
+  stapleBarley: 'Barley',
+  stapleOats: 'Oats',
+  stapleBuckwheat: 'Buckwheat',
+  stapleTeff: 'Teff',
+  staplePotato: 'Potato',
+  stapleCassava: 'Cassava',
+  stapleSweetPotato: 'Sweet potato',
+  stapleYam: 'Yam',
+  stapleTaro: 'Taro',
+  staplePlantain: 'Plantain',
+  stapleLentil: 'Lentils',
+  stapleChickpea: 'Chickpeas',
+  stapleSoy: 'Soy',
+  stapleTofu: 'Tofu',
+  stapleBlackBean: 'Black beans',
+  stapleMungBean: 'Mung beans',
+  staplePigeonPea: 'Pigeon peas',
+  stapleMilk: 'Milk',
+  stapleYoghurt: 'Yoghurt',
+  stapleCheese: 'Cheese',
+  staplePaneer: 'Paneer',
+  stapleGhee: 'Ghee',
+  stapleButter: 'Butter',
+  stapleCoconut: 'Coconut',
+  stapleChicken: 'Chicken',
+  stapleBeef: 'Beef',
+  staplePork: 'Pork',
+  stapleLamb: 'Lamb',
+  stapleGoat: 'Goat',
+  stapleFish: 'Fish',
+  staplePrawn: 'Prawns',
+  stapleEgg: 'Eggs',
+  stapleOnion: 'Onion',
+  stapleGarlic: 'Garlic',
+  stapleGinger: 'Ginger',
+  stapleChilli: 'Chilli',
+  stapleLemongrass: 'Lemongrass',
+  stapleTomato: 'Tomato',
+  stapleAubergine: 'Aubergine',
+  stapleCabbage: 'Cabbage',
+  stapleSpinach: 'Spinach',
+  stapleOkra: 'Okra',
+  stapleTamarind: 'Tamarind',
+  stapleHoney: 'Honey',
+  stapleJaggery: 'Jaggery',
+  stapleDate: 'Dates',
+  stapleLemon: 'Lemon',
+  stapleOlive: 'Olive',
+  dietVegan: 'Vegan',
+  dietVegetarian: 'Vegetarian',
+  dietSeafood: 'Seafood',
+  dietMeat: 'Non-vegetarian',
+  dietUnclassified: 'Not classified',
+  dietPoultry: 'Poultry',
+  dietPork: 'Pork',
+  dietBeef: 'Beef & red meat',
+  dietLambGoat: 'Lamb & goat',
+  dietGame: 'Game',
+  dietFish: 'Fish',
+  dietShellfish: 'Shellfish',
+  dietOtherSeafood: 'Other seafood',
+  dietDairy: 'Contains dairy',
+  dietEgg: 'Contains egg',
+  dietHoney: 'Contains honey',
+  mealBreakfast: 'Breakfast',
+  mealLunch: 'Lunch',
+  mealDinner: 'Dinner',
+  mealSupper: 'Supper',
+  mealSnack: 'Snack',
+  mealStreetFood: 'Street food',
+  mealCelebration: 'Celebration & feast',
+  mealAnytime: 'Any time',
+  mealUnclassified: 'Not recorded',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

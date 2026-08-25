@@ -135,15 +135,15 @@ export default function Feed() {
   // which of them emptied it rather than guessing — and, more importantly, so the
   // sentence is not a false statement about the atlas. See `narrowingSummary`.
   const dietNames = [
-    ...dietGroups.map((g) => GROUP_LABELS[g].toLowerCase()),
-    ...dietKinds.map((k) => KIND_LABELS[k].toLowerCase()),
+    ...dietGroups.map((g) => copy[GROUP_LABELS[g]].toLowerCase()),
+    ...dietKinds.map((k) => copy[KIND_LABELS[k]].toLowerCase()),
   ];
 
   const { wide, card: layoutCard } = useLayout();
 
   // What the collapsed Refine row says, so an active constraint stays visible even
   // when its controls are folded away.
-  const refineSummary = [...dietNames, ...meals.map((m) => MEAL_LABELS[m].toLowerCase())].join(' · ');
+  const refineSummary = [...dietNames, ...meals.map((m) => copy[MEAL_LABELS[m]].toLowerCase())].join(' · ');
 
   /*
    * The page's parts, named rather than written in place.
@@ -315,7 +315,7 @@ export default function Feed() {
           <CardBody>
             {narrowingSummary(filterLabel(copy, activeFilter), activeFilter === settings.defaultFilter, [
               ...dietNames,
-              ...meals.map((m) => MEAL_LABELS[m].toLowerCase()),
+              ...meals.map((m) => copy[MEAL_LABELS[m]].toLowerCase()),
             ])}
             {path.length ? ` in ${place}` : ' anywhere in the atlas'}. That is an absence of records, not an absence
             of food — we&apos;d rather say we don&apos;t know.

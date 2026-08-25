@@ -38,7 +38,7 @@ export function DietFilter({ groups, kinds, onToggleGroup, onToggleKind, onClear
       {DIET_MENU.map(({ group }) => (
         <Tag
           key={group}
-          label={GROUP_LABELS[group]}
+          label={copy[GROUP_LABELS[group]]}
           noWrap
           variant={groups.includes(group) ? 'accent' : 'outline'}
           onPress={() => onToggleGroup(group)}
@@ -67,7 +67,7 @@ export function DietFilter({ groups, kinds, onToggleGroup, onToggleKind, onClear
             {openKinds.map((kind) => (
               <Tag
                 key={kind}
-                label={KIND_LABELS[kind]}
+                label={copy[KIND_LABELS[kind]]}
                 noWrap
                 variant={kinds.includes(kind) ? 'accent' : 'outline'}
                 onPress={() => onToggleKind(kind)}

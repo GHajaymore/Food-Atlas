@@ -37,8 +37,25 @@
  * query engines instead of writing a third.
  */
 
+import type { Copy } from '../i18n/copy';
+
 import { dishHas, synonymsOf } from './pantry';
 import type { Dish } from './types';
+
+/** What a group heading says, in the reader's language. */
+export const stapleGroupLabel = (copy: Copy, group: StapleGroup): string =>
+  copy[
+    ({
+      Grains: 'stapleGrains',
+      Roots: 'stapleRoots',
+      Pulses: 'staplePulses',
+      Dairy: 'stapleDairy',
+      'Meat & fish': 'stapleMeatFish',
+      Vegetables: 'stapleVegetables',
+      Aromatics: 'stapleAromatics',
+      'Sweet & sour': 'stapleSweetSour',
+    } satisfies Record<StapleGroup, keyof Copy>)[group]
+  ];
 
 export type StapleGroup =
   | 'Grains'
@@ -53,8 +70,16 @@ export type StapleGroup =
 export interface Staple {
   /** Stable key, used in URLs. Never translated. */
   key: string;
-  /** What a reader sees. */
-  label: string;
+  /**
+   * The English word, used to match a typed term against record ingredient text.
+   *
+   * Never shown. The atlas's ingredient lists are in English, so the matcher has to
+   * speak English even when the reader does not — a Spanish pantry saying "garbanzos"
+   * still has to find records whose ingredients say "chickpeas".
+   */
+  english: string;
+  /** The copy key for what a reader sees. */
+  label: keyof Copy;
   group: StapleGroup;
   /**
    * Whether this is something a dish is *made of* rather than seasoned with.
@@ -80,65 +105,65 @@ export interface Staple {
  */
 export const STAPLES: readonly Staple[] = [
   // Half the world's calories, give or take.
-  { key: 'rice', label: 'Rice', group: 'Grains', main: true },
-  { key: 'wheat', label: 'Wheat', group: 'Grains', main: true },
-  { key: 'maize', label: 'Maize', group: 'Grains', main: true },
-  { key: 'millet', label: 'Millet', group: 'Grains', main: true },
-  { key: 'sorghum', label: 'Sorghum', group: 'Grains', main: true },
-  { key: 'barley', label: 'Barley', group: 'Grains', main: true },
-  { key: 'oats', label: 'Oats', group: 'Grains', main: true },
-  { key: 'buckwheat', label: 'Buckwheat', group: 'Grains', main: true },
-  { key: 'teff', label: 'Teff', group: 'Grains', main: true },
+  { key: 'rice', english: 'Rice', label: 'stapleRice', group: 'Grains', main: true },
+  { key: 'wheat', english: 'Wheat', label: 'stapleWheat', group: 'Grains', main: true },
+  { key: 'maize', english: 'Maize', label: 'stapleMaize', group: 'Grains', main: true },
+  { key: 'millet', english: 'Millet', label: 'stapleMillet', group: 'Grains', main: true },
+  { key: 'sorghum', english: 'Sorghum', label: 'stapleSorghum', group: 'Grains', main: true },
+  { key: 'barley', english: 'Barley', label: 'stapleBarley', group: 'Grains', main: true },
+  { key: 'oats', english: 'Oats', label: 'stapleOats', group: 'Grains', main: true },
+  { key: 'buckwheat', english: 'Buckwheat', label: 'stapleBuckwheat', group: 'Grains', main: true },
+  { key: 'teff', english: 'Teff', label: 'stapleTeff', group: 'Grains', main: true },
 
-  { key: 'potato', label: 'Potato', group: 'Roots', main: true },
-  { key: 'cassava', label: 'Cassava', group: 'Roots', main: true },
-  { key: 'sweet potato', label: 'Sweet potato', group: 'Roots', main: true },
-  { key: 'yam', label: 'Yam', group: 'Roots', main: true },
-  { key: 'taro', label: 'Taro', group: 'Roots', main: true },
-  { key: 'plantain', label: 'Plantain', group: 'Roots', main: true },
+  { key: 'potato', english: 'Potato', label: 'staplePotato', group: 'Roots', main: true },
+  { key: 'cassava', english: 'Cassava', label: 'stapleCassava', group: 'Roots', main: true },
+  { key: 'sweet potato', english: 'Sweet potato', label: 'stapleSweetPotato', group: 'Roots', main: true },
+  { key: 'yam', english: 'Yam', label: 'stapleYam', group: 'Roots', main: true },
+  { key: 'taro', english: 'Taro', label: 'stapleTaro', group: 'Roots', main: true },
+  { key: 'plantain', english: 'Plantain', label: 'staplePlantain', group: 'Roots', main: true },
 
-  { key: 'lentil', label: 'Lentils', group: 'Pulses', main: true },
-  { key: 'chickpea', label: 'Chickpeas', group: 'Pulses', main: true },
-  { key: 'soy', label: 'Soy', group: 'Pulses', main: true },
-  { key: 'tofu', label: 'Tofu', group: 'Pulses', main: true },
-  { key: 'black bean', label: 'Black beans', group: 'Pulses', main: true },
-  { key: 'mung bean', label: 'Mung beans', group: 'Pulses', main: true },
-  { key: 'pigeon pea', label: 'Pigeon peas', group: 'Pulses', main: true },
+  { key: 'lentil', english: 'Lentils', label: 'stapleLentil', group: 'Pulses', main: true },
+  { key: 'chickpea', english: 'Chickpeas', label: 'stapleChickpea', group: 'Pulses', main: true },
+  { key: 'soy', english: 'Soy', label: 'stapleSoy', group: 'Pulses', main: true },
+  { key: 'tofu', english: 'Tofu', label: 'stapleTofu', group: 'Pulses', main: true },
+  { key: 'black bean', english: 'Black beans', label: 'stapleBlackBean', group: 'Pulses', main: true },
+  { key: 'mung bean', english: 'Mung beans', label: 'stapleMungBean', group: 'Pulses', main: true },
+  { key: 'pigeon pea', english: 'Pigeon peas', label: 'staplePigeonPea', group: 'Pulses', main: true },
 
-  { key: 'milk', label: 'Milk', group: 'Dairy', main: true },
-  { key: 'yoghurt', label: 'Yoghurt', group: 'Dairy', main: true },
-  { key: 'cheese', label: 'Cheese', group: 'Dairy', main: true },
-  { key: 'paneer', label: 'Paneer', group: 'Dairy', main: true },
-  { key: 'ghee', label: 'Ghee', group: 'Dairy', main: true },
-  { key: 'butter', label: 'Butter', group: 'Dairy', main: true },
-  { key: 'coconut', label: 'Coconut', group: 'Dairy', main: true },
+  { key: 'milk', english: 'Milk', label: 'stapleMilk', group: 'Dairy', main: true },
+  { key: 'yoghurt', english: 'Yoghurt', label: 'stapleYoghurt', group: 'Dairy', main: true },
+  { key: 'cheese', english: 'Cheese', label: 'stapleCheese', group: 'Dairy', main: true },
+  { key: 'paneer', english: 'Paneer', label: 'staplePaneer', group: 'Dairy', main: true },
+  { key: 'ghee', english: 'Ghee', label: 'stapleGhee', group: 'Dairy', main: true },
+  { key: 'butter', english: 'Butter', label: 'stapleButter', group: 'Dairy', main: true },
+  { key: 'coconut', english: 'Coconut', label: 'stapleCoconut', group: 'Dairy', main: true },
 
-  { key: 'chicken', label: 'Chicken', group: 'Meat & fish', main: true },
-  { key: 'beef', label: 'Beef', group: 'Meat & fish', main: true },
-  { key: 'pork', label: 'Pork', group: 'Meat & fish', main: true },
-  { key: 'lamb', label: 'Lamb', group: 'Meat & fish', main: true },
-  { key: 'goat', label: 'Goat', group: 'Meat & fish', main: true },
-  { key: 'fish', label: 'Fish', group: 'Meat & fish', main: true },
-  { key: 'prawn', label: 'Prawns', group: 'Meat & fish', main: true },
-  { key: 'egg', label: 'Eggs', group: 'Meat & fish', main: true },
+  { key: 'chicken', english: 'Chicken', label: 'stapleChicken', group: 'Meat & fish', main: true },
+  { key: 'beef', english: 'Beef', label: 'stapleBeef', group: 'Meat & fish', main: true },
+  { key: 'pork', english: 'Pork', label: 'staplePork', group: 'Meat & fish', main: true },
+  { key: 'lamb', english: 'Lamb', label: 'stapleLamb', group: 'Meat & fish', main: true },
+  { key: 'goat', english: 'Goat', label: 'stapleGoat', group: 'Meat & fish', main: true },
+  { key: 'fish', english: 'Fish', label: 'stapleFish', group: 'Meat & fish', main: true },
+  { key: 'prawn', english: 'Prawns', label: 'staplePrawn', group: 'Meat & fish', main: true },
+  { key: 'egg', english: 'Eggs', label: 'stapleEgg', group: 'Meat & fish', main: true },
 
-  { key: 'onion', label: 'Onion', group: 'Aromatics', main: false },
-  { key: 'garlic', label: 'Garlic', group: 'Aromatics', main: false },
-  { key: 'ginger', label: 'Ginger', group: 'Aromatics', main: false },
-  { key: 'chilli', label: 'Chilli', group: 'Aromatics', main: false },
-  { key: 'tomato', label: 'Tomato', group: 'Vegetables', main: true },
-  { key: 'lemongrass', label: 'Lemongrass', group: 'Aromatics', main: false },
-  { key: 'aubergine', label: 'Aubergine', group: 'Vegetables', main: true },
-  { key: 'cabbage', label: 'Cabbage', group: 'Vegetables', main: true },
-  { key: 'spinach', label: 'Spinach', group: 'Vegetables', main: true },
-  { key: 'okra', label: 'Okra', group: 'Vegetables', main: true },
+  { key: 'onion', english: 'Onion', label: 'stapleOnion', group: 'Aromatics', main: false },
+  { key: 'garlic', english: 'Garlic', label: 'stapleGarlic', group: 'Aromatics', main: false },
+  { key: 'ginger', english: 'Ginger', label: 'stapleGinger', group: 'Aromatics', main: false },
+  { key: 'chilli', english: 'Chilli', label: 'stapleChilli', group: 'Aromatics', main: false },
+  { key: 'tomato', english: 'Tomato', label: 'stapleTomato', group: 'Vegetables', main: true },
+  { key: 'lemongrass', english: 'Lemongrass', label: 'stapleLemongrass', group: 'Aromatics', main: false },
+  { key: 'aubergine', english: 'Aubergine', label: 'stapleAubergine', group: 'Vegetables', main: true },
+  { key: 'cabbage', english: 'Cabbage', label: 'stapleCabbage', group: 'Vegetables', main: true },
+  { key: 'spinach', english: 'Spinach', label: 'stapleSpinach', group: 'Vegetables', main: true },
+  { key: 'okra', english: 'Okra', label: 'stapleOkra', group: 'Vegetables', main: true },
 
-  { key: 'tamarind', label: 'Tamarind', group: 'Sweet & sour', main: false },
-  { key: 'honey', label: 'Honey', group: 'Sweet & sour', main: false },
-  { key: 'jaggery', label: 'Jaggery', group: 'Sweet & sour', main: false },
-  { key: 'date', label: 'Dates', group: 'Sweet & sour', main: false },
-  { key: 'lemon', label: 'Lemon', group: 'Sweet & sour', main: false },
-  { key: 'olive', label: 'Olive', group: 'Sweet & sour', main: false },
+  { key: 'tamarind', english: 'Tamarind', label: 'stapleTamarind', group: 'Sweet & sour', main: false },
+  { key: 'honey', english: 'Honey', label: 'stapleHoney', group: 'Sweet & sour', main: false },
+  { key: 'jaggery', english: 'Jaggery', label: 'stapleJaggery', group: 'Sweet & sour', main: false },
+  { key: 'date', english: 'Dates', label: 'stapleDate', group: 'Sweet & sour', main: false },
+  { key: 'lemon', english: 'Lemon', label: 'stapleLemon', group: 'Sweet & sour', main: false },
+  { key: 'olive', english: 'Olive', label: 'stapleOlive', group: 'Sweet & sour', main: false },
 ] as const;
 
 export const stapleByKey = (key: string): Staple | undefined =>
@@ -170,7 +195,7 @@ export function resolveStaple(term: string, mainOnly = true): Staple | undefined
   const list = mainOnly ? MAIN_STAPLES : STAPLES;
   const wanted = synonymsOf(term);
   return list.find((staple) => {
-    const names = [staple.key, staple.label].flatMap((n) => synonymsOf(n));
+    const names = [staple.key, staple.english].flatMap((n) => synonymsOf(n));
     return names.some((name) => wanted.includes(name));
   });
 }

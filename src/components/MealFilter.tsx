@@ -27,7 +27,7 @@ export function MealFilter({ selected, onToggle, onClear, variant = 'inline' }: 
   const chips = MEAL_MENU.map((meal) => (
     <Tag
       key={meal}
-      label={MEAL_LABELS[meal]}
+      label={copy[MEAL_LABELS[meal]]}
       noWrap
       variant={selected.includes(meal) ? 'accent' : 'outline'}
       onPress={() => onToggle(meal)}

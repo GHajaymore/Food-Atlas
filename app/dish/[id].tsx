@@ -392,8 +392,8 @@ export default function DishDetail() {
                */}
               <FacetLink
                 variant="tag"
-                label={dietLabel(dish.diet)}
-                describedAs={`Everything recorded as ${GROUP_LABELS[dish.diet.group]}`}
+                label={dietLabel(copy, dish.diet)}
+                describedAs={`Everything recorded as ${copy[GROUP_LABELS[dish.diet.group]]}`}
                 query={{ diet: dish.diet.group }}
               />
               {traceLabels(dish.diet).map((trace) => (
@@ -409,7 +409,7 @@ export default function DishDetail() {
                     <FacetLink
                       key={occasion}
                       variant="tag"
-                      label={MEAL_LABELS[occasion]}
+                      label={copy[MEAL_LABELS[occasion]]}
                       /* No `describedAs`: the labels are a mixed bag grammatically —
                          "Snack", "Celebration & feast", "Any time" — and every sentence
                          that fits one reads badly around another. "Everything eaten at

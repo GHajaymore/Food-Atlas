@@ -57,7 +57,8 @@ describe('what a dish is built on', () => {
   });
 
   test('a lookup by key round-trips', () => {
-    expect(stapleByKey('rice')?.label).toBe('Rice');
+    expect(stapleByKey('rice')?.english).toBe('Rice');
+    expect(stapleByKey('rice')?.label).toBe('stapleRice');
     expect(stapleByKey('nonsense')).toBeUndefined();
   });
 });
