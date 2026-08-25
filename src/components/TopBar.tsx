@@ -122,18 +122,65 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: 100,
   },
+  /*
+   * The bar wraps rather than overflowing, and the height is a floor rather than a fact.
+   *
+   * Measured at 768 — an iPad held upright, and the narrowest width this bar renders at:
+   * the links needed 683px and had 569, so the page scrolled 74px sideways. It had been
+   * doing that since the header was written. `SessionControl` renders nothing until
+   * Google OAuth is configured, so the live figure is the *best* case; switching sign-in
+   * on makes it worse.
+   *
+   * Three fixes were considered and rejected. Dropping links at this width makes routes
+   * unreachable — `SiteNav` is phone-only, so there would be nowhere else to reach them
+   * from, which is the exact failure that put this header here. Shrinking the type and
+   * padding recovers about 90 of the 114px needed and spends tap target to do it. A
+   * width threshold to stack at is guesswork in any language but English: the German
+   * labels are longer, and the number would be right for one of twelve.
+   *
+   * Wrapping asks the browser the question instead of answering it. The links move to
+   * their own line exactly when they do not fit beside the mark, in whatever language,
+   * at whatever width — and `links` wraps internally too, so even a width narrower than
+   * one row of labels degrades to two rows rather than off the side of the page.
+   *
+   * `height: 60` became `minHeight`. A fixed height with wrapping content is a second
+   * row drawn outside its own bar, under the page rather than above it.
+   */
   inner: {
     width: '100%',
     alignSelf: 'center',
     paddingHorizontal: PAGE_PADDING * 2,
-    height: 60,
+    minHeight: 60,
+    paddingVertical: space[2],
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: space[6],
+    rowGap: space[2],
   },
   brand: { justifyContent: 'center', minHeight: TAP_TARGET },
-  links: { flexDirection: 'row', alignItems: 'center', gap: space[2] },
+  /*
+   * `flexShrink` and `minWidth` are why the internal wrap actually happens.
+   *
+   * With `flexWrap` alone this row moved to its own line and then stayed at its
+   * max-content width — 852px of German labels on a 688px line, still off the side of the
+   * page. A flex item is sized to its content unless it is allowed to shrink, and its
+   * automatic minimum keeps it at min-content, so both are needed: `flexShrink` lets the
+   * line squeeze it, `minWidth: 0` lets that squeeze go past one label's width, and the
+   * `flexWrap` above then takes the labels onto a second row.
+   *
+   * German is the case that found this. English fits one row at every width this bar
+   * renders at, so testing in English only would have shipped it looking fixed.
+   */
+  links: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: space[2],
+    flexShrink: 1,
+    minWidth: 0,
+  },
   link: {
     minHeight: TAP_TARGET,
     justifyContent: 'center',
