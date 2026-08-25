@@ -1111,3 +1111,33 @@ Checked for the case a bigger title breaks: the longest page title in any of the
 languages is Portuguese "Acrescentar uma tradição" on `/contribute`, then Hindi on
 `/propose`. At 375 the Portuguese one wraps to two lines and is not clipped; the Hindi one
 holds one line. Neither scrolls the page sideways.
+
+### The spacing steps, finally used
+
+The third of the proposal's five moves was "add spacing steps above 22px, because a
+desktop page has a phone's rhythm". The steps were added to `tokens.ts` — 33.6, 44.8, 67.2
+— with a header explaining what they were for, and then **nothing used them**. Zero
+references to `space[12]`, `space[16]` or `space[24]` anywhere in the app.
+
+Measured on the front page at 1440 to see what that cost: five rails, each about 1,040px
+tall, separated by 26px — two and a half per cent of a section's own height. The dominant
+margin on the whole page was 6px, sixty-four times over. All the type work landed on a
+page still keeping a phone's rhythm.
+
+`SECTION_GAP` now sits beside `CARD_WIDTH` and `CARD_TYPE` in `layout.ts`, so the three
+numbers that change with the window are declared together:
+
+| | phone | tablet | desktop |
+|---|---|---|---|
+| gap between rails | 26 (unchanged) | 33.6 | 44.8 |
+
+The phone keeps 26 deliberately. It has no room to spend and its rhythm was never the
+complaint — the large steps exist for a window with room, which is the whole reason they
+are separate steps rather than a bigger scale everywhere.
+
+**The lesson worth keeping is the failure mode, not the numbers.** A token added and never
+referenced looks exactly like a token that is working: the file reads as though the job
+was done, the diff is green, and the page is unchanged. This is the same shape as the
+`photoVia` key that existed while a screen typed out the English, and the same shape as
+the four features `SiteNav.tsx` was written to fix. Adding the thing is not wiring the
+thing, and only a measurement of the rendered page tells the two apart.

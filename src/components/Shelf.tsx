@@ -72,7 +72,7 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
     Platform.OS === 'web' && enter ? { dataSet: { enter: String(Math.min(enter, 6)) } } : {};
 
   return (
-    <View {...enterProps} style={styles.wrap}>
+    <View {...enterProps} style={{ ...styles.wrap, marginTop: layout.sectionGap }}>
       <View style={styles.header}>
         <H4 style={styles.title}>{label.title}</H4>
         {/*
@@ -151,7 +151,10 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginTop: 26 },
+  /* `marginTop` comes from `layout.sectionGap` at the call site. It was a flat 26 at every
+     width, which on a desktop separated rails a thousand pixels tall by two and a half per
+     cent of their own height — the phone's rhythm on a page with room for its own. */
+  wrap: {},
   header: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },
   /*
    * A heading, not an eyebrow.

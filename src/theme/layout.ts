@@ -33,6 +33,7 @@
  */
 
 import { useWindowDimensions } from 'react-native';
+import { space } from './tokens';
 
 export type Size = 'phone' | 'tablet' | 'desktop';
 
@@ -103,6 +104,20 @@ export const CARD_TYPE = {
   desktop: { name: 14, place: 12 },
 } as const;
 
+/**
+ * The gap between one top-level section of a page and the next.
+ *
+ * `tokens.ts` grew three spacing steps above 22.4 for exactly this — and then nothing used
+ * them. Measured on the front page at 1440 afterwards: five rails, each about 1,040px
+ * tall, separated by **26px**. Two and a half per cent of a section's own height, which is
+ * why a desktop page still read with a phone's rhythm however large the type got. The
+ * dominant margin on the page was 6px, sixty-four times over.
+ *
+ * A phone keeps 26. It has no room to spend and the rhythm there was never the problem;
+ * the whole point of the large steps is that they are for a window with room.
+ */
+export const SECTION_GAP = { phone: 26, tablet: space[12], desktop: space[16] } as const;
+
 export function sizeFor(width: number): Size {
   if (width >= BREAKPOINT.desktop) return 'desktop';
   if (width >= BREAKPOINT.tablet) return 'tablet';
@@ -123,6 +138,8 @@ export interface Layout {
   card: number;
   /** Type sizes on a dish card at this size. */
   cardType: (typeof CARD_TYPE)[Size];
+  /** Gap between one top-level section of a page and the next. */
+  sectionGap: number;
   width: number;
 }
 
@@ -144,6 +161,7 @@ export function useLayout(): Layout {
     columns: COLUMNS[size],
     card: CARD_WIDTH[size],
     cardType: CARD_TYPE[size],
+    sectionGap: SECTION_GAP[size],
     width,
   };
 }
