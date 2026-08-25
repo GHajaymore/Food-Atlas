@@ -893,3 +893,38 @@ large; and make the six-dimension evidence breakdown the app's signature element
 than a list of numbers.
 
 **Cost: zero.** Google Fonts are free and self-hosted through the existing dependency.
+
+## Translation: the chrome is finished
+
+Batches 1–16 are done. 680 keys across twelve languages, every one rendered by a screen
+except two orphans (`traditionalIngredient`, `loadingAtlas`) that have no English twin in
+the app and should probably be deleted.
+
+**What the audit reports and what it means.** `audit-v2.mjs` in the scratchpad finds 322
+English strings. Almost none of it is chrome:
+
+| where | count | what it is |
+|---|---|---|
+| `continents.ts`, `countryNames.ts`, `language.ts` | ~130 | country and language names — data |
+| `invariants.ts` | 41 | build-time developer assertions, never rendered |
+| `admin.tsx` + admin-token errors in `data/` | ~45 | one person's console, English on purpose |
+| `assess.ts`, `isDish.ts`, `videoDiscovery.ts`, `photoProvenance` matchers | ~60 | pipeline internals |
+| `translationProvider.ts`, `testimony.ts` | 33 | LLM prompts — must stay English |
+| `editorial.ts`, `place.ts` | 8 | review and pipeline output, no screen consumer |
+
+**Two things a future batch should know.**
+
+The first scanner only matched JSX text between tags and a fixed list of props. It could
+not see strings in ternaries, JSX text spanning two lines, or template literals — it
+reported `Metrics.tsx` as containing no English at all. Four gaps were found by reading
+the rendered page instead. Use `audit-v2.mjs`, and still check the browser.
+
+Three classes of string are baked into `catalogue.json` at build time and carry English
+for all 17,774 records: `badgeLabel`, `photoOrigin`, and the six score-dimension names in
+`breakdown`. All three are resolved by matching the English text on the way to the
+screen, never by index — a breakdown is data, and an index would silently put the wrong
+name on a number.
+
+**Still English and genuinely reader-facing:** nothing known. Record prose — the dish
+descriptions, method steps and source notes — is data and still needs the translation
+provider (Cloudflare Workers AI recommended, free tier).
