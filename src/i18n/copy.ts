@@ -723,6 +723,10 @@ export interface Copy {
   originDisclaimer: string;
   supportRunsOn: string;
   contributeToTheAtlas: string;
+  answeredByDocuments: string;
+  answeredByPeople: string;
+  scaleDocumentsStop: string;
+  scaleAuthenticBegins: string;
   interfaceTranslationNote: string;
 }
 
@@ -1849,6 +1853,14 @@ export const EN: Copy = {
     'Everything in the atlas comes from Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and open regional registers. They are free to read, openly licensed, and credited on every record that uses them. That is the whole basis of the project staying free, and it is a decision rather than a stage.',
   contributeToTheAtlas:
     'Contribute to the atlas',
+  answeredByDocuments:
+    'Documents can answer these',
+  answeredByPeople:
+    'Only people can answer these',
+  scaleDocumentsStop:
+    'documents stop here',
+  scaleAuthenticBegins:
+    'Authentic begins',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

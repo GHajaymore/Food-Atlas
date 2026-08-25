@@ -145,6 +145,26 @@ export const SCORE_DIMENSIONS = [
  * future pipeline change could reorder or omit a row. An index would then quietly put
  * the wrong name on a number; an unmatched label falls through unchanged instead.
  */
+/**
+ * Which of the six a document could answer, and which only a person can.
+ *
+ * This is the argument of the whole project expressed as a lookup. Three of the six —
+ * whether the technique is the technique of the place, whether somebody from there has
+ * spoken for it, whether the community has confirmed it — cannot be answered by any text
+ * ever written. That is why published sources alone stop well short of the threshold for
+ * Authentic, and why the gap is arithmetic rather than policy.
+ *
+ * It lived in app/how.tsx as a local array, where only the page explaining the model
+ * could see it. The score panel on every record needs the same split in order to show
+ * it, and two copies of a claim this load-bearing is one copy too many.
+ */
+export const answeredBy = (dimension: string): 'documents' | 'people' =>
+  dimension === 'Traditional technique' ||
+  dimension === 'Local source' ||
+  dimension === 'Community validation'
+    ? 'people'
+    : 'documents';
+
 export const scoreDimensionLabel = (copy: Copy, english: string): string => {
   const key = (
     {

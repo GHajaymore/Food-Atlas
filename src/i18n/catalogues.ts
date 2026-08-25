@@ -1151,6 +1151,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Todo lo que hay en el atlas viene de Wikipedia, Wikidata, Wikimedia Commons, Wikibooks y registros regionales abiertos. Son libres de leer, tienen licencia abierta y se acreditan en cada registro que las usa. Esa es toda la base de que el proyecto siga siendo gratuito, y es una decisión, no una etapa.',
     contributeToTheAtlas:
       'Contribuir al atlas',
+    answeredByDocuments:
+      'Los documentos pueden responder a estas',
+    answeredByPeople:
+      'Solo las personas pueden responder a estas',
+    scaleDocumentsStop:
+      'aquí paran los documentos',
+    scaleAuthenticBegins:
+      'empieza Auténtico',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2268,6 +2276,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tout ce que contient l’atlas vient de Wikipédia, Wikidata, Wikimedia Commons, Wikibooks et de registres régionaux ouverts. Ces sources sont libres de lecture, sous licence ouverte, et créditées sur chaque fiche qui les utilise. C’est là toute la raison pour laquelle le projet reste gratuit, et c’est une décision, pas une étape.',
     contributeToTheAtlas:
       'Contribuer à l’atlas',
+    answeredByDocuments:
+      'Les documents peuvent y répondre',
+    answeredByPeople:
+      'Seules des personnes peuvent y répondre',
+    scaleDocumentsStop:
+      'les documents s’arrêtent ici',
+    scaleAuthenticBegins:
+      'Authentique commence',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3384,6 +3400,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Alles im Atlas stammt aus Wikipedia, Wikidata, Wikimedia Commons, Wikibooks und offenen regionalen Registern. Sie sind frei zu lesen, offen lizenziert und auf jedem Eintrag genannt, der sie verwendet. Das ist die ganze Grundlage dafür, dass das Projekt kostenlos bleibt, und es ist eine Entscheidung, kein Zwischenstand.',
     contributeToTheAtlas:
       'Zum Atlas beitragen',
+    answeredByDocuments:
+      'Das können Belege beantworten',
+    answeredByPeople:
+      'Das können nur Menschen beantworten',
+    scaleDocumentsStop:
+      'hier enden die Belege',
+    scaleAuthenticBegins:
+      'ab hier authentisch',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4500,6 +4524,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tutto quello che c’è nell’atlante viene da Wikipedia, Wikidata, Wikimedia Commons, Wikibooks e registri regionali aperti. Sono libere da leggere, con licenza aperta, e accreditate su ogni scheda che le usa. È tutta qui la base per cui il progetto resta gratuito, ed è una decisione, non una fase.',
     contributeToTheAtlas:
       'Contribuisci all’atlante',
+    answeredByDocuments:
+      'A queste può rispondere un documento',
+    answeredByPeople:
+      'A queste possono rispondere solo le persone',
+    scaleDocumentsStop:
+      'qui finiscono i documenti',
+    scaleAuthenticBegins:
+      'inizia Autentico',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5617,6 +5649,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tudo o que está no atlas vem da Wikipédia, Wikidata, Wikimedia Commons, Wikibooks e de registos regionais abertos. São livres de ler, têm licença aberta e são creditadas em cada registo que as usa. É essa toda a base para o projeto continuar gratuito, e é uma decisão, não uma fase.',
     contributeToTheAtlas:
       'Contribuir para o atlas',
+    answeredByDocuments:
+      'Os documentos conseguem responder a estas',
+    answeredByPeople:
+      'Só as pessoas conseguem responder a estas',
+    scaleDocumentsStop:
+      'aqui param os documentos',
+    scaleAuthenticBegins:
+      'começa Autêntico',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6733,6 +6773,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Alles in de atlas komt uit Wikipedia, Wikidata, Wikimedia Commons, Wikibooks en open regionale registers. Ze zijn vrij te lezen, open gelicentieerd en vermeld op elk record dat ze gebruikt. Dat is de hele grondslag waarop het project gratis blijft, en het is een besluit, geen tussenfase.',
     contributeToTheAtlas:
       'Bijdragen aan de atlas',
+    answeredByDocuments:
+      'Dit kunnen bronnen beantwoorden',
+    answeredByPeople:
+      'Dit kunnen alleen mensen beantwoorden',
+    scaleDocumentsStop:
+      'hier houden bronnen op',
+    scaleAuthenticBegins:
+      'vanaf hier authentiek',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7850,6 +7898,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wszystko w atlasie pochodzi z Wikipedii, Wikidanych, Wikimedia Commons, Wikibooks i otwartych rejestrów regionalnych. Są wolne do czytania, na otwartej licencji i wymienione przy każdym wpisie, który z nich korzysta. To cała podstawa tego, że projekt zostaje darmowy — i jest to decyzja, a nie etap.',
     contributeToTheAtlas:
       'Wesprzyj atlas',
+    answeredByDocuments:
+      'Na te odpowiedzą dokumenty',
+    answeredByPeople:
+      'Na te odpowiedzą tylko ludzie',
+    scaleDocumentsStop:
+      'tu kończą się dokumenty',
+    scaleAuthenticBegins:
+      'tu zaczyna się Autentyczne',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -8966,6 +9022,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Atlastaki her şey Vikipedi, Wikidata, Wikimedia Commons, Wikibooks ve açık bölgesel kayıtlardan gelir. Okunması serbesttir, açık lisanslıdır ve onları kullanan her kayıtta adı geçer. Projenin ücretsiz kalmasının bütün dayanağı budur ve bu bir karardır, bir aşama değil.',
     contributeToTheAtlas:
       'Atlasa katkıda bulunun',
+    answeredByDocuments:
+      'Bunları belgeler yanıtlayabilir',
+    answeredByPeople:
+      'Bunları yalnızca insanlar yanıtlayabilir',
+    scaleDocumentsStop:
+      'belgeler burada biter',
+    scaleAuthenticBegins:
+      'Özgün burada başlar',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10083,6 +10147,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Всё в атласе взято из Википедии, Викиданных, Викисклада, Викиучебника и открытых региональных реестров. Они свободны для чтения, имеют открытую лицензию и указаны в каждой записи, которая их использует. В этом вся основа того, что проект остаётся бесплатным, и это решение, а не промежуточный этап.',
     contributeToTheAtlas:
       'Поддержать атлас',
+    answeredByDocuments:
+      'На это могут ответить документы',
+    answeredByPeople:
+      'На это могут ответить только люди',
+    scaleDocumentsStop:
+      'здесь документы кончаются',
+    scaleAuthenticBegins:
+      'начинается Подлинное',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11200,6 +11272,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'एटलस में जो कुछ है वह विकिपीडिया, विकिडेटा, विकिमीडिया कॉमन्स, विकिबुक्स और खुले क्षेत्रीय रजिस्टरों से आता है। ये पढ़ने के लिए मुफ़्त हैं, खुले लाइसेंस पर हैं, और जिस भी रिकॉर्ड में इस्तेमाल होते हैं वहाँ इनका श्रेय दिया जाता है। परियोजना के मुफ़्त बने रहने का पूरा आधार यही है, और यह एक निर्णय है, कोई पड़ाव नहीं।',
     contributeToTheAtlas:
       'एटलस में योगदान दें',
+    answeredByDocuments:
+      'इनका उत्तर दस्तावेज़ दे सकते हैं',
+    answeredByPeople:
+      'इनका उत्तर सिर्फ़ लोग दे सकते हैं',
+    scaleDocumentsStop:
+      'यहाँ दस्तावेज़ रुक जाते हैं',
+    scaleAuthenticBegins:
+      'यहाँ से प्रामाणिक',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12317,6 +12397,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '图册里的一切都来自维基百科、维基数据、维基共享资源、维基教科书，以及开放的地区登记资料。它们可自由阅读、采用开放许可，并在每一条用到它们的记录上署名。这就是这个项目保持免费的全部依据，而且这是一个决定，不是一个阶段。',
     contributeToTheAtlas:
       '支持这部图册',
+    answeredByDocuments:
+      '这些文献可以回答',
+    answeredByPeople:
+      '这些只有人能回答',
+    scaleDocumentsStop:
+      '文献到此为止',
+    scaleAuthenticBegins:
+      '本真从这里开始',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -13434,6 +13522,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'アトラスにあるものはすべて、ウィキペディア、ウィキデータ、ウィキメディア・コモンズ、ウィキブックス、そして公開されている地域の登録簿から来ています。どれも自由に読めて、開かれたライセンスで、使った記録ごとに出典を示しています。この企てが無料であり続ける根拠はこれがすべてで、これは段階ではなく決定です。',
     contributeToTheAtlas:
       'アトラスを支える',
+    answeredByDocuments:
+      'これは資料が答えられます',
+    answeredByPeople:
+      'これは人しか答えられません',
+    scaleDocumentsStop:
+      '資料はここまで',
+    scaleAuthenticBegins:
+      'ここから本物',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
