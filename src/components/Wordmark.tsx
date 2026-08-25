@@ -142,7 +142,7 @@ export function Wordmark({ size = 20, tint = color.accent, style }: Props) {
    * the boxes carry leading the discs would have to be nudged around.
    */
   const letters: StyleProp<TextStyle> = {
-    fontFamily: font.heading,
+    fontFamily: font.display,
     fontSize: size,
     lineHeight: size,
     color: color.text,

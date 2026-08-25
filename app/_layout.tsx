@@ -9,11 +9,16 @@
 // Imported by exact weight, not from the package root. The root index re-exports
 // every Inter weight and italic, and the bundler follows all of them into the build
 // — about 6 MB of fonts for the four faces this design actually uses.
+/* One weight, deliberately. The design system's rule is that headings never go bolder
+   than 500, so a second face costs 182 KB and not a kilobyte more. */
+import { Fraunces_500Medium } from '@expo-google-fonts/fraunces/500Medium';
 import { Inter_400Regular } from '@expo-google-fonts/inter/400Regular';
 import { Inter_500Medium } from '@expo-google-fonts/inter/500Medium';
 import { Inter_600SemiBold } from '@expo-google-fonts/inter/600SemiBold';
 import { Inter_700Bold } from '@expo-google-fonts/inter/700Bold';
 import { useFonts } from 'expo-font';
+import { useLayout } from '../src/theme/layout';
+import { WideTypeContext } from '../src/theme/typeScale';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
@@ -38,7 +43,9 @@ watchForExit();
 
 export default function RootLayout() {
   const copy = useCopy();
+  const layout = useLayout();
   const [fontsLoaded] = useFonts({
+    Fraunces_500Medium,
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
@@ -95,6 +102,7 @@ export default function RootLayout() {
   if (dataState === 'loading') return <FeedSkeleton fonts />;
 
   return (
+    <WideTypeContext.Provider value={layout.wide}>
     <SafeAreaProvider>
       <StatusBar style="light" />
       {/*
@@ -112,6 +120,7 @@ export default function RootLayout() {
         }}
       />
     </SafeAreaProvider>
+    </WideTypeContext.Provider>
   );
 }
 

@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     gap: space[2],
   },
   headlineWide: {
-    fontFamily: font.heading,
+    fontFamily: font.display,
     fontSize: 44,
     lineHeight: 50,
     color: color.text,
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     columnGap: 36,
   },
   stakesWide: { fontSize: 15, lineHeight: 24, maxWidth: 560, marginTop: 14 },
-  headline: { fontFamily: font.heading, fontSize: 25, lineHeight: 31, color: color.text },
+  headline: { fontFamily: font.display, fontSize: 25, lineHeight: 31, color: color.text },
   stakes: { fontSize: 14, lineHeight: 21 },
 
   stats: {
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     gap: space[2],
     marginTop: space[1],
   },
-  ask: { fontFamily: font.heading, fontSize: 16, lineHeight: 22, color: color.text },
+  ask: { fontFamily: font.display, fontSize: 16, lineHeight: 22, color: color.text },
   askBody: { fontSize: 13, lineHeight: 20 },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: space[1] },
 

@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   frame: { width: '100%', aspectRatio: 16 / 10 },
   photo: { width: '100%', height: '100%' },
   body: { padding: space[4], gap: 6 },
-  name: { fontFamily: font.heading, fontSize: 21, lineHeight: 26, color: color.text },
+  name: { fontFamily: font.display, fontSize: 21, lineHeight: 26, color: color.text },
   meta: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   place: { fontSize: 12, color: color.meta, flexShrink: 1 },
   spacer: { flex: 1 },

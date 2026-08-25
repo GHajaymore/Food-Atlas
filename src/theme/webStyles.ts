@@ -128,7 +128,22 @@ body { margin: 0; overscroll-behavior: none; }
    * to force a compositing context, far too little to see — renders identically to 1.
    * So fade the image, and never the frame around it.
    */
-  [data-motion="photo-veil"] { transition: opacity 260ms ease; }
+  /*
+   * On mount, not on a state change.
+   *
+   * A transition needs something to transition *from*, which meant JS holding the image
+   * at zero until a load event arrived — and a cached image can finish before that event
+   * is ever attached. An animation needs no event at all: it runs when the element
+   * mounts, and Photo keys the image on its URL so a new photograph is a new mount.
+   *
+   * No fill mode, and that is the whole safeguard: with backwards fill the element sits at
+   * the first keyframe — opacity 0 — until the animation starts, so anything that stops
+   * it from starting leaves the photograph invisible. That is the exact failure this
+   * change exists to remove. Without fill the natural state is visible and the animation
+   * only plays over it.
+   */
+  @keyframes photo-veil { from { opacity: 0; } to { opacity: 1; } }
+  [data-motion="photo-veil"] { animation: photo-veil 260ms ease; }
 
   /*
    * A short staggered rise as the page assembles. CSS animations fire on mount rather

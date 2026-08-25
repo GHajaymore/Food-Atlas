@@ -31,7 +31,6 @@
  */
 
 import { useCopy } from '../i18n';
-import { useCallback, useState } from 'react';
 import { Image, Platform, StyleSheet, View, type ImageStyle, type ViewStyle } from 'react-native';
 import { color, font, radius } from '../theme/tokens';
 import { T } from './Text';
@@ -66,33 +65,19 @@ const webHooks = Platform.OS === 'web' ? { dataSet: { lighten: 'true', motion: '
 export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resizeMode = 'cover' }: Props) {
   const copy = useCopy();
   /**
-   * Which picture has finished arriving, rather than whether one has.
+   * There is deliberately no "has it loaded yet" state here.
    *
-   * The obvious version is a boolean plus an effect resetting it when `uri` changes, and
-   * it is wrong on a rail: cards are reused as a reader scrolls, so a recycled card would
-   * show the *previous* dish's photograph at full opacity while the new one loads.
-   * Comparing the loaded URL to the current one needs no effect and cannot desynchronise.
+   * There used to be, and it failed in the one situation that matters most: a reader
+   * coming back to a page whose photographs are already cached. Such an image can finish
+   * before `onLoad` is attached, the event never fires, and the gate that was waiting for
+   * it stays shut — 63 pictures, every one downloaded and decoded, every one at opacity
+   * zero. Measured, not theorised.
+   *
+   * The fade is CSS now and runs on mount, so there is no event to miss. A photograph
+   * that fails to animate is visible; a photograph waiting for an event that never comes
+   * is not, and for an atlas of food that is the difference between a rough edge and a
+   * broken page.
    */
-  const [loadedUri, setLoadedUri] = useState<string | null>(null);
-  const arrived = loadedUri === uri;
-
-  /**
-   * Stable identity, and not as a micro-optimisation — the fade does not work without it.
-   *
-   * `react-native-web`'s `Image` lists its callbacks in the dependency array of the effect
-   * that starts the download, and that effect's cleanup *aborts the request*:
-   *
-   *     }, [uri, requestRef, updateState, onError, onLoad, onLoadEnd, onLoadStart]);
-   *
-   * So an inline arrow — a new function on every render — makes any re-render of a parent
-   * cancel the in-flight load and start a fresh one, repeatedly killing the callback just
-   * before it fires. The first attempt at this did exactly that: measured in the browser,
-   * all 63 photographs on the front page sat at `opacity: 0` while their `<img>` elements
-   * reported `complete: true` — every picture downloaded, decoded, and invisible.
-   *
-   * Keyed on `uri` because that is the one change that *should* restart the download.
-   */
-  const onArrived = useCallback(() => setLoadedUri(uri), [uri]);
 
   // Most imported records have no photograph. An empty frame reads as a broken
   // image; a quiet monogram reads as "we don't have one", which is the truth.
@@ -107,22 +92,13 @@ export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resiz
   return (
     <View style={[styles.frame, style]}>
       <Image
+        key={uri}
         source={{ uri }}
         accessibilityLabel={label}
         accessible
         resizeMode={resizeMode}
         {...webHooks}
-        /*
-         * `onError` raises the veil too, and deliberately.
-         *
-         * A photograph that fails to load must not leave an invisible frame behind — the
-         * fallback is the broken-image state, which is at least legible as something
-         * going wrong. Holding at zero opacity would turn a failed image into a silent
-         * blank space, which is the one outcome worse than showing the failure.
-         */
-        onLoad={onArrived}
-        onError={onArrived}
-        style={[styles.image, blendStyle, imageStyle, { opacity: arrived ? 1 : 0 }]}
+        style={[styles.image, blendStyle, imageStyle]}
       />
       {credit && !hideCredit ? (
         <View style={styles.creditWrap} pointerEvents="none">
@@ -148,7 +124,7 @@ const styles = StyleSheet.create({
   // Transparent on purpose: the blend needs the real backdrop behind it.
   frame: { overflow: 'hidden', backgroundColor: 'transparent' },
   placeholder: { backgroundColor: color.neutral[900], alignItems: 'center', justifyContent: 'center' },
-  monogram: { fontFamily: font.heading, fontSize: 20, color: color.neutral[700] },
+  monogram: { fontFamily: font.display, fontSize: 20, color: color.neutral[700] },
   image: { width: '100%', height: '100%' },
   creditWrap: {
     position: 'absolute',

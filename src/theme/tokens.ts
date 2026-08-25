@@ -92,6 +92,17 @@ export const space = {
   4: 11.2,
   6: 16.8,
   8: 22.4,
+  /*
+   * Above the 0.70x density, and only used on a wide window.
+   *
+   * The scale stopped at 22.4, which is a phone's largest gap. On a 1440px page that
+   * gave every section the same rhythm as every other, and it is most of what read as
+   * cramped. These three are for the space *between* things a desktop has room to
+   * separate — never inside a card, where the density is correct.
+   */
+  12: 33.6,
+  16: 44.8,
+  24: 67.2,
 } as const;
 
 export const radius = {
@@ -123,6 +134,20 @@ export const elevation = {
 } as const;
 
 export const font = {
+  /**
+   * The display face.
+   *
+   * Fraunces, at one weight. Used for anything that names or argues — headings, dish
+   * names, card titles — and never for anything a reader operates. That split is the
+   * point: Inter is an excellent interface face and also the most-used typeface in
+   * software shipped since 2020, so an app set entirely in it reads as having had no
+   * typographic opinion. An atlas is a reference work, and reference works have always
+   * used serifs.
+   *
+   * One weight and no italic, because the design system's own rule is that headings
+   * never go bolder than 500. That keeps the whole addition at 182 KB.
+   */
+  display: 'Fraunces_500Medium',
   regular: 'Inter_400Regular',
   /** --font-heading-weight: 500. Headings never go bolder than this. */
   heading: 'Inter_500Medium',
@@ -138,11 +163,11 @@ export const font = {
 const headingTracking = (size: number) => size * -0.015;
 
 export const type = {
-  h1: { fontFamily: font.heading, fontSize: 42, lineHeight: 42 * 1.12, letterSpacing: headingTracking(42) },
-  h2: { fontFamily: font.heading, fontSize: 32, lineHeight: 32 * 1.12, letterSpacing: headingTracking(32) },
-  h3: { fontFamily: font.heading, fontSize: 25, lineHeight: 25 * 1.12, letterSpacing: headingTracking(25) },
-  h4: { fontFamily: font.heading, fontSize: 20, lineHeight: 20 * 1.12, letterSpacing: headingTracking(20) },
-  h5: { fontFamily: font.heading, fontSize: 16, lineHeight: 16 * 1.12, letterSpacing: headingTracking(16) },
+  h1: { fontFamily: font.display, fontSize: 42, lineHeight: 42 * 1.12, letterSpacing: headingTracking(42) },
+  h2: { fontFamily: font.display, fontSize: 32, lineHeight: 32 * 1.12, letterSpacing: headingTracking(32) },
+  h3: { fontFamily: font.display, fontSize: 25, lineHeight: 25 * 1.12, letterSpacing: headingTracking(25) },
+  h4: { fontFamily: font.display, fontSize: 20, lineHeight: 20 * 1.12, letterSpacing: headingTracking(20) },
+  h5: { fontFamily: font.display, fontSize: 16, lineHeight: 16 * 1.12, letterSpacing: headingTracking(16) },
   /** h6 is the uppercase eyebrow: letter-spacing 0.08em, not the heading tracking. */
   h6: {
     fontFamily: font.heading,
@@ -154,8 +179,45 @@ export const type = {
   /** body — 15px/1.55 */
   body: { fontFamily: font.regular, fontSize: 15, lineHeight: 15 * 1.55 },
   /** .card-title */
-  cardTitle: { fontFamily: font.heading, fontSize: 17, lineHeight: 17 * 1.2 },
+  cardTitle: { fontFamily: font.display, fontSize: 17, lineHeight: 17 * 1.2 },
 } as const;
+
+/**
+ * The same type scale, opened up for a window that has room.
+ *
+ * Multiplied rather than redefined, so there is still one scale and the phone remains
+ * the source of truth. The ratios rise with the size — a headline gains far more from a
+ * wide screen than a caption does — which is what turns a flat page into one with a
+ * hierarchy a reader can see from across the room.
+ *
+ * The floor matters as much as the ceiling. Nothing renders below 12px on any screen:
+ * 127 of the 442 text nodes on the front page were under that, and 9px is not a size,
+ * it is an apology.
+ */
+export function wideType<T extends { fontSize: number; lineHeight?: number; letterSpacing?: number }>(
+  style: T,
+  wide: boolean,
+): T {
+  const size = style.fontSize;
+  const factor = !wide ? 1 : size >= 40 ? 1.62 : size >= 24 ? 1.44 : size >= 19 ? 1.28 : size >= 15 ? 1.14 : 1.08;
+  /*
+   * The floor is lower on a phone, and that is deliberate.
+   *
+   * 9px is indefensible on any screen and goes everywhere. But this design was tuned at
+   * 375 wide, where 10 and 11 are doing real work separating a credit line from a count
+   * — lifting everything below 12 there flattens four sizes into one and crowds a screen
+   * that has no room to give. A wide window has the room, so it gets the higher floor.
+   */
+  const next = Math.max(wide ? 12 : 11, Math.round(size * factor * 10) / 10);
+  const scale = next / size;
+
+  return {
+    ...style,
+    fontSize: next,
+    ...(style.lineHeight === undefined ? {} : { lineHeight: style.lineHeight * scale }),
+    ...(style.letterSpacing === undefined ? {} : { letterSpacing: style.letterSpacing * scale }),
+  };
+}
 
 /** Horizontal page padding, constant across every screen in the design. */
 export const PAGE_PADDING = 20;
