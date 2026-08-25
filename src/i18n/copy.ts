@@ -235,18 +235,6 @@ export interface Copy {
   mostUsefulThing: string;
   administration: string;
   administrationNote: string;
-  needTranslationTitle: string;
-  needTranslationWhat: string;
-  needTranslationWhy: string;
-  needTranslationCost: string;
-  needHostingTitle: string;
-  needHostingWhat: string;
-  needHostingWhy: string;
-  needHostingCost: string;
-  needSourcesTitle: string;
-  needSourcesWhat: string;
-  needSourcesWhy: string;
-  needSourcesCost: string;
   howLead: string;
   sixDimensionsBody: string;
   ceilingBody: string;
@@ -733,6 +721,8 @@ export interface Copy {
   recordSoFar: string;
   atRiskNote: string;
   originDisclaimer: string;
+  supportRunsOn: string;
+  contributeToTheAtlas: string;
   interfaceTranslationNote: string;
 }
 
@@ -952,7 +942,7 @@ export const EN: Copy = {
   meterAssessedNote:
     'Earned through the evidence checks. A low share here is honest, not a failure.',
   supportLead:
-    '{n} traditions, built entirely from sources that are free to read and openly licensed. No advertising, no tracking, and nothing behind a payment. Here is what that actually costs, including the parts that cost nothing. Figures are in {currency}.',
+    '{n} traditions, built entirely from sources that are free to read and openly licensed. No advertising, no tracking, and nothing behind a payment. What it takes to run is met by that choice of sources rather than by anybody paying to be here.',
   notForSaleAuthentic:
     'A record cannot be made Authentic by paying for it. That comes from evidence and from people who cook the dish.',
   notForSalePromotion:
@@ -962,37 +952,13 @@ export const EN: Copy = {
   donationFootnote:
     'Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and never will.',
   donationsPendingBody:
-    'There is nowhere to send money to. It will be an Open Collective when there is, so that every contribution and every expense is public and anyone can check this page against the ledger.',
+    'There is nowhere to send money to yet. Nothing about the atlas depends on there being one — it is built on sources that are free to read, and that does not change.',
   mostUsefulThing:
     'The most useful thing anyone can give this atlas is not money. Most of it is a name and a place because nobody has written down how the food is made.',
   administration:
     'Administration',
   administrationNote:
     'Thresholds, moderation, source checks and usage. Needs a token.',
-  needTranslationTitle:
-    'Translation',
-  needTranslationWhat:
-    'Five thousand records describe a dish in the language of the place it comes from — Hindi, Korean, Indonesian, Chinese. A reader who does not speak it is shown the original and told which language it is, which is honest and not much use to them.',
-  needTranslationWhy:
-    'It is the only part of this project that costs money. Translating on demand needs a model behind a key, and the rules it has to follow are already written and tested: no ingredient renamed, no number altered, and the result labelled as machine-made until somebody from the place checks it.',
-  needTranslationCost:
-    'Tens of dollars a month at real usage, because a translation is done once and then kept.',
-  needHostingTitle:
-    'Hosting',
-  needHostingWhat:
-    'The app and its fourteen megabytes of records, served to anyone who opens it.',
-  needHostingWhy:
-    'It fits inside a free tier today. It would stop fitting if enough people used it.',
-  needHostingCost:
-    'Nothing so far.',
-  needSourcesTitle:
-    'The sources',
-  needSourcesWhat:
-    'Every photograph, article, recipe and register entry in the atlas.',
-  needSourcesWhy:
-    'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data are free to read and openly licensed. No key, no tier, no bill.',
-  needSourcesCost:
-    'Nothing, and it will stay nothing.',
   howLead:
     'That is the rule this atlas is built on, and it is arithmetic rather than a policy — which means you can check it rather than trust it.',
   sixDimensionsBody:
@@ -1879,6 +1845,10 @@ export const EN: Copy = {
     'Flagged because a source describes this tradition as declining — the sentence is shown with the record. It is never inferred from how little we have documented: a gap in our records is not evidence that anyone has stopped cooking.',
   originDisclaimer:
     'This dish has more than one documented historical claim. The traditions below are recorded as they are described by each place, with their sources. No claim here is presented as the winner, and none of this affects the authenticity score — that measures how the dish is made in a place, not who first made it.',
+  supportRunsOn:
+    'Everything in the atlas comes from Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and open regional registers. They are free to read, openly licensed, and credited on every record that uses them. That is the whole basis of the project staying free, and it is a decision rather than a stage.',
+  contributeToTheAtlas:
+    'Contribute to the atlas',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

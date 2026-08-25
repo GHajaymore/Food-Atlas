@@ -244,7 +244,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Ganado con las comprobaciones de pruebas. Una proporción baja aquí es honesta, no un fracaso.',
     supportLead:
-      '{n} tradiciones, construidas enteramente con fuentes libres de leer y con licencia abierta. Sin publicidad, sin rastreo y nada tras un pago. Esto es lo que cuesta de verdad, incluidas las partes que no cuestan nada. Las cifras están en {currency}.',
+      '{n} tradiciones, construidas por completo con fuentes libres de leer y con licencia abierta. Sin publicidad, sin rastreo y nada tras un pago. Lo que cuesta mantenerlo lo cubre esa elección de fuentes, no que alguien pague por estar aquí.',
     notForSaleAuthentic:
       'Un registro no puede volverse Auténtico pagando. Eso viene de las pruebas y de las personas que cocinan el plato.',
     notForSalePromotion:
@@ -254,37 +254,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Se abre en Open Collective. Aquí no se cobra nada: esta app no guarda datos de pago tuyos y nunca lo hará.',
     donationsPendingBody:
-      'No hay adónde enviar dinero. Cuando lo haya, será un Open Collective, para que cada aporte y cada gasto sean públicos y cualquiera pueda contrastar esta página con el libro de cuentas.',
+      'Todavía no hay adónde enviar dinero. Nada del atlas depende de que lo haya: está construido con fuentes libres de leer, y eso no cambia.',
     mostUsefulThing:
       'Lo más útil que alguien puede dar a este atlas no es dinero. La mayor parte es un nombre y un lugar porque nadie ha escrito cómo se hace la comida.',
     administration:
       'Administración',
     administrationNote:
       'Umbrales, moderación, comprobación de fuentes y uso. Requiere un token.',
-    needTranslationTitle:
-      'Traducción',
-    needTranslationWhat:
-      'Cinco mil registros describen un plato en la lengua del lugar del que viene: hindi, coreano, indonesio, chino. A quien no la habla se le muestra el original y se le dice en qué lengua está, lo cual es honesto y no le sirve de mucho.',
-    needTranslationWhy:
-      'Es la única parte de este proyecto que cuesta dinero. Traducir a demanda necesita un modelo detrás de una clave, y las reglas que debe seguir ya están escritas y probadas: ningún ingrediente renombrado, ninguna cifra alterada, y el resultado etiquetado como hecho por máquina hasta que alguien del lugar lo revise.',
-    needTranslationCost:
-      'Decenas de dólares al mes con uso real, porque una traducción se hace una vez y se guarda.',
-    needHostingTitle:
-      'Alojamiento',
-    needHostingWhat:
-      'La app y sus catorce megabytes de registros, servidos a quien la abra.',
-    needHostingWhy:
-      'Hoy cabe dentro de un plan gratuito. Dejaría de caber si la usara suficiente gente.',
-    needHostingCost:
-      'Nada hasta ahora.',
-    needSourcesTitle:
-      'Las fuentes',
-    needSourcesWhat:
-      'Cada fotografía, artículo, receta y entrada de registro del atlas.',
-    needSourcesWhy:
-      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks y los datos abiertos regionales de Italia son libres de leer y de licencia abierta. Sin clave, sin plan, sin factura.',
-    needSourcesCost:
-      'Nada, y seguirá siendo nada.',
     howLead:
       'Esa es la regla sobre la que está construido este atlas, y es aritmética, no una política, lo que significa que puedes comprobarla en vez de confiar en ella.',
     sixDimensionsBody:
@@ -1171,6 +1147,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Marcado porque una fuente describe esta tradición en declive; la frase se muestra con el registro. Nunca se deduce de lo poco que hayamos documentado: un vacío en nuestros registros no es prueba de que nadie haya dejado de cocinar.',
     originDisclaimer:
       'Este plato tiene más de una reivindicación histórica documentada. Las tradiciones de abajo se recogen tal como las describe cada lugar, con sus fuentes. Ninguna se presenta aquí como la ganadora, y nada de esto afecta a la puntuación de autenticidad: esa mide cómo se hace el plato en un lugar, no quién lo hizo primero.',
+    supportRunsOn:
+      'Todo lo que hay en el atlas viene de Wikipedia, Wikidata, Wikimedia Commons, Wikibooks y registros regionales abiertos. Son libres de leer, tienen licencia abierta y se acreditan en cada registro que las usa. Esa es toda la base de que el proyecto siga siendo gratuito, y es una decisión, no una etapa.',
+    contributeToTheAtlas:
+      'Contribuir al atlas',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -1381,7 +1361,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Obtenu par les vérifications de preuves. Une faible part ici est honnête, pas un échec.',
     supportLead:
-      '{n} traditions, construites entièrement à partir de sources libres à lire et sous licence ouverte. Pas de publicité, pas de pistage, et rien derrière un paiement. Voici ce que cela coûte réellement, y compris les parties qui ne coûtent rien. Les chiffres sont en {currency}.',
+      '{n} traditions, bâties entièrement sur des sources libres de lecture et sous licence ouverte. Aucune publicité, aucun pistage, rien derrière un paiement. Ce que cela coûte à faire tourner est couvert par ce choix de sources, pas par quelqu’un qui paierait pour y figurer.',
     notForSaleAuthentic:
       'Une fiche ne peut pas devenir Authentique en payant. Cela vient des preuves et des gens qui cuisinent le plat.',
     notForSalePromotion:
@@ -1391,37 +1371,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'S’ouvre sur Open Collective. Rien n’est encaissé ici — cette application ne détient aucune de vos coordonnées de paiement et n’en détiendra jamais.',
     donationsPendingBody:
-      'Il n’y a nulle part où envoyer de l’argent. Ce sera un Open Collective quand ce sera le cas, afin que chaque contribution et chaque dépense soit publique et que chacun puisse vérifier cette page contre le registre.',
+      'Il n’y a encore nulle part où envoyer de l’argent. Rien dans l’atlas n’en dépend : il est bâti sur des sources libres de lecture, et cela ne change pas.',
     mostUsefulThing:
       'La chose la plus utile que l’on puisse donner à cet atlas n’est pas de l’argent. L’essentiel se résume à un nom et un lieu, parce que personne n’a écrit comment le plat se prépare.',
     administration:
       'Administration',
     administrationNote:
       'Seuils, modération, vérification des sources et usage. Nécessite un jeton.',
-    needTranslationTitle:
-      'Traduction',
-    needTranslationWhat:
-      'Cinq mille fiches décrivent un plat dans la langue du lieu d’où il vient — hindi, coréen, indonésien, chinois. À qui ne la parle pas, on montre l’original en indiquant de quelle langue il s’agit : c’est honnête et cela ne lui sert pas à grand-chose.',
-    needTranslationWhy:
-      'C’est la seule partie de ce projet qui coûte de l’argent. Traduire à la demande exige un modèle derrière une clé, et les règles qu’il doit suivre sont déjà écrites et testées : aucun ingrédient renommé, aucun chiffre modifié, et le résultat étiqueté comme fait par une machine jusqu’à ce que quelqu’un du lieu le vérifie.',
-    needTranslationCost:
-      'Quelques dizaines de dollars par mois à usage réel, car une traduction est faite une fois puis conservée.',
-    needHostingTitle:
-      'Hébergement',
-    needHostingWhat:
-      'L’application et ses quatorze mégaoctets de fiches, servis à quiconque l’ouvre.',
-    needHostingWhy:
-      'Cela tient aujourd’hui dans une offre gratuite. Cela cesserait de tenir si assez de gens l’utilisaient.',
-    needHostingCost:
-      'Rien jusqu’ici.',
-    needSourcesTitle:
-      'Les sources',
-    needSourcesWhat:
-      'Chaque photographie, article, recette et entrée de registre de l’atlas.',
-    needSourcesWhy:
-      'Wikipédia, Wikidata, Wikimedia Commons, Wikibooks et les données ouvertes régionales italiennes sont libres à lire et sous licence ouverte. Pas de clé, pas de palier, pas de facture.',
-    needSourcesCost:
-      'Rien, et cela restera rien.',
     howLead:
       'C’est la règle sur laquelle cet atlas est bâti, et c’est de l’arithmétique et non une politique — ce qui veut dire que vous pouvez la vérifier plutôt que la croire.',
     sixDimensionsBody:
@@ -2308,6 +2264,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Signalé parce qu’une source décrit cette tradition comme en déclin ; la phrase est affichée avec la fiche. Cela ne se déduit jamais du peu que nous avons consigné : un vide dans nos fiches n’est pas la preuve que quiconque a cessé de cuisiner.',
     originDisclaimer:
       'Ce plat fait l’objet de plusieurs revendications historiques documentées. Les traditions ci-dessous sont consignées telles que chaque lieu les décrit, avec leurs sources. Aucune revendication n’est présentée ici comme la gagnante, et rien de tout cela n’affecte la note d’authenticité : celle-ci mesure comment le plat est préparé dans un lieu, pas qui l’a fait en premier.',
+    supportRunsOn:
+      'Tout ce que contient l’atlas vient de Wikipédia, Wikidata, Wikimedia Commons, Wikibooks et de registres régionaux ouverts. Ces sources sont libres de lecture, sous licence ouverte, et créditées sur chaque fiche qui les utilise. C’est là toute la raison pour laquelle le projet reste gratuit, et c’est une décision, pas une étape.',
+    contributeToTheAtlas:
+      'Contribuer à l’atlas',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -2517,7 +2477,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Durch die Belegprüfungen erreicht. Ein niedriger Anteil ist hier ehrlich, kein Versagen.',
     supportLead:
-      '{n} Traditionen, vollständig aus Quellen gebaut, die frei zu lesen und offen lizenziert sind. Keine Werbung, kein Verfolgen, und nichts hinter einer Bezahlung. Hier steht, was das tatsächlich kostet, einschließlich der Teile, die nichts kosten. Beträge in {currency}.',
+      '{n} Traditionen, vollständig aus Quellen gebaut, die frei zu lesen und offen lizenziert sind. Keine Werbung, kein Tracking, nichts hinter einer Bezahlschranke. Was der Betrieb verlangt, deckt diese Wahl der Quellen — nicht jemand, der dafür zahlt, hier zu stehen.',
     notForSaleAuthentic:
       'Ein Eintrag kann nicht durch Bezahlen echt werden. Das kommt aus Belegen und von Menschen, die das Gericht kochen.',
     notForSalePromotion:
@@ -2527,37 +2487,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Öffnet bei Open Collective. Hier wird nichts eingezogen — diese App hält keine Ihrer Zahlungsdaten und wird das nie tun.',
     donationsPendingBody:
-      'Es gibt keinen Ort, an den Geld gehen könnte. Sobald es ihn gibt, wird es ein Open Collective sein, damit jeder Beitrag und jede Ausgabe öffentlich ist und jeder diese Seite gegen das Kassenbuch prüfen kann.',
+      'Es gibt noch keinen Ort, an den Geld gehen könnte. Nichts am Atlas hängt davon ab — er steht auf frei lesbaren Quellen, und daran ändert sich nichts.',
     mostUsefulThing:
       'Das Nützlichste, das jemand diesem Atlas geben kann, ist kein Geld. Das meiste davon ist ein Name und ein Ort, weil niemand aufgeschrieben hat, wie das Essen gemacht wird.',
     administration:
       'Verwaltung',
     administrationNote:
       'Schwellenwerte, Moderation, Quellenprüfungen und Nutzung. Erfordert ein Token.',
-    needTranslationTitle:
-      'Übersetzung',
-    needTranslationWhat:
-      'Fünftausend Einträge beschreiben ein Gericht in der Sprache des Ortes, aus dem es kommt — Hindi, Koreanisch, Indonesisch, Chinesisch. Wer sie nicht spricht, bekommt das Original zu sehen und erfährt, welche Sprache es ist: ehrlich, und wenig hilfreich.',
-    needTranslationWhy:
-      'Es ist der einzige Teil dieses Projekts, der Geld kostet. Übersetzen auf Abruf braucht ein Modell hinter einem Schlüssel, und die Regeln dafür sind bereits geschrieben und geprüft: keine Zutat umbenannt, keine Zahl verändert, und das Ergebnis als maschinell gemacht gekennzeichnet, bis jemand von dort es prüft.',
-    needTranslationCost:
-      'Bei echter Nutzung einige zehn Dollar im Monat, weil eine Übersetzung einmal gemacht und dann behalten wird.',
-    needHostingTitle:
-      'Hosting',
-    needHostingWhat:
-      'Die App und ihre vierzehn Megabyte an Einträgen, ausgeliefert an alle, die sie öffnen.',
-    needHostingWhy:
-      'Heute passt es in ein kostenloses Kontingent. Es würde nicht mehr passen, wenn genug Menschen sie nutzten.',
-    needHostingCost:
-      'Bisher nichts.',
-    needSourcesTitle:
-      'Die Quellen',
-    needSourcesWhat:
-      'Jede Fotografie, jeder Artikel, jedes Rezept und jeder Registereintrag im Atlas.',
-    needSourcesWhy:
-      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks und Italiens regionale offene Daten sind frei zu lesen und offen lizenziert. Kein Schlüssel, keine Stufe, keine Rechnung.',
-    needSourcesCost:
-      'Nichts, und es wird nichts bleiben.',
     howLead:
       'Das ist die Regel, auf der dieser Atlas gebaut ist, und sie ist Arithmetik statt Politik — Sie können sie also prüfen, statt ihr zu glauben.',
     sixDimensionsBody:
@@ -3444,6 +3380,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Gekennzeichnet, weil eine Quelle diese Tradition als schwindend beschreibt — der Satz wird mit dem Eintrag gezeigt. Es wird nie daraus abgeleitet, wie wenig wir festgehalten haben: eine Lücke in unseren Einträgen ist kein Beleg dafür, dass jemand aufgehört hat zu kochen.',
     originDisclaimer:
       'Für dieses Gericht gibt es mehr als einen belegten historischen Anspruch. Die Traditionen unten stehen so, wie jeder Ort sie beschreibt, mit ihren Quellen. Kein Anspruch wird hier als Sieger dargestellt, und nichts davon wirkt sich auf die Belegstärke aus — die misst, wie das Gericht an einem Ort gemacht wird, nicht wer es zuerst gemacht hat.',
+    supportRunsOn:
+      'Alles im Atlas stammt aus Wikipedia, Wikidata, Wikimedia Commons, Wikibooks und offenen regionalen Registern. Sie sind frei zu lesen, offen lizenziert und auf jedem Eintrag genannt, der sie verwendet. Das ist die ganze Grundlage dafür, dass das Projekt kostenlos bleibt, und es ist eine Entscheidung, kein Zwischenstand.',
+    contributeToTheAtlas:
+      'Zum Atlas beitragen',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -3653,7 +3593,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Ottenuto con le verifiche delle prove. Una quota bassa qui è onesta, non un fallimento.',
     supportLead:
-      '{n} tradizioni, costruite interamente da fonti libere da leggere e con licenza aperta. Nessuna pubblicità, nessun tracciamento e nulla dietro un pagamento. Ecco quanto costa davvero, comprese le parti che non costano nulla. Le cifre sono in {currency}.',
+      '{n} tradizioni, costruite interamente su fonti libere da leggere e con licenza aperta. Nessuna pubblicità, nessun tracciamento, niente dietro un pagamento. Quel che serve per tenerlo in piedi lo copre questa scelta di fonti, non qualcuno che paga per esserci.',
     notForSaleAuthentic:
       'Una scheda non può diventare Autentica pagando. Questo viene dalle prove e dalle persone che cucinano il piatto.',
     notForSalePromotion:
@@ -3663,37 +3603,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Si apre su Open Collective. Qui non si incassa nulla: questa app non conserva alcun tuo dato di pagamento e non lo farà mai.',
     donationsPendingBody:
-      'Non c’è dove mandare denaro. Quando ci sarà, sarà un Open Collective, così che ogni contributo e ogni spesa siano pubblici e chiunque possa confrontare questa pagina con il registro.',
+      'Non c’è ancora dove mandare del denaro. Niente dell’atlante dipende da questo: è costruito su fonti libere da leggere, e questo non cambia.',
     mostUsefulThing:
       'La cosa più utile che si possa dare a questo atlante non è il denaro. Gran parte di esso è un nome e un luogo perché nessuno ha scritto come si prepara il cibo.',
     administration:
       'Amministrazione',
     administrationNote:
       'Soglie, moderazione, controllo delle fonti e utilizzo. Richiede un token.',
-    needTranslationTitle:
-      'Traduzione',
-    needTranslationWhat:
-      'Cinquemila schede descrivono un piatto nella lingua del luogo da cui viene — hindi, coreano, indonesiano, cinese. A chi non la parla si mostra l’originale dicendo di che lingua si tratta: onesto, e di scarsa utilità.',
-    needTranslationWhy:
-      'È l’unica parte di questo progetto che costa denaro. Tradurre su richiesta richiede un modello dietro una chiave, e le regole che deve seguire sono già scritte e verificate: nessun ingrediente rinominato, nessun numero alterato, e il risultato etichettato come fatto a macchina finché qualcuno del posto non lo controlla.',
-    needTranslationCost:
-      'Qualche decina di dollari al mese con un uso reale, perché una traduzione si fa una volta e poi si conserva.',
-    needHostingTitle:
-      'Hosting',
-    needHostingWhat:
-      'L’app e i suoi quattordici megabyte di schede, serviti a chiunque la apra.',
-    needHostingWhy:
-      'Oggi rientra in un piano gratuito. Smetterebbe di rientrarci se la usassero abbastanza persone.',
-    needHostingCost:
-      'Finora nulla.',
-    needSourcesTitle:
-      'Le fonti',
-    needSourcesWhat:
-      'Ogni fotografia, articolo, ricetta e voce di registro nell’atlante.',
-    needSourcesWhy:
-      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks e i dati aperti regionali italiani sono liberi da leggere e con licenza aperta. Nessuna chiave, nessun piano, nessuna fattura.',
-    needSourcesCost:
-      'Nulla, e resterà nulla.',
     howLead:
       'È la regola su cui questo atlante è costruito, ed è aritmetica e non una politica — il che significa che puoi verificarla invece di fidarti.',
     sixDimensionsBody:
@@ -4580,6 +4496,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Segnalato perché una fonte descrive questa tradizione in declino: la frase è mostrata insieme alla scheda. Non si deduce mai da quanto poco abbiamo documentato: un vuoto nelle nostre schede non è prova che qualcuno abbia smesso di cucinare.',
     originDisclaimer:
       'Questo piatto ha più di una rivendicazione storica documentata. Le tradizioni qui sotto sono registrate come le descrive ciascun luogo, con le loro fonti. Nessuna rivendicazione è presentata come vincitrice, e niente di tutto ciò incide sul punteggio di autenticità: quello misura come il piatto si fa in un luogo, non chi l’ha fatto per primo.',
+    supportRunsOn:
+      'Tutto quello che c’è nell’atlante viene da Wikipedia, Wikidata, Wikimedia Commons, Wikibooks e registri regionali aperti. Sono libere da leggere, con licenza aperta, e accreditate su ogni scheda che le usa. È tutta qui la base per cui il progetto resta gratuito, ed è una decisione, non una fase.',
+    contributeToTheAtlas:
+      'Contribuisci all’atlante',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -4790,7 +4710,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Conquistado pelas verificações de provas. Uma percentagem baixa aqui é honesta, não um fracasso.',
     supportLead:
-      '{n} tradições, construídas inteiramente a partir de fontes livres de ler e com licença aberta. Sem publicidade, sem rastreio e nada atrás de um pagamento. Aqui está o que isso custa de facto, incluindo as partes que não custam nada. Os valores são em {currency}.',
+      '{n} tradições, construídas inteiramente a partir de fontes livres de ler e com licença aberta. Sem publicidade, sem rastreio e nada atrás de um pagamento. O que é preciso para o manter é coberto por essa escolha de fontes, não por alguém pagar para aqui estar.',
     notForSaleAuthentic:
       'Um registo não pode tornar-se Autêntico pagando. Isso vem das provas e das pessoas que cozinham o prato.',
     notForSalePromotion:
@@ -4800,37 +4720,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Abre no Open Collective. Aqui não se cobra nada — esta aplicação não guarda dados de pagamento seus e nunca guardará.',
     donationsPendingBody:
-      'Não há para onde enviar dinheiro. Quando houver, será um Open Collective, para que cada contributo e cada despesa sejam públicos e qualquer pessoa possa conferir esta página com o livro de contas.',
+      'Ainda não há para onde enviar dinheiro. Nada no atlas depende disso — está construído sobre fontes livres de ler, e isso não muda.',
     mostUsefulThing:
       'A coisa mais útil que alguém pode dar a este atlas não é dinheiro. A maior parte dele é um nome e um lugar porque ninguém escreveu como a comida se faz.',
     administration:
       'Administração',
     administrationNote:
       'Limiares, moderação, verificação de fontes e utilização. Precisa de um token.',
-    needTranslationTitle:
-      'Tradução',
-    needTranslationWhat:
-      'Cinco mil registos descrevem um prato na língua do lugar de onde vem — hindi, coreano, indonésio, chinês. A quem não a fala mostra-se o original, dizendo de que língua se trata: honesto, e de pouca utilidade.',
-    needTranslationWhy:
-      'É a única parte deste projeto que custa dinheiro. Traduzir a pedido exige um modelo por trás de uma chave, e as regras que tem de seguir já estão escritas e testadas: nenhum ingrediente renomeado, nenhum número alterado, e o resultado rotulado como feito por máquina até alguém do lugar o verificar.',
-    needTranslationCost:
-      'Dezenas de dólares por mês com uso real, porque uma tradução é feita uma vez e depois guardada.',
-    needHostingTitle:
-      'Alojamento',
-    needHostingWhat:
-      'A aplicação e os seus catorze megabytes de registos, servidos a quem a abrir.',
-    needHostingWhy:
-      'Hoje cabe num plano gratuito. Deixaria de caber se gente suficiente a usasse.',
-    needHostingCost:
-      'Nada até agora.',
-    needSourcesTitle:
-      'As fontes',
-    needSourcesWhat:
-      'Cada fotografia, artigo, receita e entrada de registo no atlas.',
-    needSourcesWhy:
-      'A Wikipédia, o Wikidata, o Wikimedia Commons, os Wikibooks e os dados abertos regionais de Itália são livres de ler e com licença aberta. Sem chave, sem escalão, sem fatura.',
-    needSourcesCost:
-      'Nada, e continuará a ser nada.',
     howLead:
       'É a regra sobre a qual este atlas é construído, e é aritmética e não uma política — o que significa que a pode verificar em vez de confiar nela.',
     sixDimensionsBody:
@@ -5717,6 +5613,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Assinalado porque uma fonte descreve esta tradição como em declínio — a frase é mostrada com o registo. Nunca é deduzido do pouco que documentámos: uma falha nos nossos registos não é prova de que alguém deixou de cozinhar.',
     originDisclaimer:
       'Este prato tem mais do que uma reivindicação histórica documentada. As tradições abaixo estão registadas tal como cada lugar as descreve, com as suas fontes. Nenhuma reivindicação é aqui apresentada como vencedora, e nada disto afeta a pontuação de autenticidade: essa mede como o prato é feito num lugar, não quem o fez primeiro.',
+    supportRunsOn:
+      'Tudo o que está no atlas vem da Wikipédia, Wikidata, Wikimedia Commons, Wikibooks e de registos regionais abertos. São livres de ler, têm licença aberta e são creditadas em cada registo que as usa. É essa toda a base para o projeto continuar gratuito, e é uma decisão, não uma fase.',
+    contributeToTheAtlas:
+      'Contribuir para o atlas',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -5926,7 +5826,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Verdiend via de bewijstoetsen. Een laag aandeel is hier eerlijk, geen falen.',
     supportLead:
-      '{n} tradities, volledig gebouwd op bronnen die vrij te lezen en open gelicentieerd zijn. Geen reclame, geen volgen, en niets achter een betaling. Dit is wat het werkelijk kost, inclusief de delen die niets kosten. Bedragen in {currency}.',
+      '{n} tradities, volledig gebouwd op bronnen die vrij te lezen en open gelicentieerd zijn. Geen advertenties, geen tracking en niets achter een betaling. Wat het draaien vraagt, wordt gedekt door die keuze van bronnen — niet doordat iemand betaalt om hier te staan.',
     notForSaleAuthentic:
       'Een record kan niet Echt worden door ervoor te betalen. Dat komt uit bewijs en van mensen die het gerecht koken.',
     notForSalePromotion:
@@ -5936,37 +5836,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Opent bij Open Collective. Hier wordt niets geïnd — deze app bewaart geen betaalgegevens van u en zal dat nooit doen.',
     donationsPendingBody:
-      'Er is nergens om geld heen te sturen. Als dat er is, wordt het een Open Collective, zodat elke bijdrage en elke uitgave openbaar is en iedereen deze pagina tegen het kasboek kan houden.',
+      'Er is nog nergens om geld heen te sturen. Niets aan de atlas hangt daarvan af — hij staat op bronnen die vrij te lezen zijn, en dat verandert niet.',
     mostUsefulThing:
       'Het nuttigste dat iemand deze atlas kan geven is geen geld. Het meeste ervan is een naam en een plek, omdat niemand heeft opgeschreven hoe het eten gemaakt wordt.',
     administration:
       'Beheer',
     administrationNote:
       'Drempels, moderatie, broncontroles en gebruik. Vereist een token.',
-    needTranslationTitle:
-      'Vertaling',
-    needTranslationWhat:
-      'Vijfduizend records beschrijven een gerecht in de taal van de plek waar het vandaan komt — Hindi, Koreaans, Indonesisch, Chinees. Wie die taal niet spreekt krijgt het origineel te zien met de vermelding welke taal het is: eerlijk, en weinig bruikbaar.',
-    needTranslationWhy:
-      'Het is het enige deel van dit project dat geld kost. Vertalen op verzoek vraagt een model achter een sleutel, en de regels die het moet volgen zijn al geschreven en getest: geen ingrediënt hernoemd, geen getal veranderd, en het resultaat gemarkeerd als machinaal gemaakt tot iemand van die plek het nakijkt.',
-    needTranslationCost:
-      'Tientallen dollars per maand bij echt gebruik, omdat een vertaling één keer gemaakt en daarna bewaard wordt.',
-    needHostingTitle:
-      'Hosting',
-    needHostingWhat:
-      'De app en haar veertien megabyte aan records, geleverd aan iedereen die haar opent.',
-    needHostingWhy:
-      'Het past vandaag binnen een gratis pakket. Dat zou ophouden als genoeg mensen haar gebruikten.',
-    needHostingCost:
-      'Tot nu toe niets.',
-    needSourcesTitle:
-      'De bronnen',
-    needSourcesWhat:
-      'Elke foto, elk artikel, elk recept en elke registervermelding in de atlas.',
-    needSourcesWhy:
-      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks en de regionale open data van Italië zijn vrij te lezen en open gelicentieerd. Geen sleutel, geen staffel, geen rekening.',
-    needSourcesCost:
-      'Niets, en dat blijft niets.',
     howLead:
       'Dat is de regel waarop deze atlas is gebouwd, en het is rekenkunde en geen beleid — u kunt haar dus controleren in plaats van erop te vertrouwen.',
     sixDimensionsBody:
@@ -6853,6 +6729,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Gemarkeerd omdat een bron deze traditie als teruglopend beschrijft — die zin wordt bij het record getoond. Het wordt nooit afgeleid uit hoe weinig wij hebben vastgelegd: een gat in onze records is geen bewijs dat iemand is gestopt met koken.',
     originDisclaimer:
       'Dit gerecht kent meer dan één gedocumenteerde historische aanspraak. De tradities hieronder staan zoals elke plaats ze beschrijft, met hun bronnen. Geen enkele aanspraak wordt hier als winnaar gepresenteerd, en niets hiervan raakt de bewijskracht — die meet hoe het gerecht op een plek gemaakt wordt, niet wie het als eerste maakte.',
+    supportRunsOn:
+      'Alles in de atlas komt uit Wikipedia, Wikidata, Wikimedia Commons, Wikibooks en open regionale registers. Ze zijn vrij te lezen, open gelicentieerd en vermeld op elk record dat ze gebruikt. Dat is de hele grondslag waarop het project gratis blijft, en het is een besluit, geen tussenfase.',
+    contributeToTheAtlas:
+      'Bijdragen aan de atlas',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7063,7 +6943,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Zdobyte w ocenie dowodów. Niski udział jest tu uczciwy, a nie porażką.',
     supportLead:
-      '{n} tradycji, zbudowanych w całości ze źródeł darmowych do czytania i na otwartej licencji. Bez reklam, bez śledzenia i bez niczego za opłatą. Oto ile to naprawdę kosztuje, łącznie z tym, co nie kosztuje nic. Kwoty w {currency}.',
+      'Tradycje: {n}, zbudowane w całości ze źródeł wolnych do czytania i na otwartej licencji. Bez reklam, bez śledzenia i bez niczego za opłatą. To, czego wymaga utrzymanie, pokrywa właśnie ten wybór źródeł, a nie ktoś płacący za to, żeby tu być.',
     notForSaleAuthentic:
       'Wpisu nie da się uczynić Autentycznym przez zapłatę. To bierze się z dowodów i od ludzi, którzy tę potrawę gotują.',
     notForSalePromotion:
@@ -7073,37 +6953,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Otwiera się w Open Collective. Tutaj nic nie jest pobierane — ta aplikacja nie przechowuje żadnych twoich danych płatniczych i nigdy nie będzie.',
     donationsPendingBody:
-      'Nie ma dokąd wysłać pieniędzy. Gdy będzie, będzie to Open Collective, żeby każda wpłata i każdy wydatek były jawne i każdy mógł zestawić tę stronę z księgą.',
+      'Nie ma jeszcze dokąd wysłać pieniędzy. Nic w atlasie od tego nie zależy — stoi na źródłach wolnych do czytania, a to się nie zmienia.',
     mostUsefulThing:
       'Najbardziej przydatną rzeczą, jaką można dać temu atlasowi, nie są pieniądze. Większość z niego to nazwa i miejsce, bo nikt nie zapisał, jak tę potrawę się robi.',
     administration:
       'Administracja',
     administrationNote:
       'Progi, moderacja, sprawdzanie źródeł i użycie. Wymaga tokenu.',
-    needTranslationTitle:
-      'Tłumaczenie',
-    needTranslationWhat:
-      'Pięć tysięcy wpisów opisuje potrawę w języku miejsca, z którego pochodzi — hindi, koreańskim, indonezyjskim, chińskim. Komu ten język jest obcy, pokazujemy oryginał i mówimy, jaki to język: uczciwie i niewiele mu to daje.',
-    needTranslationWhy:
-      'To jedyna część tego projektu, która kosztuje pieniądze. Tłumaczenie na żądanie wymaga modelu za kluczem, a reguły, których musi przestrzegać, są już spisane i sprawdzone: żaden składnik nieprzemianowany, żadna liczba niezmieniona, a wynik oznaczony jako maszynowy, dopóki ktoś stamtąd go nie sprawdzi.',
-    needTranslationCost:
-      'Kilkadziesiąt dolarów miesięcznie przy realnym użyciu, bo tłumaczenie robi się raz i zostaje.',
-    needHostingTitle:
-      'Hosting',
-    needHostingWhat:
-      'Aplikacja i jej czternaście megabajtów wpisów, dostarczane każdemu, kto ją otworzy.',
-    needHostingWhy:
-      'Dziś mieści się w darmowym progu. Przestałoby się mieścić, gdyby korzystało z niej dość osób.',
-    needHostingCost:
-      'Jak dotąd nic.',
-    needSourcesTitle:
-      'Źródła',
-    needSourcesWhat:
-      'Każde zdjęcie, artykuł, przepis i wpis rejestrowy w atlasie.',
-    needSourcesWhy:
-      'Wikipedia, Wikidane, Wikimedia Commons, Wikibooks i regionalne dane otwarte Włoch są darmowe do czytania i na otwartej licencji. Bez klucza, bez progu, bez rachunku.',
-    needSourcesCost:
-      'Nic, i nic pozostanie.',
     howLead:
       'To reguła, na której zbudowany jest ten atlas, i jest arytmetyką, a nie polityką — czyli możesz ją sprawdzić, zamiast w nią wierzyć.',
     sixDimensionsBody:
@@ -7990,6 +7846,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Oznaczone, bo źródło opisuje tę tradycję jako zanikającą — to zdanie pokazujemy przy wpisie. Nigdy nie wnioskujemy tego z tego, jak mało udokumentowaliśmy: luka w naszych zapisach nie jest dowodem, że ktokolwiek przestał gotować.',
     originDisclaimer:
       'Ta potrawa ma więcej niż jedno udokumentowane roszczenie historyczne. Tradycje poniżej zapisano tak, jak opisuje je każde miejsce, wraz ze źródłami. Żadnego roszczenia nie przedstawia się tu jako zwycięskiego i nic z tego nie wpływa na punktację autentyczności — ta mierzy, jak potrawę robi się w danym miejscu, a nie kto zrobił ją pierwszy.',
+    supportRunsOn:
+      'Wszystko w atlasie pochodzi z Wikipedii, Wikidanych, Wikimedia Commons, Wikibooks i otwartych rejestrów regionalnych. Są wolne do czytania, na otwartej licencji i wymienione przy każdym wpisie, który z nich korzysta. To cała podstawa tego, że projekt zostaje darmowy — i jest to decyzja, a nie etap.',
+    contributeToTheAtlas:
+      'Wesprzyj atlas',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -8199,7 +8059,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Kanıt denetimleriyle kazanılır. Buradaki düşük oran dürüsttür, başarısızlık değil.',
     supportLead:
-      '{n} gelenek, tamamı okuması serbest ve açık lisanslı kaynaklardan kuruldu. Reklam yok, izleme yok ve ödeme duvarı yok. Bunun gerçekte neye mal olduğu burada — hiçbir şeye mal olmayan kısımlar dâhil. Rakamlar {currency} cinsinden.',
+      '{n} gelenek; tamamı okunması serbest ve açık lisanslı kaynaklardan kuruldu. Reklam yok, izleme yok, ödeme duvarının ardında hiçbir şey yok. İşletmenin gerektirdiğini bu kaynak tercihi karşılıyor; burada yer almak için para ödeyen biri değil.',
     notForSaleAuthentic:
       'Bir kayıt para ödeyerek Otantik yapılamaz. Bu, kanıttan ve o yemeği pişiren insanlardan gelir.',
     notForSalePromotion:
@@ -8209,37 +8069,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Open Collective’te açılır. Burada hiçbir tahsilat yapılmaz — bu uygulama ödeme bilgilerinizi tutmaz ve hiçbir zaman tutmayacak.',
     donationsPendingBody:
-      'Para gönderilecek bir yer yok. Olduğunda bir Open Collective olacak; böylece her katkı ve her gider açık olur ve herkes bu sayfayı defterle karşılaştırabilir.',
+      'Henüz para gönderilecek bir yer yok. Atlasta hiçbir şey buna bağlı değil; okunması serbest kaynaklar üzerine kurulu ve bu değişmiyor.',
     mostUsefulThing:
       'Bu atlasa verilebilecek en yararlı şey para değildir. Atlasın çoğu bir ad ve bir yerden ibaret, çünkü kimse yemeğin nasıl yapıldığını yazmamış.',
     administration:
       'Yönetim',
     administrationNote:
       'Eşikler, denetim, kaynak kontrolleri ve kullanım. Bir belirteç gerektirir.',
-    needTranslationTitle:
-      'Çeviri',
-    needTranslationWhat:
-      'Beş bin kayıt, bir yemeği geldiği yerin dilinde anlatıyor — Hintçe, Korece, Endonezce, Çince. O dili bilmeyene özgün metin gösterilip hangi dil olduğu söyleniyor: dürüst, ama pek işine yaramıyor.',
-    needTranslationWhy:
-      'Bu projenin para tutan tek parçası. İstek üzerine çeviri, bir anahtarın ardındaki modeli gerektirir ve uyması gereken kurallar zaten yazılı ve sınanmış: hiçbir malzemenin adı değişmez, hiçbir sayı değiştirilmez ve sonuç, oradan biri denetleyene kadar makine yapımı olarak etiketlenir.',
-    needTranslationCost:
-      'Gerçek kullanımda ayda onlarca dolar; çünkü bir çeviri bir kez yapılır ve saklanır.',
-    needHostingTitle:
-      'Barındırma',
-    needHostingWhat:
-      'Uygulama ve on dört megabaytlık kayıtları, açan herkese sunuluyor.',
-    needHostingWhy:
-      'Bugün ücretsiz bir kotaya sığıyor. Yeterince insan kullansa sığmaz olurdu.',
-    needHostingCost:
-      'Şimdiye kadar hiç.',
-    needSourcesTitle:
-      'Kaynaklar',
-    needSourcesWhat:
-      'Atlastaki her fotoğraf, makale, tarif ve sicil kaydı.',
-    needSourcesWhy:
-      'Wikipedia, Wikidata, Wikimedia Commons, Wikibooks ve İtalya’nın bölgesel açık verileri okumaya serbest ve açık lisanslı. Anahtar yok, kademe yok, fatura yok.',
-    needSourcesCost:
-      'Hiç, ve hiç kalacak.',
     howLead:
       'Bu atlasın kurulduğu kural budur ve bir politika değil, aritmetiktir — yani ona güvenmek yerine denetleyebilirsiniz.',
     sixDimensionsBody:
@@ -9126,6 +8962,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Bir kaynak bu geleneği gerilemekte diye tanımladığı için işaretlendi — o cümle kayıtla birlikte gösterilir. Ne kadar az belgelediğimizden asla çıkarsanmaz: kayıtlarımızdaki bir boşluk, kimsenin pişirmeyi bıraktığının kanıtı değildir.',
     originDisclaimer:
       'Bu yemeğin belgelenmiş birden çok tarihsel iddiası var. Aşağıdaki gelenekler, her yerin anlattığı gibi, kaynaklarıyla birlikte kaydedilmiştir. Burada hiçbir iddia kazanan olarak sunulmaz ve bunların hiçbiri özgünlük puanını etkilemez — o puan, yemeğin bir yerde nasıl yapıldığını ölçer, onu ilk kimin yaptığını değil.',
+    supportRunsOn:
+      'Atlastaki her şey Vikipedi, Wikidata, Wikimedia Commons, Wikibooks ve açık bölgesel kayıtlardan gelir. Okunması serbesttir, açık lisanslıdır ve onları kullanan her kayıtta adı geçer. Projenin ücretsiz kalmasının bütün dayanağı budur ve bu bir karardır, bir aşama değil.',
+    contributeToTheAtlas:
+      'Atlasa katkıda bulunun',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -9336,7 +9176,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'Заслужено проверками свидетельств. Низкая доля здесь честна, а не провальна.',
     supportLead:
-      '{n} традиций, полностью построенных на источниках, свободных для чтения и с открытой лицензией. Без рекламы, без слежки и без платного доступа. Вот во что это действительно обходится, включая то, что не стоит ничего. Суммы в {currency}.',
+      'Традиций: {n}, и все они собраны из источников, свободных для чтения и с открытой лицензией. Ни рекламы, ни слежки, ничего за плату. То, чего требует работа проекта, покрывает именно этот выбор источников, а не чья-то плата за присутствие здесь.',
     notForSaleAuthentic:
       'Запись нельзя сделать подлинной, заплатив за это. Подлинность идёт от свидетельств и от людей, которые готовят это блюдо.',
     notForSalePromotion:
@@ -9346,37 +9186,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Откроется на Open Collective. Здесь ничего не принимается — приложение не хранит ваших платёжных данных и не будет.',
     donationsPendingBody:
-      'Отправлять деньги некуда. Когда будет куда, это будет Open Collective, чтобы каждый взнос и каждый расход были открыты и любой мог сверить эту страницу с книгой учёта.',
+      'Отправлять деньги пока некуда. Ничто в атласе от этого не зависит — он построен на источниках, свободных для чтения, и это не меняется.',
     mostUsefulThing:
       'Самое полезное, что можно дать этому атласу, — не деньги. Большая его часть — это название и место, потому что никто не записал, как эту еду готовят.',
     administration:
       'Администрирование',
     administrationNote:
       'Пороги, модерация, проверка источников и использование. Нужен токен.',
-    needTranslationTitle:
-      'Перевод',
-    needTranslationWhat:
-      'Пять тысяч записей описывают блюдо на языке места, откуда оно родом, — хинди, корейском, индонезийском, китайском. Тому, кто им не владеет, показывают оригинал и говорят, что это за язык: честно и мало чем полезно.',
-    needTranslationWhy:
-      'Это единственная часть проекта, которая стоит денег. Перевод по запросу требует модели за ключом, а правила, которым он должен следовать, уже написаны и проверены: ни один ингредиент не переименован, ни одно число не изменено, и результат помечен как машинный, пока кто-то оттуда его не проверит.',
-    needTranslationCost:
-      'Десятки долларов в месяц при реальном использовании, потому что перевод делается один раз и сохраняется.',
-    needHostingTitle:
-      'Хостинг',
-    needHostingWhat:
-      'Приложение и его четырнадцать мегабайт записей, отдаваемые каждому, кто его открывает.',
-    needHostingWhy:
-      'Сегодня это укладывается в бесплатный тариф. Перестало бы укладываться, если бы им пользовалось достаточно людей.',
-    needHostingCost:
-      'Пока ничего.',
-    needSourcesTitle:
-      'Источники',
-    needSourcesWhat:
-      'Каждая фотография, статья, рецепт и запись реестра в атласе.',
-    needSourcesWhy:
-      'Википедия, Викиданные, Викисклад, Викиучебники и региональные открытые данные Италии свободны для чтения и под открытой лицензией. Ни ключа, ни тарифа, ни счёта.',
-    needSourcesCost:
-      'Ничего, и останется ничего.',
     howLead:
       'Это правило, на котором построен атлас, и это арифметика, а не политика — значит, его можно проверить, а не принимать на веру.',
     sixDimensionsBody:
@@ -10263,6 +10079,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Отмечено потому, что источник описывает эту традицию как угасающую, — эта фраза показана вместе с записью. Это никогда не выводится из того, как мало мы задокументировали: пробел в наших записях не доказывает, что кто-то перестал готовить.',
     originDisclaimer:
       'У этого блюда больше одного задокументированного исторического притязания. Традиции ниже записаны так, как их описывает каждое место, с их источниками. Ни одно притязание здесь не подаётся как победившее, и ничто из этого не влияет на оценку подлинности — она измеряет, как блюдо готовят в том или ином месте, а не кто приготовил его первым.',
+    supportRunsOn:
+      'Всё в атласе взято из Википедии, Викиданных, Викисклада, Викиучебника и открытых региональных реестров. Они свободны для чтения, имеют открытую лицензию и указаны в каждой записи, которая их использует. В этом вся основа того, что проект остаётся бесплатным, и это решение, а не промежуточный этап.',
+    contributeToTheAtlas:
+      'Поддержать атлас',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -10473,7 +10293,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       'प्रमाण जाँचों से अर्जित। यहाँ कम हिस्सा ईमानदारी है, असफलता नहीं।',
     supportLead:
-      '{n} परंपराएँ, पूरी तरह ऐसे स्रोतों से बनी जो पढ़ने को मुफ़्त और खुली लाइसेंस वाले हैं। कोई विज्ञापन नहीं, कोई ट्रैकिंग नहीं, और कुछ भी भुगतान के पीछे नहीं। यह रहा असल ख़र्च — उन हिस्सों समेत जिनका कोई ख़र्च नहीं। आँकड़े {currency} में हैं।',
+      '{n} परंपराएँ, पूरी तरह ऐसे स्रोतों से बनीं जो पढ़ने के लिए मुफ़्त हैं और खुले लाइसेंस पर हैं। कोई विज्ञापन नहीं, कोई ट्रैकिंग नहीं, और भुगतान के पीछे कुछ भी नहीं। इसे चलाने में जो लगता है, वह स्रोतों के इसी चुनाव से पूरा होता है — इसलिए नहीं कि कोई यहाँ रहने के लिए पैसे देता है।',
     notForSaleAuthentic:
       'पैसे देकर किसी रिकॉर्ड को प्रामाणिक नहीं बनाया जा सकता। वह प्रमाणों से आता है और उन लोगों से जो यह व्यंजन बनाते हैं।',
     notForSalePromotion:
@@ -10483,37 +10303,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Open Collective पर खुलता है। यहाँ कुछ भी वसूला नहीं जाता — यह ऐप आपके भुगतान विवरण नहीं रखता और कभी नहीं रखेगा।',
     donationsPendingBody:
-      'पैसे भेजने की कोई जगह नहीं है। जब होगी, तब वह Open Collective होगी, ताकि हर योगदान और हर ख़र्च सार्वजनिक हो और कोई भी इस पन्ने को लेखा-जोखा से मिला सके।',
+      'पैसे भेजने की अभी कोई जगह नहीं है। एटलस में कुछ भी इस पर निर्भर नहीं है — यह पढ़ने के लिए मुफ़्त स्रोतों पर बना है, और वह नहीं बदलता।',
     mostUsefulThing:
       'इस एटलस को कोई जो सबसे उपयोगी चीज़ दे सकता है वह पैसा नहीं है। इसका ज़्यादातर हिस्सा बस एक नाम और एक जगह है, क्योंकि किसी ने लिखा ही नहीं कि वह खाना कैसे बनता है।',
     administration:
       'प्रशासन',
     administrationNote:
       'सीमाएँ, मॉडरेशन, स्रोत जाँच और उपयोग। टोकन चाहिए।',
-    needTranslationTitle:
-      'अनुवाद',
-    needTranslationWhat:
-      'पाँच हज़ार रिकॉर्ड किसी व्यंजन को उसी जगह की भाषा में बताते हैं जहाँ से वह आता है — हिंदी, कोरियाई, इंडोनेशियाई, चीनी। जो वह भाषा नहीं जानता, उसे मूल पाठ दिखाया जाता है और बताया जाता है कि वह कौन सी भाषा है: ईमानदार, और उसके ज़्यादा काम का नहीं।',
-    needTranslationWhy:
-      'इस परियोजना का यही एक हिस्सा है जिसमें पैसे लगते हैं। माँग पर अनुवाद के लिए किसी कुंजी के पीछे एक मॉडल चाहिए, और जिन नियमों का उसे पालन करना है वे पहले ही लिखे और परखे जा चुके हैं: कोई सामग्री का नाम न बदले, कोई संख्या न बदले, और परिणाम पर तब तक मशीन-निर्मित का लेबल रहे जब तक वहाँ का कोई उसे जाँच न ले।',
-    needTranslationCost:
-      'वास्तविक उपयोग पर महीने के कुछ दसियों डॉलर, क्योंकि अनुवाद एक बार होता है और फिर रख लिया जाता है।',
-    needHostingTitle:
-      'होस्टिंग',
-    needHostingWhat:
-      'ऐप और उसके चौदह मेगाबाइट रिकॉर्ड, हर उस व्यक्ति को परोसे जाते हैं जो इसे खोलता है।',
-    needHostingWhy:
-      'आज यह मुफ़्त सीमा में आ जाता है। अगर काफ़ी लोग इस्तेमाल करने लगें तो नहीं आएगा।',
-    needHostingCost:
-      'अब तक कुछ नहीं।',
-    needSourcesTitle:
-      'स्रोत',
-    needSourcesWhat:
-      'एटलस की हर तस्वीर, लेख, विधि और रजिस्टर प्रविष्टि।',
-    needSourcesWhy:
-      'विकिपीडिया, विकिडेटा, विकिमीडिया कॉमन्स, विकिबुक्स और इटली के क्षेत्रीय खुले डेटा पढ़ने को स्वतंत्र और खुली लाइसेंस वाले हैं। न कुंजी, न श्रेणी, न बिल।',
-    needSourcesCost:
-      'कुछ नहीं, और कुछ नहीं ही रहेगा।',
     howLead:
       'यही वह नियम है जिस पर यह एटलस टिका है, और यह नीति नहीं, अंकगणित है — यानी आप इस पर भरोसा करने के बजाय इसे जाँच सकते हैं।',
     sixDimensionsBody:
@@ -11400,6 +11196,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'इसलिए चिह्नित क्योंकि कोई स्रोत इस परंपरा को घटती हुई बताता है — वह वाक्य रिकॉर्ड के साथ दिखाया जाता है। यह कभी इस बात से नहीं निकाला जाता कि हमने कितना कम दर्ज किया है: हमारे रिकॉर्ड में कमी इस बात का प्रमाण नहीं कि किसी ने पकाना छोड़ दिया।',
     originDisclaimer:
       'इस व्यंजन पर एक से ज़्यादा प्रलेखित ऐतिहासिक दावे हैं। नीचे की परंपराएँ वैसे ही दर्ज हैं जैसे हर जगह उन्हें बताती है, अपने स्रोतों समेत। यहाँ किसी दावे को विजेता की तरह पेश नहीं किया जाता, और इसमें से कुछ भी प्रामाणिकता के अंक को प्रभावित नहीं करता — वह मापता है कि किसी जगह व्यंजन कैसे बनता है, यह नहीं कि सबसे पहले किसने बनाया।',
+    supportRunsOn:
+      'एटलस में जो कुछ है वह विकिपीडिया, विकिडेटा, विकिमीडिया कॉमन्स, विकिबुक्स और खुले क्षेत्रीय रजिस्टरों से आता है। ये पढ़ने के लिए मुफ़्त हैं, खुले लाइसेंस पर हैं, और जिस भी रिकॉर्ड में इस्तेमाल होते हैं वहाँ इनका श्रेय दिया जाता है। परियोजना के मुफ़्त बने रहने का पूरा आधार यही है, और यह एक निर्णय है, कोई पड़ाव नहीं।',
+    contributeToTheAtlas:
+      'एटलस में योगदान दें',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -11610,7 +11410,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       '靠证据核查取得。这里比例低是诚实，不是失败。',
     supportLead:
-      '{n} 项传统，全部建立在可自由阅读、采用开放许可的资料之上。没有广告，不做追踪，也没有任何内容需要付费。下面是它真正的花费，包括那些不花钱的部分。金额以 {currency} 计。',
+      '{n} 项传统，全部建立在可自由阅读、开放许可的来源之上。没有广告，没有追踪，也没有任何东西藏在付费之后。运行所需，由这个来源的选择来承担 — 而不是靠谁付钱换取出现在这里。',
     notForSaleAuthentic:
       '一条记录不会因为付钱而被判定为正宗。那来自证据，以及做这道菜的人。',
     notForSalePromotion:
@@ -11620,37 +11420,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       '在 Open Collective 打开。这里不收取任何款项 — 本应用不保存你的支付信息，将来也不会。',
     donationsPendingBody:
-      '目前没有可以汇款的地方。有了以后会是一个 Open Collective，让每一笔收入和支出都公开，任何人都能拿这一页对照账本。',
+      '目前还没有可以汇款的地方。图册里没有任何东西依赖于此 — 它建立在可自由阅读的来源之上，而这一点不会变。',
     mostUsefulThing:
       '能给这份图谱最有用的东西不是钱。它大部分只有一个名字和一个地方，因为没有人写下这道菜怎么做。',
     administration:
       '管理',
     administrationNote:
       '阈值、审核、来源检查与使用情况。需要令牌。',
-    needTranslationTitle:
-      '翻译',
-    needTranslationWhat:
-      '有五千条记录用食物来源地的语言描述这道菜 — 印地语、韩语、印尼语、中文。不懂这门语言的读者会看到原文，并被告知那是哪种语言：诚实，但对他帮助不大。',
-    needTranslationWhy:
-      '这是本项目唯一花钱的部分。按需翻译需要一个放在密钥之后的模型，而它必须遵守的规则已经写好并经过测试：不改任何食材的名字，不改任何数字，并在当地的人核对之前，把结果标注为机器翻译。',
-    needTranslationCost:
-      '按真实使用量计，每月数十美元，因为一次翻译做完就会保存下来。',
-    needHostingTitle:
-      '托管',
-    needHostingWhat:
-      '这个应用及其十四兆字节的记录，提供给每一位打开它的人。',
-    needHostingWhy:
-      '今天它还在免费额度之内。如果使用的人够多，就不会了。',
-    needHostingCost:
-      '到目前为止没有。',
-    needSourcesTitle:
-      '资料来源',
-    needSourcesWhat:
-      '图谱里的每一张照片、每一篇文章、每一份食谱和每一条登记条目。',
-    needSourcesWhy:
-      '维基百科、维基数据、维基共享资源、维基教科书，以及意大利的地区开放数据，都可自由阅读并采用开放许可。没有密钥，没有档位，没有账单。',
-    needSourcesCost:
-      '没有，而且将继续没有。',
     howLead:
       '这就是这份图谱赖以建立的规则，它是算术而不是政策 — 也就是说你可以核对它，而不必相信它。',
     sixDimensionsBody:
@@ -12537,6 +12313,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '标记是因为有来源把这项传统描述为正在衰退 — 那句话会随记录一同显示。它绝不是从我们记载得多少推断出来的：我们记录里的空白，不能证明有谁停止了烹饪。',
     originDisclaimer:
       '这道菜有不止一项有据可查的历史主张。下面的传统按各地自己的说法记录，并附上来源。这里不把任何一项主张当作胜出者，而且这些都不影响本真度分数 — 那个分数衡量的是这道菜在某地怎么做，而不是谁最先做出来。',
+    supportRunsOn:
+      '图册里的一切都来自维基百科、维基数据、维基共享资源、维基教科书，以及开放的地区登记资料。它们可自由阅读、采用开放许可，并在每一条用到它们的记录上署名。这就是这个项目保持免费的全部依据，而且这是一个决定，不是一个阶段。',
+    contributeToTheAtlas:
+      '支持这部图册',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -12747,7 +12527,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     meterAssessedNote:
       '根拠の確認を経て得られます。ここの割合が低いのは正直さであって、失敗ではありません。',
     supportLead:
-      '{n} 件の伝統。すべて、自由に読めてオープンライセンスの資料から作られています。広告なし、追跡なし、有料の壁もありません。以下が実際にかかる費用です — かからない部分も含めて。金額は {currency} です。',
+      '{n} 件の伝統。すべて、自由に読めて開かれたライセンスの資料だけで組み立てています。広告はなく、追跡もなく、支払いの向こう側に置いたものもありません。運営に要るものは、この資料の選び方でまかなっています。ここに載るために誰かが払っているのではありません。',
     notForSaleAuthentic:
       'お金を払って記録を「本物」にすることはできません。それは根拠と、その料理を作る人たちから来ます。',
     notForSalePromotion:
@@ -12757,37 +12537,13 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     donationFootnote:
       'Open Collective で開きます。ここでは何も受け取りません — このアプリはあなたの支払い情報を保持しませんし、今後も保持しません。',
     donationsPendingBody:
-      'お金を送る先がありません。できたときには Open Collective にします。寄付も支出もすべて公開され、誰でもこのページを帳簿と突き合わせられるように。',
+      'お金を送る先はまだありません。アトラスの何もそれに依存していません。自由に読める資料の上に成り立っていて、そこは変わりません。',
     mostUsefulThing:
       'このアトラスに差し出せるいちばん役に立つものは、お金ではありません。その大半は名前と場所だけです。誰もその料理の作り方を書き留めなかったからです。',
     administration:
       '管理',
     administrationNote:
       'しきい値、モデレーション、出典の確認、利用状況。トークンが必要です。',
-    needTranslationTitle:
-      '翻訳',
-    needTranslationWhat:
-      '五千件の記録は、その料理を生まれた土地の言語で説明しています — ヒンディー語、韓国語、インドネシア語、中国語。その言語を解さない読者には原文が示され、何語かが伝えられます。正直ですが、その人の役にはあまり立ちません。',
-    needTranslationWhy:
-      'この計画で費用がかかるのはここだけです。求めに応じた翻訳には鍵の向こうのモデルが必要で、守るべき規則はすでに書かれ、試されています。材料の名前を置き換えない、数字を変えない、そして現地の誰かが確かめるまで機械によるものと明示する。',
-    needTranslationCost:
-      '実際の利用で月に数十ドル。翻訳は一度行えば保存されるからです。',
-    needHostingTitle:
-      'ホスティング',
-    needHostingWhat:
-      'アプリと、その十四メガバイトの記録を、開いた人すべてに届けること。',
-    needHostingWhy:
-      '今は無料の枠に収まっています。使う人が十分に増えれば収まらなくなります。',
-    needHostingCost:
-      '今のところ、ありません。',
-    needSourcesTitle:
-      '出典',
-    needSourcesWhat:
-      'アトラスにあるすべての写真、記事、レシピ、登録簿の記載。',
-    needSourcesWhy:
-      'ウィキペディア、ウィキデータ、ウィキメディア・コモンズ、ウィキブックス、そしてイタリアの地域オープンデータは、自由に読めてオープンライセンスです。鍵も、段階も、請求もありません。',
-    needSourcesCost:
-      'ありません。そしてこれからもありません。',
     howLead:
       'これがこのアトラスの土台にある規則です。方針ではなく算術なので、信じるのではなく確かめられます。',
     sixDimensionsBody:
@@ -13674,6 +13430,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ある資料がこの伝統を衰えつつあると述べているために印を付けています。その一文は記録とともに示します。こちらの記録が少ないことから推し量ることは決してありません。こちらの記録の空白は、誰かが作るのをやめた証拠ではないからです。',
     originDisclaimer:
       'この料理には、裏づけのある歴史的な由来の主張が複数あります。下の伝統は、それぞれの土地が述べるとおりに、出典とともに記録しています。どの主張も勝ったものとしては示しませんし、これらが本物らしさの点数に影響することもありません。点数が測るのは、ある土地でその料理がどう作られるかであって、誰が最初に作ったかではありません。',
+    supportRunsOn:
+      'アトラスにあるものはすべて、ウィキペディア、ウィキデータ、ウィキメディア・コモンズ、ウィキブックス、そして公開されている地域の登録簿から来ています。どれも自由に読めて、開かれたライセンスで、使った記録ごとに出典を示しています。この企てが無料であり続ける根拠はこれがすべてで、これは段階ではなく決定です。',
+    contributeToTheAtlas:
+      'アトラスを支える',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

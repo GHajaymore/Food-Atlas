@@ -38,11 +38,34 @@ export const CURRENCY = 'USD';
  */
 export const OPEN_COLLECTIVE_SLUG = process.env.EXPO_PUBLIC_OPENCOLLECTIVE ?? '';
 
+/**
+ * A finished link to wherever donations actually go.
+ *
+ * Any platform: Ko-fi, GitHub Sponsors, Liberapay, Buy Me a Coffee, PayPal. The button
+ * was previously reachable only through an Open Collective, which meant the page said
+ * "not open for donations yet" whenever that one platform had not been set up — a
+ * sentence about a platform, read as a sentence about the project.
+ *
+ * The Open Collective slug still works and takes precedence, so anything already
+ * configured keeps working untouched.
+ */
+const DONATE_URL = (process.env.EXPO_PUBLIC_DONATE_URL ?? '').trim();
+
 export const DONATION_URL = OPEN_COLLECTIVE_SLUG
   ? `https://opencollective.com/${OPEN_COLLECTIVE_SLUG}`
-  : '';
+  : /^https:\/\//i.test(DONATE_URL)
+    ? DONATE_URL
+    : '';
 
-/** The public ledger, which is the point of choosing this platform. */
+/**
+ * The public ledger — and empty for every platform that does not publish one.
+ *
+ * This page tells a reader they can read the ledger, and the reason that promise is safe
+ * is that the platform keeps it rather than us remembering to. Most donation services
+ * publish nothing at all, so a link here for one of those would be a claim about
+ * transparency the project could not honour. Better a donate button with no ledger than a
+ * ledger button with no ledger.
+ */
 export const LEDGER_URL = OPEN_COLLECTIVE_SLUG
   ? `https://opencollective.com/${OPEN_COLLECTIVE_SLUG}/transactions`
   : '';
@@ -55,3 +78,6 @@ export const LEDGER_URL = OPEN_COLLECTIVE_SLUG
  * and spends it on a dead link.
  */
 export const canAcceptDonations = (): boolean => DONATION_URL.length > 0;
+
+/** True only where the platform publishes what was received and spent. */
+export const hasPublicLedger = (): boolean => LEDGER_URL.length > 0;

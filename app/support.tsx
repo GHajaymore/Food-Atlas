@@ -1,20 +1,24 @@
 /**
- * What it costs to run, and what money would and would not change.
+ * What the project runs on, and what money would and would not change.
  *
- * The page a free project usually gets wrong. "Support our servers" is the standard
- * line and it is false for most small projects — this one runs inside a free tier
- * and spends nothing today. An app that deletes fabricated view counts cannot then
- * invent a budget to ask against.
+ * The page a free project usually gets wrong. "Support our servers" is the standard line
+ * and it is false for most small projects, and an app that deletes fabricated view counts
+ * cannot then invent a budget to ask against. So this page says what the atlas is built
+ * on — sources that are free to read and openly licensed — rather than what it spends.
  *
- * So the page leads with the fact that almost everything is free, names the single
- * thing that is not, and says plainly what a donation does not buy. That last part
- * is not modesty: the product's whole claim is that its classifications come from
- * evidence and from people who cook the food, and a reader who has just been asked
+ * It used to itemise three line items with their prices. That reads as a household budget
+ * pinned to a wall and invites a reader to audit a project rather than trust one; Ajay
+ * asked for it at a higher level. Nothing load-bearing went with it: the basis is still
+ * stated, and so is what a donation does not buy.
+ *
+ * That last part is not modesty. The product's whole claim is that classification comes
+ * from evidence and from people who cook the food, and a reader who has just been asked
  * for money is entitled to be told the money does not move a badge.
  *
- * No payment is taken here. The button opens a donation page at its source, the same
- * way a video opens at the platform that hosts it — this app has no business holding
- * anybody's card details.
+ * No payment is taken here. The button opens a donation page at its source, the same way
+ * a video opens at the platform that hosts it — this app has no business holding
+ * anybody's card details, and the destination is whatever `EXPO_PUBLIC_DONATE_URL` or an
+ * Open Collective slug points at.
  */
 
 import { router } from 'expo-router';
@@ -29,12 +33,12 @@ import { H5, Muted, T } from '../src/components/Text';
 import { catalogueStats } from '../src/data/catalogue';
 import {
   canAcceptDonations,
-  CURRENCY,
   DONATION_URL,
+  hasPublicLedger,
   LEDGER_URL,
 } from '../src/domain/support';
 import { openAtSource } from '../src/domain/video';
-import { accentText, color, font, space } from '../src/theme/tokens';
+import { accentText, color, space } from '../src/theme/tokens';
 
 export default function Support() {
   const copy = useCopy();
@@ -48,28 +52,21 @@ export default function Support() {
       <NavRow title={copy.keepingItFree} onBack={back} />
 
       <Muted style={styles.lead}>
-        {copy.supportLead
-          .replace('{n}', catalogueStats.total.toLocaleString())
-          .replace('{currency}', CURRENCY)}
+        {copy.supportLead.replace('{n}', catalogueStats.total.toLocaleString())}
       </Muted>
 
-      {/* Built from the copy rather than mapped over `FUNDING_NEEDS`, so the table a
-          reader sees is in their language. The domain list stays as the record of what
-          the project actually spends; this is the same list, said. */}
-      {[
-        { title: copy.needTranslationTitle, what: copy.needTranslationWhat, why: copy.needTranslationWhy, cost: copy.needTranslationCost },
-        { title: copy.needHostingTitle, what: copy.needHostingWhat, why: copy.needHostingWhy, cost: copy.needHostingCost },
-        { title: copy.needSourcesTitle, what: copy.needSourcesWhat, why: copy.needSourcesWhy, cost: copy.needSourcesCost },
-      ].map((need) => (
-        <Block key={need.title} style={styles.need}>
-          <View style={styles.needHead}>
-            <T style={styles.needTitle}>{need.title}</T>
-            <Muted style={styles.needCost}>{need.cost}</Muted>
-          </View>
-          <Muted style={styles.needText}>{need.what}</Muted>
-          <Muted style={styles.needText}>{need.why}</Muted>
-        </Block>
-      ))}
+      {/*
+       * What the project runs on, rather than what it spends.
+       *
+       * This page used to itemise three line items with their prices — a household
+       * budget pinned to a wall, which invites a reader to audit a project rather than
+       * trust one. Ajay asked for it at a higher level, and the two things a reader
+       * actually needs from this page are untouched by that: what it is built on, and
+       * what money cannot buy here.
+       */}
+      <Block style={styles.need}>
+        <Muted style={styles.needText}>{copy.supportRunsOn}</Muted>
+      </Block>
 
       <H5 style={styles.heading}>{copy.whatItDoesNotBuy}</H5>
       <View style={styles.list}>
@@ -85,19 +82,28 @@ export default function Support() {
 
       {canAcceptDonations() ? (
         <>
-          <Button label={copy.contributeOnOpenCollective} block onPress={() => openAtSource(DONATION_URL)} />
+          {/* Name the platform only where naming it is true. Somebody deciding whether to
+              click is helped by knowing where they will land, and misled by being told
+              the wrong one. */}
+          <Button
+            label={hasPublicLedger() ? copy.contributeOnOpenCollective : copy.contributeToTheAtlas}
+            block
+            onPress={() => openAtSource(DONATION_URL)}
+          />
           <Muted style={styles.footnote}>{copy.donationFootnote}</Muted>
           {/* The reason for choosing this platform, offered rather than claimed. An
               app that publishes its own coverage gaps should let anyone read the
               ledger too, and that promise is kept by the platform rather than by us
               remembering to update a paragraph. */}
-          <Button
-            label={copy.readTheLedger}
-            variant="secondary"
-            block
-            onPress={() => openAtSource(LEDGER_URL)}
-            style={styles.ledger}
-          />
+          {hasPublicLedger() ? (
+            <Button
+              label={copy.readTheLedger}
+              variant="secondary"
+              block
+              onPress={() => openAtSource(LEDGER_URL)}
+              style={styles.ledger}
+            />
+          ) : null}
         </>
       ) : (
         /* No destination, no button. A donate control pointing nowhere spends a
@@ -153,10 +159,9 @@ const styles = StyleSheet.create({
   adminNote: { fontSize: 11, lineHeight: 16, marginTop: 2 },
   lead: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 4, marginBottom: 18 },
 
+  /* `needHead`, `needTitle` and `needCost` went with the cost table. A style nothing
+     renders is a style nobody reviews. */
   need: { padding: 12, marginBottom: 10 },
-  needHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },
-  needTitle: { fontSize: 13, fontFamily: font.medium },
-  needCost: { fontSize: 11, color: accentText, flexShrink: 0, maxWidth: '58%', textAlign: 'right' },
   needText: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 6 },
 
   heading: { marginTop: 22, marginBottom: 8 },

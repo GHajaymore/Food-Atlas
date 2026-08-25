@@ -2294,18 +2294,13 @@ describe('one country, one name', () => {
 });
 
 describe('the donation page does not invent a budget', () => {
-  it('says plainly that most of it costs nothing', () => {
+  it('says what it runs on rather than asking readers to support the servers', () => {
     // "Support our servers" is the standard line and it is false for most small
-    // projects. An app that deletes fabricated view counts cannot invent a budget.
-    // Asserted on the copy the screen renders, not on a second table beside it.
-    expect(EN.needSourcesCost).toMatch(/nothing/i);
-    expect(EN.needSourcesWhy).toMatch(/Wikipedia|Wikidata|Commons/);
-  });
-
-  it('names the one thing that actually costs money', () => {
-    const translation = { title: EN.needTranslationTitle, cost: EN.needTranslationCost, why: EN.needTranslationWhy };
-    expect(translation.why).toMatch(/only part of this project that costs money/);
-    expect(translation.cost).not.toMatch(/nothing/i);
+    // projects. An app that deletes fabricated view counts cannot invent a budget —
+    // so the page names the sources it is built from instead of a cost it does not have.
+    expect(EN.supportRunsOn).toMatch(/Wikipedia|Wikidata|Commons/);
+    expect(EN.supportRunsOn).toMatch(/openly licensed/i);
+    expect(EN.supportLead).not.toMatch(/\$|USD|per month/i);
   });
 
   it('tells a reader what money cannot buy', () => {
@@ -2637,10 +2632,11 @@ describe('the chrome in other languages', () => {
    */
   const SAME_WORD_IN_BOTH = new Set<string>([
     'fr.administration', // Administration — same spelling, same meaning, in French.
-    'de.needHostingTitle', // Hosting is the loanword in daily use in all four of
-    'it.needHostingTitle', // these languages; the native coinages (Webspeicherplatz,
-    'nl.needHostingTitle', // hébergement-style compounds) would read as translationese
-    'pl.needHostingTitle', // on a page whose whole job is to be plainly understood.
+    /*
+     * The four "Hosting" entries that used to sit here are gone with the funding table
+     * they belonged to. Removed rather than left: the check below exists precisely so a
+     * list of excused echoes cannot outlive the strings it excuses.
+     */
 
     // "Fusion" is the culinary term itself in these five languages, not a gap. The
     // ones that do translate it did — Spanish Fusión, Italian Fusione, Russian Фьюжн,
