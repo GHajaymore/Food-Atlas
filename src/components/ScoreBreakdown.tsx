@@ -36,7 +36,7 @@ export function ScoreBreakdown({ score, breakdown, showBars }: Props) {
       {showBars ? (
         <View style={styles.rows}>
           {breakdown.map(([label, value]) => (
-            <View key={label} style={styles.row} accessibilityLabel={`${label}: ${value} out of 100`}>
+            <View key={label} style={styles.row} accessibilityLabel={copy.scoreOutOf100.replace('{label}', label).replace('{value}', String(value))}>
               <T style={styles.label}>{label}</T>
               <View style={styles.track}>
                 <View style={[styles.fill, { width: `${value}%` }]} />

@@ -348,11 +348,8 @@ export default function Contribute() {
               <CardBody>
                 {missing.length
                   ? `${stillNeeded(missing.map((f) => REQUIRED_LABELS[f as keyof typeof REQUIRED_LABELS]))} ` +
-                    `Everything else is welcome and none of it is required — ` +
-                    `knowing where a food is from and that nobody has written it down is already more than any ` +
-                    `source here holds.`
-                  : `It opens the form at its source with what you have written already filled in. Nothing about ` +
-                    `you is collected by this app, and nothing is published until people from the place confirm it.`}
+                    copy.nothingElseRequired
+                  : copy.opensTheFormPrefilled}
               </CardBody>
               <Button
                 label={copy.sendThisTradition}

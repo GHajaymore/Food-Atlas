@@ -105,7 +105,7 @@ export default function Browse() {
                 variant="chip"
                 label={`${prefix ?? ''}${query[key]}${key === 'q' ? '”' : ''} ×`}
                 query={without}
-                describedAs={`Remove the ${key} filter`}
+                describedAs={copy.removeFilter.replace('{key}', key)}
               />
             );
           })}
@@ -124,7 +124,7 @@ export default function Browse() {
 
           {visible.length < results.length ? (
             <Button
-              label={`Show ${Math.min(PAGE, results.length - visible.length)} more`}
+              label={copy.showNMore.replace('{n}', String(Math.min(PAGE, results.length - visible.length)))}
               variant="secondary"
               block
               style={styles.more}

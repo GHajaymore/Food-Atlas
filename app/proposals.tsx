@@ -173,7 +173,7 @@ export default function Proposals() {
                         <View key={`${person.name}-${i}`} style={styles.person}>
                           <T style={styles.personName}>
                             {person.name}
-                            {person.local ? ' — from the town' : ''}
+                            {person.local ? copy.fromTheTown : ''}
                           </T>
                           <Muted style={styles.item}>{person.connection}</Muted>
                           {/* The quote, with a translation available beside it rather

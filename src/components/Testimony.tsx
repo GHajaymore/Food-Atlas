@@ -22,6 +22,7 @@
  * proposal on sight would spend a metered service on sentences nobody chose to read.
  */
 
+import { useCopy } from '../i18n';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { canOfferTranslation, testimonyNote } from '../domain/testimony';
@@ -32,6 +33,7 @@ import { Pressable } from './Pressable';
 import { Muted } from './Text';
 
 export function Testimony({ said }: { said: string }) {
+  const copy = useCopy();
   const locale = useLocale((state) => state.locale);
   const [translated, setTranslated] = useState('');
   const [state, setState] = useState<'idle' | 'loading' | 'failed'>('idle');
@@ -53,7 +55,7 @@ export function Testimony({ said }: { said: string }) {
       {offer && !translated ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`Translate this confirmation into ${locale}`}
+          accessibilityLabel={copy.translateThisConfirmation.replace('{language}', locale)}
           tint="none"
           disabled={state === 'loading'}
           onPress={async () => {
@@ -73,7 +75,7 @@ export function Testimony({ said }: { said: string }) {
           style={styles.control}
         >
           <Muted style={styles.controlLabel}>
-            {state === 'loading' ? 'Translating…' : state === 'failed' ? 'Could not translate — try again' : 'Translate'}
+            {state === 'loading' ? copy.translating : state === 'failed' ? copy.couldNotTranslate : copy.translate}
           </Muted>
         </Pressable>
       ) : null}

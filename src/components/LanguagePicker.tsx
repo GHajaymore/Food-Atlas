@@ -71,7 +71,7 @@ export function LanguagePicker({ compact }: { compact?: boolean }) {
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`Language: ${label(locale)}. Change it.`}
+        accessibilityLabel={copy.languageChangeIt.replace('{language}', label(locale))}
         tint="neutral"
         onPress={() => setOpen((was) => !was)}
         style={compact ? styles.triggerCompact : styles.trigger}
@@ -98,7 +98,9 @@ export function LanguagePicker({ compact }: { compact?: boolean }) {
                 accessibilityState={{ selected: active }}
                 accessibilityLabel={
                   partial
-                    ? `${label(code)}, ${Math.round(coverage * 100)} per cent translated`
+                    ? copy.perCentTranslated
+                        .replace('{language}', label(code))
+                        .replace('{n}', String(Math.round(coverage * 100)))
                     : label(code)
                 }
                 tint="neutral"

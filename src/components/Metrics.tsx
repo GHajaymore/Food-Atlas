@@ -75,7 +75,7 @@ export function Explain({ note }: { note?: MetricNote }) {
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`How ${note.title} is counted`}
+        accessibilityLabel={copy.howThisIsCountedFor.replace('{figure}', note.title)}
         tint="none"
         onPress={() => setOpen(!open)}
         /*
@@ -135,8 +135,12 @@ export function StatTile({
 
 /** A single ratio against its whole, with the caveat that belongs to it. */
 export function Meter({ ratio, note }: { ratio: Ratio; note?: MetricNote }) {
+  const copy = useCopy();
   return (
-    <View style={styles.meter} accessibilityLabel={`${ratio.label}: ${ratio.count} of ${ratio.total}`}>
+    <View style={styles.meter} accessibilityLabel={copy.countOfTotal
+        .replace('{label}', ratio.label)
+        .replace('{count}', String(ratio.count))
+        .replace('{total}', String(ratio.total))}>
       <View style={styles.meterHead}>
         <T style={styles.meterLabel}>{ratio.label}</T>
         <Muted style={styles.meterValue}>

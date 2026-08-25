@@ -74,7 +74,7 @@ export function LocalNames({ names, original }: Props) {
           <Pressable
             key={code}
             accessibilityRole="link"
-            accessibilityLabel={`Read about ${name} in ${languageByCode(code)!.label} on Wikipedia`}
+            accessibilityLabel={copy.readAboutOnWikipedia.replace('{name}', name).replace('{language}', languageByCode(code)!.label)}
             tint="none"
             onPress={() => openAtSource(articleUrl(code, name))}
             style={styles.chip}
@@ -95,7 +95,7 @@ export function LocalNames({ names, original }: Props) {
           tint="none"
           onPress={() => setOpen(!open)}
         >
-          <Muted style={styles.more}>{open ? 'Show fewer' : `Show ${rest} more`}</Muted>
+          <Muted style={styles.more}>{open ? copy.showFewer : copy.showNMore.replace('{n}', String(rest))}</Muted>
         </Pressable>
       ) : null}
 

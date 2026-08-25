@@ -152,8 +152,8 @@ export default function Search() {
       <View style={styles.modes}>
         {(
           [
-            ['find', 'Find a dish'],
-            ['pantry', 'Cook with what I have'],
+            ['find', copy.searchModeFind],
+            ['pantry', copy.searchModePantry],
           ] as const
         ).map(([key, label]) => (
           <Tag
@@ -171,7 +171,7 @@ export default function Search() {
         onChangeText={mode === 'pantry' ? setPantryInput : setQuery}
         autoCorrect={false}
         returnKeyType="search"
-        accessibilityLabel={mode === 'pantry' ? 'Ingredients you have' : copy.search}
+        accessibilityLabel={mode === 'pantry' ? copy.ingredientsYouHave : copy.search}
         style={styles.queryField}
       />
 
@@ -207,7 +207,7 @@ export default function Search() {
               ) : null}
 
               <View style={styles.resultsHeader}>
-                <H6>{pantry.matches.length ? `${pantry.matches.length} traditions` : 'Nothing yet'}</H6>
+                <H6>{pantry.matches.length ? copy.nTraditions.replace('{n}', pantry.matches.length.toLocaleString()) : copy.nothingYet}</H6>
                 {pantry.matches.length ? (
                   <Muted style={styles.resultCount}>{copy.mostOfYourListFirst}</Muted>
                 ) : null}
@@ -239,7 +239,7 @@ export default function Search() {
                     </T>
                     <Muted style={styles.pantryBadge} numberOfLines={1}>
                       {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : levelLabel(copy, dish.badgeLevel)}
-                      {dish.steps.length ? ' · method recorded' : ' · no method yet'}
+                      {dish.steps.length ? copy.methodRecorded : copy.noMethodYet}
                     </Muted>
                   </View>
                 </Pressable>
@@ -409,7 +409,7 @@ export default function Search() {
           total, and the list grows on request rather than all at once. */}
       {results.length > visible.length ? (
         <Button
-          label={`Show more — ${results.length - visible.length} left`}
+          label={copy.showMoreLeft.replace('{n}', String(results.length - visible.length))}
           variant="secondary"
           block
           onPress={() => setPage((p) => p + 1)}

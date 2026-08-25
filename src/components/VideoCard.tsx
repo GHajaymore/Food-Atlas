@@ -39,14 +39,14 @@ export function VideoCard({ video }: { video: Video }) {
     <View style={styles.card}>
       <Pressable
         accessibilityRole="link"
-        accessibilityLabel={`Watch ${video.creator} at source`}
+        accessibilityLabel={copy.watchAtSourceCreator.replace('{creator}', video.creator)}
         tint="none"
         onPress={() => openAtSource(url)}
         style={styles.stillPress}
       >
         <Photo
           uri={thumbnailUrl(video)}
-          label={`Still from ${video.creator}`}
+          label={copy.stillFromCreator.replace('{creator}', video.creator)}
           style={styles.still}
         />
         <View style={styles.playOverlay} pointerEvents="none">

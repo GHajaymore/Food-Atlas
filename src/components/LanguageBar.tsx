@@ -93,7 +93,7 @@ export function LanguageBar({
           {reading.status === 'missing' ? (
             canTranslate ? (
               <Button
-                label={status === 'loading' ? 'Translating…' : 'Translate this record'}
+                label={status === 'loading' ? copy.translating : copy.translateThisRecord}
                 variant="secondary"
                 block
                 onPress={onTranslate}

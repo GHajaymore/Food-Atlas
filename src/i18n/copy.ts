@@ -630,6 +630,46 @@ export interface Copy {
   mealCelebration: string;
   mealAnytime: string;
   mealUnclassified: string;
+  searchModeFind: string;
+  searchModePantry: string;
+  ingredientsYouHave: string;
+  nTraditions: string;
+  nothingYet: string;
+  methodRecorded: string;
+  noMethodYet: string;
+  showMoreLeft: string;
+  showNMore: string;
+  methodAsPublished: string;
+  methodTraditional: string;
+  everythingClassified: string;
+  everythingFrom: string;
+  everythingRecordedAs: string;
+  everythingMadeWith: string;
+  seeEverything: string;
+  noPhotographOnRecord: string;
+  scoreOutOf100: string;
+  removeFilter: string;
+  anywhereInTheAtlas: string;
+  absenceOfRecords: string;
+  narrowToA: string;
+  fromTheTown: string;
+  showFewer: string;
+  readAboutOnWikipedia: string;
+  languageChangeIt: string;
+  perCentTranslated: string;
+  translateThisRecord: string;
+  translating: string;
+  translate: string;
+  translateThisConfirmation: string;
+  couldNotTranslate: string;
+  howThisIsCountedFor: string;
+  countOfTotal: string;
+  watchAtSourceCreator: string;
+  stillFromCreator: string;
+  thatDidNotSend: string;
+  containsAlcohol: string;
+  nothingElseRequired: string;
+  opensTheFormPrefilled: string;
   interfaceTranslationNote: string;
 }
 
@@ -1570,6 +1610,86 @@ export const EN: Copy = {
   mealCelebration: 'Celebration & feast',
   mealAnytime: 'Any time',
   mealUnclassified: 'Not recorded',
+  searchModeFind:
+    'Find a dish',
+  searchModePantry:
+    'Cook with what I have',
+  ingredientsYouHave:
+    'Ingredients you have',
+  nTraditions:
+    '{n} traditions',
+  nothingYet:
+    'Nothing yet',
+  methodRecorded:
+    ' · method recorded',
+  noMethodYet:
+    ' · no method yet',
+  showMoreLeft:
+    'Show more — {n} left',
+  showNMore:
+    'Show {n} more',
+  methodAsPublished:
+    'The method as published. Modern equipment and shortcuts are part of it.',
+  methodTraditional:
+    'The traditional method, with no modern shortcuts substituted in.',
+  everythingClassified:
+    'Everything classified {what}',
+  everythingFrom:
+    'Everything from {place}',
+  everythingRecordedAs:
+    'Everything recorded as {what}',
+  everythingMadeWith:
+    'Everything made with {ingredient}',
+  seeEverything:
+    '{label} — see everything',
+  noPhotographOnRecord:
+    '{label} — no photograph on record',
+  scoreOutOf100:
+    '{label}: {value} out of 100',
+  removeFilter:
+    'Remove the {key} filter',
+  anywhereInTheAtlas:
+    ' anywhere in the atlas',
+  absenceOfRecords:
+    '. That is an absence of records, not an absence of food — we’d rather say we don’t know.',
+  narrowToA:
+    'Narrow to a {level} · {n} recorded',
+  fromTheTown:
+    ' — from the town',
+  showFewer:
+    'Show fewer',
+  readAboutOnWikipedia:
+    'Read about {name} in {language} on Wikipedia',
+  languageChangeIt:
+    'Language: {language}. Change it.',
+  perCentTranslated:
+    '{language}, {n} per cent translated',
+  translateThisRecord:
+    'Translate this record',
+  translating:
+    'Translating…',
+  translate:
+    'Translate',
+  translateThisConfirmation:
+    'Translate this confirmation into {language}',
+  couldNotTranslate:
+    'Could not translate — try again',
+  howThisIsCountedFor:
+    'How {figure} is counted',
+  countOfTotal:
+    '{label}: {count} of {total}',
+  watchAtSourceCreator:
+    'Watch {creator} at source',
+  stillFromCreator:
+    'Still from {creator}',
+  thatDidNotSend:
+    'That did not send.',
+  containsAlcohol:
+    'Contains alcohol',
+  nothingElseRequired:
+    'Everything else is welcome and none of it is required — knowing where a food is from and that nobody has written it down is already more than any source here holds.',
+  opensTheFormPrefilled:
+    'It opens the form at its source with what you have written already filled in. Nothing about you is collected by this app, and nothing is published until people from the place confirm it.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

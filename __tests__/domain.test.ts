@@ -1443,7 +1443,9 @@ describe('dietary classification', () => {
 
   it('surfaces alcohol as a trace so a reader avoiding it is told', () => {
     expect(byId(6).diet.contains).toContain('alcohol');
-    expect(traceLabels(byId(6).diet)).toContain('Contains alcohol');
+    // traceLabels returns copy keys now; the words themselves live in the catalogues.
+    expect(traceLabels(byId(6).diet)).toContain('containsAlcohol');
+    expect(EN.containsAlcohol).toBe('Contains alcohol');
   });
 
   it('labels a dish with its group and kinds', () => {
@@ -2646,7 +2648,27 @@ describe('the chrome in other languages', () => {
       mealLunch: ['nl'],
       mealSnack: ['de'],
     }).flatMap(([key, locales]) => locales.map((l) => `${l}.${key}`)),
+
+    'fr.nTraditions', // "traditions" is the French word, spelled the same.
   ]);
+
+  /*
+   * The allowlist has to stay exactly as long as the echoes it excuses.
+   *
+   * An entry that nothing needs is worse than a missing one: it never gets reviewed, and
+   * the day a genuinely untranslated string lands on a key that happens to be listed, the
+   * check above stays green and reports success. Two dead entries were found this way.
+   */
+  it('carries no allowlist entry that nothing actually needs', () => {
+    const echoing = new Set(
+      UI_LOCALES.filter((l) => l !== 'en').flatMap((locale) =>
+        Object.entries(CATALOGUES[locale])
+          .filter(([key, value]) => value === EN[key as keyof typeof EN])
+          .map(([key]) => `${locale}.${key}`),
+      ),
+    );
+    expect([...SAME_WORD_IN_BOTH].filter((pair) => !echoing.has(pair))).toEqual([]);
+  });
 
   it('never echoes English back as though it were a translation', () => {
     /*

@@ -117,7 +117,7 @@ export default function Feed() {
   const place = path.length ? path[path.length - 1].value : copy.worldwide;
   const placeHint = next
     ? path.length
-      ? `Narrow to a ${copy[next.labelKey]} · ${next.options.length} recorded`
+      ? copy.narrowToA.replace('{level}', copy[next.labelKey]).replace('{n}', String(next.options.length))
       : placeChoiceHint(copy, next.options)
     : copy.deepestLevelRecorded;
 
@@ -317,8 +317,8 @@ export default function Feed() {
               ...dietNames,
               ...meals.map((m) => copy[MEAL_LABELS[m]].toLowerCase()),
             ])}
-            {path.length ? ` in ${place}` : ' anywhere in the atlas'}. That is an absence of records, not an absence
-            of food — we&apos;d rather say we don&apos;t know.
+            {path.length ? copy.inPlace.replace('{place}', place) : copy.anywhereInTheAtlas}
+            {copy.absenceOfRecords}
           </CardBody>
           {/* The shelf is one of the things narrowing this list, so a reset that left
               it in place would look like a button that does nothing. */}
@@ -366,7 +366,7 @@ export default function Feed() {
           rendering everything. The count above always states the true total. */}
       {!isBrowsing && feed.length > visible.length ? (
         <Button
-          label={`Show more — ${feed.length - visible.length} left`}
+          label={copy.showMoreLeft.replace('{n}', String(feed.length - visible.length))}
           variant="secondary"
           block
           onPress={() => setPage((p) => p + 1)}

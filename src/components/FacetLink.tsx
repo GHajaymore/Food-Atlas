@@ -19,6 +19,7 @@
  * and on a touch screen there is no hover at all.
  */
 
+import { useCopy } from '../i18n';
 import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { hrefFor, type BrowseQuery } from '../domain/browse';
@@ -50,12 +51,13 @@ interface Props {
 }
 
 export function FacetLink({ label, query, variant = 'inline', describedAs }: Props) {
+  const copy = useCopy();
   if (!label.trim()) return null;
 
   return (
     <Pressable
       accessibilityRole="link"
-      accessibilityLabel={describedAs ?? `${label} — see everything`}
+      accessibilityLabel={describedAs ?? copy.seeEverything.replace('{label}', label)}
       tint="neutral"
       onPress={() => router.push(hrefFor(query))}
       style={variant === 'chip' ? styles.chip : styles.inline}

@@ -218,7 +218,7 @@ export default function DishDetail() {
         <FacetLink
           variant="tag"
           label={`${dish.badgeIcon} ${levelLabel(copy, dish.badgeLevel, 'full')}`}
-          describedAs={`Everything classified ${levelLabel(copy, dish.badgeLevel)}`}
+          describedAs={copy.everythingClassified.replace('{what}', levelLabel(copy, dish.badgeLevel))}
           query={{ level: filterKeyFor(dish.badgeLevel) }}
         />
         {dish.photo && !dish.photoVerified ? (
@@ -266,7 +266,7 @@ export default function DishDetail() {
           <Muted key={part} style={styles.breadcrumbText}>
             <FacetLink
               label={part}
-              describedAs={`Everything from ${opensAt}`}
+              describedAs={copy.everythingFrom.replace('{place}', opensAt)}
               query={
                 i === 0
                   ? { country: part }
@@ -393,7 +393,7 @@ export default function DishDetail() {
               <FacetLink
                 variant="tag"
                 label={dietLabel(copy, dish.diet)}
-                describedAs={`Everything recorded as ${copy[GROUP_LABELS[dish.diet.group]]}`}
+                describedAs={copy.everythingRecordedAs.replace('{what}', copy[GROUP_LABELS[dish.diet.group]])}
                 query={{ diet: dish.diet.group }}
               />
               {traceLabels(dish.diet).map((trace) => (
@@ -518,7 +518,7 @@ export default function DishDetail() {
                 key={ingredient}
                 variant="chip"
                 label={ingredient}
-                describedAs={`Everything made with ${ingredient}`}
+                describedAs={copy.everythingMadeWith.replace('{ingredient}', ingredient)}
                 query={{ ingredient }}
               />
             ))}
@@ -539,8 +539,8 @@ export default function DishDetail() {
           <H5 style={styles.tightHeading}>{copy.howItsMade}</H5>
           <Muted style={styles.sectionLead}>
             {isAdaptation
-              ? 'The method as published. Modern equipment and shortcuts are part of it.'
-              : 'The traditional method, with no modern shortcuts substituted in.'}
+              ? copy.methodAsPublished
+              : copy.methodTraditional}
           </Muted>
           <View style={styles.steps}>
             {reading.steps.map((step, i) => (

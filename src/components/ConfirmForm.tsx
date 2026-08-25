@@ -208,7 +208,7 @@ export function ConfirmForm({
             said: tidyText(form.said),
           });
           if (result.ok) setDone(true);
-          else setError(result.error ?? 'That did not send.');
+          else setError(result.error ?? copy.thatDidNotSend);
         }}
       />
     </Block>

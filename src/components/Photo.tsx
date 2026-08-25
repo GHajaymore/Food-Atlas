@@ -30,6 +30,7 @@
  *    correctness requirement, and nothing depends on it having run.
  */
 
+import { useCopy } from '../i18n';
 import { useCallback, useState } from 'react';
 import { Image, Platform, StyleSheet, View, type ImageStyle, type ViewStyle } from 'react-native';
 import { color, font, radius } from '../theme/tokens';
@@ -63,6 +64,7 @@ const blendStyle = Platform.OS === 'web' ? null : ({ mixBlendMode: 'lighten' } a
 const webHooks = Platform.OS === 'web' ? { dataSet: { lighten: 'true', motion: 'photo-veil' } } : {};
 
 export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resizeMode = 'cover' }: Props) {
+  const copy = useCopy();
   /**
    * Which picture has finished arriving, rather than whether one has.
    *
@@ -96,7 +98,7 @@ export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resiz
   // image; a quiet monogram reads as "we don't have one", which is the truth.
   if (!uri) {
     return (
-      <View style={[styles.frame, styles.placeholder, style]} accessibilityLabel={`${label} — no photograph on record`}>
+      <View style={[styles.frame, styles.placeholder, style]} accessibilityLabel={copy.noPhotographOnRecord.replace('{label}', label)}>
         <T style={styles.monogram}>{label.trim().charAt(0).toUpperCase()}</T>
       </View>
     );

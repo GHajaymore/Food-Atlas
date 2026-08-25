@@ -965,6 +965,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Celebración y fiesta',
     mealAnytime: 'A cualquier hora',
     mealUnclassified: 'No registrado',
+    searchModeFind:
+      'Buscar un plato',
+    searchModePantry:
+      'Cocinar con lo que tengo',
+    ingredientsYouHave:
+      'Ingredientes que tienes',
+    nTraditions:
+      '{n} tradiciones',
+    nothingYet:
+      'Nada todavía',
+    methodRecorded:
+      ' · con método registrado',
+    noMethodYet:
+      ' · sin método todavía',
+    showMoreLeft:
+      'Ver más — quedan {n}',
+    showNMore:
+      'Ver {n} más',
+    methodAsPublished:
+      'El método tal como se publicó. Los utensilios modernos y los atajos forman parte de él.',
+    methodTraditional:
+      'El método tradicional, sin atajos modernos sustituidos.',
+    everythingClassified:
+      'Todo lo clasificado como {what}',
+    everythingFrom:
+      'Todo lo de {place}',
+    everythingRecordedAs:
+      'Todo lo registrado como {what}',
+    everythingMadeWith:
+      'Todo lo hecho con {ingredient}',
+    seeEverything:
+      '{label} — verlo todo',
+    noPhotographOnRecord:
+      '{label} — sin fotografía en el registro',
+    scoreOutOf100:
+      '{label}: {value} sobre 100',
+    removeFilter:
+      'Quitar el filtro {key}',
+    anywhereInTheAtlas:
+      ' en cualquier parte del atlas',
+    absenceOfRecords:
+      '. Eso es una ausencia de registros, no una ausencia de comida: preferimos decir que no lo sabemos.',
+    narrowToA:
+      'Afinar a {level} · {n} registrados',
+    fromTheTown:
+      ' — del pueblo mismo',
+    showFewer:
+      'Ver menos',
+    readAboutOnWikipedia:
+      'Leer sobre {name} en {language} en Wikipedia',
+    languageChangeIt:
+      'Idioma: {language}. Cámbialo.',
+    perCentTranslated:
+      '{language}, {n} por ciento traducido',
+    translateThisRecord:
+      'Traducir este registro',
+    translating:
+      'Traduciendo…',
+    translate:
+      'Traducir',
+    translateThisConfirmation:
+      'Traducir esta confirmación al {language}',
+    couldNotTranslate:
+      'No se pudo traducir: inténtalo otra vez',
+    howThisIsCountedFor:
+      'Cómo se cuenta {figure}',
+    countOfTotal:
+      '{label}: {count} de {total}',
+    watchAtSourceCreator:
+      'Ver a {creator} en el origen',
+    stillFromCreator:
+      'Fotograma de {creator}',
+    thatDidNotSend:
+      'No se ha enviado.',
+    containsAlcohol:
+      'Contiene alcohol',
+    nothingElseRequired:
+      'Todo lo demás es bienvenido y nada es obligatorio: saber de dónde es una comida y que nadie la ha escrito ya es más de lo que tiene cualquier fuente de aquí.',
+    opensTheFormPrefilled:
+      'Abre el formulario en su origen con lo que ya has escrito relleno. Esta aplicación no recoge nada sobre ti, y nada se publica hasta que gente del lugar lo confirme.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -1896,6 +1976,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Fête et banquet',
     mealAnytime: 'À toute heure',
     mealUnclassified: 'Non consigné',
+    searchModeFind:
+      'Trouver un plat',
+    searchModePantry:
+      'Cuisiner avec ce que j’ai',
+    ingredientsYouHave:
+      'Les ingrédients que vous avez',
+    nTraditions:
+      '{n} traditions',
+    nothingYet:
+      'Rien pour l’instant',
+    methodRecorded:
+      ' · méthode consignée',
+    noMethodYet:
+      ' · pas encore de méthode',
+    showMoreLeft:
+      'Voir plus — il en reste {n}',
+    showNMore:
+      'Voir {n} de plus',
+    methodAsPublished:
+      'La méthode telle qu’elle a été publiée. Le matériel moderne et les raccourcis en font partie.',
+    methodTraditional:
+      'La méthode traditionnelle, sans aucun raccourci moderne substitué.',
+    everythingClassified:
+      'Tout ce qui est classé {what}',
+    everythingFrom:
+      'Tout ce qui vient de {place}',
+    everythingRecordedAs:
+      'Tout ce qui est consigné comme {what}',
+    everythingMadeWith:
+      'Tout ce qui est préparé avec {ingredient}',
+    seeEverything:
+      '{label} — tout voir',
+    noPhotographOnRecord:
+      '{label} — aucune photographie au dossier',
+    scoreOutOf100:
+      '{label} : {value} sur 100',
+    removeFilter:
+      'Retirer le filtre {key}',
+    anywhereInTheAtlas:
+      ' partout dans l’atlas',
+    absenceOfRecords:
+      '. C’est une absence de fiches, pas une absence de plats — nous préférons dire que nous ne savons pas.',
+    narrowToA:
+      'Affiner à {level} · {n} consignés',
+    fromTheTown:
+      ' — de la ville même',
+    showFewer:
+      'Voir moins',
+    readAboutOnWikipedia:
+      'Lire sur {name} en {language} sur Wikipédia',
+    languageChangeIt:
+      'Langue : {language}. La changer.',
+    perCentTranslated:
+      '{language}, traduit à {n} pour cent',
+    translateThisRecord:
+      'Traduire cette fiche',
+    translating:
+      'Traduction…',
+    translate:
+      'Traduire',
+    translateThisConfirmation:
+      'Traduire cette confirmation en {language}',
+    couldNotTranslate:
+      'Traduction impossible — réessayez',
+    howThisIsCountedFor:
+      'Comment {figure} est compté',
+    countOfTotal:
+      '{label} : {count} sur {total}',
+    watchAtSourceCreator:
+      'Voir {creator} à la source',
+    stillFromCreator:
+      'Image tirée de {creator}',
+    thatDidNotSend:
+      'L’envoi n’a pas abouti.',
+    containsAlcohol:
+      'Contient de l’alcool',
+    nothingElseRequired:
+      'Tout le reste est bienvenu et rien n’est obligatoire — savoir d’où vient un plat et que personne ne l’a écrit, c’est déjà plus que ce que contient n’importe quelle source ici.',
+    opensTheFormPrefilled:
+      'Cela ouvre le formulaire à sa source avec ce que vous avez déjà écrit prérempli. Cette application ne recueille rien sur vous, et rien n’est publié tant que des gens du lieu ne l’ont pas confirmé.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -2826,6 +2986,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Fest & Feier',
     mealAnytime: 'Zu jeder Zeit',
     mealUnclassified: 'Nicht erfasst',
+    searchModeFind:
+      'Ein Gericht finden',
+    searchModePantry:
+      'Kochen mit dem, was da ist',
+    ingredientsYouHave:
+      'Zutaten, die Sie haben',
+    nTraditions:
+      '{n} Traditionen',
+    nothingYet:
+      'Noch nichts',
+    methodRecorded:
+      ' · Zubereitung festgehalten',
+    noMethodYet:
+      ' · noch keine Zubereitung',
+    showMoreLeft:
+      'Mehr zeigen — {n} übrig',
+    showNMore:
+      '{n} weitere zeigen',
+    methodAsPublished:
+      'Die Zubereitung, wie sie veröffentlicht wurde. Moderne Geräte und Abkürzungen gehören dazu.',
+    methodTraditional:
+      'Die traditionelle Zubereitung, ohne moderne Abkürzungen als Ersatz.',
+    everythingClassified:
+      'Alles, was als {what} eingestuft ist',
+    everythingFrom:
+      'Alles aus {place}',
+    everythingRecordedAs:
+      'Alles, was als {what} erfasst ist',
+    everythingMadeWith:
+      'Alles, was mit {ingredient} gemacht wird',
+    seeEverything:
+      '{label} — alles ansehen',
+    noPhotographOnRecord:
+      '{label} — kein Foto erfasst',
+    scoreOutOf100:
+      '{label}: {value} von 100',
+    removeFilter:
+      'Filter {key} entfernen',
+    anywhereInTheAtlas:
+      ' irgendwo im Atlas',
+    absenceOfRecords:
+      '. Das ist ein Fehlen von Einträgen, kein Fehlen von Essen — wir sagen lieber, dass wir es nicht wissen.',
+    narrowToA:
+      'Auf {level} eingrenzen · {n} erfasst',
+    fromTheTown:
+      ' — aus dem Ort selbst',
+    showFewer:
+      'Weniger zeigen',
+    readAboutOnWikipedia:
+      'Über {name} auf {language} in der Wikipedia lesen',
+    languageChangeIt:
+      'Sprache: {language}. Ändern.',
+    perCentTranslated:
+      '{language}, zu {n} Prozent übersetzt',
+    translateThisRecord:
+      'Diesen Eintrag übersetzen',
+    translating:
+      'Wird übersetzt…',
+    translate:
+      'Übersetzen',
+    translateThisConfirmation:
+      'Diese Bestätigung ins {language} übersetzen',
+    couldNotTranslate:
+      'Übersetzen ging nicht — noch einmal versuchen',
+    howThisIsCountedFor:
+      'Wie {figure} gezählt wird',
+    countOfTotal:
+      '{label}: {count} von {total}',
+    watchAtSourceCreator:
+      '{creator} an der Quelle ansehen',
+    stillFromCreator:
+      'Standbild von {creator}',
+    thatDidNotSend:
+      'Das wurde nicht gesendet.',
+    containsAlcohol:
+      'Enthält Alkohol',
+    nothingElseRequired:
+      'Alles andere ist willkommen und nichts davon ist Pflicht — zu wissen, woher ein Essen kommt und dass es niemand aufgeschrieben hat, ist bereits mehr, als hier irgendeine Quelle hat.',
+    opensTheFormPrefilled:
+      'Es öffnet das Formular an seiner Quelle, mit dem bereits Geschriebenen ausgefüllt. Diese App sammelt nichts über Sie, und nichts wird veröffentlicht, bevor Menschen von dort es bestätigt haben.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -3756,6 +3996,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Festa e banchetto',
     mealAnytime: 'A qualsiasi ora',
     mealUnclassified: 'Non registrato',
+    searchModeFind:
+      'Trova un piatto',
+    searchModePantry:
+      'Cucinare con quello che ho',
+    ingredientsYouHave:
+      'Gli ingredienti che hai',
+    nTraditions:
+      '{n} tradizioni',
+    nothingYet:
+      'Ancora niente',
+    methodRecorded:
+      ' · metodo registrato',
+    noMethodYet:
+      ' · ancora nessun metodo',
+    showMoreLeft:
+      'Mostra altri — ne restano {n}',
+    showNMore:
+      'Mostra altri {n}',
+    methodAsPublished:
+      'Il metodo così com’è stato pubblicato. Attrezzi moderni e scorciatoie ne fanno parte.',
+    methodTraditional:
+      'Il metodo tradizionale, senza scorciatoie moderne al posto di nulla.',
+    everythingClassified:
+      'Tutto ciò che è classificato {what}',
+    everythingFrom:
+      'Tutto quello che viene da {place}',
+    everythingRecordedAs:
+      'Tutto ciò che è registrato come {what}',
+    everythingMadeWith:
+      'Tutto ciò che si fa con {ingredient}',
+    seeEverything:
+      '{label} — vedi tutto',
+    noPhotographOnRecord:
+      '{label} — nessuna fotografia in scheda',
+    scoreOutOf100:
+      '{label}: {value} su 100',
+    removeFilter:
+      'Togli il filtro {key}',
+    anywhereInTheAtlas:
+      ' in qualsiasi punto dell’atlante',
+    absenceOfRecords:
+      '. Questa è un’assenza di schede, non un’assenza di cibo: preferiamo dire che non lo sappiamo.',
+    narrowToA:
+      'Restringi a {level} · {n} registrati',
+    fromTheTown:
+      ' — del paese stesso',
+    showFewer:
+      'Mostra meno',
+    readAboutOnWikipedia:
+      'Leggi di {name} in {language} su Wikipedia',
+    languageChangeIt:
+      'Lingua: {language}. Cambiala.',
+    perCentTranslated:
+      '{language}, tradotto al {n} per cento',
+    translateThisRecord:
+      'Traduci questa scheda',
+    translating:
+      'Traduzione…',
+    translate:
+      'Traduci',
+    translateThisConfirmation:
+      'Traduci questa conferma in {language}',
+    couldNotTranslate:
+      'Non è stato possibile tradurre — riprova',
+    howThisIsCountedFor:
+      'Come si conta {figure}',
+    countOfTotal:
+      '{label}: {count} su {total}',
+    watchAtSourceCreator:
+      'Guarda {creator} alla fonte',
+    stillFromCreator:
+      'Fermo immagine di {creator}',
+    thatDidNotSend:
+      'Non è stato inviato.',
+    containsAlcohol:
+      'Contiene alcol',
+    nothingElseRequired:
+      'Tutto il resto è benvenuto e niente è obbligatorio: sapere da dove viene un cibo e che nessuno l’ha scritto è già più di quanto abbia qualsiasi fonte qui.',
+    opensTheFormPrefilled:
+      'Apre il modulo alla sua fonte con quello che hai già scritto compilato. Questa applicazione non raccoglie niente su di te, e niente viene pubblicato finché non lo confermano persone del posto.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -4687,6 +5007,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Celebração e festa',
     mealAnytime: 'A qualquer hora',
     mealUnclassified: 'Não registado',
+    searchModeFind:
+      'Encontrar um prato',
+    searchModePantry:
+      'Cozinhar com o que tenho',
+    ingredientsYouHave:
+      'Os ingredientes que tem',
+    nTraditions:
+      '{n} tradições',
+    nothingYet:
+      'Ainda nada',
+    methodRecorded:
+      ' · com método registado',
+    noMethodYet:
+      ' · ainda sem método',
+    showMoreLeft:
+      'Ver mais — faltam {n}',
+    showNMore:
+      'Ver mais {n}',
+    methodAsPublished:
+      'O método tal como foi publicado. Equipamento moderno e atalhos fazem parte dele.',
+    methodTraditional:
+      'O método tradicional, sem atalhos modernos substituídos.',
+    everythingClassified:
+      'Tudo o que está classificado como {what}',
+    everythingFrom:
+      'Tudo o que vem de {place}',
+    everythingRecordedAs:
+      'Tudo o que está registado como {what}',
+    everythingMadeWith:
+      'Tudo o que se faz com {ingredient}',
+    seeEverything:
+      '{label} — ver tudo',
+    noPhotographOnRecord:
+      '{label} — sem fotografia no registo',
+    scoreOutOf100:
+      '{label}: {value} em 100',
+    removeFilter:
+      'Retirar o filtro {key}',
+    anywhereInTheAtlas:
+      ' em qualquer parte do atlas',
+    absenceOfRecords:
+      '. Isso é uma ausência de registos, não uma ausência de comida — preferimos dizer que não sabemos.',
+    narrowToA:
+      'Afinar para {level} · {n} registados',
+    fromTheTown:
+      ' — da própria vila',
+    showFewer:
+      'Ver menos',
+    readAboutOnWikipedia:
+      'Ler sobre {name} em {language} na Wikipédia',
+    languageChangeIt:
+      'Língua: {language}. Mudar.',
+    perCentTranslated:
+      '{language}, {n} por cento traduzido',
+    translateThisRecord:
+      'Traduzir este registo',
+    translating:
+      'A traduzir…',
+    translate:
+      'Traduzir',
+    translateThisConfirmation:
+      'Traduzir esta confirmação para {language}',
+    couldNotTranslate:
+      'Não foi possível traduzir — tente outra vez',
+    howThisIsCountedFor:
+      'Como se conta {figure}',
+    countOfTotal:
+      '{label}: {count} de {total}',
+    watchAtSourceCreator:
+      'Ver {creator} na origem',
+    stillFromCreator:
+      'Imagem de {creator}',
+    thatDidNotSend:
+      'Não foi enviado.',
+    containsAlcohol:
+      'Contém álcool',
+    nothingElseRequired:
+      'Tudo o resto é bem-vindo e nada é obrigatório — saber de onde é uma comida e que ninguém a escreveu já é mais do que qualquer fonte daqui tem.',
+    opensTheFormPrefilled:
+      'Abre o formulário na origem com o que já escreveu preenchido. Esta aplicação não recolhe nada sobre si, e nada é publicado até que pessoas do lugar o confirmem.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -5617,6 +6017,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Feest & festijn',
     mealAnytime: 'Op elk moment',
     mealUnclassified: 'Niet vastgelegd',
+    searchModeFind:
+      'Een gerecht vinden',
+    searchModePantry:
+      'Koken met wat ik heb',
+    ingredientsYouHave:
+      'Ingrediënten die u hebt',
+    nTraditions:
+      '{n} tradities',
+    nothingYet:
+      'Nog niets',
+    methodRecorded:
+      ' · werkwijze vastgelegd',
+    noMethodYet:
+      ' · nog geen werkwijze',
+    showMoreLeft:
+      'Meer tonen — nog {n}',
+    showNMore:
+      '{n} meer tonen',
+    methodAsPublished:
+      'De werkwijze zoals gepubliceerd. Modern gereedschap en kortere wegen horen erbij.',
+    methodTraditional:
+      'De traditionele werkwijze, zonder moderne kortere wegen als vervanging.',
+    everythingClassified:
+      'Alles wat als {what} geclassificeerd is',
+    everythingFrom:
+      'Alles uit {place}',
+    everythingRecordedAs:
+      'Alles wat als {what} is vastgelegd',
+    everythingMadeWith:
+      'Alles wat met {ingredient} gemaakt wordt',
+    seeEverything:
+      '{label} — alles bekijken',
+    noPhotographOnRecord:
+      '{label} — geen foto vastgelegd',
+    scoreOutOf100:
+      '{label}: {value} van 100',
+    removeFilter:
+      'Filter {key} verwijderen',
+    anywhereInTheAtlas:
+      ' ergens in de atlas',
+    absenceOfRecords:
+      '. Dat is een gebrek aan records, geen gebrek aan eten — we zeggen liever dat we het niet weten.',
+    narrowToA:
+      'Verfijnen tot {level} · {n} vastgelegd',
+    fromTheTown:
+      ' — uit de plaats zelf',
+    showFewer:
+      'Minder tonen',
+    readAboutOnWikipedia:
+      'Lees over {name} in het {language} op Wikipedia',
+    languageChangeIt:
+      'Taal: {language}. Wijzigen.',
+    perCentTranslated:
+      '{language}, {n} procent vertaald',
+    translateThisRecord:
+      'Dit record vertalen',
+    translating:
+      'Bezig met vertalen…',
+    translate:
+      'Vertalen',
+    translateThisConfirmation:
+      'Deze bevestiging naar het {language} vertalen',
+    couldNotTranslate:
+      'Vertalen lukte niet — probeer opnieuw',
+    howThisIsCountedFor:
+      'Hoe {figure} geteld wordt',
+    countOfTotal:
+      '{label}: {count} van {total}',
+    watchAtSourceCreator:
+      '{creator} bij de bron bekijken',
+    stillFromCreator:
+      'Beeld uit {creator}',
+    thatDidNotSend:
+      'Dat is niet verstuurd.',
+    containsAlcohol:
+      'Bevat alcohol',
+    nothingElseRequired:
+      'Al het andere is welkom en niets ervan is verplicht — weten waar een gerecht vandaan komt en dat niemand het heeft opgeschreven, is al meer dan welke bron hier ook heeft.',
+    opensTheFormPrefilled:
+      'Het opent het formulier bij de bron met wat u al geschreven hebt ingevuld. Deze app verzamelt niets over u, en er wordt niets gepubliceerd tot mensen uit die plaats het bevestigen.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -6548,6 +7028,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Święto i uczta',
     mealAnytime: 'O każdej porze',
     mealUnclassified: 'Niezapisane',
+    searchModeFind:
+      'Znajdź potrawę',
+    searchModePantry:
+      'Gotuj z tego, co mam',
+    ingredientsYouHave:
+      'Składniki, które masz',
+    nTraditions:
+      'Tradycje: {n}',
+    nothingYet:
+      'Na razie nic',
+    methodRecorded:
+      ' · sposób zapisany',
+    noMethodYet:
+      ' · jeszcze bez sposobu',
+    showMoreLeft:
+      'Pokaż więcej — zostało {n}',
+    showNMore:
+      'Pokaż jeszcze {n}',
+    methodAsPublished:
+      'Sposób taki, jaki opublikowano. Współczesny sprzęt i skróty są jego częścią.',
+    methodTraditional:
+      'Sposób tradycyjny, bez podstawiania współczesnych skrótów.',
+    everythingClassified:
+      'Wszystko sklasyfikowane jako {what}',
+    everythingFrom:
+      'Wszystko z: {place}',
+    everythingRecordedAs:
+      'Wszystko zapisane jako {what}',
+    everythingMadeWith:
+      'Wszystko robione z: {ingredient}',
+    seeEverything:
+      '{label} — zobacz wszystko',
+    noPhotographOnRecord:
+      '{label} — brak zdjęcia we wpisie',
+    scoreOutOf100:
+      '{label}: {value} na 100',
+    removeFilter:
+      'Usuń filtr {key}',
+    anywhereInTheAtlas:
+      ' gdziekolwiek w atlasie',
+    absenceOfRecords:
+      '. To brak wpisów, a nie brak jedzenia — wolimy powiedzieć, że nie wiemy.',
+    narrowToA:
+      'Zawęź do: {level} · zapisanych: {n}',
+    fromTheTown:
+      ' — z samego miasta',
+    showFewer:
+      'Pokaż mniej',
+    readAboutOnWikipedia:
+      'Przeczytaj o {name} po {language} w Wikipedii',
+    languageChangeIt:
+      'Język: {language}. Zmień.',
+    perCentTranslated:
+      '{language}, przetłumaczone w {n} procentach',
+    translateThisRecord:
+      'Przetłumacz ten wpis',
+    translating:
+      'Tłumaczenie…',
+    translate:
+      'Przetłumacz',
+    translateThisConfirmation:
+      'Przetłumacz to potwierdzenie na {language}',
+    couldNotTranslate:
+      'Nie udało się przetłumaczyć — spróbuj jeszcze raz',
+    howThisIsCountedFor:
+      'Jak liczy się {figure}',
+    countOfTotal:
+      '{label}: {count} z {total}',
+    watchAtSourceCreator:
+      'Obejrzyj {creator} u źródła',
+    stillFromCreator:
+      'Kadr z: {creator}',
+    thatDidNotSend:
+      'To się nie wysłało.',
+    containsAlcohol:
+      'Zawiera alkohol',
+    nothingElseRequired:
+      'Wszystko inne jest mile widziane i nic nie jest wymagane — wiedza o tym, skąd jest potrawa i że nikt jej nie zapisał, to już więcej, niż ma jakiekolwiek źródło tutaj.',
+    opensTheFormPrefilled:
+      'Otwiera formularz u źródła z wypełnionym tym, co już napisałeś. Ta aplikacja nie zbiera o tobie niczego, a nic nie zostaje opublikowane, dopóki nie potwierdzą tego ludzie z tego miejsca.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -7478,6 +8038,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Kutlama ve ziyafet',
     mealAnytime: 'Her zaman',
     mealUnclassified: 'Kaydedilmemiş',
+    searchModeFind:
+      'Bir yemek bul',
+    searchModePantry:
+      'Evdekilerle pişir',
+    ingredientsYouHave:
+      'Elinizdeki malzemeler',
+    nTraditions:
+      '{n} gelenek',
+    nothingYet:
+      'Henüz bir şey yok',
+    methodRecorded:
+      ' · yapılışı kayıtlı',
+    noMethodYet:
+      ' · henüz yapılışı yok',
+    showMoreLeft:
+      'Daha fazla göster — {n} kaldı',
+    showNMore:
+      '{n} tane daha göster',
+    methodAsPublished:
+      'Yayımlandığı hâliyle yapılışı. Modern gereçler ve kestirmeler de bunun parçası.',
+    methodTraditional:
+      'Geleneksel yapılışı; yerine konmuş modern kestirmeler yok.',
+    everythingClassified:
+      '{what} olarak sınıflandırılan her şey',
+    everythingFrom:
+      '{place} kökenli her şey',
+    everythingRecordedAs:
+      '{what} olarak kaydedilen her şey',
+    everythingMadeWith:
+      '{ingredient} ile yapılan her şey',
+    seeEverything:
+      '{label} — hepsini gör',
+    noPhotographOnRecord:
+      '{label} — kayıtta fotoğraf yok',
+    scoreOutOf100:
+      '{label}: 100 üzerinden {value}',
+    removeFilter:
+      '{key} süzgecini kaldır',
+    anywhereInTheAtlas:
+      ' atlasın herhangi bir yerinde',
+    absenceOfRecords:
+      '. Bu, kayıt yokluğudur; yemek yokluğu değil — bilmediğimizi söylemeyi yeğleriz.',
+    narrowToA:
+      '{level} düzeyine indir · {n} kayıtlı',
+    fromTheTown:
+      ' — kasabanın kendisinden',
+    showFewer:
+      'Daha az göster',
+    readAboutOnWikipedia:
+      '{name} hakkında {language} Vikipedi’de okuyun',
+    languageChangeIt:
+      'Dil: {language}. Değiştir.',
+    perCentTranslated:
+      '{language}, yüzde {n} çevrildi',
+    translateThisRecord:
+      'Bu kaydı çevir',
+    translating:
+      'Çevriliyor…',
+    translate:
+      'Çevir',
+    translateThisConfirmation:
+      'Bu doğrulamayı {language} diline çevir',
+    couldNotTranslate:
+      'Çevrilemedi — yeniden deneyin',
+    howThisIsCountedFor:
+      '{figure} nasıl sayılıyor',
+    countOfTotal:
+      '{label}: {total} içinde {count}',
+    watchAtSourceCreator:
+      '{creator} içeriğini kaynağında izleyin',
+    stillFromCreator:
+      '{creator} videosundan bir kare',
+    thatDidNotSend:
+      'Bu gönderilemedi.',
+    containsAlcohol:
+      'Alkol içerir',
+    nothingElseRequired:
+      'Geri kalan her şey memnuniyetle karşılanır ve hiçbiri zorunlu değil — bir yemeğin nereden geldiğini ve kimsenin bunu yazmadığını bilmek, buradaki herhangi bir kaynağın elindekinden zaten fazlasıdır.',
+    opensTheFormPrefilled:
+      'Formu, yazdıklarınız önceden doldurulmuş hâlde kendi kaynağında açar. Bu uygulama sizinle ilgili hiçbir şey toplamaz ve oradan insanlar doğrulayana kadar hiçbir şey yayımlanmaz.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -8409,6 +9049,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'Праздник и застолье',
     mealAnytime: 'В любое время',
     mealUnclassified: 'Не записано',
+    searchModeFind:
+      'Найти блюдо',
+    searchModePantry:
+      'Готовить из того, что есть',
+    ingredientsYouHave:
+      'Ингредиенты, которые у вас есть',
+    nTraditions:
+      'Традиций: {n}',
+    nothingYet:
+      'Пока ничего',
+    methodRecorded:
+      ' · способ записан',
+    noMethodYet:
+      ' · способа пока нет',
+    showMoreLeft:
+      'Показать ещё — осталось {n}',
+    showNMore:
+      'Показать ещё {n}',
+    methodAsPublished:
+      'Способ приготовления в том виде, как он опубликован. Современная техника и упрощения — его часть.',
+    methodTraditional:
+      'Традиционный способ, без подстановки современных упрощений.',
+    everythingClassified:
+      'Всё, отнесённое к «{what}»',
+    everythingFrom:
+      'Всё из места {place}',
+    everythingRecordedAs:
+      'Всё, записанное как «{what}»',
+    everythingMadeWith:
+      'Всё, что готовят с ингредиентом {ingredient}',
+    seeEverything:
+      '{label} — посмотреть всё',
+    noPhotographOnRecord:
+      '{label} — фотографии в записи нет',
+    scoreOutOf100:
+      '{label}: {value} из 100',
+    removeFilter:
+      'Убрать фильтр {key}',
+    anywhereInTheAtlas:
+      ' где угодно в атласе',
+    absenceOfRecords:
+      '. Это отсутствие записей, а не отсутствие еды: мы предпочитаем сказать, что не знаем.',
+    narrowToA:
+      'Сузить до уровня «{level}» · записано: {n}',
+    fromTheTown:
+      ' — из самого города',
+    showFewer:
+      'Показать меньше',
+    readAboutOnWikipedia:
+      'Прочитать о {name} на языке {language} в Википедии',
+    languageChangeIt:
+      'Язык: {language}. Изменить.',
+    perCentTranslated:
+      '{language}, переведено на {n} процентов',
+    translateThisRecord:
+      'Перевести эту запись',
+    translating:
+      'Перевод…',
+    translate:
+      'Перевести',
+    translateThisConfirmation:
+      'Перевести это подтверждение на язык {language}',
+    couldNotTranslate:
+      'Перевести не удалось — попробуйте ещё раз',
+    howThisIsCountedFor:
+      'Как считается «{figure}»',
+    countOfTotal:
+      '{label}: {count} из {total}',
+    watchAtSourceCreator:
+      'Смотреть {creator} в источнике',
+    stillFromCreator:
+      'Кадр из видео {creator}',
+    thatDidNotSend:
+      'Отправить не удалось.',
+    containsAlcohol:
+      'Содержит алкоголь',
+    nothingElseRequired:
+      'Всё остальное приветствуется, и ничего из этого не обязательно: знать, откуда блюдо и что его никто не записал, — уже больше, чем есть у любого здешнего источника.',
+    opensTheFormPrefilled:
+      'Откроется форма в её источнике с уже заполненным тем, что вы написали. Это приложение ничего о вас не собирает, и ничего не публикуется, пока это не подтвердят люди из того места.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -9340,6 +10060,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: 'उत्सव और भोज',
     mealAnytime: 'किसी भी समय',
     mealUnclassified: 'दर्ज नहीं',
+    searchModeFind:
+      'कोई व्यंजन खोजें',
+    searchModePantry:
+      'जो है उसी से पकाएँ',
+    ingredientsYouHave:
+      'आपके पास मौजूद सामग्री',
+    nTraditions:
+      '{n} परंपराएँ',
+    nothingYet:
+      'अभी कुछ नहीं',
+    methodRecorded:
+      ' · विधि दर्ज',
+    noMethodYet:
+      ' · अभी विधि नहीं',
+    showMoreLeft:
+      'और दिखाएँ — {n} बचे',
+    showNMore:
+      '{n} और दिखाएँ',
+    methodAsPublished:
+      'विधि जैसी प्रकाशित हुई। आधुनिक उपकरण और शॉर्टकट भी उसी का हिस्सा हैं।',
+    methodTraditional:
+      'पारंपरिक विधि, जिसमें कोई आधुनिक शॉर्टकट नहीं बिठाया गया।',
+    everythingClassified:
+      '{what} में वर्गीकृत सब कुछ',
+    everythingFrom:
+      '{place} का सब कुछ',
+    everythingRecordedAs:
+      '{what} के रूप में दर्ज सब कुछ',
+    everythingMadeWith:
+      '{ingredient} से बना सब कुछ',
+    seeEverything:
+      '{label} — सब देखें',
+    noPhotographOnRecord:
+      '{label} — रिकॉर्ड में कोई तस्वीर नहीं',
+    scoreOutOf100:
+      '{label}: 100 में से {value}',
+    removeFilter:
+      '{key} फ़िल्टर हटाएँ',
+    anywhereInTheAtlas:
+      ' एटलस में कहीं भी',
+    absenceOfRecords:
+      '। यह रिकॉर्ड की अनुपस्थिति है, खाने की नहीं — हम अनुमान लगाने के बजाय कहना पसंद करते हैं कि हमें नहीं पता।',
+    narrowToA:
+      '{level} तक सीमित करें · {n} दर्ज',
+    fromTheTown:
+      ' — उसी क़स्बे से',
+    showFewer:
+      'कम दिखाएँ',
+    readAboutOnWikipedia:
+      '{name} के बारे में {language} विकिपीडिया पर पढ़ें',
+    languageChangeIt:
+      'भाषा: {language}। बदलें।',
+    perCentTranslated:
+      '{language}, {n} प्रतिशत अनूदित',
+    translateThisRecord:
+      'इस रिकॉर्ड का अनुवाद करें',
+    translating:
+      'अनुवाद हो रहा है…',
+    translate:
+      'अनुवाद करें',
+    translateThisConfirmation:
+      'इस पुष्टि का {language} में अनुवाद करें',
+    couldNotTranslate:
+      'अनुवाद नहीं हो सका — फिर कोशिश करें',
+    howThisIsCountedFor:
+      '{figure} कैसे गिना जाता है',
+    countOfTotal:
+      '{label}: {total} में से {count}',
+    watchAtSourceCreator:
+      '{creator} को स्रोत पर देखें',
+    stillFromCreator:
+      '{creator} के वीडियो से तस्वीर',
+    thatDidNotSend:
+      'यह भेजा नहीं जा सका।',
+    containsAlcohol:
+      'इसमें शराब है',
+    nothingElseRequired:
+      'बाक़ी सब कुछ स्वागत योग्य है और कुछ भी ज़रूरी नहीं — यह जानना कि कोई खाना कहाँ का है और उसे किसी ने लिखा नहीं, यहाँ के किसी भी स्रोत के पास जितना है उससे पहले ही ज़्यादा है।',
+    opensTheFormPrefilled:
+      'यह फ़ॉर्म को उसके स्रोत पर खोलता है, आपके लिखे हुए के साथ पहले से भरा हुआ। यह ऐप आपके बारे में कुछ नहीं जुटाता, और जब तक उस जगह के लोग पुष्टि न करें तब तक कुछ प्रकाशित नहीं होता।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -10271,6 +11071,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: '节庆宴席',
     mealAnytime: '任何时候',
     mealUnclassified: '未记录',
+    searchModeFind:
+      '找一道菜',
+    searchModePantry:
+      '用手边的东西做菜',
+    ingredientsYouHave:
+      '你手边的食材',
+    nTraditions:
+      '{n} 项传统',
+    nothingYet:
+      '还没有',
+    methodRecorded:
+      ' · 有做法记录',
+    noMethodYet:
+      ' · 还没有做法',
+    showMoreLeft:
+      '显示更多 — 还剩 {n}',
+    showNMore:
+      '再显示 {n} 条',
+    methodAsPublished:
+      '按发表时的做法。现代器具和省事的办法也是其中一部分。',
+    methodTraditional:
+      '传统做法，没有用现代的省事办法顶替。',
+    everythingClassified:
+      '所有归为{what}的',
+    everythingFrom:
+      '所有来自{place}的',
+    everythingRecordedAs:
+      '所有记录为{what}的',
+    everythingMadeWith:
+      '所有用{ingredient}做的',
+    seeEverything:
+      '{label} — 全部查看',
+    noPhotographOnRecord:
+      '{label} — 记录中没有照片',
+    scoreOutOf100:
+      '{label}：100 分中的 {value}',
+    removeFilter:
+      '移除{key}筛选',
+    anywhereInTheAtlas:
+      '图册中的任何地方',
+    absenceOfRecords:
+      '。这是记录的缺席，不是食物的缺席 — 我们宁可说不知道。',
+    narrowToA:
+      '缩小到{level} · 已记录 {n}',
+    fromTheTown:
+      ' — 就是本地人',
+    showFewer:
+      '收起',
+    readAboutOnWikipedia:
+      '在{language}维基百科上阅读关于{name}的条目',
+    languageChangeIt:
+      '语言：{language}。可更改。',
+    perCentTranslated:
+      '{language}，已翻译 {n}%',
+    translateThisRecord:
+      '翻译这条记录',
+    translating:
+      '翻译中…',
+    translate:
+      '翻译',
+    translateThisConfirmation:
+      '把这条确认翻译成{language}',
+    couldNotTranslate:
+      '翻译失败 — 请再试一次',
+    howThisIsCountedFor:
+      '{figure}是怎么数的',
+    countOfTotal:
+      '{label}：{total} 中的 {count}',
+    watchAtSourceCreator:
+      '到原处观看 {creator}',
+    stillFromCreator:
+      '取自 {creator} 的画面',
+    thatDidNotSend:
+      '没有发送成功。',
+    containsAlcohol:
+      '含酒精',
+    nothingElseRequired:
+      '其余的都欢迎，而且没有一样是必填的 — 知道一道菜出自哪里、而且没有人写下过它，这已经比这里任何来源掌握的都多。',
+    opensTheFormPrefilled:
+      '它会在原处打开表单，并把你已经写的内容预先填好。这个应用不收集任何关于你的信息，在当地人确认之前也不会发布任何内容。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -11202,6 +12082,86 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     mealCelebration: '祝いの席・ごちそう',
     mealAnytime: 'いつでも',
     mealUnclassified: '記録なし',
+    searchModeFind:
+      '料理を探す',
+    searchModePantry:
+      '家にあるもので作る',
+    ingredientsYouHave:
+      '手元にある材料',
+    nTraditions:
+      '{n} 件の伝統',
+    nothingYet:
+      'まだありません',
+    methodRecorded:
+      ' · 作り方あり',
+    noMethodYet:
+      ' · 作り方はまだ',
+    showMoreLeft:
+      'もっと見る — 残り {n} 件',
+    showNMore:
+      'さらに {n} 件を見る',
+    methodAsPublished:
+      '公開されたままの作り方です。現代の道具や手早いやり方もその一部です。',
+    methodTraditional:
+      '伝統の作り方です。現代の近道を置き換えたところはありません。',
+    everythingClassified:
+      '{what}に分類されたものすべて',
+    everythingFrom:
+      '{place}のものすべて',
+    everythingRecordedAs:
+      '{what}として記録されたものすべて',
+    everythingMadeWith:
+      '{ingredient}を使うものすべて',
+    seeEverything:
+      '{label} — すべて見る',
+    noPhotographOnRecord:
+      '{label} — 記録に写真はありません',
+    scoreOutOf100:
+      '{label}：100 点中 {value} 点',
+    removeFilter:
+      '{key}の絞り込みを外す',
+    anywhereInTheAtlas:
+      'アトラスのどこでも',
+    absenceOfRecords:
+      '。これは記録が無いということで、料理が無いということではありません。分からないと言うほうを選びます。',
+    narrowToA:
+      '{level}まで絞る · {n} 件',
+    fromTheTown:
+      ' — その町の出身',
+    showFewer:
+      '表示を減らす',
+    readAboutOnWikipedia:
+      '{language}版ウィキペディアで{name}について読む',
+    languageChangeIt:
+      '言語：{language}。変更できます。',
+    perCentTranslated:
+      '{language}、{n} パーセント翻訳済み',
+    translateThisRecord:
+      'この記録を訳す',
+    translating:
+      '翻訳中…',
+    translate:
+      '訳す',
+    translateThisConfirmation:
+      'この確認を{language}に訳す',
+    couldNotTranslate:
+      '翻訳できませんでした — もう一度お試しください',
+    howThisIsCountedFor:
+      '{figure}の数え方',
+    countOfTotal:
+      '{label}：{total} 件中 {count} 件',
+    watchAtSourceCreator:
+      '{creator} を元の場所で見る',
+    stillFromCreator:
+      '{creator} の動画からの一場面',
+    thatDidNotSend:
+      '送信できませんでした。',
+    containsAlcohol:
+      'アルコールを含む',
+    nothingElseRequired:
+      'ほかは何でも歓迎で、必須のものはありません。ある料理がどこのもので、それを誰も書き残していないと分かること自体が、ここにあるどの資料が持っているものより多いのです。',
+    opensTheFormPrefilled:
+      'すでに書いた内容を入れた状態で、元の場所にある用紙を開きます。このアプリはあなたについて何も集めず、その土地の人が確認するまで何も公開されません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

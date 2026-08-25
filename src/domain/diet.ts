@@ -82,7 +82,7 @@ export const TRACE_LABELS: Record<DietaryTrace, string> = {
   dairy: 'dietDairy',
   egg: 'dietEgg',
   honey: 'dietHoney',
-  alcohol: 'Contains alcohol',
+  alcohol: 'containsAlcohol',
 };
 
 /** The menu, as the UI renders it: a group, and the sub-menu beneath it. */
