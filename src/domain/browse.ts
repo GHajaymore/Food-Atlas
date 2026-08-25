@@ -26,7 +26,8 @@
  * that were actually applied.
  */
 
-import { FILTERS } from './authenticity';
+import type { Copy } from '../i18n/copy';
+import { FILTERS, filterLabel } from './authenticity';
 import { GROUP_LABELS, KIND_LABELS, type DietGroup, type DietKind } from './diet';
 import { MEAL_LABELS, type MealOccasion } from './meals';
 import { feedFor, searchResults, type SearchFacets } from './queries';
@@ -173,14 +174,14 @@ export function browse(
  * is defensive about. An unrecognised `level` falls back to `all` above, and the
  * heading correspondingly stops mentioning a level.
  */
-export function describe(query: BrowseQuery): string {
+export function describe(copy: Copy, query: BrowseQuery): string {
   const level = levelOf(query);
   const parts: string[] = [];
 
-  if (level !== 'all') parts.push(FILTERS.find((f) => f.key === level)?.label ?? '');
-  if (query.cuisine) parts.push(`${query.cuisine} cuisine`);
+  if (level !== 'all') parts.push(filterLabel(copy, level));
+  if (query.cuisine) parts.push(copy.browseCuisine.replace('{cuisine}', query.cuisine));
   if (query.category) parts.push(query.category);
-  if (query.ingredient) parts.push(`made with ${query.ingredient}`);
+  if (query.ingredient) parts.push(copy.browseMadeWith.replace('{ingredient}', query.ingredient));
   /* Built from the resolved value rather than the raw one, so a heading cannot announce
      a diet that was not applied — the exact failure this file is defensive about. */
   if (query.diet && dietLabelOf(query.diet)) parts.push(dietLabelOf(query.diet));
@@ -193,7 +194,7 @@ export function describe(query: BrowseQuery): string {
   if (what) return what;
   if (where) return where;
   if (query.q) return `“${query.q}”`;
-  return 'Everything';
+  return copy.browseEverything;
 }
 
 /** Whether a query narrows anything at all. An empty one is the whole atlas. */

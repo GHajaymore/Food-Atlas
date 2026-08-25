@@ -38,7 +38,7 @@ import { Screen } from '../src/components/Screen';
 import { H4, H6, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
 import { catalogue as dishes } from '../src/data/catalogue';
-import { FILTERS, filterDef } from '../src/domain/authenticity';
+import { FILTERS, filterLabel, levelLabel } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
@@ -117,8 +117,8 @@ export default function Feed() {
   const place = path.length ? path[path.length - 1].value : copy.worldwide;
   const placeHint = next
     ? path.length
-      ? `Narrow to a ${next.label} · ${next.options.length} recorded`
-      : placeChoiceHint(next.options)
+      ? `Narrow to a ${copy[next.labelKey]} · ${next.options.length} recorded`
+      : placeChoiceHint(copy, next.options)
     : copy.deepestLevelRecorded;
 
   // Says what the list is, in the reader's own terms: the shelf they opened, or the
@@ -216,7 +216,7 @@ export default function Feed() {
         {FILTERS.map((f) => (
           <Tag
             key={f.key}
-            label={f.label}
+            label={copy[f.label]}
             noWrap
             variant={f.key === activeFilter ? 'accent' : 'outline'}
             onPress={() => setFilter(f.key)}
@@ -277,7 +277,7 @@ export default function Feed() {
           shelves={shelfNodes}
           tail={
             <Button
-              label={`Browse all ${feed.length.toLocaleString()} traditions`}
+              label={copy.browseAllTraditions.replace('{n}', feed.length.toLocaleString())}
               variant="secondary"
               block
               onPress={() => setShelfView('all')}
@@ -313,7 +313,7 @@ export default function Feed() {
         <Card style={styles.emptyCard}>
           <CardKicker>{copy.nothingRecordedHere}</CardKicker>
           <CardBody>
-            {narrowingSummary(filterDef(activeFilter).label, activeFilter === settings.defaultFilter, [
+            {narrowingSummary(filterLabel(copy, activeFilter), activeFilter === settings.defaultFilter, [
               ...dietNames,
               ...meals.map((m) => MEAL_LABELS[m].toLowerCase()),
             ])}
@@ -414,7 +414,7 @@ export default function Feed() {
               />
               <T style={styles.popularName}>{dish.name}</T>
               <Muted style={styles.popularClass}>
-                {dish.badgeIcon} {dish.badgeLabel}
+                {dish.badgeIcon} {levelLabel(copy, dish.badgeLevel)}
               </Muted>
               <Muted style={styles.popularViews}>{dish.views}</Muted>
             </Pressable>

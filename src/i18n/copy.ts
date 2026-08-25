@@ -296,6 +296,39 @@ export interface Copy {
   whyASourceCannot: string;
   whyASourceCannotBody: string;
   whyTheAtlasStops: string;
+  levelLocal: string;
+  levelLocalFull: string;
+  levelRegional: string;
+  levelVariation: string;
+  levelAdaptation: string;
+  levelFusion: string;
+  levelUnverified: string;
+  levelUnverifiedFull: string;
+  filterAuthenticOnly: string;
+  filterTraditionalVariations: string;
+  filterModernAdaptations: string;
+  filterFusion: string;
+  filterUnverified: string;
+  filterAll: string;
+  geoCountry: string;
+  geoRegion: string;
+  geoProvince: string;
+  geoCity: string;
+  geoVillage: string;
+  chooseRegion: string;
+  chooseProvince: string;
+  chooseCity: string;
+  chooseVillage: string;
+  typeToSearchLevel: string;
+  browseAllTraditions: string;
+  geoPlace: string;
+  noLevelRecorded: string;
+  browseCuisine: string;
+  browseMadeWith: string;
+  browseEverything: string;
+  within: string;
+  chooseCountryHint: string;
+  chooseCountryHintBroader: string;
   interfaceTranslationNote: string;
 }
 
@@ -654,6 +687,72 @@ export const EN: Copy = {
     'Published documentation cannot score above {ceiling} here, and a record becomes Authentic at {threshold}. The gap is closable only by people connected to the place. The six figures behind every score are printed on the record, so a reader who doubts the number can add it up.',
   whyTheAtlasStops:
     'It is also why the atlas stops where it does. Every free source has been read — encyclopaedias, cookbooks, heritage registers, gazetteers — and {n} records still have nothing recorded about how they are made. What is left was never written down.',
+  levelLocal:
+    'Authentic — Local',
+  levelLocalFull:
+    'Authentic — Local/Traditional',
+  levelRegional:
+    'Authentic — Regional',
+  levelVariation:
+    'Traditional Variation',
+  levelAdaptation:
+    'Modern Adaptation',
+  levelFusion:
+    'Fusion',
+  levelUnverified:
+    'Unverified',
+  levelUnverifiedFull:
+    'Unverified — insufficient evidence',
+  filterAuthenticOnly:
+    'Authentic Only',
+  filterTraditionalVariations:
+    'Traditional Variations',
+  filterModernAdaptations:
+    'Modern Adaptations',
+  filterFusion:
+    'Fusion',
+  filterUnverified:
+    'Unverified',
+  filterAll:
+    'All',
+  geoCountry:
+    'country',
+  geoRegion:
+    'region',
+  geoProvince:
+    'province or district',
+  geoCity:
+    'city or town',
+  geoVillage:
+    'village or community',
+  chooseRegion:
+    'Choose a region',
+  chooseProvince:
+    'Choose a province or district',
+  chooseCity:
+    'Choose a city or town',
+  chooseVillage:
+    'Choose a village or community',
+  typeToSearchLevel:
+    'Type to search…',
+  browseAllTraditions:
+    'Browse all {n} traditions',
+  geoPlace:
+    'place',
+  noLevelRecorded:
+    'No {level} recorded under that name yet. Absence here means no record, not no food.',
+  browseCuisine:
+    '{cuisine} cuisine',
+  browseMadeWith:
+    'made with {ingredient}',
+  browseEverything:
+    'Everything',
+  within:
+    'Within {path}',
+  chooseCountryHint:
+    'Choose a country · {c} recorded',
+  chooseCountryHintBroader:
+    'Choose a country · {c} recorded, and {b} broader origins',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

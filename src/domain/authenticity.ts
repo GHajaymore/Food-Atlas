@@ -5,17 +5,22 @@
  * definitions serve the screens, the intake pipeline and the tests.
  */
 
+import type { Copy } from '../i18n/copy';
 import type { Dish, FilterKey, Level, LevelKey } from './types';
 
 /** The five classification levels, with the glyph and text label the design pairs. */
-export const CLASSIFICATIONS: Record<Level, { icon: string; label: string; full: string }> = {
-  local: { icon: '🟢', label: 'Authentic — Local', full: 'Authentic — Local/Traditional' },
-  regional: { icon: '🟢', label: 'Authentic — Regional', full: 'Authentic — Regional' },
-  variation: { icon: '🟡', label: 'Traditional Variation', full: 'Traditional Variation' },
-  adaptation: { icon: '🟠', label: 'Modern Adaptation', full: 'Modern Adaptation' },
-  fusion: { icon: '🔴', label: 'Fusion', full: 'Fusion' },
-  unverified: { icon: '⚪', label: 'Unverified', full: 'Unverified — insufficient evidence' },
+export const CLASSIFICATIONS: Record<Level, { icon: string; label: keyof Copy; full: keyof Copy }> = {
+  local: { icon: '🟢', label: 'levelLocal', full: 'levelLocalFull' },
+  regional: { icon: '🟢', label: 'levelRegional', full: 'levelRegional' },
+  variation: { icon: '🟡', label: 'levelVariation', full: 'levelVariation' },
+  adaptation: { icon: '🟠', label: 'levelAdaptation', full: 'levelAdaptation' },
+  fusion: { icon: '🔴', label: 'levelFusion', full: 'levelFusion' },
+  unverified: { icon: '⚪', label: 'levelUnverified', full: 'levelUnverifiedFull' },
 };
+
+/** What a badge says, in the reader's language. */
+export const levelLabel = (copy: Copy, level: Level, form: 'label' | 'full' = 'label'): string =>
+  copy[CLASSIFICATIONS[level][form]];
 
 /**
  * Levels that qualify for the primary Authentic Food discovery experience.
@@ -33,18 +38,21 @@ export const isAuthentic = (level: Level): boolean => level === 'local' || level
  * The authenticity chip row. `test` is the predicate each chip applies to the feed.
  * Order and copy are final.
  */
-export const FILTERS: readonly { key: FilterKey; label: string; test: (d: Dish) => boolean }[] = [
-  { key: 'authentic', label: 'Authentic Only', test: (d) => isAuthentic(d.badgeLevel) },
-  { key: 'variation', label: 'Traditional Variations', test: (d) => d.badgeLevel === 'variation' },
-  { key: 'adaptation', label: 'Modern Adaptations', test: (d) => d.badgeLevel === 'adaptation' },
-  { key: 'fusion', label: 'Fusion', test: (d) => d.badgeLevel === 'fusion' },
+export const FILTERS: readonly { key: FilterKey; label: keyof Copy; test: (d: Dish) => boolean }[] = [
+  { key: 'authentic', label: 'filterAuthenticOnly', test: (d) => isAuthentic(d.badgeLevel) },
+  { key: 'variation', label: 'filterTraditionalVariations', test: (d) => d.badgeLevel === 'variation' },
+  { key: 'adaptation', label: 'filterModernAdaptations', test: (d) => d.badgeLevel === 'adaptation' },
+  { key: 'fusion', label: 'filterFusion', test: (d) => d.badgeLevel === 'fusion' },
   // Added for the imported catalogue: a record that exists but has not been through
   // the evidence assessment yet. `unverified` is a valid, publishable state in the
   // brief, and it needs a way to be browsed — otherwise the only honest place to put
   // thousands of unassessed dishes would be nowhere.
-  { key: 'unverified', label: 'Unverified', test: (d) => d.badgeLevel === 'unverified' },
-  { key: 'all', label: 'All', test: () => true },
+  { key: 'unverified', label: 'filterUnverified', test: (d) => d.badgeLevel === 'unverified' },
+  { key: 'all', label: 'filterAll', test: () => true },
 ];
+
+/** What a chip in the authenticity row says, in the reader's language. */
+export const filterLabel = (copy: Copy, key: FilterKey): string => copy[filterDef(key).label];
 
 /**
  * Which browse filter shows everything classified like this record.
@@ -83,13 +91,23 @@ export const filterDef = (key: FilterKey) => {
 };
 
 /** The geographic levels, coarse to fine, with the noun the place picker uses. */
-export const GEO_LEVELS: readonly { key: LevelKey; label: string }[] = [
-  { key: 'country', label: 'country' },
-  { key: 'region', label: 'region' },
-  { key: 'province', label: 'province or district' },
-  { key: 'city', label: 'city or town' },
-  { key: 'village', label: 'village or community' },
+export const GEO_LEVELS: readonly { key: LevelKey; label: keyof Copy; choose: keyof Copy }[] = [
+  { key: 'country', label: 'geoCountry', choose: 'chooseCountry' },
+  { key: 'region', label: 'geoRegion', choose: 'chooseRegion' },
+  { key: 'province', label: 'geoProvince', choose: 'chooseProvince' },
+  { key: 'city', label: 'geoCity', choose: 'chooseCity' },
+  { key: 'village', label: 'geoVillage', choose: 'chooseVillage' },
 ];
+
+/**
+ * The heading the place picker uses for a level.
+ *
+ * A whole key per level rather than "Choose a {level}", because the article is gendered
+ * in half these languages — Spanish needs *un* país and *una* región from the same
+ * template, and there is no way to get that right by substitution.
+ */
+export const chooseLevel = (copy: Copy, key: LevelKey): string =>
+  copy[GEO_LEVELS.find((l) => l.key === key)?.choose ?? 'chooseCountry'];
 
 /**
  * The seven evidence checks from the brief. The intake flow answers each one, or

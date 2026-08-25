@@ -17,6 +17,7 @@ import {
   parseBrowse,
   pathOf,
 } from '../src/domain/browse';
+import { EN } from '../src/i18n/copy';
 import type { Dish } from '../src/domain/types';
 
 const dish = (over: Partial<Dish>): Dish =>
@@ -77,19 +78,19 @@ describe('an unrecognised level shows the atlas, not an empty page', () => {
 
   test('and the heading stops claiming it', () => {
     // The failure this guards: a page filtered to nothing, headed as if it were filtered.
-    expect(describeQuery({ level: 'nonsense', country: 'India' })).toBe('India');
+    expect(describeQuery(EN, { level: 'nonsense', country: 'India' })).toBe('India');
   });
 });
 
 describe('the heading is built from what was applied', () => {
   test('names the place, the tradition and the ingredient', () => {
-    expect(describeQuery({ country: 'India', region: 'Kerala' })).toBe('Kerala, India');
-    expect(describeQuery({ cuisine: 'Tamil' })).toBe('Tamil cuisine');
-    expect(describeQuery({ ingredient: 'ghee', country: 'India' })).toBe('made with ghee — India');
+    expect(describeQuery(EN, { country: 'India', region: 'Kerala' })).toBe('Kerala, India');
+    expect(describeQuery(EN, { cuisine: 'Tamil' })).toBe('Tamil cuisine');
+    expect(describeQuery(EN, { ingredient: 'ghee', country: 'India' })).toBe('made with ghee — India');
   });
 
   test('an empty query is honest about being everything', () => {
-    expect(describeQuery({})).toBe('Everything');
+    expect(describeQuery(EN, {})).toBe('Everything');
     expect(isNarrowed({})).toBe(false);
     expect(isNarrowed({ country: 'India' })).toBe(true);
   });
@@ -186,10 +187,10 @@ describe('diet and occasion in a URL', () => {
   });
 
   test('a heading names the diet and occasion that were applied, and no others', () => {
-    expect(describeQuery({ diet: 'vegan', meal: 'breakfast' })).toContain('Vegan');
-    expect(describeQuery({ diet: 'vegan', meal: 'breakfast' })).toContain('Breakfast');
+    expect(describeQuery(EN, { diet: 'vegan', meal: 'breakfast' })).toContain('Vegan');
+    expect(describeQuery(EN, { diet: 'vegan', meal: 'breakfast' })).toContain('Breakfast');
     // The heading must not repeat back a value the query refused to apply.
-    expect(describeQuery({ diet: 'elevenses' })).toBe('Everything');
+    expect(describeQuery(EN, { diet: 'elevenses' })).toBe('Everything');
   });
 
   test('survives a round trip through a URL', () => {

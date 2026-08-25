@@ -20,6 +20,7 @@ import { placeKind } from '../src/domain/continents';
 import { feedFor, nextLevel, placeGroups } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { accentText, color, space } from '../src/theme/tokens';
+import { chooseLevel } from '../src/domain/authenticity';
 import { useCopy } from '../src/i18n';
 
 export default function PlacePicker() {
@@ -31,8 +32,10 @@ export default function PlacePicker() {
   const groups = placeGroups(next, placeQuery, path.length === 0);
   const noMatch = groups.every((g) => g.options.length === 0);
 
-  const levelLabel = next?.label ?? 'place';
-  const contextLine = path.length ? `Within ${path.map((p) => p.value).join(' › ')}` : 'Worldwide';
+  const levelNoun = next ? copy[next.labelKey] : copy.geoPlace;
+  const contextLine = path.length
+    ? copy.within.replace('{path}', path.map((p) => p.value).join(' › '))
+    : copy.worldwide;
 
   // Selecting a place returns to the Feed. Opened directly — a deep link, or a
   // refresh on the web build — there is no history to pop, so a bare router.back()
@@ -50,11 +53,11 @@ export default function PlacePicker() {
 
   return (
     <Screen bottomPad={50}>
-      <NavRow title={`Choose a ${levelLabel}`} />
+      <NavRow title={next ? chooseLevel(copy, next.key) : copy.chooseCountry} />
       <Muted style={styles.context}>{contextLine}</Muted>
 
       <Input
-        placeholder={`Type to search ${levelLabel}…`}
+        placeholder={copy.typeToSearchLevel}
         value={placeQuery}
         onChangeText={setPlaceQuery}
         autoCorrect={false}
@@ -105,7 +108,7 @@ export default function PlacePicker() {
 
       {noMatch ? (
         <Muted style={styles.noMatch}>
-          No {levelLabel} recorded under that name yet. Absence here means no record, not no food.
+          {copy.noLevelRecorded.replace('{level}', levelNoun)}
         </Muted>
       ) : null}
     </Screen>

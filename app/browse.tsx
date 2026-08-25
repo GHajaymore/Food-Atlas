@@ -65,7 +65,7 @@ export default function Browse() {
   );
 
   const results = useMemo(() => browse(catalogue, query), [query]);
-  const title = describe(query);
+  const title = describe(copy, query);
 
   /* Counted as a search rather than a dish open — it is a query, and the target is the
      filter that ran. No reader is attached to it; see src/data/events.ts. */

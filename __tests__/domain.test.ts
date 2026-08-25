@@ -588,18 +588,18 @@ describe("the place selector agrees with the coverage screen", () => {
     // "156 countries", from the same catalogue on the same load. Both were right and
     // counting different things; a reader who noticed both could not tell which was
     // wrong.
-    expect(placeChoiceHint([opt("France"), opt("Japan"), opt("Levant"), opt("Ottoman Empire")])).toBe(
+    expect(placeChoiceHint(EN, [opt("France"), opt("Japan"), opt("Levant"), opt("Ottoman Empire")])).toBe(
       "Choose a country · 2 recorded, and 2 broader origins",
     );
   });
 
   it("says nothing about broader origins when there are none", () => {
-    expect(placeChoiceHint([opt("France"), opt("Japan")])).toBe("Choose a country · 2 recorded");
+    expect(placeChoiceHint(EN, [opt("France"), opt("Japan")])).toBe("Choose a country · 2 recorded");
   });
 
   it("adds up to what the picker will actually list", () => {
     const options = [opt("France"), opt("Levant"), opt("Japan"), opt("Mesoamerica"), opt("Peru")];
-    const hint = placeChoiceHint(options);
+    const hint = placeChoiceHint(EN, options);
     const numbers = (hint.match(/[0-9]+/g) ?? []).map(Number);
     expect(numbers.reduce((a, b) => a + b, 0)).toBe(options.length);
   });
@@ -2594,6 +2594,17 @@ describe('the chrome in other languages', () => {
     'it.needHostingTitle', // these languages; the native coinages (Webspeicherplatz,
     'nl.needHostingTitle', // hébergement-style compounds) would read as translationese
     'pl.needHostingTitle', // on a page whose whole job is to be plainly understood.
+
+    // "Fusion" is the culinary term itself in these five languages, not a gap. The
+    // ones that do translate it did — Spanish Fusión, Italian Fusione, Russian Фьюжн,
+    // Japanese フュージョン, Chinese 融合菜 — so this is a real split, not a lazy row.
+    'fr.levelFusion', 'fr.filterFusion',
+    'de.levelFusion', 'de.filterFusion',
+    'nl.levelFusion', 'nl.filterFusion',
+    'pl.levelFusion', 'pl.filterFusion',
+    'tr.levelFusion', 'tr.filterFusion',
+
+    'pl.geoRegion', // "region" is the Polish word, spelled the same.
   ]);
 
   it('never echoes English back as though it were a translation', () => {

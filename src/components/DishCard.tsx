@@ -14,6 +14,8 @@
  * nothing more. The visual difference between the two tiers is doing honest work.
  */
 
+import { useCopy } from '../i18n';
+import { levelLabel } from '../domain/authenticity';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { dietLabel } from '../domain/diet';
@@ -36,13 +38,14 @@ interface Props {
 }
 
 export function DishCard({ dish, showViews, compact }: Props) {
+  const copy = useCopy();
   const open = () => router.push(`/dish/${dish.id}`);
 
   if (compact) {
     return (
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`${dish.name}, ${dish.badgeLabel}`}
+        accessibilityLabel={`${dish.name}, ${levelLabel(copy, dish.badgeLevel)}`}
         tint="neutral"
         onPress={open}
         style={styles.row}
@@ -66,7 +69,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
            * print.
            */}
           <View style={styles.rowEvidence}>
-            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} size="row" />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />
             {dish.atRisk ? <Muted style={styles.rowRisk}>🕯️ At risk</Muted> : null}
           </View>
         </View>
@@ -77,7 +80,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${dish.name}, ${dish.badgeLabel}`}
+      accessibilityLabel={`${dish.name}, ${levelLabel(copy, dish.badgeLevel)}`}
       tint="neutral"
       onPress={open}
       style={styles.press}
@@ -89,7 +92,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
 
         <View style={styles.body}>
           <View style={styles.badges}>
-            <Tag label={`${dish.badgeIcon} ${dish.badgeLabel}`} variant="neutral" />
+            <Tag label={`${dish.badgeIcon} ${levelLabel(copy, dish.badgeLevel)}`} variant="neutral" />
             {dish.atRisk ? <Tag label="🕯️ At-Risk Tradition" variant="outline" /> : null}
           </View>
 
@@ -124,7 +127,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
              * already carries the classification in words; what is missing down here is
              * the number.
              */}
-            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
             {showViews && dish.views ? <Muted style={styles.views}>{dish.views}</Muted> : null}
           </View>
         </View>

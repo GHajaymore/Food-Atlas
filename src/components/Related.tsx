@@ -19,6 +19,8 @@
  * following the ghee.
  */
 
+import { useCopy } from '../i18n';
+import { levelLabel } from '../domain/authenticity';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import type { Related as RelatedDish } from '../domain/related';
@@ -30,6 +32,7 @@ import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
 
 export function Related({ items }: { items: RelatedDish[] }) {
+  const copy = useCopy();
   const layout = useLayout();
   if (!items.length) return null;
 
@@ -45,7 +48,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
           <Pressable
             key={dish.id}
             accessibilityRole="link"
-            accessibilityLabel={`${dish.name}. ${reason}. ${dish.badgeLabel}`}
+            accessibilityLabel={`${dish.name}. ${reason}. ${levelLabel(copy, dish.badgeLevel)}`}
             tint="neutral"
             onPress={() => router.push(`/dish/${dish.id}`)}
             style={{ ...styles.card, width: layout.wide ? 168 : 132 }}
@@ -72,7 +75,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
             <T style={styles.reason} numberOfLines={1}>
               {reason}
             </T>
-            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
           </Pressable>
         ))}
       </View>

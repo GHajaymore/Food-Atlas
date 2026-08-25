@@ -37,6 +37,8 @@
  * one, so the screen passes the rail everything except this record.
  */
 
+import { useCopy } from '../i18n';
+import { levelLabel } from '../domain/authenticity';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import type { Dish } from '../domain/types';
@@ -49,6 +51,7 @@ import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
 
 export function LeadDish({ dish }: { dish: Dish | undefined }) {
+  const copy = useCopy();
   /* No photograph, no hero. More than half the atlas has no image, and a monogram at this
      size would spend the best position on the page saying nothing. */
   if (!dish?.photo) return null;
@@ -56,7 +59,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
   return (
     <Pressable
       accessibilityRole="link"
-      accessibilityLabel={`${dish.name}, ${dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}. ${dish.badgeLabel}`}
+      accessibilityLabel={`${dish.name}, ${dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}. ${levelLabel(copy, dish.badgeLevel)}`}
       tint="none"
       onPress={() => router.push(`/dish/${dish.id}`)}
       style={styles.press}
@@ -86,7 +89,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
               {dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}
             </Muted>
             <View style={styles.spacer} />
-            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} size="row" />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />
           </View>
 
           {dish.blurb ? (

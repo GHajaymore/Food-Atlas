@@ -20,7 +20,7 @@ import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
 import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
-import { filterKeyFor } from '../../src/domain/authenticity';
+import { filterKeyFor, levelLabel } from '../../src/domain/authenticity';
 import { LanguageBar } from '../../src/components/LanguageBar';
 import { RecordColumns } from '../../src/components/RecordColumns';
 import { Related } from '../../src/components/Related';
@@ -216,8 +216,8 @@ export default function DishDetail() {
          */}
         <FacetLink
           variant="tag"
-          label={`${dish.badgeIcon} ${dish.badgeLabelFull}`}
-          describedAs={`Everything classified ${dish.badgeLabel}`}
+          label={`${dish.badgeIcon} ${levelLabel(copy, dish.badgeLevel, 'full')}`}
+          describedAs={`Everything classified ${levelLabel(copy, dish.badgeLevel)}`}
           query={{ level: filterKeyFor(dish.badgeLevel) }}
         />
         {dish.photo && !dish.photoVerified ? (

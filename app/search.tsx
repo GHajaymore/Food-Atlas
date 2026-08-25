@@ -23,7 +23,7 @@ import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
 import { catalogue as dishes } from '../src/data/catalogue';
-import { CLASSIFICATIONS } from '../src/domain/authenticity';
+import { CLASSIFICATIONS, levelLabel } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { cookWith, parsePantry } from '../src/domain/pantry';
 import { STAPLES } from '../src/domain/staples';
@@ -114,7 +114,7 @@ export default function Search() {
   }, [query, facetLevels, facetCategories, facetIngredients, facetCuisines, sortBy, dietGroups, dietKinds, meals]);
 
   const active = [
-    ...facetLevels.map((v) => ({ label: CLASSIFICATIONS[v as Level].label, remove: () => toggleFacet('facetLevels', v) })),
+    ...facetLevels.map((v) => ({ label: levelLabel(copy, v as Level), remove: () => toggleFacet('facetLevels', v) })),
     ...facetCategories.map((v) => ({ label: v, remove: () => toggleFacet('facetCategories', v) })),
     ...facetIngredients.map((v) => ({ label: v, remove: () => toggleFacet('facetIngredients', v) })),
     ...facetCuisines.map((v) => ({ label: v, remove: () => toggleFacet('facetCuisines', v) })),
@@ -217,7 +217,7 @@ export default function Search() {
                 <Pressable
                   key={dish.id}
                   accessibilityRole="link"
-                  accessibilityLabel={`${dish.name}. Uses ${used.join(', ')}. ${dish.badgeLabel}`}
+                  accessibilityLabel={`${dish.name}. Uses ${used.join(', ')}. ${levelLabel(copy, dish.badgeLevel)}`}
                   tint="neutral"
                   onPress={() => router.push(`/dish/${dish.id}`)}
                   style={styles.pantryRow}
@@ -238,7 +238,7 @@ export default function Search() {
                       uses {used.join(', ')}
                     </T>
                     <Muted style={styles.pantryBadge} numberOfLines={1}>
-                      {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : dish.badgeLabel}
+                      {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : levelLabel(copy, dish.badgeLevel)}
                       {dish.steps.length ? ' · method recorded' : ' · no method yet'}
                     </Muted>
                   </View>
@@ -294,7 +294,7 @@ export default function Search() {
           {LEVEL_FACETS.map((level) => (
             <Tag
               key={level}
-              label={`${CLASSIFICATIONS[level].icon} ${CLASSIFICATIONS[level].label}`}
+              label={`${CLASSIFICATIONS[level].icon} ${levelLabel(copy, level)}`}
               variant={facetLevels.includes(level) ? 'accent' : 'outline'}
               onPress={() => toggleFacet('facetLevels', level)}
             />
@@ -387,7 +387,7 @@ export default function Search() {
                   <T style={styles.resultName}>{dish.name}</T>
                   <Muted style={styles.resultPlace}>{dish.breadcrumb.join(' › ')}</Muted>
                   <Muted style={styles.resultClass}>
-                    {dish.badgeIcon} {dish.badgeLabel} · {dish.score == null ? copy.notClassified : `${dish.score}/100`}
+                    {dish.badgeIcon} {levelLabel(copy, dish.badgeLevel)} · {dish.score == null ? copy.notClassified : `${dish.score}/100`}
                   </Muted>
                 </View>
               </Pressable>

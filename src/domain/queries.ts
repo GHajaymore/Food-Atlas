@@ -7,6 +7,7 @@
  * "directly translatable".
  */
 
+import type { Copy } from '../i18n/copy';
 import { filterDef, GEO_LEVELS, viewsNumber } from './authenticity';
 import { continentOf, continentRank, isCountry } from './continents';
 import { matchesDiet, type DietGroup, type DietKind } from './diet';
@@ -53,8 +54,8 @@ export interface PlaceOption {
 
 export interface NextLevel {
   key: LevelKey;
-  /** The noun the picker uses: 'country', 'province or district', … */
-  label: string;
+  /** The copy key for the noun the picker uses: 'geoCountry', 'geoProvince', … */
+  labelKey: keyof Copy;
   options: PlaceOption[];
 }
 
@@ -84,7 +85,7 @@ export function nextLevel(path: PathStep[], matching: Dish[]): NextLevel | null 
     if (counts.size) {
       return {
         key: level.key,
-        label: level.label,
+        labelKey: level.label,
         options: [...counts].map(([label, count]) => ({ label, count, level: level.key })),
       };
     }
@@ -365,10 +366,10 @@ export function narrowingSummary(
  * recorded as Ottoman has to remain reachable, and each is labelled there for what it
  * is — this sentence is the same admission, one screen earlier.
  */
-export function placeChoiceHint(options: PlaceOption[]): string {
+export function placeChoiceHint(copy: Copy, options: PlaceOption[]): string {
   const countries = options.filter((o) => isCountry(o.label)).length;
   const broader = options.length - countries;
 
-  if (!broader) return `Choose a country · ${countries} recorded`;
-  return `Choose a country · ${countries} recorded, and ${broader} broader origins`;
+  if (!broader) return copy.chooseCountryHint.replace('{c}', String(countries));
+  return copy.chooseCountryHintBroader.replace('{c}', String(countries)).replace('{b}', String(broader));
 }

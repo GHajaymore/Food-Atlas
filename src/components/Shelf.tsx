@@ -10,6 +10,7 @@
  * doorway rather than a dead end.
  */
 
+import { levelLabel } from '../domain/authenticity';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
 import type { Shelf as ShelfData } from '../domain/shelves';
@@ -103,7 +104,7 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
           <Pressable
             key={dish.id}
             accessibilityRole="button"
-            accessibilityLabel={`${dish.name}, ${dish.badgeLabel}`}
+            accessibilityLabel={`${dish.name}, ${levelLabel(copy, dish.badgeLevel)}`}
             tint="neutral"
             onPress={() => onOpenDish(dish.id)}
             style={{ ...styles.card, width: cardSize }}
@@ -115,7 +116,7 @@ export function Shelf({ shelf, enter, onOpenDish, onOpenAll }: Props) {
             <Muted style={styles.place} numberOfLines={1}>
               {dish.breadcrumb.slice(-1)[0] ?? dish.loc.country}
             </Muted>
-            <EvidenceBadge icon={dish.badgeIcon} label={dish.badgeLabel} score={dish.score} />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
           </Pressable>
         ))}
 

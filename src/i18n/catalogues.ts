@@ -383,6 +383,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'La documentación publicada no puede pasar de {ceiling} aquí, y un registro se vuelve Auténtico a partir de {threshold}. Esa distancia solo pueden cerrarla personas vinculadas al lugar. Las seis cifras que hay detrás de cada puntuación están impresas en el registro, así que quien dude del número puede sumarlo.',
     whyTheAtlasStops:
       'Es también por lo que el atlas se detiene donde se detiene. Se han leído todas las fuentes libres — enciclopedias, recetarios, registros de patrimonio, nomenclátores — y {n} registros siguen sin nada anotado sobre cómo se hacen. Lo que queda nunca se escribió.',
+    levelLocal:
+      'Auténtico — Local',
+    levelLocalFull:
+      'Auténtico — Local/Tradicional',
+    levelRegional:
+      'Auténtico — Regional',
+    levelVariation:
+      'Variación tradicional',
+    levelAdaptation:
+      'Adaptación moderna',
+    levelFusion:
+      'Fusión',
+    levelUnverified:
+      'Sin verificar',
+    levelUnverifiedFull:
+      'Sin verificar — pruebas insuficientes',
+    filterAuthenticOnly:
+      'Solo auténticos',
+    filterTraditionalVariations:
+      'Variaciones tradicionales',
+    filterModernAdaptations:
+      'Adaptaciones modernas',
+    filterFusion:
+      'Fusión',
+    filterUnverified:
+      'Sin verificar',
+    filterAll:
+      'Todos',
+    geoCountry:
+      'país',
+    geoRegion:
+      'región',
+    geoProvince:
+      'provincia o distrito',
+    geoCity:
+      'ciudad o pueblo',
+    geoVillage:
+      'aldea o comunidad',
+    chooseRegion:
+      'Elige una región',
+    chooseProvince:
+      'Elige una provincia o distrito',
+    chooseCity:
+      'Elige una ciudad o pueblo',
+    chooseVillage:
+      'Elige una aldea o comunidad',
+    typeToSearchLevel:
+      'Escribe para buscar…',
+    browseAllTraditions:
+      'Ver las {n} tradiciones',
+    geoPlace:
+      'lugar',
+    noLevelRecorded:
+      'Todavía no hay ningún {level} registrado con ese nombre. Que no esté aquí significa que no hay registro, no que no haya comida.',
+    browseCuisine:
+      'cocina de {cuisine}',
+    browseMadeWith:
+      'hecho con {ingredient}',
+    browseEverything:
+      'Todo',
+    within:
+      'Dentro de {path}',
+    chooseCountryHint:
+      'Elige un país · {c} registrados',
+    chooseCountryHintBroader:
+      'Elige un país · {c} registrados, y {b} orígenes más amplios',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -732,6 +798,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'La documentation publiée ne peut pas dépasser {ceiling} ici, et une fiche devient Authentique à {threshold}. Cet écart n’est comblé que par des personnes liées au lieu. Les six chiffres derrière chaque note sont imprimés sur la fiche, si bien que qui doute du total peut l’additionner.',
     whyTheAtlasStops:
       'C’est aussi pourquoi l’atlas s’arrête là où il s’arrête. Toutes les sources libres ont été lues — encyclopédies, livres de cuisine, inventaires du patrimoine, dictionnaires géographiques — et {n} fiches n’ont toujours rien de consigné sur leur préparation. Ce qui reste n’a jamais été écrit.',
+    levelLocal:
+      'Authentique — Local',
+    levelLocalFull:
+      'Authentique — Local/Traditionnel',
+    levelRegional:
+      'Authentique — Régional',
+    levelVariation:
+      'Variante traditionnelle',
+    levelAdaptation:
+      'Adaptation moderne',
+    levelFusion:
+      'Fusion',
+    levelUnverified:
+      'Non vérifié',
+    levelUnverifiedFull:
+      'Non vérifié — preuves insuffisantes',
+    filterAuthenticOnly:
+      'Authentiques seulement',
+    filterTraditionalVariations:
+      'Variantes traditionnelles',
+    filterModernAdaptations:
+      'Adaptations modernes',
+    filterFusion:
+      'Fusion',
+    filterUnverified:
+      'Non vérifiés',
+    filterAll:
+      'Tous',
+    geoCountry:
+      'pays',
+    geoRegion:
+      'région',
+    geoProvince:
+      'province ou département',
+    geoCity:
+      'ville ou commune',
+    geoVillage:
+      'village ou communauté',
+    chooseRegion:
+      'Choisissez une région',
+    chooseProvince:
+      'Choisissez une province ou un département',
+    chooseCity:
+      'Choisissez une ville ou une commune',
+    chooseVillage:
+      'Choisissez un village ou une communauté',
+    typeToSearchLevel:
+      'Tapez pour chercher…',
+    browseAllTraditions:
+      'Voir les {n} traditions',
+    geoPlace:
+      'lieu',
+    noLevelRecorded:
+      'Aucun {level} enregistré sous ce nom pour l’instant. Une absence ici signifie pas de fiche, pas pas de plat.',
+    browseCuisine:
+      'cuisine {cuisine}',
+    browseMadeWith:
+      'préparé avec {ingredient}',
+    browseEverything:
+      'Tout',
+    within:
+      'Dans {path}',
+    chooseCountryHint:
+      'Choisissez un pays · {c} enregistrés',
+    chooseCountryHintBroader:
+      'Choisissez un pays · {c} enregistrés, et {b} origines plus larges',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -1080,6 +1212,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Veröffentlichte Belege kommen hier über {ceiling} nicht hinaus, und ein Eintrag gilt ab {threshold} als authentisch. Diesen Abstand schließen nur Menschen, die mit dem Ort verbunden sind. Die sechs Zahlen hinter jeder Bewertung stehen auf dem Eintrag, sodass jeder, der der Zahl misstraut, sie nachrechnen kann.',
     whyTheAtlasStops:
       'Deshalb hört der Atlas auch dort auf, wo er aufhört. Jede freie Quelle wurde gelesen — Enzyklopädien, Kochbücher, Denkmalregister, Ortsverzeichnisse — und bei {n} Einträgen ist immer noch nichts darüber festgehalten, wie sie gemacht werden. Was übrig ist, wurde nie aufgeschrieben.',
+    levelLocal:
+      'Authentisch — lokal',
+    levelLocalFull:
+      'Authentisch — lokal/traditionell',
+    levelRegional:
+      'Authentisch — regional',
+    levelVariation:
+      'Traditionelle Variante',
+    levelAdaptation:
+      'Moderne Abwandlung',
+    levelFusion:
+      'Fusion',
+    levelUnverified:
+      'Ungeprüft',
+    levelUnverifiedFull:
+      'Ungeprüft — zu wenig Belege',
+    filterAuthenticOnly:
+      'Nur authentische',
+    filterTraditionalVariations:
+      'Traditionelle Varianten',
+    filterModernAdaptations:
+      'Moderne Abwandlungen',
+    filterFusion:
+      'Fusion',
+    filterUnverified:
+      'Ungeprüfte',
+    filterAll:
+      'Alle',
+    geoCountry:
+      'Land',
+    geoRegion:
+      'Region',
+    geoProvince:
+      'Provinz oder Bezirk',
+    geoCity:
+      'Stadt oder Ort',
+    geoVillage:
+      'Dorf oder Gemeinschaft',
+    chooseRegion:
+      'Region wählen',
+    chooseProvince:
+      'Provinz oder Bezirk wählen',
+    chooseCity:
+      'Stadt oder Ort wählen',
+    chooseVillage:
+      'Dorf oder Gemeinschaft wählen',
+    typeToSearchLevel:
+      'Tippen, um zu suchen…',
+    browseAllTraditions:
+      'Alle {n} Traditionen ansehen',
+    geoPlace:
+      'Ort',
+    noLevelRecorded:
+      'Unter diesem Namen ist noch kein {level} erfasst. Was hier fehlt, fehlt im Verzeichnis — nicht in der Küche.',
+    browseCuisine:
+      '{cuisine} Küche',
+    browseMadeWith:
+      'mit {ingredient} gemacht',
+    browseEverything:
+      'Alles',
+    within:
+      'Innerhalb von {path}',
+    chooseCountryHint:
+      'Land wählen · {c} erfasst',
+    chooseCountryHintBroader:
+      'Land wählen · {c} erfasst, dazu {b} weiter gefasste Herkünfte',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -1428,6 +1626,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'La documentazione pubblicata qui non può superare {ceiling}, e una scheda diventa Autentica a {threshold}. Quella distanza la colmano solo persone legate al luogo. Le sei cifre dietro ogni punteggio sono stampate sulla scheda, così chi dubita del numero può rifare la somma.',
     whyTheAtlasStops:
       'È anche il motivo per cui l’atlante si ferma dove si ferma. Ogni fonte libera è stata letta — enciclopedie, ricettari, registri del patrimonio, dizionari geografici — e {n} schede non hanno ancora nulla di annotato su come si fanno. Quel che resta non è mai stato scritto.',
+    levelLocal:
+      'Autentico — locale',
+    levelLocalFull:
+      'Autentico — locale/tradizionale',
+    levelRegional:
+      'Autentico — regionale',
+    levelVariation:
+      'Variante tradizionale',
+    levelAdaptation:
+      'Adattamento moderno',
+    levelFusion:
+      'Fusione',
+    levelUnverified:
+      'Non verificato',
+    levelUnverifiedFull:
+      'Non verificato — prove insufficienti',
+    filterAuthenticOnly:
+      'Solo autentici',
+    filterTraditionalVariations:
+      'Varianti tradizionali',
+    filterModernAdaptations:
+      'Adattamenti moderni',
+    filterFusion:
+      'Fusione',
+    filterUnverified:
+      'Non verificati',
+    filterAll:
+      'Tutti',
+    geoCountry:
+      'paese',
+    geoRegion:
+      'regione',
+    geoProvince:
+      'provincia o distretto',
+    geoCity:
+      'città o paese',
+    geoVillage:
+      'villaggio o comunità',
+    chooseRegion:
+      'Scegli una regione',
+    chooseProvince:
+      'Scegli una provincia o un distretto',
+    chooseCity:
+      'Scegli una città o un paese',
+    chooseVillage:
+      'Scegli un villaggio o una comunità',
+    typeToSearchLevel:
+      'Scrivi per cercare…',
+    browseAllTraditions:
+      'Vedi tutte le {n} tradizioni',
+    geoPlace:
+      'luogo',
+    noLevelRecorded:
+      'Nessun {level} registrato con quel nome, per ora. Un vuoto qui vuol dire nessuna scheda, non nessun piatto.',
+    browseCuisine:
+      'cucina {cuisine}',
+    browseMadeWith:
+      'fatto con {ingredient}',
+    browseEverything:
+      'Tutto',
+    within:
+      'Dentro {path}',
+    chooseCountryHint:
+      'Scegli un paese · {c} registrati',
+    chooseCountryHintBroader:
+      'Scegli un paese · {c} registrati, e {b} origini più ampie',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -1777,6 +2041,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'A documentação publicada não passa de {ceiling} aqui, e um registo torna-se Autêntico a partir de {threshold}. Essa distância só é fechada por pessoas ligadas ao lugar. Os seis números por trás de cada pontuação estão impressos no registo, por isso quem duvide do total pode somá-lo.',
     whyTheAtlasStops:
       'É também por isso que o atlas para onde para. Todas as fontes livres foram lidas — enciclopédias, livros de cozinha, registos de património, dicionários geográficos — e {n} registos continuam sem nada anotado sobre como se fazem. O que resta nunca foi escrito.',
+    levelLocal:
+      'Autêntico — local',
+    levelLocalFull:
+      'Autêntico — local/tradicional',
+    levelRegional:
+      'Autêntico — regional',
+    levelVariation:
+      'Variação tradicional',
+    levelAdaptation:
+      'Adaptação moderna',
+    levelFusion:
+      'Fusão',
+    levelUnverified:
+      'Por verificar',
+    levelUnverifiedFull:
+      'Por verificar — provas insuficientes',
+    filterAuthenticOnly:
+      'Só autênticos',
+    filterTraditionalVariations:
+      'Variações tradicionais',
+    filterModernAdaptations:
+      'Adaptações modernas',
+    filterFusion:
+      'Fusão',
+    filterUnverified:
+      'Por verificar',
+    filterAll:
+      'Todos',
+    geoCountry:
+      'país',
+    geoRegion:
+      'região',
+    geoProvince:
+      'província ou distrito',
+    geoCity:
+      'cidade ou vila',
+    geoVillage:
+      'aldeia ou comunidade',
+    chooseRegion:
+      'Escolha uma região',
+    chooseProvince:
+      'Escolha uma província ou distrito',
+    chooseCity:
+      'Escolha uma cidade ou vila',
+    chooseVillage:
+      'Escolha uma aldeia ou comunidade',
+    typeToSearchLevel:
+      'Escreva para procurar…',
+    browseAllTraditions:
+      'Ver as {n} tradições',
+    geoPlace:
+      'lugar',
+    noLevelRecorded:
+      'Ainda não há nenhum {level} registado com esse nome. A ausência aqui quer dizer que não há registo, não que não haja comida.',
+    browseCuisine:
+      'cozinha {cuisine}',
+    browseMadeWith:
+      'feito com {ingredient}',
+    browseEverything:
+      'Tudo',
+    within:
+      'Dentro de {path}',
+    chooseCountryHint:
+      'Escolha um país · {c} registados',
+    chooseCountryHintBroader:
+      'Escolha um país · {c} registados, e {b} origens mais amplas',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -2125,6 +2455,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Gepubliceerde documentatie komt hier niet boven {ceiling}, en een record heet Authentiek vanaf {threshold}. Dat gat wordt alleen gedicht door mensen die met de plaats verbonden zijn. De zes cijfers achter elke score staan op het record, zodat wie het getal wantrouwt het kan natellen.',
     whyTheAtlasStops:
       'Het is ook waarom de atlas ophoudt waar hij ophoudt. Elke vrije bron is gelezen — encyclopedieën, kookboeken, erfgoedregisters, plaatsnaamlijsten — en bij {n} records staat nog steeds niets over hoe ze gemaakt worden. Wat overblijft is nooit opgeschreven.',
+    levelLocal:
+      'Authentiek — lokaal',
+    levelLocalFull:
+      'Authentiek — lokaal/traditioneel',
+    levelRegional:
+      'Authentiek — regionaal',
+    levelVariation:
+      'Traditionele variant',
+    levelAdaptation:
+      'Moderne bewerking',
+    levelFusion:
+      'Fusion',
+    levelUnverified:
+      'Niet geverifieerd',
+    levelUnverifiedFull:
+      'Niet geverifieerd — te weinig bewijs',
+    filterAuthenticOnly:
+      'Alleen authentiek',
+    filterTraditionalVariations:
+      'Traditionele varianten',
+    filterModernAdaptations:
+      'Moderne bewerkingen',
+    filterFusion:
+      'Fusion',
+    filterUnverified:
+      'Niet geverifieerd',
+    filterAll:
+      'Alles',
+    geoCountry:
+      'land',
+    geoRegion:
+      'regio',
+    geoProvince:
+      'provincie of district',
+    geoCity:
+      'stad of plaats',
+    geoVillage:
+      'dorp of gemeenschap',
+    chooseRegion:
+      'Kies een regio',
+    chooseProvince:
+      'Kies een provincie of district',
+    chooseCity:
+      'Kies een stad of plaats',
+    chooseVillage:
+      'Kies een dorp of gemeenschap',
+    typeToSearchLevel:
+      'Typ om te zoeken…',
+    browseAllTraditions:
+      'Bekijk alle {n} tradities',
+    geoPlace:
+      'plaats',
+    noLevelRecorded:
+      'Nog geen {level} onder die naam vastgelegd. Wat hier ontbreekt, ontbreekt in het register — niet in de keuken.',
+    browseCuisine:
+      '{cuisine} keuken',
+    browseMadeWith:
+      'gemaakt met {ingredient}',
+    browseEverything:
+      'Alles',
+    within:
+      'Binnen {path}',
+    chooseCountryHint:
+      'Kies een land · {c} vastgelegd',
+    chooseCountryHintBroader:
+      'Kies een land · {c} vastgelegd, en {b} bredere herkomsten',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -2474,6 +2870,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Opublikowana dokumentacja nie przekroczy tutaj {ceiling}, a wpis staje się Autentyczny od {threshold}. Tę różnicę zamykają wyłącznie ludzie związani z danym miejscem. Sześć liczb stojących za każdą punktacją jest wydrukowanych na wpisie, więc kto nie wierzy w wynik, może go zsumować.',
     whyTheAtlasStops:
       'To także powód, dla którego atlas kończy się tam, gdzie się kończy. Przeczytano każde wolne źródło — encyklopedie, książki kucharskie, rejestry dziedzictwa, słowniki geograficzne — a przy {n} wpisach wciąż nie ma nic o tym, jak się je robi. To, co zostało, nigdy nie zostało zapisane.',
+    levelLocal:
+      'Autentyczne — lokalne',
+    levelLocalFull:
+      'Autentyczne — lokalne/tradycyjne',
+    levelRegional:
+      'Autentyczne — regionalne',
+    levelVariation:
+      'Wariant tradycyjny',
+    levelAdaptation:
+      'Adaptacja współczesna',
+    levelFusion:
+      'Fusion',
+    levelUnverified:
+      'Niesprawdzone',
+    levelUnverifiedFull:
+      'Niesprawdzone — za mało dowodów',
+    filterAuthenticOnly:
+      'Tylko autentyczne',
+    filterTraditionalVariations:
+      'Warianty tradycyjne',
+    filterModernAdaptations:
+      'Adaptacje współczesne',
+    filterFusion:
+      'Fusion',
+    filterUnverified:
+      'Niesprawdzone',
+    filterAll:
+      'Wszystko',
+    geoCountry:
+      'kraj',
+    geoRegion:
+      'region',
+    geoProvince:
+      'województwo lub powiat',
+    geoCity:
+      'miasto lub miejscowość',
+    geoVillage:
+      'wieś lub społeczność',
+    chooseRegion:
+      'Wybierz region',
+    chooseProvince:
+      'Wybierz województwo lub powiat',
+    chooseCity:
+      'Wybierz miasto lub miejscowość',
+    chooseVillage:
+      'Wybierz wieś lub społeczność',
+    typeToSearchLevel:
+      'Wpisz, aby szukać…',
+    browseAllTraditions:
+      'Przejrzyj wszystkie tradycje: {n}',
+    geoPlace:
+      'miejsce',
+    noLevelRecorded:
+      'Pod tą nazwą nie zapisano jeszcze żadnego takiego miejsca ({level}). Brak tutaj znaczy brak wpisu, a nie brak potrawy.',
+    browseCuisine:
+      'kuchnia: {cuisine}',
+    browseMadeWith:
+      'z składnikiem {ingredient}',
+    browseEverything:
+      'Wszystko',
+    within:
+      'W obrębie: {path}',
+    chooseCountryHint:
+      'Wybierz kraj · zapisanych: {c}',
+    chooseCountryHintBroader:
+      'Wybierz kraj · zapisanych: {c}, oraz {b} szerszych pochodzeń',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -2822,6 +3284,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Yayımlanmış belgeler burada {ceiling} puanı geçemez ve bir kayıt {threshold} puandan itibaren Özgün sayılır. Bu aradaki farkı yalnızca o yerle bağı olan insanlar kapatabilir. Her puanın arkasındaki altı sayı kaydın üzerinde yazılıdır, böylece sayıdan kuşkulanan onu toplayabilir.',
     whyTheAtlasStops:
       'Atlasın bittiği yerde bitmesinin nedeni de budur. Serbest kaynakların hepsi okundu — ansiklopediler, yemek kitapları, miras kayıtları, yer adları sözlükleri — ve {n} kaydın nasıl yapıldığına dair hâlâ hiçbir şey yok. Geriye kalan hiç yazılmamış olandır.',
+    levelLocal:
+      'Özgün — yerel',
+    levelLocalFull:
+      'Özgün — yerel/geleneksel',
+    levelRegional:
+      'Özgün — bölgesel',
+    levelVariation:
+      'Geleneksel çeşitleme',
+    levelAdaptation:
+      'Modern uyarlama',
+    levelFusion:
+      'Fusion',
+    levelUnverified:
+      'Doğrulanmamış',
+    levelUnverifiedFull:
+      'Doğrulanmamış — kanıt yetersiz',
+    filterAuthenticOnly:
+      'Yalnızca özgün',
+    filterTraditionalVariations:
+      'Geleneksel çeşitlemeler',
+    filterModernAdaptations:
+      'Modern uyarlamalar',
+    filterFusion:
+      'Fusion',
+    filterUnverified:
+      'Doğrulanmamış',
+    filterAll:
+      'Hepsi',
+    geoCountry:
+      'ülke',
+    geoRegion:
+      'bölge',
+    geoProvince:
+      'il ya da ilçe',
+    geoCity:
+      'şehir ya da kasaba',
+    geoVillage:
+      'köy ya da topluluk',
+    chooseRegion:
+      'Bir bölge seçin',
+    chooseProvince:
+      'Bir il ya da ilçe seçin',
+    chooseCity:
+      'Bir şehir ya da kasaba seçin',
+    chooseVillage:
+      'Bir köy ya da topluluk seçin',
+    typeToSearchLevel:
+      'Aramak için yazın…',
+    browseAllTraditions:
+      '{n} geleneğin tamamına göz atın',
+    geoPlace:
+      'yer',
+    noLevelRecorded:
+      'Bu adla kayıtlı bir {level} henüz yok. Burada olmaması kayıt yok demektir, yemek yok demek değil.',
+    browseCuisine:
+      '{cuisine} mutfağı',
+    browseMadeWith:
+      '{ingredient} ile yapılan',
+    browseEverything:
+      'Hepsi',
+    within:
+      '{path} içinde',
+    chooseCountryHint:
+      'Bir ülke seçin · {c} kayıtlı',
+    chooseCountryHintBroader:
+      'Bir ülke seçin · {c} kayıtlı, ayrıca {b} daha geniş köken',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -3171,6 +3699,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Опубликованные материалы здесь не могут набрать больше {ceiling}, а Подлинной запись становится с {threshold}. Этот разрыв закрывают только люди, связанные с местом. Шесть чисел, из которых складывается каждая оценка, напечатаны на записи, так что усомнившийся может сложить их сам.',
     whyTheAtlasStops:
       'По той же причине атлас кончается там, где кончается. Прочитан каждый свободный источник — энциклопедии, кулинарные книги, реестры наследия, географические словари, — и у {n} записей по-прежнему нет ничего о том, как их готовят. То, что осталось, никогда не было записано.',
+    levelLocal:
+      'Подлинное — местное',
+    levelLocalFull:
+      'Подлинное — местное/традиционное',
+    levelRegional:
+      'Подлинное — региональное',
+    levelVariation:
+      'Традиционный вариант',
+    levelAdaptation:
+      'Современная адаптация',
+    levelFusion:
+      'Фьюжн',
+    levelUnverified:
+      'Не проверено',
+    levelUnverifiedFull:
+      'Не проверено — недостаточно данных',
+    filterAuthenticOnly:
+      'Только подлинные',
+    filterTraditionalVariations:
+      'Традиционные варианты',
+    filterModernAdaptations:
+      'Современные адаптации',
+    filterFusion:
+      'Фьюжн',
+    filterUnverified:
+      'Непроверенные',
+    filterAll:
+      'Все',
+    geoCountry:
+      'страна',
+    geoRegion:
+      'регион',
+    geoProvince:
+      'провинция или район',
+    geoCity:
+      'город или посёлок',
+    geoVillage:
+      'село или община',
+    chooseRegion:
+      'Выберите регион',
+    chooseProvince:
+      'Выберите провинцию или район',
+    chooseCity:
+      'Выберите город или посёлок',
+    chooseVillage:
+      'Выберите село или общину',
+    typeToSearchLevel:
+      'Начните вводить…',
+    browseAllTraditions:
+      'Посмотреть все традиции: {n}',
+    geoPlace:
+      'место',
+    noLevelRecorded:
+      'Под таким названием пока нет ни одного объекта уровня «{level}». Отсутствие здесь означает отсутствие записи, а не блюда.',
+    browseCuisine:
+      'кухня: {cuisine}',
+    browseMadeWith:
+      'с ингредиентом {ingredient}',
+    browseEverything:
+      'Всё',
+    within:
+      'Внутри: {path}',
+    chooseCountryHint:
+      'Выберите страну · записано: {c}',
+    chooseCountryHintBroader:
+      'Выберите страну · записано: {c}, и ещё {b} более широких источников',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -3520,6 +4114,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'प्रकाशित प्रलेखन यहाँ {ceiling} से ऊपर नहीं जा सकता, और रिकॉर्ड {threshold} पर प्रामाणिक कहलाता है। यह फ़ासला सिर्फ़ उस जगह से जुड़े लोग ही पाट सकते हैं। हर अंक के पीछे के छह आँकड़े रिकॉर्ड पर छपे होते हैं, ताकि संख्या पर संदेह करने वाला उसे जोड़कर देख सके।',
     whyTheAtlasStops:
       'यही वजह है कि एटलस वहीं रुकता है जहाँ रुकता है। हर मुफ़्त स्रोत पढ़ा जा चुका है — विश्वकोश, पाककला की किताबें, धरोहर रजिस्टर, भू-नाम कोश — और {n} रिकॉर्ड में अब भी यह दर्ज नहीं है कि वे कैसे बनते हैं। जो बचा है वह कभी लिखा ही नहीं गया।',
+    levelLocal:
+      'प्रामाणिक — स्थानीय',
+    levelLocalFull:
+      'प्रामाणिक — स्थानीय/पारंपरिक',
+    levelRegional:
+      'प्रामाणिक — क्षेत्रीय',
+    levelVariation:
+      'पारंपरिक रूपभेद',
+    levelAdaptation:
+      'आधुनिक रूपांतर',
+    levelFusion:
+      'फ़्यूज़न',
+    levelUnverified:
+      'असत्यापित',
+    levelUnverifiedFull:
+      'असत्यापित — पर्याप्त प्रमाण नहीं',
+    filterAuthenticOnly:
+      'केवल प्रामाणिक',
+    filterTraditionalVariations:
+      'पारंपरिक रूपभेद',
+    filterModernAdaptations:
+      'आधुनिक रूपांतर',
+    filterFusion:
+      'फ़्यूज़न',
+    filterUnverified:
+      'असत्यापित',
+    filterAll:
+      'सभी',
+    geoCountry:
+      'देश',
+    geoRegion:
+      'क्षेत्र',
+    geoProvince:
+      'प्रांत या ज़िला',
+    geoCity:
+      'शहर या क़स्बा',
+    geoVillage:
+      'गाँव या समुदाय',
+    chooseRegion:
+      'कोई क्षेत्र चुनें',
+    chooseProvince:
+      'कोई प्रांत या ज़िला चुनें',
+    chooseCity:
+      'कोई शहर या क़स्बा चुनें',
+    chooseVillage:
+      'कोई गाँव या समुदाय चुनें',
+    typeToSearchLevel:
+      'खोजने के लिए लिखें…',
+    browseAllTraditions:
+      'सभी {n} परंपराएँ देखें',
+    geoPlace:
+      'जगह',
+    noLevelRecorded:
+      'उस नाम से अभी कोई {level} दर्ज नहीं है। यहाँ न होने का मतलब है कोई रिकॉर्ड नहीं, यह नहीं कि खाना नहीं।',
+    browseCuisine:
+      '{cuisine} खानपान',
+    browseMadeWith:
+      '{ingredient} से बना',
+    browseEverything:
+      'सब कुछ',
+    within:
+      '{path} के भीतर',
+    chooseCountryHint:
+      'कोई देश चुनें · {c} दर्ज',
+    chooseCountryHintBroader:
+      'कोई देश चुनें · {c} दर्ज, और {b} व्यापक मूल',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -3869,6 +4529,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '已发表的文献在这里最高只能到 {ceiling} 分，而记录要到 {threshold} 分才算认证。这段差距只有与当地有关系的人才能补上。每个分数背后的六项数字都印在记录上，怀疑这个数的人可以自己加一遍。',
     whyTheAtlasStops:
       '这也是图册止步于此的原因。所有免费来源都已读过 — 百科、食谱书、遗产名录、地名录 — 仍有 {n} 条记录完全没有关于做法的记载。剩下的，从来就没有被写下来过。',
+    levelLocal:
+      '本真 — 本地',
+    levelLocalFull:
+      '本真 — 本地/传统',
+    levelRegional:
+      '本真 — 地区',
+    levelVariation:
+      '传统变体',
+    levelAdaptation:
+      '现代改良',
+    levelFusion:
+      '融合菜',
+    levelUnverified:
+      '未核实',
+    levelUnverifiedFull:
+      '未核实 — 证据不足',
+    filterAuthenticOnly:
+      '仅本真',
+    filterTraditionalVariations:
+      '传统变体',
+    filterModernAdaptations:
+      '现代改良',
+    filterFusion:
+      '融合菜',
+    filterUnverified:
+      '未核实',
+    filterAll:
+      '全部',
+    geoCountry:
+      '国家',
+    geoRegion:
+      '地区',
+    geoProvince:
+      '省或专区',
+    geoCity:
+      '城市或城镇',
+    geoVillage:
+      '村庄或社区',
+    chooseRegion:
+      '选择一个地区',
+    chooseProvince:
+      '选择一个省或专区',
+    chooseCity:
+      '选择一个城市或城镇',
+    chooseVillage:
+      '选择一个村庄或社区',
+    typeToSearchLevel:
+      '输入以搜索…',
+    browseAllTraditions:
+      '浏览全部 {n} 项传统',
+    geoPlace:
+      '地方',
+    noLevelRecorded:
+      '还没有以这个名字登记的{level}。这里没有，意思是没有记录，不是没有这道菜。',
+    browseCuisine:
+      '{cuisine}菜系',
+    browseMadeWith:
+      '用{ingredient}做的',
+    browseEverything:
+      '全部',
+    within:
+      '在{path}之内',
+    chooseCountryHint:
+      '选择一个国家 · 已记录 {c} 个',
+    chooseCountryHintBroader:
+      '选择一个国家 · 已记录 {c} 个，另有 {b} 个更宽泛的来源',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -4218,6 +4944,72 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '公表された資料だけでは、ここでは {ceiling} を超えられません。記録が本物と呼ばれるのは {threshold} からです。この隔たりを埋められるのは、その土地とつながりのある人だけです。どの点数もその内訳の六つの数字が記録に印刷されているので、数字を疑う人は自分で足せます。',
     whyTheAtlasStops:
       'アトラスがここで止まっている理由も同じです。自由に使える資料はすべて読みました。百科事典、料理書、文化財の登録簿、地名辞典 — それでも {n} 件は、どう作るのかについて何も残っていません。残っているのは、書かれたことのないものです。',
+    levelLocal:
+      '本物 — 地元',
+    levelLocalFull:
+      '本物 — 地元/伝統',
+    levelRegional:
+      '本物 — 地方',
+    levelVariation:
+      '伝統的な変種',
+    levelAdaptation:
+      '現代のアレンジ',
+    levelFusion:
+      'フュージョン',
+    levelUnverified:
+      '未確認',
+    levelUnverifiedFull:
+      '未確認 — 根拠が足りません',
+    filterAuthenticOnly:
+      '本物のみ',
+    filterTraditionalVariations:
+      '伝統的な変種',
+    filterModernAdaptations:
+      '現代のアレンジ',
+    filterFusion:
+      'フュージョン',
+    filterUnverified:
+      '未確認',
+    filterAll:
+      'すべて',
+    geoCountry:
+      '国',
+    geoRegion:
+      '地方',
+    geoProvince:
+      '州・県',
+    geoCity:
+      '市・町',
+    geoVillage:
+      '村・集落',
+    chooseRegion:
+      '地方を選ぶ',
+    chooseProvince:
+      '州・県を選ぶ',
+    chooseCity:
+      '市・町を選ぶ',
+    chooseVillage:
+      '村・集落を選ぶ',
+    typeToSearchLevel:
+      '入力して検索…',
+    browseAllTraditions:
+      '{n} 件の伝統をすべて見る',
+    geoPlace:
+      '場所',
+    noLevelRecorded:
+      'その名前で登録された{level}はまだありません。ここに無いのは記録が無いということで、料理が無いということではありません。',
+    browseCuisine:
+      '{cuisine}料理',
+    browseMadeWith:
+      '{ingredient}を使ったもの',
+    browseEverything:
+      'すべて',
+    within:
+      '{path} の中',
+    chooseCountryHint:
+      '国を選ぶ · {c} か国',
+    chooseCountryHintBroader:
+      '国を選ぶ · {c} か国、ほかに広い範囲の出自が {b} 件',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
