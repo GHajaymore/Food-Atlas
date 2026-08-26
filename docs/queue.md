@@ -1899,3 +1899,37 @@ React-native-web renders two elements and the cap lives on the outer one. Measur
 wrong node reported a working fix as broken — the mirror image of measuring the wrong node
 and reporting a broken thing as fixed, which is the more usual way round and the more
 dangerous.
+
+### The expanded states, and two false alarms worth more than the finding
+
+After the `Choice` bug — forty options, five reachable — the same sweep ran against every
+other expanded state, because that is where it had hidden. `/search` with the filters open
+(101 interactive elements), `/atlas` with four continent groups open (50), `/dish` with the
+accordions and the local-names expander open (74). **Nothing trapped, nothing clipped, no
+control under 44, no sideways scroll.**
+
+A static scan confirms `Choice` was the only place with the pattern at all: the other
+`overflow: 'hidden'` uses are card corners, progress-bar fills and photo frames, and
+`LanguagePicker`'s twelve-item list has no cap to hide anything behind.
+
+**The check needed narrowing, twice.** First it flagged the mode chips on `/search` — box
+22, content 33 — which is `tapArea` working exactly as designed: the layout height is 22,
+the painted control is 44, and `overflow: visible` means nothing is hidden. So the rule is
+now content taller than its box **and** clipped **and** not scrollable, which is the
+Choice bug and nothing else.
+
+Then it flagged the language bar on `/dish`, and hit-testing "Español" said the chip was
+unreachable at its top, middle and bottom. It was at y=926 on an 812-tall viewport, and
+`elementFromPoint` answers `null` outside the viewport. Scrolled into view: centre hits,
+bottom hits, and only the top three pixels are shadowed by the label above — the cost of
+`tapArea`'s negative margin overlapping its neighbour, on a label that is not interactive,
+so nothing wrong can fire there.
+
+**The check that actually mattered** came out of that: for each control, does
+`elementFromPoint` at its centre return the control itself, or something else? A sample of
+18 across the record page — **0 missed**, and none landing on a *different* control, which
+is the dangerous case the negative margins could have caused.
+
+That question is the one this file already recommends and the one geometry cannot answer:
+*"an element's geometry says nothing about whether a reader can see it. Measuring
+getBoundingClientRect said the dropdown was fine twice."*
