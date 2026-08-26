@@ -38,6 +38,7 @@
  */
 
 import { useCopy } from '../i18n';
+import { placeName } from '../domain/continents';
 import { levelLabel } from '../domain/authenticity';
 import { cardPlace } from '../domain/place';
 import { router } from 'expo-router';
@@ -60,7 +61,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
   return (
     <Pressable
       accessibilityRole="link"
-      accessibilityLabel={`${dish.name}, ${cardPlace(dish.breadcrumb, dish.loc.country)}. ${levelLabel(copy, dish.badgeLevel)}`}
+      accessibilityLabel={`${dish.name}, ${placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}. ${levelLabel(copy, dish.badgeLevel)}`}
       tint="none"
       onPress={() => router.push(`/dish/${dish.id}`)}
       style={styles.press}
@@ -87,7 +88,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
           <View style={styles.meta}>
             <MapPinIcon size={12} color={color.meta} />
             <Muted style={styles.place} numberOfLines={1}>
-              {cardPlace(dish.breadcrumb, dish.loc.country)}
+              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}
             </Muted>
             <View style={styles.spacer} />
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />

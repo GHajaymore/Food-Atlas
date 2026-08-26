@@ -34,7 +34,7 @@ import type { Copy } from '../i18n/copy';
 import { useState } from 'react';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
 import type { AtlasGroup } from '../domain/queries';
-import { continentLabel, isCountry } from '../domain/continents';
+import { continentLabel, isCountry, placeName } from '../domain/continents';
 import { useLayout } from '../theme/layout';
 import { accentText, color, space } from '../theme/tokens';
 import { CaretDownIcon } from './icons';
@@ -139,13 +139,15 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
                 <View key={country.name} style={{ width: `${100 / columns}%` }}>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={`${country.name}, ${country.detail}`}
+                    accessibilityLabel={`${placeName(country.name, copy)}, ${country.detail}`}
                     tint="neutral"
                     onPress={() => onPick(country.name)}
                     style={styles.gridCell}
                   >
+                    {/* Translated for display only. The `onPick` above still sends the
+                        English name, because that is what the atlas is keyed on. */}
                     <T style={styles.gridCountry} numberOfLines={1}>
-                      {country.name}
+                      {placeName(country.name, copy)}
                     </T>
                     {/*
                      * The count only, not the full detail line.

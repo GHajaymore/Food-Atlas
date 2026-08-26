@@ -12,6 +12,7 @@
  */
 
 import { photoOriginLabel } from '../../src/domain/photoProvenance';
+import { placeName } from '../../src/domain/continents';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
 import { useEffect, useMemo } from 'react';
@@ -492,7 +493,7 @@ export default function DishDetail() {
               <H5 style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
                 Quoted from the source below — a general account of how the dish is made, not a record of how it is
-                made in {cardPlace(dish.breadcrumb, dish.loc.country)}.
+                made in {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}.
               </Muted>
               <Block style={styles.describedBlock}>
                 <Muted style={styles.described}>{dish.prepSummary}</Muted>
@@ -550,7 +551,7 @@ export default function DishDetail() {
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
               How this dish is commonly made today. It is not a record of how it is prepared in{' '}
-              {cardPlace(dish.breadcrumb, dish.loc.country)}, and nobody from there has confirmed it.
+              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}, and nobody from there has confirmed it.
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>

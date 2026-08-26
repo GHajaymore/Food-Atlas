@@ -765,6 +765,30 @@ export interface Copy {
   continentNorthAmerica: string;
   continentSouthAmerica: string;
   continentOceania: string;
+  regionLevant: string;
+  regionLatinAmerica: string;
+  regionMiddleEast: string;
+  regionMaghreb: string;
+  regionCentralEurope: string;
+  regionEasternEurope: string;
+  regionSouthernEurope: string;
+  regionCentralAsia: string;
+  regionIndianSubcontinent: string;
+  regionNorthAfrica: string;
+  regionAmericas: string;
+  regionAncientNearEast: string;
+  regionBalkans: string;
+  regionCaribbean: string;
+  regionLowCountries: string;
+  regionMesoamerica: string;
+  regionMiddleEasternEmpires: string;
+  regionPolishLithuanianCommonwealth: string;
+  regionQajarIran: string;
+  regionRussianEmpire: string;
+  regionSouthCaucasus: string;
+  regionSovietCentralAsia: string;
+  regionWu: string;
+  regionArtsakh: string;
   interfaceTranslationNote: string;
 }
 
@@ -1975,6 +1999,54 @@ export const EN: Copy = {
     'South America',
   continentOceania:
     'Oceania',
+  regionLevant:
+    'Levant',
+  regionLatinAmerica:
+    'Latin America',
+  regionMiddleEast:
+    'Middle East',
+  regionMaghreb:
+    'Maghreb',
+  regionCentralEurope:
+    'Central Europe',
+  regionEasternEurope:
+    'Eastern Europe',
+  regionSouthernEurope:
+    'Southern Europe',
+  regionCentralAsia:
+    'Central Asia',
+  regionIndianSubcontinent:
+    'Indian subcontinent',
+  regionNorthAfrica:
+    'North Africa',
+  regionAmericas:
+    'Americas',
+  regionAncientNearEast:
+    'ancient Near East',
+  regionBalkans:
+    'Balkans',
+  regionCaribbean:
+    'Caribbean',
+  regionLowCountries:
+    'Low Countries',
+  regionMesoamerica:
+    'Mesoamerica',
+  regionMiddleEasternEmpires:
+    'Middle Eastern empires',
+  regionPolishLithuanianCommonwealth:
+    'Polish–Lithuanian Commonwealth',
+  regionQajarIran:
+    'Qajar Iran',
+  regionRussianEmpire:
+    'Russian Empire',
+  regionSouthCaucasus:
+    'South Caucasus',
+  regionSovietCentralAsia:
+    'Soviet Central Asia',
+  regionWu:
+    'Wu',
+  regionArtsakh:
+    'Republic of Artsakh',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

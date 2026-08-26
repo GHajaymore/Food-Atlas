@@ -15,6 +15,7 @@
  */
 
 import { useCopy } from '../i18n';
+import { placeName } from '../domain/continents';
 import { levelLabel } from '../domain/authenticity';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
@@ -58,7 +59,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
             {dish.name}
           </T>
           <Muted style={styles.rowPlace} numberOfLines={1}>
-            {dish.breadcrumb.join(' › ')}
+            {dish.breadcrumb.map((step) => placeName(step, copy)).join(' › ')}
           </Muted>
           {/*
            * The evidence, at the weight it deserves rather than as a third line of grey.
@@ -100,7 +101,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
 
           <View style={styles.meta}>
             <MapPinIcon size={12} color={color.meta} />
-            <Muted style={styles.metaText}>{dish.breadcrumb.slice(-2).join(', ')}</Muted>
+            <Muted style={styles.metaText}>{dish.breadcrumb.slice(-2).map((step) => placeName(step, copy)).join(', ')}</Muted>
           </View>
 
           {/* The dietary read and the occasion, so a reader does not open a dish

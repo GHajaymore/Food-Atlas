@@ -1235,6 +1235,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'América del Sur',
     continentOceania:
       'Oceanía',
+    regionLevant:
+      'Levante',
+    regionLatinAmerica:
+      'América Latina',
+    regionMiddleEast:
+      'Oriente Medio',
+    regionMaghreb:
+      'Magreb',
+    regionCentralEurope:
+      'Europa Central',
+    regionEasternEurope:
+      'Europa del Este',
+    regionSouthernEurope:
+      'Europa del Sur',
+    regionCentralAsia:
+      'Asia Central',
+    regionIndianSubcontinent:
+      'subcontinente indio',
+    regionNorthAfrica:
+      'África del Norte',
+    regionAmericas:
+      'América',
+    regionAncientNearEast:
+      'antiguo Oriente Próximo',
+    regionBalkans:
+      'Balcanes',
+    regionCaribbean:
+      'Caribe',
+    regionLowCountries:
+      'Países Bajos históricos',
+    regionMesoamerica:
+      'Mesoamérica',
+    regionMiddleEasternEmpires:
+      'imperios de Oriente Medio',
+    regionPolishLithuanianCommonwealth:
+      'República de las Dos Naciones',
+    regionQajarIran:
+      'Irán qayar',
+    regionRussianEmpire:
+      'Imperio ruso',
+    regionSouthCaucasus:
+      'Cáucaso Sur',
+    regionSovietCentralAsia:
+      'Asia Central soviética',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'República de Artsaj',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2436,6 +2484,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Amérique du Sud',
     continentOceania:
       'Océanie',
+    regionLevant:
+      'Levant',
+    regionLatinAmerica:
+      'Amérique latine',
+    regionMiddleEast:
+      'Moyen-Orient',
+    regionMaghreb:
+      'Maghreb',
+    regionCentralEurope:
+      'Europe centrale',
+    regionEasternEurope:
+      'Europe de l’Est',
+    regionSouthernEurope:
+      'Europe du Sud',
+    regionCentralAsia:
+      'Asie centrale',
+    regionIndianSubcontinent:
+      'sous-continent indien',
+    regionNorthAfrica:
+      'Afrique du Nord',
+    regionAmericas:
+      'Amériques',
+    regionAncientNearEast:
+      'Proche-Orient ancien',
+    regionBalkans:
+      'Balkans',
+    regionCaribbean:
+      'Caraïbes',
+    regionLowCountries:
+      'Pays-Bas historiques',
+    regionMesoamerica:
+      'Mésoamérique',
+    regionMiddleEasternEmpires:
+      'empires du Moyen-Orient',
+    regionPolishLithuanianCommonwealth:
+      'République des Deux Nations',
+    regionQajarIran:
+      'Iran qajar',
+    regionRussianEmpire:
+      'Empire russe',
+    regionSouthCaucasus:
+      'Caucase du Sud',
+    regionSovietCentralAsia:
+      'Asie centrale soviétique',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'République d’Artsakh',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3636,6 +3732,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Südamerika',
     continentOceania:
       'Ozeanien',
+    regionLevant:
+      'Levante',
+    regionLatinAmerica:
+      'Lateinamerika',
+    regionMiddleEast:
+      'Naher Osten',
+    regionMaghreb:
+      'Maghreb',
+    regionCentralEurope:
+      'Mitteleuropa',
+    regionEasternEurope:
+      'Osteuropa',
+    regionSouthernEurope:
+      'Südeuropa',
+    regionCentralAsia:
+      'Zentralasien',
+    regionIndianSubcontinent:
+      'Indischer Subkontinent',
+    regionNorthAfrica:
+      'Nordafrika',
+    regionAmericas:
+      'Amerika',
+    regionAncientNearEast:
+      'Alter Orient',
+    regionBalkans:
+      'Balkan',
+    regionCaribbean:
+      'Karibik',
+    regionLowCountries:
+      'Niedere Lande',
+    regionMesoamerica:
+      'Mesoamerika',
+    regionMiddleEasternEmpires:
+      'Reiche des Nahen Ostens',
+    regionPolishLithuanianCommonwealth:
+      'Polen-Litauen',
+    regionQajarIran:
+      'Kadscharen-Iran',
+    regionRussianEmpire:
+      'Russisches Kaiserreich',
+    regionSouthCaucasus:
+      'Südkaukasus',
+    regionSovietCentralAsia:
+      'Sowjetisch-Mittelasien',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'Republik Arzach',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4836,6 +4980,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'America del Sud',
     continentOceania:
       'Oceania',
+    regionLevant:
+      'Levante',
+    regionLatinAmerica:
+      'America Latina',
+    regionMiddleEast:
+      'Medio Oriente',
+    regionMaghreb:
+      'Maghreb',
+    regionCentralEurope:
+      'Europa centrale',
+    regionEasternEurope:
+      'Europa orientale',
+    regionSouthernEurope:
+      'Europa meridionale',
+    regionCentralAsia:
+      'Asia centrale',
+    regionIndianSubcontinent:
+      'subcontinente indiano',
+    regionNorthAfrica:
+      'Nordafrica',
+    regionAmericas:
+      'Americhe',
+    regionAncientNearEast:
+      'antico Vicino Oriente',
+    regionBalkans:
+      'Balcani',
+    regionCaribbean:
+      'Caraibi',
+    regionLowCountries:
+      'Paesi Bassi storici',
+    regionMesoamerica:
+      'Mesoamerica',
+    regionMiddleEasternEmpires:
+      'imperi mediorientali',
+    regionPolishLithuanianCommonwealth:
+      'Confederazione polacco-lituana',
+    regionQajarIran:
+      'Iran qajar',
+    regionRussianEmpire:
+      'Impero russo',
+    regionSouthCaucasus:
+      'Caucaso meridionale',
+    regionSovietCentralAsia:
+      'Asia centrale sovietica',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'Repubblica di Artsakh',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6037,6 +6229,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'América do Sul',
     continentOceania:
       'Oceania',
+    regionLevant:
+      'Levante',
+    regionLatinAmerica:
+      'América Latina',
+    regionMiddleEast:
+      'Oriente Médio',
+    regionMaghreb:
+      'Magrebe',
+    regionCentralEurope:
+      'Europa Central',
+    regionEasternEurope:
+      'Europa Oriental',
+    regionSouthernEurope:
+      'Europa do Sul',
+    regionCentralAsia:
+      'Ásia Central',
+    regionIndianSubcontinent:
+      'subcontinente indiano',
+    regionNorthAfrica:
+      'África do Norte',
+    regionAmericas:
+      'Américas',
+    regionAncientNearEast:
+      'Antigo Oriente Próximo',
+    regionBalkans:
+      'Balcãs',
+    regionCaribbean:
+      'Caribe',
+    regionLowCountries:
+      'Países Baixos históricos',
+    regionMesoamerica:
+      'Mesoamérica',
+    regionMiddleEasternEmpires:
+      'impérios do Oriente Médio',
+    regionPolishLithuanianCommonwealth:
+      'República das Duas Nações',
+    regionQajarIran:
+      'Irã Qajar',
+    regionRussianEmpire:
+      'Império Russo',
+    regionSouthCaucasus:
+      'Cáucaso do Sul',
+    regionSovietCentralAsia:
+      'Ásia Central Soviética',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'República de Artsakh',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7237,6 +7477,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Zuid-Amerika',
     continentOceania:
       'Oceanië',
+    regionLevant:
+      'Levant',
+    regionLatinAmerica:
+      'Latijns-Amerika',
+    regionMiddleEast:
+      'Midden-Oosten',
+    regionMaghreb:
+      'Maghreb',
+    regionCentralEurope:
+      'Midden-Europa',
+    regionEasternEurope:
+      'Oost-Europa',
+    regionSouthernEurope:
+      'Zuid-Europa',
+    regionCentralAsia:
+      'Centraal-Azië',
+    regionIndianSubcontinent:
+      'Indisch subcontinent',
+    regionNorthAfrica:
+      'Noord-Afrika',
+    regionAmericas:
+      'Amerika',
+    regionAncientNearEast:
+      'oude Nabije Oosten',
+    regionBalkans:
+      'Balkan',
+    regionCaribbean:
+      'Caraïben',
+    regionLowCountries:
+      'de Lage Landen',
+    regionMesoamerica:
+      'Meso-Amerika',
+    regionMiddleEasternEmpires:
+      'rijken van het Midden-Oosten',
+    regionPolishLithuanianCommonwealth:
+      'Pools-Litouwse Gemenebest',
+    regionQajarIran:
+      'Qajarenrijk',
+    regionRussianEmpire:
+      'Russische Rijk',
+    regionSouthCaucasus:
+      'Zuidelijke Kaukasus',
+    regionSovietCentralAsia:
+      'Sovjet-Centraal-Azië',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'Republiek Artsach',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8438,6 +8726,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ameryka Południowa',
     continentOceania:
       'Oceania',
+    regionLevant:
+      'Lewant',
+    regionLatinAmerica:
+      'Ameryka Łacińska',
+    regionMiddleEast:
+      'Bliski Wschód',
+    regionMaghreb:
+      'Maghreb',
+    regionCentralEurope:
+      'Europa Środkowa',
+    regionEasternEurope:
+      'Europa Wschodnia',
+    regionSouthernEurope:
+      'Europa Południowa',
+    regionCentralAsia:
+      'Azja Środkowa',
+    regionIndianSubcontinent:
+      'subkontynent indyjski',
+    regionNorthAfrica:
+      'Afryka Północna',
+    regionAmericas:
+      'Ameryki',
+    regionAncientNearEast:
+      'starożytny Bliski Wschód',
+    regionBalkans:
+      'Bałkany',
+    regionCaribbean:
+      'Karaiby',
+    regionLowCountries:
+      'Niderlandy',
+    regionMesoamerica:
+      'Mezoameryka',
+    regionMiddleEasternEmpires:
+      'imperia Bliskiego Wschodu',
+    regionPolishLithuanianCommonwealth:
+      'Rzeczpospolita Obojga Narodów',
+    regionQajarIran:
+      'Iran Kadżarów',
+    regionRussianEmpire:
+      'Imperium Rosyjskie',
+    regionSouthCaucasus:
+      'Kaukaz Południowy',
+    regionSovietCentralAsia:
+      'radziecka Azja Środkowa',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'Republika Arcachu',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9638,6 +9974,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Güney Amerika',
     continentOceania:
       'Okyanusya',
+    regionLevant:
+      'Levant',
+    regionLatinAmerica:
+      'Latin Amerika',
+    regionMiddleEast:
+      'Orta Doğu',
+    regionMaghreb:
+      'Mağrip',
+    regionCentralEurope:
+      'Orta Avrupa',
+    regionEasternEurope:
+      'Doğu Avrupa',
+    regionSouthernEurope:
+      'Güney Avrupa',
+    regionCentralAsia:
+      'Orta Asya',
+    regionIndianSubcontinent:
+      'Hint alt kıtası',
+    regionNorthAfrica:
+      'Kuzey Afrika',
+    regionAmericas:
+      'Amerika kıtası',
+    regionAncientNearEast:
+      'Eski Yakın Doğu',
+    regionBalkans:
+      'Balkanlar',
+    regionCaribbean:
+      'Karayipler',
+    regionLowCountries:
+      'Aşağı Ülkeler',
+    regionMesoamerica:
+      'Mezoamerika',
+    regionMiddleEasternEmpires:
+      'Orta Doğu imparatorlukları',
+    regionPolishLithuanianCommonwealth:
+      'Lehistan–Litvanya Birliği',
+    regionQajarIran:
+      'Kaçar İranı',
+    regionRussianEmpire:
+      'Rus İmparatorluğu',
+    regionSouthCaucasus:
+      'Güney Kafkasya',
+    regionSovietCentralAsia:
+      'Sovyet Orta Asyası',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'Artsah Cumhuriyeti',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10839,6 +11223,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Южная Америка',
     continentOceania:
       'Океания',
+    regionLevant:
+      'Левант',
+    regionLatinAmerica:
+      'Латинская Америка',
+    regionMiddleEast:
+      'Ближний Восток',
+    regionMaghreb:
+      'Магриб',
+    regionCentralEurope:
+      'Центральная Европа',
+    regionEasternEurope:
+      'Восточная Европа',
+    regionSouthernEurope:
+      'Южная Европа',
+    regionCentralAsia:
+      'Центральная Азия',
+    regionIndianSubcontinent:
+      'Индийский субконтинент',
+    regionNorthAfrica:
+      'Северная Африка',
+    regionAmericas:
+      'Америка',
+    regionAncientNearEast:
+      'Древний Ближний Восток',
+    regionBalkans:
+      'Балканы',
+    regionCaribbean:
+      'Карибы',
+    regionLowCountries:
+      'Нижние Земли',
+    regionMesoamerica:
+      'Мезоамерика',
+    regionMiddleEasternEmpires:
+      'империи Ближнего Востока',
+    regionPolishLithuanianCommonwealth:
+      'Речь Посполитая',
+    regionQajarIran:
+      'Каджарский Иран',
+    regionRussianEmpire:
+      'Российская империя',
+    regionSouthCaucasus:
+      'Южный Кавказ',
+    regionSovietCentralAsia:
+      'Советская Средняя Азия',
+    regionWu:
+      'Wu',
+    regionArtsakh:
+      'Республика Арцах',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -12040,6 +12472,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'दक्षिण अमेरिका',
     continentOceania:
       'ओशिनिया',
+    regionLevant:
+      'लेवंत',
+    regionLatinAmerica:
+      'लैटिन अमेरिका',
+    regionMiddleEast:
+      'मध्य पूर्व',
+    regionMaghreb:
+      'माघरेब',
+    regionCentralEurope:
+      'मध्य यूरोप',
+    regionEasternEurope:
+      'पूर्वी यूरोप',
+    regionSouthernEurope:
+      'दक्षिणी यूरोप',
+    regionCentralAsia:
+      'मध्य एशिया',
+    regionIndianSubcontinent:
+      'भारतीय उपमहाद्वीप',
+    regionNorthAfrica:
+      'उत्तरी अफ़्रीका',
+    regionAmericas:
+      'अमेरिका',
+    regionAncientNearEast:
+      'प्राचीन निकट पूर्व',
+    regionBalkans:
+      'बाल्कन',
+    regionCaribbean:
+      'कैरिबियन',
+    regionLowCountries:
+      'निचले देश',
+    regionMesoamerica:
+      'मेसोअमेरिका',
+    regionMiddleEasternEmpires:
+      'मध्य पूर्वी साम्राज्य',
+    regionPolishLithuanianCommonwealth:
+      'पोलिश–लिथुआनी राष्ट्रमंडल',
+    regionQajarIran:
+      'क़ाजार ईरान',
+    regionRussianEmpire:
+      'रूसी साम्राज्य',
+    regionSouthCaucasus:
+      'दक्षिण काकेशस',
+    regionSovietCentralAsia:
+      'सोवियत मध्य एशिया',
+    regionWu:
+      'वू',
+    regionArtsakh:
+      'आर्ट्सख गणराज्य',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -13241,6 +13721,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '南美洲',
     continentOceania:
       '大洋洲',
+    regionLevant:
+      '黎凡特',
+    regionLatinAmerica:
+      '拉丁美洲',
+    regionMiddleEast:
+      '中东',
+    regionMaghreb:
+      '马格里布',
+    regionCentralEurope:
+      '中欧',
+    regionEasternEurope:
+      '东欧',
+    regionSouthernEurope:
+      '南欧',
+    regionCentralAsia:
+      '中亚',
+    regionIndianSubcontinent:
+      '印度次大陆',
+    regionNorthAfrica:
+      '北非',
+    regionAmericas:
+      '美洲',
+    regionAncientNearEast:
+      '古代近东',
+    regionBalkans:
+      '巴尔干',
+    regionCaribbean:
+      '加勒比',
+    regionLowCountries:
+      '低地国家',
+    regionMesoamerica:
+      '中部美洲',
+    regionMiddleEasternEmpires:
+      '中东帝国',
+    regionPolishLithuanianCommonwealth:
+      '波兰立陶宛联邦',
+    regionQajarIran:
+      '卡扎尔王朝',
+    regionRussianEmpire:
+      '俄罗斯帝国',
+    regionSouthCaucasus:
+      '南高加索',
+    regionSovietCentralAsia:
+      '苏联中亚',
+    regionWu:
+      '吴',
+    regionArtsakh:
+      '阿尔察赫共和国',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -14442,6 +14970,54 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '南アメリカ',
     continentOceania:
       'オセアニア',
+    regionLevant:
+      'レヴァント',
+    regionLatinAmerica:
+      'ラテンアメリカ',
+    regionMiddleEast:
+      '中東',
+    regionMaghreb:
+      'マグリブ',
+    regionCentralEurope:
+      '中央ヨーロッパ',
+    regionEasternEurope:
+      '東ヨーロッパ',
+    regionSouthernEurope:
+      '南ヨーロッパ',
+    regionCentralAsia:
+      '中央アジア',
+    regionIndianSubcontinent:
+      'インド亜大陸',
+    regionNorthAfrica:
+      '北アフリカ',
+    regionAmericas:
+      'アメリカ大陸',
+    regionAncientNearEast:
+      '古代オリエント',
+    regionBalkans:
+      'バルカン半島',
+    regionCaribbean:
+      'カリブ海',
+    regionLowCountries:
+      '低地諸国',
+    regionMesoamerica:
+      'メソアメリカ',
+    regionMiddleEasternEmpires:
+      '中東の帝国',
+    regionPolishLithuanianCommonwealth:
+      'ポーランド・リトアニア共和国',
+    regionQajarIran:
+      'ガージャール朝',
+    regionRussianEmpire:
+      'ロシア帝国',
+    regionSouthCaucasus:
+      '南カフカス',
+    regionSovietCentralAsia:
+      'ソビエト中央アジア',
+    regionWu:
+      '呉',
+    regionArtsakh:
+      'アルツァフ共和国',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

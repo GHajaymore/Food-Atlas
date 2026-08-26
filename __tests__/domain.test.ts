@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs';
 /**
  * Domain tests.
  *
@@ -42,7 +43,15 @@ import {
   missingFrom,
   REQUIRED,
 } from '../src/domain/contribution';
-import { continentOf, isCountry, isHistoricalState, placeKind } from '../src/domain/continents';
+import {
+  continentOf,
+  isCountry,
+  isHistoricalState,
+  MULTI_COUNTRY,
+  placeKind,
+  placeName,
+  translatablePlaces,
+} from '../src/domain/continents';
 import { confirmAsk, contestedNote } from '../src/domain/traditions';
 import { dishFromInscription, MAX_NAME } from '../src/domain/inscription';
 import { isPhotograph, tidyCredit } from '../src/domain/photoProvenance';
@@ -854,6 +863,46 @@ describe('what counts as a country', () => {
     for (const continent of ["Africa", "Asia", "Europe", "North America", "South America", "Oceania"]) {
       expect(isCountry(continent)).toBe(false);
       expect(continentOf(continent)).toBe("Elsewhere");
+    }
+  });
+
+  it("has a translation for every origin it cannot place in a country", () => {
+    /*
+     * The wider regions are keyed on the English string the data carries, because that
+     * string is the datum -- there is no id behind "ancient Near East". `placeName` falls
+     * back to the English when a key is missing, which is the right thing to render and
+     * the wrong thing to discover in production: an import that recapitalises one value
+     * would put English back on the screen in twelve languages and say nothing.
+     *
+     * So the fallback is quiet and this is loud. It walks the real sources, resolves each
+     * origin the way the app does, and fails on anything unmapped.
+     */
+    const seen = new Set<string>();
+    for (const file of ["catalogue", "cuisines", "cookbook", "gi", "unesco"]) {
+      const raw = JSON.parse(readFileSync(`src/data/${file}.json`, "utf8"));
+      const rows: any[] = Array.isArray(raw) ? raw : (Object.values(raw).find(Array.isArray) as any[]) ?? [];
+      for (const row of rows) {
+        const origin = canonicalCountry(row.country ?? row.origin ?? "");
+        if (origin && continentOf(origin) === "Elsewhere") seen.add(origin);
+      }
+    }
+
+    const known = new Set([...translatablePlaces(), ...MULTI_COUNTRY]);
+    const untranslated = [...seen].filter((place) => !known.has(place)).sort();
+    expect(untranslated).toEqual([]);
+
+    // And the map earns its keep: this is not a test that passes on an empty set.
+    expect(seen.size).toBeGreaterThan(25);
+  });
+
+  it("leaves the multi-country origins in English, and says so", () => {
+    // "Croatia, Slovenia" is two country names and a comma. Country names are English on
+    // every screen in this atlas, so translating the halves here would print one country
+    // two ways on one page. They are listed rather than forgotten -- the coverage test
+    // above accepts them, so the day countries get translated, these come with them.
+    for (const place of MULTI_COUNTRY) {
+      expect(placeName(place, EN)).toBe(place);
+      expect(place).toMatch(/,/);
     }
   });
 
@@ -2669,6 +2718,27 @@ describe('the chrome in other languages', () => {
      * Listed from what the translation actually produced rather than from a guess about
      * which would collide, which is why there are seven and not the four I expected.
      */
+    /*
+     * Wider regions. Same reason as the continents, and more of them: "Maghreb" is the
+     * word in French, German, Italian, Dutch and Polish, "Levant" in French, Dutch and
+     * Turkish, "Balkans" in French, "Mesoamerica" in Italian.
+     *
+     * "Wu" echoes in ten of the twelve. Only Chinese and Japanese have a form of their
+     * own -- 吴 and 呉 -- and everywhere else the name of the Chinese region is written
+     * Wu, so ten entries here are the honest answer rather than ten gaps. It is one
+     * record in the atlas, and it is listed at the same length as everything else because
+     * an allowlist that quietly skipped the awkward case would be worth less.
+     */
+    'es.regionWu',
+    'fr.regionLevant', 'fr.regionMaghreb', 'fr.regionBalkans', 'fr.regionWu',
+    'de.regionMaghreb', 'de.regionWu',
+    'it.regionMaghreb', 'it.regionMesoamerica', 'it.regionWu',
+    'pt.regionWu',
+    'nl.regionLevant', 'nl.regionMaghreb', 'nl.regionWu',
+    'pl.regionMaghreb', 'pl.regionWu',
+    'tr.regionLevant', 'tr.regionWu',
+    'ru.regionWu',
+
     'es.continentAsia',
     'fr.continentEurope',
     'it.continentAfrica', 'it.continentAsia', 'it.continentOceania',

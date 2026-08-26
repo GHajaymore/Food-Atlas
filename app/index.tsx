@@ -8,6 +8,7 @@
  */
 
 import { router } from 'expo-router';
+import { placeName } from '../src/domain/continents';
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { BRAND } from '../src/brand';
@@ -114,7 +115,9 @@ export default function Feed() {
   const popular = mostPopular(dishes);
   const showViews = settings.showViewCounts;
 
-  const place = path.length ? path[path.length - 1].value : copy.worldwide;
+  /* Display only. Every narrowing reads from `path`, which stays in the English the atlas is
+     keyed on, so translating here cannot reach the query. */
+  const place = path.length ? placeName(path[path.length - 1].value, copy) : copy.worldwide;
   const placeHint = next
     ? path.length
       ? copy.narrowToA.replace('{level}', copy[next.labelKey]).replace('{n}', String(next.options.length))
@@ -129,7 +132,7 @@ export default function Feed() {
   }${openShelf ? ` · ${openShelf}` : ''}`;
 
   // 'World' plus each chosen level; tapping any of them truncates the path there.
-  const crumbs = [{ label: copy.world }, ...path.map((p) => ({ label: p.value }))];
+  const crumbs = [{ label: copy.world }, ...path.map((p) => ({ label: placeName(p.value, copy) }))];
 
   // The empty state names every choice that narrowed the list, so the reader can see
   // which of them emptied it rather than guessing — and, more importantly, so the

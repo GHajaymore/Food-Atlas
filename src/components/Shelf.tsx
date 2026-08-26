@@ -11,6 +11,7 @@
  */
 
 import { levelLabel } from '../domain/authenticity';
+import { placeName } from '../domain/continents';
 import { cardPlace } from '../domain/place';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useLayout } from '../theme/layout';
@@ -126,7 +127,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
               {dish.name}
             </T>
             <Muted style={{ ...styles.place, fontSize: cardText.place }} numberOfLines={1}>
-              {cardPlace(dish.breadcrumb, dish.loc.country)}
+              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}
             </Muted>
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
           </Pressable>

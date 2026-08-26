@@ -8,6 +8,7 @@
  */
 
 import { router } from 'expo-router';
+import { placeName } from '../src/domain/continents';
 import { Children, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
@@ -240,7 +241,7 @@ export default function Search() {
                       {dish.name}
                     </T>
                     <Muted style={styles.pantryPlace} numberOfLines={1}>
-                      {cardPlace(dish.breadcrumb, dish.loc.country)}
+                      {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}
                     </Muted>
                     {/* Named rather than counted: "uses chicken, rice" is checkable
                         against the record in a second; "3 matches" is a number to trust. */}
@@ -395,7 +396,7 @@ export default function Search() {
                 <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.thumb} hideCredit />
                 <View style={styles.resultText}>
                   <T style={styles.resultName}>{dish.name}</T>
-                  <Muted style={styles.resultPlace}>{dish.breadcrumb.join(' › ')}</Muted>
+                  <Muted style={styles.resultPlace}>{dish.breadcrumb.map((step) => placeName(step, copy)).join(' › ')}</Muted>
                   <Muted style={styles.resultClass}>
                     {dish.badgeIcon} {levelLabel(copy, dish.badgeLevel)} · {dish.score == null ? copy.notClassified : `${dish.score}/100`}
                   </Muted>

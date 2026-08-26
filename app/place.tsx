@@ -16,7 +16,7 @@ import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted, T } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
-import { placeKind } from '../src/domain/continents';
+import { continentLabel, placeKind, placeName } from '../src/domain/continents';
 import { feedFor, nextLevel, placeGroups } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { accentText, color, space } from '../src/theme/tokens';
@@ -83,10 +83,12 @@ export default function PlacePicker() {
        */}
       <PlaceOptions
         groups={groups.map((group) => ({
-          label: group.label,
+          /* The picker groups by continent, so its headings are continent names too. */
+          label: continentLabel(group.label, copy),
           showLabel: group.showLabel,
           options: group.options.map((option) => ({
             label: option.label,
+            display: placeName(option.label, copy),
             count: option.count,
             /*
              * Some of these are not countries, and the list should say so.

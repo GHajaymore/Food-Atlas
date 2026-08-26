@@ -289,3 +289,85 @@ export const continentLabel = (continent: string, copy: Copy): string => {
      honest answer there is the value itself rather than a blank heading. */
   return key ? copy[key] : continent;
 };
+
+/**
+ * The wider regions, in the reader's language.
+ *
+ * Twenty-four names, and the set is measured rather than imagined: run the app's own
+ * `continentOf` and `canonicalCountry` over all five sources, keep every origin that lands
+ * on Elsewhere, and thirty-four values come back. Five of those are continents, already
+ * named by `CONTINENT_KEYS` above and reused here rather than translated twice. Five more
+ * are deliberately absent — see `MULTI_COUNTRY` below.
+ *
+ * Keyed on the exact English string the data carries, because that string *is* the datum;
+ * there is no id behind it. That makes the key brittle in one specific way — an import
+ * that renames "ancient Near East" to "Ancient Near East" silently drops back to English —
+ * so the test in `domain.test.ts` walks the built data and fails on any unmapped value.
+ * The fallback is quiet; the test is not.
+ */
+const REGION_KEYS: Record<string, keyof Copy> = {
+  Levant: 'regionLevant',
+  'Latin America': 'regionLatinAmerica',
+  'Middle East': 'regionMiddleEast',
+  Maghreb: 'regionMaghreb',
+  'Central Europe': 'regionCentralEurope',
+  'Eastern Europe': 'regionEasternEurope',
+  'Southern Europe': 'regionSouthernEurope',
+  'Central Asia': 'regionCentralAsia',
+  'Indian subcontinent': 'regionIndianSubcontinent',
+  'North Africa': 'regionNorthAfrica',
+  Americas: 'regionAmericas',
+  'ancient Near East': 'regionAncientNearEast',
+  Balkans: 'regionBalkans',
+  Caribbean: 'regionCaribbean',
+  'Low Countries': 'regionLowCountries',
+  Mesoamerica: 'regionMesoamerica',
+  'Middle Eastern empires': 'regionMiddleEasternEmpires',
+  'Polish–Lithuanian Commonwealth': 'regionPolishLithuanianCommonwealth',
+  'Qajar Iran': 'regionQajarIran',
+  'Russian Empire': 'regionRussianEmpire',
+  'South Caucasus': 'regionSouthCaucasus',
+  'Soviet Central Asia': 'regionSovietCentralAsia',
+  Wu: 'regionWu',
+  'Republic of Artsakh': 'regionArtsakh',
+};
+
+/**
+ * Origins that name several countries at once, left in English on purpose.
+ *
+ * "Croatia, Slovenia" is not a name. It is two country names and a comma, and the country
+ * names in this atlas are English everywhere — the Japanese reader who opens the Africa
+ * group reads Egypt, Ghana, Ethiopia. Translating the halves only where they happen to sit
+ * inside one of these five strings would print Хорватия in one row and Croatia in the row
+ * below it, for the same country, on the same screen.
+ *
+ * So they wait for country names to be translated, which is the same mechanism at 156×12
+ * instead of 5×12, and until then they stay consistent with every other country on screen.
+ * Listed explicitly rather than left to the fallback so the coverage test can tell "not
+ * translated yet, on purpose" from "an import changed a string and nobody noticed".
+ */
+export const MULTI_COUNTRY: readonly string[] = [
+  'Croatia, Slovenia',
+  'Spain, France',
+  'Lithuania, Poland',
+  'Netherlands, Belgium',
+  'Ireland, United Kingdom (Northern Ireland)',
+];
+
+/**
+ * A place name in the reader's language, or the name itself where there is nothing to say.
+ *
+ * Falls through unchanged for every country, which is the current state of the atlas and
+ * not an accident of this function: countries are English on every screen, and this is the
+ * seam they would be translated at when that changes.
+ */
+export const placeName = (label: string, copy: Copy): string => {
+  const key = REGION_KEYS[label] ?? CONTINENT_KEYS[label];
+  return key ? copy[key] : label;
+};
+
+/** Every English place name this module can translate — for the coverage test. */
+export const translatablePlaces = (): string[] => [
+  ...Object.keys(REGION_KEYS),
+  ...Object.keys(CONTINENT_KEYS),
+];

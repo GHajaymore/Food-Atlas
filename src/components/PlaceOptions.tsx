@@ -26,7 +26,17 @@ import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
 
 export interface PlaceOption {
+  /** The English value. It is the identity: what gets picked, and what keys the row. */
   label: string;
+  /**
+   * What the reader sees, where that differs — a wider region in their language.
+   *
+   * Kept apart from `label` rather than translating in place, because `onPick` sends this
+   * value back into the data layer. Translating the one string would mean picking
+   * "レヴァント" and querying the atlas for a place called レヴァント, which it has never
+   * heard of: the filter would come back empty and look like an atlas with nothing in it.
+   */
+  display?: string;
   count: number;
   /** "wider region", "former state" — shown at country level only. */
   note?: string;
@@ -54,13 +64,13 @@ export function PlaceOptions({ groups, onPick }: { groups: PlaceGroup[]; onPick:
               <View key={option.label} style={wide ? { width: `${100 / columns}%` } : undefined}>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={`${option.label}${option.note ? `, ${option.note}` : ''}, ${option.count} recorded`}
+                  accessibilityLabel={`${option.display ?? option.label}${option.note ? `, ${option.note}` : ''}, ${option.count} recorded`}
                   tint="neutral"
                   onPress={() => onPick(option.label)}
                   style={wide ? styles.cell : styles.row}
                 >
                   <T style={styles.optionLabel} numberOfLines={1}>
-                    {option.label}
+                    {option.display ?? option.label}
                   </T>
                   {/*
                    * The kind is dropped in a column and kept in a row.
