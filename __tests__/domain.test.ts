@@ -866,6 +866,48 @@ describe('what counts as a country', () => {
     }
   });
 
+  it("has no region naming a kind of food or a kind of business", () => {
+    /*
+     * The cuisine ingest reads a region off a Wikipedia category, and a steady minority of
+     * those name no place: "Fish of Korea" on 60 records, "Wineries of South Africa" on
+     * 23, "Korean soups and stews" on 20, "Alcohol-related deaths in China" on 3. Each
+     * printed on a card as though it were where the dish comes from.
+     *
+     * The head noun is the whole signal -- "Province of Cagliari" and "Fish of Korea" are
+     * the same grammar and opposite things -- so this asserts the same list the repair
+     * script uses. Listing non-places under-removes, which is the safe direction: the data
+     * also holds "Hinterland of Imperia", "Horn of Africa", "Terai region of south western
+     * Nepal" and "Oshima area of Hokkaidō", and a list of *place* heads would eventually
+     * throw one of those away.
+     */
+    const NOT_A_PLACE = [
+      "fish", "drink companies", "companies", "snack food manufacturers", "wineries",
+      "winery", "wine regions", "breweries", "brewery", "beer", "coffee", "alcohol",
+      "alcohol-related deaths", "drinking establishments", "mineral water", "street food",
+      "deep fried foods", "gi-tagged mangoes", "chinatowns", "regionals", "history",
+      "regions",
+    ];
+    const head = new RegExp(`^(?:${NOT_A_PLACE.join("|")})\\s+(?:of|in)\\s+`, "i");
+    const isCategory = (r: string) =>
+      head.test(r) || /\bsoups and stews$/i.test(r) || /^nationwide\b/i.test(r);
+
+    const found: string[] = [];
+    for (const file of ["catalogue", "cuisines", "cookbook", "gi", "unesco"]) {
+      const raw = JSON.parse(readFileSync(`src/data/${file}.json`, "utf8"));
+      const rows: any[] = Array.isArray(raw) ? raw : (Object.values(raw).find(Array.isArray) as any[]) ?? [];
+      for (const row of rows) {
+        const region = (row.region ?? "").trim();
+        if (region && isCategory(region)) found.push(`${file}: ${region}`);
+      }
+    }
+    expect(found).toEqual([]);
+
+    // The rule must not have eaten the qualified region names it sits next to.
+    for (const keep of ["Hilly region of Nepal", "Northern Region of Peninsular Malaysia", "Horn of Africa"]) {
+      expect(isCategory(keep)).toBe(false);
+    }
+  });
+
   it("has no region with a word welded to the next one", () => {
     /*
      * `regionFrom` in the cuisine ingest removed the word "cuisine" together with the
