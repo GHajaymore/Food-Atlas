@@ -30,6 +30,8 @@ import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
+import { filableCountries } from '../src/domain/continents';
+import { Choice } from '../src/components/Choice';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair, FormColumns } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
@@ -60,6 +62,8 @@ const lines = (text: string): string[] =>
 
 export default function Propose() {
   const copy = useCopy();
+  /* The list the atlas can actually file under, recomputed only if the catalogue changes. */
+  const countries = useMemo(() => filableCountries(), []);
   const [form, setForm] = useState({
     name: '',
     country: '',
@@ -178,8 +182,25 @@ export default function Propose() {
 
             {/* One question asked twice, so one line. See `FieldPair`. */}
             <FieldPair>
+              {/*
+                * A chooser, not a text box.
+                *
+                * A record has to sit on a country the atlas can place, and typed by hand
+                * this arrives as "USA", "Untied States" or somewhere the continent map
+                * has never heard of — the same fault, entered by a person, that a long
+                * repair pass spent this week correcting in the imported data.
+                *
+                * The region below stays free text on purpose: naming somewhere unrecorded
+                * is what this project is for, and only the country has to be filable.
+                */}
               <Field label={copy.country} style={styles.field}>
-                <Input value={form.country} onChangeText={(v) => set('country', v)} accessibilityLabel={copy.country} />
+                <Choice
+                  value={form.country}
+                  options={countries}
+                  onChange={(v) => set('country', v)}
+                  placeholder={copy.chooseACountry}
+                  accessibilityLabel={copy.country}
+                />
               </Field>
 
               <Field label={copy.regionDistrictOrTown} style={styles.field}>

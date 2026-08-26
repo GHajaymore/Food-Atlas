@@ -1709,3 +1709,34 @@ margin still hands the space back.
 
 Verified at 320 on `/` and `/dish`: nothing clipped, no control under 44, no sideways
 scroll. And at 375: unchanged.
+
+### Country becomes a chooser
+
+Ajay, 2026-08-25: *"don't you think we should have dropdowns for the proposals wherever it
+matters, ex Country"* and *"avoid the free flow text wherever you can"*.
+
+He is right, and the evidence is in this repository. A long pass this week repaired imported
+records whose country had been guessed from a cuisine category — and `/propose` was inviting
+readers to make the same mistake by hand, in a plain text box. "USA", "Untied States" and a
+country the continent map has never heard of all arrive as the same unusable string.
+
+`Choice` in `src/components/Choice.tsx` is the chooser: 44px trigger and options, a filter
+box past twelve entries, starts-with matches ranked ahead of contains, and a stated cap
+when a filtered list is cut rather than a list that silently stops. `filableCountries()`
+supplies it — `isCountry`, not every key, so it never offers a value a record cannot sit on.
+
+**Where free text stays, and why that is not laziness.** Only fields with a real vocabulary
+become choosers. The region, the town, the ingredients and the method stay open, because
+`continents.ts` states the principle the project runs on: *"a person naming somewhere
+unrecorded is the case this project exists for, never an error."* The country is different
+only because a record has to be filed under one.
+
+Verified at 375: trigger 335x44, typing "ind" narrows to India and Indonesia, choosing
+India fills the field and closes the panel.
+
+**Still to do from the same conversation:** the confirmation form's "your connection to the
+place" is free prose, and it is the field that decides whether a badge moves — an enum
+would make those claims comparable instead of unreadable in bulk. And Ajay asked for AI to
+polish the prose that stays free, which `testimony.ts` already constrains: the original is
+always present, a machine version is labelled as machine-made, and a machine version can
+never be what a badge rests on.

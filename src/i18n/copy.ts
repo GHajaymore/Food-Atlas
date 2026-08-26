@@ -731,6 +731,10 @@ export interface Copy {
   pantryNothingUses: string;
   alsoRecordedIn: string;
   alsoRecordedNote: string;
+  chooseACountry: string;
+  filterTheList: string;
+  showingFirstNOfM: string;
+  nothingMatchesThat: string;
   interfaceTranslationNote: string;
 }
 
@@ -1873,6 +1877,14 @@ export const EN: Copy = {
     'Also recorded under {list}',
   alsoRecordedNote:
     'The atlas holds a separate record for this dish there. Neither is a correction of the other — a dish two food cultures make is not a mistake in one of them.',
+  chooseACountry:
+    'Choose a country',
+  filterTheList:
+    'Type to narrow the list',
+  showingFirstNOfM:
+    'Showing the first {n} of {m}. Keep typing to narrow it.',
+  nothingMatchesThat:
+    'Nothing in the list matches that.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

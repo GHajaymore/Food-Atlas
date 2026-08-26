@@ -199,3 +199,22 @@ export const continentRank = (label: string): number => {
   const index = CONTINENT_ORDER.indexOf(label);
   return index === -1 ? CONTINENT_ORDER.length : index;
 };
+
+/**
+ * Every country the atlas can actually file a record under, alphabetically.
+ *
+ * For choosers rather than for prose. A proposal typed as free text arrives as "USA",
+ * "Untied States" or somewhere the continent map has never heard of, and the record then
+ * cannot be placed — which is the same fault, entered by hand, that this session spent a
+ * long time repairing in the imported data.
+ *
+ * `isCountry` rather than every key, so the list offers only places a record can sit on:
+ * "Levant" and "Ottoman Empire" are true answers to where a food comes from and are not
+ * countries, and a chooser that offers them would be inviting a record it cannot file.
+ *
+ * Empty until `registerContinents` has run, which the import does at build time — so this
+ * is only meaningful once the catalogue has loaded, and every screen that offers it renders
+ * after that.
+ */
+export const filableCountries = (): string[] =>
+  [...CONTINENTS.keys()].filter(isCountry).sort((a, b) => a.localeCompare(b));

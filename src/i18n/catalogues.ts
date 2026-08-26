@@ -1167,6 +1167,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'También registrado en {list}',
     alsoRecordedNote:
       'El atlas guarda un registro aparte de este plato allí. Ninguno corrige al otro: un plato que hacen dos culturas no es un error de ninguna.',
+    chooseACountry:
+      'Elige un país',
+    filterTheList:
+      'Escribe para filtrar la lista',
+    showingFirstNOfM:
+      'Mostrando los primeros {n} de {m}. Sigue escribiendo para acotar.',
+    nothingMatchesThat:
+      'Nada de la lista coincide con eso.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2300,6 +2308,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Également enregistré sous {list}',
     alsoRecordedNote:
       'L’atlas conserve une fiche distincte pour ce plat là-bas. Aucune ne corrige l’autre : un plat que deux cultures préparent n’est une erreur dans aucune des deux.',
+    chooseACountry:
+      'Choisissez un pays',
+    filterTheList:
+      'Tapez pour filtrer la liste',
+    showingFirstNOfM:
+      'Affichage des {n} premiers sur {m}. Continuez à taper pour affiner.',
+    nothingMatchesThat:
+      'Rien dans la liste ne correspond.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3432,6 +3448,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Auch verzeichnet unter {list}',
     alsoRecordedNote:
       'Der Atlas führt dort einen eigenen Eintrag zu diesem Gericht. Keiner korrigiert den anderen — ein Gericht, das zwei Esskulturen kochen, ist in keiner von beiden ein Fehler.',
+    chooseACountry:
+      'Land auswählen',
+    filterTheList:
+      'Tippen, um die Liste einzugrenzen',
+    showingFirstNOfM:
+      'Die ersten {n} von {m} werden gezeigt. Weiter tippen, um einzugrenzen.',
+    nothingMatchesThat:
+      'Nichts in der Liste passt dazu.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4564,6 +4588,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Registrato anche sotto {list}',
     alsoRecordedNote:
       'L’atlante tiene lì una scheda separata per questo piatto. Nessuna corregge l’altra: un piatto che due culture preparano non è un errore in nessuna delle due.',
+    chooseACountry:
+      'Scegli un paese',
+    filterTheList:
+      'Scrivi per filtrare la lista',
+    showingFirstNOfM:
+      'Mostrati i primi {n} di {m}. Continua a scrivere per restringere.',
+    nothingMatchesThat:
+      'Nella lista non corrisponde nulla.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5697,6 +5729,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Também registado em {list}',
     alsoRecordedNote:
       'O atlas guarda ali um registo separado deste prato. Nenhum corrige o outro — um prato que duas culturas fazem não é um erro em nenhuma delas.',
+    chooseACountry:
+      'Escolha um país',
+    filterTheList:
+      'Escreva para filtrar a lista',
+    showingFirstNOfM:
+      'A mostrar os primeiros {n} de {m}. Continue a escrever para restringir.',
+    nothingMatchesThat:
+      'Nada na lista corresponde a isso.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6829,6 +6869,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ook vastgelegd onder {list}',
     alsoRecordedNote:
       'De atlas houdt daar een apart record voor dit gerecht bij. Geen van beide corrigeert de ander — een gerecht dat twee eetculturen maken is in geen van beide een fout.',
+    chooseACountry:
+      'Kies een land',
+    filterTheList:
+      'Typ om de lijst te beperken',
+    showingFirstNOfM:
+      'De eerste {n} van {m} worden getoond. Typ door om te beperken.',
+    nothingMatchesThat:
+      'Niets in de lijst komt daarmee overeen.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -7962,6 +8010,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Zapisane także pod {list}',
     alsoRecordedNote:
       'Atlas prowadzi tam osobny wpis dla tej potrawy. Żaden nie poprawia drugiego — potrawa, którą gotują dwie kultury, nie jest błędem w żadnej z nich.',
+    chooseACountry:
+      'Wybierz kraj',
+    filterTheList:
+      'Wpisz, aby zawęzić listę',
+    showingFirstNOfM:
+      'Pokazano pierwsze {n} z {m}. Pisz dalej, aby zawęzić.',
+    nothingMatchesThat:
+      'Nic na liście nie pasuje.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9094,6 +9150,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Şurada da kayıtlı: {list}',
     alsoRecordedNote:
       'Atlas bu yemek için orada ayrı bir kayıt tutuyor. Hiçbiri diğerini düzeltmiyor; iki mutfak kültürünün yaptığı bir yemek ikisinde de hata değildir.',
+    chooseACountry:
+      'Bir ülke seçin',
+    filterTheList:
+      'Listeyi daraltmak için yazın',
+    showingFirstNOfM:
+      '{m} içinden ilk {n} gösteriliyor. Daraltmak için yazmaya devam edin.',
+    nothingMatchesThat:
+      'Listede bununla eşleşen bir şey yok.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10227,6 +10291,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Также записано в {list}',
     alsoRecordedNote:
       'В атласе есть отдельная запись об этом блюде там. Ни одна не исправляет другую — блюдо, которое готовят две кулинарные традиции, не ошибка ни в одной из них.',
+    chooseACountry:
+      'Выберите страну',
+    filterTheList:
+      'Введите, чтобы сузить список',
+    showingFirstNOfM:
+      'Показаны первые {n} из {m}. Продолжайте вводить, чтобы сузить.',
+    nothingMatchesThat:
+      'В списке нет ничего подходящего.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11360,6 +11432,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{list} में भी दर्ज',
     alsoRecordedNote:
       'एटलस में इस व्यंजन का वहाँ एक अलग रिकॉर्ड है। कोई भी दूसरे को सुधारता नहीं — जिस व्यंजन को दो खान-पान संस्कृतियाँ बनाती हैं, वह किसी में भी ग़लती नहीं है।',
+    chooseACountry:
+      'देश चुनें',
+    filterTheList:
+      'सूची छाँटने के लिए लिखें',
+    showingFirstNOfM:
+      '{m} में से पहले {n} दिखाए जा रहे हैं। छाँटने के लिए लिखते रहें।',
+    nothingMatchesThat:
+      'सूची में इससे कुछ मेल नहीं खाता।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12493,6 +12573,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '也收录于 {list}',
     alsoRecordedNote:
       '图册在那里另有一条关于这道菜的记录。两者互不纠正——两种饮食文化都做的一道菜，在哪一方都不是错误。',
+    chooseACountry:
+      '选择一个国家',
+    filterTheList:
+      '输入以缩小列表',
+    showingFirstNOfM:
+      '显示 {m} 项中的前 {n} 项。继续输入以缩小范围。',
+    nothingMatchesThat:
+      '列表中没有匹配项。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -13626,6 +13714,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{list} にも記録あり',
     alsoRecordedNote:
       'アトラスはそちらにもこの料理の別の記録を持っています。どちらかがもう一方を訂正するものではありません。二つの食文化がつくる料理は、どちらにとっても誤りではありません。',
+    chooseACountry:
+      '国を選ぶ',
+    filterTheList:
+      '入力して一覧を絞り込む',
+    showingFirstNOfM:
+      '{m} 件中 {n} 件を表示しています。入力を続けると絞り込めます。',
+    nothingMatchesThat:
+      '一覧に一致するものがありません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
