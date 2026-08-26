@@ -1795,3 +1795,40 @@ offer.
 
 Verified at 375: five options, no filter box (it appears past twelve), choosing one fills
 the trigger and closes the panel, and the detail box is 335x72 — a sentence, not a line.
+
+### Voice, on the two fields where speaking beats typing
+
+Ajay: *"if you can add voice to text"*. For this project it is not a convenience. The people
+whose knowledge the atlas is missing are disproportionately people who would describe a
+method aloud in a minute and never type it at all — in Malayalam, in Amharic, on a phone
+keyboard that fights their script. Both fields it sits beside are ones the atlas has almost
+nothing in: the account of a contributor's connection to the place, and the ingredients.
+
+**Free, and that is why it is this API.** The browser's own `SpeechRecognition`: no key, no
+endpoint, no bill, on a project that collects no money. Cloudflare's Whisper would work and
+would draw on the same metered allowance the translation endpoint already rations; this
+draws on nothing.
+
+**What it costs instead is disclosed on the control.** Chrome does not transcribe locally —
+it streams the audio to Google. That is a real thing to hand a stranger describing their
+grandmother's cooking, and this app already tells readers when something leaves it, so the
+button carries the same disclosure rather than quietly opening a microphone into somebody
+else's server.
+
+**It appends, never replaces.** Recognition is wrong often enough that overwriting
+somebody's typing would be unforgivable, and a person dictating in a second language
+usually wants to fix a word after.
+
+**Where it is absent:** Firefox has no support and neither does the native build —
+`SpeechRecognition` is a web API and an App Store build would need a new dependency, which
+this project does not add without asking. In both cases the button does not render at all,
+which is the rule the donate button already follows: never a dead control.
+
+Verified at 375: two controls, each 125x44, each with the disclosure beside it, and the API
+present in this browser.
+
+**A validator bug worth keeping.** The check that the disclosure is long enough to actually
+disclose was set at 60 characters and failed the Chinese translation at 52 — which says
+everything the English one does in half the characters. Judging a logographic script by an
+alphabetic length is the same mistake the evidence-scale tick labels already had to learn;
+the floor is per script now.

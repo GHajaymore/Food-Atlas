@@ -745,6 +745,12 @@ export interface Copy {
   chooseYourConnection: string;
   connectionInYourWords: string;
   connectionDetailPlaceholder: string;
+  dictateSpeak: string;
+  dictateListening: string;
+  dictateStop: string;
+  dictateSendsAudio: string;
+  dictateNotAllowed: string;
+  dictateDidNotWork: string;
   interfaceTranslationNote: string;
 }
 
@@ -1915,6 +1921,18 @@ export const EN: Copy = {
     'Anything you want to add, in your own words',
   connectionDetailPlaceholder:
     'My grandmother made it every Eid in Kozhikode',
+  dictateSpeak:
+    'Speak instead',
+  dictateListening:
+    'Listening — tap to stop',
+  dictateStop:
+    'Stop listening',
+  dictateSendsAudio:
+    'Your browser does the listening, and most browsers send the audio to their own servers to do it. What you say is added to the box above, where you can correct it.',
+  dictateNotAllowed:
+    'The browser did not give permission for the microphone.',
+  dictateDidNotWork:
+    'That did not work. You can still type it.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

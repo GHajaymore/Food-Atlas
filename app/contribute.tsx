@@ -25,6 +25,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Choice } from '../src/components/Choice';
+import { Dictate } from '../src/components/Dictate';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
@@ -248,6 +249,21 @@ export default function Contribute() {
               accessibilityLabel={copy.connectionInYourWords}
               style={styles.connectionDetail}
             />
+            {/*
+             * Beside this box in particular, because this is where the account lives.
+             * Somebody who would describe their grandmother's cooking in a minute may
+             * never type it at all — in Malayalam, on a phone keyboard that fights the
+             * script. Absent entirely where the browser cannot do it.
+             */}
+            <Dictate
+              value={connectionDetail}
+              onChange={(v) => {
+                setConnectionDetail(v);
+                const picked = CONNECTIONS.find((c) => copy[c.label] === connectionChoice);
+                set('connection')(composeConnection(picked?.value ?? '', v));
+              }}
+              accessibilityLabel={copy.connectionInYourWords}
+            />
           </Field>
           <Field label={copy.traditionalIngredientsAndEquipment} style={styles.field}>
             <Input
@@ -255,6 +271,11 @@ export default function Contribute() {
               value={entry.ingredients}
               onChangeText={set('ingredients')}
               placeholder={copy.exampleIngredients}
+            />
+            <Dictate
+              value={entry.ingredients}
+              onChange={set('ingredients')}
+              accessibilityLabel={copy.traditionalIngredientsAndEquipment}
             />
           </Field>
 

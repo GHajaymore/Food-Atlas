@@ -1195,6 +1195,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Lo que quieras añadir, con tus palabras',
     connectionDetailPlaceholder:
       'Mi abuela lo hacía cada Eid en Kozhikode',
+    dictateSpeak:
+      'Hablar en vez de escribir',
+    dictateListening:
+      'Escuchando — toca para parar',
+    dictateStop:
+      'Dejar de escuchar',
+    dictateSendsAudio:
+      'La escucha la hace tu navegador, y la mayoría envía el audio a sus propios servidores para ello. Lo que digas se añade al cuadro de arriba, donde puedes corregirlo.',
+    dictateNotAllowed:
+      'El navegador no dio permiso para el micrófono.',
+    dictateDidNotWork:
+      'Eso no funcionó. Aún puedes escribirlo.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2356,6 +2368,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Ce que vous voulez ajouter, avec vos mots',
     connectionDetailPlaceholder:
       'Ma grand-mère le faisait chaque Aïd à Kozhikode',
+    dictateSpeak:
+      'Parler plutôt qu’écrire',
+    dictateListening:
+      'À l’écoute — touchez pour arrêter',
+    dictateStop:
+      'Arrêter l’écoute',
+    dictateSendsAudio:
+      'C’est votre navigateur qui écoute, et la plupart envoient l’audio à leurs propres serveurs pour le faire. Ce que vous dites est ajouté dans le champ ci-dessus, où vous pouvez le corriger.',
+    dictateNotAllowed:
+      'Le navigateur n’a pas autorisé le microphone.',
+    dictateDidNotWork:
+      'Cela n’a pas marché. Vous pouvez toujours l’écrire.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3516,6 +3540,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Was Sie ergänzen möchten, in Ihren Worten',
     connectionDetailPlaceholder:
       'Meine Großmutter machte es jedes Eid in Kozhikode',
+    dictateSpeak:
+      'Sprechen statt tippen',
+    dictateListening:
+      'Hört zu — zum Beenden tippen',
+    dictateStop:
+      'Zuhören beenden',
+    dictateSendsAudio:
+      'Das Zuhören übernimmt Ihr Browser, und die meisten senden den Ton dafür an ihre eigenen Server. Was Sie sagen, wird oben in das Feld eingefügt, wo Sie es korrigieren können.',
+    dictateNotAllowed:
+      'Der Browser hat das Mikrofon nicht freigegeben.',
+    dictateDidNotWork:
+      'Das hat nicht geklappt. Sie können es weiterhin tippen.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4676,6 +4712,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Quello che vuoi aggiungere, con parole tue',
     connectionDetailPlaceholder:
       'Mia nonna lo faceva ogni Eid a Kozhikode',
+    dictateSpeak:
+      'Parla invece di scrivere',
+    dictateListening:
+      'In ascolto — tocca per fermare',
+    dictateStop:
+      'Smetti di ascoltare',
+    dictateSendsAudio:
+      'Ad ascoltare è il tuo browser, e la maggior parte invia l’audio ai propri server per farlo. Quello che dici viene aggiunto nel campo qui sopra, dove puoi correggerlo.',
+    dictateNotAllowed:
+      'Il browser non ha dato il permesso per il microfono.',
+    dictateDidNotWork:
+      'Non ha funzionato. Puoi comunque scriverlo.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5837,6 +5885,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'O que quiser acrescentar, nas suas palavras',
     connectionDetailPlaceholder:
       'A minha avó fazia-o em cada Eid em Kozhikode',
+    dictateSpeak:
+      'Falar em vez de escrever',
+    dictateListening:
+      'A ouvir — toque para parar',
+    dictateStop:
+      'Parar de ouvir',
+    dictateSendsAudio:
+      'Quem ouve é o seu navegador, e a maioria envia o áudio para os próprios servidores para o fazer. O que disser é acrescentado à caixa acima, onde pode corrigir.',
+    dictateNotAllowed:
+      'O navegador não deu permissão para o microfone.',
+    dictateDidNotWork:
+      'Não resultou. Pode escrever à mesma.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6997,6 +7057,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wat u wilt toevoegen, in uw eigen woorden',
     connectionDetailPlaceholder:
       'Mijn oma maakte het elk Eid in Kozhikode',
+    dictateSpeak:
+      'Spreken in plaats van typen',
+    dictateListening:
+      'Luistert — tik om te stoppen',
+    dictateStop:
+      'Stoppen met luisteren',
+    dictateSendsAudio:
+      'Uw browser doet het luisteren, en de meeste sturen de audio daarvoor naar hun eigen servers. Wat u zegt komt in het vak hierboven, waar u het kunt verbeteren.',
+    dictateNotAllowed:
+      'De browser gaf geen toestemming voor de microfoon.',
+    dictateDidNotWork:
+      'Dat werkte niet. U kunt het nog steeds typen.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8158,6 +8230,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Cokolwiek chcesz dodać, własnymi słowami',
     connectionDetailPlaceholder:
       'Moja babcia robiła to na każdy Eid w Kozhikode',
+    dictateSpeak:
+      'Powiedz zamiast pisać',
+    dictateListening:
+      'Słucham — dotknij, aby zatrzymać',
+    dictateStop:
+      'Przestań słuchać',
+    dictateSendsAudio:
+      'Słucha twoja przeglądarka, a większość wysyła w tym celu dźwięk na własne serwery. To, co powiesz, trafia do pola powyżej, gdzie możesz to poprawić.',
+    dictateNotAllowed:
+      'Przeglądarka nie dała dostępu do mikrofonu.',
+    dictateDidNotWork:
+      'Nie udało się. Nadal możesz to napisać.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9318,6 +9402,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Eklemek istediğiniz her şey, kendi sözlerinizle',
     connectionDetailPlaceholder:
       'Babaannem her Ramazan Bayramı Kozhikode’de yapardı',
+    dictateSpeak:
+      'Yazmak yerine konuş',
+    dictateListening:
+      'Dinliyor — durdurmak için dokunun',
+    dictateStop:
+      'Dinlemeyi durdur',
+    dictateSendsAudio:
+      'Dinlemeyi tarayıcınız yapar ve çoğu bunun için sesi kendi sunucularına gönderir. Söyledikleriniz yukarıdaki kutuya eklenir, orada düzeltebilirsiniz.',
+    dictateNotAllowed:
+      'Tarayıcı mikrofon için izin vermedi.',
+    dictateDidNotWork:
+      'Bu işe yaramadı. Yine de yazabilirsiniz.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10479,6 +10575,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Всё, что хотите добавить, своими словами',
     connectionDetailPlaceholder:
       'Моя бабушка готовила это каждый Ид в Кожикоде',
+    dictateSpeak:
+      'Сказать вместо набора',
+    dictateListening:
+      'Слушаю — нажмите, чтобы остановить',
+    dictateStop:
+      'Перестать слушать',
+    dictateSendsAudio:
+      'Слушает ваш браузер, и большинство браузеров отправляют для этого звук на свои серверы. Сказанное добавляется в поле выше, где это можно поправить.',
+    dictateNotAllowed:
+      'Браузер не дал доступ к микрофону.',
+    dictateDidNotWork:
+      'Не получилось. Можно набрать текстом.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11640,6 +11748,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'जो कुछ आप जोड़ना चाहें, अपने शब्दों में',
     connectionDetailPlaceholder:
       'मेरी दादी हर ईद पर कोझिकोड में यह बनाती थीं',
+    dictateSpeak:
+      'लिखने के बजाय बोलें',
+    dictateListening:
+      'सुन रहा है — रोकने के लिए दबाएँ',
+    dictateStop:
+      'सुनना बंद करें',
+    dictateSendsAudio:
+      'सुनने का काम आपका ब्राउज़र करता है, और ज़्यादातर ब्राउज़र इसके लिए आवाज़ अपने सर्वर पर भेजते हैं। आप जो कहेंगे वह ऊपर वाले बॉक्स में जुड़ जाएगा, जहाँ आप उसे ठीक कर सकते हैं।',
+    dictateNotAllowed:
+      'ब्राउज़र ने माइक्रोफ़ोन की अनुमति नहीं दी।',
+    dictateDidNotWork:
+      'यह काम नहीं आया। आप इसे लिख भी सकते हैं।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12801,6 +12921,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '你想补充的任何话，用你自己的话',
     connectionDetailPlaceholder:
       '我祖母每年开斋节都在科泽科德做这道菜',
+    dictateSpeak:
+      '用说的代替打字',
+    dictateListening:
+      '正在聆听——点按停止',
+    dictateStop:
+      '停止聆听',
+    dictateSendsAudio:
+      '聆听由你的浏览器完成，多数浏览器会为此把音频送到自家服务器。你说的话会加到上面的框里，你可以在那里修改。',
+    dictateNotAllowed:
+      '浏览器没有允许使用麦克风。',
+    dictateDidNotWork:
+      '这次没有成功。你仍然可以打字。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -13962,6 +14094,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '付け加えたいことがあれば、ご自身の言葉で',
     connectionDetailPlaceholder:
       '祖母が毎年イードにコジコードで作っていました',
+    dictateSpeak:
+      '入力の代わりに話す',
+    dictateListening:
+      '聞いています — 押すと停止',
+    dictateStop:
+      '聞き取りを止める',
+    dictateSendsAudio:
+      '聞き取りはブラウザが行い、多くのブラウザはそのために音声を自社のサーバーへ送ります。話した内容は上の欄に追加され、そこで直せます。',
+    dictateNotAllowed:
+      'ブラウザがマイクを許可しませんでした。',
+    dictateDidNotWork:
+      'うまくいきませんでした。入力でも大丈夫です。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
