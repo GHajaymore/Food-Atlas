@@ -1870,3 +1870,32 @@ button and the dictation control already follow.
 **Not verified: the model's behaviour**, which needs the Workers AI binding Ajay has yet to
 enable. The prompt is written to be checkable by reading it, and the wildly-different guard
 is the belt for when it is not.
+
+### The chooser rendered forty options and let you reach five
+
+Found by auditing the new components against the same standards as the rest of the app,
+with the list **open** — a state nothing had been measured in.
+
+`Choice` capped its option list with `maxHeight: 260` and `overflow: 'hidden'` on a plain
+`View`. Measured: **40 options rendered, 5 visible, 35 clipped away with no way to reach
+them.** Every country after Algeria was unreachable by browsing. The filter box hid the
+damage, because typing narrows the list — so the bug only bit the reader who opened it and
+tried to scroll, which is the first thing most people do.
+
+It is a `ScrollView` now, capped the same way and scrolling inside the cap. Verified on the
+right element this time: outer box 260 tall, `overflow-y: auto`, content 1,760, scrolls to
+400 on demand.
+
+**Two things about how this was found and nearly missed.**
+
+The clipping audit that has run all session could never have caught it. It looks for text
+overflowing its own box; an option hidden behind an ancestor's overflow is not that. The
+check that found it compares a container's height against its own `scrollHeight` — a
+different question, and now part of the sweep.
+
+And the first verification of the fix said it had failed: the element measured was still
+1,760px tall with `overflow: visible`. That was the ScrollView's *inner content container*.
+React-native-web renders two elements and the cap lives on the outer one. Measuring the
+wrong node reported a working fix as broken — the mirror image of measuring the wrong node
+and reporting a broken thing as fixed, which is the more usual way round and the more
+dangerous.

@@ -24,7 +24,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useCopy } from '../i18n';
 import { accentText, color, font, radius, space, TAP_TARGET } from '../theme/tokens';
 import { Input } from './Field';
@@ -89,7 +89,20 @@ export function Choice({ value, options, onChange, placeholder, accessibilityLab
             />
           ) : null}
 
-          <View style={styles.list}>
+          {/*
+           * A ScrollView, not a capped View.
+           *
+           * This was a View with maxHeight and overflow hidden, which measured exactly as
+           * badly as it sounds: 40 options rendered, **5 visible**, and the other 35
+           * clipped away with no way to reach them. The filter box hid the damage — you
+           * could type to narrow — but a reader who opened the list and tried to scroll
+           * got nothing, and every country after Algeria was unreachable by browsing.
+           *
+           * Caught by measuring the box against its own content, not by the clipping audit:
+           * an option hidden by an overflow is not text overflowing its box, so nothing
+           * that looks for truncated text would ever have found it.
+           */}
+          <ScrollView style={styles.list} nestedScrollEnabled keyboardShouldPersistTaps="handled">
             {filtered.slice(0, 40).map((option) => (
               <Pressable
                 key={option}
@@ -107,7 +120,7 @@ export function Choice({ value, options, onChange, placeholder, accessibilityLab
                 <T style={option === value ? styles.optionOn : styles.optionLabel}>{option}</T>
               </Pressable>
             ))}
-          </View>
+          </ScrollView>
 
           {/* Said rather than left to be discovered: a list that silently stops at forty
               looks like an atlas that has never heard of your country. */}
@@ -148,8 +161,9 @@ const styles = StyleSheet.create({
     padding: space[2],
   },
   filter: { marginBottom: space[2] },
-  /* Capped so a long list cannot push the rest of the form off the screen. */
-  list: { maxHeight: 260, overflow: 'hidden' },
+  /* Capped so a long list cannot push the rest of the form off the screen, and it
+     scrolls inside that cap rather than hiding what does not fit. */
+  list: { maxHeight: 260 },
   option: {
     minHeight: TAP_TARGET,
     justifyContent: 'center',
