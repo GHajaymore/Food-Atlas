@@ -1283,6 +1283,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'República de Artsaj',
+    refineDietOccasion:
+      'Dieta y ocasión',
+    refineAny:
+      'Cualquiera',
+    placeKindWiderRegion:
+      'región amplia',
+    placeKindFormerState:
+      'estado histórico',
+    oneTradition:
+      '1 tradición',
+    onePlace:
+      '1 lugar',
+    nPlaces:
+      '{n} lugares',
+    countryLevelOnly:
+      'sólo a nivel de país',
+    summaryWorldwide:
+      ' en todo el mundo',
+    nRecorded:
+      '{n} registradas',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2532,6 +2552,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'République d’Artsakh',
+    refineDietOccasion:
+      'Régime et occasion',
+    refineAny:
+      'Tous',
+    placeKindWiderRegion:
+      'région étendue',
+    placeKindFormerState:
+      'état historique',
+    oneTradition:
+      '1 tradition',
+    onePlace:
+      '1 lieu',
+    nPlaces:
+      '{n} lieux',
+    countryLevelOnly:
+      'au niveau du pays uniquement',
+    summaryWorldwide:
+      ' dans le monde entier',
+    nRecorded:
+      '{n} enregistrées',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3780,6 +3820,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'Republik Arzach',
+    refineDietOccasion:
+      'Ernährung und Anlass',
+    refineAny:
+      'Alle',
+    placeKindWiderRegion:
+      'weitere Region',
+    placeKindFormerState:
+      'historischer Staat',
+    oneTradition:
+      '1 Tradition',
+    onePlace:
+      '1 Ort',
+    nPlaces:
+      '{n} Orte',
+    countryLevelOnly:
+      'nur auf Landesebene',
+    summaryWorldwide:
+      ' weltweit',
+    nRecorded:
+      '{n} erfasst',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5028,6 +5088,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'Repubblica di Artsakh',
+    refineDietOccasion:
+      'Dieta e occasione',
+    refineAny:
+      'Tutti',
+    placeKindWiderRegion:
+      'regione ampia',
+    placeKindFormerState:
+      'stato storico',
+    oneTradition:
+      '1 tradizione',
+    onePlace:
+      '1 luogo',
+    nPlaces:
+      '{n} luoghi',
+    countryLevelOnly:
+      'solo a livello di paese',
+    summaryWorldwide:
+      ' in tutto il mondo',
+    nRecorded:
+      '{n} registrate',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6277,6 +6357,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'República de Artsakh',
+    refineDietOccasion:
+      'Dieta e ocasião',
+    refineAny:
+      'Todos',
+    placeKindWiderRegion:
+      'região ampla',
+    placeKindFormerState:
+      'estado histórico',
+    oneTradition:
+      '1 tradição',
+    onePlace:
+      '1 lugar',
+    nPlaces:
+      '{n} lugares',
+    countryLevelOnly:
+      'apenas ao nível do país',
+    summaryWorldwide:
+      ' em todo o mundo',
+    nRecorded:
+      '{n} registadas',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7525,6 +7625,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'Republiek Artsach',
+    refineDietOccasion:
+      'Dieet en gelegenheid',
+    refineAny:
+      'Alle',
+    placeKindWiderRegion:
+      'ruimere regio',
+    placeKindFormerState:
+      'historische staat',
+    oneTradition:
+      '1 traditie',
+    onePlace:
+      '1 plaats',
+    nPlaces:
+      '{n} plaatsen',
+    countryLevelOnly:
+      'alleen op landniveau',
+    summaryWorldwide:
+      ' wereldwijd',
+    nRecorded:
+      '{n} vastgelegd',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8774,6 +8894,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'Republika Arcachu',
+    refineDietOccasion:
+      'Dieta i okazja',
+    refineAny:
+      'Wszystkie',
+    placeKindWiderRegion:
+      'szerszy region',
+    placeKindFormerState:
+      'dawne państwo',
+    oneTradition:
+      '1 tradycja',
+    onePlace:
+      '1 miejsce',
+    nPlaces:
+      '{n} miejsc',
+    countryLevelOnly:
+      'tylko na poziomie kraju',
+    summaryWorldwide:
+      ' na całym świecie',
+    nRecorded:
+      '{n} zapisanych',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10022,6 +10162,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'Artsah Cumhuriyeti',
+    refineDietOccasion:
+      'Beslenme ve vesile',
+    refineAny:
+      'Tümü',
+    placeKindWiderRegion:
+      'geniş bölge',
+    placeKindFormerState:
+      'tarihi devlet',
+    oneTradition:
+      '1 gelenek',
+    onePlace:
+      '1 yer',
+    nPlaces:
+      '{n} yer',
+    countryLevelOnly:
+      'yalnızca ülke düzeyinde',
+    summaryWorldwide:
+      ' dünya genelinde',
+    nRecorded:
+      '{n} kayıt',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11271,6 +11431,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Wu',
     regionArtsakh:
       'Республика Арцах',
+    refineDietOccasion:
+      'Питание и повод',
+    refineAny:
+      'Любые',
+    placeKindWiderRegion:
+      'широкий регион',
+    placeKindFormerState:
+      'историческое государство',
+    oneTradition:
+      '1 традиция',
+    onePlace:
+      '1 место',
+    nPlaces:
+      '{n} мест',
+    countryLevelOnly:
+      'только на уровне страны',
+    summaryWorldwide:
+      ' по всему миру',
+    nRecorded:
+      '{n} записей',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -12520,6 +12700,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'वू',
     regionArtsakh:
       'आर्ट्सख गणराज्य',
+    refineDietOccasion:
+      'आहार और अवसर',
+    refineAny:
+      'कोई भी',
+    placeKindWiderRegion:
+      'व्यापक क्षेत्र',
+    placeKindFormerState:
+      'पूर्व राज्य',
+    oneTradition:
+      '1 परंपरा',
+    onePlace:
+      '1 स्थान',
+    nPlaces:
+      '{n} स्थान',
+    countryLevelOnly:
+      'केवल देश स्तर पर',
+    summaryWorldwide:
+      ' दुनिया भर में',
+    nRecorded:
+      '{n} दर्ज',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -13769,6 +13969,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '吴',
     regionArtsakh:
       '阿尔察赫共和国',
+    refineDietOccasion:
+      '饮食与场合',
+    refineAny:
+      '全部',
+    placeKindWiderRegion:
+      '广域地区',
+    placeKindFormerState:
+      '历史国家',
+    oneTradition:
+      '1 项传统',
+    onePlace:
+      '1 个地方',
+    nPlaces:
+      '{n} 个地方',
+    countryLevelOnly:
+      '仅到国家层级',
+    summaryWorldwide:
+      '（全球）',
+    nRecorded:
+      '已收录 {n} 项',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15018,6 +15238,26 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '呉',
     regionArtsakh:
       'アルツァフ共和国',
+    refineDietOccasion:
+      '食事の制限と場面',
+    refineAny:
+      'すべて',
+    placeKindWiderRegion:
+      '広域の地域',
+    placeKindFormerState:
+      'かつての国',
+    oneTradition:
+      '1 件の伝統',
+    onePlace:
+      '1 か所',
+    nPlaces:
+      '{n} か所',
+    countryLevelOnly:
+      '国単位のみ',
+    summaryWorldwide:
+      '（世界全体）',
+    nRecorded:
+      '{n} 件収録',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

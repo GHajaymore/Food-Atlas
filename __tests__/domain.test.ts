@@ -379,7 +379,7 @@ describe('search', () => {
 
 describe('the atlas states coverage honestly', () => {
   it('groups every country under a continent', () => {
-    const atlas = buildAtlas(dishes);
+    const atlas = buildAtlas(dishes, EN);
     const countries = atlas.flatMap((g) => g.countries.map((c) => c.name));
     expect(new Set(countries)).toEqual(new Set(dishes.map((d) => d.loc.country)));
     expect(atlas.flatMap((g) => g.countries).reduce((n, c) => n + c.count, 0)).toBe(dishes.length);
@@ -849,9 +849,9 @@ describe('what counts as a country', () => {
   it("names what a picker row is, where it is not a country", () => {
     // The alternative is a list headed "Choose a country" that puts Byzantine Empire
     // between Bulgaria and Croatia and lets the reader work it out.
-    expect(placeKind("Byzantine Empire")).toBe("former state");
-    expect(placeKind("Levant")).toBe("wider region");
-    expect(placeKind("France")).toBe("");
+    expect(placeKind("Byzantine Empire", EN)).toBe("former state");
+    expect(placeKind("Levant", EN)).toBe("wider region");
+    expect(placeKind("France", EN)).toBe("");
   });
 
   it("never counts a continent as one of its own countries", () => {
@@ -1267,7 +1267,7 @@ describe('every atlas row reads the same way', () => {
     // The earlier version appended place names where it had them, which made some
     // countries look documented and others like an afterthought — when the only
     // difference was whether anyone had recorded a region.
-    for (const group of buildAtlas(dishes)) {
+    for (const group of buildAtlas(dishes, EN)) {
       for (const country of group.countries) {
         expect(country.detail).toMatch(/^\d+ traditions? · (\d+ places?|country level only)$/);
       }
@@ -1275,7 +1275,7 @@ describe('every atlas row reads the same way', () => {
   });
 
   it('counts places consistently with the detail line', () => {
-    for (const group of buildAtlas(dishes)) {
+    for (const group of buildAtlas(dishes, EN)) {
       for (const country of group.countries) {
         if (country.places === 0) expect(country.detail).toMatch(/country level only$/);
         else expect(country.detail).toMatch(new RegExp(`· ${country.places} places?$`));
@@ -2729,6 +2729,9 @@ describe('the chrome in other languages', () => {
      * record in the atlas, and it is listed at the same length as everything else because
      * an allowlist that quietly skipped the awkward case would be worth less.
      */
+    // "1 tradition" is spelled the same in French, and means the same thing.
+    'fr.oneTradition',
+
     'es.regionWu',
     'fr.regionLevant', 'fr.regionMaghreb', 'fr.regionBalkans', 'fr.regionWu',
     'de.regionMaghreb', 'de.regionWu',

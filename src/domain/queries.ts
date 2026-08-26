@@ -145,7 +145,7 @@ export interface AtlasGroup {
 }
 
 /** The Food Atlas, grouped by continent. Coverage is stated over the whole catalogue. */
-export function buildAtlas(dishes: Dish[]): AtlasGroup[] {
+export function buildAtlas(dishes: Dish[], copy: Copy): AtlasGroup[] {
   const groups = new Map<string, Map<string, Dish[]>>();
   for (const dish of dishes) {
     const continent = continentOf(dish.loc.country);
@@ -162,10 +162,10 @@ export function buildAtlas(dishes: Dish[]): AtlasGroup[] {
       const places = [
         ...new Set(list.map((d) => d.loc.village || d.loc.city || d.loc.province || d.loc.region).filter(Boolean)),
       ];
-      const traditions = `${list.length} ${list.length === 1 ? 'tradition' : 'traditions'}`;
-      const placeCount = places.length
-        ? `${places.length} ${places.length === 1 ? 'place' : 'places'}`
-        : 'country level only';
+      const n = (one: string, many: string, count: number) =>
+        (count === 1 ? copy[one as keyof Copy] : copy[many as keyof Copy]).replace('{n}', String(count));
+      const traditions = n('oneTradition', 'nTraditions', list.length);
+      const placeCount = places.length ? n('onePlace', 'nPlaces', places.length) : copy.countryLevelOnly;
 
       return {
         name,

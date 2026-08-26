@@ -789,6 +789,16 @@ export interface Copy {
   regionSovietCentralAsia: string;
   regionWu: string;
   regionArtsakh: string;
+  refineDietOccasion: string;
+  refineAny: string;
+  placeKindWiderRegion: string;
+  placeKindFormerState: string;
+  oneTradition: string;
+  onePlace: string;
+  nPlaces: string;
+  countryLevelOnly: string;
+  summaryWorldwide: string;
+  nRecorded: string;
   interfaceTranslationNote: string;
 }
 
@@ -2047,6 +2057,26 @@ export const EN: Copy = {
     'Wu',
   regionArtsakh:
     'Republic of Artsakh',
+  refineDietOccasion:
+    'Diet & occasion',
+  refineAny:
+    'Any',
+  placeKindWiderRegion:
+    'wider region',
+  placeKindFormerState:
+    'former state',
+  oneTradition:
+    '1 tradition',
+  onePlace:
+    '1 place',
+  nPlaces:
+    '{n} places',
+  countryLevelOnly:
+    'country level only',
+  summaryWorldwide:
+    ' worldwide',
+  nRecorded:
+    '{n} recorded',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

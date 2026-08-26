@@ -113,10 +113,10 @@ export const isHistoricalState = (country: string): boolean => HISTORICAL.has(co
  * Said rather than hidden. The alternative is a country picker that lists Byzantine
  * Empire between Bulgaria and Croatia and lets the reader work it out.
  */
-export function placeKind(origin: string): string {
-  if (isHistoricalState(origin)) return 'former state';
+export function placeKind(origin: string, copy: Copy): string {
+  if (isHistoricalState(origin)) return copy.placeKindFormerState;
   if (isCountry(origin)) return '';
-  return 'wider region';
+  return copy.placeKindWiderRegion;
 }
 
 /**

@@ -127,8 +127,18 @@ export default function Feed() {
   // Says what the list is, in the reader's own terms: the shelf they opened, or the
   // place they narrowed to, so a long list is never unexplained.
   const openShelf = shelfTitle(copy, shelfView);
-  const resultSummary = `${feed.length.toLocaleString()} ${feed.length === 1 ? 'tradition' : 'traditions'}${
-    path.length ? ` in ${place}` : openShelf ? '' : ' worldwide'
+  /*
+   * Was assembled from English fragments — "8 traditions in " — which the region pass made
+   * conspicuous rather than caused: a Japanese reader got "8 traditions in レヴァント",
+   * half a sentence in each language. `inPlace` and the counts were already translated;
+   * only the glue was not.
+   */
+  const count = (feed.length === 1 ? copy.oneTradition : copy.nTraditions).replace(
+    '{n}',
+    feed.length.toLocaleString(),
+  );
+  const resultSummary = `${count}${
+    path.length ? copy.inPlace.replace('{place}', place) : openShelf ? '' : copy.summaryWorldwide
   }${openShelf ? ` · ${openShelf}` : ''}`;
 
   // 'World' plus each chosen level; tapping any of them truncates the path there.

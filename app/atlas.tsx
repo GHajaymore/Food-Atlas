@@ -33,7 +33,7 @@ import { space } from '../src/theme/tokens';
 export default function Atlas() {
   const copy = useCopy();
   const setCountry = useApp((s) => s.setCountry);
-  const atlas = buildAtlas(dishes);
+  const atlas = buildAtlas(dishes, copy);
   const metrics = catalogueMetrics(copy, dishes);
   // Appended by scripts/snapshot-metrics.mjs. Empty until the first run, and the
   // tiles simply show no direction rather than inventing one.

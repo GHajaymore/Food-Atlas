@@ -102,7 +102,7 @@ export default function PlacePicker() {
              * Only at country level. Deeper down the options are regions and cities,
              * where the question does not arise.
              */
-            note: next?.key === 'country' ? placeKind(option.label) : '',
+            note: next?.key === 'country' ? placeKind(option.label, copy) : '',
           })),
         }))}
         onPick={choose}

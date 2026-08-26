@@ -33,8 +33,12 @@ interface Props {
   children: React.ReactNode;
 }
 
-export function Refine({ label = 'Diet & occasion', summary, count, emptyLabel = 'Any', children }: Props) {
+export function Refine({ label, summary, count, emptyLabel, children }: Props) {
   const copy = useCopy();
+  /* Defaulted here rather than in the parameter list, because the defaults are copy and
+     copy comes from a hook. */
+  const rowLabel = label ?? copy.refineDietOccasion;
+  const nothing = emptyLabel ?? copy.refineAny;
   const [open, setOpen] = useState(false);
 
   return (
@@ -42,7 +46,7 @@ export function Refine({ label = 'Diet & occasion', summary, count, emptyLabel =
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
-        accessibilityLabel={`${label}. ${count ? summary : copy.nothingApplied}`}
+        accessibilityLabel={`${rowLabel}. ${count ? summary : copy.nothingApplied}`}
         tint="neutral"
         onPress={() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -50,13 +54,13 @@ export function Refine({ label = 'Diet & occasion', summary, count, emptyLabel =
         }}
         style={styles.header}
       >
-        <T style={styles.label}>{label}</T>
+        <T style={styles.label}>{rowLabel}</T>
         {count ? (
           <Muted style={styles.summary} numberOfLines={1}>
             {summary}
           </Muted>
         ) : (
-          <Muted style={styles.summary}>{emptyLabel}</Muted>
+          <Muted style={styles.summary}>{nothing}</Muted>
         )}
         <View style={open ? styles.caretOpen : undefined}>
           <CaretDownIcon size={14} color={color.neutral[400]} />
