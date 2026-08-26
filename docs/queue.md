@@ -1610,3 +1610,46 @@ Each measurement was flawed in a different direction, and each one felt conclusi
 With an instrument this unreliable the temptation is to keep re-reading it until it says
 something. The answer is to stop, write down which parts are actually known, and mark the
 rest as needing an instrument that works.
+
+### Tap targets: six controls under the size the handoff requires
+
+`tokens.ts` has always said 44 — *"the handoff requires they be padded up to 44 in the real
+app (Accessibility note)"* — and the app was not meeting its own rule. Measured at 375
+across five screens, six controls were under it, and three were under even the 24px floor
+of WCAG 2.2 AA:
+
+```
+  30 x 20   the place link under a dish title   <- smallest control in the app
+ 316 x 15   an outbound source link
+ 309 x 22   "Show 15 more" on the local names
+ 227 x 23   the classification badge
+  96 x 22   a tag
+  64 x 29   the "▶ Video" button on a search result
+```
+
+`Tag` had already solved this properly — pad the touch box out to 44, hand the space back
+with an equal negative margin, so the target grows and the layout does not move. It also
+records that `hitSlop`, the idiomatic React Native answer, is ignored by react-native-web.
+That pattern was written once and never reused, so `tapArea` in `tokens.ts` is now the
+shared form of it.
+
+**`FacetLink` had explicitly decided against this**, with a reason: *"TAP_TARGET is right
+for a control and wrong for a word inside a sentence: forcing 44px around 'Kerala' in a
+breadcrumb would break the line it sits in."* The objection was sound and the conclusion
+was not — it assumed the only way to reach the target is a taller box. The negative margin
+is exactly the thing that makes it false.
+
+**Two mistakes while applying it, both worth keeping.** `tapArea` on the *label* rather
+than the *pressable* pads the child and then takes the space back, leaving the parent — the
+thing a finger has to hit — completely unchanged: one control went 22 → 33 instead of 44,
+and another did nothing at all while looking right in the diff. And height alone left the
+place link at 30x44: a short label needs the horizontal pad too, which is why `tapArea`
+takes an optional width.
+
+The one judgement call: `Button`'s compact variant now keeps the 44 height instead of
+`minHeight: 0`. `Tag`'s trick does not apply, because there the pill is an inner view and
+here the pressable *is* the pill — separating them would mean restyling every button in the
+app to catch three compact ones.
+
+Verified at 375 on `/`, `/search`, `/dish`, `/contribute` and `/atlas`: **0 controls under
+44x44**, and the record page's landmarks did not move (title 344, "Show 15 more" 557).

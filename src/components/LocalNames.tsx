@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { languageByCode } from '../domain/language';
 import { openAtSource } from '../domain/video';
-import { accentText, color, font, radius, space } from '../theme/tokens';
+import { accentText, color, font, radius, space, tapArea } from '../theme/tokens';
 import { Block } from './Card';
 import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
@@ -94,6 +94,7 @@ export function LocalNames({ names, original }: Props) {
           accessibilityState={{ expanded: open }}
           tint="none"
           onPress={() => setOpen(!open)}
+          style={styles.moreHit}
         >
           <Muted style={styles.more}>{open ? copy.showFewer : copy.showNMore.replace('{n}', String(rest))}</Muted>
         </Pressable>
@@ -125,5 +126,8 @@ const styles = StyleSheet.create({
   lang: { fontSize: 10, marginTop: 1 },
 
   more: { fontSize: 11, color: accentText, marginTop: 8 },
+  /* On the pressable, not the label: padding a child and taking it back with a negative
+     margin leaves the parent — the actual target — exactly as it was. Measured 309x22. */
+  moreHit: { alignSelf: 'flex-start', ...tapArea(22) },
   note: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 8 },
 });

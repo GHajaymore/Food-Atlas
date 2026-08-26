@@ -56,7 +56,7 @@ import { searchUrl } from '../../src/domain/videoDiscovery';
 import { thresholds as scoreThresholds } from '../../src/data/settings';
 import { settings } from '../../src/state/store';
 import { useTranslations } from '../../src/state/translations';
-import { accentText, color, font, radius, space, TAP_TARGET } from '../../src/theme/tokens';
+import { accentText, color, font, radius, space, tapArea, TAP_TARGET } from '../../src/theme/tokens';
 
 export default function DishDetail() {
   const copy = useCopy();
@@ -648,6 +648,7 @@ export default function DishDetail() {
                   accessibilityRole="link"
                   tint="none"
                   onPress={() => openAtSource(dish.popular!.url)}
+                  style={styles.sourceLinkHit}
                 >
                   <T style={styles.sourceLink}>{dish.popular.source} ↗</T>
                 </Pressable>
@@ -899,6 +900,9 @@ const styles = StyleSheet.create({
   bullet: { fontSize: 12 },
   changeText: { fontSize: 12, lineHeight: 12 * 1.45, flex: 1 },
   sourceLink: { fontSize: 12, color: accentText },
+  /* The pressable, not the label. An outbound link measured 316x15 — the shortest
+     target on the record page. */
+  sourceLinkHit: { alignSelf: 'flex-start', ...tapArea(15) },
   popularClosing: { fontSize: 11, lineHeight: 11 * 1.45, color: accentText, marginTop: 10 },
 
   discoverBlock: { marginBottom: 22, gap: 4 },

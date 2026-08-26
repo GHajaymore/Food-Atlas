@@ -280,3 +280,44 @@ export const PHONE_WIDTH = 430;
  * they be padded up to 44 in the real app (Accessibility note).
  */
 export const TAP_TARGET = 44;
+
+/**
+ * Grow a short control's touch box to `TAP_TARGET` without moving anything on the page.
+ *
+ * The handoff's accessibility note requires 44, and `Tag` already solved it: padding out
+ * to the target, then an equal negative margin handing that space straight back to the
+ * layout, so the visible pill keeps its size and the row keeps its rhythm. `hitSlop` is
+ * the idiomatic React Native answer and react-native-web ignores it — checked there, not
+ * assumed — which is why the box has to grow structurally.
+ *
+ * That pattern was written once and then not reused, so five controls measured under the
+ * target on one screen: the classification badge at 227x23, "Show 15 more" at 309x22, the
+ * place link at **30x20**, a tag at 96x22 and a source link at 316x15. Three of those miss
+ * even the 24px floor of WCAG 2.2 AA, and the place link misses it in both directions.
+ *
+ * `content` is the control's own height. Pass what it actually measures rather than what
+ * it ought to be — the arithmetic is only as good as that number.
+ */
+export const tapArea = (content: number, contentWidth?: number) => {
+  const pad = Math.max(0, Math.ceil((TAP_TARGET - content) / 2));
+  const sidePad =
+    contentWidth === undefined ? 0 : Math.max(0, Math.ceil((TAP_TARGET - contentWidth) / 2));
+  return {
+    paddingVertical: pad,
+    marginVertical: -pad,
+    ...(sidePad ? { paddingHorizontal: sidePad, marginHorizontal: -sidePad } : {}),
+  } as const;
+};
+
+/*
+ * Two things about using it, both learned by getting them wrong.
+ *
+ * **It goes on the pressable, never on the text inside.** Applied to a child, the padding
+ * grows the child and the negative margin takes the space back, so the parent — which is
+ * the thing a finger actually has to hit — does not change size at all. Two of the first
+ * three uses were on the label rather than the control: one moved 22 to 33 instead of 44,
+ * and the other did precisely nothing while looking correct in the diff.
+ *
+ * **A short label needs the second argument.** The place link under a dish title is 30
+ * wide, so height alone left it 30x44 — tall enough and still a narrow ribbon to hit.
+ */

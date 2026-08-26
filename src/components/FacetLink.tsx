@@ -23,7 +23,7 @@ import { useCopy } from '../i18n';
 import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { hrefFor, type BrowseQuery } from '../domain/browse';
-import { accentText, color, font, space, TAP_TARGET } from '../theme/tokens';
+import { accentText, color, font, space, tapArea, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { Tag } from './Tag';
 import { T } from './Text';
@@ -73,13 +73,20 @@ export function FacetLink({ label, query, variant = 'inline', describedAs }: Pro
 
 const styles = StyleSheet.create({
   /*
-   * No minimum height on the inline variant, deliberately.
+   * The inline variant carried no minimum height at all, on the reasoning that
+   * `TAP_TARGET` is right for a control and wrong for a word inside a sentence — forcing
+   * 44px around "Kerala" in a breadcrumb would break the line it sits in.
    *
-   * `TAP_TARGET` is right for a control and wrong for a word inside a sentence: forcing
-   * 44px around "Kerala" in a breadcrumb would break the line it sits in. The chip
-   * variant, which is a control, keeps it.
+   * The objection was sound and the conclusion was not: it assumed the only way to reach
+   * the target is to make the box taller. `tapArea` pads out to 44 and hands the space
+   * straight back with an equal negative margin, so the touch box grows and the line does
+   * not move — the pattern `Tag` has used since it was written.
+   *
+   * Measured before this: the place link under a dish title was **30x20**, the smallest
+   * control in the app and one of the most used, and the classification badge beside it
+   * was 227x23. Both are 44 tall now and neither has moved a pixel on screen.
    */
-  inline: { alignSelf: 'flex-start' },
+  inline: { alignSelf: 'flex-start', ...tapArea(20, 30) },
   inlineLabel: {
     fontSize: 13,
     color: accentText,

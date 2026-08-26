@@ -77,7 +77,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'transparent',
   },
-  compact: { minHeight: 0, paddingVertical: 5, paddingHorizontal: 9 },
+  /*
+   * Compact shrinks the type and the horizontal padding. It used to shrink the touch
+   * target too — `minHeight: 0` — which made the "▶ Video" button beside a search result
+   * 64x29 on a phone, against the 44 the handoff's accessibility note requires.
+   *
+   * The height stays. `Tag` solves the same problem by keeping a small pill inside a large
+   * pressable, and that is the better answer where the pill has a border and a background
+   * of its own; here the pressable *is* the pill, so separating them would mean restyling
+   * every button in the app to catch three compact ones. A slightly taller small button is
+   * the cheaper trade, and on a phone it is the right one anyway.
+   */
+  compact: { minHeight: TAP_TARGET, paddingVertical: 5, paddingHorizontal: 9, justifyContent: 'center' },
   label: { fontFamily: font.heading, fontSize: 14, lineHeight: 14 * 1.2 },
 
   primary: { borderColor: color.accent },
