@@ -37,11 +37,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "expo export --platform web --output-dir dist && node scripts/inject-preload.mjs",
+    "build": "expo export --platform web --output-dir dist && node scripts/unnest-fonts.mjs && node scripts/inject-preload.mjs",
     "test": "jest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p functions",
     "check-sources": "node scripts/check-sources.mjs",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name wikifoodia",
+    "deploy": "npm run build && wrangler pages deploy",
     "db:create": "wrangler d1 create wikifoodia",
     "db:migrate": "wrangler d1 migrations apply wikifoodia --remote"
   },

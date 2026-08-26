@@ -34,5 +34,5 @@ binding = "DB"
 database_name = "wikifoodia"
 # Replace with the id printed by `wrangler d1 create`. Safe to commit — it identifies
 # the database, it does not authorise anything.
-database_id = "REPLACE_WITH_ID_FROM_WRANGLER_D1_CREATE"
+database_id = "5be6df5f-705f-4f4d-805d-015550d751bc"
 migrations_dir = "migrations"
