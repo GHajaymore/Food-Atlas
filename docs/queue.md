@@ -1933,3 +1933,35 @@ is the dangerous case the negative margins could have caused.
 That question is the one this file already recommends and the one geometry cannot answer:
 *"an element's geometry says nothing about whether a reader can see it. Measuring
 getBoundingClientRect said the dropdown was fine twice."*
+
+### The hit-test, run everywhere
+
+`getBoundingClientRect` says a control is 44px. It does not say a finger landing in the
+middle of it reaches that control — and after `tapArea` gave a dozen controls padding that
+deliberately overlaps their neighbours, that became a question worth answering rather than
+assuming. This file has said so for a while: *"an element's geometry says nothing about
+whether a reader can see it."*
+
+So: for each control, scroll it into view, and ask `elementFromPoint` at its centre whether
+it lands on the control itself.
+
+| screen | state | checked | missed |
+|---|---|---|---|
+| / | rails | 20 of 86 | 0 |
+| /dish | accordions open | 18 of 74 | 0 |
+| /contribute | closed | 12 of 12 | 0 |
+| /contribute | connection chooser open | 17 of 17 | 0 |
+| /propose | country list open | 7 country options | 0 |
+
+Nothing missed, and nothing landed on a *different* control — the failure the negative
+margins could have introduced, where a press does the wrong thing rather than nothing.
+
+The `/propose` run is also the real proof of the ScrollView fix. The sample reached options
+far down the list with the scroller at 1,476 of 1,760, so options that were unreachable this
+morning are now both scrollable to **and** pressable when you get there.
+
+**Scrolling into view first is not optional.** `elementFromPoint` answers `null` for
+anything outside the viewport, and the first run of this check reported a perfectly good
+language chip as unreachable at top, middle and bottom purely because it sat at y=926 on an
+812-tall screen. A check that silently reports every off-screen control as broken is worse
+than no check.
