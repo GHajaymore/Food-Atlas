@@ -311,9 +311,34 @@ async function mergeWrite(path, rows) {
 
 const regionFrom = (hint) => {
   if (!hint) return '';
+  /*
+   * Remove the word, keep the join.
+   *
+   * These were `\s*word\s*` replaced with nothing, which eats the spaces on both sides.
+   * Invisible when the word ends the phrase -- "Indian cuisine" gives "Indian" either way
+   * -- and it welds the phrase shut when the word is in the middle: "Vegetarian cuisine of
+   * India" came out "Vegetarianof India", "Thai desserts and snacks" came out "Thaiand
+   * snacks". 130 records carried a region like that, and one of them reached a card on the
+   * home page before anybody noticed.
+   *
+   * Replacing with a single space and collapsing gives "Vegetarian of India" -- which is
+   * well-formed and still not a place. `SKIP_CATEGORY` below does not reject it; there is
+   * no rule here for a category that reads as a description rather than a name, and this
+   * fix does not add one. It stops the string being mangled, nothing more.
+   *
+   * That gap is wider than these 130 records. Measured across the stored data: 794 regions
+   * read as descriptions, and while most are real places -- "Province of Cagliari",
+   * "Isle of Man", "Newfoundland and Labrador" -- a large minority are categories that
+   * name no place at all: "Fish of Korea" (60 records), "Wineries of South Africa" (23),
+   * "Korean soups and stews" (20), "Drink companies of China" (21), and at the far end
+   * "Alcohol-related deaths in China". Telling those apart needs a rule that can hold both
+   * "Province of Cagliari" and "Fish of Korea", which is a real piece of work and not a
+   * line in this function. Recorded here rather than half-attempted.
+   */
   const cleaned = hint
-    .replace(/\s*cuisine\s*/i, '')
-    .replace(/\s*(dishes|desserts|breads|snacks|sweets|confectionery)\s*/i, '')
+    .replace(/\s*cuisine\s*/i, ' ')
+    .replace(/\s*(dishes|desserts|breads|snacks|sweets|confectionery)\s*/i, ' ')
+    .replace(/\s+/g, ' ')
     .trim();
 
   // A category name is only a useful region if it names a place or a community.

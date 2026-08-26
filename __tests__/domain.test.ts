@@ -866,6 +866,37 @@ describe('what counts as a country', () => {
     }
   });
 
+  it("has no region with a word welded to the next one", () => {
+    /*
+     * `regionFrom` in the cuisine ingest removed the word "cuisine" together with the
+     * spaces on both sides of it, which welds the phrase shut when the word is in the
+     * middle: "Vegetarian cuisine of India" -> "Vegetarianof India". 130 records carried
+     * one, and "Vegetarianof Indonesia" was printed on a card on the home page.
+     *
+     * Listed as exact strings rather than matched by pattern, because every pattern that
+     * catches these also catches "Newfoundland and Labrador" -- which genuinely ends in
+     * "land" followed by "and" -- along with "Hinterland of Imperia" and "KwaZulu-Natal".
+     * Twenty exact strings cannot make that mistake.
+     */
+    const WELDED = [
+      "Thaiand snacks", "Indianin the United Kingdom", "Japaneseand sweets",
+      "Vegetarianof Japan", "Vegetarianof India", "Sri Lankanand sweets",
+      "Bangladeshiin the United Kingdom", "Vegetarianof Indonesia", "Vegetarianof Ghana",
+      "Pakistaniin the United Kingdom", "Vegetarianof China", "Vegetarianof Iran",
+      "Vegetarianof Taiwan", "Ottoman EmpireEastern Mediterranean",
+      "East Asia (Mainland China", "Central EuropeBalkans", "Bengal regionAssam",
+      "NagalandKachin stateSagaing Region", "IndonesiaPhilippines", "YogyakartaCentral Java",
+    ];
+    const bad = new Set(WELDED);
+    const found: string[] = [];
+    for (const file of ["catalogue", "cuisines", "cookbook", "gi", "unesco"]) {
+      const raw = JSON.parse(readFileSync(`src/data/${file}.json`, "utf8"));
+      const rows: any[] = Array.isArray(raw) ? raw : (Object.values(raw).find(Array.isArray) as any[]) ?? [];
+      for (const row of rows) if (row.region && bad.has(row.region)) found.push(`${file}: ${row.region}`);
+    }
+    expect(found).toEqual([]);
+  });
+
   it("has a translation for every origin it cannot place in a country", () => {
     /*
      * The wider regions are keyed on the English string the data carries, because that
