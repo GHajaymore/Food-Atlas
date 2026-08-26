@@ -845,6 +845,18 @@ describe('what counts as a country', () => {
     expect(placeKind("France")).toBe("");
   });
 
+  it("never counts a continent as one of its own countries", () => {
+    // Nine records arrived with the country field set to a continent, and the importer
+    // registered `Africa -> Africa`, which made Africa a country in Africa: the atlas
+    // said "41 countries" and listed "Africa" among them. `registerContinents` now
+    // refuses the mapping, so these fall to Elsewhere and show under "Beyond one
+    // country" — the honest place for a dish recorded no more precisely than a continent.
+    for (const continent of ["Africa", "Asia", "Europe", "North America", "South America", "Oceania"]) {
+      expect(isCountry(continent)).toBe(false);
+      expect(continentOf(continent)).toBe("Elsewhere");
+    }
+  });
+
   it("folds a formal state name into the country", () => {
     // Wikidata says "Kingdom of the Netherlands", which listed three Dutch dishes
     // outside the Netherlands and outside Europe.
@@ -2648,6 +2660,20 @@ describe('the chrome in other languages', () => {
     'tr.levelFusion', 'tr.filterFusion',
 
     'pl.geoRegion', // "region" is the Polish word, spelled the same.
+
+    /*
+     * Continents. A continent's name is a proper noun and several are spelled identically
+     * across languages — every one of these is the correct word in its own language, and
+     * the ones that differ do differ: Afrique, Azië, Avrupa, Океания, オセアニア.
+     *
+     * Listed from what the translation actually produced rather than from a guess about
+     * which would collide, which is why there are seven and not the four I expected.
+     */
+    'es.continentAsia',
+    'fr.continentEurope',
+    'it.continentAfrica', 'it.continentAsia', 'it.continentOceania',
+    'pt.continentOceania',
+    'pl.continentOceania',
 
     // " in {place}" — German and Dutch use the same preposition, spelled the same way.
     'de.inPlace', 'nl.inPlace',

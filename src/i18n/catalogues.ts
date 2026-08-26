@@ -1223,6 +1223,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nada que corregir: lo que escribiste se lee bien.',
     polishDidNotWork:
       'Eso no funcionó. Lo que escribiste no ha cambiado.',
+    continentAfrica:
+      'África',
+    continentAsia:
+      'Asia',
+    continentEurope:
+      'Europa',
+    continentNorthAmerica:
+      'América del Norte',
+    continentSouthAmerica:
+      'América del Sur',
+    continentOceania:
+      'Oceanía',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2412,6 +2424,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Rien à corriger : ce que vous avez écrit se lit bien.',
     polishDidNotWork:
       'Cela n’a pas marché. Ce que vous avez écrit est inchangé.',
+    continentAfrica:
+      'Afrique',
+    continentAsia:
+      'Asie',
+    continentEurope:
+      'Europe',
+    continentNorthAmerica:
+      'Amérique du Nord',
+    continentSouthAmerica:
+      'Amérique du Sud',
+    continentOceania:
+      'Océanie',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3600,6 +3624,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nichts zu korrigieren — was Sie geschrieben haben, liest sich gut.',
     polishDidNotWork:
       'Das hat nicht geklappt. Ihr Text ist unverändert.',
+    continentAfrica:
+      'Afrika',
+    continentAsia:
+      'Asien',
+    continentEurope:
+      'Europa',
+    continentNorthAmerica:
+      'Nordamerika',
+    continentSouthAmerica:
+      'Südamerika',
+    continentOceania:
+      'Ozeanien',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4788,6 +4824,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Niente da correggere: quello che hai scritto si legge bene.',
     polishDidNotWork:
       'Non ha funzionato. Quello che hai scritto è invariato.',
+    continentAfrica:
+      'Africa',
+    continentAsia:
+      'Asia',
+    continentEurope:
+      'Europa',
+    continentNorthAmerica:
+      'America del Nord',
+    continentSouthAmerica:
+      'America del Sud',
+    continentOceania:
+      'Oceania',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5977,6 +6025,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nada a corrigir — o que escreveu lê-se bem.',
     polishDidNotWork:
       'Não resultou. O que escreveu está inalterado.',
+    continentAfrica:
+      'África',
+    continentAsia:
+      'Ásia',
+    continentEurope:
+      'Europa',
+    continentNorthAmerica:
+      'América do Norte',
+    continentSouthAmerica:
+      'América do Sul',
+    continentOceania:
+      'Oceania',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7165,6 +7225,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Niets te verbeteren — wat u schreef leest prima.',
     polishDidNotWork:
       'Dat werkte niet. Wat u schreef is onveranderd.',
+    continentAfrica:
+      'Afrika',
+    continentAsia:
+      'Azië',
+    continentEurope:
+      'Europa',
+    continentNorthAmerica:
+      'Noord-Amerika',
+    continentSouthAmerica:
+      'Zuid-Amerika',
+    continentOceania:
+      'Oceanië',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8354,6 +8426,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nie ma czego poprawiać — to, co napisałeś, czyta się dobrze.',
     polishDidNotWork:
       'Nie udało się. To, co napisałeś, pozostaje bez zmian.',
+    continentAfrica:
+      'Afryka',
+    continentAsia:
+      'Azja',
+    continentEurope:
+      'Europa',
+    continentNorthAmerica:
+      'Ameryka Północna',
+    continentSouthAmerica:
+      'Ameryka Południowa',
+    continentOceania:
+      'Oceania',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9542,6 +9626,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Düzeltilecek bir şey yok — yazdığınız iyi okunuyor.',
     polishDidNotWork:
       'Bu işe yaramadı. Yazdığınız değişmedi.',
+    continentAfrica:
+      'Afrika',
+    continentAsia:
+      'Asya',
+    continentEurope:
+      'Avrupa',
+    continentNorthAmerica:
+      'Kuzey Amerika',
+    continentSouthAmerica:
+      'Güney Amerika',
+    continentOceania:
+      'Okyanusya',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10731,6 +10827,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Править нечего — написанное читается хорошо.',
     polishDidNotWork:
       'Не получилось. Написанное осталось прежним.',
+    continentAfrica:
+      'Африка',
+    continentAsia:
+      'Азия',
+    continentEurope:
+      'Европа',
+    continentNorthAmerica:
+      'Северная Америка',
+    continentSouthAmerica:
+      'Южная Америка',
+    continentOceania:
+      'Океания',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11920,6 +12028,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'सुधारने को कुछ नहीं — आपने जो लिखा वह ठीक पढ़ा जाता है।',
     polishDidNotWork:
       'यह काम नहीं आया। आपने जो लिखा वह वैसा ही है।',
+    continentAfrica:
+      'अफ़्रीका',
+    continentAsia:
+      'एशिया',
+    continentEurope:
+      'यूरोप',
+    continentNorthAmerica:
+      'उत्तर अमेरिका',
+    continentSouthAmerica:
+      'दक्षिण अमेरिका',
+    continentOceania:
+      'ओशिनिया',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -13109,6 +13229,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '没有需要改的——你写的读起来没问题。',
     polishDidNotWork:
       '这次没有成功。你写的内容没有改变。',
+    continentAfrica:
+      '非洲',
+    continentAsia:
+      '亚洲',
+    continentEurope:
+      '欧洲',
+    continentNorthAmerica:
+      '北美洲',
+    continentSouthAmerica:
+      '南美洲',
+    continentOceania:
+      '大洋洲',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -14298,6 +14430,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '直すところはありません。書かれたままで読めます。',
     polishDidNotWork:
       'うまくいきませんでした。書いた内容はそのままです。',
+    continentAfrica:
+      'アフリカ',
+    continentAsia:
+      'アジア',
+    continentEurope:
+      'ヨーロッパ',
+    continentNorthAmerica:
+      '北アメリカ',
+    continentSouthAmerica:
+      '南アメリカ',
+    continentOceania:
+      'オセアニア',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

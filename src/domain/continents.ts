@@ -1,3 +1,4 @@
+import type { Copy } from '../i18n/copy';
 /**
  * Country to continent.
  *
@@ -118,10 +119,29 @@ export function placeKind(origin: string): string {
   return 'wider region';
 }
 
-/** Merge in mappings discovered by the importer. Existing entries win. */
+/**
+ * Merge in mappings discovered by the importer. Existing entries win.
+ *
+ * A continent is refused as a country, and this is not a theoretical guard: nine records
+ * arrived with the country field set to "Africa", "Asia", "Europe", "North America" or
+ * "South America", and the importer dutifully registered `Africa → Africa`. That made
+ * `isCountry('Africa')` true, so the atlas counted Africa among Africa's forty-one
+ * countries and printed a row reading "Africa · 2" inside the Africa group.
+ *
+ * Found while translating the continent headings — the heading rendered アフリカ and the
+ * row beneath it still said "Africa", which is what a value being two different kinds of
+ * thing at once looks like on a screen.
+ *
+ * Refusing it is not discarding the record. `continentOf` then returns 'Elsewhere', which
+ * routes it to "Beyond one country" — and a dish recorded as coming from Asia rather than
+ * from a country in Asia is precisely what that group is for. Congee really is pan-Asian
+ * and pemmican really does predate the border it straddles.
+ */
 export function registerContinents(entries: Iterable<[string, string]>): void {
   for (const [country, continent] of entries) {
-    if (country && continent && !CONTINENTS.has(country)) CONTINENTS.set(country, continent);
+    if (!country || !continent) continue;
+    if (CONTINENT_ORDER.includes(country)) continue;
+    if (!CONTINENTS.has(country)) CONTINENTS.set(country, continent);
   }
 }
 
@@ -238,5 +258,30 @@ export const filableCountries = (): string[] =>
  * The six real continents still come through untranslated, which is a separate and larger
  * gap recorded in docs/queue.md: they are data, not chrome.
  */
-export const continentLabel = (continent: string, beyondOneCountry: string): string =>
-  continent === 'Elsewhere' ? beyondOneCountry : continent;
+/**
+ * Which copy key names each continent.
+ *
+ * The values on the left are the ones `continentOf` produces and `isCountry` tests
+ * against; nothing here changes them. This maps them to the words a reader sees.
+ *
+ * These six were the last reader-facing English in the chrome — the atlas directory and
+ * the coverage table printed "Africa" and "Europe" to a Japanese reader. They had been
+ * recorded as data rather than chrome, which was true of where they come from and not of
+ * where they are shown.
+ */
+const CONTINENT_KEYS: Record<string, keyof Copy> = {
+  Africa: 'continentAfrica',
+  Asia: 'continentAsia',
+  Europe: 'continentEurope',
+  'North America': 'continentNorthAmerica',
+  'South America': 'continentSouthAmerica',
+  Oceania: 'continentOceania',
+  Elsewhere: 'continentBeyondOneCountry',
+};
+
+export const continentLabel = (continent: string, copy: Copy): string => {
+  const key = CONTINENT_KEYS[continent];
+  /* Unmapped is possible — the import registers whatever the sources carry — and the
+     honest answer there is the value itself rather than a blank heading. */
+  return key ? copy[key] : continent;
+};

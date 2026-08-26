@@ -174,7 +174,7 @@ export function catalogueMetrics(copy: Copy, dishes: Dish[]): CatalogueMetrics {
      that value is load-bearing, but a reader sees what it actually holds. */
   const byContinent: CoverageRow[] = [...continents.entries()]
     .map(([label, count]) => ({
-      label: continentLabel(label, copy.continentBeyondOneCountry),
+      label: continentLabel(label, copy),
       count,
       percent: total ? Math.round((count / total) * 100) : 0,
     }))

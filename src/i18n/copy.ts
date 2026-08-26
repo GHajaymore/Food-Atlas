@@ -759,6 +759,12 @@ export interface Copy {
   polishOnlyTyping: string;
   polishFoundNothing: string;
   polishDidNotWork: string;
+  continentAfrica: string;
+  continentAsia: string;
+  continentEurope: string;
+  continentNorthAmerica: string;
+  continentSouthAmerica: string;
+  continentOceania: string;
   interfaceTranslationNote: string;
 }
 
@@ -1957,6 +1963,18 @@ export const EN: Copy = {
     'Nothing to fix — what you wrote reads fine.',
   polishDidNotWork:
     'That did not work. What you wrote is unchanged.',
+  continentAfrica:
+    'Africa',
+  continentAsia:
+    'Asia',
+  continentEurope:
+    'Europe',
+  continentNorthAmerica:
+    'North America',
+  continentSouthAmerica:
+    'South America',
+  continentOceania:
+    'Oceania',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
