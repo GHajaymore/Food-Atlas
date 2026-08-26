@@ -89,6 +89,58 @@ body { margin: 0; overscroll-behavior: none; }
 [data-surface="card"] { outline: 1px solid transparent; outline-offset: 0; }
 [data-motion="tap"]:hover [data-surface="card"] { outline-color: rgba(217, 164, 65, 0.45); }
 
+/*
+ * Somewhere to be, for anybody navigating by keyboard.
+ *
+ * The app had no focus style of its own: 75 focusable elements on the front page and not
+ * one rule anywhere naming them. Meanwhile the shipped stylesheet contains
+ *
+ *     .r-1ny4l3l { outline-style: none; }
+ *
+ * which is react-native-web's focus-ring reset. RNW suppresses the browser's ring on the
+ * views it makes pressable, on the assumption that the application supplies its own. This
+ * one never did.
+ *
+ * The accent, because it is the colour this app already uses to mean "this is the thing",
+ * and at 7.83:1 against the ground it clears the 3:1 a focus indicator must reach. Every
+ * other colour here is measured; the one a keyboard reader depends on should not be the
+ * exception. focus-visible rather than focus, so it answers the keyboard and leaves a
+ * mouse alone. Offset outward, which inside a card with overflow hidden costs a pixel or
+ * two of ring — slightly clipped beats absent.
+ *
+ * ## !important, and the honest reason for it
+ *
+ * RNW's reset is a class, specificity 0-1-0, and focus-visible is also 0-1-0. Equal
+ * specificity means document order decides, and the order in which RNW's sheet and this
+ * injected one land is not something this file controls. !important removes the question.
+ *
+ * ## What could not be verified, and should be
+ *
+ * None of the above was confirmed in a browser. Three attempts, three dead ends: calling
+ * .focus() from JavaScript does not match focus-visible in Chrome, so it measures the
+ * unfocused state; the available preview pane will not take a real Tab keypress; and a
+ * probe injecting the same declaration under :focus computed "none" both with and without
+ * !important on an element that was genuinely focused, which means the pane was not
+ * reflecting injected styles at all.
+ *
+ * So this rests on reading the shipped CSS, and it wants ten seconds of a real keyboard in
+ * a real browser before anyone treats it as done. Recorded in docs/queue.md as such.
+ *
+ * On the way there this comment twice asserted things the measurements did not support —
+ * first that RNW sets outline:none inline, then that nothing suppresses the ring at all.
+ * The second retraction was itself wrong. When an instrument is this unreliable, the
+ * temptation is to keep re-reading it until it says something; the answer is to stop and
+ * write down which parts are actually known.
+ *
+ * Written first with backticks around the selector names, which closed this file's
+ * template literal and reported the error twenty lines away in unrelated code. Third time
+ * this session, in the one file that already carries a note saying not to.
+ */
+:focus-visible {
+  outline: 2px solid #d9a441 !important;
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   [data-surface="card"] { transition: outline-color 140ms ease, transform 160ms ease; }
   /* Two pixels. Enough to read as the card coming forward, small enough that a grid of

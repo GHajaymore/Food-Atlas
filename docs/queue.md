@@ -1572,3 +1572,41 @@ they were `<title>`, `<style>` and `<noscript>` — head content, picked up beca
 version of the probe had dropped the `getBoundingClientRect()` visibility filter the
 earlier audits used. Worth recording because it is the shape of a false alarm that wastes a
 morning: the tool changed, not the app.
+
+### A focus ring — and needing a real browser to confirm it
+
+The app had no focus style of its own: 75 focusable elements on the front page and not one
+rule anywhere naming them. The shipped stylesheet meanwhile carries
+
+```
+.r-1ny4l3l { outline-style: none; }
+```
+
+which is react-native-web's focus-ring reset. RNW suppresses the browser's ring on the
+views it makes pressable, on the assumption the application supplies its own, and this one
+never did. `:focus-visible` now paints a 2px accent ring — 7.83:1 against the ground,
+comfortably past the 3:1 a focus indicator needs, and the same colour the app already uses
+to mean "this is the thing".
+
+**Marked unverified on purpose.** Three attempts to confirm it in the browser, three dead
+ends:
+
+- `.focus()` from JavaScript does not match `:focus-visible` in Chrome, so it measures the
+  unfocused state and reports "no ring" whether or not one exists;
+- the preview pane will not accept a real Tab keypress;
+- a probe injecting the same declaration under `:focus` computed `none` **both with and
+  without** `!important`, on an element that was genuinely focused — which means the pane
+  was not reflecting injected styles at all.
+
+So this rests entirely on reading the shipped CSS. **It wants ten seconds of a real
+keyboard in a real browser.** Tab once on the front page: an accent ring, or not.
+
+**The process failure is worth more than the fix.** The first diagnosis was right. The
+first "correction" retracted it on the strength of a scan whose regex only matched the
+`outline:` shorthand and whose `matches()` test ran while the element was unfocused — so it
+missed a longhand rule and reported no suppression. The second correction retracted *that*.
+Each measurement was flawed in a different direction, and each one felt conclusive.
+
+With an instrument this unreliable the temptation is to keep re-reading it until it says
+something. The answer is to stop, write down which parts are actually known, and mark the
+rest as needing an instrument that works.
