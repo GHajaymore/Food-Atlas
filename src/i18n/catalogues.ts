@@ -1179,6 +1179,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Más allá de un país',
     beyondOneCountryNote:
       'Orígenes que las fuentes registran como más amplios que un solo país: una región, un área culinaria compartida o un estado que ya no existe. Se conservan tal como los indica la fuente, sin reducirlos a un país que nadie eligió.',
+    connectionGrewUpThere:
+      'Crecí allí',
+    connectionLiveThere:
+      'Vivo allí',
+    connectionFamilyFrom:
+      'Mi familia es de allí',
+    connectionLearnedThere:
+      'Aprendí a hacerlo allí',
+    connectionCookProfessionally:
+      'Lo cocino allí profesionalmente',
+    chooseYourConnection:
+      'Elige lo que corresponda',
+    connectionInYourWords:
+      'Lo que quieras añadir, con tus palabras',
+    connectionDetailPlaceholder:
+      'Mi abuela lo hacía cada Eid en Kozhikode',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2324,6 +2340,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Au-delà d’un seul pays',
     beyondOneCountryNote:
       'Des origines que les sources enregistrent comme plus larges qu’un seul pays : une région, une aire culinaire partagée ou un État qui n’existe plus. Elles sont conservées telles que la source les énonce, sans être réduites à un pays que personne n’a choisi.',
+    connectionGrewUpThere:
+      'J’y ai grandi',
+    connectionLiveThere:
+      'J’y habite',
+    connectionFamilyFrom:
+      'Ma famille en est originaire',
+    connectionLearnedThere:
+      'J’ai appris à le faire là-bas',
+    connectionCookProfessionally:
+      'Je le cuisine là-bas professionnellement',
+    chooseYourConnection:
+      'Choisissez ce qui s’applique',
+    connectionInYourWords:
+      'Ce que vous voulez ajouter, avec vos mots',
+    connectionDetailPlaceholder:
+      'Ma grand-mère le faisait chaque Aïd à Kozhikode',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3468,6 +3500,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Über ein Land hinaus',
     beyondOneCountryNote:
       'Herkünfte, die die Quellen weiter fassen als ein einzelnes Land — eine Region, ein gemeinsamer Küchenraum oder ein Staat, den es nicht mehr gibt. Sie bleiben so stehen, wie die Quelle sie nennt, statt auf ein Land verengt zu werden, das niemand gewählt hat.',
+    connectionGrewUpThere:
+      'Ich bin dort aufgewachsen',
+    connectionLiveThere:
+      'Ich lebe dort',
+    connectionFamilyFrom:
+      'Meine Familie stammt von dort',
+    connectionLearnedThere:
+      'Ich habe es dort kochen gelernt',
+    connectionCookProfessionally:
+      'Ich koche es dort beruflich',
+    chooseYourConnection:
+      'Wählen Sie, was zutrifft',
+    connectionInYourWords:
+      'Was Sie ergänzen möchten, in Ihren Worten',
+    connectionDetailPlaceholder:
+      'Meine Großmutter machte es jedes Eid in Kozhikode',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4612,6 +4660,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Oltre un solo paese',
     beyondOneCountryNote:
       'Origini che le fonti registrano come più ampie di un singolo paese: una regione, un’area culinaria condivisa o uno stato che non esiste più. Restano come le indica la fonte, senza essere ristrette a un paese che nessuno ha scelto.',
+    connectionGrewUpThere:
+      'Sono cresciuto lì',
+    connectionLiveThere:
+      'Vivo lì',
+    connectionFamilyFrom:
+      'La mia famiglia è di lì',
+    connectionLearnedThere:
+      'Ho imparato a farlo lì',
+    connectionCookProfessionally:
+      'Lo cucino lì per lavoro',
+    chooseYourConnection:
+      'Scegli quello che vale per te',
+    connectionInYourWords:
+      'Quello che vuoi aggiungere, con parole tue',
+    connectionDetailPlaceholder:
+      'Mia nonna lo faceva ogni Eid a Kozhikode',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5757,6 +5821,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Para lá de um país',
     beyondOneCountryNote:
       'Origens que as fontes registam como mais amplas do que um único país: uma região, uma área culinária partilhada ou um estado que já não existe. São mantidas tal como a fonte as indica, sem serem reduzidas a um país que ninguém escolheu.',
+    connectionGrewUpThere:
+      'Cresci lá',
+    connectionLiveThere:
+      'Vivo lá',
+    connectionFamilyFrom:
+      'A minha família é de lá',
+    connectionLearnedThere:
+      'Aprendi a fazê-lo lá',
+    connectionCookProfessionally:
+      'Cozinho-o lá profissionalmente',
+    chooseYourConnection:
+      'Escolha o que se aplica',
+    connectionInYourWords:
+      'O que quiser acrescentar, nas suas palavras',
+    connectionDetailPlaceholder:
+      'A minha avó fazia-o em cada Eid em Kozhikode',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -6901,6 +6981,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Voorbij één land',
     beyondOneCountryNote:
       'Herkomsten die de bronnen ruimer vastleggen dan één land — een regio, een gedeeld culinair gebied of een staat die niet meer bestaat. Ze blijven staan zoals de bron ze noemt, in plaats van te worden versmald tot een land dat niemand koos.',
+    connectionGrewUpThere:
+      'Ik ben daar opgegroeid',
+    connectionLiveThere:
+      'Ik woon daar',
+    connectionFamilyFrom:
+      'Mijn familie komt daarvandaan',
+    connectionLearnedThere:
+      'Ik heb het daar leren maken',
+    connectionCookProfessionally:
+      'Ik kook het daar beroepsmatig',
+    chooseYourConnection:
+      'Kies wat van toepassing is',
+    connectionInYourWords:
+      'Wat u wilt toevoegen, in uw eigen woorden',
+    connectionDetailPlaceholder:
+      'Mijn oma maakte het elk Eid in Kozhikode',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8046,6 +8142,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Poza jednym krajem',
     beyondOneCountryNote:
       'Pochodzenie, które źródła zapisują szerzej niż jeden kraj — region, wspólny obszar kulinarny albo państwo, które już nie istnieje. Zostaje tak, jak podaje je źródło, zamiast być zawężone do kraju, którego nikt nie wybrał.',
+    connectionGrewUpThere:
+      'Tam dorastałem',
+    connectionLiveThere:
+      'Tam mieszkam',
+    connectionFamilyFrom:
+      'Moja rodzina stamtąd pochodzi',
+    connectionLearnedThere:
+      'Tam nauczyłem się to robić',
+    connectionCookProfessionally:
+      'Gotuję to tam zawodowo',
+    chooseYourConnection:
+      'Wybierz, co pasuje',
+    connectionInYourWords:
+      'Cokolwiek chcesz dodać, własnymi słowami',
+    connectionDetailPlaceholder:
+      'Moja babcia robiła to na każdy Eid w Kozhikode',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9190,6 +9302,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tek bir ülkenin ötesinde',
     beyondOneCountryNote:
       'Kaynakların tek bir ülkeden geniş kaydettiği kökenler: bir bölge, ortak bir mutfak alanı ya da artık var olmayan bir devlet. Kimsenin seçmediği bir ülkeye daraltılmak yerine kaynağın belirttiği hâliyle korunuyorlar.',
+    connectionGrewUpThere:
+      'Orada büyüdüm',
+    connectionLiveThere:
+      'Orada yaşıyorum',
+    connectionFamilyFrom:
+      'Ailem oralı',
+    connectionLearnedThere:
+      'Yapmayı orada öğrendim',
+    connectionCookProfessionally:
+      'Orada meslek olarak pişiriyorum',
+    chooseYourConnection:
+      'Size uyanı seçin',
+    connectionInYourWords:
+      'Eklemek istediğiniz her şey, kendi sözlerinizle',
+    connectionDetailPlaceholder:
+      'Babaannem her Ramazan Bayramı Kozhikode’de yapardı',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10335,6 +10463,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Шире одной страны',
     beyondOneCountryNote:
       'Происхождение, которое источники записывают шире одной страны: регион, общая кулинарная область или государство, которого больше нет. Оно сохраняется так, как его называет источник, а не сужается до страны, которую никто не выбирал.',
+    connectionGrewUpThere:
+      'Я там вырос',
+    connectionLiveThere:
+      'Я там живу',
+    connectionFamilyFrom:
+      'Моя семья оттуда',
+    connectionLearnedThere:
+      'Я научился готовить это там',
+    connectionCookProfessionally:
+      'Я готовлю это там профессионально',
+    chooseYourConnection:
+      'Выберите подходящее',
+    connectionInYourWords:
+      'Всё, что хотите добавить, своими словами',
+    connectionDetailPlaceholder:
+      'Моя бабушка готовила это каждый Ид в Кожикоде',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11480,6 +11624,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'एक देश से परे',
     beyondOneCountryNote:
       'ऐसे मूल जिन्हें स्रोत किसी एक देश से बड़ा दर्ज करते हैं — कोई क्षेत्र, कोई साझा पाक-क्षेत्र, या कोई ऐसा राज्य जो अब नहीं रहा। इन्हें किसी ऐसे देश तक सीमित करने के बजाय, जिसे किसी ने चुना ही नहीं, स्रोत के कथन के अनुसार रखा जाता है।',
+    connectionGrewUpThere:
+      'मैं वहीं बड़ा हुआ',
+    connectionLiveThere:
+      'मैं वहीं रहता हूँ',
+    connectionFamilyFrom:
+      'मेरा परिवार वहीं का है',
+    connectionLearnedThere:
+      'मैंने इसे बनाना वहीं सीखा',
+    connectionCookProfessionally:
+      'मैं इसे वहाँ पेशेवर रूप से बनाता हूँ',
+    chooseYourConnection:
+      'जो लागू हो वह चुनें',
+    connectionInYourWords:
+      'जो कुछ आप जोड़ना चाहें, अपने शब्दों में',
+    connectionDetailPlaceholder:
+      'मेरी दादी हर ईद पर कोझिकोड में यह बनाती थीं',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12625,6 +12785,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '不止一个国家',
     beyondOneCountryNote:
       '来源记载中比单一国家更广的出处——一个地区、一片共同的饮食区域，或一个已不存在的政权。它们按来源的说法保留，而不是被收窄到某个无人选定的国家。',
+    connectionGrewUpThere:
+      '我在那里长大',
+    connectionLiveThere:
+      '我住在那里',
+    connectionFamilyFrom:
+      '我家就是那里的',
+    connectionLearnedThere:
+      '我在那里学会做的',
+    connectionCookProfessionally:
+      '我在那里以此为业',
+    chooseYourConnection:
+      '选择符合你的一项',
+    connectionInYourWords:
+      '你想补充的任何话，用你自己的话',
+    connectionDetailPlaceholder:
+      '我祖母每年开斋节都在科泽科德做这道菜',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -13770,6 +13946,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '一国にとどまらない',
     beyondOneCountryNote:
       '出典が一つの国より広く記録している由来です。地域、共有された食文化圏、あるいはすでに存在しない国家など。誰も選んでいない国に狭めるのではなく、出典の記述のまま残しています。',
+    connectionGrewUpThere:
+      'そこで育ちました',
+    connectionLiveThere:
+      'そこに住んでいます',
+    connectionFamilyFrom:
+      '家族がそこの出身です',
+    connectionLearnedThere:
+      'そこで作り方を覚えました',
+    connectionCookProfessionally:
+      'そこで仕事として作っています',
+    chooseYourConnection:
+      '当てはまるものを選んでください',
+    connectionInYourWords:
+      '付け加えたいことがあれば、ご自身の言葉で',
+    connectionDetailPlaceholder:
+      '祖母が毎年イードにコジコードで作っていました',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

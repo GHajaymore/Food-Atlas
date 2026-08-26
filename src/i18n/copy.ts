@@ -737,6 +737,14 @@ export interface Copy {
   nothingMatchesThat: string;
   continentBeyondOneCountry: string;
   beyondOneCountryNote: string;
+  connectionGrewUpThere: string;
+  connectionLiveThere: string;
+  connectionFamilyFrom: string;
+  connectionLearnedThere: string;
+  connectionCookProfessionally: string;
+  chooseYourConnection: string;
+  connectionInYourWords: string;
+  connectionDetailPlaceholder: string;
   interfaceTranslationNote: string;
 }
 
@@ -1891,6 +1899,22 @@ export const EN: Copy = {
     'Beyond one country',
   beyondOneCountryNote:
     'Origins the sources record as wider than a single country — a region, a shared culinary area, or a state that no longer exists. They are kept as the source states them rather than narrowed to a country nobody chose.',
+  connectionGrewUpThere:
+    'I grew up there',
+  connectionLiveThere:
+    'I live there',
+  connectionFamilyFrom:
+    'My family is from there',
+  connectionLearnedThere:
+    'I learned to make it there',
+  connectionCookProfessionally:
+    'I cook it there professionally',
+  chooseYourConnection:
+    'Choose what applies',
+  connectionInYourWords:
+    'Anything you want to add, in your own words',
+  connectionDetailPlaceholder:
+    'My grandmother made it every Eid in Kozhikode',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

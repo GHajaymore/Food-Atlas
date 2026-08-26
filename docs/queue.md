@@ -1773,3 +1773,25 @@ Verified on `/atlas`: the directory heading and the "Where the records are" tabl
 The six real continents are still English in every language. That is a bigger gap and a
 different kind — they are data rather than chrome — and it stays recorded here rather than
 half-fixed.
+
+### The connection to the place stops being prose
+
+`contribution.ts` calls `connection` *"the whole difference between this and copying a
+recipe off the internet"* — it is the field that decides whether an account is evidence at
+all. It was a plain text box, so the one claim the atlas most needs to weigh arrived as a
+sentence that nothing could compare with another sentence.
+
+Five standings now, chosen: grew up there, live there, family is from there, learned to
+make it there, cook it there professionally. A hundred confirmations sort into five piles
+instead of a hundred paraphrases. The submission carries the **English** wording whatever
+language the contributor was reading in, so the piles hold across languages.
+
+**Their words are kept, deliberately.** A chooser alone would have taken something real —
+"my grandmother made it every Eid in Kozhikode" says more than any option here — and the
+interface's own rule is that every field is theirs in their words. So there is an optional
+box beneath, and `composeConnection` sends the option first, to be counted, and their
+sentence after it, to be read. The rule survives; it just stops being the only thing on
+offer.
+
+Verified at 375: five options, no filter box (it appears past twelve), choosing one fills
+the trigger and closes the panel, and the detail box is 335x72 — a sentence, not a line.

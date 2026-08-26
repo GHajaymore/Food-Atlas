@@ -107,3 +107,45 @@ export function contributionUrl(entry: Contribution): string {
   return `${CONTRIBUTION_FORM}?${params.toString()}`;
 }
 
+
+/**
+ * The kinds of connection to a place, as options rather than as prose.
+ *
+ * `connection` is the field that decides whether an account is evidence at all — the
+ * comment on the interface above calls it "the whole difference between this and copying a
+ * recipe off the internet". It was a free text box, which means the one claim the atlas
+ * most needs to weigh arrived as a sentence nobody can compare with another sentence.
+ *
+ * These five are the standings that actually bear on whether somebody can speak for how a
+ * dish is made where it comes from. A person picks one, and the submission carries the
+ * English wording whatever language they were reading in — so a hundred confirmations sort
+ * into five piles instead of a hundred paraphrases.
+ *
+ * ## Their words are not lost
+ *
+ * A chooser alone would have taken something real: "my grandmother cooked it every Eid in
+ * Kozhikode" says more than any option here. So the screen keeps an optional box beneath
+ * it, and the submission carries both — the option first, so it can be counted, and their
+ * sentence after it, so it can be read. The interface's rule that every field is theirs in
+ * their words survives; it just stops being the only thing on offer.
+ */
+export const CONNECTIONS = [
+  { value: 'I grew up there', label: 'connectionGrewUpThere' },
+  { value: 'I live there', label: 'connectionLiveThere' },
+  { value: 'My family is from there', label: 'connectionFamilyFrom' },
+  { value: 'I learned to make it there', label: 'connectionLearnedThere' },
+  { value: 'I cook it there professionally', label: 'connectionCookProfessionally' },
+] as const;
+
+/**
+ * The chosen standing and anything they added, as one string for the form.
+ *
+ * Composed here rather than in the screen so the shape of a submitted connection is
+ * decided in one place — the form on the other end has a single box, and what goes in it
+ * should not depend on which screen built it.
+ */
+export const composeConnection = (choice: string, detail: string): string => {
+  const extra = (detail ?? '').trim();
+  if (!choice) return extra;
+  return extra ? `${choice} — ${extra}` : choice;
+};

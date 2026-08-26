@@ -24,6 +24,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
+import { Choice } from '../src/components/Choice';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
@@ -33,6 +34,8 @@ import { H5, Muted, T } from '../src/components/Text';
 import { Tag } from '../src/components/Tag';
 import {
   canContribute,
+  composeConnection,
+  CONNECTIONS,
   contributionUrl,
   missingFrom,
   REQUIRED_LABELS,
@@ -89,6 +92,10 @@ export default function Contribute() {
   // Judged as it is typed, so someone pasting an Instagram link learns immediately
   // that the photograph is theirs to publish rather than after submitting the form.
   const [photoInput, setPhotoInput] = useState('');
+  /* The chosen standing and their own words are held apart here and composed into the one
+     field the form has — see composeConnection. */
+  const [connectionChoice, setConnectionChoice] = useState('');
+  const [connectionDetail, setConnectionDetail] = useState('');
   const photoResult = photoInput.trim() ? parsePhotoReference(copy, photoInput) : null;
 
   /** The dish a fruitless search was for, where the reader arrived from one. */
@@ -200,10 +207,48 @@ export default function Contribute() {
             <Field label={copy.whoPreparesIt} style={styles.field}>
               <Input value={entry.cooks} onChangeText={set('cooks')} placeholder={copy.examplePreparedBy} />
             </Field>
+            {/*
+             * A standing, chosen — and then their own words underneath.
+             *
+             * This is the field that decides whether an account is evidence at all, and it
+             * was a text box, so the one claim the atlas most needs to weigh arrived as a
+             * sentence nothing could compare with another sentence. Five options sort a
+             * hundred confirmations into five piles.
+             *
+             * The box below is not a leftover. "My grandmother made it every Eid in
+             * Kozhikode" says more than any option here, and `contribution.ts` says every
+             * field is theirs in their words — so the submission carries the option first,
+             * to be counted, and their sentence after it, to be read.
+             */}
             <Field label={copy.yourConnectionToThePlace} style={styles.field}>
-              <Input value={entry.connection} onChangeText={set('connection')} placeholder={copy.exampleConnection} />
+              <Choice
+                value={connectionChoice}
+                options={CONNECTIONS.map((c) => copy[c.label])}
+                onChange={(label) => {
+                  setConnectionChoice(label);
+                  const picked = CONNECTIONS.find((c) => copy[c.label] === label);
+                  set('connection')(composeConnection(picked?.value ?? '', connectionDetail));
+                }}
+                placeholder={copy.chooseYourConnection}
+                accessibilityLabel={copy.yourConnectionToThePlace}
+              />
             </Field>
           </FieldPair>
+
+          <Field label={copy.connectionInYourWords} style={styles.field}>
+            <Input
+              multiline
+              value={connectionDetail}
+              onChangeText={(v) => {
+                setConnectionDetail(v);
+                const picked = CONNECTIONS.find((c) => copy[c.label] === connectionChoice);
+                set('connection')(composeConnection(picked?.value ?? '', v));
+              }}
+              placeholder={copy.connectionDetailPlaceholder}
+              accessibilityLabel={copy.connectionInYourWords}
+              style={styles.connectionDetail}
+            />
+          </Field>
           <Field label={copy.traditionalIngredientsAndEquipment} style={styles.field}>
             <Input
               multiline
@@ -406,6 +451,8 @@ const styles = StyleSheet.create({
   stepHeading: { marginBottom: 4 },
 
   field: { marginBottom: 12 },
+  /* Room for a sentence rather than a line: this is where the account actually lives. */
+  connectionDetail: { minHeight: 72 },
   walkthroughNote: { fontSize: 11, marginBottom: 14 },
 
   ruleBlock: { padding: 12, marginBottom: 16 },
