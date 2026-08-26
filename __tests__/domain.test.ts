@@ -846,11 +846,11 @@ describe('what counts as a country', () => {
   });
 
   it("never counts a continent as one of its own countries", () => {
-    // Nine records arrived with the country field set to a continent, and the importer
-    // registered `Africa -> Africa`, which made Africa a country in Africa: the atlas
-    // said "41 countries" and listed "Africa" among them. `registerContinents` now
-    // refuses the mapping, so these fall to Elsewhere and show under "Beyond one
-    // country" — the honest place for a dish recorded no more precisely than a continent.
+    // Nine records carry a continent in the country field. They were already correct --
+    // the import files them as Elsewhere, so they already showed under "Beyond one
+    // country" -- and the guard in `registerContinents` is belt to that brace rather than
+    // a repair. This test is the part that earns its place: it fails if a future import
+    // ever sends `Africa -> Africa`, which is the case I wrongly believed I was seeing.
     for (const continent of ["Africa", "Asia", "Europe", "North America", "South America", "Oceania"]) {
       expect(isCountry(continent)).toBe(false);
       expect(continentOf(continent)).toBe("Elsewhere");

@@ -122,20 +122,24 @@ export function placeKind(origin: string): string {
 /**
  * Merge in mappings discovered by the importer. Existing entries win.
  *
- * A continent is refused as a country, and this is not a theoretical guard: nine records
- * arrived with the country field set to "Africa", "Asia", "Europe", "North America" or
- * "South America", and the importer dutifully registered `Africa → Africa`. That made
- * `isCountry('Africa')` true, so the atlas counted Africa among Africa's forty-one
- * countries and printed a row reading "Africa · 2" inside the Africa group.
+ * A continent is refused as a country. Nine records do carry a continent in the country
+ * field — "Africa", "Asia", "Europe", "North America", "South America" — and they are
+ * already handled correctly without this line: the import files each of them as
+ * `Elsewhere`, so the pair registered is `Africa → Elsewhere`, `isCountry` is already
+ * false, and the row already shows under "Beyond one country".
  *
- * Found while translating the continent headings — the heading rendered アフリカ and the
- * row beneath it still said "Africa", which is what a value being two different kinds of
- * thing at once looks like on a screen.
+ * So this guard is belt to an existing pair of braces, and it is recorded as such rather
+ * than dressed up as a fix. I found the nine records while translating the continent
+ * headings, saw "Africa · 2" sitting under a Japanese heading, and concluded the importer
+ * had registered `Africa → Africa` — without checking the value it actually registers.
+ * The comment on `isCountry` below already warns about precisely this: the import carries
+ * `["Levant", "Elsewhere"]`, so reasoning about membership without reading the value is
+ * how you get an answer that "changed nothing on the screen". It changed nothing here
+ * either.
  *
- * Refusing it is not discarding the record. `continentOf` then returns 'Elsewhere', which
- * routes it to "Beyond one country" — and a dish recorded as coming from Asia rather than
- * from a country in Asia is precisely what that group is for. Congee really is pan-Asian
- * and pemmican really does predate the border it straddles.
+ * It stays because the invariant is worth stating — a continent is not a country under
+ * any import — and because the test beside it fails loudly if a future import ever does
+ * send `Africa → Africa`. It is not load-bearing today.
  */
 export function registerContinents(entries: Iterable<[string, string]>): void {
   for (const [country, continent] of entries) {
