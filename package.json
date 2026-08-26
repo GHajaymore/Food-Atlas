@@ -29,7 +29,8 @@
     "@types/react": "~19.2.2",
     "jest": "^29.7.0",
     "jest-expo": "^57.0.4",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "wrangler": "^4.126.0"
   },
   "scripts": {
     "start": "expo start",
@@ -39,7 +40,10 @@
     "build": "expo export --platform web --output-dir dist && node scripts/inject-preload.mjs",
     "test": "jest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p functions",
-    "check-sources": "node scripts/check-sources.mjs"
+    "check-sources": "node scripts/check-sources.mjs",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name wikifoodia",
+    "db:create": "wrangler d1 create wikifoodia",
+    "db:migrate": "wrangler d1 migrations apply wikifoodia --remote"
   },
   "private": true,
   "jest": {
