@@ -305,7 +305,17 @@ export const tapArea = (content: number, contentWidth?: number) => {
   return {
     paddingVertical: pad,
     marginVertical: -pad,
-    ...(sidePad ? { paddingHorizontal: sidePad, marginHorizontal: -sidePad } : {}),
+    /*
+     * A floor as well as padding, because the padding is computed from the number the
+     * caller passed and the caller is guessing. The place link was measured at 20 and
+     * renders at 19.6, so twelve each side came to 43.6 — under the target by a rounding
+     * error, which is the least useful way to miss it. `minHeight` makes a slightly wrong
+     * estimate cost nothing; the negative margin still hands the space back either way.
+     */
+    minHeight: TAP_TARGET,
+    ...(sidePad
+      ? { paddingHorizontal: sidePad, marginHorizontal: -sidePad, minWidth: TAP_TARGET }
+      : {}),
   } as const;
 };
 

@@ -117,7 +117,19 @@ const styles = StyleSheet.create({
   photo: { width: '100%', height: '100%' },
   body: { padding: space[4], gap: 6 },
   name: { fontFamily: font.display, fontSize: 21, lineHeight: 26, color: color.text },
-  meta: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  /*
+   * The row wraps rather than crushing the place.
+   *
+   * Place and evidence share a line because reading them together is the point of the
+   * card. At 375 they both fit; at 320 they do not, and flex resolved that by shrinking
+   * the only shrinkable thing — the hero card, the most prominent thing on the front page,
+   * read "United Sta…" under a photograph. Measured: a 54px box for text needing 76.
+   *
+   * Wrapping costs a line on a small phone and nothing at all above it, where the row
+   * still fits. Truncating a place name costs the reader the answer to the one question
+   * the card exists to answer.
+   */
+  meta: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6, rowGap: 4 },
   place: { fontSize: 12, color: color.meta, flexShrink: 1 },
   spacer: { flex: 1 },
   blurb: { fontSize: 13, lineHeight: 19, opacity: 0.8, marginTop: 2 },

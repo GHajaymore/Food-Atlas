@@ -1683,3 +1683,29 @@ in module scope, so re-entering the route does not re-enter the skeleton, and a 
 loses the fetch patch that would slow it down enough to see. The agreement is pinned by a
 test instead — change `CARD_WIDTH` and the skeleton's row count fails rather than quietly
 becoming a row wider than the rail.
+
+### 320px, a width nothing had been tested at
+
+Everything this session was tuned at 375. At 320 — an iPhone SE, still a real phone — the
+front page held one genuine fault, and it was on the most prominent card in the app.
+
+**The hero card read "United Sta…".** Place and evidence share a row on `LeadDish` because
+reading them together is the point of the card. At 375 both fit; at 320 they do not, and
+flex resolved that by shrinking the only shrinkable thing. Measured: a 54px box for text
+needing 76. The row wraps now, which costs a line on a small phone and nothing at all above
+it, where it still fits on one — verified at 375, the meta row is still 21px tall.
+
+Truncating a place name costs the reader the answer to the question the card exists to
+answer, so this was never a fair trade.
+
+The other 722 elements extending past the viewport are the horizontal rails' contents,
+which is what a rail is. No page scrolls sideways at 320.
+
+**`tapArea` needed a floor.** The place link measured 43.6 — under target by a rounding
+error, because the padding is computed from the height the *caller passes* and the caller
+is estimating. It was told 20 and the text renders at 19.6. `minHeight` and `minWidth` are
+in the returned style now, so a slightly wrong estimate costs nothing and the negative
+margin still hands the space back.
+
+Verified at 320 on `/` and `/dish`: nothing clipped, no control under 44, no sideways
+scroll. And at 375: unchanged.
