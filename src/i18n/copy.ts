@@ -751,6 +751,14 @@ export interface Copy {
   dictateSendsAudio: string;
   dictateNotAllowed: string;
   dictateDidNotWork: string;
+  polishTidyThis: string;
+  polishWorking: string;
+  polishMachineMade: string;
+  polishUseThis: string;
+  polishKeepMine: string;
+  polishOnlyTyping: string;
+  polishFoundNothing: string;
+  polishDidNotWork: string;
   interfaceTranslationNote: string;
 }
 
@@ -1933,6 +1941,22 @@ export const EN: Copy = {
     'The browser did not give permission for the microphone.',
   dictateDidNotWork:
     'That did not work. You can still type it.',
+  polishTidyThis:
+    'Tidy up my typing',
+  polishWorking:
+    'Tidying…',
+  polishMachineMade:
+    'Suggested by machine — your words are still above',
+  polishUseThis:
+    'Use this',
+  polishKeepMine:
+    'Keep mine',
+  polishOnlyTyping:
+    'Only spelling, punctuation and spacing are touched. Nothing is added, removed or reworded, and no name is changed.',
+  polishFoundNothing:
+    'Nothing to fix — what you wrote reads fine.',
+  polishDidNotWork:
+    'That did not work. What you wrote is unchanged.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

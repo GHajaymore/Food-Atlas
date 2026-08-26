@@ -1832,3 +1832,41 @@ disclose was set at 60 characters and failed the Chinese translation at 52 — w
 everything the English one does in half the characters. Judging a logographic script by an
 alphabetic length is the same mistake the evidence-scale tick labels already had to learn;
 the floor is per script now.
+
+### AI polish, under the rules testimony.ts already set
+
+Ajay: *"for the free flow use AI to polish it"* — for the fields a chooser cannot hold: how
+a dish is made, who makes it, somebody's connection to a place. Typed on a phone, often in
+a second language, often with autocorrect fighting a word it has never seen.
+
+`testimony.ts` had already settled how machine text may behave in this app, for exactly
+this material, and the feature is bound by all three of its rules:
+
+1. **The original is always present.** Nothing writes into a field. The suggestion appears
+   below what they wrote, as a separate block, and takes a press to accept.
+2. **Machine text is labelled as machine-made** — before it is read, not after it is taken.
+3. **It can never be what a badge rests on.** Confirmations count people, not sentences.
+
+**What "polish" is allowed to mean** is written as prohibitions rather than a request,
+because a small model follows rules better than intentions: spelling, punctuation,
+capitalisation, spacing. Never translate, never change a name of a dish or place even if it
+looks misspelled, never add a quantity or a time, never remove, reorder or reword.
+Temperature zero — this is correction, not composition. A response wildly longer or shorter
+than the input is discarded and the original returned, because a model that did something
+else has not corrected typing.
+
+**Cost, and the reason for one counter.** Workers AI is free to a daily allocation and
+billed after it. This shares the exact `translation_day` row and ceiling the translation
+endpoint uses, so a second AI feature cannot double the spend — it changes how fast a day's
+budget is consumed, not how much can be. When it runs out the message says plainly that
+nothing is wrong with what they wrote.
+
+Verified locally, where no AI binding exists: `GET /api/polish` returns
+`{"available":false}`, `POST` refuses with a sentence saying nothing was changed, and the
+control **does not render at all** — two dictation buttons on the page and zero polish
+buttons, no dead control and no explanation nobody asked for. The same rule the donate
+button and the dictation control already follow.
+
+**Not verified: the model's behaviour**, which needs the Workers AI binding Ajay has yet to
+enable. The prompt is written to be checkable by reading it, and the wildly-different guard
+is the belt for when it is not.

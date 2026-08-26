@@ -1207,6 +1207,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'El navegador no dio permiso para el micrófono.',
     dictateDidNotWork:
       'Eso no funcionó. Aún puedes escribirlo.',
+    polishTidyThis:
+      'Corrige mi escritura',
+    polishWorking:
+      'Corrigiendo…',
+    polishMachineMade:
+      'Sugerido por una máquina: tus palabras siguen arriba',
+    polishUseThis:
+      'Usar esto',
+    polishKeepMine:
+      'Quedarme con lo mío',
+    polishOnlyTyping:
+      'Solo se tocan la ortografía, la puntuación y los espacios. No se añade, quita ni reformula nada, y no se cambia ningún nombre.',
+    polishFoundNothing:
+      'Nada que corregir: lo que escribiste se lee bien.',
+    polishDidNotWork:
+      'Eso no funcionó. Lo que escribiste no ha cambiado.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2380,6 +2396,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Le navigateur n’a pas autorisé le microphone.',
     dictateDidNotWork:
       'Cela n’a pas marché. Vous pouvez toujours l’écrire.',
+    polishTidyThis:
+      'Corriger ma frappe',
+    polishWorking:
+      'Correction…',
+    polishMachineMade:
+      'Proposé par une machine — vos mots restent au-dessus',
+    polishUseThis:
+      'Utiliser ceci',
+    polishKeepMine:
+      'Garder les miens',
+    polishOnlyTyping:
+      'Seules l’orthographe, la ponctuation et les espaces sont touchées. Rien n’est ajouté, retiré ni reformulé, et aucun nom n’est changé.',
+    polishFoundNothing:
+      'Rien à corriger : ce que vous avez écrit se lit bien.',
+    polishDidNotWork:
+      'Cela n’a pas marché. Ce que vous avez écrit est inchangé.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3552,6 +3584,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Der Browser hat das Mikrofon nicht freigegeben.',
     dictateDidNotWork:
       'Das hat nicht geklappt. Sie können es weiterhin tippen.',
+    polishTidyThis:
+      'Meine Tippfehler glätten',
+    polishWorking:
+      'Wird geglättet…',
+    polishMachineMade:
+      'Maschinell vorgeschlagen — Ihre Worte stehen weiter oben',
+    polishUseThis:
+      'Das übernehmen',
+    polishKeepMine:
+      'Meines behalten',
+    polishOnlyTyping:
+      'Angefasst werden nur Rechtschreibung, Zeichensetzung und Abstände. Nichts wird ergänzt, entfernt oder umformuliert, und kein Name wird geändert.',
+    polishFoundNothing:
+      'Nichts zu korrigieren — was Sie geschrieben haben, liest sich gut.',
+    polishDidNotWork:
+      'Das hat nicht geklappt. Ihr Text ist unverändert.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -4724,6 +4772,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Il browser non ha dato il permesso per il microfono.',
     dictateDidNotWork:
       'Non ha funzionato. Puoi comunque scriverlo.',
+    polishTidyThis:
+      'Sistema la mia scrittura',
+    polishWorking:
+      'Sto sistemando…',
+    polishMachineMade:
+      'Suggerito da una macchina: le tue parole restano sopra',
+    polishUseThis:
+      'Usa questo',
+    polishKeepMine:
+      'Tengo il mio',
+    polishOnlyTyping:
+      'Si toccano solo ortografia, punteggiatura e spazi. Niente viene aggiunto, tolto o riformulato, e nessun nome viene cambiato.',
+    polishFoundNothing:
+      'Niente da correggere: quello che hai scritto si legge bene.',
+    polishDidNotWork:
+      'Non ha funzionato. Quello che hai scritto è invariato.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -5897,6 +5961,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'O navegador não deu permissão para o microfone.',
     dictateDidNotWork:
       'Não resultou. Pode escrever à mesma.',
+    polishTidyThis:
+      'Corrigir a minha escrita',
+    polishWorking:
+      'A corrigir…',
+    polishMachineMade:
+      'Sugerido por uma máquina — as suas palavras continuam acima',
+    polishUseThis:
+      'Usar isto',
+    polishKeepMine:
+      'Ficar com o meu',
+    polishOnlyTyping:
+      'Só se mexe na ortografia, na pontuação e nos espaços. Nada é acrescentado, retirado ou reescrito, e nenhum nome é alterado.',
+    polishFoundNothing:
+      'Nada a corrigir — o que escreveu lê-se bem.',
+    polishDidNotWork:
+      'Não resultou. O que escreveu está inalterado.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7069,6 +7149,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'De browser gaf geen toestemming voor de microfoon.',
     dictateDidNotWork:
       'Dat werkte niet. U kunt het nog steeds typen.',
+    polishTidyThis:
+      'Mijn typwerk opschonen',
+    polishWorking:
+      'Bezig…',
+    polishMachineMade:
+      'Voorgesteld door een machine — uw woorden staan er nog boven',
+    polishUseThis:
+      'Dit gebruiken',
+    polishKeepMine:
+      'Die van mij houden',
+    polishOnlyTyping:
+      'Alleen spelling, leestekens en spaties worden aangeraakt. Er wordt niets toegevoegd, weggehaald of anders geformuleerd, en geen naam wordt veranderd.',
+    polishFoundNothing:
+      'Niets te verbeteren — wat u schreef leest prima.',
+    polishDidNotWork:
+      'Dat werkte niet. Wat u schreef is onveranderd.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8242,6 +8338,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Przeglądarka nie dała dostępu do mikrofonu.',
     dictateDidNotWork:
       'Nie udało się. Nadal możesz to napisać.',
+    polishTidyThis:
+      'Popraw moje literówki',
+    polishWorking:
+      'Poprawiam…',
+    polishMachineMade:
+      'Propozycja maszyny — twoje słowa są powyżej',
+    polishUseThis:
+      'Użyj tego',
+    polishKeepMine:
+      'Zostaw moje',
+    polishOnlyTyping:
+      'Ruszana jest tylko pisownia, interpunkcja i odstępy. Nic nie jest dodawane, usuwane ani przeformułowane, i żadna nazwa nie jest zmieniana.',
+    polishFoundNothing:
+      'Nie ma czego poprawiać — to, co napisałeś, czyta się dobrze.',
+    polishDidNotWork:
+      'Nie udało się. To, co napisałeś, pozostaje bez zmian.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -9414,6 +9526,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Tarayıcı mikrofon için izin vermedi.',
     dictateDidNotWork:
       'Bu işe yaramadı. Yine de yazabilirsiniz.',
+    polishTidyThis:
+      'Yazımımı düzelt',
+    polishWorking:
+      'Düzeltiliyor…',
+    polishMachineMade:
+      'Makine önerisi — sizin sözleriniz yukarıda duruyor',
+    polishUseThis:
+      'Bunu kullan',
+    polishKeepMine:
+      'Benimki kalsın',
+    polishOnlyTyping:
+      'Yalnızca yazım, noktalama ve boşluklara dokunulur. Hiçbir şey eklenmez, çıkarılmaz, yeniden ifade edilmez ve hiçbir isim değiştirilmez.',
+    polishFoundNothing:
+      'Düzeltilecek bir şey yok — yazdığınız iyi okunuyor.',
+    polishDidNotWork:
+      'Bu işe yaramadı. Yazdığınız değişmedi.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -10587,6 +10715,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Браузер не дал доступ к микрофону.',
     dictateDidNotWork:
       'Не получилось. Можно набрать текстом.',
+    polishTidyThis:
+      'Поправить опечатки',
+    polishWorking:
+      'Правлю…',
+    polishMachineMade:
+      'Предложено машиной — ваши слова остаются выше',
+    polishUseThis:
+      'Взять это',
+    polishKeepMine:
+      'Оставить своё',
+    polishOnlyTyping:
+      'Затрагиваются только орфография, пунктуация и пробелы. Ничего не добавляется, не удаляется и не переформулируется, и ни одно название не меняется.',
+    polishFoundNothing:
+      'Править нечего — написанное читается хорошо.',
+    polishDidNotWork:
+      'Не получилось. Написанное осталось прежним.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -11760,6 +11904,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ब्राउज़र ने माइक्रोफ़ोन की अनुमति नहीं दी।',
     dictateDidNotWork:
       'यह काम नहीं आया। आप इसे लिख भी सकते हैं।',
+    polishTidyThis:
+      'मेरी टाइपिंग सुधारें',
+    polishWorking:
+      'सुधारा जा रहा है…',
+    polishMachineMade:
+      'मशीन का सुझाव — आपके शब्द ऊपर ही हैं',
+    polishUseThis:
+      'यह इस्तेमाल करें',
+    polishKeepMine:
+      'मेरा ही रहने दें',
+    polishOnlyTyping:
+      'सिर्फ़ वर्तनी, विराम-चिह्न और जगह छुई जाती है। कुछ जोड़ा, हटाया या दोबारा नहीं लिखा जाता, और कोई नाम नहीं बदला जाता।',
+    polishFoundNothing:
+      'सुधारने को कुछ नहीं — आपने जो लिखा वह ठीक पढ़ा जाता है।',
+    polishDidNotWork:
+      'यह काम नहीं आया। आपने जो लिखा वह वैसा ही है।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -12933,6 +13093,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '浏览器没有允许使用麦克风。',
     dictateDidNotWork:
       '这次没有成功。你仍然可以打字。',
+    polishTidyThis:
+      '整理我的错字',
+    polishWorking:
+      '整理中…',
+    polishMachineMade:
+      '机器建议——你的原话仍在上面',
+    polishUseThis:
+      '用这个',
+    polishKeepMine:
+      '保留我的',
+    polishOnlyTyping:
+      '只会改动拼写、标点和空格。不增、不删、不改说法，也不更改任何名称。',
+    polishFoundNothing:
+      '没有需要改的——你写的读起来没问题。',
+    polishDidNotWork:
+      '这次没有成功。你写的内容没有改变。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -14106,6 +14282,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'ブラウザがマイクを許可しませんでした。',
     dictateDidNotWork:
       'うまくいきませんでした。入力でも大丈夫です。',
+    polishTidyThis:
+      '打ち間違いを直す',
+    polishWorking:
+      '直しています…',
+    polishMachineMade:
+      '機械による提案です。あなたの言葉は上に残っています',
+    polishUseThis:
+      'これを使う',
+    polishKeepMine:
+      '自分のままにする',
+    polishOnlyTyping:
+      '触れるのは表記、句読点、空白だけです。何も足さず、削らず、言い換えず、名前も変えません。',
+    polishFoundNothing:
+      '直すところはありません。書かれたままで読めます。',
+    polishDidNotWork:
+      'うまくいきませんでした。書いた内容はそのままです。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

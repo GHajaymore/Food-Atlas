@@ -26,6 +26,7 @@ import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Choice } from '../src/components/Choice';
 import { Dictate } from '../src/components/Dictate';
+import { Polish } from '../src/components/Polish';
 import { Field, Input } from '../src/components/Field';
 import { FieldPair } from '../src/components/FormLayout';
 import { NavRow } from '../src/components/NavRow';
@@ -264,6 +265,17 @@ export default function Contribute() {
               }}
               accessibilityLabel={copy.connectionInYourWords}
             />
+            {/* Offered, never applied. The suggestion appears below what they wrote and
+                takes a press to accept — see Polish, and testimony.ts's first rule. */}
+            <Polish
+              value={connectionDetail}
+              onChange={(v) => {
+                setConnectionDetail(v);
+                const picked = CONNECTIONS.find((c) => copy[c.label] === connectionChoice);
+                set('connection')(composeConnection(picked?.value ?? '', v));
+              }}
+              accessibilityLabel={copy.connectionInYourWords}
+            />
           </Field>
           <Field label={copy.traditionalIngredientsAndEquipment} style={styles.field}>
             <Input
@@ -273,6 +285,11 @@ export default function Contribute() {
               placeholder={copy.exampleIngredients}
             />
             <Dictate
+              value={entry.ingredients}
+              onChange={set('ingredients')}
+              accessibilityLabel={copy.traditionalIngredientsAndEquipment}
+            />
+            <Polish
               value={entry.ingredients}
               onChange={set('ingredients')}
               accessibilityLabel={copy.traditionalIngredientsAndEquipment}
