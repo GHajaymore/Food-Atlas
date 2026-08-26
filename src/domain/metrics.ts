@@ -13,7 +13,7 @@
  */
 
 import type { Copy } from '../i18n/copy';
-import { continentOf, isCountry } from './continents';
+import { continentLabel, continentOf, isCountry } from './continents';
 import { isAuthentic } from './authenticity';
 import type { Dish } from './types';
 
@@ -170,8 +170,14 @@ export function catalogueMetrics(copy: Copy, dishes: Dish[]): CatalogueMetrics {
     { label: copy.band75Plus, count: band(75, 101), percent: 0 },
   ].map((row) => ({ ...row, percent: total ? Math.round((row.count / total) * 100) : 0 }));
 
+  /* The same relabel the directory does: the bucket is called Elsewhere in the data and
+     that value is load-bearing, but a reader sees what it actually holds. */
   const byContinent: CoverageRow[] = [...continents.entries()]
-    .map(([label, count]) => ({ label, count, percent: total ? Math.round((count / total) * 100) : 0 }))
+    .map(([label, count]) => ({
+      label: continentLabel(label, copy.continentBeyondOneCountry),
+      count,
+      percent: total ? Math.round((count / total) * 100) : 0,
+    }))
     .sort((a, b) => b.count - a.count);
 
   return {

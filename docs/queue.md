@@ -1740,3 +1740,36 @@ would make those claims comparable instead of unreadable in bulk. And Ajay asked
 polish the prose that stays free, which `testimony.ts` already constrains: the original is
 always present, a machine version is labelled as machine-made, and a machine version can
 never be what a badge rests on.
+
+### "Elsewhere" was the one heading that misdescribed what it held
+
+Ajay asked whether "anywhere" should become "Earth". Measured, the answer is no for that
+word and yes for a different one.
+
+`copy.anywhere` appears in exactly one place — the place chooser — and means *do not
+restrict by place*. "Earth" would turn a query state into a location, which reads oddly and
+is not what the control does. `worldwide` already carries global scope where scope is what
+is meant.
+
+**"Elsewhere" was the real problem.** It is the bucket `continentOf` falls back to, and what
+sits in it is not a set of countries the atlas failed to place: 53 records across 29
+origins, led by Levant (8), "Croatia, Slovenia" (5), Eastern Europe, Latin America, the
+Maghreb, the Indian subcontinent, the Middle East. Those are origins genuinely wider than a
+country — which is exactly what `isCountry` says they are, in writing, in the same
+codebase. Calling them "Elsewhere" told a reader they were the leftovers.
+
+They are **"Beyond one country"** now, in twelve languages, with a note saying the source
+recorded a region or a state that no longer exists and the atlas keeps it as stated rather
+than narrowing it to a country nobody chose.
+
+**The value did not change, only the label.** `isCountry` tests `continent !== 'Elsewhere'`
+and `build.ts`, `isDish.ts` and `place.ts` all branch on the same string; renaming it would
+have been a data migration wearing a copy change. `continentLabel(continent, copy)` swaps
+the one name on the way to the screen.
+
+Verified on `/atlas`: the directory heading and the "Where the records are" table both read
+"Beyond one country", and the word "Elsewhere" no longer appears anywhere a reader can see.
+
+The six real continents are still English in every language. That is a bigger gap and a
+different kind — they are data rather than chrome — and it stays recorded here rather than
+half-fixed.

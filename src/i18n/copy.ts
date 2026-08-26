@@ -735,6 +735,8 @@ export interface Copy {
   filterTheList: string;
   showingFirstNOfM: string;
   nothingMatchesThat: string;
+  continentBeyondOneCountry: string;
+  beyondOneCountryNote: string;
   interfaceTranslationNote: string;
 }
 
@@ -1885,6 +1887,10 @@ export const EN: Copy = {
     'Showing the first {n} of {m}. Keep typing to narrow it.',
   nothingMatchesThat:
     'Nothing in the list matches that.',
+  continentBeyondOneCountry:
+    'Beyond one country',
+  beyondOneCountryNote:
+    'Origins the sources record as wider than a single country — a region, a shared culinary area, or a state that no longer exists. They are kept as the source states them rather than narrowed to a country nobody chose.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

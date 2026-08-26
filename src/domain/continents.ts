@@ -218,3 +218,25 @@ export const continentRank = (label: string): number => {
  */
 export const filableCountries = (): string[] =>
   [...CONTINENTS.keys()].filter(isCountry).sort((a, b) => a.localeCompare(b));
+
+/**
+ * What to call a continent group on screen.
+ *
+ * Only one name changes: **Elsewhere**. It is the bucket `continentOf` falls back to, and
+ * `isCountry` tests against it, so the value is load-bearing and stays exactly as it is —
+ * this renames the label a reader sees and nothing else.
+ *
+ * Measured before renaming it: 53 records across 29 origins, and not one of them is a
+ * country the atlas failed to place. They are Levant (8), "Croatia, Slovenia" (5), Eastern
+ * Europe, Latin America, the Maghreb, the Indian subcontinent, the Middle East — origins
+ * genuinely wider than a country, which is precisely what `isCountry` says they are.
+ *
+ * "Elsewhere" tells a reader those are the leftovers. On a project whose claim is that
+ * coverage is stated honestly, it was the one heading on the page that misdescribed what
+ * sat under it.
+ *
+ * The six real continents still come through untranslated, which is a separate and larger
+ * gap recorded in docs/queue.md: they are data, not chrome.
+ */
+export const continentLabel = (continent: string, beyondOneCountry: string): string =>
+  continent === 'Elsewhere' ? beyondOneCountry : continent;

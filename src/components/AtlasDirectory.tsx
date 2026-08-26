@@ -34,7 +34,7 @@ import type { Copy } from '../i18n/copy';
 import { useState } from 'react';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
 import type { AtlasGroup } from '../domain/queries';
-import { isCountry } from '../domain/continents';
+import { continentLabel, isCountry } from '../domain/continents';
 import { useLayout } from '../theme/layout';
 import { accentText, color, space } from '../theme/tokens';
 import { CaretDownIcon } from './icons';
@@ -120,12 +120,12 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
             <Pressable
               accessibilityRole="button"
               accessibilityState={{ expanded: open }}
-              accessibilityLabel={`${group.label}, ${summary.label}`}
+              accessibilityLabel={`${continentLabel(group.label, copy.continentBeyondOneCountry)}, ${summary.label}`}
               tint="neutral"
               onPress={() => toggle(group.label)}
               style={styles.openHeader}
             >
-              <H6 style={styles.openLabel}>{group.label}</H6>
+              <H6 style={styles.openLabel}>{continentLabel(group.label, copy.continentBeyondOneCountry)}</H6>
               <Muted style={styles.groupCount}>{summary.label}</Muted>
               {/* The affordance. Without it a heading that happens to be pressable is a
                   secret, and the countries below give no hint that they could fold. */}
@@ -182,7 +182,7 @@ function Collapsed({ groups, onPick }: Props) {
             <Pressable
               accessibilityRole="button"
               accessibilityState={{ expanded: open }}
-              accessibilityLabel={`${group.label}, ${summary.label}`}
+              accessibilityLabel={`${continentLabel(group.label, copy.continentBeyondOneCountry)}, ${summary.label}`}
               tint="neutral"
               onPress={() => {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -192,7 +192,7 @@ function Collapsed({ groups, onPick }: Props) {
               }}
               style={[styles.groupHeader, open ? styles.groupHeaderOpen : null]}
             >
-              <H6 style={[styles.groupLabel, open ? styles.groupLabelOpen : null]}>{group.label}</H6>
+              <H6 style={[styles.groupLabel, open ? styles.groupLabelOpen : null]}>{continentLabel(group.label, copy.continentBeyondOneCountry)}</H6>
               {/* Both numbers named. "36 countries · 297" left the reader to guess
                   what 297 counted. */}
               <Muted style={styles.groupCount}>{summary.label}</Muted>
