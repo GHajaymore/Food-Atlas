@@ -35,9 +35,10 @@ import { useCopy } from '../i18n';
 import { Platform, StyleSheet, View } from 'react-native';
 import { BRAND } from '../brand';
 import { useLayout } from '../theme/layout';
-import { color, PAGE_PADDING, radius, space } from '../theme/tokens';
+import { color, font, PAGE_PADDING, radius, space } from '../theme/tokens';
 import { Muted, T } from './Text';
 import { Wordmark } from './Wordmark';
+import { HEADLINE_TYPE } from './Mission';
 
 /* Spread rather than passed: dataSet is a react-native-web extension the RN types do not
    carry. Same resolution Photo.tsx uses for its blend. */
@@ -63,6 +64,13 @@ export function FeedSkeleton({
   const copy = useCopy();
   const layout = useLayout();
   const card = layout.card;
+  /*
+   * How many fit, rather than a number typed here. It drew six at every width, and the
+   * desktop rail holds five since the cards went to 220 — so the skeleton was a row wider
+   * than the row that replaced it. Counted from the same shell and gap the rail uses, so
+   * it follows CARD_WIDTH instead of having to remember it.
+   */
+  const perRail = Math.max(3, Math.floor((layout.shell - PAGE_PADDING * 2) / (card + 10)));
 
   return (
     <View style={styles.ground}>
@@ -84,7 +92,9 @@ export function FeedSkeleton({
          * waiting is not staring at furniture.
          */}
         {fonts ? (
-          <T style={styles.headline}>{copy.missionHeadline}</T>
+          <T style={[styles.headline, layout.wide ? HEADLINE_TYPE.wide : HEADLINE_TYPE.phone]}>
+            {copy.missionHeadline}
+          </T>
         ) : (
           <>
             <Block style={styles.headlineBar} />
@@ -95,9 +105,15 @@ export function FeedSkeleton({
         {/* The lead photograph, at the aspect ratio the real one uses. */}
         {layout.wide ? null : <Block style={styles.lead} />}
 
-        {/* A rail of cards at the exact size they will be, so the row does not resize. */}
-        <View style={styles.rail}>
-          {[0, 1, 2, 3, 4, 5].slice(0, layout.wide ? 6 : 3).map((i) => (
+        {/*
+         * A rail of cards at the size they will actually be, under the title and note that
+         * will actually be there. Without those two blocks the cards sat where the heading
+         * lands, and everything below them shifted down the moment the data arrived.
+         */}
+        <Block style={styles.railTitle} />
+        <Block style={styles.railNote} />
+        <View style={[styles.rail, { marginTop: 10 }]}>
+          {Array.from({ length: perRail }, (_, i) => i).map((i) => (
             <View key={i} style={styles.cardWrap}>
               <Block style={{ width: card, height: card, borderRadius: radius.md }} />
               <Block style={{ ...styles.line, width: card * 0.8 }} />
@@ -124,13 +140,18 @@ const styles = StyleSheet.create({
   taglineBar: { width: 190, height: 11, marginTop: 8 },
   tagline: { fontSize: 11, marginTop: 6 },
 
-  headline: { fontFamily: 'Inter_700Bold', fontSize: 25, lineHeight: 31, color: color.text, marginTop: 26 },
-  headlineBar: { width: '86%', height: 25, marginTop: 26 },
-  headlineBarShort: { width: '54%', height: 25, marginTop: 8 },
+  /* The real face and the real size — see HEADLINE_TYPE. This drew Inter at 25 while the
+     page set Fraunces at 29 (44 wide), so the headline both jumped and changed typeface
+     the moment the catalogue landed. */
+  headline: { fontFamily: font.display, color: color.text, marginTop: 26 },
+  headlineBar: { width: '86%', height: 29, marginTop: 26 },
+  headlineBarShort: { width: '54%', height: 29, marginTop: 8 },
 
   lead: { width: '100%', aspectRatio: 16 / 10, borderRadius: radius.lg, marginTop: space[6] },
 
-  rail: { flexDirection: 'row', gap: 10, marginTop: space[8] },
+  rail: { flexDirection: 'row', gap: 10 },
+  railTitle: { width: '52%', height: 20, marginTop: 26 },
+  railNote: { width: '78%', height: 12, marginTop: 8 },
   cardWrap: { gap: 6 },
   line: { height: 10 },
 });

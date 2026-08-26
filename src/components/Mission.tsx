@@ -305,6 +305,24 @@ export function Mission() {
   );
 }
 
+/**
+ * The headline's size at each width, exported so the loading skeleton can draw the same
+ * shape as the thing that replaces it.
+ *
+ * `FeedSkeleton` states its own rule plainly — "every block is the size of the thing that
+ * will land in it, so nothing jumps when the data arrives" — and it had drifted out of
+ * true: it drew the headline in Inter at 25px while this file set it in Fraunces at 29,
+ * and at 44 on a wide screen. Both a reflow and a typeface swap, which is precisely the
+ * pair that header exists to prevent.
+ *
+ * Exported rather than copied, because a copied number is how it drifted in the first
+ * place.
+ */
+export const HEADLINE_TYPE = {
+  phone: { fontSize: 29, lineHeight: 35 },
+  wide: { fontSize: 44, lineHeight: 50 },
+} as const;
+
 const styles = StyleSheet.create({
   wrap: { marginBottom: space[4], gap: space[3] },
 
@@ -325,8 +343,7 @@ const styles = StyleSheet.create({
   },
   headlineWide: {
     fontFamily: font.display,
-    fontSize: 44,
-    lineHeight: 50,
+    ...HEADLINE_TYPE.wide,
     color: color.text,
     /* Large headings need the tracking pulled in; the theme's scale stops at 42 and
        leaves anything above it looking loose. */
@@ -351,7 +368,7 @@ const styles = StyleSheet.create({
    * for. Raising the headline rather than shrinking the figures, because the figures are
    * also the desktop's 37px band and that one is right as it is.
    */
-  headline: { fontFamily: font.display, fontSize: 29, lineHeight: 35, color: color.text },
+  headline: { fontFamily: font.display, ...HEADLINE_TYPE.phone, color: color.text },
   stakes: { fontSize: 14, lineHeight: 21 },
 
   stats: {

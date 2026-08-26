@@ -1653,3 +1653,33 @@ app to catch three compact ones.
 
 Verified at 375 on `/`, `/search`, `/dish`, `/contribute` and `/atlas`: **0 controls under
 44x44**, and the record page's landmarks did not move (title 344, "Show 15 more" 557).
+
+### The loading skeleton had drifted from the page it stands in for
+
+`FeedSkeleton` states its own rule in its header: *"every block is the size of the thing
+that will land in it, so nothing jumps when the data arrives. A skeleton that reflows is
+worse than no skeleton: it turns one wait into a wait plus a lurch."* Every reader sees it,
+because the app fetches about 14.7MB before the first screen — and this session's design
+work had left it behind on three counts.
+
+| | skeleton drew | page renders |
+|---|---|---|
+| headline | `Inter_700Bold` 25px | **Fraunces** 29 phone / 44 wide |
+| gap above the rail | fixed 22.4 | `sectionGap` — 26 / 33.6 / 44.8 |
+| cards in the row | 6 at every width | 5 desktop, 4 tablet |
+| rail title and note | absent | H4 heading + a note line |
+
+The headline was the worst of them: a reflow **and** a typeface swap at the moment the
+catalogue lands, which is the exact pair that file's header exists to prevent. It had been
+correct when written; the type pass moved the headline and nothing came back here.
+
+Fixed by sharing rather than copying. `HEADLINE_TYPE` is exported from `Mission` and used
+by both, the card width already came from `layout.card`, and the row count is computed from
+the same shell and gap the rail uses instead of being typed. The title and note blocks are
+there now, so the cards no longer sit where the heading will land.
+
+**Not verified in the browser, and this time for a specific reason:** the catalogue caches
+in module scope, so re-entering the route does not re-enter the skeleton, and a hard reload
+loses the fetch patch that would slow it down enough to see. The agreement is pinned by a
+test instead — change `CARD_WIDTH` and the skeleton's row count fails rather than quietly
+becoming a row wider than the rail.

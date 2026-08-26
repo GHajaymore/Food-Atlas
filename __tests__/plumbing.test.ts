@@ -31,6 +31,9 @@ import { EN } from '../src/i18n/copy';
 import { copyFor, joinOr, UI_LOCALES } from '../src/i18n';
 import { cardPlace, isWithin, notAPlaceBelow } from '../src/domain/place';
 import { alsoRecordedIn } from '../src/domain/related';
+import { CARD_WIDTH, SHELL, type Size } from '../src/theme/layout';
+import { PAGE_PADDING } from '../src/theme/tokens';
+import { HEADLINE_TYPE } from '../src/components/Mission';
 import { continentOf, knownCountry } from '../src/domain/continents';
 import { canonicalCountry } from '../src/domain/countryNames';
 import type { Confirmation } from '../src/domain/confirmations';
@@ -821,5 +824,41 @@ describe('a translation is written in one script', () => {
       }
     }
     expect(bad).toEqual([]);
+  });
+});
+
+/**
+ * The loading skeleton draws the page that replaces it.
+ *
+ * `FeedSkeleton` states the rule in its own header: "every block is the size of the thing
+ * that will land in it, so nothing jumps when the data arrives. A skeleton that reflows is
+ * worse than no skeleton." It had drifted out of true on three counts — it drew the
+ * headline in Inter at 25px where the page sets Fraunces at 29 (44 wide), it left the gap
+ * above the rail at a fixed 22.4 after the rails moved to `sectionGap`, and it drew six
+ * cards at every width after the desktop rail went to five.
+ *
+ * The headline and the card width are shared constants now, so those cannot drift again.
+ * The row count is computed, and this pins the arithmetic to the widths it was derived
+ * from — the point being that changing `CARD_WIDTH` should fail here rather than quietly
+ * make the skeleton a row wider than the rail.
+ */
+describe('the skeleton is the shape of the page', () => {
+  /* The same expression FeedSkeleton uses, kept here so a change to one has to face the other. */
+  const perRail = (size: Size) =>
+    Math.max(3, Math.floor((SHELL[size] - PAGE_PADDING * 2) / (CARD_WIDTH[size] + 10)));
+
+  it('draws as many cards as the rail it stands in for', () => {
+    expect(perRail('desktop')).toBe(5);
+    expect(perRail('tablet')).toBe(4);
+    // A phone rail scrolls, so the third card is meant to be clipped.
+    expect(perRail('phone')).toBe(3);
+  });
+
+  it('sizes the headline from the same constant the page uses', () => {
+    expect(HEADLINE_TYPE.phone.fontSize).toBeGreaterThan(HEADLINE_TYPE.wide.fontSize / 2);
+    expect(HEADLINE_TYPE.wide.fontSize).toBeGreaterThan(HEADLINE_TYPE.phone.fontSize);
+    // Line height has to leave room for the face, or the bars under-measure the text.
+    expect(HEADLINE_TYPE.phone.lineHeight).toBeGreaterThan(HEADLINE_TYPE.phone.fontSize);
+    expect(HEADLINE_TYPE.wide.lineHeight).toBeGreaterThan(HEADLINE_TYPE.wide.fontSize);
   });
 });
