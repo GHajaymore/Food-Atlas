@@ -799,6 +799,7 @@ export interface Copy {
   countryLevelOnly: string;
   summaryWorldwide: string;
   nRecorded: string;
+  writtenInLanguage: string;
   interfaceTranslationNote: string;
 }
 
@@ -2077,6 +2078,8 @@ export const EN: Copy = {
     ' worldwide',
   nRecorded:
     '{n} recorded',
+  writtenInLanguage:
+    'Written in {language}',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

@@ -12,6 +12,7 @@
  */
 
 import { photoOriginLabel } from '../../src/domain/photoProvenance';
+import { languageNameIn } from '../../src/domain/language';
 import { placeName } from '../../src/domain/continents';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
@@ -37,7 +38,7 @@ import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById } from '../../src/data/catalogue';
-import { joinAnd, useCopy } from '../../src/i18n';
+import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { atRiskNote } from '../../src/domain/atRisk';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
 import {
@@ -61,6 +62,8 @@ import { accentText, color, font, radius, space, tapArea, TAP_TARGET } from '../
 
 export default function DishDetail() {
   const copy = useCopy();
+  /* The language the chrome is in — what decides whether foreign prose needs naming. */
+  const uiLocale = useLocale((s) => s.locale);
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const dish = dishById(Number(id));
@@ -496,6 +499,29 @@ export default function DishDetail() {
                 made in {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}.
               </Muted>
               <Block style={styles.describedBlock}>
+                {/*
+                 * The language, said where the text is.
+                 *
+                 * Ajay found this on Baingan bharta: an English heading, an English
+                 * lead-in, and then a paragraph of Hindi with nothing to say so. It is not
+                 * a rare case — 2,222 of the 3,907 records that carry a preparation
+                 * summary have one in a language other than English, across 43 languages.
+                 *
+                 * The atlas was already telling the reader, and telling them in the wrong
+                 * place. `LanguageBar` renders `reading.note` — "shown in Hindi, the
+                 * language it was documented in" — but measured on the live page that note
+                 * sits 920 characters above this block, with a whole section in between.
+                 * On a phone it is a screen away, which is the same as absent.
+                 *
+                 * This section is also the one place that reads `dish.prepSummary` raw
+                 * rather than going through `readDish`, so it never carried the status the
+                 * rest of the page has.
+                 */}
+                {dish.sourceLanguage && dish.sourceLanguage !== uiLocale ? (
+                  <Muted style={styles.describedLanguage}>
+                    {copy.writtenInLanguage.replace('{language}', languageNameIn(dish.sourceLanguage, uiLocale))}
+                  </Muted>
+                ) : null}
                 <Muted style={styles.described}>{dish.prepSummary}</Muted>
               </Block>
 
@@ -858,6 +884,8 @@ const styles = StyleSheet.create({
   undocumented: { marginBottom: 22 },
   describedBlock: { marginBottom: 16 },
   described: { fontSize: 13, lineHeight: 13 * 1.55 },
+  /* Sits above the foreign-language text it labels, quiet enough not to compete with it. */
+  describedLanguage: { fontSize: 11, lineHeight: 11 * 1.5, marginBottom: 6, fontFamily: font.medium },
   disputed: { marginBottom: 18 },
   standing: { fontSize: 12, lineHeight: 12 * 1.5, marginTop: -2, marginBottom: 2 },
   confirm: { marginTop: 24 },

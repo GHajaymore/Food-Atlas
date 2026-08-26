@@ -306,3 +306,31 @@ export function withLanguage(url: string, preferred: string, plan: TranslationPl
 
   return `${url}${separator}${params.join('&')}`;
 }
+
+/**
+ * A language's name, in the language of whoever is reading it.
+ *
+ * `languageName` above returns a fixed English label, which is right where the reader is
+ * reading English and wrong everywhere else. It produced "Hindi में लिखा गया" on a
+ * Hindi-language page: half the sentence translated, half not — exactly the mixing this
+ * app has a test against for its own catalogue.
+ *
+ * `Intl.DisplayNames` does this properly and costs nothing: it is in the browser already,
+ * knows all 43 source languages the atlas carries, and answers in the reader's locale —
+ * "Hindi" for an English reader, "हिन्दी" for a Hindi one, "hindi" for a Spanish one.
+ *
+ * It is wrapped because it is not everywhere. Older browsers and some native runtimes
+ * lack it, and the fallback is the language's own endonym — "हिन्दी" whoever is asking —
+ * which is never wrong, only less familiar. The English label is the last resort.
+ */
+export const languageNameIn = (code: string, locale: string): string => {
+  try {
+    const name = new Intl.DisplayNames([locale], { type: 'language' }).of(code);
+    /* `of` echoes the code back when it has no name for it; that helps nobody. */
+    if (name && name.toLowerCase() !== code.toLowerCase()) return name;
+  } catch {
+    /* No Intl.DisplayNames here. Fall through. */
+  }
+  const known = languageByCode(code);
+  return known?.endonym ?? known?.label ?? code;
+};

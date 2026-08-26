@@ -1303,6 +1303,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' en todo el mundo',
     nRecorded:
       '{n} registradas',
+    writtenInLanguage:
+      'Escrito en {language}',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2572,6 +2574,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' dans le monde entier',
     nRecorded:
       '{n} enregistrées',
+    writtenInLanguage:
+      'Écrit en {language}',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3840,6 +3844,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' weltweit',
     nRecorded:
       '{n} erfasst',
+    writtenInLanguage:
+      'Verfasst auf {language}',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5108,6 +5114,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' in tutto il mondo',
     nRecorded:
       '{n} registrate',
+    writtenInLanguage:
+      'Scritto in {language}',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6377,6 +6385,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' em todo o mundo',
     nRecorded:
       '{n} registadas',
+    writtenInLanguage:
+      'Escrito em {language}',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7645,6 +7655,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' wereldwijd',
     nRecorded:
       '{n} vastgelegd',
+    writtenInLanguage:
+      'Geschreven in het {language}',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8914,6 +8926,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' na całym świecie',
     nRecorded:
       '{n} zapisanych',
+    writtenInLanguage:
+      'Napisane w języku {language}',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10182,6 +10196,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' dünya genelinde',
     nRecorded:
       '{n} kayıt',
+    writtenInLanguage:
+      '{language} dilinde yazılmış',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11451,6 +11467,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' по всему миру',
     nRecorded:
       '{n} записей',
+    writtenInLanguage:
+      'Написано на языке: {language}',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -12720,6 +12738,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       ' दुनिया भर में',
     nRecorded:
       '{n} दर्ज',
+    writtenInLanguage:
+      '{language} में लिखा गया',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -13989,6 +14009,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '（全球）',
     nRecorded:
       '已收录 {n} 项',
+    writtenInLanguage:
+      '以{language}写成',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15258,6 +15280,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '（世界全体）',
     nRecorded:
       '{n} 件収録',
+    writtenInLanguage:
+      '{language}で書かれています',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
