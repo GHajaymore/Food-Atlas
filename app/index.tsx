@@ -450,6 +450,32 @@ const styles = StyleSheet.create({
      occupying a band of its own below it — 34px of a phone reclaimed for nothing. */
   headerControls: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
   header: {
+    /*
+     * Raised so the language dropdown can paint over the feed below it.
+     *
+     * Ajay: *"the language drill down is going in background and not selecting the
+     * language"* — on a phone. Reproduced at 375px: the panel opened, the Español row was
+     * on screen, and `elementFromPoint` at its centre returned a paragraph reading "Where
+     * it came from, who says so...". The menu was there and unclickable.
+     *
+     * The panel's own `zIndex: 50` was never the problem, and neither was the controls row
+     * — raising that was the first fix, and it changed nothing. z-index only orders
+     * siblings within one stacking context, and react-native-web puts `position: relative`
+     * on every View, so each one is a context of its own and a nested value cannot reach
+     * past its parent.
+     *
+     * Measured rather than guessed: walking both ancestor chains to where they diverge,
+     * the picker's side is child 0 of `FeedOrder` (the masthead) and the content that
+     * covered it is child 2 (the lead). Both painted at level 0, so document order decided
+     * it and the later sibling won. This is that shared level — the only place a z-index
+     * settles the question.
+     *
+     * `TopBar` carries the same fix for wide screens, and the lesson written under it
+     * applies twice over here: an element's geometry says nothing about whether a reader
+     * can reach it. `getBoundingClientRect` reported this dropdown as perfectly placed.
+     */
+    position: 'relative',
+    zIndex: 100,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
