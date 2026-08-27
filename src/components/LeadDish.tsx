@@ -112,7 +112,9 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
 }
 
 const styles = StyleSheet.create({
-  press: { marginTop: space[4], borderRadius: radius.lg },
+  /* 12px from the paragraph above it, measured, which reads as the next line rather than
+     the next section. `space[8]` is 22px and matches the rhythm the shelves below use. */
+  press: { marginTop: space[8], borderRadius: radius.lg },
   card: { padding: 0, gap: 0, overflow: 'hidden', borderRadius: radius.lg, ...elevation.sm },
   frame: { width: '100%', aspectRatio: 16 / 10 },
   photo: { width: '100%', height: '100%' },

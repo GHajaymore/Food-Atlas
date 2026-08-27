@@ -371,7 +371,18 @@ const styles = StyleSheet.create({
    * also the desktop's 37px band and that one is right as it is.
    */
   headline: { fontFamily: font.display, ...HEADLINE_TYPE.phone, color: color.text },
-  stakes: { fontSize: 14, lineHeight: 21 },
+  /*
+   * Ajay: *"the app on mobile looks very crowdy and tight."* Measured at 375px, the gap
+   * between the 29px headline and this paragraph was **zero** — the two text boxes met
+   * exactly, so a display line and body copy read as one undifferentiated block. Nothing
+   * supplied a gap: `MissionPitch` returns a fragment, so the headline and this are
+   * siblings in whatever container `FeedOrder` puts them in, and neither carried a
+   * margin.
+   *
+   * A margin rather than a gap on the parent, because the parent is shared with every
+   * other block on the page and does not know these two belong together.
+   */
+  stakes: { fontSize: 14, lineHeight: 21, marginTop: space[4] },
 
   stats: {
     flexDirection: 'row',
