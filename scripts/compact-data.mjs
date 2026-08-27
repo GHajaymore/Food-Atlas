@@ -39,6 +39,32 @@ const PUBLIC = (name) => resolve(HERE, `../public/data/${name}.json`);
  * worth paying: the failure mode is a missing field, which the typecheck and the
  * screens catch at once.
  */
+/**
+ * Fields held back from the first payload and fetched once the app has painted.
+ *
+ * Measured on the live site: a cold visit is 2.92 MB of brotli and 1,215 ms before anything
+ * renders, and `steps` alone is 56% of cookbook.json — 3.84 MB decoded, read by exactly one
+ * screen. Holding it back takes the critical path to **2.02 MB, 31% less**. The full
+ * measurement, and what was tried and rejected, is in `docs/first-paint.md`.
+ *
+ * ## Three fields that look identical and cannot move
+ *
+ * `prepSummary` is 35% of cuisines.json and was on this list until the build was read
+ * properly. It is **evidence**: `hasAccount: prepSummary.length > 0` feeds `assess()`, so
+ * deferring it would move scores across the catalogue, and `detectAtRisk(prepSummary)`
+ * reads the prose itself to decide whether a tradition is declining.
+ *
+ * `langNames` is 16% of the same file and is not decoration either — `queries.ts` searches
+ * it, so a dish can be found by its name in any of 34 languages, and `proposals.ts` uses it
+ * to detect duplicates.
+ *
+ * Which leaves `steps`, where the text really is read by one screen and everything else
+ * wants the count. `stepCount` goes in the light row and `methodLength()` reads it.
+ */
+const DEFER = {
+  cookbook: ['steps'],
+};
+
 const KEEP = {
   cuisines: [
     'title', 'name', 'country', 'region', 'url', 'cuisine',
@@ -127,10 +153,35 @@ const main = async () => {
      * previous run's data while every file on disk says the pass succeeded — the
      * quietest kind of wrong. One write each, same bytes, no step to remember.
      */
+    /*
+     * Split into what the first paint needs and what it does not.
+     *
+     * The two arrays stay index-aligned rather than keyed by id, because ids are assigned
+     * later in `build.ts` and nothing at this layer has one. Alignment is the contract; the
+     * loader carries a map through the filter that drops a third of the rows, so late text
+     * cannot land under another recipe's name.
+     */
+    const defer = DEFER[name] ?? [];
+    const light = compact.map((row) => {
+      const out = { ...row };
+      for (const field of defer) delete out[field];
+      /* The count survives even though the words do not — see domain/method.ts. */
+      if (Array.isArray(row.steps)) out.stepCount = row.steps.length;
+      return out;
+    });
+    const detail = defer.length
+      ? compact.map((row) => {
+          const out = {};
+          for (const field of defer) if (row[field] !== undefined) out[field] = row[field];
+          return out;
+        })
+      : null;
+
     if (!dry) {
-      const json = JSON.stringify(compact);
+      const json = JSON.stringify(light);
       await writeFile(DATA(`${name}.min`), json, 'utf8');
       await writeFile(PUBLIC(name), json, 'utf8');
+      if (detail) await writeFile(PUBLIC(`${name}-detail`), JSON.stringify(detail), 'utf8');
     }
     process.stdout.write(
       `${name.padEnd(11)} ${(from / 1048576).toFixed(1)} MB -> ${(to / 1048576).toFixed(1)} MB` +

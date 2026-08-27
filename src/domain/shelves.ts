@@ -1,3 +1,4 @@
+import { hasMethod, methodLength } from './method';
 import { placeName } from './continents';
 /**
  * The home screen as doorways rather than a list.
@@ -69,7 +70,7 @@ const CLASS_RANK: Record<Level, number> = {
  * steps, ingredients, how precisely it is placed — puts a documented dish ahead of a
  * stub with a title. It is a measure of the entry, not a judgement of the food.
  */
-const substance = (d: Dish) => d.steps.length * 2 + d.ingredients.length + d.breadcrumb.length;
+const substance = (d: Dish) => methodLength(d) * 2 + d.ingredients.length + d.breadcrumb.length;
 
 /**
  * The fewest cards a rail may carry.
@@ -167,7 +168,7 @@ export const today = (): number => Math.floor(Date.now() / 86_400_000);
  * and recruiting is the entire point of putting these first.
  */
 function urgentOrder(dishes: Dish[], take: number): Dish[] {
-  const documented = (d: Dish) => (d.steps.length ? 2 : d.prepSummary.trim() ? 1 : 0);
+  const documented = (d: Dish) => (hasMethod(d) ? 2 : d.prepSummary.trim() ? 1 : 0);
 
   return dishes
     .filter((d) => d.photo)
@@ -266,7 +267,7 @@ export const SHELF_DEFS: ShelfDef[] = [
     id: 'cookable',
     titleKey: 'shelfCookable',
     noteKey: 'shelfCookableNote',
-    match: (d) => d.steps.length > 0,
+    match: (d) => hasMethod(d),
   },
   {
     id: 'illustrated',

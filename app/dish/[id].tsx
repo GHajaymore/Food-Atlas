@@ -11,12 +11,13 @@
  *     adaptation. It is never merged into the authentic ingredient list above it.
  */
 
+import { hasMethod, methodLength } from '../../src/domain/method';
 import { photoOriginLabel } from '../../src/domain/photoProvenance';
 import { languageNameIn } from '../../src/domain/language';
 import { placeName } from '../../src/domain/continents';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton } from '../../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
@@ -37,7 +38,7 @@ import { Screen } from '../../src/components/Screen';
 import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
-import { catalogue, dishById } from '../../src/data/catalogue';
+import { catalogue, dishById, loadCookbookSteps } from '../../src/data/catalogue';
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { atRiskNote } from '../../src/domain/atRisk';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
@@ -76,6 +77,30 @@ export default function DishDetail() {
   useEffect(() => {
     if (dish) count('dish', dish.id);
   }, [dish?.id]);
+
+  /*
+   * Wait for the method text, if it has not arrived.
+   *
+   * Cookbook step text is held back from the first payload and patched into the records in
+   * place once it lands — 31% off the critical path, see `docs/first-paint.md`. Mutating an
+   * array does not re-render a screen that is already open, so this screen asks for the
+   * text and re-renders itself once it has it.
+   *
+   * Only this screen needs to: everywhere else asks `methodLength()`, which has been right
+   * since the first frame. Already satisfied on every visit after the first, which is why
+   * the state starts as whether the words are there or were never coming.
+   */
+  const [textReady, setTextReady] = useState(() => !dish || dish.steps.length > 0 || !methodLength(dish));
+  useEffect(() => {
+    if (textReady) return;
+    let alive = true;
+    void loadCookbookSteps().then(() => {
+      if (alive) setTextReady(true);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [dish?.id, textReady]);
 
   const { language, setLanguage, requestTranslation, retryTranslation, read, statusFor, errorFor, canTranslate } =
     useTranslations();
@@ -143,7 +168,7 @@ export default function DishDetail() {
 
   // Imported records carry a name and a place and nothing else. The sections below
   // describe a preparation, so they only render where there is one.
-  const isDocumented = dish.steps.length > 0;
+  const isDocumented = hasMethod(dish);
 
   /**
    * The finest place the record actually names, for the ask on an empty record.
@@ -165,7 +190,7 @@ export default function DishDetail() {
    * one of them readable only in English while the screen displayed a paragraph of
    * preparation right underneath.
    */
-  const hasProse = dish.steps.length > 0 || Boolean(dish.prepSummary?.trim());
+  const hasProse = hasMethod(dish) || Boolean(dish.prepSummary?.trim());
   /** An adaptation documents how a dish is made today, not how its tradition makes it. */
   const isAdaptation = dish.badgeLevel === 'adaptation';
   /*

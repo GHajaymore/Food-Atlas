@@ -12,6 +12,7 @@
  * including where the evidence is thin. Hiding these would be off-mission.
  */
 
+import { hasMethod } from './method';
 import type { Copy } from '../i18n/copy';
 import { continentLabel, continentOf, isCountry } from './continents';
 import { isAuthentic } from './authenticity';
@@ -190,7 +191,7 @@ export function catalogueMetrics(copy: Copy, dishes: Dish[]): CatalogueMetrics {
 
     documented: ratio(
       copy.figureDocumented,
-      dishes.filter((d) => d.steps.length > 0).length,
+      dishes.filter(hasMethod).length,
       total,
       copy.figureDocumentedNote,
     ),

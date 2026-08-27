@@ -34,6 +34,7 @@
  * than left assuming the atlas holds Korean food it does not.
  */
 
+import { hasMethod } from './method';
 import { resolveStaple, type Staple } from './staples';
 import type { Dish } from './types';
 
@@ -221,7 +222,7 @@ export function cookWith(dishes: Dish[], terms: string[], limit = 60): PantryRes
       /* Between two dishes using the same number of the reader's ingredients, the
          better-documented one is the more useful answer — and a dish with no method
          recorded cannot actually be cooked from this atlas at all. */
-      (b.dish.steps.length > 0 ? 1 : 0) - (a.dish.steps.length > 0 ? 1 : 0) ||
+      (hasMethod(b.dish) ? 1 : 0) - (hasMethod(a.dish) ? 1 : 0) ||
       (b.dish.score ?? -1) - (a.dish.score ?? -1),
   );
 

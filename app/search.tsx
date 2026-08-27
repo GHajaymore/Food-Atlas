@@ -7,6 +7,7 @@
  * never blended into the default ordering.
  */
 
+import { hasMethod } from '../src/domain/method';
 import { router } from 'expo-router';
 import { placeName } from '../src/domain/continents';
 import { Children, useEffect, useMemo, useState } from 'react';
@@ -252,7 +253,7 @@ export default function Search() {
                     </T>
                     <Muted style={styles.pantryBadge} numberOfLines={1}>
                       {dish.badgeIcon} {dish.score !== null ? `${dish.score}/100` : levelLabel(copy, dish.badgeLevel)}
-                      {dish.steps.length ? copy.methodRecorded : copy.noMethodYet}
+                      {hasMethod(dish) ? copy.methodRecorded : copy.noMethodYet}
                     </Muted>
                   </View>
                 </Pressable>

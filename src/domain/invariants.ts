@@ -10,6 +10,7 @@
  * record, not a rendering bug.
  */
 
+import { hasMethod, methodLength } from './method';
 import { isAuthentic, SCORE_DIMENSIONS } from './authenticity';
 import type { Dish } from './types';
 
@@ -50,7 +51,7 @@ export function findViolations(dish: Dish): string[] {
   // link to the tradition they derive from.
   if (dish.badgeLevel === 'fusion') {
     if (dish.score !== null) fail('No Fusion in the Authentic Category', 'fusion records are not scored');
-    if (dish.steps.length) fail('No Fusion in the Authentic Category', 'fusion records carry no traditional method');
+    if (hasMethod(dish)) fail('No Fusion in the Authentic Category', 'fusion records carry no traditional method');
     if (dish.equipment.length)
       fail('No Fusion in the Authentic Category', 'fusion records carry no traditional equipment');
     if (!dish.fusionNote) fail('No Fusion in the Authentic Category', 'fusion records must explain the classification');
@@ -247,10 +248,10 @@ function findSelfContradictions(dishes: Dish[]): string[] {
     // The disclaimer for an empty record says so in as many words. If the record then
     // has a method, one of the two is lying to the reader.
     const claimsNothingRecorded = /only the name and the place are recorded|nothing documents how this is made/i;
-    if (claimsNothingRecorded.test(dish.disclaimer) && (dish.steps.length > 0 || dish.prepSummary.trim())) {
+    if (claimsNothingRecorded.test(dish.disclaimer) && (hasMethod(dish) || dish.prepSummary.trim())) {
       problems.push(
         `${dish.name}: says nothing is recorded about how it is made, directly above ` +
-          `${dish.steps.length} steps and ${dish.prepSummary.trim().length} characters of preparation.`,
+          `${methodLength(dish)} steps and ${dish.prepSummary.trim().length} characters of preparation.`,
       );
     }
   }

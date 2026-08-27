@@ -24,6 +24,8 @@
 
 import { CONFIRMATIONS_URL, canConfirm, type ConfirmationIndex } from '../domain/confirmations';
 import { coverageOf, type LanguageCoverage } from '../domain/language';
+import { recipeLines } from '../domain/recipeLines';
+import { decodeEntities } from '../domain/text';
 import type { Dish } from '../domain/types';
 import { buildCatalogue, type CatalogueStats } from './build';
 import { loadSettings, thresholds } from './settings';
@@ -160,9 +162,75 @@ export function loadCatalogue(): Promise<void> {
 
     const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi, confirmations, thresholds());
     catalogue = built.catalogue;
+    cookbookRows = built.cookbookRows;
     catalogueStats = built.stats;
     languageCoverage = coverageOf(catalogue);
   })();
 
+  /*
+   * The step text, started once the build is queued and never awaited here.
+   *
+   * That is the whole point: `loadCatalogue` resolves when the light payload is built, the
+   * app paints, and this fills in behind it.
+   */
+  void loadCookbookSteps();
+
   return pending;
+}
+
+/** Which source row each cookbook record came from. Filled by the build. */
+let cookbookRows: number[] = [];
+
+let stepsPending: Promise<void> | null = null;
+
+/**
+ * The half of cookbook.json the first paint does not need.
+ *
+ * 56% of that file is step text, read by exactly one screen. Holding it back takes a cold
+ * visit from 2.92 MB of brotli to 2.02 MB — 31% off the critical path, measured. What could
+ * and could not move, and why, is in `docs/first-paint.md`.
+ *
+ * Every count is already correct by the time this runs: the records carry `stepCount` and
+ * the app asks `methodLength()`, so nothing on screen has been waiting for this. It fills
+ * in the words.
+ *
+ * A failure costs the method text and nothing else — the atlas is already readable and
+ * every figure already right. Same non-rejecting contract as `loadConfirmations`, and the
+ * same reasoning: taking the catalogue down because a second file did not arrive would be
+ * the wrong trade by a wide margin.
+ */
+export function loadCookbookSteps(): Promise<void> {
+  stepsPending ??= (async () => {
+    /* Nothing to attach to yet. The caller in `loadCatalogue` runs after the build is
+       queued, and the dish screen calls this again once it has mounted. */
+    await pending;
+
+    try {
+      const response = await fetch(`${BASE}/data/cookbook-detail.json`);
+      if (!response.ok) return;
+      const detail = (await response.json()) as { steps?: string[] }[];
+      if (!Array.isArray(detail)) return;
+
+      /*
+       * One index, not 6,979 linear scans. `dishById` is a `find` over the whole
+       * catalogue — right for the single lookup a screen does, and quadratic here:
+       * 6,979 records against 21,688 is about 150 million comparisons on the main
+       * thread, to fix a slow first paint.
+       */
+      const byId = new Map(catalogue.map((dish) => [dish.id, dish]));
+
+      for (let i = 0; i < cookbookRows.length; i += 1) {
+        const steps = detail[cookbookRows[i]]?.steps;
+        if (!steps?.length) continue;
+        const dish = byId.get(300_000 + i);
+        /* Cleaned exactly as `build.ts` cleans early text, so a late method is not a
+           different shape from an early one. */
+        if (dish) dish.steps = recipeLines(steps.map(decodeEntities));
+      }
+    } catch {
+      /* Offline, or the file is not served. The atlas is already on screen. */
+    }
+  })();
+
+  return stepsPending;
 }

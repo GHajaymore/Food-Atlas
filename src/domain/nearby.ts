@@ -37,6 +37,7 @@
  * and the shelf names the country out loud so a reader can see the guess and ignore it.
  */
 
+import { hasMethod } from './method';
 import type { Dish } from './types';
 import zones from '../data/timezones.json';
 
@@ -84,7 +85,7 @@ export function unwrittenIn(dishes: readonly Dish[], country: string): Dish[] {
   if (!country) return [];
 
   return dishes
-    .filter((d) => d.loc.country === country && !d.steps.length && !d.prepSummary.trim())
+    .filter((d) => d.loc.country === country && !hasMethod(d) && !d.prepSummary.trim())
     .sort((a, b) => nearlyThere(b) - nearlyThere(a));
 }
 

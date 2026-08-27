@@ -24,6 +24,7 @@
  * value is *right* — the domain tests do that — only that it arrives.
  */
 
+import { hasMethod } from '../src/domain/method';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { buildCatalogue } from '../src/data/build';
@@ -115,7 +116,15 @@ const PLUMBING: { field: string; shows: string; reaches: (d: Dish) => boolean }[
   },
   { field: 'prepSummary', shows: 'a described preparation', reaches: (d) => Boolean(d.prepSummary?.trim()) },
   { field: 'ingredients', shows: 'an ingredient list', reaches: (d) => d.ingredients.length > 0 },
-  { field: 'steps', shows: 'an ordered method', reaches: (d) => d.steps.length > 0 },
+  /*
+   * `stepCount`, not `steps`.
+   *
+   * The step text is held back from the shipped payload, so no row in `public/data` carries
+   * `steps` any more — and the guard above ("a field nothing has written yet cannot be
+   * plumbed wrongly") would then skip this case entirely and pass while asserting nothing.
+   * The count is what ships, so the count is what this traces.
+   */
+  { field: 'stepCount', shows: 'an ordered method', reaches: (d) => hasMethod(d) },
   { field: 'equipment', shows: 'the equipment it is made with', reaches: (d) => d.equipment.length > 0 },
   { field: 'photo', shows: 'a photograph', reaches: (d) => Boolean(d.photo) },
   { field: 'licence', shows: 'the licence beside the photograph', reaches: (d) => d.credit.includes('·') },
@@ -276,6 +285,10 @@ describe('what the scripts write reaches the reader', () => {
       // The gazetteer's credit. CC BY 4.0 is the licence, so this travels with any
       // record whose place it confirmed.
       'placeConfirmed',
+      // How long a cookbook method is, written by compact-data.mjs because the step text
+      // itself is held back from the first payload. Read through methodLength(), never
+      // shown. See domain/method.ts.
+      'stepCount',
     ]);
 
     const declared = new Set([...PLUMBING.map((p) => p.field), ...BOOKKEEPING, ...STRUCTURAL, ...PHOTO_PROVENANCE]);
@@ -305,7 +318,9 @@ describe('a recipe says truthfully where it was published', () => {
     // A Swiss dish in the French cookbook is exactly the case the original copy
     // was written for, and it has to keep it.
     const foreign = catalogue.find(
-      (d) => d.sourceLanguage === 'fr' && d.steps.length > 0 && d.loc.country !== 'France',
+      // The count, not the array: cookbook step text is fetched after first paint, so in
+      // a test with no network the words are absent and the length is still right.
+      (d) => d.sourceLanguage === 'fr' && hasMethod(d) && d.loc.country !== 'France',
     );
     expect(foreign?.blurb).toMatch(/for a general audience rather than recorded in/);
   });

@@ -19,6 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
+import { hasMethod } from '../domain/method';
 import { EN } from '../i18n/copy';
 import { DEFAULT_THRESHOLDS, assess, type Evidence, type Thresholds } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
@@ -45,6 +46,16 @@ import { dishes as curated } from './seed';
  * correct four times out of five.
  */
 const assessWith = (t: Thresholds, e: Evidence) => assess(e, t);
+
+/**
+ * How many steps a cookbook row has, whether or not its text shipped.
+ *
+ * One reader for both shapes, so the three places that ask do not each have to remember
+ * that the array may be absent. The dish-level equivalent is `methodLength` in
+ * `domain/method.ts`; this one reads the raw row, before a record exists.
+ */
+const rowSteps = (row: { steps?: string[]; stepCount?: number }): number =>
+  row.stepCount ?? row.steps?.length ?? 0;
 
 /**
  * The compact shape the importer writes. Everything shared across all imported
@@ -650,7 +661,16 @@ interface CookbookRow extends PhotoRow {
   title: string;
   name: string;
   ingredients: string[];
-  steps: string[];
+  /**
+   * Absent in the shipped file, and present in `src/data/cookbook.json`.
+   *
+   * The step text is 56% of that file and only the record screen reads it, so it is held
+   * back and fetched after the app paints — see `scripts/compact-data.mjs`. What arrives
+   * with the first payload is `stepCount`.
+   */
+  steps?: string[];
+  /** How many steps the recipe has, present whether or not the text has arrived. */
+  stepCount?: number;
   url: string;
   /** Derived from "Category:Indian recipes" and the like. */
   country?: string;
@@ -761,7 +781,7 @@ export function buildCatalogue(
    * silently re-badges itself.
    */
   t: Thresholds = DEFAULT_THRESHOLDS,
-): { catalogue: Dish[]; stats: CatalogueStats } {
+): { catalogue: Dish[]; stats: CatalogueStats; cookbookRows: number[] } {
 /**
  * Cookbook recipes carry a method but no place, so they cannot stand as atlas
  * records of their own — a record with no country has nowhere to sit and nothing to
@@ -966,16 +986,30 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
  * rather than quietly passing one off as the other — the comparison the app exists
  * to make.
  */
+/**
+ * Which row of cookbook.json each cookbook record came from.
+ *
+ * Position i holds the source row of the dish with id 300_000 + i. The step text arrives in
+ * a separate, index-aligned file after the app has painted, and the dish's own index cannot
+ * address it because the filter below drops about a third of the rows. Getting this wrong
+ * would put one recipe's method under another recipe's name — which would look right, and
+ * is the failure this array exists to prevent.
+ */
+const cookbookRows: number[] = [];
+
 const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
+  .map((row, sourceIndex) => ({ row, sourceIndex }))
   // The country must be a real one. Wikibooks files recipes under "Category:Easy
   // recipes" and "Category:Boiled recipes" as readily as "Category:Indian recipes",
   // so a naive read of the category made "Easy" the largest cuisine in the atlas.
   // The continent map is the whitelist: anything it cannot place is not a country.
   .filter(
-    (row) =>
-      row.country && row.steps?.length && continentOf(row.country) !== 'Elsewhere' && isFood(cleanName(row.name)),
+    ({ row }) =>
+      row.country && rowSteps(row) && continentOf(row.country) !== 'Elsewhere' && isFood(cleanName(row.name)),
   )
-  .map((row, index) => ({
+  .map(({ row, sourceIndex }, index) => {
+    cookbookRows[index] = sourceIndex;
+    return {
     id: 300_000 + index,
     name: cleanName(row.name),
     category: 'Unclassified',
@@ -1009,10 +1043,12 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     breakdown: [],
     views: '',
 
-    prepSummary: `Published method, ${row.steps.length} steps.`,
+    prepSummary: `Published method, ${rowSteps(row)} steps.`,
     ingredients: cleanLines(row.ingredients),
     equipment: [],
     steps: cleanLines(row.steps),
+    /* The words may not have arrived; the count always has. See domain/method.ts. */
+    stepCount: rowSteps(row),
     adaptation: null,
     popular: null,
     videos: [],
@@ -1029,7 +1065,8 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     ],
     disclaimer: cookbookDisclaimer(row),
     sourceLanguage: row.sourceLanguage ?? 'en',
-  }));
+  };
+  });
 
 /**
  * What an inscription evidences, dimension by dimension.
@@ -1318,7 +1355,7 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
  * most-published version never becomes the authentic record by default.
  */
 function withCookbookMethod(dish: Dish): Dish {
-  if (dish.steps.length || dish.popular) return dish;
+  if (hasMethod(dish) || dish.popular) return dish;
   const recipe = cookbookByName.get(dish.name.trim().toLowerCase());
   if (!recipe) return dish;
 
@@ -1418,7 +1455,7 @@ const validImported = [...fromCuisines, ...imported]
   withIngredients: catalogue.filter((d) => (d.ingredients?.length ?? 0) > 0).length,
 };
 
-  return { catalogue, stats };
+  return { catalogue, stats, cookbookRows };
 }
 
 /** The coverage figures the atlas page reports. */

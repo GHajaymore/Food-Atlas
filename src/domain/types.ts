@@ -248,8 +248,21 @@ export interface Dish {
   ingredients: string[];
   /** Traditional only. Not converted to modern appliances. */
   equipment: string[];
-  /** The traditional method, with real durations and hand techniques preserved. */
+  /**
+   * The traditional method, with real durations and hand techniques preserved.
+   *
+   * Empty on a cookbook record until the step text arrives — it is held back from the
+   * first payload because it is 56% of that file and only this app's record screen reads
+   * it. Ask `methodLength()` how long the method is; read this only to show the words.
+   */
   steps: string[];
+  /**
+   * How many steps the method has, whether or not `steps` holds them yet.
+   *
+   * Absent on records whose text ships with the first payload, where the array is already
+   * the truth — `methodLength()` falls back to it.
+   */
+  stepCount?: number;
 
   adaptation: Adaptation | null;
   popular: PopularVersion | null;
