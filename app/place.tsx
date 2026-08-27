@@ -21,10 +21,11 @@ import { feedFor, nextLevel, placeGroups } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { accentText, color, space } from '../src/theme/tokens';
 import { chooseLevel } from '../src/domain/authenticity';
-import { useCopy } from '../src/i18n';
+import { useCopy, useLocale } from '../src/i18n';
 
 export default function PlacePicker() {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   const { activeFilter, path, placeQuery, setPlaceQuery, pushPlace } = useApp();
 
   const matching = feedFor(dishes, activeFilter, path);
@@ -88,7 +89,7 @@ export default function PlacePicker() {
           showLabel: group.showLabel,
           options: group.options.map((option) => ({
             label: option.label,
-            display: placeName(option.label, copy),
+            display: placeName(option.label, copy, locale),
             count: option.count,
             /*
              * Some of these are not countries, and the list should say so.

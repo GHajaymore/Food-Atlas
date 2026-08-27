@@ -46,7 +46,7 @@ import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { likelyCountry } from '../src/domain/nearby';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
-import { useCopy, useNumber, usePlural } from '../src/i18n';
+import { useCopy, useNumber, usePlural, useLocale } from '../src/i18n';
 import { settings, useApp } from '../src/state/store';
 
 /** Dish cards rendered per page of the feed. */
@@ -56,6 +56,7 @@ import { accentText, color, elevation, radius, space } from '../src/theme/tokens
 
 export default function Feed() {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   const plural = usePlural();
   const n = useNumber();
   const {
@@ -120,7 +121,7 @@ export default function Feed() {
 
   /* Display only. Every narrowing reads from `path`, which stays in the English the atlas is
      keyed on, so translating here cannot reach the query. */
-  const place = path.length ? placeName(path[path.length - 1].value, copy) : copy.worldwide;
+  const place = path.length ? placeName(path[path.length - 1].value, copy, locale) : copy.worldwide;
   const placeHint = next
     ? path.length
       ? copy.narrowToA.replace('{level}', copy[next.labelKey]).replace('{n}', String(next.options.length))
@@ -145,7 +146,7 @@ export default function Feed() {
   }${openShelf ? ` · ${openShelf}` : ''}`;
 
   // 'World' plus each chosen level; tapping any of them truncates the path there.
-  const crumbs = [{ label: copy.world }, ...path.map((p) => ({ label: placeName(p.value, copy) }))];
+  const crumbs = [{ label: copy.world }, ...path.map((p) => ({ label: placeName(p.value, copy, locale) }))];
 
   // The empty state names every choice that narrowed the list, so the reader can see
   // which of them emptied it rather than guessing — and, more importantly, so the

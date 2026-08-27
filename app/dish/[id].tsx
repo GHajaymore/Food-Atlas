@@ -62,6 +62,7 @@ import { accentText, color, font, radius, space, tapArea, TAP_TARGET } from '../
 
 export default function DishDetail() {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   /* The language the chrome is in — what decides whether foreign prose needs naming. */
   const uiLocale = useLocale((s) => s.locale);
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -522,7 +523,7 @@ export default function DishDetail() {
             <>
               <H5 style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
-                {copy.quotedFromSource.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy))}
+                {copy.quotedFromSource.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
               </Muted>
               <Block style={styles.describedBlock}>
                 {/*
@@ -602,7 +603,7 @@ export default function DishDetail() {
           <H5 style={styles.h5}>{isAdaptation ? copy.thePublishedRecipe : copy.authenticVersion}</H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
-              {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy))}
+              {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>

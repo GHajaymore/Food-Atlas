@@ -29,7 +29,7 @@
  * because of a desktop change.
  */
 
-import { useCopy, useNumber } from '../i18n';
+import { useCopy, useNumber, useLocale } from '../i18n';
 import type { Copy } from '../i18n/copy';
 import { useState } from 'react';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
@@ -99,6 +99,7 @@ export function AtlasDirectory({ groups, onPick }: Props) {
  */
 function Open({ groups, onPick, columns }: Props & { columns: number }) {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   const n = useNumber();
   /* Closed rather than open, so the empty set means "everything open" and a continent
      added tomorrow arrives expanded like the rest. */
@@ -140,7 +141,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
                 <View key={country.name} style={{ width: `${100 / columns}%` }}>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={`${placeName(country.name, copy)}, ${country.detail}`}
+                    accessibilityLabel={`${placeName(country.name, copy, locale)}, ${country.detail}`}
                     tint="neutral"
                     onPress={() => onPick(country.name)}
                     style={styles.gridCell}
@@ -148,7 +149,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
                     {/* Translated for display only. The `onPick` above still sends the
                         English name, because that is what the atlas is keyed on. */}
                     <T style={styles.gridCountry} numberOfLines={1}>
-                      {placeName(country.name, copy)}
+                      {placeName(country.name, copy, locale)}
                     </T>
                     {/*
                      * The count only, not the full detail line.

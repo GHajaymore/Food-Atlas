@@ -62,6 +62,7 @@ import { decodeEntities } from '../src/domain/text';
 import { negotiateLocale } from '../src/domain/uiLanguage';
 import { copyFor, isMachineTranslated, pluralOf, translationCoverage, UI_LOCALES } from '../src/i18n';
 import { CATALOGUES } from '../src/i18n/catalogues';
+import { COUNTRY_CODE } from '../src/domain/countryCodes';
 import { EN } from '../src/i18n/copy';
 import {
   considerSource,
@@ -2986,6 +2987,39 @@ describe('a record moves up when the community confirms it', () => {
       const partial = assess({ ...bestDocumented, heritage: [], registerMethod: false, validations });
       expect({ validations, level: partial.level }).toEqual({ validations, level: 'variation' });
     }
+  });
+
+  it("names a country in the reader's language, and never the wrong country", () => {
+    /*
+     * The generator that built COUNTRY_CODE was wrong twice before it was right, and both
+     * failures are pinned here because neither is visible by reading the map.
+     *
+     * Intl still answers for deprecated codes, so indexing by name let a later code
+     * overwrite the canonical one: Russia came out SU (Soviet Union), Serbia YU
+     * (Yugoslavia), Benin DY (Dahomey) and the United Kingdom UK, which is not an ISO code
+     * at all. Every one of those would have translated to a country that no longer exists.
+     */
+    for (const [name, code] of Object.entries({
+      Russia: 'RU', Serbia: 'RS', Benin: 'BJ', 'United Kingdom': 'GB', France: 'FR', Turkey: 'TR',
+    })) {
+      expect(COUNTRY_CODE[name]).toBe(code);
+    }
+
+    // Translation reaches the reader, in their language, through the same call the UI makes.
+    expect(placeName('Japan', copyFor('fr'), 'fr')).toBe('Japon');
+    expect(placeName('Germany', copyFor('es'), 'es')).toBe('Alemania');
+    expect(placeName('Turkey', copyFor('de'), 'de')).toBe('Türkei');
+
+    // No locale, no change: the atlas is keyed on these and callers that omit it get English.
+    expect(placeName('Japan', copyFor('fr'))).toBe('Japan');
+
+    // A place with no region code keeps its English name rather than going blank.
+    for (const unmapped of ['England', 'Hawaii', 'Abkhazia', 'Zanzibar']) {
+      expect(placeName(unmapped, copyFor('ja'), 'ja')).toBe(unmapped);
+    }
+
+    // Wider regions still win over countries — they are translated by hand, not by Intl.
+    expect(placeName('Levant', copyFor('ja'), 'ja')).toBe('レヴァント');
   });
 
   it('gives Russian and Polish the third plural form, and keeps the number in it', () => {

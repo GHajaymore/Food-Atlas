@@ -33,7 +33,7 @@ import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
-import { joinOr, useCopy, type Copy, useNumber } from '../src/i18n';
+import { joinOr, useCopy, type Copy, useNumber, useLocale } from '../src/i18n';
 import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
@@ -68,6 +68,7 @@ const sortsFor = (copy: Copy): { key: SortKey; label: string }[] => [
 
 export default function Search() {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   const n = useNumber();
   const SORTS = sortsFor(copy);
   const {
@@ -242,7 +243,7 @@ export default function Search() {
                       {dish.name}
                     </T>
                     <Muted style={styles.pantryPlace} numberOfLines={1}>
-                      {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}
+                      {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale)}
                     </Muted>
                     {/* Named rather than counted: "uses chicken, rice" is checkable
                         against the record in a second; "3 matches" is a number to trust. */}
@@ -397,7 +398,7 @@ export default function Search() {
                 <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.thumb} hideCredit />
                 <View style={styles.resultText}>
                   <T style={styles.resultName}>{dish.name}</T>
-                  <Muted style={styles.resultPlace}>{dish.breadcrumb.map((step) => placeName(step, copy)).join(' › ')}</Muted>
+                  <Muted style={styles.resultPlace}>{dish.breadcrumb.map((step) => placeName(step, copy, locale)).join(' › ')}</Muted>
                   <Muted style={styles.resultClass}>
                     {dish.badgeIcon} {levelLabel(copy, dish.badgeLevel)} · {dish.score == null ? copy.notClassified : `${dish.score}/100`}
                   </Muted>

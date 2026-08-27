@@ -37,7 +37,7 @@
  * one, so the screen passes the rail everything except this record.
  */
 
-import { useCopy } from '../i18n';
+import { useCopy, useLocale } from '../i18n';
 import { placeName } from '../domain/continents';
 import { levelLabel } from '../domain/authenticity';
 import { cardPlace } from '../domain/place';
@@ -54,6 +54,7 @@ import { Muted, T } from './Text';
 
 export function LeadDish({ dish }: { dish: Dish | undefined }) {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   /* No photograph, no hero. More than half the atlas has no image, and a monogram at this
      size would spend the best position on the page saying nothing. */
   if (!dish?.photo) return null;
@@ -61,7 +62,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
   return (
     <Pressable
       accessibilityRole="link"
-      accessibilityLabel={`${dish.name}, ${placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}. ${levelLabel(copy, dish.badgeLevel)}`}
+      accessibilityLabel={`${dish.name}, ${placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale)}. ${levelLabel(copy, dish.badgeLevel)}`}
       tint="none"
       onPress={() => router.push(`/dish/${dish.id}`)}
       style={styles.press}
@@ -88,7 +89,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
           <View style={styles.meta}>
             <MapPinIcon size={12} color={color.meta} />
             <Muted style={styles.place} numberOfLines={1}>
-              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}
+              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale)}
             </Muted>
             <View style={styles.spacer} />
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />

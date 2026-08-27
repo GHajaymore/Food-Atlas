@@ -23,7 +23,7 @@ import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { H4, Muted, T } from './Text';
 import { shelfLabel } from '../domain/shelves';
-import { useCopy, useNumber } from '../i18n';
+import { useCopy, useNumber, useLocale } from '../i18n';
 
 interface Props {
   shelf: ShelfData;
@@ -34,8 +34,9 @@ interface Props {
 
 export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   const n = useNumber();
-  const label = shelfLabel(copy, shelf);
+  const label = shelfLabel(copy, shelf, locale);
   const remaining = shelf.total - shelf.dishes.length;
   const layout = useLayout();
 
@@ -128,7 +129,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
               {dish.name}
             </T>
             <Muted style={{ ...styles.place, fontSize: cardText.place }} numberOfLines={1}>
-              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}
+              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale)}
             </Muted>
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
           </Pressable>

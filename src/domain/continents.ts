@@ -1,3 +1,4 @@
+import { COUNTRY_CODE } from './countryCodes';
 import type { Copy } from '../i18n/copy';
 /**
  * Country to continent.
@@ -361,9 +362,19 @@ export const MULTI_COUNTRY: readonly string[] = [
  * not an accident of this function: countries are English on every screen, and this is the
  * seam they would be translated at when that changes.
  */
-export const placeName = (label: string, copy: Copy): string => {
+export const placeName = (label: string, copy: Copy, locale?: string): string => {
   const key = REGION_KEYS[label] ?? CONTINENT_KEYS[label];
-  return key ? copy[key] : label;
+  if (key) return copy[key];
+  /*
+   * Countries come last, and only when a locale is supplied.
+   *
+   * A continent or a wider region is a phrase this project wrote and translated by hand;
+   * a country is a name Intl already knows in every locale, so it needs a code rather
+   * than a catalogue entry. Anything it cannot place -- England, Hawaii, Abkhazia, and
+   * eight more with no alpha-2 code -- comes back in English, which is what this function
+   * has always done with a name it does not recognise.
+   */
+  return locale ? countryNameIn(label, locale) : label;
 };
 
 /** Every English place name this module can translate — for the coverage test. */
@@ -371,3 +382,31 @@ export const translatablePlaces = (): string[] => [
   ...Object.keys(REGION_KEYS),
   ...Object.keys(CONTINENT_KEYS),
 ];
+
+/**
+ * A country in the reader's language.
+ *
+ * The atlas is keyed on English country names and always will be — that is what `onPick`
+ * sends, what the filters compare and what the data stores. This translates the *display*
+ * of one, and nothing else.
+ *
+ * `Intl.DisplayNames` does the work, the same way it does for languages: it is already in
+ * the browser, it knows every region in every locale, and it costs nothing. `COUNTRY_CODE`
+ * is the only thing that had to be built — the join between this atlas's spelling and an
+ * ISO code — and 221 of 232 names resolve through it.
+ *
+ * Returns the English name unchanged for the eleven that have no region code, which are
+ * sub-national or unrecognised rather than missing. That is the same answer `placeName`
+ * gives for anything else it cannot place, so a reader never meets a blank.
+ */
+export const countryNameIn = (name: string, locale: string): string => {
+  const code = COUNTRY_CODE[name];
+  if (!code) return name;
+  try {
+    const translated = new Intl.DisplayNames([locale], { type: 'region' }).of(code);
+    if (translated && translated !== code) return translated;
+  } catch {
+    /* No Intl.DisplayNames here. The English name is still a true answer. */
+  }
+  return name;
+};

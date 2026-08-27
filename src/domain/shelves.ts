@@ -1,3 +1,4 @@
+import { placeName } from './continents';
 /**
  * The home screen as doorways rather than a list.
  *
@@ -438,7 +439,25 @@ export const shelfTitle = (copy: Copy, id: string | null): string | null => {
  * One function for both so that a caller cannot resolve the title and forget the note,
  * which is exactly how the note kept its English through four translation batches.
  */
-export const shelfLabel = (copy: Copy, shelf: Pick<Shelf, 'titleKey' | 'noteKey' | 'country'>) => ({
-  title: copy[shelf.titleKey].replace('{country}', shelf.country ?? ''),
-  note: copy[shelf.noteKey].replace('{country}', shelf.country ?? ''),
-});
+export const shelfLabel = (
+  copy: Copy,
+  shelf: Pick<Shelf, 'titleKey' | 'noteKey' | 'country'>,
+  locale?: string,
+) => {
+  /*
+   * The country goes in translated.
+   *
+   * A Japanese reader saw "United Statesから" — the sentence in Japanese with an English
+   * country name welded into the middle of it, which is exactly the half-translated shape
+   * the region pass set out to end. `placeName` names it in the reader's language and
+   * falls back to English for the eleven places with no ISO region code.
+   *
+   * Found by reading the rendered page after the country pass, not from the diff: every
+   * card said アメリカ合衆国 while the shelf above them still said United States.
+   */
+  const country = shelf.country ? placeName(shelf.country, copy, locale) : '';
+  return {
+    title: copy[shelf.titleKey].replace('{country}', country),
+    note: copy[shelf.noteKey].replace('{country}', country),
+  };
+};

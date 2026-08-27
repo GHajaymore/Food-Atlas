@@ -14,7 +14,7 @@
  * nothing more. The visual difference between the two tiers is doing honest work.
  */
 
-import { useCopy } from '../i18n';
+import { useCopy, useLocale } from '../i18n';
 import { placeName } from '../domain/continents';
 import { levelLabel } from '../domain/authenticity';
 import { router } from 'expo-router';
@@ -40,6 +40,7 @@ interface Props {
 
 export function DishCard({ dish, showViews, compact }: Props) {
   const copy = useCopy();
+  const locale = useLocale((state) => state.locale);
   const open = () => router.push(`/dish/${dish.id}`);
 
   if (compact) {
@@ -59,7 +60,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
             {dish.name}
           </T>
           <Muted style={styles.rowPlace} numberOfLines={1}>
-            {dish.breadcrumb.map((step) => placeName(step, copy)).join(' › ')}
+            {dish.breadcrumb.map((step) => placeName(step, copy, locale)).join(' › ')}
           </Muted>
           {/*
            * The evidence, at the weight it deserves rather than as a third line of grey.
@@ -101,7 +102,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
 
           <View style={styles.meta}>
             <MapPinIcon size={12} color={color.meta} />
-            <Muted style={styles.metaText}>{dish.breadcrumb.slice(-2).map((step) => placeName(step, copy)).join(', ')}</Muted>
+            <Muted style={styles.metaText}>{dish.breadcrumb.slice(-2).map((step) => placeName(step, copy, locale)).join(', ')}</Muted>
           </View>
 
           {/* The dietary read and the occasion, so a reader does not open a dish
