@@ -2804,6 +2804,8 @@ describe('the chrome in other languages', () => {
      */
     // "1 tradition" is spelled the same in French, and means the same thing.
     'fr.oneTradition',
+    // Likewise the plural noun on its own.
+    'fr.traditionsLabel',
 
     'es.regionWu',
     'fr.regionLevant', 'fr.regionMaghreb', 'fr.regionBalkans', 'fr.regionWu',

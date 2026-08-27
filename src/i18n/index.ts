@@ -160,3 +160,24 @@ export const joinAnd = (copy: Copy, items: string[]): string => join(copy.listAn
 
 /** "a, b or c" — for a list of things any one of which would do. */
 export const joinOr = (copy: Copy, items: string[]): string => join(copy.listOr, items);
+
+/**
+ * A number written the way the reader's language writes numbers.
+ *
+ * `value.toLocaleString()` with no argument formats in the *device's* locale, not the
+ * one the reader picked in this app. Those are usually the same and occasionally not,
+ * and when they differ the page mixes conventions: the atlas shipped "17,740
+ * Traditionen" to a German reader, who writes 17.740.
+ *
+ * There are 29 bare `toLocaleString()` calls in this codebase and this fixes one of
+ * them — the rest are listed in the commit that added this. It exists so the correct
+ * form is available at the next call site rather than being rediscovered.
+ */
+export const formatNumber = (value: number, locale: string): string => {
+  try {
+    return value.toLocaleString(locale);
+  } catch {
+    /* An unknown locale must not cost the reader the number. */
+    return value.toLocaleString();
+  }
+};

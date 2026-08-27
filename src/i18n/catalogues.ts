@@ -1305,6 +1305,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} registradas',
     writtenInLanguage:
       'Escrito en {language}',
+    whatThisIs:
+      'Qué es esto',
+    atlasDefinition:
+      'Un atlas gratuito de platos tradicionales: de dónde viene cada uno y quién lo respalda.',
+    traditionsLabel:
+      'tradiciones',
+    freeNoAds:
+      'Gratis, sin anuncios',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2576,6 +2584,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} enregistrées',
     writtenInLanguage:
       'Écrit en {language}',
+    whatThisIs:
+      'Ce que c’est',
+    atlasDefinition:
+      'Un atlas gratuit des plats traditionnels : d’où vient chacun, et qui s’en porte garant.',
+    traditionsLabel:
+      'traditions',
+    freeNoAds:
+      'Gratuit, sans publicité',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3846,6 +3862,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} erfasst',
     writtenInLanguage:
       'Verfasst auf {language}',
+    whatThisIs:
+      'Was das hier ist',
+    atlasDefinition:
+      'Ein kostenloser Atlas traditioneller Gerichte — woher jedes stammt und wer dafür bürgt.',
+    traditionsLabel:
+      'Traditionen',
+    freeNoAds:
+      'Kostenlos, ohne Werbung',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5116,6 +5140,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} registrate',
     writtenInLanguage:
       'Scritto in {language}',
+    whatThisIs:
+      'Che cos’è',
+    atlasDefinition:
+      'Un atlante gratuito di piatti tradizionali: da dove viene ciascuno e chi lo garantisce.',
+    traditionsLabel:
+      'tradizioni',
+    freeNoAds:
+      'Gratis, senza pubblicità',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6387,6 +6419,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} registadas',
     writtenInLanguage:
       'Escrito em {language}',
+    whatThisIs:
+      'O que é isto',
+    atlasDefinition:
+      'Um atlas gratuito de pratos tradicionais — de onde vem cada um e quem responde por ele.',
+    traditionsLabel:
+      'tradições',
+    freeNoAds:
+      'Grátis, sem anúncios',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7657,6 +7697,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} vastgelegd',
     writtenInLanguage:
       'Geschreven in het {language}',
+    whatThisIs:
+      'Wat dit is',
+    atlasDefinition:
+      'Een gratis atlas van traditionele gerechten — waar elk vandaan komt en wie ervoor instaat.',
+    traditionsLabel:
+      'tradities',
+    freeNoAds:
+      'Gratis, geen advertenties',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8928,6 +8976,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} zapisanych',
     writtenInLanguage:
       'Napisane w języku {language}',
+    whatThisIs:
+      'Czym to jest',
+    atlasDefinition:
+      'Bezpłatny atlas tradycyjnych potraw — skąd pochodzi każda z nich i kto za nią ręczy.',
+    traditionsLabel:
+      'tradycji',
+    freeNoAds:
+      'Za darmo, bez reklam',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10198,6 +10254,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} kayıt',
     writtenInLanguage:
       '{language} dilinde yazılmış',
+    whatThisIs:
+      'Bu nedir',
+    atlasDefinition:
+      'Geleneksel yemeklerin ücretsiz atlası — her birinin nereden geldiği ve kimin kefil olduğu.',
+    traditionsLabel:
+      'gelenek',
+    freeNoAds:
+      'Ücretsiz, reklamsız',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11469,6 +11533,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} записей',
     writtenInLanguage:
       'Написано на языке: {language}',
+    whatThisIs:
+      'Что это такое',
+    atlasDefinition:
+      'Бесплатный атлас традиционных блюд — откуда каждое и кто за него ручается.',
+    traditionsLabel:
+      'традиций',
+    freeNoAds:
+      'Бесплатно, без рекламы',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -12740,6 +12812,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} दर्ज',
     writtenInLanguage:
       '{language} में लिखा गया',
+    whatThisIs:
+      'यह क्या है',
+    atlasDefinition:
+      'पारंपरिक व्यंजनों का मुफ़्त एटलस — हर एक कहाँ से आया, और उसकी पुष्टि कौन करता है।',
+    traditionsLabel:
+      'परंपराएँ',
+    freeNoAds:
+      'मुफ़्त, बिना विज्ञापन',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -14011,6 +14091,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '已收录 {n} 项',
     writtenInLanguage:
       '以{language}写成',
+    whatThisIs:
+      '这是什么',
+    atlasDefinition:
+      '一部免费的传统菜肴图鉴——每道菜来自哪里，又由谁作证。',
+    traditionsLabel:
+      '项传统',
+    freeNoAds:
+      '免费，无广告',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15282,6 +15370,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '{n} 件収録',
     writtenInLanguage:
       '{language}で書かれています',
+    whatThisIs:
+      'これは何か',
+    atlasDefinition:
+      '伝統料理の無料アトラス。それぞれがどこのもので、誰が保証しているのか。',
+    traditionsLabel:
+      '件の伝統',
+    freeNoAds:
+      '無料、広告なし',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

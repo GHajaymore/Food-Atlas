@@ -17,6 +17,7 @@ import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
 import { LanguagePicker } from '../src/components/LanguagePicker';
+import { WhatThisIs } from '../src/components/WhatThisIs';
 import { Wordmark } from '../src/components/Wordmark';
 import { MealFilter } from '../src/components/MealFilter';
 import { FeedOrder } from '../src/components/FeedOrder';
@@ -167,10 +168,23 @@ export default function Feed() {
    * head — which is how a dropdown came to render behind the page.
    */
   const masthead = (
+    <View style={styles.mastheadBlock}>
     <View style={styles.header}>
       <View style={styles.headerText}>
         <Wordmark size={20} />
-        <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
+        {/*
+         * The tagline is not printed here any more, and it is not gone.
+         *
+         * Ajay: *"if a new user logs in, they won't understand what the app is about."*
+         * Three claims used to stack up before any food — the tagline, the headline and a
+         * paragraph — and all three said a version of the same thing without ever saying
+         * what the thing *is*. `brand.ts` argues at length that the tagline states a rule
+         * rather than claiming an achievement, and that argument still holds; what it
+         * cannot do is tell somebody they are looking at an atlas of dishes.
+         *
+         * So the slot goes to the noun, and the tagline keeps its own place in the
+         * colophon. See `WhatThisIs` below.
+         */}
       </View>
       {/*
        * The language picker moved into this row from a band of its own below it.
@@ -185,6 +199,10 @@ export default function Feed() {
           <SearchIcon size={18} color={color.accent} />
         </IconButton>
       </View>
+    </View>
+
+    {/* The noun, before any claim about it. See WhatThisIs. */}
+    <WhatThisIs />
     </View>
   );
 
@@ -448,6 +466,9 @@ export default function Feed() {
 const styles = StyleSheet.create({
   /* The language picker and search share the masthead row now, rather than the picker
      occupying a band of its own below it — 34px of a phone reclaimed for nothing. */
+  /* The masthead is now two stacked blocks -- the wordmark row, then what the app is.
+     Direction A of the mockup, with the number strip from B folded into it. */
+  mastheadBlock: { gap: space[4] },
   headerControls: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
   header: {
     /*

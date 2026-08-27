@@ -800,6 +800,10 @@ export interface Copy {
   summaryWorldwide: string;
   nRecorded: string;
   writtenInLanguage: string;
+  whatThisIs: string;
+  atlasDefinition: string;
+  traditionsLabel: string;
+  freeNoAds: string;
   interfaceTranslationNote: string;
 }
 
@@ -2080,6 +2084,14 @@ export const EN: Copy = {
     '{n} recorded',
   writtenInLanguage:
     'Written in {language}',
+  whatThisIs:
+    'What this is',
+  atlasDefinition:
+    'A free atlas of traditional dishes — where each one comes from, and who vouches for it.',
+  traditionsLabel:
+    'traditions',
+  freeNoAds:
+    'Free, no ads',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
