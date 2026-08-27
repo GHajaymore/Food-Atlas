@@ -44,3 +44,4 @@ yarn-error.*
 # Local secrets for `wrangler pages dev`. Never committed.
 .dev.vars
 .wrangler/
+tmp-countries.json
