@@ -2,9 +2,9 @@
 
 Ajay, on the live site: *"why is the rendering so slow?"*
 
-This is the answer, the size of the prize, and the two traps that make the obvious fix
-wrong. Nothing here is built yet — it is written down so the next attempt starts from
-measurements rather than from the same guesses.
+This is the answer, the size of the prize, and what happened when it was built. It was
+attempted on 2026-08-27 and reverted the same day; everything below is what that
+established, so the next attempt starts from evidence rather than from the same guesses.
 
 ## What a cold visit actually costs
 
@@ -59,10 +59,9 @@ badges would be wrong if scoring read it too.
 *It does not.* `assess()` takes an `Evidence` record of booleans and lengths, never the
 step text, so **scoring is safe**. That was checked, not assumed.
 
-The fix for the rest is to keep the *length* honest from the first frame: build
-`steps: new Array(stepCount).fill('')` and replace the contents when the detail file
-arrives. Every `.length` check then reads correctly from the start, and only rendered text
-is late.
+The obvious fix is to keep the *length* honest from the first frame — build
+`steps: new Array(stepCount).fill('')` and swap the contents in later. **That was tried and
+it does not work**; see below.
 
 **`langNames` is not dish-screen decoration.** `queries.ts` searches it, so a record can be
 found by its name in any of 34 languages — a gap this project deliberately closed once
@@ -99,19 +98,22 @@ Everything else worked: the split writes index-aligned files, `cookbookRows` car
 mapping through the filter that drops a third of the rows, and the loader patches in place
 after paint. That part is sound and can be lifted from git history at `0188bc3..`.
 
-## The shape of the change
+## The shape of the change, corrected
 
-1. `scripts/compact-data.mjs` writes `X.json` (light, plus `stepCount` and `hasPrep`) and
-   `X-detail.json` (a parallel array of just the heavy fields).
-2. `src/data/catalogue.ts` awaits only the light files, builds, and lets the app paint;
-   then fetches the detail files and patches the built records in place.
-3. `src/data/build.ts` fills `steps` with placeholders so lengths are right immediately.
-4. `app/dish/[id].tsx` awaits the detail promise, since it is the one screen that needs
-   the text.
+1. `scripts/compact-data.mjs` writes `cookbook.json` (light, plus `stepCount`) and
+   `cookbook-detail.json` (a parallel array of just the steps). Only cookbook: the other
+   heavy fields cannot move.
+2. `src/data/build.ts` sets `steps: []` and carries `stepCount` on the record. **Not**
+   placeholder strings.
+3. The 20 places that read `steps.length` move to the count. Each needs reading — three of
+   them mean something other than "how long is the list".
+4. `src/data/catalogue.ts` awaits only the light files, builds, paints, then fetches the
+   detail and patches in place, keyed through `cookbookRows`.
+5. `app/dish/[id].tsx` waits for the text, because mutating an array does not re-render a
+   screen that is already open.
 
-The risky part is step 2 — mutating a module-level catalogue that React already holds
-references to. That deserves its own session and its own verification, not the tail of a
-long one.
+Steps 1, 4 and 5 are written and working in the reverted attempt. Steps 2 and 3 are the
+work.
 
 ## Two cheaper ideas, both measured and both dead
 
@@ -134,5 +136,6 @@ brotli 2,949 KB -> 2,943 KB   (0% less)
 Brotli already models the repeated prefix perfectly. The win would be in decoded size and
 heap, not in transfer, and transfer is what the 1,215 ms is made of.
 
-Which leaves the heavy-field split as the only real lever, and 62% is a good enough prize
-to do it carefully rather than quickly.
+Which leaves the heavy-field split as the only real lever, at **31%** rather than the 62%
+it looked like on paper — still worth having, and worth doing in one deliberate sitting
+rather than at the end of a long one.
