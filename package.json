@@ -37,7 +37,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "expo export --platform web --output-dir dist && node scripts/unnest-fonts.mjs && node scripts/inject-preload.mjs",
+    "build": "expo export --platform web --output-dir dist && node scripts/unnest-fonts.mjs && node scripts/inject-preload.mjs && node scripts/inject-canonical.mjs",
     "test": "jest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p functions",
     "check-sources": "node scripts/check-sources.mjs",

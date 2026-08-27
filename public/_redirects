@@ -12,4 +12,15 @@
 # before it evaluates _redirects, which is the same precedence vercel.json relies
 # on for its rewrite — and the reason the standard SPA splat is safe to use on a
 # site that also serves real files.
+# ---------------------------------------------------------------------------
+# Not here: the redirect from wikifoodia.pages.dev to the canonical .app host.
+#
+# It was tried here first and does not work. Cloudflare Pages ignores a hostname
+# in the source of a _redirects rule -- the syntax is Netlify-compatible and this
+# is exactly where the two differ. Deployed and measured: pages.dev still answered
+# 200 with the page, not a 301.
+#
+# A Pages Function would work, and would route every request through the Worker,
+# including the 2.3 MB catalogue, against a 100,000/day free limit. Not worth it
+# for a redirect. It is done in the client instead -- see scripts/inject-canonical.mjs.
 /*  /index.html  200
