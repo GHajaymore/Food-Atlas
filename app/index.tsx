@@ -11,14 +11,11 @@ import { router } from 'expo-router';
 import { placeName } from '../src/domain/continents';
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { BRAND } from '../src/brand';
-import { Button, IconButton } from '../src/components/Button';
+import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { DietFilter } from '../src/components/DietFilter';
 import { DishCard } from '../src/components/DishCard';
-import { LanguagePicker } from '../src/components/LanguagePicker';
 import { WhatThisIs } from '../src/components/WhatThisIs';
-import { Wordmark } from '../src/components/Wordmark';
 import { MealFilter } from '../src/components/MealFilter';
 import { FeedOrder } from '../src/components/FeedOrder';
 import { LeadDish } from '../src/components/LeadDish';
@@ -32,7 +29,7 @@ import {
 import { Refine } from '../src/components/Refine';
 import { Shelf } from '../src/components/Shelf';
 import { SiteNav } from '../src/components/SiteNav';
-import { MapPinIcon, SearchIcon } from '../src/components/icons';
+import { MapPinIcon } from '../src/components/icons';
 import { Photo } from '../src/components/Photo';
 import { Pressable } from '../src/components/Pressable';
 import { FadingScrollRow } from '../src/components/ScrollEdge';
@@ -170,44 +167,14 @@ export default function Feed() {
    * `wide ?` branches scattered through a screen interact in ways nobody can hold in their
    * head — which is how a dropdown came to render behind the page.
    */
-  const masthead = (
-    <View style={styles.mastheadBlock}>
-    <View style={styles.header}>
-      <View style={styles.headerText}>
-        <Wordmark size={20} />
-        {/*
-         * The tagline is not printed here any more, and it is not gone.
-         *
-         * Ajay: *"if a new user logs in, they won't understand what the app is about."*
-         * Three claims used to stack up before any food — the tagline, the headline and a
-         * paragraph — and all three said a version of the same thing without ever saying
-         * what the thing *is*. `brand.ts` argues at length that the tagline states a rule
-         * rather than claiming an achievement, and that argument still holds; what it
-         * cannot do is tell somebody they are looking at an atlas of dishes.
-         *
-         * So the slot goes to the noun, and the tagline keeps its own place in the
-         * colophon. See `WhatThisIs` below.
-         */}
-      </View>
-      {/*
-       * The language picker moved into this row from a band of its own below it.
-       *
-       * It was surfaced on the front page in the first place because twelve translations
-       * had been unreachable, so burying it in a footer would undo that. Sideways costs
-       * nothing: the row already exists and had room to its right.
-       */}
-      <View style={styles.headerControls}>
-        <LanguagePicker compact />
-        <IconButton label={copy.search} onPress={() => router.push('/search')} style={styles.searchButton}>
-          <SearchIcon size={18} color={color.accent} />
-        </IconButton>
-      </View>
-    </View>
-
-    {/* The noun, before any claim about it. See WhatThisIs. */}
-    <WhatThisIs />
-    </View>
-  );
+  /*
+   * The masthead is now only the block that says what this is.
+   *
+   * The wordmark, the language picker and the search used to live here and now come
+   * from SiteHeader, which Screen renders on every page. They were home-page-only, so a
+   * phone reader who opened /atlas had no wordmark and no way to change language at all.
+   */
+  const masthead = <WhatThisIs />;
 
   const controls = (
     <>
@@ -469,10 +436,6 @@ export default function Feed() {
 const styles = StyleSheet.create({
   /* The language picker and search share the masthead row now, rather than the picker
      occupying a band of its own below it — 34px of a phone reclaimed for nothing. */
-  /* The masthead is now two stacked blocks -- the wordmark row, then what the app is.
-     Direction A of the mockup, with the number strip from B folded into it. */
-  mastheadBlock: { gap: space[4] },
-  headerControls: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
   header: {
     /*
      * Raised so the language dropdown can paint over the feed below it.

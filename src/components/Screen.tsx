@@ -25,6 +25,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLayout } from '../theme/layout';
 import { color, PAGE_PADDING } from '../theme/tokens';
 import { SiteFooter } from './SiteFooter';
+import { SiteHeader } from './SiteHeader';
 
 interface Props extends ScrollViewProps {
   children: React.ReactNode;
@@ -89,6 +90,9 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
         ]}
       >
         <View style={[styles.column, { maxWidth: measure ? layout.readable : layout.shell }, pagePad]}>
+          {/* Same rule as the footer below: rendered from one place, so no page can
+              forget it. /atlas is what proved that necessary. */}
+          <SiteHeader />
           {children}
         </View>
         {/*
