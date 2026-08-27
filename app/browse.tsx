@@ -31,7 +31,7 @@ import { Button } from '../src/components/Button';
 import { DishCard } from '../src/components/DishCard';
 import { FacetLink } from '../src/components/FacetLink';
 import { NavRow } from '../src/components/NavRow';
-import { useCopy } from '../src/i18n';
+import { useCopy, useNumber } from '../src/i18n';
 import { Screen } from '../src/components/Screen';
 import { H4, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
@@ -55,6 +55,7 @@ const CHIPS: { key: keyof BrowseQuery; prefix?: string }[] = [
 
 export default function Browse() {
   const copy = useCopy();
+  const n = useNumber();
   const params = useLocalSearchParams();
   const layout = useLayout();
   const [page, setPage] = useState(1);
@@ -84,7 +85,7 @@ export default function Browse() {
 
       <H4 style={styles.title}>{title}</H4>
       <Muted style={styles.count}>
-        {results.length.toLocaleString()} {results.length === 1 ? 'record' : 'records'}
+        {n(results.length)} {results.length === 1 ? 'record' : 'records'}
       </Muted>
 
       {/*
@@ -137,7 +138,7 @@ export default function Browse() {
           <T style={styles.emptyHead}>{copy.nothingMatchesAll}</T>
           <Muted style={styles.emptyNote}>
             Each filter above can be lifted on its own. The atlas holds{' '}
-            {catalogue.length.toLocaleString()} records; this combination is not one of them.
+            {n(catalogue.length)} records; this combination is not one of them.
           </Muted>
           <Button
             label={copy.startAgain}

@@ -26,7 +26,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
-import { useCopy } from '../src/i18n';
+import { useCopy, useNumber } from '../src/i18n';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
@@ -42,6 +42,7 @@ import { accentText, color, space } from '../src/theme/tokens';
 
 export default function Support() {
   const copy = useCopy();
+  const n = useNumber();
   const back = () => {
     if (router.canGoBack()) router.back();
     else router.replace('/atlas');
@@ -52,7 +53,7 @@ export default function Support() {
       <NavRow title={copy.keepingItFree} onBack={back} />
 
       <Muted style={styles.lead}>
-        {copy.supportLead.replace('{n}', catalogueStats.total.toLocaleString())}
+        {copy.supportLead.replace('{n}', n(catalogueStats.total))}
       </Muted>
 
       {/*

@@ -21,7 +21,7 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
-import { useCopy } from '../src/i18n';
+import { useCopy, useNumber } from '../src/i18n';
 import { CoverageTable, Explain, Meter, StatTile } from '../src/components/Metrics';
 import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
@@ -32,6 +32,7 @@ import { space } from '../src/theme/tokens';
 
 export default function Atlas() {
   const copy = useCopy();
+  const n = useNumber();
   const setCountry = useApp((s) => s.setCountry);
   const atlas = buildAtlas(dishes, copy);
   const metrics = catalogueMetrics(copy, dishes);
@@ -54,7 +55,7 @@ export default function Atlas() {
           the chosen language while the two figures stay exactly what the domain counted. */}
       <Muted style={styles.coverage}>
         {copy.atlasCoverageLine
-          .replace('{n}', metrics.total.toLocaleString())
+          .replace('{n}', n(metrics.total))
           .replace('{c}', String(metrics.countries))}
       </Muted>
     </>
@@ -72,7 +73,7 @@ export default function Atlas() {
         {/* "Traditions", not "dishes" — the unit of this atlas is a way of making a food
             in a place, and the same dish can hold several of them. */}
         <StatTile
-          value={metrics.total.toLocaleString()}
+          value={n(metrics.total)}
           label={copy.traditionsRecorded}
           trend={trendFor(history, 'total')}
           note={metricNote(copy, 'total')}

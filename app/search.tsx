@@ -33,7 +33,7 @@ import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
-import { joinOr, useCopy, type Copy } from '../src/i18n';
+import { joinOr, useCopy, type Copy, useNumber } from '../src/i18n';
 import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
@@ -68,6 +68,7 @@ const sortsFor = (copy: Copy): { key: SortKey; label: string }[] => [
 
 export default function Search() {
   const copy = useCopy();
+  const n = useNumber();
   const SORTS = sortsFor(copy);
   const {
     query,
@@ -218,7 +219,7 @@ export default function Search() {
               ) : null}
 
               <View style={styles.resultsHeader}>
-                <H6>{pantry.matches.length ? copy.nTraditions.replace('{n}', pantry.matches.length.toLocaleString()) : copy.nothingYet}</H6>
+                <H6>{pantry.matches.length ? copy.nTraditions.replace('{n}', n(pantry.matches.length)) : copy.nothingYet}</H6>
                 {pantry.matches.length ? (
                   <Muted style={styles.resultCount}>{copy.mostOfYourListFirst}</Muted>
                 ) : null}

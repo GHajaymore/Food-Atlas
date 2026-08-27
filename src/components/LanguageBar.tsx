@@ -6,7 +6,7 @@
  * it every time it is showing anything other than the original.
  */
 
-import { useCopy } from '../i18n';
+import { useCopy, useNumber } from '../i18n';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import type { ReadableDish } from '../domain/translate';
 import { languageCoverage } from '../data/catalogue';
@@ -40,6 +40,7 @@ export function LanguageBar({
   onTranslate,
 }: Props) {
   const copy = useCopy();
+  const n = useNumber();
   /**
    * Only languages the catalogue can actually meet. The reader's current choice is
    * always kept, so a language that falls below the floor after they picked it does
@@ -75,7 +76,7 @@ export function LanguageBar({
         {nextUp
           ? ` ${copy.opensOnceMoreRecords
               .replace('{language}', nextUp.language.label)
-              .replace('{n}', nextUp.needed.toLocaleString())}`
+              .replace('{n}', n(nextUp.needed))}`
           : ''}
       </Muted>
 

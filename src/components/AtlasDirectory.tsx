@@ -29,7 +29,7 @@
  * because of a desktop change.
  */
 
-import { useCopy } from '../i18n';
+import { useCopy, useNumber } from '../i18n';
 import type { Copy } from '../i18n/copy';
 import { useState } from 'react';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
@@ -45,7 +45,7 @@ import { H6, Muted, T } from './Text';
 const caretMotion: object = { dataSet: { motion: 'caret' } };
 
 /** How the header of a continent describes itself, on either layout. */
-function groupSummary(copy: Copy, group: AtlasGroup) {
+function groupSummary(copy: Copy, group: AtlasGroup, n: (value: number) => string) {
   const dishCount = group.countries.reduce((sum, c) => sum + c.count, 0);
   /*
    * "Elsewhere" holds origins recorded as a region or a former state — Levant,
@@ -59,7 +59,7 @@ function groupSummary(copy: Copy, group: AtlasGroup) {
     dishCount,
     label: template
       .replace('{c}', String(group.countries.length))
-      .replace('{n}', dishCount.toLocaleString()),
+      .replace('{n}', n(dishCount)),
   };
 }
 
@@ -99,6 +99,7 @@ export function AtlasDirectory({ groups, onPick }: Props) {
  */
 function Open({ groups, onPick, columns }: Props & { columns: number }) {
   const copy = useCopy();
+  const n = useNumber();
   /* Closed rather than open, so the empty set means "everything open" and a continent
      added tomorrow arrives expanded like the rest. */
   const [closed, setClosed] = useState<ReadonlySet<string>>(new Set());
@@ -113,7 +114,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
   return (
     <View style={styles.openGroups}>
       {groups.map((group) => {
-        const summary = groupSummary(copy, group);
+        const summary = groupSummary(copy, group, n);
         const open = !closed.has(group.label);
         return (
           <View key={group.label}>
@@ -156,7 +157,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
                      * directory back into a list. The full sentence is still the
                      * accessible label above, so nothing is lost to a screen reader.
                      */}
-                    <Muted style={styles.gridCount}>{country.count.toLocaleString()}</Muted>
+                    <Muted style={styles.gridCount}>{n(country.count)}</Muted>
                   </Pressable>
                 </View>
               ))}
@@ -171,13 +172,14 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
 /** The phone shape, unchanged: seven collapsed rows, one open at a time. */
 function Collapsed({ groups, onPick }: Props) {
   const copy = useCopy();
+  const n = useNumber();
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
     <View style={styles.groups}>
       {groups.map((group) => {
         const open = expanded === group.label;
-        const summary = groupSummary(copy, group);
+        const summary = groupSummary(copy, group, n);
 
         return (
           <View key={group.label}>

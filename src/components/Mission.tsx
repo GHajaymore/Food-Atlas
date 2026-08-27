@@ -40,7 +40,7 @@ import { router } from 'expo-router';
 import { catalogue, catalogueStats } from '../data/catalogue';
 import { isAuthentic, VALIDATIONS_REQUIRED } from '../domain/authenticity';
 import { settings } from '../data/settings';
-import { useCopy } from '../i18n';
+import { useCopy, useNumber } from '../i18n';
 import { canConfirm } from '../domain/confirmations';
 import { useLayout } from '../theme/layout';
 import { canContribute } from '../domain/contribution';
@@ -48,8 +48,6 @@ import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
 import { Disclosure } from './Disclosure';
 import { H6, Muted, T } from './Text';
-
-const n = (value: number) => value.toLocaleString();
 
 function Stat({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
   return (
@@ -127,6 +125,7 @@ const DOCUMENTED_CEILING = 43;
  */
 export function MissionPitch() {
   const copy = useCopy();
+  const n = useNumber();
   const { wide } = useLayout();
 
   return (
@@ -151,6 +150,7 @@ export function MissionPitch() {
  */
 export function MissionFigures() {
   const copy = useCopy();
+  const n = useNumber();
   const { wide } = useLayout();
   const { total, countries, documented, heritage, authenticated } = useMissionNumbers();
 
@@ -175,6 +175,7 @@ export function MissionFigures() {
  */
 export function MissionCallout() {
   const copy = useCopy();
+  const n = useNumber();
   const { wide } = useLayout();
   const { unwritten, open } = useMissionNumbers();
 
@@ -211,6 +212,7 @@ export function MissionCallout() {
  */
 export function MissionFootnotes() {
   const copy = useCopy();
+  const n = useNumber();
   const { authenticAt } = settings;
   const { unwritten } = useMissionNumbers();
 

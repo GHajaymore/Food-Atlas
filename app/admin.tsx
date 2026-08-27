@@ -41,7 +41,7 @@ import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
 import { Field, Input } from '../src/components/Field';
 import { AdminColumns } from '../src/components/AdminColumns';
 import { NavRow } from '../src/components/NavRow';
-import { useCopy } from '../src/i18n';
+import { useCopy, useNumber } from '../src/i18n';
 import { Pressable } from '../src/components/Pressable';
 import { Screen } from '../src/components/Screen';
 import { H5, Muted, T } from '../src/components/Text';
@@ -233,6 +233,7 @@ function Moderation({ token }: { token: string }) {
  */
 function RefreshQueue({ token }: { token: string }) {
   const copy = useCopy();
+  const n = useNumber();
   const [rows, setRows] = useState<RefreshRequest[]>([]);
   const [target, setTarget] = useState('');
   const [kind, setKind] = useState<RefreshRequest['kind']>('dish');
@@ -344,6 +345,7 @@ function RefreshQueue({ token }: { token: string }) {
  */
 function Analytics({ token }: { token: string }) {
   const copy = useCopy();
+  const n = useNumber();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [error, setError] = useState('');
   const [days, setDays] = useState(30);
@@ -371,7 +373,7 @@ function Analytics({ token }: { token: string }) {
             <T style={styles.tallyName} numberOfLines={1}>
               {label ? label(row.target) : row.target || '(none)'}
             </T>
-            <T style={styles.tallyCount}>{row.n.toLocaleString()}</T>
+            <T style={styles.tallyCount}>{n(row.n)}</T>
           </View>
         ))}
       </View>
@@ -414,7 +416,7 @@ function Analytics({ token }: { token: string }) {
             {data.totals.length ? (
               data.totals.map((t) => (
                 <View key={t.kind} style={styles.total}>
-                  <T style={styles.totalFigure}>{t.n.toLocaleString()}</T>
+                  <T style={styles.totalFigure}>{n(t.n)}</T>
                   <Muted style={styles.totalLabel}>
                     {t.kind === 'dish' ? 'dish opens' : t.kind === 'screen' ? 'screen views' : t.kind}
                   </Muted>
@@ -429,7 +431,7 @@ function Analytics({ token }: { token: string }) {
 
           {busiest?.day ? (
             <Muted style={styles.note}>
-              Busiest day: {busiest.day} with {busiest.n.toLocaleString()} events.
+              Busiest day: {busiest.day} with {n(busiest.n)} events.
             </Muted>
           ) : null}
 
@@ -482,6 +484,7 @@ const NUMBERS: { key: keyof Settings; label: string; note: string }[] = [
 
 export default function Admin() {
   const copy = useCopy();
+  const n = useNumber();
   const [draft, setDraft] = useState<Draft>(toDraft(current));
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
@@ -572,13 +575,13 @@ export default function Admin() {
 
       {radius && radius.changed > 0 ? (
         <Block accent style={styles.radius}>
-          <H5>{radius.changed.toLocaleString()} records would change badge</H5>
+          <H5>{n(radius.changed)} records would change badge</H5>
           <CardBody>
-            {radius.gained.toLocaleString()} would become Authentic and {radius.lost.toLocaleString()} would
+            {n(radius.gained)} would become Authentic and {n(radius.lost)} would
             stop being Authentic — none of them having gained or lost any evidence. Counted by re-scoring
             the whole catalogue against these thresholds, not estimated.
             {radius.unaffected > 0
-              ? ` A further ${radius.unaffected.toLocaleString()} are Authentic through a heritage designation, which does not read the score, and are unaffected either way.`
+              ? ` A further ${n(radius.unaffected)} are Authentic through a heritage designation, which does not read the score, and are unaffected either way.`
               : ''}
           </CardBody>
         </Block>

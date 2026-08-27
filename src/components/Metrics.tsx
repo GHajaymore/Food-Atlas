@@ -13,7 +13,7 @@
  * these ratios want. Values wear text tokens, never the fill colour.
  */
 
-import { useCopy } from '../i18n';
+import { useCopy, useNumber } from '../i18n';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
@@ -67,6 +67,7 @@ function Sparkline({ points }: { points: number[] }) {
  */
 export function Explain({ note }: { note?: MetricNote }) {
   const copy = useCopy();
+  const n = useNumber();
   const [open, setOpen] = useState(false);
   if (!note) return null;
 
@@ -112,6 +113,7 @@ export function StatTile({
   trend?: Trend | null;
   note?: MetricNote;
 }) {
+  const n = useNumber();
   return (
     <View style={styles.tile}>
       {/* Proportional figures: tabular-nums makes a large standalone number look loose. */}
@@ -121,7 +123,7 @@ export function StatTile({
         <View style={styles.trendRow}>
           <Muted style={styles.delta}>
             {trend.delta > 0 ? '+' : ''}
-            {trend.delta.toLocaleString()} in {trend.span}d
+            {n(trend.delta)} in {trend.span}d
           </Muted>
           <Sparkline points={trend.points} />
         </View>
@@ -136,6 +138,7 @@ export function StatTile({
 /** A single ratio against its whole, with the caveat that belongs to it. */
 export function Meter({ ratio, note }: { ratio: Ratio; note?: MetricNote }) {
   const copy = useCopy();
+  const n = useNumber();
   return (
     <View style={styles.meter} accessibilityLabel={copy.countOfTotal
         .replace('{label}', ratio.label)
@@ -144,7 +147,7 @@ export function Meter({ ratio, note }: { ratio: Ratio; note?: MetricNote }) {
       <View style={styles.meterHead}>
         <T style={styles.meterLabel}>{ratio.label}</T>
         <Muted style={styles.meterValue}>
-          {percentLabel(ratio.count, ratio.percent)} · {ratio.count.toLocaleString()}
+          {percentLabel(ratio.count, ratio.percent)} · {n(ratio.count)}
         </Muted>
       </View>
       <View style={styles.track}>
@@ -166,6 +169,7 @@ export function CoverageTable({
   rows: CoverageRow[];
   note?: MetricNote;
 }) {
+  const n = useNumber();
   return (
     <View style={styles.table}>
       <H6 style={styles.tableTitle}>{title}</H6>
@@ -173,7 +177,7 @@ export function CoverageTable({
         <View key={row.label} style={styles.row}>
           <T style={styles.rowLabel}>{row.label}</T>
           {/* Aligned columns: tabular figures belong here, unlike on the tiles. */}
-          <Muted style={styles.rowCount}>{row.count.toLocaleString()}</Muted>
+          <Muted style={styles.rowCount}>{n(row.count)}</Muted>
           <Muted style={styles.rowPercent}>{percentLabel(row.count, row.percent)}</Muted>
         </View>
       ))}

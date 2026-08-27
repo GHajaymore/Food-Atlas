@@ -33,7 +33,7 @@
 
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { useCopy, type Copy } from '../i18n';
+import { useCopy, type Copy, useNumber } from '../i18n';
 import { BRAND } from '../brand';
 import { catalogueStats } from '../data/catalogue';
 import { useLayout } from '../theme/layout';
@@ -83,6 +83,7 @@ const columnsFor = (copy: Copy): Column[] => [
 
 export function SiteFooter() {
   const copy = useCopy();
+  const n = useNumber();
   const columns = columnsFor(copy);
   const { wide } = useLayout();
 
@@ -102,7 +103,7 @@ export function SiteFooter() {
           <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
           <Muted style={styles.holding}>
             {copy.footerHolding
-              .replace('{n}', catalogueStats.total.toLocaleString())
+              .replace('{n}', n(catalogueStats.total))
               .replace('{c}', String(catalogueStats.countries))}
           </Muted>
         </View>

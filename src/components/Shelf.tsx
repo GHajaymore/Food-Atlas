@@ -23,7 +23,7 @@ import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { H4, Muted, T } from './Text';
 import { shelfLabel } from '../domain/shelves';
-import { useCopy } from '../i18n';
+import { useCopy, useNumber } from '../i18n';
 
 interface Props {
   shelf: ShelfData;
@@ -34,6 +34,7 @@ interface Props {
 
 export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
   const copy = useCopy();
+  const n = useNumber();
   const label = shelfLabel(copy, shelf);
   const remaining = shelf.total - shelf.dishes.length;
   const layout = useLayout();
@@ -93,11 +94,11 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             style={styles.headerLink}
           >
             <T style={styles.headerLinkLabel}>
-              {copy.seeAll} {shelf.total.toLocaleString()} →
+              {copy.seeAll} {n(shelf.total)} →
             </T>
           </Pressable>
         ) : (
-          <Muted style={styles.count}>{shelf.total.toLocaleString()}</Muted>
+          <Muted style={styles.count}>{n(shelf.total)}</Muted>
         )}
       </View>
       <Muted style={styles.note}>{label.note}</Muted>
@@ -142,7 +143,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             style={{ ...styles.more, width: cardSize, height: cardSize }}
           >
             <T style={styles.moreLabel}>{copy.seeAll}</T>
-            <Muted style={styles.moreCount}>{shelf.total.toLocaleString()}</Muted>
+            <Muted style={styles.moreCount}>{n(shelf.total)}</Muted>
           </Pressable>
         ) : null}
       </Rail>

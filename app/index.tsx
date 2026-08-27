@@ -46,7 +46,7 @@ import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { likelyCountry } from '../src/domain/nearby';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
-import { useCopy } from '../src/i18n';
+import { useCopy, useNumber } from '../src/i18n';
 import { settings, useApp } from '../src/state/store';
 
 /** Dish cards rendered per page of the feed. */
@@ -56,6 +56,7 @@ import { accentText, color, elevation, radius, space } from '../src/theme/tokens
 
 export default function Feed() {
   const copy = useCopy();
+  const n = useNumber();
   const {
     activeFilter,
     path,
@@ -136,7 +137,7 @@ export default function Feed() {
    */
   const count = (feed.length === 1 ? copy.oneTradition : copy.nTraditions).replace(
     '{n}',
-    feed.length.toLocaleString(),
+    n(feed.length),
   );
   const resultSummary = `${count}${
     path.length ? copy.inPlace.replace('{place}', place) : openShelf ? '' : copy.summaryWorldwide
@@ -307,7 +308,7 @@ export default function Feed() {
           shelves={shelfNodes}
           tail={
             <Button
-              label={copy.browseAllTraditions.replace('{n}', feed.length.toLocaleString())}
+              label={copy.browseAllTraditions.replace('{n}', n(feed.length))}
               variant="secondary"
               block
               onPress={() => setShelfView('all')}

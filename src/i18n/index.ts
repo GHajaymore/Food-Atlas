@@ -181,3 +181,16 @@ export const formatNumber = (value: number, locale: string): string => {
     return value.toLocaleString();
   }
 };
+
+/**
+ * A number formatter bound to the language this reader chose.
+ *
+ * The hook form exists because almost every call site is inside a component that already
+ * has to reach the locale for nothing else. `const n = useNumber()` then reads the way the
+ * bare `toLocaleString()` it replaces did, which is what makes the sweep safe to do in one
+ * pass — the diff is the argument, never the shape of the call.
+ */
+export const useNumber = (): ((value: number) => string) => {
+  const locale = useLocale((state) => state.locale);
+  return (value: number) => formatNumber(value, locale);
+};
