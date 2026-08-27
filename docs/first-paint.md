@@ -44,7 +44,8 @@ brotli on the critical path:  2.92 MB  ->  1.11 MB   (62% less)
 deferred, after first paint:  1.78 MB
 ```
 
-**62%.** That is the prize, and it is large enough to be worth doing properly.
+**62%** on paper. The section below is why the real figure is **31%**, and how that was
+found out the hard way.
 
 ## Two traps, and they are why this is not a small change
 
@@ -68,6 +69,35 @@ found by its name in any of 34 languages — a gap this project deliberately clo
 already — and `proposals.ts` uses it to detect duplicates. Defer it naively and
 multilingual search quietly stops working. It needs the same treatment as `steps` or none
 at all.
+
+## It was attempted, and the test suite refused it
+
+Built end to end on 2026-08-27 and reverted the same day. Worth writing down, because the
+attempt narrowed the problem considerably and two of the findings were only visible from
+inside it.
+
+**Half the prize is not available.** `prepSummary` was in the deferral list until the build
+was read properly, and it cannot go: `hasAccount: prepSummary.length > 0` feeds straight
+into `assess()`, so holding it back would have moved scores, and `detectAtRisk(prepSummary)`
+reads the prose itself to decide whether a tradition is declining. A boolean cannot stand in
+for either. With `prepSummary` and `langNames` both immovable, the realistic prize is
+**31%** — 2.92 MB to 2.02 MB — not 62%.
+
+**The placeholder trick produces invalid records.** Filling `steps` with empty strings of
+the right length keeps every `.length` correct, which was the whole idea, and
+`plumbing.test.ts` failed immediately: *"never shows a bullet with nothing beside it"*,
+**4,595 records**. An empty string is a step as far as the renderer is concerned. The test
+was right and the design was wrong.
+
+**The honest version costs more than it looks.** Doing it properly means `steps: []` plus a
+`stepCount` on the record, and then updating **20 call sites** — and they are not uniform.
+`translationProvider.ts` compares a translation's step count against the record's to reject
+a bad translation; `invariants.ts` gates the no-fusion-method rule on it; `shelves.ts`
+weights `substance` by it. Each needs reading, not replacing.
+
+Everything else worked: the split writes index-aligned files, `cookbookRows` carries the
+mapping through the filter that drops a third of the rows, and the loader patches in place
+after paint. That part is sound and can be lifted from git history at `0188bc3..`.
 
 ## The shape of the change
 
