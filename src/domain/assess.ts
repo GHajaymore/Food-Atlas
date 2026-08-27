@@ -119,6 +119,8 @@ export interface Assessment {
    * render something true.
    */
   disclaimerKey?: string;
+  /** Several keys, joined with a space, where the sentence is built from clauses. */
+  disclaimerKeys?: string[];
   /** Values the key interpolates, where it has any. */
   disclaimerParams?: Record<string, string>;
 }
@@ -327,6 +329,19 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
       ...(local ? CLASSIFICATION.local : CLASSIFICATION.regional),
       score,
       breakdown,
+      /*
+       * Three keys, not one. The sentence really is three: a count, a clause about where
+       * the confirmations came from, and a shared tail. Composing keys rather than
+       * interpolating already-resolved text is the same rule as `disclaimerKey` above —
+       * anything resolved here is frozen at load, so each clause stays a key until the
+       * screen renders it.
+       */
+      disclaimerKeys: [
+        people === 1 ? 'disclaimerConfirmedOne' : 'disclaimerConfirmedMany',
+        local ? 'disclaimerConfirmedLocal' : 'disclaimerConfirmedRegional',
+        'disclaimerScoreIsMean',
+      ],
+      disclaimerParams: { n: String(people) },
       disclaimer:
         `${people} ${people === 1 ? 'person' : 'people'} with a stated connection to the place ` +
         `${people === 1 ? 'has' : 'have'} confirmed this preparation, which is what lifts it above a documented ` +

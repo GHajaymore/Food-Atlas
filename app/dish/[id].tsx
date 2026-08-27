@@ -122,6 +122,18 @@ export default function DishDetail() {
    * Falls back to the English they also produced: a key with no copy behind it should
    * still put a true sentence on the screen.
    */
+  const fromKeys = (
+    keys: string[] | undefined,
+    key: string | undefined,
+    english: string,
+    params?: Record<string, string>,
+  ) => {
+    if (!keys?.length) return fromKey(key, english, params);
+    const parts = keys.map((k) => fromKey(k, '', params)).filter(Boolean);
+    /* All or nothing: half a composed sentence is worse than the English one. */
+    return parts.length === keys.length ? parts.join(' ') : english;
+  };
+
   const fromKey = (key: string | undefined, english: string, params?: Record<string, string>) => {
     const value = key ? (copy as unknown as Record<string, string>)[key] : undefined;
     if (!value) return english;
@@ -826,7 +838,7 @@ export default function DishDetail() {
                 : copy.whatThisRecordIs}
           </H5>
           <Muted style={styles.disclaimer}>
-            {fromKey(dish.disclaimerKey, reading.disclaimer, dish.disclaimerParams)}
+            {fromKeys(dish.disclaimerKeys, dish.disclaimerKey, reading.disclaimer, dish.disclaimerParams)}
           </Muted>
 
           {/* The prompt that turns a reader into a validator. Two taps, not a form —

@@ -1343,6 +1343,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Existe algo de documentación, pero no basta para clasificar la preparación. Faltan los ingredientes, la técnica y la confirmación de la comunidad: la puntuación lo refleja y el registro sigue Sin verificar.',
     dietBasisImported:
       'Importado de Wikidata, que no recoge la preparación. No puede hacerse ninguna clasificación dietética hasta que se documente el método.',
+    disclaimerConfirmedOne:
+      '1 persona con un vínculo declarado con el lugar ha confirmado esta preparación, y eso es lo que la eleva por encima de una versión documentada.',
+    disclaimerConfirmedMany:
+      '{n} personas con un vínculo declarado con el lugar han confirmado esta preparación, y eso es lo que la eleva por encima de una versión documentada.',
+    disclaimerConfirmedLocal:
+      'Las confirmaciones nombran la propia localidad, así que consta como tradición local.',
+    disclaimerConfirmedRegional:
+      'Las confirmaciones hablan por la región en general y no por un solo pueblo, así que consta como regional.',
+    disclaimerScoreIsMean:
+      'La puntuación es la media de las seis comprobaciones de abajo y puede sumarse.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2652,6 +2662,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Il existe une part de documentation, mais pas assez pour classer la préparation. Les ingrédients, la technique et la confirmation par la communauté manquent tous — le score le reflète et la fiche reste Non vérifiée.',
     dietBasisImported:
       'Importé de Wikidata, qui ne consigne pas la préparation. Aucune classification alimentaire n’est possible tant que la méthode n’est pas documentée.',
+    disclaimerConfirmedOne:
+      '1 personne ayant un lien déclaré avec le lieu a confirmé cette préparation, et c’est ce qui la place au-dessus d’une version simplement documentée.',
+    disclaimerConfirmedMany:
+      '{n} personnes ayant un lien déclaré avec le lieu ont confirmé cette préparation, et c’est ce qui la place au-dessus d’une version simplement documentée.',
+    disclaimerConfirmedLocal:
+      'Les confirmations nomment la localité elle-même : la fiche est donc enregistrée comme tradition locale.',
+    disclaimerConfirmedRegional:
+      'Les confirmations parlent pour la région plutôt que pour une seule ville : la fiche est donc enregistrée comme régionale.',
+    disclaimerScoreIsMean:
+      'Le score est la moyenne des six contrôles ci-dessous et peut être recalculé.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3960,6 +3980,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Es gibt etwas Dokumentation, aber nicht genug, um die Zubereitung einzuordnen. Zutaten, Technik und Bestätigung durch die Gemeinschaft fehlen sämtlich — der Wert bildet das ab, und der Eintrag bleibt Unbestätigt.',
     dietBasisImported:
       'Aus Wikidata importiert, das die Zubereitung nicht erfasst. Eine Einordnung nach Ernährungsform ist erst möglich, wenn die Methode dokumentiert ist.',
+    disclaimerConfirmedOne:
+      '1 Person mit einer angegebenen Verbindung zum Ort hat diese Zubereitung bestätigt — und genau das hebt sie über eine bloß dokumentierte Fassung.',
+    disclaimerConfirmedMany:
+      '{n} Personen mit einer angegebenen Verbindung zum Ort haben diese Zubereitung bestätigt — und genau das hebt sie über eine bloß dokumentierte Fassung.',
+    disclaimerConfirmedLocal:
+      'Die Bestätigungen nennen den Ort selbst, daher gilt es als örtliche Tradition.',
+    disclaimerConfirmedRegional:
+      'Die Bestätigungen sprechen für die weitere Region und nicht für eine einzelne Stadt, daher gilt es als regional.',
+    disclaimerScoreIsMean:
+      'Der Wert ist das Mittel der sechs Prüfungen unten und lässt sich nachrechnen.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5268,6 +5298,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Qualche documentazione esiste, ma non basta a classificare la preparazione. Mancano gli ingredienti, la tecnica e la conferma della comunità — il punteggio lo riflette e la scheda resta Non verificata.',
     dietBasisImported:
       'Importato da Wikidata, che non registra la preparazione. Nessuna classificazione alimentare è possibile finché il metodo non è documentato.',
+    disclaimerConfirmedOne:
+      '1 persona con un legame dichiarato con il luogo ha confermato questa preparazione, ed è questo che la solleva sopra una versione soltanto documentata.',
+    disclaimerConfirmedMany:
+      '{n} persone con un legame dichiarato con il luogo hanno confermato questa preparazione, ed è questo che la solleva sopra una versione soltanto documentata.',
+    disclaimerConfirmedLocal:
+      'Le conferme nominano la località stessa, quindi è registrata come tradizione locale.',
+    disclaimerConfirmedRegional:
+      'Le conferme parlano per la regione più ampia e non per un solo paese, quindi è registrata come regionale.',
+    disclaimerScoreIsMean:
+      'Il punteggio è la media dei sei controlli qui sotto e si può rifare a mano.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6577,6 +6617,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Existe alguma documentação, mas não a suficiente para classificar a preparação. Faltam os ingredientes, a técnica e a confirmação da comunidade — a pontuação reflete isso e o registo permanece Não verificado.',
     dietBasisImported:
       'Importado da Wikidata, que não regista a preparação. Nenhuma classificação alimentar pode ser feita enquanto o método não estiver documentado.',
+    disclaimerConfirmedOne:
+      '1 pessoa com uma ligação declarada ao lugar confirmou esta preparação, e é isso que a eleva acima de uma versão apenas documentada.',
+    disclaimerConfirmedMany:
+      '{n} pessoas com uma ligação declarada ao lugar confirmaram esta preparação, e é isso que a eleva acima de uma versão apenas documentada.',
+    disclaimerConfirmedLocal:
+      'As confirmações nomeiam a própria localidade, por isso fica registada como tradição local.',
+    disclaimerConfirmedRegional:
+      'As confirmações falam pela região mais ampla e não por uma só vila, por isso fica registada como regional.',
+    disclaimerScoreIsMean:
+      'A pontuação é a média das seis verificações abaixo e pode ser recalculada.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7885,6 +7935,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Er is enige documentatie, maar niet genoeg om de bereiding te klasseren. Ingrediënten, techniek en bevestiging door de gemeenschap ontbreken alle drie — de score weerspiegelt dat en het record blijft Onbevestigd.',
     dietBasisImported:
       'Geïmporteerd uit Wikidata, dat de bereiding niet vastlegt. Een dieetclassificatie kan pas worden gemaakt als de methode is gedocumenteerd.',
+    disclaimerConfirmedOne:
+      '1 persoon met een opgegeven band met de plaats heeft deze bereiding bevestigd, en dat is wat haar boven een enkel gedocumenteerde versie tilt.',
+    disclaimerConfirmedMany:
+      '{n} mensen met een opgegeven band met de plaats hebben deze bereiding bevestigd, en dat is wat haar boven een enkel gedocumenteerde versie tilt.',
+    disclaimerConfirmedLocal:
+      'De bevestigingen noemen de plaats zelf, dus het staat genoteerd als plaatselijke traditie.',
+    disclaimerConfirmedRegional:
+      'De bevestigingen spreken voor de bredere streek en niet voor één dorp, dus het staat genoteerd als regionaal.',
+    disclaimerScoreIsMean:
+      'De score is het gemiddelde van de zes controles hieronder en is na te rekenen.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -9194,6 +9254,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Pewna dokumentacja istnieje, ale nie dość, by sklasyfikować przygotowanie. Brakuje składników, techniki i potwierdzenia społeczności — ocena to odzwierciedla, a wpis pozostaje Niezweryfikowany.',
     dietBasisImported:
       'Zaimportowane z Wikidanych, które nie zapisują sposobu przygotowania. Klasyfikacja dietetyczna będzie możliwa dopiero po udokumentowaniu metody.',
+    disclaimerConfirmedOne:
+      '1 osoba z zadeklarowanym związkiem z tym miejscem potwierdziła ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
+    disclaimerConfirmedMany:
+      'Osób z zadeklarowanym związkiem z tym miejscem, które potwierdziły ten sposób przygotowania: {n} — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
+    disclaimerConfirmedLocal:
+      'Potwierdzenia wskazują samą miejscowość, więc zapisano to jako tradycję lokalną.',
+    disclaimerConfirmedRegional:
+      'Potwierdzenia mówią w imieniu szerszego regionu, a nie jednego miasteczka, więc zapisano to jako regionalne.',
+    disclaimerScoreIsMean:
+      'Ocena to średnia sześciu poniższych sprawdzeń i można ją przeliczyć.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10502,6 +10572,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Bir miktar belge var, ancak hazırlanışı sınıflandırmaya yetmiyor. Malzemeler, teknik ve topluluk doğrulamasının üçü de eksik — puan bunu yansıtıyor ve kayıt Doğrulanmamış kalıyor.',
     dietBasisImported:
       'Hazırlanışı kaydetmeyen Wikidata’dan alındı. Yöntem belgelenmeden hiçbir beslenme sınıflandırması yapılamaz.',
+    disclaimerConfirmedOne:
+      'Yerle bağı olduğunu belirten 1 kişi bu hazırlanışı doğruladı; onu yalnızca belgelenmiş bir sürümün üzerine çıkaran da budur.',
+    disclaimerConfirmedMany:
+      'Yerle bağı olduğunu belirten {n} kişi bu hazırlanışı doğruladı; onu yalnızca belgelenmiş bir sürümün üzerine çıkaran da budur.',
+    disclaimerConfirmedLocal:
+      'Doğrulamalar doğrudan yerleşimin adını veriyor, bu yüzden yerel bir gelenek olarak kayıtlı.',
+    disclaimerConfirmedRegional:
+      'Doğrulamalar tek bir kasaba adına değil, daha geniş bölge adına konuşuyor; bu yüzden bölgesel olarak kayıtlı.',
+    disclaimerScoreIsMean:
+      'Puan, aşağıdaki altı kontrolün ortalamasıdır ve elle toplanabilir.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11811,6 +11891,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Какая-то документация есть, но её недостаточно, чтобы классифицировать приготовление. Нет ни ингредиентов, ни техники, ни подтверждения сообщества — оценка это отражает, и запись остаётся Неподтверждённой.',
     dietBasisImported:
       'Импортировано из Wikidata, где способ приготовления не записан. Классификация по типу питания невозможна, пока метод не задокументирован.',
+    disclaimerConfirmedOne:
+      'Эту готовку подтвердил 1 человек, заявивший о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
+    disclaimerConfirmedMany:
+      'Число людей, заявивших о связи с этим местом и подтвердивших эту готовку: {n} — именно это ставит её выше просто задокументированной версии.',
+    disclaimerConfirmedLocal:
+      'Подтверждения называют сам населённый пункт, поэтому записано как местная традиция.',
+    disclaimerConfirmedRegional:
+      'Подтверждения говорят за более широкий регион, а не за один город, поэтому записано как региональная.',
+    disclaimerScoreIsMean:
+      'Оценка — среднее шести проверок ниже, и её можно пересчитать.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -13120,6 +13210,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'कुछ दस्तावेज़ मौजूद हैं, पर विधि को वर्गीकृत करने के लिए पर्याप्त नहीं। सामग्री, तकनीक और सामुदायिक पुष्टि — तीनों गायब हैं। अंक यही दर्शाता है और रिकॉर्ड अपुष्ट रहता है।',
     dietBasisImported:
       'विकिडेटा से आयात, जो विधि दर्ज नहीं करता। जब तक विधि दर्ज नहीं होती, कोई आहार वर्गीकरण संभव नहीं।',
+    disclaimerConfirmedOne:
+      'इस स्थान से अपना संबंध बताने वाले 1 व्यक्ति ने इस विधि की पुष्टि की है — यही इसे केवल दर्ज संस्करण से ऊपर उठाता है।',
+    disclaimerConfirmedMany:
+      'इस स्थान से अपना संबंध बताने वाले {n} लोगों ने इस विधि की पुष्टि की है — यही इसे केवल दर्ज संस्करण से ऊपर उठाता है।',
+    disclaimerConfirmedLocal:
+      'पुष्टियाँ उसी कस्बे का नाम लेती हैं, इसलिए यह स्थानीय परंपरा के रूप में दर्ज है।',
+    disclaimerConfirmedRegional:
+      'पुष्टियाँ किसी एक कस्बे की नहीं, बल्कि व्यापक क्षेत्र की ओर से बोलती हैं, इसलिए यह क्षेत्रीय के रूप में दर्ज है।',
+    disclaimerScoreIsMean:
+      'अंक नीचे दी गई छह जाँचों का औसत है और इसे जोड़कर देखा जा सकता है।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -14429,6 +14529,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '存在部分资料，但不足以对做法分类。食材、技法与社群核实均属缺失——分数如实反映这一点，记录保持未核实。',
     dietBasisImported:
       '自 Wikidata 导入，而该处并未记录做法。在做法有记录之前，无法作出任何饮食分类。',
+    disclaimerConfirmedOne:
+      '已有 1 位声明与该地有渊源的人作证这一做法——正是这一点使它高于仅有记载的版本。',
+    disclaimerConfirmedMany:
+      '已有 {n} 位声明与该地有渊源的人作证这一做法——正是这一点使它高于仅有记载的版本。',
+    disclaimerConfirmedLocal:
+      '这些作证直接点名了该地，因此记为当地传统。',
+    disclaimerConfirmedRegional:
+      '这些作证代表的是更大的区域而非某一个镇，因此记为区域性传统。',
+    disclaimerScoreIsMean:
+      '分数是下方六项核查的平均值，可以自行相加验证。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15738,6 +15848,16 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '資料はいくらかありますが、作り方を分類するには足りません。材料、技法、共同体の確認のいずれも欠けており——点数はそれを反映し、記録は未確認のままです。',
     dietBasisImported:
       '作り方を記録していない Wikidata からの取り込みです。作り方が記録されるまで、食事制限の分類は行えません。',
+    disclaimerConfirmedOne:
+      'その土地とのつながりを表明した 1 人がこの作り方を確認しています。単に記録されたものより上に置かれるのはこれによります。',
+    disclaimerConfirmedMany:
+      'その土地とのつながりを表明した {n} 人がこの作り方を確認しています。単に記録されたものより上に置かれるのはこれによります。',
+    disclaimerConfirmedLocal:
+      '確認はその土地そのものを挙げているため、地元の伝統として記録されています。',
+    disclaimerConfirmedRegional:
+      '確認は一つの町ではなく広い地域を代弁しているため、地域の伝統として記録されています。',
+    disclaimerScoreIsMean:
+      '点数は下の六つの項目の平均で、自分で足して確かめられます。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

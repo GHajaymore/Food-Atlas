@@ -538,6 +538,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     confirmations: confirmed.people,
     disclaimer: assessment.disclaimer,
     disclaimerKey: assessment.disclaimerKey,
+    disclaimerKeys: assessment.disclaimerKeys,
     disclaimerParams: assessment.disclaimerParams,
     originClaims: originClaimsFrom(row.originClaims, row.url),
     sourceLanguage: row.sourceLanguage ?? 'en',
@@ -939,6 +940,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       ],
       disclaimer: assessment.disclaimer,
     disclaimerKey: assessment.disclaimerKey,
+    disclaimerKeys: assessment.disclaimerKeys,
     disclaimerParams: assessment.disclaimerParams,
       // The article this record's account came from, which is often not the English
       // one: a dish is described best in the language of the people who cook it. The
@@ -1301,6 +1303,7 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
       ],
       disclaimer: assessment.disclaimer,
     disclaimerKey: assessment.disclaimerKey,
+    disclaimerKeys: assessment.disclaimerKeys,
     disclaimerParams: assessment.disclaimerParams,
       sourceLanguage: 'en',
     } satisfies Dish;

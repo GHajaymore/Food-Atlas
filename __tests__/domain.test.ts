@@ -2988,6 +2988,38 @@ describe('a record moves up when the community confirms it', () => {
     }
   });
 
+  it('composes the confirmed disclaimer from keys, and picks the right ones', () => {
+    /*
+     * This is the sixth disclaimer, and the only one that cannot be checked by opening the
+     * live site: it needs confirmations, and no reader has ever confirmed a record — there
+     * was no mechanism until the proposals backend, and writes are still switched off. So
+     * it is verified here or not at all.
+     *
+     * Three clauses: how many people, where they were, and the shared tail. Composed as
+     * keys rather than resolved text because `buildCatalogue` runs once and freezes
+     * whatever it resolves.
+     */
+    const regional = assess({ ...bestDocumented, validations: VALIDATIONS_REQUIRED });
+    const local = assess({ ...bestDocumented, validations: VALIDATIONS_REQUIRED, validatedLocally: true });
+    const one = assess({ ...bestDocumented, validations: 1, authenticAt: 0, validationsRequired: 1 } as never);
+
+    expect(regional.disclaimerKeys).toEqual([
+      'disclaimerConfirmedMany',
+      'disclaimerConfirmedRegional',
+      'disclaimerScoreIsMean',
+    ]);
+    expect(local.disclaimerKeys?.[1]).toBe('disclaimerConfirmedLocal');
+    expect(regional.disclaimerParams).toEqual({ n: String(VALIDATIONS_REQUIRED) });
+
+    // Singular is a different key, not the plural one with a 1 in it.
+    if (one.disclaimerKeys) expect(one.disclaimerKeys[0]).toBe('disclaimerConfirmedOne');
+
+    // Every key it can emit has copy behind it, or the screen falls back to English.
+    for (const key of [...(regional.disclaimerKeys ?? []), ...(local.disclaimerKeys ?? [])]) {
+      expect(typeof (EN as unknown as Record<string, string>)[key]).toBe('string');
+    }
+  });
+
   it('says local when the locality confirmed it, regional when the region did', () => {
     const regional = assess({ ...bestDocumented, validations: VALIDATIONS_REQUIRED });
     const local = assess({ ...bestDocumented, validations: VALIDATIONS_REQUIRED, validatedLocally: true });

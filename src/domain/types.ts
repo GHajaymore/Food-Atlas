@@ -274,6 +274,7 @@ export interface Dish {
   sourceLanguage: string;
   /** Copy key for `disclaimer`, so the screen can render it in the reader's language. */
   disclaimerKey?: string;
+  disclaimerKeys?: string[];
   disclaimerParams?: Record<string, string>;
   /**
    * Translations, keyed by BCP-47 code. A missing key is not an error — the app says

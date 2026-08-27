@@ -819,6 +819,11 @@ export interface Copy {
   disclaimerIngredientsAndPlace: string;
   disclaimerSomeDocumentation: string;
   dietBasisImported: string;
+  disclaimerConfirmedOne: string;
+  disclaimerConfirmedMany: string;
+  disclaimerConfirmedLocal: string;
+  disclaimerConfirmedRegional: string;
+  disclaimerScoreIsMean: string;
   interfaceTranslationNote: string;
 }
 
@@ -2137,6 +2142,16 @@ export const EN: Copy = {
     'Some documentation exists, but not enough to classify the preparation. The ingredients, the technique and community confirmation are all missing — the score reflects that, and the record stays Unverified.',
   dietBasisImported:
     'Imported from Wikidata, which does not record the preparation. No dietary classification can be made until the method is documented.',
+  disclaimerConfirmedOne:
+    '1 person with a stated connection to the place has confirmed this preparation, which is what lifts it above a documented version.',
+  disclaimerConfirmedMany:
+    '{n} people with a stated connection to the place have confirmed this preparation, which is what lifts it above a documented version.',
+  disclaimerConfirmedLocal:
+    'The confirmations name the locality itself, so it is recorded as a local tradition.',
+  disclaimerConfirmedRegional:
+    'The confirmations speak for the wider region rather than one town, so it is recorded as regional.',
+  disclaimerScoreIsMean:
+    'The score is the mean of the six checks below and can be added up.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
