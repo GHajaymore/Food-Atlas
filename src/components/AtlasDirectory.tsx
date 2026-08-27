@@ -29,7 +29,7 @@
  * because of a desktop change.
  */
 
-import { useCopy, useNumber, useLocale } from '../i18n';
+import { useCopy, useNumber, useLocale, usePlural } from '../i18n';
 import type { Copy } from '../i18n/copy';
 import { useState } from 'react';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
@@ -45,7 +45,11 @@ import { H6, Muted, T } from './Text';
 const caretMotion: object = { dataSet: { motion: 'caret' } };
 
 /** How the header of a continent describes itself, on either layout. */
-function groupSummary(copy: Copy, group: AtlasGroup, n: (value: number) => string) {
+function groupSummary(
+  copy: Copy,
+  group: AtlasGroup,
+  plural: (one: keyof Copy, other: keyof Copy, count: number) => string,
+) {
   const dishCount = group.countries.reduce((sum, c) => sum + c.count, 0);
   /*
    * "Elsewhere" holds origins recorded as a region or a former state — Levant,
@@ -54,12 +58,21 @@ function groupSummary(copy: Copy, group: AtlasGroup, n: (value: number) => strin
    */
   const realCountries = group.countries.filter((c) => isCountry(c.name)).length;
   const allCountries = realCountries === group.countries.length;
-  const template = allCountries ? copy.groupSummaryCountries : copy.groupSummaryOrigins;
+  /*
+   * Two counted nouns and a separator, each inflecting for itself.
+   *
+   * The single template was fine in English and forced a rewrite in the languages that
+   * inflect: Russian and Polish both hedged into a colon form, "стран: 41 · традиций:
+   * 874", which reads like a form rather than a sentence. That was the only option before
+   * plural rules; composing the halves means each picks its own ending and English comes
+   * out byte-identical.
+   */
+  const places = allCountries
+    ? plural('oneCountry', 'nCountries', group.countries.length)
+    : plural('oneOrigin', 'nOrigins', group.countries.length);
   return {
     dishCount,
-    label: template
-      .replace('{c}', String(group.countries.length))
-      .replace('{n}', n(dishCount)),
+    label: `${places} · ${plural('oneTradition', 'nTraditions', dishCount)}`,
   };
 }
 
@@ -101,6 +114,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
   const copy = useCopy();
   const locale = useLocale((state) => state.locale);
   const n = useNumber();
+  const plural = usePlural();
   /* Closed rather than open, so the empty set means "everything open" and a continent
      added tomorrow arrives expanded like the rest. */
   const [closed, setClosed] = useState<ReadonlySet<string>>(new Set());
@@ -115,7 +129,7 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
   return (
     <View style={styles.openGroups}>
       {groups.map((group) => {
-        const summary = groupSummary(copy, group, n);
+        const summary = groupSummary(copy, group, plural);
         const open = !closed.has(group.label);
         return (
           <View key={group.label}>
@@ -174,13 +188,14 @@ function Open({ groups, onPick, columns }: Props & { columns: number }) {
 function Collapsed({ groups, onPick }: Props) {
   const copy = useCopy();
   const n = useNumber();
+  const plural = usePlural();
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
     <View style={styles.groups}>
       {groups.map((group) => {
         const open = expanded === group.label;
-        const summary = groupSummary(copy, group, n);
+        const summary = groupSummary(copy, group, plural);
 
         return (
           <View key={group.label}>

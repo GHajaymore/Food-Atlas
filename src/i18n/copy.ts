@@ -824,6 +824,10 @@ export interface Copy {
   disclaimerConfirmedLocal: string;
   disclaimerConfirmedRegional: string;
   disclaimerScoreIsMean: string;
+  oneCountry: string;
+  nCountries: string;
+  oneOrigin: string;
+  nOrigins: string;
   interfaceTranslationNote: string;
 }
 
@@ -2152,6 +2156,14 @@ export const EN: Copy = {
     'The confirmations speak for the wider region rather than one town, so it is recorded as regional.',
   disclaimerScoreIsMean:
     'The score is the mean of the six checks below and can be added up.',
+  oneCountry:
+    '{n} country',
+  nCountries:
+    '{n} countries',
+  oneOrigin:
+    '{n} origin',
+  nOrigins:
+    '{n} origins',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

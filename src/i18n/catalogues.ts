@@ -1353,6 +1353,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Las confirmaciones hablan por la región en general y no por un solo pueblo, así que consta como regional.',
     disclaimerScoreIsMean:
       'La puntuación es la media de las seis comprobaciones de abajo y puede sumarse.',
+    oneCountry:
+      '{n} país',
+    nCountries:
+      '{n} países',
+    oneOrigin:
+      '{n} origen',
+    nOrigins:
+      '{n} orígenes',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2672,6 +2680,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Les confirmations parlent pour la région plutôt que pour une seule ville : la fiche est donc enregistrée comme régionale.',
     disclaimerScoreIsMean:
       'Le score est la moyenne des six contrôles ci-dessous et peut être recalculé.',
+    oneCountry:
+      '{n} pays',
+    nCountries:
+      '{n} pays',
+    oneOrigin:
+      '{n} origine',
+    nOrigins:
+      '{n} origines',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3990,6 +4006,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Die Bestätigungen sprechen für die weitere Region und nicht für eine einzelne Stadt, daher gilt es als regional.',
     disclaimerScoreIsMean:
       'Der Wert ist das Mittel der sechs Prüfungen unten und lässt sich nachrechnen.',
+    oneCountry:
+      '{n} Land',
+    nCountries:
+      '{n} Länder',
+    oneOrigin:
+      '{n} Herkunft',
+    nOrigins:
+      '{n} Herkünfte',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5308,6 +5332,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Le conferme parlano per la regione più ampia e non per un solo paese, quindi è registrata come regionale.',
     disclaimerScoreIsMean:
       'Il punteggio è la media dei sei controlli qui sotto e si può rifare a mano.',
+    oneCountry:
+      '{n} paese',
+    nCountries:
+      '{n} paesi',
+    oneOrigin:
+      '{n} origine',
+    nOrigins:
+      '{n} origini',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6627,6 +6659,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'As confirmações falam pela região mais ampla e não por uma só vila, por isso fica registada como regional.',
     disclaimerScoreIsMean:
       'A pontuação é a média das seis verificações abaixo e pode ser recalculada.',
+    oneCountry:
+      '{n} país',
+    nCountries:
+      '{n} países',
+    oneOrigin:
+      '{n} origem',
+    nOrigins:
+      '{n} origens',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7945,6 +7985,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'De bevestigingen spreken voor de bredere streek en niet voor één dorp, dus het staat genoteerd als regionaal.',
     disclaimerScoreIsMean:
       'De score is het gemiddelde van de zes controles hieronder en is na te rekenen.',
+    oneCountry:
+      '{n} land',
+    nCountries:
+      '{n} landen',
+    oneOrigin:
+      '{n} herkomst',
+    nOrigins:
+      '{n} herkomsten',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -9280,6 +9328,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{n} osoby z zadeklarowanym związkiem z tym miejscem potwierdziły ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
     disclaimerConfirmedManyMany:
       '{n} osób z zadeklarowanym związkiem z tym miejscem potwierdziło ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
+    oneCountry:
+      '{n} kraj',
+    nCountries:
+      '{n} krajów',
+    oneOrigin:
+      '{n} pochodzenie',
+    nOrigins:
+      '{n} pochodzeń',
+    nCountriesFew:
+      '{n} kraje',
+    nCountriesMany:
+      '{n} krajów',
+    nOriginsFew:
+      '{n} pochodzenia',
+    nOriginsMany:
+      '{n} pochodzeń',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10598,6 +10662,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Doğrulamalar tek bir kasaba adına değil, daha geniş bölge adına konuşuyor; bu yüzden bölgesel olarak kayıtlı.',
     disclaimerScoreIsMean:
       'Puan, aşağıdaki altı kontrolün ortalamasıdır ve elle toplanabilir.',
+    oneCountry:
+      '{n} ülke',
+    nCountries:
+      '{n} ülke',
+    oneOrigin:
+      '{n} köken',
+    nOrigins:
+      '{n} köken',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11933,6 +12005,22 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Эту готовку подтвердили {n} человека, заявившие о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
     disclaimerConfirmedManyMany:
       'Эту готовку подтвердили {n} человек, заявивших о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
+    oneCountry:
+      '{n} страна',
+    nCountries:
+      '{n} стран',
+    oneOrigin:
+      '{n} источник',
+    nOrigins:
+      '{n} источников',
+    nCountriesFew:
+      '{n} страны',
+    nCountriesMany:
+      '{n} стран',
+    nOriginsFew:
+      '{n} источника',
+    nOriginsMany:
+      '{n} источников',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -13252,6 +13340,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'पुष्टियाँ किसी एक कस्बे की नहीं, बल्कि व्यापक क्षेत्र की ओर से बोलती हैं, इसलिए यह क्षेत्रीय के रूप में दर्ज है।',
     disclaimerScoreIsMean:
       'अंक नीचे दी गई छह जाँचों का औसत है और इसे जोड़कर देखा जा सकता है।',
+    oneCountry:
+      '{n} देश',
+    nCountries:
+      '{n} देश',
+    oneOrigin:
+      '{n} उद्गम',
+    nOrigins:
+      '{n} उद्गम',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -14571,6 +14667,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '这些作证代表的是更大的区域而非某一个镇，因此记为区域性传统。',
     disclaimerScoreIsMean:
       '分数是下方六项核查的平均值，可以自行相加验证。',
+    oneCountry:
+      '{n} 个国家',
+    nCountries:
+      '{n} 个国家',
+    oneOrigin:
+      '{n} 个来源',
+    nOrigins:
+      '{n} 个来源',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15890,6 +15994,14 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '確認は一つの町ではなく広い地域を代弁しているため、地域の伝統として記録されています。',
     disclaimerScoreIsMean:
       '点数は下の六つの項目の平均で、自分で足して確かめられます。',
+    oneCountry:
+      '{n} か国',
+    nCountries:
+      '{n} か国',
+    oneOrigin:
+      '{n} の出自',
+    nOrigins:
+      '{n} の出自',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },
