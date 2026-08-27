@@ -34,6 +34,23 @@ import { LanguagePicker } from './LanguagePicker';
 import { Pressable } from './Pressable';
 import { Wordmark } from './Wordmark';
 
+/**
+ * How large the name is set, and why it differs by one screen.
+ *
+ * Ajay: *"WikiFoodia looks a little smaller."* Measured on the phone landing page it was
+ * 20px against a 29px headline directly beneath it — the product's own name set smaller
+ * than a sentence about the product, which is what makes it read as an afterthought rather
+ * than as a masthead.
+ *
+ * 26 on the landing page: large enough to lead the page, and still under the headline, so
+ * the two are a masthead and a headline rather than two things competing.
+ *
+ * 20 everywhere else, unchanged. On an inner screen the name is a way back, not the
+ * subject, and the record or the atlas below it should own the page.
+ */
+const HOME = 26;
+const INNER = 20;
+
 export function SiteHeader() {
   const copy = useCopy();
   const { wide } = useLayout();
@@ -51,7 +68,7 @@ export function SiteHeader() {
        * stays a label — a link to the page you are on is a dead end.
        */}
       {path === '/' ? (
-        <Wordmark size={20} />
+        <Wordmark size={HOME} />
       ) : (
         <Pressable
           accessibilityRole="link"
@@ -59,7 +76,7 @@ export function SiteHeader() {
           tint="none"
           onPress={() => router.push('/')}
         >
-          <Wordmark size={20} />
+          <Wordmark size={INNER} />
         </Pressable>
       )}
 
