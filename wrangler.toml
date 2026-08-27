@@ -36,3 +36,31 @@ database_name = "wikifoodia"
 # the database, it does not authorise anything.
 database_id = "5be6df5f-705f-4f4d-805d-015550d751bc"
 migrations_dir = "migrations"
+
+# Workers AI — the only binding in this project that can cost money.
+#
+# Off until now, deliberately, and `functions/api/translate.ts` is built for that: with
+# no `AI` binding it returns 503 and the app says no translation service is connected,
+# rather than failing in a way a reader has to interpret.
+#
+# ## What it is for
+#
+# 2,222 of the 3,907 preparation summaries in the atlas are in a language other than
+# English — Indonesian, Chinese, Spanish, Japanese, Korean, Hindi, 43 in all. They were
+# labelled with their language in an earlier pass, which stops a reader being confused;
+# this is what lets them actually be read.
+#
+# ## What stops it running up a bill
+#
+#   - Translate-on-read. Nothing is bulk-translated; a record is translated when somebody
+#     opens it in a language it does not have.
+#   - Cached in D1 (`0007_translations.sql`). The second reader of the same record in the
+#     same language costs nothing, for ever.
+#   - `DAILY_LIMIT = 500` model calls, counted in D1 rather than in memory, so it holds
+#     across every request and every instance. Raise it with TRANSLATION_DAILY_LIMIT
+#     without a deploy; there is no way to raise it by accident.
+#
+# Free allocation is per-day and this is the smallest model that can do the job — chosen
+# for cost rather than capability, as translationProvider.ts says.
+[ai]
+binding = "AI"

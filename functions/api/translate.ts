@@ -64,7 +64,19 @@ const DAILY_LIMIT = 500;
  * translation pending community review, so the failure mode of a weaker model is a
  * clearly-marked rough translation rather than a silent claim.
  */
-const MODEL = '@cf/meta/llama-3.1-8b-instruct';
+/*
+ * Catalogue name, and it moved.
+ *
+ * This read '@cf/meta/llama-3.1-8b-instruct' from the day it was written, and that model
+ * is no longer in Workers AI. Nothing caught it because the binding had never been
+ * enabled: the endpoint returned 503 for the missing binding long before it could reach
+ * a missing model. The day the binding went on, both endpoints answered 502 instead.
+ *
+ * Same model, FP8-quantised, which is the successor Cloudflare kept and is cheaper and
+ * faster than the original — consistent with the note above that this was chosen for
+ * cost rather than capability.
+ */
+const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
