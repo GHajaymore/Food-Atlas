@@ -9,6 +9,7 @@
 
 import { router } from 'expo-router';
 import { placeName } from '../src/domain/continents';
+import { heroDish } from '../src/domain/hero';
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
@@ -241,18 +242,35 @@ export default function Feed() {
   /*
    * The record the phone opens on, and the rails behind it.
    *
-   * Taken from the front of the first shelf — whatever `buildShelves` already chose to
-   * lead with, which is usually the reader's own country. Nothing here picks a favourite.
-   * It is then removed from that rail, because the same photograph twice within three
-   * hundred pixels reads as a rendering fault; `shelves.ts` records that exact confusion.
+   * It used to be `shelves[0].dishes[0]` — the front of the Disappearing rail, which
+   * carries `urgentFirst: true` and therefore orders the *least* documented record first.
+   * Right for that shelf, and exactly wrong for the largest photograph on the screen: the
+   * front page was leading with the thinnest record in the atlas.
+   *
+   * `heroDish` picks from records that can actually carry a hero — see `domain/hero.ts`
+   * for what that can honestly mean here, which is not what it first appears.
+   *
+   * The turn is drawn once per app load, so the photograph is different on the next visit
+   * and stable while this one lasts. Per render would change it under a reader mid-scroll;
+   * the shelves' daily rotation is right for a rail and was not what was asked for here.
    */
-  const leadDish = !wide ? shelves[0]?.dishes[0] : undefined;
+  const heroTurn = useMemo(() => Math.floor(Math.random() * 1_000_000), []);
+  const leadDish = !wide ? heroDish(dishes, heroTurn) : undefined;
   const shelfNodes = shelves.map((shelf, i) => (
     <Shelf
       key={shelf.id}
       /* Staggers the rails in as the page assembles. Capped in CSS at six steps —
          past that a reader is waiting for the page to finish arriving. */
-      shelf={leadDish && i === 0 ? { ...shelf, dishes: shelf.dishes.slice(1) } : shelf}
+      /*
+       * The hero is taken out of every rail, by id.
+       *
+       * This used to drop the first card of the first shelf, which was sound while the
+       * hero *was* that card. It is chosen on its own merits now and can sit anywhere, so
+       * dropping by position would leave it showing twice — and the same photograph twice
+       * within three hundred pixels reads as a rendering fault rather than as a repeat.
+       * `shelves.ts` records that exact confusion.
+       */
+      shelf={leadDish ? { ...shelf, dishes: shelf.dishes.filter((d) => d.id !== leadDish.id) } : shelf}
       onOpenDish={(id) => router.push(`/dish/${id}`)}
       onOpenAll={(s) => setShelfView(s.id)}
     />

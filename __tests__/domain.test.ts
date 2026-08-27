@@ -64,6 +64,7 @@ import { copyFor, isMachineTranslated, pluralOf, translationCoverage, UI_LOCALES
 import { CATALOGUES } from '../src/i18n/catalogues';
 import { COUNTRY_CODE } from '../src/domain/countryCodes';
 import { EN } from '../src/i18n/copy';
+import { heroDish, heroWorthy } from '../src/domain/hero';
 import {
   considerSource,
   describesMethod,
@@ -3301,5 +3302,43 @@ describe('the articles that had to be read to be judged', () => {
     // An apple cultivar whose name only looks like an organisation. It was on the
     // first draft of the list and its own blurb is what took it off.
     expect(refused('Sweet Society')).toBe(false);
+  });
+});
+
+describe('the photograph the home screen opens on', () => {
+  /*
+   * It used to be `shelves[0].dishes[0]` — the front of the Disappearing rail, which
+   * orders the *least* documented record first on purpose. Right for that shelf, and it
+   * meant the largest photograph on the page was the thinnest record in the atlas.
+   */
+  it('never leads with a record that has nothing to show', () => {
+    const pool = catalogue.filter(heroWorthy);
+    expect(pool.length).toBeGreaterThan(200);
+
+    for (const dish of pool) {
+      expect(dish.photo).toBeTruthy();
+      expect(dish.ingredients.length).toBeGreaterThanOrEqual(3);
+      expect(dish.blurb.length).toBeGreaterThan(20);
+      // A published recipe is explicitly not what this atlas is about, and a fusion
+      // record is the one thing somebody opening an atlas of traditions did not come for.
+      expect(dish.badgeLevel).not.toBe('adaptation');
+      expect(dish.badgeLevel).not.toBe('fusion');
+    }
+  });
+
+  it('changes between visits, and stays inside the strongest of the pool', () => {
+    const seen = new Set<number>();
+    for (let turn = 0; turn < 40; turn += 1) {
+      const dish = heroDish(catalogue, turn);
+      expect(dish).toBeDefined();
+      expect(heroWorthy(dish!)).toBe(true);
+      seen.add(dish!.id);
+    }
+    // Forty visits, forty different records: the complaint was that it never moved.
+    expect(seen.size).toBe(40);
+  });
+
+  it('is stable for a given turn, so it cannot change mid-scroll', () => {
+    expect(heroDish(catalogue, 7)?.id).toBe(heroDish(catalogue, 7)?.id);
   });
 });
