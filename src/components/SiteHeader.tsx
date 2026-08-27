@@ -35,21 +35,21 @@ import { Pressable } from './Pressable';
 import { Wordmark } from './Wordmark';
 
 /**
- * How large the name is set, and why it differs by one screen.
+ * How large the name is set.
  *
- * Ajay: *"WikiFoodia looks a little smaller."* Measured on the phone landing page it was
- * 20px against a 29px headline directly beneath it — the product's own name set smaller
- * than a sentence about the product, which is what makes it read as an afterthought rather
- * than as a masthead.
+ * Ajay: *"WikiFoodia looks a little smaller"*, then *"make the WikiFoodia same size as
+ * landing page on all screens."* Measured on the phone landing page it was 20px against a
+ * 29px headline directly beneath it — the product's own name set smaller than a sentence
+ * about the product, which is what makes it read as an afterthought rather than a masthead.
  *
- * 26 on the landing page: large enough to lead the page, and still under the headline, so
- * the two are a masthead and a headline rather than two things competing.
+ * 26 everywhere. The first attempt kept inner screens at 20, on the reasoning that there
+ * the name is a way back rather than the subject; Ajay's call is one size, and he is right
+ * that a masthead which changes size between screens is not a masthead — it is two marks.
  *
- * 20 everywhere else, unchanged. On an inner screen the name is a way back, not the
- * subject, and the record or the atlas below it should own the page.
+ * Verified at the width where this could break: the row puts the name beside the language
+ * picker and the search, and at 320px in Dutch — the widest label — it still clears.
  */
-const HOME = 26;
-const INNER = 20;
+const MARK = 26;
 
 export function SiteHeader() {
   const copy = useCopy();
@@ -61,14 +61,14 @@ export function SiteHeader() {
   if (wide) return null;
 
   return (
-    <View style={styles.bar}>
+    <View role="banner" style={styles.bar}>
       {/*
        * The wordmark is the way home, which is the convention every site on the web
        * shares and the reason it is a control rather than a label. On the home page it
        * stays a label — a link to the page you are on is a dead end.
        */}
       {path === '/' ? (
-        <Wordmark size={HOME} />
+        <Wordmark size={MARK} />
       ) : (
         <Pressable
           accessibilityRole="link"
@@ -76,7 +76,7 @@ export function SiteHeader() {
           tint="none"
           onPress={() => router.push('/')}
         >
-          <Wordmark size={INNER} />
+          <Wordmark size={MARK} />
         </Pressable>
       )}
 

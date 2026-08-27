@@ -56,7 +56,7 @@ export function TopBar() {
   if (!layout.wide) return null;
 
   return (
-    <View style={styles.bar}>
+    <View role="navigation" style={styles.bar}>
       <View style={[styles.inner, { maxWidth: layout.shell }]}>
         <Pressable
           accessibilityRole="link"

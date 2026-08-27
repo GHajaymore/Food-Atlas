@@ -507,6 +507,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Traducción automática — todavía sin revisar por nadie de la comunidad',
     notTranslatedYet:
       'Sin traducir todavía',
+    translationRefused:
+      'Una traducción automática llegó alterada, así que no se mostró. Este es el registro original.',
     aDotMarks:
       'Un punto marca un idioma al que ya se ha traducido este registro.',
     opensOnceMoreRecords:
@@ -1834,6 +1836,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Traduction automatique — pas encore vérifiée par quelqu’un de la communauté',
     notTranslatedYet:
       'Pas encore traduit',
+    translationRefused:
+      'Une traduction automatique est revenue modifiée, elle n’a donc pas été affichée. Voici la fiche d’origine.',
     aDotMarks:
       'Un point signale une langue dans laquelle cette fiche est déjà traduite.',
     opensOnceMoreRecords:
@@ -3160,6 +3164,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Maschinelle Übersetzung — noch von niemandem aus der Gemeinschaft geprüft',
     notTranslatedYet:
       'Noch nicht übersetzt',
+    translationRefused:
+      'Eine maschinelle Übersetzung kam verändert zurück und wurde nicht angezeigt. Dies ist der ursprüngliche Eintrag.',
     aDotMarks:
       'Ein Punkt kennzeichnet eine Sprache, in die dieser Eintrag schon übersetzt ist.',
     opensOnceMoreRecords:
@@ -4486,6 +4492,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Traduzione automatica — non ancora controllata da nessuno della comunità',
     notTranslatedYet:
       'Non ancora tradotto',
+    translationRefused:
+      'Una traduzione automatica è tornata alterata e non è stata mostrata. Questa è la scheda originale.',
     aDotMarks:
       'Un punto segnala una lingua in cui questa scheda è già tradotta.',
     opensOnceMoreRecords:
@@ -5813,6 +5821,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Tradução automática — ainda não verificada por ninguém da comunidade',
     notTranslatedYet:
       'Ainda por traduzir',
+    translationRefused:
+      'Uma tradução automática voltou alterada, por isso não foi exibida. Este é o registo original.',
     aDotMarks:
       'Um ponto marca uma língua para a qual este registo já foi traduzido.',
     opensOnceMoreRecords:
@@ -7139,6 +7149,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Machinevertaling — nog door niemand uit de gemeenschap nagekeken',
     notTranslatedYet:
       'Nog niet vertaald',
+    translationRefused:
+      'Een automatische vertaling kwam gewijzigd terug en is niet getoond. Dit is het oorspronkelijke record.',
     aDotMarks:
       'Een punt markeert een taal waarin dit record al vertaald is.',
     opensOnceMoreRecords:
@@ -8466,6 +8478,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Tłumaczenie maszynowe — jeszcze przez nikogo ze społeczności niesprawdzone',
     notTranslatedYet:
       'Jeszcze nieprzetłumaczone',
+    translationRefused:
+      'Tłumaczenie maszynowe wróciło zmienione, więc nie zostało pokazane. To jest oryginalny zapis.',
     aDotMarks:
       'Kropka oznacza język, na który ten wpis jest już przetłumaczony.',
     opensOnceMoreRecords:
@@ -9816,6 +9830,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Makine çevirisi — topluluktan henüz kimse denetlemedi',
     notTranslatedYet:
       'Henüz çevrilmedi',
+    translationRefused:
+      'Otomatik çeviri değişmiş olarak döndü, bu yüzden gösterilmedi. Bu, kaydın aslıdır.',
     aDotMarks:
       'Nokta, bu kaydın hâlihazırda çevrildiği bir dili gösterir.',
     opensOnceMoreRecords:
@@ -11143,6 +11159,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Машинный перевод — пока никем из сообщества не проверен',
     notTranslatedYet:
       'Ещё не переведено',
+    translationRefused:
+      'Машинный перевод вернулся изменённым, поэтому он не показан. Это оригинальная запись.',
     aDotMarks:
       'Точка отмечает язык, на который эта запись уже переведена.',
     opensOnceMoreRecords:
@@ -12494,6 +12512,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'मशीनी अनुवाद — समुदाय के किसी व्यक्ति ने अभी जाँचा नहीं है',
     notTranslatedYet:
       'अभी अनूदित नहीं',
+    translationRefused:
+      'मशीनी अनुवाद बदला हुआ लौटा, इसलिए उसे नहीं दिखाया गया। यह मूल विवरण है।',
     aDotMarks:
       'बिंदु उस भाषा को दर्शाता है जिसमें यह रिकॉर्ड पहले ही अनूदित है।',
     opensOnceMoreRecords:
@@ -13821,6 +13841,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '机器翻译 — 社区里还没有人核对过',
     notTranslatedYet:
       '尚未翻译',
+    translationRefused:
+      '机器翻译返回时内容已被改动，因此未予显示。这是原始记录。',
     aDotMarks:
       '带点的语言表示这条记录已经译成了那种语言。',
     opensOnceMoreRecords:
@@ -15148,6 +15170,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '機械翻訳 — その土地の人による確認はまだありません',
     notTranslatedYet:
       'まだ翻訳されていません',
+    translationRefused:
+      '機械翻訳は内容が変わって戻ってきたため、表示していません。これは元の記録です。',
     aDotMarks:
       '点の付いた言語は、この記録がすでに訳されている言語です。',
     opensOnceMoreRecords:

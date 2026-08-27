@@ -10,11 +10,22 @@
 
 import type { Copy } from '../i18n/copy';
 import { create } from 'zustand';
+import { useLocale } from '../i18n';
 import { readDish, type ReadableDish } from '../domain/translate';
-import { translationProvider } from '../domain/translationProvider';
+import { PreservationError, translationProvider } from '../domain/translationProvider';
 import type { Dish, DishTranslation } from '../domain/types';
 
 type Status = 'idle' | 'loading' | 'error';
+
+/**
+ * Why a translation is not on screen — in a form the UI can put words to.
+ *
+ * `service` carries the endpoint's own sentence, which is written for a reader and is
+ * shown as it arrived. `refused` carries none: the record broke a preservation rule,
+ * and the reason is a diagnostic in English that belongs in the log rather than under
+ * a Japanese heading. The screen says so in the reader's language instead.
+ */
+export type TranslationFailure = { kind: 'refused' } | { kind: 'service'; text: string };
 
 interface TranslationState {
   /** The reader's preferred language, BCP-47. Applies to records and to video. */
@@ -22,7 +33,7 @@ interface TranslationState {
   /** Fetched translations, keyed `${dishId}:${code}`. */
   cache: Record<string, DishTranslation>;
   status: Record<string, Status>;
-  errors: Record<string, string>;
+  errors: Record<string, TranslationFailure>;
 
   setLanguage: (code: string) => void;
   /**
@@ -37,20 +48,47 @@ interface TranslationState {
   /** Takes copy because the notes it builds are prose, not data. */
   read: (copy: Copy, dish: Dish) => ReadableDish;
   statusFor: (dish: Dish) => Status;
-  errorFor: (dish: Dish) => string | undefined;
+  errorFor: (dish: Dish) => TranslationFailure | undefined;
   /** False when no translation service is wired up; the UI then says so plainly. */
   canTranslate: () => boolean;
+  /**
+   * Whether the reader has chosen a record language separately from the app's.
+   *
+   * The record language follows the app's until they do. After that it is theirs, and the
+   * two are allowed to differ — reading the chrome in English and the record in Tamil is a
+   * legitimate thing to want, and `LanguageBar` exists to make it possible.
+   */
+  languageChosen: boolean;
 }
 
 const key = (dishId: number, code: string) => `${dishId}:${code}`;
 
+/** The app's current language, read once at startup. */
+const readerLocale = () => useLocale.getState().locale;
+
 export const useTranslations = create<TranslationState>((set, get) => ({
-  language: 'en',
+  /*
+   * The language the reader picked for the app, not English.
+   *
+   * This was hard-coded to 'en' and is the reason Ajay saw a Japanese page with an English
+   * record on it. Two pieces of state name a language: the chrome's, in `useLocale`, and
+   * the record's, here. They were never connected, so choosing Japanese translated the
+   * furniture and left every record in the language it was written in — and
+   * `requestTranslation` returns early when the record is already in the target language,
+   * so nothing was even requested. Nothing failed; nothing was asked for.
+   *
+   * Kozhikode Halwa is written in English, so with this at 'en' the record screen asked
+   * for no translation at all and reported no error, on a page that was otherwise entirely
+   * Japanese.
+   */
+  language: readerLocale(),
+  /** True once the reader has picked a record language of their own. See the subscription. */
+  languageChosen: false,
   cache: {},
   status: {},
   errors: {},
 
-  setLanguage: (language) => set({ language }),
+  setLanguage: (language) => set({ language, languageChosen: true }),
 
   canTranslate: () => translationProvider.isConfigured(),
 
@@ -75,20 +113,25 @@ export const useTranslations = create<TranslationState>((set, get) => ({
         status: { ...s.status, [cacheKey]: 'idle' },
       }));
     } catch (error) {
-      // Surfaced verbatim: a rejected translation says which rule it broke.
+      /* The service's own words reach the reader; a broken rule does not. See
+         `TranslationFailure` and `PreservationError`. */
+      if (error instanceof PreservationError) console.warn('[translation]', error.message);
+      const failure: TranslationFailure =
+        error instanceof PreservationError
+          ? { kind: 'refused' }
+          : { kind: 'service', text: error instanceof Error ? error.message : 'Translation failed.' };
       set((s) => ({
         status: { ...s.status, [cacheKey]: 'error' },
-        errors: { ...s.errors, [cacheKey]: error instanceof Error ? error.message : 'Translation failed.' },
+        errors: { ...s.errors, [cacheKey]: failure },
       }));
     }
   },
 
   retryTranslation: async (dish) => {
     const cacheKey = key(dish.id, get().language);
-    set((s) => ({
-      status: { ...s.status, [cacheKey]: 'idle' },
-      errors: { ...s.errors, [cacheKey]: '' },
-    }));
+    const errors = { ...get().errors };
+    delete errors[cacheKey];
+    set((s) => ({ status: { ...s.status, [cacheKey]: 'idle' }, errors }));
     await get().requestTranslation(dish);
   },
 
@@ -109,3 +152,15 @@ export const useTranslations = create<TranslationState>((set, get) => ({
   statusFor: (dish) => get().status[key(dish.id, get().language)] ?? 'idle',
   errorFor: (dish) => get().errors[key(dish.id, get().language)],
 }));
+
+/*
+ * The record language follows the app's, until the reader says otherwise.
+ *
+ * Subscribed rather than wired into `setLocale`, so `i18n` does not have to know that a
+ * translation store exists — the dependency runs one way, and this file is the one that
+ * cares.
+ */
+useLocale.subscribe((state) => {
+  if (useTranslations.getState().languageChosen) return;
+  useTranslations.setState({ language: state.locale });
+});

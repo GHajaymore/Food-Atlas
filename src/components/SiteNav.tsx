@@ -64,7 +64,7 @@ export function SiteNav() {
   if (layout.wide) return null;
 
   return (
-    <View style={styles.wrap}>
+    <View role="navigation" style={styles.wrap}>
       {links.map((link) => (
         <Pressable
           key={link.to}

@@ -260,14 +260,14 @@ export function planTranslation(
   if (spoken && spoken === preferred) {
     return {
       route: 'original',
-      note: copy.videoOriginalAudio.replace('{language}', languageName(spoken)),
+      note: copy.videoOriginalAudio.replace('{language}', languageNameIn(spoken, copy.locale)),
     };
   }
 
   if (video.audioTracks?.includes(preferred)) {
     return {
       route: 'creator-audio',
-      note: copy.videoCreatorTrack.replace('{language}', languageName(preferred)),
+      note: copy.videoCreatorTrack.replace('{language}', languageNameIn(preferred, copy.locale)),
     };
   }
 
@@ -275,14 +275,14 @@ export function planTranslation(
     return {
       route: 'provider-captions',
       note: copy.videoPlatformCaptions
-        .replace('{spoken}', languageName(spoken))
-        .replace('{preferred}', languageName(preferred)),
+        .replace('{spoken}', languageNameIn(spoken, copy.locale))
+        .replace('{preferred}', languageNameIn(preferred, copy.locale)),
     };
   }
 
   return {
     route: 'unavailable',
-    note: copy.videoLanguageUnknown.replace('{language}', languageName(preferred)),
+    note: copy.videoLanguageUnknown.replace('{language}', languageNameIn(preferred, copy.locale)),
   };
 }
 

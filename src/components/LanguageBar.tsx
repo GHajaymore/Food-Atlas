@@ -16,6 +16,7 @@ import { Button } from './Button';
 import { Block } from './Card';
 import { H6, Muted, T } from './Text';
 import { Tag } from './Tag';
+import type { TranslationFailure } from '../state/translations';
 
 interface Props {
   language: string;
@@ -24,7 +25,16 @@ interface Props {
   available: string[];
   reading: ReadableDish;
   status: 'idle' | 'loading' | 'error';
-  error?: string;
+  /*
+   * Why there is no translation, not the sentence to print.
+   *
+   * This was a plain string and it was whatever the provider threw — which meant a
+   * reader on a Japanese page was shown "Translation altered the numbers in the method"
+   * in English. The service own refusals are still shown as written, because those are
+   * addressed to a reader and say something they can act on; a broken preservation rule
+   * now reads as copy.translationRefused, in the language of the page.
+   */
+  error?: TranslationFailure;
   canTranslate: boolean;
   onTranslate: () => void;
 }
@@ -106,7 +116,11 @@ export function LanguageBar({
             )
           ) : null}
 
-          {status === 'error' && error ? <T style={styles.error}>{error}</T> : null}
+          {status === 'error' && error ? (
+            <T style={styles.error}>
+              {error.kind === 'refused' ? copy.translationRefused : error.text}
+            </T>
+          ) : null}
         </Block>
       ) : null}
 

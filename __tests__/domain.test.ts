@@ -1704,6 +1704,19 @@ describe('an untranslated account says which language it is in', () => {
     expect(reading.note).toMatch(/shown in Hindi/);
   });
 
+
+  /*
+   * The French page read "il est donc affiché en English". The sentence was translated;
+   * the language named inside it was not, because the name came from a static English
+   * label list rather than from the locale the sentence is written in.
+   */
+  it('names the source language in the language of the sentence', () => {
+    const foreign: Dish = { ...halwa(), sourceLanguage: 'hi', translations: undefined };
+    const reading = readDish(copyFor('fr'), foreign, 'fr');
+    expect(reading.note).toContain('hindi');
+    expect(reading.note).not.toContain('Hindi');
+  });
+
   it('says nothing at all when the reader already has the original', () => {
     const foreign: Dish = { ...halwa(), sourceLanguage: 'hi' };
     const reading = readDish(EN, foreign, 'hi');
@@ -1751,7 +1764,62 @@ describe('the translation provider is held to the preservation rules', () => {
       translator: 'automated translation',
       machine: true,
     };
-    expect(() => assertPreserved(dish, bad)).toThrow(/altered the numbers/);
+    expect(() => assertPreserved(dish, bad)).toThrow(/altered the numbers in step 3/);
+  });
+
+
+  /*
+   * The case that changed the rule. Ajay reported Kozhikode Halwa still reading in
+   * English on a Japanese page; the translation had in fact arrived and then been
+   * thrown away here, because the summary named a duration the method already states.
+   */
+  it('accepts a summary that repeats a duration the method already states', () => {
+    const dish = target();
+    const good: DishTranslation = {
+      code: 'ja',
+      blurb: dish.blurb,
+      prepSummary: dish.prepSummary + ' Over 2–4 hours.',
+      steps: dish.steps,
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+    };
+    expect(() => assertPreserved(dish, good)).not.toThrow();
+  });
+
+  /* A number that is nowhere in the record is invention, not summary. */
+  it('rejects a summary that introduces a temperature of its own', () => {
+    const dish = target();
+    const bad: DishTranslation = {
+      code: 'ja',
+      blurb: dish.blurb,
+      prepSummary: dish.prepSummary + ' Hold at 160C.',
+      steps: dish.steps,
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+    };
+    expect(() => assertPreserved(dish, bad)).toThrow(/nowhere in the record/);
+  });
+
+  /* One bag of numbers for the whole record could not see this. Per step can. */
+  it('rejects a duration that moved from one step to another', () => {
+    const dish = target();
+    const moved = dish.steps.map((s) => s.replace('2–4 hours', 'a while'));
+    moved[0] = moved[0] + ' Leave it 2–4 hours.';
+    const bad: DishTranslation = {
+      code: 'ja',
+      blurb: dish.blurb,
+      prepSummary: dish.prepSummary,
+      steps: moved,
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+    };
+    expect(() => assertPreserved(dish, bad)).toThrow(/altered the numbers in step/);
   });
 
   it('rejects a translation that renamed a traditional ingredient', () => {

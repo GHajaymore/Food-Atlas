@@ -357,7 +357,19 @@ export interface Copy {
   readThisIn: string;
   communityTranslation: string;
   machineTranslation: string;
+  /**
+   * Which locale this vocabulary is. Set by `copyFor`, not declared by a catalogue.
+   *
+   * Prose built from these strings sometimes has to name a language inside itself —
+   * "shown in English", "subtitles in French". Those names were taken from the static
+   * English label list, so a French page read "affiché en English", which is exactly the
+   * mixed-language section Ajay reported. Naming the sentence own locale lets the
+   * builder ask for the name in the language the sentence is written in.
+   */
+  locale: string;
   notTranslatedYet: string;
+  /** Shown when a translation arrived but broke a preservation rule. See PreservationError. */
+  translationRefused: string;
   aDotMarks: string;
   opensOnceMoreRecords: string;
   noTranslationService: string;
@@ -1308,8 +1320,11 @@ export const EN: Copy = {
     'Community translation',
   machineTranslation:
     'Machine translation — not yet checked by anyone from the community',
+  locale: 'en',
   notTranslatedYet:
     'Not translated yet',
+  translationRefused:
+    'An automatic translation came back altered, so it was not shown. This is the original record.',
   aDotMarks:
     'A dot marks a language this record has already been translated into.',
   opensOnceMoreRecords:

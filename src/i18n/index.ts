@@ -33,7 +33,9 @@ export const UI_LOCALES: readonly string[] = [DEFAULT_LOCALE, ...Object.keys(CAT
  */
 export function copyFor(locale: string): Copy {
   const catalogue = CATALOGUES[locale];
-  return catalogue ? { ...EN, ...catalogue } : EN;
+  /* `locale` last so it always describes what was actually built, never what a
+     catalogue might claim. */
+  return catalogue ? { ...EN, ...catalogue, locale } : EN;
 }
 
 /** True when this locale's chrome was translated by machine rather than by a person. */

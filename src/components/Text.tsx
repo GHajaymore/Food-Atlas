@@ -41,19 +41,38 @@ function scaled(parts: (TextStyle | undefined | null | false)[], wide: boolean):
   return typeof flat.fontSize === 'number' ? wideType(flat as TextStyle & { fontSize: number }, wide) : flat;
 }
 
+/**
+ * The headings, and why they announce themselves.
+ *
+ * These set a size and nothing else until now, so every visual heading in the app rendered
+ * as a plain div. Audited on the live site: **zero headings and zero landmarks** on the
+ * home page, against 96 correctly-named focusable controls — the keyboard story was in good
+ * shape and the screen-reader story was not.
+
+ * That gap is not cosmetic. Heading navigation is the main way somebody using a screen
+ * reader scans a page: jump heading to heading, decide what to read. With no headings the
+ * atlas is one undifferentiated run of text, and "Food Atlas", "From United States" and
+ * every dish name carry no more structure than a caption.
+ *
+ * `accessibilityRole="header"` gives react-native-web `role="heading"`, and the level says
+ * how the page nests. Levels do not match the component names, and that is on purpose: `H2` is used in
+ * exactly two places and both are the page's own title — the record's name, and NavRow's
+ * heading — so it is level 1. The rest step down from there, which is the hierarchy the
+ * design already draws rather than the one the names imply.
+ */
 export const H2 = ({ style, ...p }: Props) => {
   const wide = useWideType();
-  return <RNText {...p} style={scaled([base, type.h2, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={1} {...p} style={scaled([base, type.h2, style as TextStyle], wide)} />;
 };
 
 export const H4 = ({ style, ...p }: Props) => {
   const wide = useWideType();
-  return <RNText {...p} style={scaled([base, type.h4, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={2} {...p} style={scaled([base, type.h4, style as TextStyle], wide)} />;
 };
 
 export const H5 = ({ style, ...p }: Props) => {
   const wide = useWideType();
-  return <RNText {...p} style={scaled([base, type.h5, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={3} {...p} style={scaled([base, type.h5, style as TextStyle], wide)} />;
 };
 
 /**
@@ -65,7 +84,7 @@ export const H5 = ({ style, ...p }: Props) => {
  */
 export const H6 = ({ style, ...p }: Props) => {
   const wide = useWideType();
-  return <RNText {...p} style={scaled([base, type.h6, { color: color.neutral[400] }, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={4} {...p} style={scaled([base, type.h6, { color: color.neutral[400] }, style as TextStyle], wide)} />;
 };
 
 export const Body = ({ style, ...p }: Props) => {

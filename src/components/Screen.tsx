@@ -89,7 +89,16 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
           contentStyle,
         ]}
       >
-        <View style={[styles.column, { maxWidth: measure ? layout.readable : layout.shell }, pagePad]}>
+        {/*
+         * The page's content, announced as such.
+         *
+         * Audited on the live site: no landmarks at all, so a screen reader offered no way
+         * past the header into the page. This is the one every reader uses.
+         */}
+        <View
+          role="main"
+          style={[styles.column, { maxWidth: measure ? layout.readable : layout.shell }, pagePad]}
+        >
           {/* Same rule as the footer below: rendered from one place, so no page can
               forget it. /atlas is what proved that necessary. */}
           <SiteHeader />

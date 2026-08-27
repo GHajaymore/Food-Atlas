@@ -95,8 +95,9 @@ export function SiteFooter() {
    */
   if (!wide) return null;
 
+  /* The colophon, announced so a screen reader can skip to it or past it. */
   return (
-    <View style={styles.foot}>
+    <View role="contentinfo" style={styles.foot}>
       <View style={styles.columns}>
         <View style={styles.identity}>
           <Wordmark size={17} />

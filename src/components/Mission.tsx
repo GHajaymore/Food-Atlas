@@ -131,7 +131,11 @@ export function MissionPitch() {
 
   return (
     <>
-      <T style={wide ? styles.headlineWide : styles.headline}>{copy.missionHeadline}</T>
+      {/* The home page carries no NavRow title, so this line is its heading — without it
+          the front page is the one screen a screen-reader user cannot navigate into. */}
+      <T accessibilityRole="header" aria-level={1} style={wide ? styles.headlineWide : styles.headline}>
+        {copy.missionHeadline}
+      </T>
 
       <Muted style={[styles.stakes, wide ? styles.stakesWide : null]}>
         {copy.missionStakes}

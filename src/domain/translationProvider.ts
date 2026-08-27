@@ -49,6 +49,22 @@ export interface TranslationProvider {
   translateText(request: { text: string; target: string }): Promise<string>;
 }
 
+/**
+ * A translation that arrived intact but broke one of the rules above.
+ *
+ * Distinct from a service failure because the two are for different audiences. The
+ * endpoint's own refusals are sentences a reader can act on — a daily limit has been
+ * reached, come back tomorrow — and are shown as written. These are diagnostics:
+ * "Translation altered the numbers in step 3" tells the reader nothing they can do
+ * and, worse, was printed in English in the middle of an otherwise Japanese page,
+ * which is one of the things Ajay reported as a translation fault. It was one — just
+ * not in the record.
+ *
+ * The message stays in English on purpose: it is for whoever reads the logs. What the
+ * reader sees is `copy.translationRefused`, in their own language.
+ */
+export class PreservationError extends Error {}
+
 /** Terms that must survive a translation untouched. */
 export const preservedTerms = (dish: Dish): string[] => [
   dish.name,
@@ -62,7 +78,7 @@ export const preservedTerms = (dish: Dish): string[] => [
  */
 export function assertPreserved(dish: Dish, result: DishTranslation): void {
   if (result.steps.length !== dish.steps.length) {
-    throw new Error(
+    throw new PreservationError(
       `Translation returned ${result.steps.length} steps for a ${dish.steps.length}-step method. ` +
         `The method must survive translation intact.`,
     );
@@ -76,20 +92,61 @@ export function assertPreserved(dish: Dish, result: DishTranslation): void {
 
   for (const term of preservedTerms(dish)) {
     if (originalProse.includes(term) && !translatedProse.includes(term)) {
-      throw new Error(
+      throw new PreservationError(
         `Translation dropped or renamed the preserved term "${term}". ` +
           `Traditional ingredient, equipment and dish names are never translated.`,
       );
     }
   }
 
-  // Numbers carry the technique: 6-12 weeks, 430C, 250 g, 2-4 hours.
-  const numbers = (text: string) => (text.match(/\d+/g) ?? []).sort().join(',');
-  if (numbers(originalProse) !== numbers(translatedProse)) {
-    throw new Error(
-      'Translation altered the numbers in the method. Durations, temperatures and ' +
-        'quantities must survive translation exactly.',
-    );
+  /*
+   * Numbers carry the technique: 6-12 weeks, 430C, 250 g, 2-4 hours. A mistranslated
+   * fermentation time is a corrupted record, so they are checked rather than trusted —
+   * but checked where they live.
+   *
+   * This compared the numbers of the whole record as one bag, and rejected Kozhikode
+   * Halwa's Japanese translation for it. Nothing had been altered: the method says
+   * "over 2-4 hours" in step 3, and the translation also named the duration in the
+   * summary, so 2,4 met 2,2,4,4 and the reader was told the numbers had been altered.
+   * They had not. A record that states its own duration twice is not a corrupted one.
+   *
+   * Per step instead, and index-aligned — which is stricter, not looser. The old bag
+   * could not see a number move between steps, so a translation that soaked the rice
+   * for four hours and thickened it overnight passed. This does not.
+   */
+  const digits = (text: string) => (text.match(/\d+/g) ?? []).sort().join(',');
+
+  dish.steps.forEach((step, i) => {
+    if (digits(step) !== digits(result.steps[i])) {
+      throw new PreservationError(
+        `Translation altered the numbers in step ${i + 1}. Durations, temperatures and ` +
+          `quantities must survive translation exactly.`,
+      );
+    }
+  });
+
+  /*
+   * The summary is prose about the method, so it is held to a different rule: it may
+   * not lose a number it had, and it may not introduce one the record does not contain
+   * anywhere. Naming a duration the method already states is a summary doing its job;
+   * inventing a temperature is the failure this guards against.
+   */
+  const inTheRecord = new Set((`${dish.prepSummary} ${dish.steps.join(' ')}`.match(/\d+/g) ?? []));
+  for (const number of dish.prepSummary.match(/\d+/g) ?? []) {
+    if (!result.prepSummary.includes(number)) {
+      throw new PreservationError(
+        `Translation dropped "${number}" from the summary. Durations, temperatures and ` +
+          `quantities must survive translation exactly.`,
+      );
+    }
+  }
+  for (const number of result.prepSummary.match(/\d+/g) ?? []) {
+    if (!inTheRecord.has(number)) {
+      throw new PreservationError(
+        `Translation added the number "${number}", which is nowhere in the record. ` +
+          `A translation may not introduce a quantity of its own.`,
+      );
+    }
   }
 }
 
@@ -158,7 +215,29 @@ async function refusal(response: Response): Promise<Error> {
 export class RemoteTranslationProvider implements TranslationProvider {
   readonly name = 'automated translation';
 
-  constructor(private endpoint = process.env.EXPO_PUBLIC_TRANSLATION_ENDPOINT ?? '') {}
+  /**
+   * The app's own endpoint, unless something else is named.
+   *
+   * This defaulted to the empty string, so `isConfigured()` was false and the client never
+   * called anything. That was right when the route might live on someone else's server; it
+   * has been wrong since `functions/api/translate.ts` shipped inside this app.
+   *
+   * The cost of the mismatch was invisible in exactly the way this project keeps finding:
+   * Workers AI was switched on, the endpoint answered correctly to curl, the record screen
+   * asked for a translation on mount — and `canTranslate()` said no, so nothing was ever
+   * requested. `Kozhikode Halwa` read in English on a Japanese page with no error anywhere,
+   * because nothing had failed. Ajay found it; the `translation` table being empty and the
+   * day's spend sitting at exactly the five calls I had made by hand is what proved it.
+   *
+   * Same shape as `EXPO_PUBLIC_DATA_URL` in `data/catalogue.ts`: a root-relative path on
+   * web, where the function is served beside the app, and an origin from the environment
+   * for a native build that has no such neighbour. The override stays, for anyone pointing
+   * this at a route of their own.
+   */
+  constructor(
+    private endpoint = process.env.EXPO_PUBLIC_TRANSLATION_ENDPOINT ??
+      `${process.env.EXPO_PUBLIC_DATA_URL ?? ''}/api/translate`,
+  ) {}
 
   isConfigured(): boolean {
     return this.endpoint.length > 0;

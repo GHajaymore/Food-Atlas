@@ -23,7 +23,7 @@
 
 import type { Copy } from '../i18n/copy';
 
-import { languageName } from './language';
+import { languageNameIn } from './language';
 import type { Dish, DishTranslation } from './types';
 
 export type TranslationStatus = 'original' | 'human' | 'machine' | 'missing';
@@ -100,7 +100,7 @@ export function readDish(copy: Copy, dish: Dish, preferred: string): ReadableDis
        * told it is Hindi is the difference between an unreadable page and a page in
        * a language you know you do not have.
        */
-      note: copy.noTranslationRecorded.replace('{language}', languageName(dish.sourceLanguage)),
+      note: copy.noTranslationRecorded.replace('{language}', languageNameIn(dish.sourceLanguage, copy.locale)),
     };
   }
 
