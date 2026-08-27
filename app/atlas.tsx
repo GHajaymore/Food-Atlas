@@ -21,7 +21,7 @@ import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { H6, Muted } from '../src/components/Text';
 import { catalogue as dishes } from '../src/data/catalogue';
-import { useCopy, useNumber } from '../src/i18n';
+import { useCopy, useNumber, useLocale } from '../src/i18n';
 import { CoverageTable, Explain, Meter, StatTile } from '../src/components/Metrics';
 import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
@@ -32,9 +32,10 @@ import { space } from '../src/theme/tokens';
 
 export default function Atlas() {
   const copy = useCopy();
+  const locale = useLocale((s) => s.locale);
   const n = useNumber();
   const setCountry = useApp((s) => s.setCountry);
-  const atlas = buildAtlas(dishes, copy);
+  const atlas = buildAtlas(dishes, copy, locale);
   const metrics = catalogueMetrics(copy, dishes);
   // Appended by scripts/snapshot-metrics.mjs. Empty until the first run, and the
   // tiles simply show no direction rather than inventing one.

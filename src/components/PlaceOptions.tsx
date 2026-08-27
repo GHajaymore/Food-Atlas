@@ -20,7 +20,7 @@
  */
 
 import { StyleSheet, View } from 'react-native';
-import { useCopy } from '../i18n';
+import { useCopy, usePlural } from '../i18n';
 import { useLayout } from '../theme/layout';
 import { color, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
@@ -52,6 +52,7 @@ export interface PlaceGroup {
 export function PlaceOptions({ groups, onPick }: { groups: PlaceGroup[]; onPick: (value: string) => void }) {
   const { wide, columns } = useLayout();
   const copy = useCopy();
+  const plural = usePlural();
 
   return (
     <>
@@ -66,7 +67,7 @@ export function PlaceOptions({ groups, onPick }: { groups: PlaceGroup[]; onPick:
               <View key={option.label} style={wide ? { width: `${100 / columns}%` } : undefined}>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={`${option.display ?? option.label}${option.note ? `, ${option.note}` : ''}, ${copy.nRecorded.replace('{n}', String(option.count))}`}
+                  accessibilityLabel={`${option.display ?? option.label}${option.note ? `, ${option.note}` : ''}, ${plural('nRecorded', 'nRecorded', option.count)}`}
                   tint="neutral"
                   onPress={() => onPick(option.label)}
                   style={wide ? styles.cell : styles.row}

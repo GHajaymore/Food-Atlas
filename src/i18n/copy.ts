@@ -2091,9 +2091,9 @@ export const EN: Copy = {
   placeKindFormerState:
     'former state',
   oneTradition:
-    '1 tradition',
+    '{n} tradition',
   onePlace:
-    '1 place',
+    '{n} place',
   nPlaces:
     '{n} places',
   countryLevelOnly:
@@ -2143,7 +2143,7 @@ export const EN: Copy = {
   dietBasisImported:
     'Imported from Wikidata, which does not record the preparation. No dietary classification can be made until the method is documented.',
   disclaimerConfirmedOne:
-    '1 person with a stated connection to the place has confirmed this preparation, which is what lifts it above a documented version.',
+    '{n} person with a stated connection to the place has confirmed this preparation, which is what lifts it above a documented version.',
   disclaimerConfirmedMany:
     '{n} people with a stated connection to the place have confirmed this preparation, which is what lifts it above a documented version.',
   disclaimerConfirmedLocal:
@@ -2155,3 +2155,15 @@ export const EN: Copy = {
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };
+
+/**
+ * Plural forms beyond `one` and `other`, for the languages that have them.
+ *
+ * Kept off `Copy` on purpose, and the first attempt proves why: adding them there as
+ * optional members widened `keyof Copy`, so every dynamic `copy[key]` lookup in the app
+ * became `string | undefined` and `shelves.ts` stopped compiling. The extras are read by
+ * `pluralOf` and nothing else, so they do not belong in the type every screen indexes.
+ *
+ * Named by convention rather than declared one by one: `{otherKey}Few`, `{otherKey}Many`.
+ */
+export type PluralExtras = Record<`${string}Few` | `${string}Many`, string>;

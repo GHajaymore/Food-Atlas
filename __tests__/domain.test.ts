@@ -60,7 +60,7 @@ import { isOpenable } from '../src/domain/video';
 import { recipeLines } from '../src/domain/recipeLines';
 import { decodeEntities } from '../src/domain/text';
 import { negotiateLocale } from '../src/domain/uiLanguage';
-import { copyFor, isMachineTranslated, translationCoverage, UI_LOCALES } from '../src/i18n';
+import { copyFor, isMachineTranslated, pluralOf, translationCoverage, UI_LOCALES } from '../src/i18n';
 import { CATALOGUES } from '../src/i18n/catalogues';
 import { EN } from '../src/i18n/copy';
 import {
@@ -379,7 +379,7 @@ describe('search', () => {
 
 describe('the atlas states coverage honestly', () => {
   it('groups every country under a continent', () => {
-    const atlas = buildAtlas(dishes, EN);
+    const atlas = buildAtlas(dishes, EN, "en");
     const countries = atlas.flatMap((g) => g.countries.map((c) => c.name));
     expect(new Set(countries)).toEqual(new Set(dishes.map((d) => d.loc.country)));
     expect(atlas.flatMap((g) => g.countries).reduce((n, c) => n + c.count, 0)).toBe(dishes.length);
@@ -1340,7 +1340,7 @@ describe('every atlas row reads the same way', () => {
     // The earlier version appended place names where it had them, which made some
     // countries look documented and others like an afterthought — when the only
     // difference was whether anyone had recorded a region.
-    for (const group of buildAtlas(dishes, EN)) {
+    for (const group of buildAtlas(dishes, EN, "en")) {
       for (const country of group.countries) {
         expect(country.detail).toMatch(/^\d+ traditions? · (\d+ places?|country level only)$/);
       }
@@ -1348,7 +1348,7 @@ describe('every atlas row reads the same way', () => {
   });
 
   it('counts places consistently with the detail line', () => {
-    for (const group of buildAtlas(dishes, EN)) {
+    for (const group of buildAtlas(dishes, EN, "en")) {
       for (const country of group.countries) {
         if (country.places === 0) expect(country.detail).toMatch(/country level only$/);
         else expect(country.detail).toMatch(new RegExp(`· ${country.places} places?$`));
@@ -2985,6 +2985,29 @@ describe('a record moves up when the community confirms it', () => {
     for (const validations of [1, VALIDATIONS_REQUIRED - 1]) {
       const partial = assess({ ...bestDocumented, heritage: [], registerMethod: false, validations });
       expect({ validations, level: partial.level }).toEqual({ validations, level: 'variation' });
+    }
+  });
+
+  it('gives Russian and Polish the third plural form, and keeps the number in it', () => {
+    /*
+     * English has two forms, Russian and Polish have three, and the third is not an edge
+     * case: Russian wants "2 традиции" and "5 традиций".
+     *
+     * The 21 column is the one that matters and the one that caught a bug. Russian's rule
+     * reads the last digit, so 21 is category `one` — and the `one` value was the literal
+     * "1 традиция", which meant the app printed "1 традиция" for twenty-one records. Every
+     * one-form carries {n} now, which changes nothing in English (its `one` only ever
+     * means 1) and is the whole point in Russian.
+     */
+    const expected: Record<string, Record<number, string>> = {
+      en: { 1: '1 tradition', 2: '2 traditions', 5: '5 traditions', 21: '21 traditions' },
+      ru: { 1: '1 традиция', 2: '2 традиции', 5: '5 традиций', 21: '21 традиция' },
+      pl: { 1: '1 tradycja', 2: '2 tradycje', 5: '5 tradycji', 21: '21 tradycji' },
+    };
+    for (const [locale, cases] of Object.entries(expected)) {
+      for (const [count, want] of Object.entries(cases)) {
+        expect(pluralOf(copyFor(locale), locale, 'oneTradition', 'nTraditions', Number(count))).toBe(want);
+      }
     }
   });
 

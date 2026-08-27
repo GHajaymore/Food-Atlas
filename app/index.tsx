@@ -46,7 +46,7 @@ import { MEAL_LABELS } from '../src/domain/meals';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { likelyCountry } from '../src/domain/nearby';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
-import { useCopy, useNumber } from '../src/i18n';
+import { useCopy, useNumber, usePlural } from '../src/i18n';
 import { settings, useApp } from '../src/state/store';
 
 /** Dish cards rendered per page of the feed. */
@@ -56,6 +56,7 @@ import { accentText, color, elevation, radius, space } from '../src/theme/tokens
 
 export default function Feed() {
   const copy = useCopy();
+  const plural = usePlural();
   const n = useNumber();
   const {
     activeFilter,

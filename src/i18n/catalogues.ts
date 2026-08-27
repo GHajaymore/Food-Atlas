@@ -35,9 +35,9 @@
  * so a clumsy one is a clumsy button and not a corrupted record.
  */
 
-import type { Copy } from './copy';
+import type { Copy, PluralExtras } from './copy';
 
-export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
+export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralExtras>>> = {
   es: {
     goBack: 'Volver',
     search: 'Buscar',
@@ -1292,9 +1292,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'estado histórico',
     oneTradition:
-      '1 tradición',
+      '{n} tradición',
     onePlace:
-      '1 lugar',
+      '{n} lugar',
     nPlaces:
       '{n} lugares',
     countryLevelOnly:
@@ -1344,7 +1344,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Importado de Wikidata, que no recoge la preparación. No puede hacerse ninguna clasificación dietética hasta que se documente el método.',
     disclaimerConfirmedOne:
-      '1 persona con un vínculo declarado con el lugar ha confirmado esta preparación, y eso es lo que la eleva por encima de una versión documentada.',
+      '{n} persona con un vínculo declarado con el lugar ha confirmado esta preparación, y eso es lo que la eleva por encima de una versión documentada.',
     disclaimerConfirmedMany:
       '{n} personas con un vínculo declarado con el lugar han confirmado esta preparación, y eso es lo que la eleva por encima de una versión documentada.',
     disclaimerConfirmedLocal:
@@ -2611,9 +2611,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'état historique',
     oneTradition:
-      '1 tradition',
+      '{n} tradition',
     onePlace:
-      '1 lieu',
+      '{n} lieu',
     nPlaces:
       '{n} lieux',
     countryLevelOnly:
@@ -2663,7 +2663,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Importé de Wikidata, qui ne consigne pas la préparation. Aucune classification alimentaire n’est possible tant que la méthode n’est pas documentée.',
     disclaimerConfirmedOne:
-      '1 personne ayant un lien déclaré avec le lieu a confirmé cette préparation, et c’est ce qui la place au-dessus d’une version simplement documentée.',
+      '{n} personne ayant un lien déclaré avec le lieu a confirmé cette préparation, et c’est ce qui la place au-dessus d’une version simplement documentée.',
     disclaimerConfirmedMany:
       '{n} personnes ayant un lien déclaré avec le lieu ont confirmé cette préparation, et c’est ce qui la place au-dessus d’une version simplement documentée.',
     disclaimerConfirmedLocal:
@@ -3929,9 +3929,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'historischer Staat',
     oneTradition:
-      '1 Tradition',
+      '{n} Tradition',
     onePlace:
-      '1 Ort',
+      '{n} Ort',
     nPlaces:
       '{n} Orte',
     countryLevelOnly:
@@ -3981,7 +3981,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Aus Wikidata importiert, das die Zubereitung nicht erfasst. Eine Einordnung nach Ernährungsform ist erst möglich, wenn die Methode dokumentiert ist.',
     disclaimerConfirmedOne:
-      '1 Person mit einer angegebenen Verbindung zum Ort hat diese Zubereitung bestätigt — und genau das hebt sie über eine bloß dokumentierte Fassung.',
+      '{n} Person mit einer angegebenen Verbindung zum Ort hat diese Zubereitung bestätigt — und genau das hebt sie über eine bloß dokumentierte Fassung.',
     disclaimerConfirmedMany:
       '{n} Personen mit einer angegebenen Verbindung zum Ort haben diese Zubereitung bestätigt — und genau das hebt sie über eine bloß dokumentierte Fassung.',
     disclaimerConfirmedLocal:
@@ -5247,9 +5247,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'stato storico',
     oneTradition:
-      '1 tradizione',
+      '{n} tradizione',
     onePlace:
-      '1 luogo',
+      '{n} luogo',
     nPlaces:
       '{n} luoghi',
     countryLevelOnly:
@@ -5299,7 +5299,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Importato da Wikidata, che non registra la preparazione. Nessuna classificazione alimentare è possibile finché il metodo non è documentato.',
     disclaimerConfirmedOne:
-      '1 persona con un legame dichiarato con il luogo ha confermato questa preparazione, ed è questo che la solleva sopra una versione soltanto documentata.',
+      '{n} persona con un legame dichiarato con il luogo ha confermato questa preparazione, ed è questo che la solleva sopra una versione soltanto documentata.',
     disclaimerConfirmedMany:
       '{n} persone con un legame dichiarato con il luogo hanno confermato questa preparazione, ed è questo che la solleva sopra una versione soltanto documentata.',
     disclaimerConfirmedLocal:
@@ -6566,9 +6566,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'estado histórico',
     oneTradition:
-      '1 tradição',
+      '{n} tradição',
     onePlace:
-      '1 lugar',
+      '{n} lugar',
     nPlaces:
       '{n} lugares',
     countryLevelOnly:
@@ -6618,7 +6618,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Importado da Wikidata, que não regista a preparação. Nenhuma classificação alimentar pode ser feita enquanto o método não estiver documentado.',
     disclaimerConfirmedOne:
-      '1 pessoa com uma ligação declarada ao lugar confirmou esta preparação, e é isso que a eleva acima de uma versão apenas documentada.',
+      '{n} pessoa com uma ligação declarada ao lugar confirmou esta preparação, e é isso que a eleva acima de uma versão apenas documentada.',
     disclaimerConfirmedMany:
       '{n} pessoas com uma ligação declarada ao lugar confirmaram esta preparação, e é isso que a eleva acima de uma versão apenas documentada.',
     disclaimerConfirmedLocal:
@@ -7884,9 +7884,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'historische staat',
     oneTradition:
-      '1 traditie',
+      '{n} traditie',
     onePlace:
-      '1 plaats',
+      '{n} plaats',
     nPlaces:
       '{n} plaatsen',
     countryLevelOnly:
@@ -7936,7 +7936,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Geïmporteerd uit Wikidata, dat de bereiding niet vastlegt. Een dieetclassificatie kan pas worden gemaakt als de methode is gedocumenteerd.',
     disclaimerConfirmedOne:
-      '1 persoon met een opgegeven band met de plaats heeft deze bereiding bevestigd, en dat is wat haar boven een enkel gedocumenteerde versie tilt.',
+      '{n} persoon met een opgegeven band met de plaats heeft deze bereiding bevestigd, en dat is wat haar boven een enkel gedocumenteerde versie tilt.',
     disclaimerConfirmedMany:
       '{n} mensen met een opgegeven band met de plaats hebben deze bereiding bevestigd, en dat is wat haar boven een enkel gedocumenteerde versie tilt.',
     disclaimerConfirmedLocal:
@@ -9203,9 +9203,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'dawne państwo',
     oneTradition:
-      '1 tradycja',
+      '{n} tradycja',
     onePlace:
-      '1 miejsce',
+      '{n} miejsce',
     nPlaces:
       '{n} miejsc',
     countryLevelOnly:
@@ -9255,15 +9255,31 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Zaimportowane z Wikidanych, które nie zapisują sposobu przygotowania. Klasyfikacja dietetyczna będzie możliwa dopiero po udokumentowaniu metody.',
     disclaimerConfirmedOne:
-      '1 osoba z zadeklarowanym związkiem z tym miejscem potwierdziła ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
+      '{n} osoba z zadeklarowanym związkiem z tym miejscem potwierdziła ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
     disclaimerConfirmedMany:
-      'Osób z zadeklarowanym związkiem z tym miejscem, które potwierdziły ten sposób przygotowania: {n} — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
+      '{n} osób z zadeklarowanym związkiem z tym miejscem potwierdziło ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
     disclaimerConfirmedLocal:
       'Potwierdzenia wskazują samą miejscowość, więc zapisano to jako tradycję lokalną.',
     disclaimerConfirmedRegional:
       'Potwierdzenia mówią w imieniu szerszego regionu, a nie jednego miasteczka, więc zapisano to jako regionalne.',
     disclaimerScoreIsMean:
       'Ocena to średnia sześciu poniższych sprawdzeń i można ją przeliczyć.',
+    nTraditionsFew:
+      '{n} tradycje',
+    nTraditionsMany:
+      '{n} tradycji',
+    nPlacesFew:
+      '{n} miejsca',
+    nPlacesMany:
+      '{n} miejsc',
+    nRecordedFew:
+      '{n} zapisane',
+    nRecordedMany:
+      '{n} zapisanych',
+    disclaimerConfirmedManyFew:
+      '{n} osoby z zadeklarowanym związkiem z tym miejscem potwierdziły ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
+    disclaimerConfirmedManyMany:
+      '{n} osób z zadeklarowanym związkiem z tym miejscem potwierdziło ten sposób przygotowania — i właśnie to stawia go wyżej niż wersję jedynie udokumentowaną.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10521,9 +10537,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'tarihi devlet',
     oneTradition:
-      '1 gelenek',
+      '{n} gelenek',
     onePlace:
-      '1 yer',
+      '{n} yer',
     nPlaces:
       '{n} yer',
     countryLevelOnly:
@@ -10573,7 +10589,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Hazırlanışı kaydetmeyen Wikidata’dan alındı. Yöntem belgelenmeden hiçbir beslenme sınıflandırması yapılamaz.',
     disclaimerConfirmedOne:
-      'Yerle bağı olduğunu belirten 1 kişi bu hazırlanışı doğruladı; onu yalnızca belgelenmiş bir sürümün üzerine çıkaran da budur.',
+      'Yerle bağı olduğunu belirten {n} kişi bu hazırlanışı doğruladı; onu yalnızca belgelenmiş bir sürümün üzerine çıkaran da budur.',
     disclaimerConfirmedMany:
       'Yerle bağı olduğunu belirten {n} kişi bu hazırlanışı doğruladı; onu yalnızca belgelenmiş bir sürümün üzerine çıkaran da budur.',
     disclaimerConfirmedLocal:
@@ -11840,9 +11856,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'историческое государство',
     oneTradition:
-      '1 традиция',
+      '{n} традиция',
     onePlace:
-      '1 место',
+      '{n} место',
     nPlaces:
       '{n} мест',
     countryLevelOnly:
@@ -11892,15 +11908,31 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'Импортировано из Wikidata, где способ приготовления не записан. Классификация по типу питания невозможна, пока метод не задокументирован.',
     disclaimerConfirmedOne:
-      'Эту готовку подтвердил 1 человек, заявивший о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
+      'Эту готовку подтвердил {n} человек, заявивший о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
     disclaimerConfirmedMany:
-      'Число людей, заявивших о связи с этим местом и подтвердивших эту готовку: {n} — именно это ставит её выше просто задокументированной версии.',
+      'Эту готовку подтвердили {n} человек, заявивших о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
     disclaimerConfirmedLocal:
       'Подтверждения называют сам населённый пункт, поэтому записано как местная традиция.',
     disclaimerConfirmedRegional:
       'Подтверждения говорят за более широкий регион, а не за один город, поэтому записано как региональная.',
     disclaimerScoreIsMean:
       'Оценка — среднее шести проверок ниже, и её можно пересчитать.',
+    nTraditionsFew:
+      '{n} традиции',
+    nTraditionsMany:
+      '{n} традиций',
+    nPlacesFew:
+      '{n} места',
+    nPlacesMany:
+      '{n} мест',
+    nRecordedFew:
+      '{n} записи',
+    nRecordedMany:
+      '{n} записей',
+    disclaimerConfirmedManyFew:
+      'Эту готовку подтвердили {n} человека, заявившие о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
+    disclaimerConfirmedManyMany:
+      'Эту готовку подтвердили {n} человек, заявивших о связи с этим местом, — именно это ставит её выше просто задокументированной версии.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -13159,9 +13191,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'पूर्व राज्य',
     oneTradition:
-      '1 परंपरा',
+      '{n} परंपरा',
     onePlace:
-      '1 स्थान',
+      '{n} स्थान',
     nPlaces:
       '{n} स्थान',
     countryLevelOnly:
@@ -13211,7 +13243,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       'विकिडेटा से आयात, जो विधि दर्ज नहीं करता। जब तक विधि दर्ज नहीं होती, कोई आहार वर्गीकरण संभव नहीं।',
     disclaimerConfirmedOne:
-      'इस स्थान से अपना संबंध बताने वाले 1 व्यक्ति ने इस विधि की पुष्टि की है — यही इसे केवल दर्ज संस्करण से ऊपर उठाता है।',
+      'इस स्थान से अपना संबंध बताने वाले {n} व्यक्ति ने इस विधि की पुष्टि की है — यही इसे केवल दर्ज संस्करण से ऊपर उठाता है।',
     disclaimerConfirmedMany:
       'इस स्थान से अपना संबंध बताने वाले {n} लोगों ने इस विधि की पुष्टि की है — यही इसे केवल दर्ज संस्करण से ऊपर उठाता है।',
     disclaimerConfirmedLocal:
@@ -14478,9 +14510,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       '历史国家',
     oneTradition:
-      '1 项传统',
+      '{n} 项传统',
     onePlace:
-      '1 个地方',
+      '{n} 个地方',
     nPlaces:
       '{n} 个地方',
     countryLevelOnly:
@@ -14530,7 +14562,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       '自 Wikidata 导入，而该处并未记录做法。在做法有记录之前，无法作出任何饮食分类。',
     disclaimerConfirmedOne:
-      '已有 1 位声明与该地有渊源的人作证这一做法——正是这一点使它高于仅有记载的版本。',
+      '已有 {n} 位声明与该地有渊源的人作证这一做法——正是这一点使它高于仅有记载的版本。',
     disclaimerConfirmedMany:
       '已有 {n} 位声明与该地有渊源的人作证这一做法——正是这一点使它高于仅有记载的版本。',
     disclaimerConfirmedLocal:
@@ -15797,9 +15829,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     placeKindFormerState:
       'かつての国',
     oneTradition:
-      '1 件の伝統',
+      '{n} 件の伝統',
     onePlace:
-      '1 か所',
+      '{n} か所',
     nPlaces:
       '{n} か所',
     countryLevelOnly:
@@ -15849,7 +15881,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
     dietBasisImported:
       '作り方を記録していない Wikidata からの取り込みです。作り方が記録されるまで、食事制限の分類は行えません。',
     disclaimerConfirmedOne:
-      'その土地とのつながりを表明した 1 人がこの作り方を確認しています。単に記録されたものより上に置かれるのはこれによります。',
+      'その土地とのつながりを表明した {n} 人がこの作り方を確認しています。単に記録されたものより上に置かれるのはこれによります。',
     disclaimerConfirmedMany:
       'その土地とのつながりを表明した {n} 人がこの作り方を確認しています。単に記録されたものより上に置かれるのはこれによります。',
     disclaimerConfirmedLocal:

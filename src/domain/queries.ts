@@ -8,6 +8,7 @@
  */
 
 import type { Copy } from '../i18n/copy';
+import { pluralOf } from '../i18n';
 import { filterDef, GEO_LEVELS, viewsNumber } from './authenticity';
 import { continentOf, continentRank, isCountry } from './continents';
 import { matchesDiet, type DietGroup, type DietKind } from './diet';
@@ -145,7 +146,7 @@ export interface AtlasGroup {
 }
 
 /** The Food Atlas, grouped by continent. Coverage is stated over the whole catalogue. */
-export function buildAtlas(dishes: Dish[], copy: Copy): AtlasGroup[] {
+export function buildAtlas(dishes: Dish[], copy: Copy, locale: string): AtlasGroup[] {
   const groups = new Map<string, Map<string, Dish[]>>();
   for (const dish of dishes) {
     const continent = continentOf(dish.loc.country);
@@ -162,8 +163,9 @@ export function buildAtlas(dishes: Dish[], copy: Copy): AtlasGroup[] {
       const places = [
         ...new Set(list.map((d) => d.loc.village || d.loc.city || d.loc.province || d.loc.region).filter(Boolean)),
       ];
+      /* Plural-aware: Russian wants "2 традиции" and "5 традиций", and "21 традиция". */
       const n = (one: string, many: string, count: number) =>
-        (count === 1 ? copy[one as keyof Copy] : copy[many as keyof Copy]).replace('{n}', String(count));
+        pluralOf(copy, locale, one as keyof Copy, many as keyof Copy, count);
       const traditions = n('oneTradition', 'nTraditions', list.length);
       const placeCount = places.length ? n('onePlace', 'nPlaces', places.length) : copy.countryLevelOnly;
 

@@ -194,3 +194,56 @@ export const useNumber = (): ((value: number) => string) => {
   const locale = useLocale((state) => state.locale);
   return (value: number) => formatNumber(value, locale);
 };
+
+/**
+ * A counted noun in the form the reader's language actually uses.
+ *
+ * English has two: one tradition, {n} traditions. Russian and Polish have three, and the
+ * third is not an edge case — Russian wants "2 традиции" and "5 традиций", and it wants
+ * "21 традиция" as well, because the rule reads the last digit rather than the size of
+ * the number. The two-form catalogue printed "21 традиций", which is wrong in a way a
+ * Russian reader notices immediately.
+ *
+ * `Intl.PluralRules` knows every one of these and is already in the browser, so the
+ * categories cost nothing. What costs something is the copy, and the shape here keeps that
+ * additive: the existing `one`/`other` keys stay exactly as they are, and a language that
+ * needs more supplies `{key}Few` or `{key}Many` beside them. A language that does not need
+ * them adds nothing and behaves as before.
+ *
+ * Falls back to `other` whenever a form is missing, which is what the catalogue held
+ * before this existed — worse grammar, never a missing sentence.
+ */
+export const pluralOf = (
+  copy: Copy,
+  locale: string,
+  oneKey: keyof Copy,
+  otherKey: keyof Copy,
+  count: number,
+): string => {
+  const table = copy as unknown as Record<string, string>;
+  let category = count === 1 ? 'one' : 'other';
+  try {
+    category = new Intl.PluralRules(locale).select(count);
+  } catch {
+    /* No Intl.PluralRules here; one-or-other is the honest fallback. */
+  }
+
+  const suffixed = (name: string) => table[`${String(otherKey)}${name}`];
+  const chosen =
+    category === 'one'
+      ? table[String(oneKey)]
+      : category === 'few'
+        ? (suffixed('Few') ?? table[String(otherKey)])
+        : category === 'many'
+          ? (suffixed('Many') ?? table[String(otherKey)])
+          : table[String(otherKey)];
+
+  return (chosen ?? table[String(otherKey)] ?? '').replace('{n}', formatNumber(count, locale));
+};
+
+/** `pluralOf` bound to this reader's language, for a component. */
+export const usePlural = (): ((oneKey: keyof Copy, otherKey: keyof Copy, count: number) => string) => {
+  const locale = useLocale((state) => state.locale);
+  const copy = useCopy();
+  return (oneKey, otherKey, count) => pluralOf(copy, locale, oneKey, otherKey, count);
+};
