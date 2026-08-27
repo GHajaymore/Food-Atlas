@@ -436,8 +436,7 @@ export default function Search() {
         <Card style={styles.emptyCard}>
           <CardKicker>{copy.noMatch}</CardKicker>
           <CardBody>
-            Nothing in the atlas matches {query.trim() ? `“${query.trim()}”` : 'that'} yet. Absence here means no
-            record, not no food — we&apos;d rather say we don&apos;t know than guess.
+            {copy.nothingMatchesBody.replace('{query}', query.trim() ? `“${query.trim()}”` : copy.thatWord)}
           </CardBody>
           {/* The name travels with them. It is already typed, and asking someone to
               type it a second time is the friction that kills this kind of capture —

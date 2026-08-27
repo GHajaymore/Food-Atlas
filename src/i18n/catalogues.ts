@@ -1313,6 +1313,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tradiciones',
     freeNoAds:
       'Gratis, sin anuncios',
+    quotedFromSource:
+      'Citado de la fuente siguiente: un relato general de cómo se hace el plato, no un registro de cómo se hace en {place}.',
+    adaptationLeadIn:
+      'Cómo se prepara este plato hoy en día. No es un registro de cómo se prepara en {place}, y nadie de allí lo ha confirmado.',
+    openDisagreementBody:
+      'Alguien que cocina esto en {place} dice que se hace de otra manera: {differs} No se ha eliminado nada mientras se revisa, y la confianza siguiente no cambia: si ambos relatos se sostienen, el registro se dividirá en lugar de imponerse uno sobre otro.',
+    engagementNotShown:
+      'Las cifras de interacción no se muestran a propósito: no miden la autenticidad.',
+    videoSearchNote:
+      'Puedes buscar uno en la fuente. Los resultados llegan ordenados por número de visitas, que mide alcance y nada más: quien cocina puede ser o no de {place}. Nada de lo que se encuentre así afecta a la clasificación de este registro.',
+    nowOpenForConfirmation:
+      '{name} ya está abierto a confirmación.',
+    proposalOpenBody:
+      '{n} personas que conozcan el plato deben confirmarlo antes de que entre en el atlas. Cualquiera puede verlo y confirmarlo desde ahora, incluidas las personas a quienes se lo cuentes, que suele ser cómo se confirma un plato que nadie había escrito.',
+    nothingMatchesBody:
+      'Nada en el atlas coincide con {query} todavía. Una ausencia aquí significa que no hay registro, no que no haya comida: preferimos decir que no lo sabemos antes que adivinar.',
+    thatWord:
+      'eso',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2592,6 +2610,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'traditions',
     freeNoAds:
       'Gratuit, sans publicité',
+    quotedFromSource:
+      'Cité de la source ci-dessous — un compte rendu général de la préparation du plat, et non un relevé de la façon dont il se fait à {place}.',
+    adaptationLeadIn:
+      'Comment ce plat se prépare couramment aujourd’hui. Ce n’est pas un relevé de sa préparation à {place}, et personne de là-bas ne l’a confirmé.',
+    openDisagreementBody:
+      'Quelqu’un qui cuisine ce plat à {place} dit qu’il se fait autrement : {differs} Rien n’a été retiré pendant l’examen, et l’indice de confiance ci-dessous reste inchangé — si les deux récits tiennent, la fiche se scindera plutôt que l’un ne l’emporte.',
+    engagementNotShown:
+      'Les chiffres d’audience ne sont volontairement pas affichés : ils ne mesurent pas l’authenticité.',
+    videoSearchNote:
+      'Vous pouvez en chercher une à la source. Les résultats arrivent classés par nombre de vues, ce qui mesure la portée et rien d’autre — la personne aux fourneaux peut venir de {place} ou non. Rien de ce qui est trouvé ainsi n’affecte le classement de cette fiche.',
+    nowOpenForConfirmation:
+      '{name} est maintenant ouvert à confirmation.',
+    proposalOpenBody:
+      'Il faut que {n} personnes qui connaissent le plat le confirment avant qu’il entre dans l’atlas. Tout le monde peut le voir et le confirmer dès maintenant — y compris les personnes à qui vous en parlez, ce qui est souvent ainsi qu’un plat que personne n’avait noté finit par être confirmé.',
+    nothingMatchesBody:
+      'Rien dans l’atlas ne correspond à {query} pour l’instant. Une absence ici signifie qu’il n’y a pas de fiche, pas qu’il n’y a pas de plat — nous préférons dire que nous ne savons pas plutôt que de deviner.',
+    thatWord:
+      'cela',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3870,6 +3906,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Traditionen',
     freeNoAds:
       'Kostenlos, ohne Werbung',
+    quotedFromSource:
+      'Zitiert aus der Quelle unten — eine allgemeine Beschreibung der Zubereitung, kein Beleg dafür, wie das Gericht in {place} gemacht wird.',
+    adaptationLeadIn:
+      'Wie dieses Gericht heute üblicherweise zubereitet wird. Es ist kein Beleg dafür, wie man es in {place} macht, und niemand von dort hat es bestätigt.',
+    openDisagreementBody:
+      'Jemand, der das in {place} kocht, sagt, es werde anders gemacht: {differs} Während der Prüfung wurde nichts entfernt, und der Vertrauenswert unten bleibt unverändert — halten beide Darstellungen stand, wird der Eintrag geteilt, statt eine zu überstimmen.',
+    engagementNotShown:
+      'Reichweitenzahlen werden bewusst nicht gezeigt — sie messen keine Authentizität.',
+    videoSearchNote:
+      'Sie können an der Quelle danach suchen. Die Ergebnisse kommen nach Aufrufen sortiert, was allein Reichweite misst — die kochende Person kann aus {place} stammen oder nicht. Nichts davon beeinflusst die Einstufung dieses Eintrags.',
+    nowOpenForConfirmation:
+      '{name} ist jetzt zur Bestätigung offen.',
+    proposalOpenBody:
+      '{n} Menschen, die das Gericht kennen, müssen es bestätigen, bevor es in den Atlas kommt. Ab sofort kann es jede und jeder sehen und bestätigen — auch die Leute, denen Sie davon erzählen, und genau so wird ein Gericht bestätigt, das niemand aufgeschrieben hatte.',
+    nothingMatchesBody:
+      'Nichts im Atlas passt bisher zu {query}. Eine Lücke hier heißt: kein Eintrag, nicht kein Gericht — wir sagen lieber, dass wir es nicht wissen, als zu raten.',
+    thatWord:
+      'das',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5148,6 +5202,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tradizioni',
     freeNoAds:
       'Gratis, senza pubblicità',
+    quotedFromSource:
+      'Citato dalla fonte qui sotto — un resoconto generale di come si prepara il piatto, non una testimonianza di come lo si prepara in {place}.',
+    adaptationLeadIn:
+      'Come si prepara comunemente questo piatto oggi. Non è una testimonianza di come lo si prepara in {place}, e nessuno di là lo ha confermato.',
+    openDisagreementBody:
+      'Qualcuno che lo cucina in {place} dice che si fa diversamente: {differs} Nulla è stato rimosso durante la verifica e l’attendibilità qui sotto resta invariata — se entrambe le versioni reggono, la scheda si dividerà invece che prevalere una sola.',
+    engagementNotShown:
+      'I dati di visualizzazione non vengono mostrati di proposito: non misurano l’autenticità.',
+    videoSearchNote:
+      'Puoi cercarne uno alla fonte. I risultati arrivano ordinati per visualizzazioni, che misurano la diffusione e nient’altro — chi cucina può essere di {place} oppure no. Nulla di ciò che trovi così incide sulla classificazione di questa scheda.',
+    nowOpenForConfirmation:
+      '{name} è ora aperto alla conferma.',
+    proposalOpenBody:
+      'Servono {n} persone che conoscano il piatto per confermarlo prima che entri nell’atlante. Da ora chiunque può vederlo e confermarlo — comprese le persone a cui ne parli, ed è di solito così che viene confermato un piatto che nessuno aveva scritto.',
+    nothingMatchesBody:
+      'Nell’atlante non c’è ancora nulla che corrisponda a {query}. Un’assenza qui significa nessuna scheda, non nessun piatto — preferiamo dire che non lo sappiamo piuttosto che tirare a indovinare.',
+    thatWord:
+      'quello',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6427,6 +6499,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tradições',
     freeNoAds:
       'Grátis, sem anúncios',
+    quotedFromSource:
+      'Citado da fonte abaixo — um relato geral de como o prato é feito, não um registo de como se faz em {place}.',
+    adaptationLeadIn:
+      'Como este prato é normalmente feito hoje. Não é um registo de como se prepara em {place}, e ninguém de lá o confirmou.',
+    openDisagreementBody:
+      'Alguém que cozinha isto em {place} diz que se faz de outra forma: {differs} Nada foi removido enquanto isto é analisado, e a confiança abaixo mantém-se — se ambos os relatos se sustentarem, o registo divide-se em vez de um prevalecer.',
+    engagementNotShown:
+      'Números de audiência não são mostrados de propósito: não medem autenticidade.',
+    videoSearchNote:
+      'Pode procurar um na fonte. Os resultados vêm ordenados por visualizações, o que mede alcance e mais nada — quem cozinha pode ser ou não de {place}. Nada encontrado assim afeta a classificação deste registo.',
+    nowOpenForConfirmation:
+      '{name} está agora aberto a confirmação.',
+    proposalOpenBody:
+      '{n} pessoas que conheçam o prato têm de o confirmar antes de entrar no atlas. A partir de agora qualquer pessoa pode vê-lo e confirmá-lo — incluindo aquelas a quem contar, que é normalmente como se confirma um prato que ninguém tinha escrito.',
+    nothingMatchesBody:
+      'Nada no atlas corresponde a {query} ainda. Uma ausência aqui significa nenhum registo, não nenhuma comida — preferimos dizer que não sabemos a adivinhar.',
+    thatWord:
+      'isso',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7705,6 +7795,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tradities',
     freeNoAds:
       'Gratis, geen advertenties',
+    quotedFromSource:
+      'Geciteerd uit de bron hieronder — een algemene beschrijving van de bereiding, geen vastlegging van hoe het in {place} wordt gemaakt.',
+    adaptationLeadIn:
+      'Hoe dit gerecht tegenwoordig meestal wordt gemaakt. Het is geen vastlegging van hoe het in {place} wordt bereid, en niemand daarvandaan heeft het bevestigd.',
+    openDisagreementBody:
+      'Iemand die dit in {place} kookt zegt dat het anders gaat: {differs} Er is niets verwijderd zolang hiernaar wordt gekeken, en de betrouwbaarheid hieronder blijft gelijk — houden beide verhalen stand, dan splitst het record zich in plaats van dat er één wordt overruled.',
+    engagementNotShown:
+      'Kijkcijfers worden bewust niet getoond: ze meten geen authenticiteit.',
+    videoSearchNote:
+      'U kunt er bij de bron naar zoeken. Resultaten komen gesorteerd op weergaven, wat alleen bereik meet — wie kookt kan wel of niet uit {place} komen. Niets wat zo gevonden wordt, verandert de classificatie van dit record.',
+    nowOpenForConfirmation:
+      '{name} staat nu open voor bevestiging.',
+    proposalOpenBody:
+      '{n} mensen die het gerecht kennen moeten het bevestigen voordat het in de atlas komt. Vanaf nu kan iedereen het zien en bevestigen — ook de mensen aan wie u het vertelt, en zo wordt een gerecht dat niemand had opgeschreven meestal bevestigd.',
+    nothingMatchesBody:
+      'Niets in de atlas komt nog overeen met {query}. Afwezigheid betekent hier geen record, niet geen gerecht — we zeggen liever dat we het niet weten dan dat we gokken.',
+    thatWord:
+      'dat',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -8984,6 +9092,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'tradycji',
     freeNoAds:
       'Za darmo, bez reklam',
+    quotedFromSource:
+      'Cytat ze źródła poniżej — ogólny opis przygotowania potrawy, a nie zapis tego, jak robi się ją w {place}.',
+    adaptationLeadIn:
+      'Jak tę potrawę przyrządza się dziś najczęściej. To nie jest zapis tego, jak robi się ją w {place}, i nikt stamtąd tego nie potwierdził.',
+    openDisagreementBody:
+      'Ktoś, kto gotuje to w {place}, mówi, że robi się to inaczej: {differs} Nic nie zostało usunięte na czas sprawdzania, a wiarygodność poniżej pozostaje bez zmian — jeśli obie wersje się obronią, wpis zostanie podzielony, zamiast jednej z nich unieważnić.',
+    engagementNotShown:
+      'Liczby wyświetleń celowo nie są pokazywane: nie mierzą autentyczności.',
+    videoSearchNote:
+      'Możesz poszukać go u źródła. Wyniki przychodzą posortowane według liczby wyświetleń, co mierzy zasięg i nic więcej — osoba gotująca może, ale nie musi pochodzić z {place}. Nic znalezionego w ten sposób nie wpływa na klasyfikację tego wpisu.',
+    nowOpenForConfirmation:
+      '{name} jest teraz otwarte do potwierdzenia.',
+    proposalOpenBody:
+      'Potrawa musi zostać potwierdzona przez {n} osób, które ją znają, zanim trafi do atlasu. Od teraz każdy może ją zobaczyć i potwierdzić — także osoby, którym o niej powiesz, i zwykle w ten sposób potwierdza się potrawę, której nikt nie zapisał.',
+    nothingMatchesBody:
+      'Nic w atlasie nie pasuje jeszcze do {query}. Brak oznacza tu brak wpisu, a nie brak potrawy — wolimy powiedzieć, że nie wiemy, niż zgadywać.',
+    thatWord:
+      'to',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10262,6 +10388,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'gelenek',
     freeNoAds:
       'Ücretsiz, reklamsız',
+    quotedFromSource:
+      'Aşağıdaki kaynaktan alıntı — yemeğin nasıl yapıldığına dair genel bir anlatım, {place} içinde nasıl yapıldığının kaydı değil.',
+    adaptationLeadIn:
+      'Bu yemeğin bugün yaygın olarak nasıl yapıldığı. {place} içinde nasıl hazırlandığının kaydı değildir ve oradan kimse doğrulamamıştır.',
+    openDisagreementBody:
+      '{place} içinde bunu pişiren biri farklı yapıldığını söylüyor: {differs} İnceleme sürerken hiçbir şey kaldırılmadı ve aşağıdaki güven değeri değişmedi — iki anlatım da geçerliyse kayıt biri diğerini geçersiz kılmak yerine ikiye ayrılır.',
+    engagementNotShown:
+      'İzlenme sayıları bilerek gösterilmiyor: özgünlüğü ölçmezler.',
+    videoSearchNote:
+      'Kaynakta arayabilirsiniz. Sonuçlar izlenme sayısına göre sıralı gelir; bu yalnızca erişimi ölçer — pişiren kişi {place} içinden olabilir de olmayabilir de. Böyle bulunan hiçbir şey bu kaydın sınıflandırmasını etkilemez.',
+    nowOpenForConfirmation:
+      '{name} artık doğrulamaya açık.',
+    proposalOpenBody:
+      'Yemeği bilen {n} kişinin doğrulaması gerekiyor; ancak ondan sonra atlasa girer. Bundan sonra herkes onu görebilir ve doğrulayabilir — anlattığınız kişiler dahil, ki kimsenin yazmadığı bir yemek genellikle böyle doğrulanır.',
+    nothingMatchesBody:
+      'Atlasta henüz {query} ile eşleşen bir şey yok. Buradaki yokluk kayıt yok demektir, yemek yok demek değil — tahmin etmektense bilmediğimizi söylemeyi tercih ederiz.',
+    thatWord:
+      'bunu',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11541,6 +11685,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'традиций',
     freeNoAds:
       'Бесплатно, без рекламы',
+    quotedFromSource:
+      'Цитата из источника ниже — общее описание того, как готовят это блюдо, а не запись о том, как его готовят в {place}.',
+    adaptationLeadIn:
+      'Как это блюдо готовят сегодня чаще всего. Это не запись о том, как его готовят в {place}, и никто оттуда этого не подтвердил.',
+    openDisagreementBody:
+      'Тот, кто готовит это в {place}, говорит, что делают иначе: {differs} Ничего не удалено на время разбора, и оценка достоверности ниже не изменилась — если обе версии верны, запись разделится, а не одна отменит другую.',
+    engagementNotShown:
+      'Цифры просмотров намеренно не показаны: они не измеряют подлинность.',
+    videoSearchNote:
+      'Можно поискать в источнике. Результаты приходят по числу просмотров, а это мера охвата и только — тот, кто готовит, может быть из {place}, а может и нет. Ничто найденное так не влияет на классификацию этой записи.',
+    nowOpenForConfirmation:
+      '{name} теперь открыто для подтверждения.',
+    proposalOpenBody:
+      'Подтвердить блюдо должны {n} человек, которые его знают, и только потом оно попадёт в атлас. С этого момента его видит и может подтвердить кто угодно — включая тех, кому вы расскажете, и именно так обычно подтверждают блюдо, которое никто не записал.',
+    nothingMatchesBody:
+      'В атласе пока нет ничего, что совпадает с {query}. Отсутствие здесь означает, что нет записи, а не что нет еды — мы лучше скажем, что не знаем, чем станем гадать.',
+    thatWord:
+      'это',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -12820,6 +12982,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'परंपराएँ',
     freeNoAds:
       'मुफ़्त, बिना विज्ञापन',
+    quotedFromSource:
+      'नीचे दिए गए स्रोत से उद्धृत — यह बताता है कि यह व्यंजन आमतौर पर कैसे बनता है, न कि {place} में कैसे बनता है।',
+    adaptationLeadIn:
+      'यह व्यंजन आज आमतौर पर कैसे बनाया जाता है। यह {place} में इसे बनाने का रिकॉर्ड नहीं है, और वहाँ से किसी ने इसकी पुष्टि नहीं की।',
+    openDisagreementBody:
+      '{place} में इसे बनाने वाले किसी व्यक्ति का कहना है कि यह अलग तरीके से बनता है: {differs} जाँच के दौरान कुछ भी हटाया नहीं गया है, और नीचे दिया गया भरोसा अपरिवर्तित है — यदि दोनों बातें सही हुईं, तो रिकॉर्ड दो भागों में बँट जाएगा, किसी एक को खारिज नहीं किया जाएगा।',
+    engagementNotShown:
+      'व्यू की संख्या जानबूझकर नहीं दिखाई जाती: वह प्रामाणिकता नहीं मापती।',
+    videoSearchNote:
+      'आप स्रोत पर खोज सकते हैं। परिणाम व्यू के क्रम में आते हैं, जो केवल पहुँच मापते हैं — बनाने वाला {place} से हो भी सकता है और नहीं भी। इस तरह मिली कोई भी चीज़ इस रिकॉर्ड के वर्गीकरण को नहीं बदलती।',
+    nowOpenForConfirmation:
+      '{name} अब पुष्टि के लिए खुला है।',
+    proposalOpenBody:
+      'इस व्यंजन को जानने वाले {n} लोगों को इसकी पुष्टि करनी होगी, तभी यह एटलस में आएगा। अब से कोई भी इसे देख और पुष्ट कर सकता है — उन लोगों समेत जिन्हें आप बताएं, और बिना लिखे गए व्यंजन की पुष्टि आमतौर पर इसी तरह होती है।',
+    nothingMatchesBody:
+      'एटलस में अभी {query} से मेल खाता कुछ नहीं है। यहाँ अनुपस्थिति का अर्थ है रिकॉर्ड नहीं, भोजन नहीं — अनुमान लगाने से बेहतर हम यह कहेंगे कि हमें पता नहीं।',
+    thatWord:
+      'उस',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -14099,6 +14279,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '项传统',
     freeNoAds:
       '免费，无广告',
+    quotedFromSource:
+      '引自下方来源——这是对该菜制作方式的泛泛而谈，而非{place}当地做法的记录。',
+    adaptationLeadIn:
+      '这道菜如今的常见做法。它不是{place}当地做法的记录，也没有当地人作过证。',
+    openDisagreementBody:
+      '有在{place}做这道菜的人表示做法不同：{differs} 核实期间未删除任何内容，下方的可信度也不变——若两种说法都成立，记录会拆分，而不是否定其中一方。',
+    engagementNotShown:
+      '播放数据有意不予显示：它不度量真实性。',
+    videoSearchNote:
+      '你可以到来源处搜索。结果按播放量排序，而那只衡量传播广度——下厨的人未必来自{place}。这样找到的内容不会影响本条记录的分类。',
+    nowOpenForConfirmation:
+      '{name} 现已开放待证。',
+    proposalOpenBody:
+      '需要 {n} 位熟悉这道菜的人作证，它才能进入图鉴。从现在起任何人都可以看到并作证——包括你告诉的人，而一道无人记载的菜通常正是这样得到作证的。',
+    nothingMatchesBody:
+      '图鉴中尚无与{query}相符的内容。这里的空白意味着没有记录，而不是没有这道菜——与其猜测，我们宁愿说不知道。',
+    thatWord:
+      '那个',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15378,6 +15576,24 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '件の伝統',
     freeNoAds:
       '無料、広告なし',
+    quotedFromSource:
+      '下記の出典からの引用です。一般的な作り方の説明であり、{place}での作り方の記録ではありません。',
+    adaptationLeadIn:
+      'この料理が現在一般的にどう作られているかです。{place}での作り方の記録ではなく、現地の人の確認もありません。',
+    openDisagreementBody:
+      '{place}でこれを作っている人から、作り方が違うとの声がありました：{differs} 確認中も何も削除されておらず、下の信頼度も変わりません。両方が成り立てば、どちらかを否定するのではなく記録が分かれます。',
+    engagementNotShown:
+      '再生数はあえて表示していません。本物かどうかを測るものではないからです。',
+    videoSearchNote:
+      '出典先で検索できます。結果は再生数順で戻りますが、それは広まりを示すだけです——作り手が{place}の人とは限りません。こうして見つかったものは、この記録の分類に影響しません。',
+    nowOpenForConfirmation:
+      '{name} は確認待ちとなりました。',
+    proposalOpenBody:
+      'アトラスに入るには、この料理を知る {n} 人の確認が必要です。今から誰でも見て確認できます——あなたが伝えた人も含めて。記録のなかった料理は、たいていそうして確認されます。',
+    nothingMatchesBody:
+      'アトラスにはまだ{query}に一致するものがありません。ここでの不在は記録がないということであって、料理がないということではありません——推測するより、わからないと言います。',
+    thatWord:
+      'それ',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

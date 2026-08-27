@@ -595,6 +595,56 @@ describe('no screen types out English the catalogue already holds', () => {
     expect(worthChecking.length).toBeGreaterThan(100);
   });
 
+  /*
+   * The other half of the same question, and the half that was missing.
+   *
+   * The test below catches a screen typing out a string the catalogue already holds. It
+   * cannot see prose that was never extracted at all — and that is what the audit found:
+   * eight blocks of English rendering to every reader in every language, including the
+   * lead-in above the preparation, the open-disagreement note, and the whole empty state
+   * on search. None of them were in `EN`, so none of them were checkable.
+   *
+   * This reads JSX text nodes — what sits between a `>` and a `<` with no braces in it.
+   * Deliberately narrow: it will not see text in attributes or template literals. A
+   * narrow test that runs is worth more than a complete one that needs a parser.
+   */
+  it('finds no screen with English prose that was never extracted', () => {
+    const found: string[] = [];
+
+    for (const { path, name } of uiFiles) {
+      if (ALLOWED.has(name)) continue;
+      let inComment = false;
+
+      readFileSync(path, 'utf8')
+        .split('\n')
+        .forEach((line, i) => {
+          const trimmed = line.trim();
+          /* JSX comments open with `{/*`, which is why an earlier version of this scan
+             reported every design note in the file as untranslated prose. */
+          if (trimmed.startsWith('/*') || trimmed.startsWith('{/*')) inComment = true;
+          const wasComment = inComment;
+          if (trimmed.includes('*/')) inComment = false;
+          if (wasComment || trimmed.startsWith('*') || trimmed.startsWith('//')) return;
+
+          for (const match of line.matchAll(/>([^<>{}]+)</g)) {
+            const text = match[1].trim();
+            /*
+             * `>...<` also spans a TypeScript generic and a comparison: `Record<string,
+             * X>`, `ReturnType<...>`, `a.at < b.at`. Those are code, and the tell is that
+             * prose does not carry brackets, operators or property access.
+             */
+            if (/[(){}[\]|&;=]/.test(text) || /\w\.\w/.test(text)) continue;
+            const words = text.split(/\s+/).filter((w) => /[A-Za-z]/.test(w));
+            if (text.length >= 12 && words.length >= 3 && /[a-z]{3}/.test(text)) {
+              found.push(`${name}:${i + 1}  ${text.slice(0, 70)}`);
+            }
+          }
+        });
+    }
+
+    expect(found).toEqual([]);
+  });
+
   it('finds no screen rendering a copy value as a literal', () => {
     const found: string[] = [];
     for (const { path, name } of uiFiles) {

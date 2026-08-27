@@ -804,6 +804,15 @@ export interface Copy {
   atlasDefinition: string;
   traditionsLabel: string;
   freeNoAds: string;
+  quotedFromSource: string;
+  adaptationLeadIn: string;
+  openDisagreementBody: string;
+  engagementNotShown: string;
+  videoSearchNote: string;
+  nowOpenForConfirmation: string;
+  proposalOpenBody: string;
+  nothingMatchesBody: string;
+  thatWord: string;
   interfaceTranslationNote: string;
 }
 
@@ -2092,6 +2101,24 @@ export const EN: Copy = {
     'traditions',
   freeNoAds:
     'Free, no ads',
+  quotedFromSource:
+    'Quoted from the source below — a general account of how the dish is made, not a record of how it is made in {place}.',
+  adaptationLeadIn:
+    'How this dish is commonly made today. It is not a record of how it is prepared in {place}, and nobody from there has confirmed it.',
+  openDisagreementBody:
+    'Someone who cooks this in {place} says it is made differently: {differs} Nothing has been removed while this is looked at, and the confidence below is unchanged — if both accounts hold, the record will split rather than one being overruled.',
+  engagementNotShown:
+    'Engagement figures are deliberately not shown — they don’t measure authenticity.',
+  videoSearchNote:
+    'You can search for one at the source. Results come back ordered by view count, which measures reach and nothing else — the cook may or may not be from {place}. Nothing found this way affects this record’s classification.',
+  nowOpenForConfirmation:
+    '{name} is now open for confirmation.',
+  proposalOpenBody:
+    '{n} people who know the dish have to confirm it before it enters the atlas. Anyone can see it and confirm it from now on — including people you tell about it, which is usually how a dish nobody has written down gets confirmed.',
+  nothingMatchesBody:
+    'Nothing in the atlas matches {query} yet. Absence here means no record, not no food — we’d rather say we don’t know than guess.',
+  thatWord:
+    'that',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

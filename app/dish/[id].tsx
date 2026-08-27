@@ -413,9 +413,7 @@ export default function DishDetail() {
             <Card style={styles.disputed}>
               <CardKicker>{copy.openDisagreement}</CardKicker>
               <CardBody>
-                Someone who cooks this in {open[0].from} says it is made differently: {open[0].differs} Nothing has
-                been removed while this is looked at, and the confidence below is unchanged — if both accounts hold,
-                the record will split rather than one being overruled.
+                {copy.openDisagreementBody.replace('{place}', open[0].from).replace('{differs}', open[0].differs)}
               </CardBody>
             </Card>
           ) : null}
@@ -495,8 +493,7 @@ export default function DishDetail() {
             <>
               <H5 style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
-                Quoted from the source below — a general account of how the dish is made, not a record of how it is
-                made in {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}.
+                {copy.quotedFromSource.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy))}
               </Muted>
               <Block style={styles.describedBlock}>
                 {/*
@@ -576,8 +573,7 @@ export default function DishDetail() {
           <H5 style={styles.h5}>{isAdaptation ? copy.thePublishedRecipe : copy.authenticVersion}</H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
-              How this dish is commonly made today. It is not a record of how it is prepared in{' '}
-              {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy)}, and nobody from there has confirmed it.
+              {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy))}
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>
@@ -699,7 +695,7 @@ export default function DishDetail() {
               </View>
               <Muted style={styles.videoNote}>
                 {copy.stillFramesFromVideos}
-                Engagement figures are deliberately not shown — they don&apos;t measure authenticity.
+                {copy.engagementNotShown}
               </Muted>
             </>
           ) : (
@@ -713,9 +709,7 @@ export default function DishDetail() {
               </Muted>
               <Block style={styles.discoverBlock}>
                 <Muted style={styles.discoverNote}>
-                  You can search for one at the source. Results come back ordered by view count, which measures
-                  reach and nothing else — the cook may or may not be from {dish.breadcrumb[0]}. Nothing found this
-                  way affects this record&apos;s classification.
+                  {copy.videoSearchNote.replace('{place}', dish.breadcrumb[0])}
                 </Muted>
                 <Button
                   label={copy.findPreparationVideos}

@@ -113,11 +113,9 @@ export default function Propose() {
       <Screen measure>
         <NavRow title={copy.proposed} />
         <Block accent style={styles.done}>
-          <H5>{form.name} is now open for confirmation.</H5>
+          <H5>{copy.nowOpenForConfirmation.replace('{name}', form.name)}</H5>
           <CardBody>
-            {PROPOSAL_CONFIRMATIONS} people who know the dish have to confirm it before it enters the
-            atlas. Anyone can see it and confirm it from now on — including people you tell about it,
-            which is usually how a dish nobody has written down gets confirmed.
+            {copy.proposalOpenBody.replace('{n}', String(PROPOSAL_CONFIRMATIONS))}
           </CardBody>
           <Button label={copy.seeOpenProposals} block style={styles.cta} onPress={() => router.replace('/proposals')} />
         </Block>
