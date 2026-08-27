@@ -464,7 +464,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     id: row.id,
     name,
     category: 'Unclassified',
-    diet: { group: 'unclassified', kinds: [], contains: [], basis: IMPORT_DIET_BASIS },
+    diet: { group: 'unclassified', kinds: [], contains: [], basis: IMPORT_DIET_BASIS, basisKey: 'dietBasisImported' },
     // Not recorded — never "probably dinner".
     meals: { occasions: [], note: '' },
     loc: { country: country, region, province, city, village: '' },
@@ -537,6 +537,8 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     // Shown on the record, not just counted into the score.
     confirmations: confirmed.people,
     disclaimer: assessment.disclaimer,
+    disclaimerKey: assessment.disclaimerKey,
+    disclaimerParams: assessment.disclaimerParams,
     originClaims: originClaimsFrom(row.originClaims, row.url),
     sourceLanguage: row.sourceLanguage ?? 'en',
   };
@@ -885,6 +887,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         kinds: [],
         contains: [],
         basis: IMPORT_DIET_BASIS,
+        basisKey: 'dietBasisImported',
       },
       meals: { occasions: [], note: '' },
       loc: { country: country, region, province, city, village: '' },
@@ -935,6 +938,8 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
         ...giSource(row),
       ],
       disclaimer: assessment.disclaimer,
+    disclaimerKey: assessment.disclaimerKey,
+    disclaimerParams: assessment.disclaimerParams,
       // The article this record's account came from, which is often not the English
       // one: a dish is described best in the language of the people who cook it. The
       // reader is told, and the translation layer is given something true to work from.
@@ -1295,6 +1300,8 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
         },
       ],
       disclaimer: assessment.disclaimer,
+    disclaimerKey: assessment.disclaimerKey,
+    disclaimerParams: assessment.disclaimerParams,
       sourceLanguage: 'en',
     } satisfies Dish;
   });

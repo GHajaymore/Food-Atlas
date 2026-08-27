@@ -57,6 +57,9 @@ export interface Diet {
    * it could not be determined. Shown on the detail screen so the call is checkable.
    */
   basis: string;
+  /** Copy key for `basis`, where the sentence is the app speaking rather than a record.
+      Resolved by the screen, because the catalogue is built once and would freeze it. */
+  basisKey?: string;
 }
 
 export const GROUP_LABELS: Record<DietGroup, keyof Copy> = {

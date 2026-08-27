@@ -272,6 +272,9 @@ export interface Dish {
    * so a reader always knows whether they are reading an original or a translation.
    */
   sourceLanguage: string;
+  /** Copy key for `disclaimer`, so the screen can render it in the reader's language. */
+  disclaimerKey?: string;
+  disclaimerParams?: Record<string, string>;
   /**
    * Translations, keyed by BCP-47 code. A missing key is not an error — the app says
    * no translation has been recorded yet, in the same voice it uses for missing

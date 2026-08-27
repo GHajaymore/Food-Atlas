@@ -813,6 +813,12 @@ export interface Copy {
   proposalOpenBody: string;
   nothingMatchesBody: string;
   thatWord: string;
+  disclaimerNameAndPlaceOnly: string;
+  disclaimerPublishedAccountOnly: string;
+  disclaimerHeritageNoMethod: string;
+  disclaimerIngredientsAndPlace: string;
+  disclaimerSomeDocumentation: string;
+  dietBasisImported: string;
   interfaceTranslationNote: string;
 }
 
@@ -2119,6 +2125,18 @@ export const EN: Copy = {
     'Nothing in the atlas matches {query} yet. Absence here means no record, not no food — we’d rather say we don’t know than guess.',
   thatWord:
     'that',
+  disclaimerNameAndPlaceOnly:
+    'Only the name and the place are recorded. Nothing documents how this is made, so it carries no score and stays Unverified until someone from the place records the preparation.',
+  disclaimerPublishedAccountOnly:
+    'A published account describes how this is made, but nothing here confirms it is how the people of the place make it. No ingredients are recorded and nobody from the community has checked it, so it carries no score and stays Unverified.',
+  disclaimerHeritageNoMethod:
+    'Listed as a protected or registered traditional product ({list}), with its ingredients recorded. That establishes the tradition and its region. It does not establish the method: the traditional technique and community validation checks are both still open, which is why the confidence is this low.',
+  disclaimerIngredientsAndPlace:
+    'The ingredients and the place are documented, so this is recorded as a traditional version rather than an authenticated local preparation. No source here describes the technique, and no one from the place has confirmed it.',
+  disclaimerSomeDocumentation:
+    'Some documentation exists, but not enough to classify the preparation. The ingredients, the technique and community confirmation are all missing — the score reflects that, and the record stays Unverified.',
+  dietBasisImported:
+    'Imported from Wikidata, which does not record the preparation. No dietary classification can be made until the method is documented.',
   interfaceTranslationNote:
     'This interface was translated by machine and has not been checked by a speaker. The records themselves are unaffected. Corrections are welcome.',
 };

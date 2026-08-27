@@ -1331,6 +1331,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nada en el atlas coincide con {query} todavía. Una ausencia aquí significa que no hay registro, no que no haya comida: preferimos decir que no lo sabemos antes que adivinar.',
     thatWord:
       'eso',
+    disclaimerNameAndPlaceOnly:
+      'Solo constan el nombre y el lugar. Nada documenta cómo se prepara, así que no lleva puntuación y sigue Sin verificar hasta que alguien del lugar registre la preparación.',
+    disclaimerPublishedAccountOnly:
+      'Un relato publicado describe cómo se hace, pero nada aquí confirma que sea como lo hace la gente del lugar. No constan ingredientes y nadie de la comunidad lo ha comprobado, así que no lleva puntuación y sigue Sin verificar.',
+    disclaimerHeritageNoMethod:
+      'Figura como producto tradicional protegido o registrado ({list}), con sus ingredientes documentados. Eso acredita la tradición y su región, pero no el método: las comprobaciones de técnica tradicional y de validación comunitaria siguen abiertas, y por eso la confianza es tan baja.',
+    disclaimerIngredientsAndPlace:
+      'Los ingredientes y el lugar están documentados, así que consta como una versión tradicional y no como una preparación local autenticada. Ninguna fuente describe aquí la técnica y nadie del lugar la ha confirmado.',
+    disclaimerSomeDocumentation:
+      'Existe algo de documentación, pero no basta para clasificar la preparación. Faltan los ingredientes, la técnica y la confirmación de la comunidad: la puntuación lo refleja y el registro sigue Sin verificar.',
+    dietBasisImported:
+      'Importado de Wikidata, que no recoge la preparación. No puede hacerse ninguna clasificación dietética hasta que se documente el método.',
     interfaceTranslationNote:
       'Esta interfaz se tradujo automáticamente y ningún hablante la ha revisado. Los registros en sí no están afectados. Se agradecen las correcciones.',
   },
@@ -2628,6 +2640,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Rien dans l’atlas ne correspond à {query} pour l’instant. Une absence ici signifie qu’il n’y a pas de fiche, pas qu’il n’y a pas de plat — nous préférons dire que nous ne savons pas plutôt que de deviner.',
     thatWord:
       'cela',
+    disclaimerNameAndPlaceOnly:
+      'Seuls le nom et le lieu sont consignés. Rien ne documente la préparation : la fiche n’a donc pas de score et reste Non vérifiée tant que personne du lieu ne l’aura décrite.',
+    disclaimerPublishedAccountOnly:
+      'Un compte rendu publié décrit la préparation, mais rien ici ne confirme que ce soit celle des gens du lieu. Aucun ingrédient n’est consigné et personne de la communauté ne l’a vérifiée : pas de score, et la fiche reste Non vérifiée.',
+    disclaimerHeritageNoMethod:
+      'Inscrit comme produit traditionnel protégé ou enregistré ({list}), avec ses ingrédients consignés. Cela établit la tradition et sa région, mais pas la méthode : la technique traditionnelle et la validation par la communauté restent toutes deux ouvertes, d’où une confiance aussi basse.',
+    disclaimerIngredientsAndPlace:
+      'Les ingrédients et le lieu sont documentés : la fiche est donc enregistrée comme une version traditionnelle et non comme une préparation locale authentifiée. Aucune source ici ne décrit la technique, et personne du lieu ne l’a confirmée.',
+    disclaimerSomeDocumentation:
+      'Il existe une part de documentation, mais pas assez pour classer la préparation. Les ingrédients, la technique et la confirmation par la communauté manquent tous — le score le reflète et la fiche reste Non vérifiée.',
+    dietBasisImported:
+      'Importé de Wikidata, qui ne consigne pas la préparation. Aucune classification alimentaire n’est possible tant que la méthode n’est pas documentée.',
     interfaceTranslationNote:
       'Cette interface a été traduite automatiquement et n’a pas été vérifiée par un locuteur. Les fiches elles-mêmes ne sont pas concernées. Les corrections sont bienvenues.',
   },
@@ -3924,6 +3948,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nichts im Atlas passt bisher zu {query}. Eine Lücke hier heißt: kein Eintrag, nicht kein Gericht — wir sagen lieber, dass wir es nicht wissen, als zu raten.',
     thatWord:
       'das',
+    disclaimerNameAndPlaceOnly:
+      'Erfasst sind nur Name und Ort. Nichts dokumentiert die Zubereitung, daher gibt es keinen Wert und der Eintrag bleibt Unbestätigt, bis jemand von dort die Zubereitung festhält.',
+    disclaimerPublishedAccountOnly:
+      'Eine veröffentlichte Darstellung beschreibt die Zubereitung, aber nichts hier bestätigt, dass die Menschen vor Ort es so machen. Zutaten sind nicht erfasst und niemand aus der Gemeinschaft hat es geprüft — kein Wert, der Eintrag bleibt Unbestätigt.',
+    disclaimerHeritageNoMethod:
+      'Als geschütztes oder eingetragenes traditionelles Erzeugnis geführt ({list}), mit erfassten Zutaten. Das belegt die Tradition und ihre Region, nicht die Methode: die traditionelle Technik und die Bestätigung durch die Gemeinschaft sind beide offen, daher der niedrige Vertrauenswert.',
+    disclaimerIngredientsAndPlace:
+      'Zutaten und Ort sind dokumentiert, daher gilt dies als traditionelle Variante und nicht als bestätigte örtliche Zubereitung. Keine Quelle beschreibt hier die Technik, und niemand von dort hat sie bestätigt.',
+    disclaimerSomeDocumentation:
+      'Es gibt etwas Dokumentation, aber nicht genug, um die Zubereitung einzuordnen. Zutaten, Technik und Bestätigung durch die Gemeinschaft fehlen sämtlich — der Wert bildet das ab, und der Eintrag bleibt Unbestätigt.',
+    dietBasisImported:
+      'Aus Wikidata importiert, das die Zubereitung nicht erfasst. Eine Einordnung nach Ernährungsform ist erst möglich, wenn die Methode dokumentiert ist.',
     interfaceTranslationNote:
       'Diese Oberfläche wurde maschinell übersetzt und von keiner Sprecherin und keinem Sprecher geprüft. Die Einträge selbst sind davon nicht betroffen. Korrekturen sind willkommen.',
   },
@@ -5220,6 +5256,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nell’atlante non c’è ancora nulla che corrisponda a {query}. Un’assenza qui significa nessuna scheda, non nessun piatto — preferiamo dire che non lo sappiamo piuttosto che tirare a indovinare.',
     thatWord:
       'quello',
+    disclaimerNameAndPlaceOnly:
+      'Sono registrati solo il nome e il luogo. Nulla documenta come si prepara, quindi non ha punteggio e resta Non verificato finché qualcuno del posto non ne registra la preparazione.',
+    disclaimerPublishedAccountOnly:
+      'Un resoconto pubblicato descrive come si prepara, ma nulla qui conferma che sia il modo in cui lo fa la gente del posto. Non sono registrati ingredienti e nessuno della comunità lo ha verificato: nessun punteggio, resta Non verificato.',
+    disclaimerHeritageNoMethod:
+      'Iscritto come prodotto tradizionale protetto o registrato ({list}), con i suoi ingredienti documentati. Questo attesta la tradizione e la sua regione, non il metodo: la tecnica tradizionale e la convalida della comunità restano entrambe aperte, ed è per questo che l’attendibilità è così bassa.',
+    disclaimerIngredientsAndPlace:
+      'Gli ingredienti e il luogo sono documentati, quindi è registrato come versione tradizionale e non come preparazione locale autenticata. Nessuna fonte qui descrive la tecnica e nessuno del posto l’ha confermata.',
+    disclaimerSomeDocumentation:
+      'Qualche documentazione esiste, ma non basta a classificare la preparazione. Mancano gli ingredienti, la tecnica e la conferma della comunità — il punteggio lo riflette e la scheda resta Non verificata.',
+    dietBasisImported:
+      'Importato da Wikidata, che non registra la preparazione. Nessuna classificazione alimentare è possibile finché il metodo non è documentato.',
     interfaceTranslationNote:
       'Questa interfaccia è stata tradotta automaticamente e non è stata verificata da un parlante. Le schede non sono interessate. Le correzioni sono benvenute.',
   },
@@ -6517,6 +6565,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nada no atlas corresponde a {query} ainda. Uma ausência aqui significa nenhum registo, não nenhuma comida — preferimos dizer que não sabemos a adivinhar.',
     thatWord:
       'isso',
+    disclaimerNameAndPlaceOnly:
+      'Só constam o nome e o lugar. Nada documenta como se prepara, por isso não tem pontuação e permanece Não verificado até que alguém de lá registe a preparação.',
+    disclaimerPublishedAccountOnly:
+      'Um relato publicado descreve como se faz, mas nada aqui confirma que seja assim que as pessoas do lugar o fazem. Não há ingredientes registados e ninguém da comunidade o verificou: sem pontuação, permanece Não verificado.',
+    disclaimerHeritageNoMethod:
+      'Listado como produto tradicional protegido ou registado ({list}), com os ingredientes documentados. Isso estabelece a tradição e a sua região, mas não o método: a técnica tradicional e a validação pela comunidade continuam ambas em aberto, e por isso a confiança é tão baixa.',
+    disclaimerIngredientsAndPlace:
+      'Os ingredientes e o lugar estão documentados, por isso fica registado como versão tradicional e não como preparação local autenticada. Nenhuma fonte aqui descreve a técnica e ninguém de lá a confirmou.',
+    disclaimerSomeDocumentation:
+      'Existe alguma documentação, mas não a suficiente para classificar a preparação. Faltam os ingredientes, a técnica e a confirmação da comunidade — a pontuação reflete isso e o registo permanece Não verificado.',
+    dietBasisImported:
+      'Importado da Wikidata, que não regista a preparação. Nenhuma classificação alimentar pode ser feita enquanto o método não estiver documentado.',
     interfaceTranslationNote:
       'Esta interface foi traduzida automaticamente e não foi verificada por um falante. Os registos em si não são afetados. Correções são bem-vindas.',
   },
@@ -7813,6 +7873,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Niets in de atlas komt nog overeen met {query}. Afwezigheid betekent hier geen record, niet geen gerecht — we zeggen liever dat we het niet weten dan dat we gokken.',
     thatWord:
       'dat',
+    disclaimerNameAndPlaceOnly:
+      'Alleen de naam en de plaats zijn vastgelegd. Niets documenteert de bereiding, dus er is geen score en het record blijft Onbevestigd tot iemand van daar de bereiding vastlegt.',
+    disclaimerPublishedAccountOnly:
+      'Een gepubliceerd verslag beschrijft de bereiding, maar niets hier bevestigt dat de mensen ter plaatse het zo doen. Er zijn geen ingrediënten vastgelegd en niemand uit de gemeenschap heeft het gecontroleerd: geen score, blijft Onbevestigd.',
+    disclaimerHeritageNoMethod:
+      'Vermeld als beschermd of geregistreerd traditioneel product ({list}), met de ingrediënten vastgelegd. Dat vestigt de traditie en haar streek, niet de methode: de traditionele techniek en de bevestiging door de gemeenschap staan beide nog open, vandaar de lage betrouwbaarheid.',
+    disclaimerIngredientsAndPlace:
+      'De ingrediënten en de plaats zijn gedocumenteerd, dus dit staat genoteerd als traditionele versie en niet als geverifieerde plaatselijke bereiding. Geen bron beschrijft hier de techniek, en niemand van daar heeft die bevestigd.',
+    disclaimerSomeDocumentation:
+      'Er is enige documentatie, maar niet genoeg om de bereiding te klasseren. Ingrediënten, techniek en bevestiging door de gemeenschap ontbreken alle drie — de score weerspiegelt dat en het record blijft Onbevestigd.',
+    dietBasisImported:
+      'Geïmporteerd uit Wikidata, dat de bereiding niet vastlegt. Een dieetclassificatie kan pas worden gemaakt als de methode is gedocumenteerd.',
     interfaceTranslationNote:
       'Deze interface is machinaal vertaald en niet door een spreker gecontroleerd. De vermeldingen zelf zijn niet aangepast. Correcties zijn welkom.',
   },
@@ -9110,6 +9182,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Nic w atlasie nie pasuje jeszcze do {query}. Brak oznacza tu brak wpisu, a nie brak potrawy — wolimy powiedzieć, że nie wiemy, niż zgadywać.',
     thatWord:
       'to',
+    disclaimerNameAndPlaceOnly:
+      'Zapisano tylko nazwę i miejsce. Nic nie dokumentuje sposobu przygotowania, więc wpis nie ma oceny i pozostaje Niezweryfikowany, dopóki ktoś stamtąd go nie opisze.',
+    disclaimerPublishedAccountOnly:
+      'Opublikowany opis przedstawia sposób przygotowania, ale nic tutaj nie potwierdza, że tak robią to ludzie z tego miejsca. Nie zapisano składników i nikt ze społeczności tego nie sprawdził: brak oceny, wpis pozostaje Niezweryfikowany.',
+    disclaimerHeritageNoMethod:
+      'Wpisany jako chroniony lub zarejestrowany produkt tradycyjny ({list}), ze składnikami. To potwierdza tradycję i jej region, ale nie metodę: tradycyjna technika i potwierdzenie przez społeczność pozostają otwarte, dlatego wiarygodność jest tak niska.',
+    disclaimerIngredientsAndPlace:
+      'Składniki i miejsce są udokumentowane, więc zapisano to jako wersję tradycyjną, a nie potwierdzone przygotowanie lokalne. Żadne źródło nie opisuje tu techniki i nikt stamtąd jej nie potwierdził.',
+    disclaimerSomeDocumentation:
+      'Pewna dokumentacja istnieje, ale nie dość, by sklasyfikować przygotowanie. Brakuje składników, techniki i potwierdzenia społeczności — ocena to odzwierciedla, a wpis pozostaje Niezweryfikowany.',
+    dietBasisImported:
+      'Zaimportowane z Wikidanych, które nie zapisują sposobu przygotowania. Klasyfikacja dietetyczna będzie możliwa dopiero po udokumentowaniu metody.',
     interfaceTranslationNote:
       'Ten interfejs przetłumaczono maszynowo i nie sprawdził go native speaker. Same wpisy pozostają bez zmian. Poprawki mile widziane.',
   },
@@ -10406,6 +10490,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'Atlasta henüz {query} ile eşleşen bir şey yok. Buradaki yokluk kayıt yok demektir, yemek yok demek değil — tahmin etmektense bilmediğimizi söylemeyi tercih ederiz.',
     thatWord:
       'bunu',
+    disclaimerNameAndPlaceOnly:
+      'Yalnızca ad ve yer kayıtlı. Nasıl yapıldığını hiçbir şey belgelemiyor; bu yüzden puanı yok ve oradan biri yapılışını kaydedene kadar Doğrulanmamış kalıyor.',
+    disclaimerPublishedAccountOnly:
+      'Yayımlanmış bir anlatım yapılışını tarif ediyor, ancak buradaki hiçbir şey bunun yerel halkın yaptığı biçim olduğunu doğrulamıyor. Malzeme kaydı yok ve topluluktan kimse denetlememiş: puan yok, Doğrulanmamış kalıyor.',
+    disclaimerHeritageNoMethod:
+      'Korunan veya tescilli geleneksel ürün olarak listelenmiş ({list}), malzemeleri kayıtlı. Bu, geleneği ve bölgesini ortaya koyar, yöntemi değil: geleneksel teknik ve topluluk doğrulaması kontrolleri henüz açık, güven değerinin bu kadar düşük olmasının nedeni budur.',
+    disclaimerIngredientsAndPlace:
+      'Malzemeler ve yer belgelenmiş, bu yüzden doğrulanmış yerel bir hazırlanış değil, geleneksel bir sürüm olarak kayıtlı. Buradaki hiçbir kaynak tekniği anlatmıyor ve oradan kimse doğrulamamış.',
+    disclaimerSomeDocumentation:
+      'Bir miktar belge var, ancak hazırlanışı sınıflandırmaya yetmiyor. Malzemeler, teknik ve topluluk doğrulamasının üçü de eksik — puan bunu yansıtıyor ve kayıt Doğrulanmamış kalıyor.',
+    dietBasisImported:
+      'Hazırlanışı kaydetmeyen Wikidata’dan alındı. Yöntem belgelenmeden hiçbir beslenme sınıflandırması yapılamaz.',
     interfaceTranslationNote:
       'Bu arayüz makineyle çevrildi ve bir anadili konuşuru tarafından denetlenmedi. Kayıtların kendisi etkilenmedi. Düzeltmeler memnuniyetle karşılanır.',
   },
@@ -11703,6 +11799,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'В атласе пока нет ничего, что совпадает с {query}. Отсутствие здесь означает, что нет записи, а не что нет еды — мы лучше скажем, что не знаем, чем станем гадать.',
     thatWord:
       'это',
+    disclaimerNameAndPlaceOnly:
+      'Записаны только название и место. Способ приготовления ничем не подтверждён, поэтому оценки нет, и запись остаётся Неподтверждённой, пока кто-то оттуда её не опишет.',
+    disclaimerPublishedAccountOnly:
+      'Опубликованный источник описывает, как это готовят, но ничто здесь не подтверждает, что именно так делают местные. Ингредиенты не записаны и никто из сообщества этого не проверил: оценки нет, запись остаётся Неподтверждённой.',
+    disclaimerHeritageNoMethod:
+      'Значится как охраняемый или зарегистрированный традиционный продукт ({list}), с записанными ингредиентами. Это подтверждает традицию и её регион, но не метод: проверки традиционной техники и подтверждения сообществом открыты, поэтому доверие так невелико.',
+    disclaimerIngredientsAndPlace:
+      'Ингредиенты и место задокументированы, поэтому это записано как традиционная версия, а не как подтверждённое местное приготовление. Ни один источник здесь не описывает технику, и никто оттуда её не подтвердил.',
+    disclaimerSomeDocumentation:
+      'Какая-то документация есть, но её недостаточно, чтобы классифицировать приготовление. Нет ни ингредиентов, ни техники, ни подтверждения сообщества — оценка это отражает, и запись остаётся Неподтверждённой.',
+    dietBasisImported:
+      'Импортировано из Wikidata, где способ приготовления не записан. Классификация по типу питания невозможна, пока метод не задокументирован.',
     interfaceTranslationNote:
       'Этот интерфейс переведён машиной и не проверен носителем языка. Самих записей это не касается. Исправления приветствуются.',
   },
@@ -13000,6 +13108,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'एटलस में अभी {query} से मेल खाता कुछ नहीं है। यहाँ अनुपस्थिति का अर्थ है रिकॉर्ड नहीं, भोजन नहीं — अनुमान लगाने से बेहतर हम यह कहेंगे कि हमें पता नहीं।',
     thatWord:
       'उस',
+    disclaimerNameAndPlaceOnly:
+      'केवल नाम और स्थान दर्ज हैं। यह कैसे बनता है, इसका कोई दस्तावेज़ नहीं है, इसलिए इसे कोई अंक नहीं मिलता और यह अपुष्ट रहता है।',
+    disclaimerPublishedAccountOnly:
+      'एक प्रकाशित विवरण बताता है कि यह कैसे बनता है, पर यहाँ कुछ भी यह पुष्ट नहीं करता कि वहाँ के लोग ऐसे ही बनाते हैं। सामग्री दर्ज नहीं है और समुदाय से किसी ने जाँचा नहीं: कोई अंक नहीं, यह अपुष्ट रहता है।',
+    disclaimerHeritageNoMethod:
+      'संरक्षित या पंजीकृत पारंपरिक उत्पाद के रूप में सूचीबद्ध ({list}), सामग्री दर्ज के साथ। इससे परंपरा और उसका क्षेत्र स्थापित होता है, विधि नहीं: पारंपरिक तकनीक और सामुदायिक पुष्टि दोनों अभी खुले हैं, इसीलिए भरोसा इतना कम है।',
+    disclaimerIngredientsAndPlace:
+      'सामग्री और स्थान दर्ज हैं, इसलिए यह एक पारंपरिक रूप के रूप में दर्ज है, न कि प्रमाणित स्थानीय विधि के रूप में। यहाँ कोई स्रोत तकनीक का वर्णन नहीं करता, और वहाँ से किसी ने पुष्टि नहीं की।',
+    disclaimerSomeDocumentation:
+      'कुछ दस्तावेज़ मौजूद हैं, पर विधि को वर्गीकृत करने के लिए पर्याप्त नहीं। सामग्री, तकनीक और सामुदायिक पुष्टि — तीनों गायब हैं। अंक यही दर्शाता है और रिकॉर्ड अपुष्ट रहता है।',
+    dietBasisImported:
+      'विकिडेटा से आयात, जो विधि दर्ज नहीं करता। जब तक विधि दर्ज नहीं होती, कोई आहार वर्गीकरण संभव नहीं।',
     interfaceTranslationNote:
       'यह इंटरफ़ेस मशीन से अनूदित है और किसी भाषा-भाषी ने इसे जाँचा नहीं है। प्रविष्टियाँ स्वयं अप्रभावित हैं। सुधार सादर आमंत्रित हैं।',
   },
@@ -14297,6 +14417,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       '图鉴中尚无与{query}相符的内容。这里的空白意味着没有记录，而不是没有这道菜——与其猜测，我们宁愿说不知道。',
     thatWord:
       '那个',
+    disclaimerNameAndPlaceOnly:
+      '仅记录了名称和产地。没有任何资料说明它的做法，因此不计分，并将一直保持未核实，直到当地人记下做法。',
+    disclaimerPublishedAccountOnly:
+      '有公开发表的资料描述了做法，但这里没有任何依据证明当地人就是这么做的。未记录食材，也无社群成员核实：不计分，保持未核实。',
+    disclaimerHeritageNoMethod:
+      '列为受保护或已注册的传统产品（{list}），且食材有记录。这确立了传统及其产区，却未确立做法：传统技法与社群核实两项仍未完成，这就是可信度如此之低的原因。',
+    disclaimerIngredientsAndPlace:
+      '食材与产地均有记录，因此记为传统版本，而非经过认证的当地做法。此处没有任何来源描述技法，也无当地人作过证。',
+    disclaimerSomeDocumentation:
+      '存在部分资料，但不足以对做法分类。食材、技法与社群核实均属缺失——分数如实反映这一点，记录保持未核实。',
+    dietBasisImported:
+      '自 Wikidata 导入，而该处并未记录做法。在做法有记录之前，无法作出任何饮食分类。',
     interfaceTranslationNote:
       '此界面由机器翻译，未经母语者校对。条目本身不受影响。欢迎指正。',
   },
@@ -15594,6 +15726,18 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy>>> = {
       'アトラスにはまだ{query}に一致するものがありません。ここでの不在は記録がないということであって、料理がないということではありません——推測するより、わからないと言います。',
     thatWord:
       'それ',
+    disclaimerNameAndPlaceOnly:
+      '記録されているのは名前と土地だけです。作り方を示す資料がないため点数はつかず、その土地の誰かが作り方を記録するまで未確認のままです。',
+    disclaimerPublishedAccountOnly:
+      '公開された資料に作り方の記述はありますが、それが現地の人々の作り方であると裏付けるものはここにありません。材料の記録もなく、共同体の誰も確認していません。点数はつかず、未確認のままです。',
+    disclaimerHeritageNoMethod:
+      '保護または登録された伝統的産品（{list}）として掲載され、材料も記録されています。これは伝統とその地域を裏付けますが、作り方までは裏付けません。伝統的な技法と共同体による確認はいずれも未完で、信頼度が低いのはそのためです。',
+    disclaimerIngredientsAndPlace:
+      '材料と土地が記録されているため、確認済みの地元の作り方ではなく、伝統的な一つの形として記録されています。ここのどの出典も技法を述べておらず、現地の誰も確認していません。',
+    disclaimerSomeDocumentation:
+      '資料はいくらかありますが、作り方を分類するには足りません。材料、技法、共同体の確認のいずれも欠けており——点数はそれを反映し、記録は未確認のままです。',
+    dietBasisImported:
+      '作り方を記録していない Wikidata からの取り込みです。作り方が記録されるまで、食事制限の分類は行えません。',
     interfaceTranslationNote:
       'この画面表示は機械翻訳で、話者による確認を経ていません。記録そのものには影響しません。訂正を歓迎します。',
   },

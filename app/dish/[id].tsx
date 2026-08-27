@@ -111,6 +111,23 @@ export default function DishDetail() {
   // come back untranslated by construction — see domain/translate.ts.
   const reading = read(copy, dish);
 
+  /**
+   * Prose the app generated, rendered in the reader's language.
+   *
+   * `assess()` writes the disclaimer and `build.ts` writes the diet basis, and both run
+   * inside `buildCatalogue`, which happens once at load. Whatever they produce is frozen
+   * at that moment — so they hand over a copy key, and it is resolved here, on every
+   * render, against the language currently chosen.
+   *
+   * Falls back to the English they also produced: a key with no copy behind it should
+   * still put a true sentence on the screen.
+   */
+  const fromKey = (key: string | undefined, english: string, params?: Record<string, string>) => {
+    const value = key ? (copy as unknown as Record<string, string>)[key] : undefined;
+    if (!value) return english;
+    return Object.entries(params ?? {}).reduce((text, [k, v]) => text.replace(`{${k}}`, v), value);
+  };
+
   // Imported records carry a name and a place and nothing else. The sections below
   // describe a preparation, so they only render where there is one.
   const isDocumented = dish.steps.length > 0;
@@ -456,7 +473,7 @@ export default function DishDetail() {
                 <Tag key={trace} label={trace} variant="outline" />
               ))}
             </View>
-            <Muted style={styles.dietBasis}>{dish.diet.basis}</Muted>
+            <Muted style={styles.dietBasis}>{fromKey(dish.diet.basisKey, dish.diet.basis)}</Muted>
 
             {dish.meals.note ? (
               <>
@@ -808,7 +825,9 @@ export default function DishDetail() {
                 ? copy.whyConsideredAuthentic
                 : copy.whatThisRecordIs}
           </H5>
-          <Muted style={styles.disclaimer}>{reading.disclaimer}</Muted>
+          <Muted style={styles.disclaimer}>
+            {fromKey(dish.disclaimerKey, reading.disclaimer, dish.disclaimerParams)}
+          </Muted>
 
           {/* The prompt that turns a reader into a validator. Two taps, not a form —
               correcting your own food is a far stronger motive than filling in a

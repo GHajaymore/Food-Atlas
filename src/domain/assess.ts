@@ -109,6 +109,18 @@ export interface Assessment {
   breakdown: BreakdownRow[];
   /** Says what the score rests on and, more importantly, what it does not. */
   disclaimer: string;
+  /**
+   * The same sentence as a copy key, resolved by the screen instead of here.
+   *
+   * `buildCatalogue` runs once at load and freezes what it returns, so a disclaimer
+   * translated here would be stuck in whichever locale loaded first — the app would
+   * change language and this paragraph would not. The English above stays because
+   * `invariants.ts` reads it, and because a key with no copy behind it should still
+   * render something true.
+   */
+  disclaimerKey?: string;
+  /** Values the key interpolates, where it has any. */
+  disclaimerParams?: Record<string, string>;
 }
 
 const clamp = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
@@ -273,6 +285,7 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
       ...CLASSIFICATION.unverified,
       score: null,
       breakdown: [],
+      disclaimerKey: 'disclaimerNameAndPlaceOnly',
       disclaimer:
         'Only the name and the place are recorded. Nothing documents how this is made, so it carries no score and ' +
         'stays Unverified until someone from the place records the preparation.',
@@ -286,6 +299,7 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
       ...CLASSIFICATION.unverified,
       score: null,
       breakdown: [],
+      disclaimerKey: 'disclaimerPublishedAccountOnly',
       disclaimer:
         'A published account describes how this is made, but nothing here confirms it is how the people of the ' +
         'place make it. No ingredients are recorded and nobody from the community has checked it, so it carries ' +
@@ -332,6 +346,8 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
       ...CLASSIFICATION.regional,
       score,
       breakdown,
+      disclaimerKey: 'disclaimerHeritageNoMethod',
+      disclaimerParams: { list: e.heritage.slice(0, 2).join(', ') },
       disclaimer:
         `Listed as a protected or registered traditional product (${e.heritage.slice(0, 2).join(', ')}), with its ` +
         `ingredients recorded. That establishes the tradition and its region. It does not establish the method: ` +
@@ -347,6 +363,7 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
       ...CLASSIFICATION.variation,
       score,
       breakdown,
+      disclaimerKey: 'disclaimerIngredientsAndPlace',
       disclaimer:
         'The ingredients and the place are documented, so this is recorded as a traditional version rather than ' +
         'an authenticated local preparation. No source here describes the technique, and no one from the place ' +
@@ -358,6 +375,7 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
     ...CLASSIFICATION.unverified,
     score,
     breakdown,
+    disclaimerKey: 'disclaimerSomeDocumentation',
     disclaimer:
       'Some documentation exists, but not enough to classify the preparation. The ingredients, the technique and ' +
       'community confirmation are all missing — the score reflects that, and the record stays Unverified.',
