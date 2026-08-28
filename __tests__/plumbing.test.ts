@@ -1050,6 +1050,38 @@ describe('no value was dropped out of a method', () => {
   );
 
   /**
+   * Nor two spaces where one belongs.
+   *
+   * Nine records were named "Fave bianche e  cicorie PAT", "Tagliatelle  all'acciaccata
+   * PAT" and so on. Invisible on screen, since HTML collapses the run — but a name is
+   * typed to be found, and an exact-match search for the name as written misses it. The
+   * register ingest's own `tidy` collapses whitespace, so these came in past it, which is
+   * the reason to check the published file rather than trust the writer.
+   */
+  it.each(['catalogue.json', 'cuisines.json', 'gi.json', 'unesco.json', 'cookbook.json'])(
+    '%s writes one space between words',
+    (file) => {
+      const parsed = JSON.parse(readFileSync(resolve(__dirname, '..', 'public', 'data', file), 'utf8'));
+      const doubled: string[] = [];
+      const walk = (node: unknown, path: string): void => {
+        if (typeof node === 'string') {
+          if (/\S {2,}\S/.test(node)) doubled.push(`${path}: ${node.slice(0, 60)}`);
+          return;
+        }
+        if (Array.isArray(node)) return node.forEach((v, i) => walk(v, `${path}[${i}]`));
+        if (node && typeof node === 'object') {
+          for (const [k, v] of Object.entries(node)) {
+            if (/^(url|href|photo|link|credit|licence|giAttribution)/i.test(k)) continue;
+            walk(v, `${path}.${k}`);
+          }
+        }
+      };
+      walk(parsed, file);
+      expect(doubled).toEqual([]);
+    },
+  );
+
+  /**
    * Twenty-two left across the cookbook, and none of them ours to mend.
    *
    * The steps alone were 259. The repair pass reads all six wikis now — en, it, fr, de,
