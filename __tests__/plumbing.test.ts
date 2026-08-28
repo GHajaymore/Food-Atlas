@@ -927,3 +927,69 @@ describe('the skeleton is the shape of the page', () => {
     expect(HEADLINE_TYPE.wide.lineHeight).toBeGreaterThan(HEADLINE_TYPE.wide.fontSize);
   });
 });
+
+/**
+ * A word may be in any script. It may not be in two.
+ *
+ * Three strings in the published data had a single letter from the wrong alphabet
+ * standing in for its lookalike, and all three were invisible on screen:
+ *
+ *   - "Georgian сheese"  — Cyrillic с (U+0441) doing the work of Latin c
+ *   - "dolmadakiа"       — Cyrillic а (U+0430) ending a record's *name*
+ *   - "Νευροκοπίοu"      — Latin u (U+0075) ending a Greek PGI name
+ *
+ * The damage is search. Nobody types a Cyrillic с when they mean cheese, so that
+ * record could not be found by the word it is described by; the third is worse in the
+ * other direction, because a Greek reader typing Νευροκοπίου correctly finds nothing.
+ * A name that cannot be typed is a record that does not exist to whoever is looking
+ * for it, and none of this shows in a screenshot.
+ *
+ * Restricted to Latin against Cyrillic and Greek deliberately. Those three are
+ * alphabets that separate their words with spaces, so a token containing two of them
+ * is a defect. CJK, kana and Thai do not, so "Thukpa一词在藏语中" is one token by the
+ * same measure and is perfectly correct prose — flagging it would be a false alarm
+ * built into the suite.
+ */
+describe('no word is written in two alphabets at once', () => {
+  const LATIN = /[A-Za-z]/;
+  const CYRILLIC_OR_GREEK = /[\u0370-\u03FF\u0400-\u04FF]/;
+
+  /** Runs of letters, marks and joiners — a word, by any of these three alphabets. */
+  const words = (text: string): string[] =>
+    text.split(/[^\p{L}\p{M}\u02BC'’-]+/u).filter(Boolean);
+
+  const mixed = (text: string): string[] =>
+    words(text).filter((word) => LATIN.test(word) && CYRILLIC_OR_GREEK.test(word));
+
+  /* Every published file, not just the dish catalogue: the Greek one was in `gi.json`,
+     which no test had ever read as text. */
+  const published = readdirSync(resolve(__dirname, '..', 'public', 'data')).filter((f) =>
+    f.endsWith('.json'),
+  );
+
+  it.each(published)('%s writes each word in one alphabet', (file) => {
+    const parsed = JSON.parse(
+      readFileSync(resolve(__dirname, '..', 'public', 'data', file), 'utf8'),
+    );
+
+    const offences: string[] = [];
+    const walk = (node: unknown, path: string): void => {
+      if (typeof node === 'string') {
+        for (const word of mixed(node)) offences.push(`${path}: ${word}`);
+        return;
+      }
+      if (Array.isArray(node)) return node.forEach((v, i) => walk(v, `${path}[${i}]`));
+      if (node && typeof node === 'object') {
+        for (const [k, v] of Object.entries(node)) {
+          /* A URL is an address, not prose. Percent-encoding and IDN hosts legitimately
+             carry characters that would read as mixing here. */
+          if (/^(url|href|photo|link)/i.test(k)) continue;
+          walk(v, `${path}.${k}`);
+        }
+      }
+    };
+    walk(parsed, file);
+
+    expect(offences).toEqual([]);
+  });
+});
