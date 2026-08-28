@@ -32,7 +32,27 @@ export const NO_SESSION: Session = { available: false, signedIn: false };
 
 const base = () => PROPOSALS_URL.replace(/\/+$/, '');
 
-export async function loadSession(): Promise<Session> {
+/**
+ * One question, asked once.
+ *
+ * `SessionControl` renders in three places — the desktop bar, the phone colophon and the
+ * footer — and `ConfirmForm` asks as well, so the same question went to the server two or
+ * three times on a single page load. Measured on the live site: `/api/auth/me` appeared
+ * twice in the resource timing of every visit.
+ *
+ * Never invalidated, and that is correct rather than lazy: signing in and out are
+ * full-page navigations through Google, so the only ways the answer can change both
+ * discard this module along with the rest of the page. A cache that cannot go stale needs
+ * no way to be cleared.
+ */
+let asked: Promise<Session> | null = null;
+
+export function loadSession(): Promise<Session> {
+  asked ??= askServer();
+  return asked;
+}
+
+async function askServer(): Promise<Session> {
   try {
     const response = await fetch(`${base()}/auth/me`, {
       /* The whole question is about a cookie, so it has to be sent. */
