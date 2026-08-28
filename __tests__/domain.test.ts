@@ -113,7 +113,7 @@ import {
 } from '../src/domain/photoSubmission';
 import { buildShelves, shelfLabel, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
-import { assertPreserved, buildPrompt, preservedTerms, RemoteTranslationProvider } from '../src/domain/translationProvider';
+import { assertPreserved, assertTargetScript, buildPrompt, preservedTerms, RemoteTranslationProvider } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
 import { thumbnailUrl, watchUrl } from '../src/domain/video';
 import { isAcceptable, needsDiscovery, searchQuery, searchUrl } from '../src/domain/videoDiscovery';
@@ -3408,5 +3408,65 @@ describe('the photograph the home screen opens on', () => {
 
   it('is stable for a given turn, so it cannot change mid-scroll', () => {
     expect(heroDish(catalogue, 7)?.id).toBe(heroDish(catalogue, 7)?.id);
+  });
+});
+
+/*
+ * The model behind the endpoint is small, and a small model asked for one language
+ * sometimes answers in one and a half.
+ */
+describe('a translation has to be in the language that was asked for', () => {
+  const into = (target: string, prose: Partial<DishTranslation>, dish = halwa()) => {
+    const result: DishTranslation = {
+      code: target,
+      blurb: dish.blurb,
+      prepSummary: dish.prepSummary,
+      steps: dish.steps,
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+      ...prose,
+    };
+    return () => assertTargetScript(dish, result, target);
+  };
+
+  it('refuses French that came back with a clause still in Devanagari', () => {
+    // "\u092c\u0948\u0902\u0917\u0928 \u092d\u0930\u094d\u0924\u093e" — the source language left sitting inside the answer.
+    expect(
+      into('fr', { prepSummary: 'Cuit pendant des heures \u092c\u0948\u0902\u0917\u0928 \u092d\u0930\u094d\u0924\u093e dans un grand pan.' }),
+    ).toThrow(/partly in Devanagari/);
+  });
+
+  it('accepts Japanese written in kana and han', () => {
+    expect(into('ja', { prepSummary: '\u76f4\u706b\u3067\u5e83\u3044\u9285\u88fd\u306e\u934b\u3092\u4f7f\u3044\u307e\u3059\u3002' })).not.toThrow();
+  });
+
+  /*
+   * A record that quotes a term in its own script may go on quoting it. That is the
+   * record being faithful, not the model wandering — and refusing it would break exactly
+   * the records the atlas exists for.
+   */
+  it('lets a translation keep a term the original record already carried', () => {
+    const dish: Dish = {
+      ...halwa(),
+      prepSummary: 'Cooked slowly, the way \u0d15\u0d32\u0d4d\u0d24\u0d4d\u0d24\u0d2a\u0d4d\u0d2a\u0d02 is cooked.',
+    };
+    expect(
+      into('fr', { prepSummary: 'Cuit lentement, comme on cuit \u0d15\u0d32\u0d4d\u0d24\u0d4d\u0d24\u0d2a\u0d4d\u0d2a\u0d02.' }, dish),
+    ).not.toThrow();
+  });
+
+  /* One stray character is noise. Refusing a whole translation over it would be worse
+     than showing it. */
+  it('does not refuse a translation over a single stray character', () => {
+    expect(into('fr', { prepSummary: 'Cuit pendant des heures \u0915 dans un grand pan.' })).not.toThrow();
+  });
+
+  /* Latin always survives: every preserved term in this atlas is written in it. */
+  it('never objects to the Latin the preserved terms are written in', () => {
+    expect(
+      into('ru', { prepSummary: '\u0413\u043e\u0442\u043e\u0432\u0438\u0442\u0441\u044f \u0447\u0430\u0441\u0430\u043c\u0438 \u0441 Coconut oil.' }),
+    ).not.toThrow();
   });
 });

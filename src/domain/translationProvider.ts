@@ -150,6 +150,101 @@ export function assertPreserved(dish: Dish, result: DishTranslation): void {
   }
 }
 
+/**
+ * The writing systems this app can tell apart, and the ones each language is written in.
+ *
+ * Only the scripts the atlas actually meets. A script missing from this table simply
+ * cannot be detected, and the check below then permits everything — which is the correct
+ * direction to fail for a guard whose job is to catch an obvious wrong, not to be the
+ * authority on the world's writing systems.
+ */
+const SCRIPTS: ReadonlyArray<readonly [string, RegExp]> = [
+  ['Devanagari', /[\u0900-\u097F]/],
+  ['Bengali', /[\u0980-\u09FF]/],
+  ['Tamil', /[\u0B80-\u0BFF]/],
+  ['Malayalam', /[\u0D00-\u0D7F]/],
+  ['Thai', /[\u0E00-\u0E7F]/],
+  ['Greek', /[\u0370-\u03FF]/],
+  ['Cyrillic', /[\u0400-\u04FF]/],
+  ['Hebrew', /[\u0590-\u05FF]/],
+  ['Arabic', /[\u0600-\u06FF]/],
+  ['Han', /[\u4E00-\u9FFF]/],
+  ['Kana', /[\u3040-\u30FF]/],
+  ['Hangul', /[\uAC00-\uD7AF]/],
+];
+
+/**
+ * What each language is written in. Latin is never listed: it is always allowed, because
+ * every preserved term in this atlas is Latin by construction and must appear untouched
+ * in every translation.
+ */
+const WRITTEN_IN: Record<string, readonly string[]> = {
+  hi: ['Devanagari'], mr: ['Devanagari'], ne: ['Devanagari'],
+  bn: ['Bengali'], ta: ['Tamil'], ml: ['Malayalam'], th: ['Thai'],
+  el: ['Greek'], he: ['Hebrew'],
+  ar: ['Arabic'], fa: ['Arabic'], ur: ['Arabic'],
+  ru: ['Cyrillic'], uk: ['Cyrillic'], bg: ['Cyrillic'], sr: ['Cyrillic'],
+  zh: ['Han'], ja: ['Han', 'Kana'], ko: ['Hangul', 'Han'],
+};
+
+/** Which of the scripts above appear in a piece of text. */
+const scriptsIn = (text: string): Set<string> =>
+  new Set(SCRIPTS.filter(([, pattern]) => pattern.test(text)).map(([name]) => name));
+
+/** How many characters of one script a text holds. */
+const countOf = (text: string, script: string): number => {
+  const pattern = SCRIPTS.find(([name]) => name === script)?.[1];
+  if (!pattern) return 0;
+  let n = 0;
+  for (const character of text) if (pattern.test(character)) n += 1;
+  return n;
+};
+
+/**
+ * A word's worth. One stray character is model noise and not worth refusing a whole
+ * translation over; three together is a word in the wrong language.
+ */
+const A_WORD = 3;
+
+/**
+ * Reject a translation that is partly in some third language.
+ *
+ * The model behind this is small, and a small model asked for French sometimes returns
+ * French with a clause of the source language still sitting in it — Devanagari inside
+ * French prose was observed during this work. That is not a translation with a rough
+ * edge; it is a record the reader cannot read, presented as one they can.
+ *
+ * What is allowed is deliberately generous, because the alternative is refusing good
+ * translations:
+ *
+ *   - **Latin, always.** Every preserved term is Latin here and must survive verbatim.
+ *   - **Whatever the target language is written in.**
+ *   - **Whatever the source record already contained.** A record whose prose quotes a
+ *     term in Malayalam may keep quoting it after translation; that is the record being
+ *     faithful, not the model wandering.
+ *
+ * So this fires only on a script that is in neither the target nor the original — which
+ * has no innocent explanation.
+ */
+export function assertTargetScript(dish: Dish, result: DishTranslation, target: string): void {
+  const language = target.toLowerCase().split(/[-_]/)[0];
+  const allowed = new Set([
+    ...(WRITTEN_IN[language] ?? []),
+    ...scriptsIn(`${dish.blurb} ${dish.prepSummary} ${dish.steps.join(' ')}`),
+  ]);
+
+  const translated = [result.blurb, result.prepSummary, ...result.steps].join(' ');
+  for (const script of scriptsIn(translated)) {
+    if (allowed.has(script)) continue;
+    if (countOf(translated, script) < A_WORD) continue;
+    throw new PreservationError(
+      `Translation into ${languageName(target)} came back partly in ${script}, which is ` +
+        `in neither the target language nor the original record. A partial translation is ` +
+        `not shown.`,
+    );
+  }
+}
+
 /** The instruction sent with every request. Kept here so the rules are auditable. */
 export function buildPrompt(dish: Dish, target: string): string {
   const keep = preservedTerms(dish);
@@ -286,6 +381,7 @@ export class RemoteTranslationProvider implements TranslationProvider {
 
     // Reject rather than display a translation that broke the rules.
     assertPreserved(dish, result);
+    assertTargetScript(dish, result, target);
     return result;
   }
 
