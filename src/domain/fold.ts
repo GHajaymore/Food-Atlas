@@ -56,3 +56,25 @@ export const fold = (value: string): string =>
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[øØßẞæÆœŒłŁđĐðÐþÞıİŋŊ]/g, (letter) => INDIVISIBLE[letter] ?? letter)
     .toLowerCase();
+
+/**
+ * A query as a set of terms, folded — because a reader does not know what order the
+ * record puts its words in.
+ *
+ * Search matched the whole query as one substring, so word order was load-bearing:
+ * "pizza margherita" found the Neapolitan record and "margherita pizza" found nothing.
+ * "halwa kozhikode" found nothing while "kozhikode halwa" found the record. "mole
+ * oaxacan" found nothing at all, with Oaxacan Mole Negro sitting in the catalogue.
+ *
+ * Nobody types a record's title in its stored order except by accident.
+ *
+ * Every term must appear, so this stays a narrowing search rather than a fuzzy one —
+ * a misspelling still finds nothing — but the terms may appear anywhere, in any order,
+ * and across different fields: "kerala halwa" may take the place from the breadcrumb and
+ * the name from the title.
+ */
+export const terms = (query: string): string[] => fold(query).split(/\s+/).filter(Boolean);
+
+/** True when every term appears in an already-folded haystack. Fold both sides. */
+export const matchesAllTerms = (haystack: string, queryTerms: string[]): boolean =>
+  queryTerms.every((term) => haystack.includes(term));

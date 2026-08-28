@@ -3536,3 +3536,52 @@ describe('search reaches the records the marks were hiding', () => {
     expect(searchResults([marked], facets('bogoss'))).toEqual([]);
   });
 });
+
+/**
+ * Nobody types a record's title in its stored order except by accident.
+ */
+describe('search does not care what order the words come in', () => {
+  const facets = (query: string): SearchFacets => ({
+    query,
+    levels: [],
+    categories: [],
+    ingredients: [],
+    sortBy: 'authenticity',
+  });
+
+  const pizza: Dish = {
+    ...halwa(),
+    id: 90_100,
+    name: 'Neapolitan Pizza Margherita',
+    loc: { country: 'Italy', region: 'Campania', province: '', city: 'Naples', village: '' },
+  };
+
+  const found = (query: string) => searchResults([pizza], facets(query)).map((d) => d.id);
+
+  it('finds a record whichever way round the words are typed', () => {
+    expect(found('pizza margherita')).toEqual([90_100]);
+    expect(found('margherita pizza')).toEqual([90_100]);
+  });
+
+  /* The terms may come from different fields: one from the title, one from the place. */
+  it('lets a term come from the name and another from the place', () => {
+    expect(found('naples pizza')).toEqual([90_100]);
+  });
+
+  it('still requires every term, so it narrows rather than guesses', () => {
+    expect(found('pizza sardinia')).toEqual([]);
+    expect(found('margherita risotto')).toEqual([]);
+  });
+
+  it('is not fooled into matching a misspelling', () => {
+    expect(found('pizzza')).toEqual([]);
+  });
+
+  it('ignores stray spacing rather than matching nothing', () => {
+    expect(found('  pizza   margherita  ')).toEqual([90_100]);
+  });
+
+  it('an empty query still returns everything', () => {
+    expect(found('   ')).toEqual([90_100]);
+  });
+});

@@ -14,7 +14,7 @@ import { continentOf, continentRank, isCountry } from './continents';
 import { matchesDiet, type DietGroup, type DietKind } from './diet';
 import { matchesMeal, type MealOccasion } from './meals';
 import type { Dish, FilterKey, LevelKey, PathStep, SortKey } from './types';
-import { fold } from './fold';
+import { fold, matchesAllTerms, terms } from './fold';
 
 /** True when a dish sits under every step of the current geographic path. */
 export const inPath = (dish: Dish, path: PathStep[]): boolean =>
@@ -106,10 +106,13 @@ export interface PlaceGroup {
  * that has to hold every country on earth; deeper levels are one alphabetical list.
  */
 export function placeGroups(next: NextLevel | null, query: string, atCountryLevel: boolean): PlaceGroup[] {
-  /* Folded, like the record search: a place is typed the same way a dish is, and
-     Córdoba, Łódź and Ōsaka are all places somebody will type without the marks. */
-  const q = fold(query.trim());
-  const options = (next?.options ?? []).filter((o) => !q || fold(o.label).includes(q));
+  /* Folded and split, like the record search: a place is typed the same way a dish is.
+     Córdoba, Łódź and Ōsaka are typed without their marks, and "york new" is as likely
+     a way to reach New York as any other. */
+  const wanted = terms(query);
+  const options = (next?.options ?? []).filter(
+    (o) => !wanted.length || matchesAllTerms(fold(o.label), wanted),
+  );
   const byName = (a: PlaceOption, b: PlaceOption) => a.label.localeCompare(b.label);
 
   if (!atCountryLevel) {
@@ -250,8 +253,9 @@ function haystackFor(dish: Dish): string {
 
 export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
   /* Both sides folded, never one: folding only the query would leave "creme" missing
-     "crème" exactly as before. */
-  const q = fold(facets.query.trim());
+     "crème" exactly as before. Split into terms, because word order is not something a
+     reader can be expected to guess — see domain/fold.ts. */
+  const wanted = terms(facets.query);
 
   const matched = dishes.filter((d) => {
     if (facets.levels.length && !facets.levels.includes(d.badgeLevel)) return false;
@@ -260,8 +264,8 @@ export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
     if (!matchesDiet(d.diet, facets.dietGroups ?? [], facets.dietKinds ?? [])) return false;
     if (!matchesMeal(d.meals, facets.meals ?? [])) return false;
     if (facets.cuisines?.length && !(d.cuisine && facets.cuisines.includes(d.cuisine))) return false;
-    if (!q) return true;
-    return haystackFor(d).includes(q);
+    if (!wanted.length) return true;
+    return matchesAllTerms(haystackFor(d), wanted);
   });
 
   const sorted = [...matched];
