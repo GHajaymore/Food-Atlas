@@ -27,7 +27,8 @@
  */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { requestedTitles } from './lib/mediawiki.mjs';
+import { pathToFileURL } from 'node:url';
+import { renderInlineTemplates, requestedTitles } from './lib/mediawiki.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -95,7 +96,7 @@ async function listRecipes(limit) {
  * strips markup. Anything it cannot parse cleanly is left out rather than guessed at
  * — a half-parsed instruction is worse than a missing one.
  */
-function section(wikitext, names) {
+export function section(wikitext, names) {
   const pattern = new RegExp(`^==+\\s*(${names.join('|')})\\s*==+\\s*$`, 'im');
   const start = wikitext.search(pattern);
   if (start === -1) return [];
@@ -112,6 +113,10 @@ function section(wikitext, names) {
     .map((line) =>
       line
         .replace(/^[*#]+\s*/, '')
+        // Templates that carry words are rendered before the rest are stripped. A step
+        // read "Preheat the oven to ." because {{convert|375|F|C}} was deleted whole —
+        // 241 recipes had lost an oven temperature, the one number nobody can guess.
+        .replace(/[\s\S]*/, renderInlineTemplates)
         // Image links go entirely, caption and all. `[[File:x.jpg|thumb|Caption]]`
         // used to be rewritten to "thumb|Caption" by the rule below, which then got
         // glued onto the end of the previous step: 1,158 recipes carried lines like
@@ -349,7 +354,18 @@ const main = async () => {
   );
 };
 
-main().catch((error) => {
-  process.stderr.write(`\nCookbook ingest failed: ${error.message}\n`);
-  process.exitCode = 1;
-});
+/*
+ * Only when run as a command.
+ *
+ * section() is exported so a repair pass can re-derive steps through the same code
+ * that first wrote them. Without this guard, importing it started a full cookbook
+ * ingest as a side effect — which is exactly what happened: the import rewrote
+ * src/data/cookbook.json underneath the repair that was trying to read it, and the
+ * file had to be restored from git. An import must not have a side effect this large.
+ */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    process.stderr.write(`\nCookbook ingest failed: ${error.message}\n`);
+    process.exitCode = 1;
+  });
+}

@@ -993,3 +993,85 @@ describe('no word is written in two alphabets at once', () => {
     expect(offences).toEqual([]);
   });
 });
+
+/**
+ * A method never says "heated to ." where a temperature belongs.
+ *
+ * `clean()` deleted every `{{template}}` whole. Most are citations and deserve it, but
+ * `{{convert|375|F|C}}` is an oven temperature and `{{lang|it|…}}` is a name, and
+ * deleting those left prose that still read as a sentence having lost the thing that
+ * mattered:
+ *
+ *   "Preheat the oven to ."
+ *   "heated in copper cauldrons over a wood fire to about ."
+ *   "generally known as ."
+ *
+ * An oven temperature is the one number in a step nobody can infer — a cook can judge
+ * "until golden" but not 175°C against 220°C.
+ *
+ * Checked on the shape of the wound rather than a list of records, because the same
+ * stripper feeds every future import. Only the unambiguous shape: a space before a comma
+ * or full stop. The collapsed form ("Preheat an oven to.") is what the repair passes look
+ * for, but it cannot be an invariant — "used to rub the bread with." is a whole sentence,
+ * and a test that called it a defect would be wrong five times in the catalogue alone.
+ *
+ * Not `; : ! ?` either: French sets a space before those on purpose.
+ */
+describe('no value was dropped out of a method', () => {
+  const WOUND = /\s[,.](?!\.)/;
+
+  const wounds = (file: string): string[] => {
+    const parsed = JSON.parse(readFileSync(resolve(__dirname, '..', 'public', 'data', file), 'utf8'));
+    const found: string[] = [];
+    const walk = (node: unknown, path: string): void => {
+      if (typeof node === 'string') {
+        const at = node.search(WOUND);
+        if (at >= 0) found.push(`${path}: …${node.slice(Math.max(0, at - 40), at + 15)}…`);
+        return;
+      }
+      if (Array.isArray(node)) return node.forEach((v, i) => walk(v, `${path}[${i}]`));
+      if (node && typeof node === 'object') {
+        for (const [k, v] of Object.entries(node)) {
+          /* An address is not prose, and a credit line is a citation. */
+          if (/^(url|href|photo|link|credit|licence|giAttribution)/i.test(k)) continue;
+          walk(v, `${path}.${k}`);
+        }
+      }
+    };
+    walk(parsed, file);
+    return found;
+  };
+
+  it.each(['catalogue.json', 'cuisines.json', 'gi.json', 'unesco.json'])(
+    '%s never leaves a space where a value belongs',
+    (file) => {
+      expect(wounds(file)).toEqual([]);
+    },
+  );
+
+  /**
+   * The cookbook is not there yet, and the number says how far.
+   *
+   * It is five wikis — en, it, fr, de, pt, es — and the repair pass can only read the
+   * English one: the others name a method differently (Preparazione, Préparation,
+   * Zubereitung, Modo de preparo) and the Spanish book has no headings at all, its
+   * recipes being the parameters of a {{Datos de receta}} template. 190 recipes are
+   * waiting on an extractor that understands all five, and 15 English ones are missing
+   * the value on Wikibooks itself, where this cannot reach.
+   *
+   * A ceiling rather than a target, so the number can only fall. If a change repairs
+   * more, this fails and the ceiling comes down with it — which is the point.
+   */
+  it.each([
+    ['cookbook.json', 69],
+    ['cookbook-detail.json', 259],
+  ])('%s carries no more than the %i wounds already known about', (file, ceiling) => {
+    const found = wounds(file);
+    expect({ file, count: found.length, sample: found.slice(0, 2) }).toEqual({
+      file,
+      count: expect.any(Number),
+      sample: found.slice(0, 2),
+    });
+    expect(found.length).toBeLessThanOrEqual(ceiling);
+  });
+});

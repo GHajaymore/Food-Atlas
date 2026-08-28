@@ -23,7 +23,8 @@
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
-import { requestedTitles } from './lib/mediawiki.mjs';
+import { pathToFileURL } from 'node:url';
+import { renderInlineTemplates, requestedTitles, stripImageLinks, stripTemplates } from './lib/mediawiki.mjs';
 import { detectAtRisk } from '../src/domain/atRisk.ts';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -97,21 +98,34 @@ async function api(params, attempt = 1) {
 
 /** Strip wiki markup down to plain text. */
 const clean = (value) =>
-  value
+  // Templates that carry words are rendered before the rest are deleted. Without this
+  // a method reads "heated over a wood fire to about ." — the {{convert}} stripped,
+  // taking the temperature with it, and a cheese is "known as ." with its {{lang}}
+  // name gone. See renderInlineTemplates.
+  renderInlineTemplates(value)
     // Image links go whole. `[[File:Sheet pan.jpg|thumb|Large Sheet pan|baking...]]`
     // through the old rule below became "thumb|Large Sheet pan|baking..." and opened
     // Baklava's blurb with it. The file extension identifies these in every language;
     // the namespace prefix does not.
-    .replace(/\[\[[^\]]*\.(?:jpe?g|png|svg|gif|webp)[^\]]*\]\]/gi, '')
+    .replace(/[\s\S]*/, stripImageLinks)
     // Then the LAST pipe segment. Keeping everything after the first was the bug.
     .replace(/\[\[([^\]]*)\]\]/g, (_, inner) => inner.split('|').pop())
     .replace(/\{\{(?:nowrap|nobold|small)\|([^}]*)\}\}/gi, '$1')
-    .replace(/\{\{[^}]*\}\}/g, '')
+    // Brace-counted, because a template can contain a template. See stripTemplates.
+    .replace(/[\s\S]*/, stripTemplates)
+    // A gallery lists its files bare, one per line, with the caption after a pipe —
+    // no brackets to count. The tags alone came off and left the filenames behind as
+    // prose, which is what cost Parmesan its production section.
+    .replace(/<(gallery|imagemap|timeline)[^>]*>[\s\S]*?<\/\1>/gi, '')
     .replace(/<ref[^>]*>[\s\S]*?<\/ref>/gi, '')
     .replace(/<ref[^>]*\/>/gi, '')
     .replace(/<[^>]+>/g, '')
     .replace(/'''?/g, '')
     .replace(/\s+/g, ' ')
+    // A space before a comma or full stop is never right in any language this reads,
+    // and it is what a removed template leaves behind. French keeps its space before
+    // ; : ! ? — those are deliberately untouched.
+    .replace(/\s+([,.])/g, "$1")
     .trim();
 
 /**
@@ -196,7 +210,7 @@ function placeFrom(fields, country) {
  * record pass for a documented tradition. `steps` stays empty and the traditional
  * technique check stays open.
  */
-function preparationProse(wikitext) {
+export function preparationProse(wikitext) {
   const heading = /^==+\s*([^=\n]*(preparation|cooking|method|making|production|recipe)[^=\n]*)==+\s*$/im;
   const start = wikitext.search(heading);
   if (start === -1) return '';
@@ -432,7 +446,16 @@ const main = async () => {
   );
 };
 
-main().catch((error) => {
-  process.stderr.write(`\nInfobox enrichment failed: ${error.message}\n`);
-  process.exitCode = 1;
-});
+/*
+ * Only when run as a command.
+ *
+ * preparationProse is exported so a repair pass can reproduce a summary through the
+ * same code that first wrote it rather than through a copy of it, and importing this
+ * file used to start a full enrichment run as a side effect of that import.
+ */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    process.stderr.write(`\nInfobox enrichment failed: ${error.message}\n`);
+    process.exitCode = 1;
+  });
+}
