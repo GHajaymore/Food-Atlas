@@ -115,6 +115,7 @@ import { buildShelves, shelfLabel, shelfMatch, shelfTitle, today } from '../src/
 import { readDish } from '../src/domain/translate';
 import { fold } from '../src/domain/fold';
 import type { SearchFacets } from '../src/domain/queries';
+import type { SortKey } from '../src/domain/types';
 import { assertPreserved, assertTargetScript, buildPrompt, preservedTerms, RemoteTranslationProvider } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
 import { thumbnailUrl, watchUrl } from '../src/domain/video';
@@ -3583,5 +3584,53 @@ describe('search does not care what order the words come in', () => {
 
   it('an empty query still returns everything', () => {
     expect(found('   ')).toEqual([90_100]);
+  });
+});
+
+/**
+ * "Tomato" returned 411 records ordered by evidence, with every record actually named
+ * for a tomato at the bottom of the list.
+ */
+describe('a record named for the query comes before one that merely contains it', () => {
+  const facets = (query: string, sortBy: SortKey = 'authenticity'): SearchFacets => ({
+    query,
+    levels: [],
+    categories: [],
+    ingredients: [],
+    sortBy,
+  });
+
+  /* Named for the query and unscored, which is the case that was buried. */
+  const named: Dish = { ...halwa(), id: 91_001, name: 'Tomato chutney', score: 0, ingredients: ['Sugar'] };
+  /* Well evidenced, and only mentions it in passing. */
+  const mentions: Dish = { ...halwa(), id: 91_002, name: 'Pizza Margherita', score: 94, ingredients: ['Tomato'] };
+
+  it('puts the named record first even though it scores far lower', () => {
+    expect(searchResults([mentions, named], facets('tomato')).map((d) => d.id)).toEqual([91_001, 91_002]);
+  });
+
+  it('still orders by evidence inside each group', () => {
+    const alsoNamed: Dish = { ...halwa(), id: 91_003, name: 'Tomato soup', score: 40, ingredients: [] };
+    expect(searchResults([named, mentions, alsoNamed], facets('tomato')).map((d) => d.id)).toEqual([
+      91_003,
+      91_001,
+      91_002,
+    ]);
+  });
+
+  /*
+   * The reader's own choice of sort is not overridden, only applied within what they
+   * asked for. Popularity still orders the named records among themselves.
+   */
+  it('leaves the chosen sort in charge inside each group', () => {
+    const readNamed: Dish = { ...named, id: 91_004, name: 'Tomato relish', views: '2,000,000 readers' };
+    const quietNamed: Dish = { ...named, id: 91_005, name: 'Tomato pickle', views: '' };
+    const order = searchResults([quietNamed, mentions, readNamed], facets('tomato', 'popularity'));
+    expect(order.map((d) => d.id)).toEqual([91_004, 91_005, 91_002]);
+  });
+
+  it('changes nothing when there is no query to be relevant to', () => {
+    const order = searchResults([named, mentions], facets(''));
+    expect(order.map((d) => d.id)).toEqual([91_002, 91_001]);
   });
 });

@@ -216,6 +216,42 @@ export interface SearchFacets {
  */
 const haystacks = new WeakMap<Dish, string>();
 
+/**
+ * The dish's names alone, folded — what the record is *called*, in any language.
+ *
+ * Kept apart from the full haystack because a match here means something different from
+ * a match in an ingredient list. See `relevance`.
+ */
+const nameHaystacks = new WeakMap<Dish, string>();
+
+function nameHaystackFor(dish: Dish): string {
+  const cached = nameHaystacks.get(dish);
+  if (cached !== undefined) return cached;
+  const folded = fold([dish.name, ...Object.values(dish.localNames ?? {})].filter(Boolean).join(' '));
+  nameHaystacks.set(dish, folded);
+  return folded;
+}
+
+/**
+ * How well a record answers the query, as distinct from how good a record it is.
+ *
+ * Searching "tomato" returned 411 records ordered by evidence, and every one of the
+ * twelve records actually *named* for a tomato — Tomato chutney, Tomato omelette,
+ * fried green tomatoes — sat at the bottom of that list, because a dish nobody has
+ * scored yet scores zero and 400 well-evidenced records merely *contain* tomato.
+ *
+ * That is the search answering "the best records that mention tomato" when it was asked
+ * "records about tomato". Relevance is not a third measurement of the food: it is the
+ * question of which records the reader asked for, and it is settled before the ordering
+ * of them begins.
+ *
+ * Only two tiers, deliberately. Finer scoring — how early the word appears, how much of
+ * the name it covers — is guesswork dressed as precision, and this atlas has enough
+ * numbers that mean something.
+ */
+const relevance = (dish: Dish, wanted: string[]): number =>
+  matchesAllTerms(nameHaystackFor(dish), wanted) ? 1 : 0;
+
 function haystackFor(dish: Dish): string {
   const cached = haystacks.get(dish);
   if (cached !== undefined) return cached;
@@ -268,14 +304,25 @@ export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
     return matchesAllTerms(haystackFor(d), wanted);
   });
 
+  /*
+   * What the reader asked for comes first; how they asked it ordered decides the rest.
+   *
+   * A record named for the query outranks one that merely contains it, and *within*
+   * each of those two groups the reader's chosen sort applies untouched. So the rule
+   * this file already held — that authenticity and popularity never feed each other —
+   * still holds: neither has been mixed with the other, they have been asked a narrower
+   * question. With no query at all, `wanted` is empty, every record ties at the same
+   * relevance, and the ordering is exactly what it was before.
+   */
+  const byChosenSort =
+    facets.sortBy === 'popularity'
+      ? (a: Dish, b: Dish) => viewsNumber(b.views) - viewsNumber(a.views)
+      : facets.sortBy === 'atrisk'
+        ? (a: Dish, b: Dish) => Number(b.atRisk) - Number(a.atRisk) || (b.score ?? 0) - (a.score ?? 0)
+        : (a: Dish, b: Dish) => (b.score ?? 0) - (a.score ?? 0);
+
   const sorted = [...matched];
-  if (facets.sortBy === 'popularity') {
-    sorted.sort((a, b) => viewsNumber(b.views) - viewsNumber(a.views));
-  } else if (facets.sortBy === 'atrisk') {
-    sorted.sort((a, b) => Number(b.atRisk) - Number(a.atRisk) || (b.score ?? 0) - (a.score ?? 0));
-  } else {
-    sorted.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-  }
+  sorted.sort((a, b) => relevance(b, wanted) - relevance(a, wanted) || byChosenSort(a, b));
   return sorted;
 }
 
