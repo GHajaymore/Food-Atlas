@@ -1,3 +1,5 @@
+import { pathToFileURL } from 'node:url';
+import { renderInlineTemplates } from './lib/mediawiki.mjs';
 /**
  * Recipes from the cookbooks other languages wrote.
  *
@@ -57,7 +59,7 @@ const retryAfter = (res, attempt) => {
  * when the page says nothing: the recipe is at least documented there. Anything the
  * page states about origin wins over it.
  */
-const COOKBOOKS = {
+export const COOKBOOKS = {
   it: {
     root: 'Libro di cucina/Ricette',
     country: 'Italy',
@@ -146,9 +148,14 @@ async function listRecipes(lang, root, limit) {
  * The display text is the last positional parameter. Named ones are skipped, since
  * `{{i|'=oui|ail}}` carries a flag before the word.
  */
-function cleanLine(line) {
+export function cleanLine(line) {
   return line
     .replace(/^[*#]+\s*/, '')
+    // Before the trailing-braces rule below, not after it. That rule takes the "}}" off
+    // a template sitting at the end of a line, and an unclosed {{ing|Agua matches
+    // nothing afterwards — so the raw markup reached the reader. The catalogue
+    // invariant caught it, which is exactly what that invariant is for.
+    .replace(/[\s\S]*/, renderInlineTemplates)
     // The last line of a template's final field carries its closing braces.
     .replace(/\}\}\s*$/, '')
     .replace(/\{\{\s*i(?:ng)?\s*\|([^}]*)\}\}/gi, (_, params) => {
@@ -161,11 +168,15 @@ function cleanLine(line) {
     .replace(/'''?/g, '')
     .replace(/<[^>]+>/g, '')
     .replace(/\s+/g, ' ')
+    // A space before a comma or full stop is what a removed template leaves behind and
+    // is never right in these languages. French keeps its space before ; : ! ? — those
+    // are untouched. This only tidies: anything actually missing is a repair, not this.
+    .replace(/\s+([,.])/g, "$1")
     .trim();
 }
 
 /** The listed lines under a named heading. Ported from the English ingest. */
-function section(wikitext, names) {
+export function section(wikitext, names) {
   const pattern = new RegExp(`^==+\\s*(${names.join('|')})\\s*:?\\s*==+\\s*$`, 'im');
   const start = wikitext.search(pattern);
   if (start === -1) return [];
@@ -191,7 +202,7 @@ function section(wikitext, names) {
  * only when the section is clearly a procedure, which is why it is a fallback and
  * not the primary read.
  */
-function prosePreparation(wikitext, names) {
+export function prosePreparation(wikitext, names) {
   const pattern = new RegExp(`^==+\\s*(${names.join('|')})\\s*:?\\s*==+\\s*$`, 'im');
   const start = wikitext.search(pattern);
   if (start === -1) return [];
@@ -202,6 +213,9 @@ function prosePreparation(wikitext, names) {
   const block = (end === -1 ? body : body.slice(0, end))
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2')
     .replace(/\[\[([^\]]+)\]\]/g, '$1')
+    // Templates that carry words are rendered before the rest go: a step read
+    // "Preheat the oven to ." because {{convert|375|F|C}} was deleted whole.
+    .replace(/[\s\S]*/, renderInlineTemplates)
     .replace(/\{\{[^}]*\}\}/g, '')
     .replace(/'''?/g, '')
     .replace(/<[^>]+>/g, '')
@@ -221,7 +235,7 @@ function prosePreparation(wikitext, names) {
  * recipe this way, with no headings anywhere on the page. The parameter runs to the
  * next `|` that starts a line, or to the end of the template.
  */
-function templateField(wikitext, names) {
+export function templateField(wikitext, names) {
   /*
    * The field runs to the next parameter, or to the end of the page.
    *
@@ -350,7 +364,15 @@ const main = async () => {
   process.stdout.write(`\n${added} recipes added, each with an ordered method in its own language.\n`);
 };
 
-main().catch((error) => {
-  process.stderr.write(`\nCookbook ingest failed: ${error.message}\n`);
-  process.exitCode = 1;
-});
+/*
+ * Only when run as a command.
+ *
+ * The English ingest had the same hole, and importing it for one helper started a
+ * full run that rewrote src/data/cookbook.json underneath the pass reading it.
+ */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    process.stderr.write(`\nCookbook ingest failed: ${error.message}\n`);
+    process.exitCode = 1;
+  });
+}

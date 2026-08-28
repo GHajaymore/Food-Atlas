@@ -168,6 +168,18 @@ const INLINE = {
     if (mode === "f") return value + " °F";
     return value;
   },
+  /*
+   * The Spanish cookbook names an ingredient and a utensil with templates of its own:
+   * {{ing|Agua}} and {{ute|almirez}}. Deleted, a step read "Machacamos el ajo en un ,
+   * con la sal" — the mortar gone from the instruction to use it. The label is the last
+   * positional parameter, the same shape ingest-cookbooks-multilingual already assumed
+   * for {{ing}}.
+   */
+  /* {{rec|Conejo al ajillo}} links one Spanish recipe to another; the label reads. */
+  rec: (body) => positional(body).pop() ?? "",
+  ute: (body) => positional(body).pop() ?? "",
+  ing: (body) => positional(body).pop() ?? "",
+  i: (body) => positional(body).pop() ?? "",
   ipa: () => '',
 };
 
