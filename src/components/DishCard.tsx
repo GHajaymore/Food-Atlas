@@ -89,7 +89,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
     >
       <Card style={styles.card} elevated>
         <View style={styles.photo}>
-          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photoFill} />
+          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photoFill} width={800} />
         </View>
 
         <View style={styles.body}>

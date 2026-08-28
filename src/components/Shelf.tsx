@@ -114,7 +114,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             onPress={() => onOpenDish(dish.id)}
             style={{ ...styles.card, width: cardSize }}
           >
-            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} />
+            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} width={Math.round(cardSize * 2)} />
             {/* Size and the two-line floor come from the card, so a wider card gets a
                 larger name rather than the same name with more room around it. */}
             <T

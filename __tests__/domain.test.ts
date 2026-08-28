@@ -114,6 +114,7 @@ import {
 import { buildShelves, shelfLabel, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
 import { fold } from '../src/domain/fold';
+import { sizedPhoto } from '../src/domain/commons';
 import type { SearchFacets } from '../src/domain/queries';
 import type { SortKey } from '../src/domain/types';
 import { assertPreserved, assertTargetScript, buildPrompt, preservedTerms, RemoteTranslationProvider } from '../src/domain/translationProvider';
@@ -3632,5 +3633,60 @@ describe('a record named for the query comes before one that merely contains it'
   it('changes nothing when there is no query to be relevant to', () => {
     const order = searchResults([named, mentions], facets(''));
     expect(order.map((d) => d.id)).toEqual([91_002, 91_001]);
+  });
+});
+
+/**
+ * 8.9 MB of photographs for 63 thumbnails, because the atlas asked for the originals.
+ */
+describe('a photograph is asked for at the size it will be shown', () => {
+  const AT = 400;
+
+  it('adds a width to a FilePath url', () => {
+    expect(sizedPhoto('https://commons.wikimedia.org/wiki/Special:FilePath/Club-sandwich.jpg', AT)).toBe(
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Club-sandwich.jpg?width=400',
+    );
+  });
+
+  it('replaces a width that is already there rather than appending a second one', () => {
+    expect(sizedPhoto('https://commons.wikimedia.org/wiki/Special:FilePath/A.jpg?width=900', AT)).toBe(
+      'https://commons.wikimedia.org/wiki/Special:FilePath/A.jpg?width=400',
+    );
+  });
+
+  /*
+   * The original file name is the segment *before* the rendered one. Taking the rendered
+   * one gives "960px-Name.jpg", which is not a file that exists under that name.
+   */
+  it('recovers the original name from a thumbnail url', () => {
+    expect(
+      sizedPhoto('https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Apple_cake.png/960px-Apple_cake.png', AT),
+    ).toBe('https://commons.wikimedia.org/wiki/Special:FilePath/Apple_cake.png?width=400');
+  });
+
+  it('recovers it from an original url', () => {
+    expect(sizedPhoto('https://upload.wikimedia.org/wikipedia/commons/6/6c/241101-fiambre.jpg', AT)).toBe(
+      'https://commons.wikimedia.org/wiki/Special:FilePath/241101-fiambre.jpg?width=400',
+    );
+  });
+
+  it('leaves the percent-encoding exactly as it found it', () => {
+    const encoded = 'https://commons.wikimedia.org/wiki/Special:FilePath/C%20Ration%20%281941%29.jpg';
+    expect(sizedPhoto(encoded, AT)).toBe(encoded + '?width=400');
+  });
+
+  /*
+   * Someone else's server has no reason to honour a convention of Wikimedia's, and
+   * guessing at one turns a working photograph into a 404.
+   */
+  it('does not touch a photograph from anywhere else', () => {
+    const elsewhere = 'https://example.org/photos/dish.jpg';
+    expect(sizedPhoto(elsewhere, AT)).toBe(elsewhere);
+    expect(sizedPhoto('', AT)).toBe('');
+  });
+
+  it('does not touch a wikimedia url it cannot read a file name out of', () => {
+    const odd = 'https://commons.wikimedia.org/wiki/Category:Food';
+    expect(sizedPhoto(odd, AT)).toBe(odd);
   });
 });

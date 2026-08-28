@@ -72,7 +72,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
             A photograph inset inside padding reads as an illustration rather than a
             record. */}
         <View style={styles.frame}>
-          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photo} hideCredit />
+          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photo} hideCredit width={1200} />
         </View>
 
         <View style={styles.body}>

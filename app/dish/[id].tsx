@@ -260,7 +260,7 @@ export default function DishDetail() {
            * the app uses — keeps the licence satisfied where the licence requires it,
            * beside the picture, and frees the sentence to move below the title.
            */}
-          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.hero} />
+          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.hero} width={1200} />
         </>
       ) : null}
 

@@ -34,6 +34,7 @@ import { useCopy } from '../i18n';
 import { Image, Platform, StyleSheet, View, type ImageStyle, type ViewStyle } from 'react-native';
 import { color, font, radius } from '../theme/tokens';
 import { T } from './Text';
+import { sizedPhoto } from '../domain/commons';
 
 interface Props {
   uri: string;
@@ -46,6 +47,13 @@ interface Props {
   /** Set where a visible credit line already accompanies this image. */
   hideCredit?: boolean;
   resizeMode?: 'cover' | 'contain';
+  /**
+   * The widest this will be drawn, in device pixels.
+   *
+   * 400 suits a card on a 2x screen. The hero and the record photograph ask for more.
+   * See domain/commons.ts — the atlas was fetching originals for every one of these.
+   */
+  width?: number;
 }
 
 // Native applies the blend through the style prop; web through the CSS rule.
@@ -62,7 +70,7 @@ const blendStyle = Platform.OS === 'web' ? null : ({ mixBlendMode: 'lighten' } a
  */
 const webHooks = Platform.OS === 'web' ? { dataSet: { lighten: 'true', motion: 'photo-veil' } } : {};
 
-export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resizeMode = 'cover' }: Props) {
+export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resizeMode = 'cover', width = 400 }: Props) {
   const copy = useCopy();
   /**
    * There is deliberately no "has it loaded yet" state here.
@@ -93,7 +101,7 @@ export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resiz
     <View style={[styles.frame, style]}>
       <Image
         key={uri}
-        source={{ uri }}
+        source={{ uri: sizedPhoto(uri, width) }}
         accessibilityLabel={label}
         accessible
         resizeMode={resizeMode}
