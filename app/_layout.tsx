@@ -28,7 +28,7 @@ import { FeedSkeleton } from '../src/components/FeedSkeleton';
 import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';
 import { watchForExit } from '../src/data/events';
-import { useCopy } from '../src/i18n';
+import { copyFor, loadCopy, useCopy, useLocale } from '../src/i18n';
 import { color, font } from '../src/theme/tokens';
 import { installWebStyles } from '../src/theme/webStyles';
 
@@ -64,7 +64,25 @@ export default function RootLayout() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    loadCatalogue().then(
+    /*
+     * The chrome's own language is fetched alongside the catalogue, not after it.
+     *
+     * Eleven of the twelve catalogues live outside the bundle now, so a reader whose
+     * language is not English needs one small file before the first screen can be set in
+     * their language. Waiting for it here — inside a wait that already exists, for data
+     * that takes far longer — means it costs nothing visible and there is no moment where
+     * the page is English on its way to being Japanese.
+     *
+     * `loadCopy` never rejects: a catalogue that does not arrive leaves English behind
+     * every key, which is what a partial translation already looks like. So this is
+     * deliberately not part of the failure branch — the atlas is worth showing in English,
+     * and is not worth withholding because a language file did not load.
+     */
+    const copyReady = loadCopy(useLocale.getState().locale).then(() => {
+      useLocale.setState((state) => ({ copy: copyFor(state.locale) }));
+    });
+
+    Promise.all([loadCatalogue(), copyReady]).then(
       () => setDataState('ready'),
       (reason: Error) => {
         setError(reason.message);

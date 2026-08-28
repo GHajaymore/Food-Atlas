@@ -62,6 +62,8 @@ import { decodeEntities } from '../src/domain/text';
 import { negotiateLocale } from '../src/domain/uiLanguage';
 import { copyFor, isMachineTranslated, pluralOf, translationCoverage, UI_LOCALES } from '../src/i18n';
 import { CATALOGUES } from '../src/i18n/catalogues';
+import { COVERAGE, LOCALE_CODES } from '../src/i18n/manifest';
+import type { Copy } from '../src/i18n/copy';
 import { COUNTRY_CODE } from '../src/domain/countryCodes';
 import { EN } from '../src/i18n/copy';
 import { heroDish, heroWorthy } from '../src/domain/hero';
@@ -3688,5 +3690,46 @@ describe('a photograph is asked for at the size it will be shown', () => {
   it('does not touch a wikimedia url it cannot read a file name out of', () => {
     const odd = 'https://commons.wikimedia.org/wiki/Category:Food';
     expect(sizedPhoto(odd, AT)).toBe(odd);
+  });
+});
+
+/**
+ * The generated manifest still describes the real catalogues.
+ *
+ * Eleven catalogues are fetched rather than bundled, so two things the app cannot
+ * recompute at runtime are written out by `scripts/split-catalogues.mjs`: which locales
+ * exist, and how much of each is translated. The second is the one that matters — the
+ * language picker prints it as "60%", and a stale number there is exactly the kind of
+ * confident-but-wrong figure this atlas refuses to show.
+ *
+ * So: edit a translation, forget to re-run the script, and this fails. That is the whole
+ * job of these three assertions.
+ */
+describe('the generated locale manifest matches the catalogues it was generated from', () => {
+  it('lists every catalogue and nothing else', () => {
+    expect([...LOCALE_CODES].sort()).toEqual(Object.keys(CATALOGUES).sort());
+  });
+
+  it('reports the coverage each catalogue actually has', () => {
+    const keys = Object.keys(EN) as (keyof Copy)[];
+    for (const [locale, catalogue] of Object.entries(CATALOGUES)) {
+      const done = keys.filter((key) => {
+        const value = (catalogue as Partial<Copy>)[key];
+        return typeof value === 'string' && value.trim() !== '' && value !== EN[key];
+      });
+      const real = done.length / keys.length;
+      /* Six decimals is what the script writes; compare at that precision, not exactly. */
+      expect({ locale, coverage: Number(real.toFixed(6)) }).toEqual({
+        locale,
+        coverage: Number((COVERAGE[locale] ?? -1).toFixed(6)),
+      });
+    }
+  });
+
+  /* English is the fallback behind every key and is compiled in, so it must never be
+     one of the files fetched — a reader offline would otherwise have no words at all. */
+  it('leaves English out of the fetched set', () => {
+    expect(LOCALE_CODES).not.toContain('en');
+    expect(translationCoverage('en')).toBe(1);
   });
 });

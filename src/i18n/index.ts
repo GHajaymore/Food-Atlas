@@ -16,12 +16,75 @@ import { create } from 'zustand';
 
 import { negotiateLocale, devicePreferences, DEFAULT_LOCALE } from '../domain/uiLanguage';
 import { EN, type Copy } from './copy';
-import { CATALOGUES } from './catalogues';
+import { COVERAGE, LOCALE_CODES } from './manifest';
 
 export type { Copy } from './copy';
 
 /** Every locale the chrome exists in, English first. */
-export const UI_LOCALES: readonly string[] = [DEFAULT_LOCALE, ...Object.keys(CATALOGUES)];
+export const UI_LOCALES: readonly string[] = [DEFAULT_LOCALE, ...LOCALE_CODES];
+
+/**
+ * The catalogues that have actually arrived.
+ *
+ * Twelve languages of chrome are 895 KB of source and about 15% of the bundle on the
+ * wire, and every reader was downloading all of them in order to read in one. They are
+ * fetched per locale now; English is compiled in because it is the fallback behind every
+ * key and has to exist before anything can render.
+ *
+ * A locale that has not arrived is not an error state — `copyFor` returns English, which
+ * is exactly what a missing key already did. That keeps the failure mode of a network
+ * problem identical to the failure mode of an unfinished translation, which is one this
+ * app already handles honestly.
+ */
+const arrived = new Map<string, Partial<Copy>>();
+
+/** In flight, so eight components asking at once ask the network once. */
+const asking = new Map<string, Promise<void>>();
+
+/**
+ * Put a catalogue in place without going to the network.
+ *
+ * The seam the tests use, and the one a native build would use if it ever bundles its
+ * catalogues rather than fetching them. Without it every test that checks a translation
+ * would be asserting against the English fallback and passing for the wrong reason —
+ * which is a worse outcome than failing, because it looks like coverage.
+ */
+export function installCatalogue(locale: string, catalogue: Partial<Copy>): void {
+  arrived.set(locale, catalogue);
+}
+
+/**
+ * Fetch one locale's chrome.
+ *
+ * Never rejects. A reader whose catalogue does not arrive gets English — the same thing
+ * they got before this file changed, and better than a blank page for the sake of a
+ * language file.
+ */
+export function loadCopy(locale: string): Promise<void> {
+  if (locale === DEFAULT_LOCALE || arrived.has(locale)) return Promise.resolve();
+
+  const already = asking.get(locale);
+  if (already) return already;
+
+  const base = process.env.EXPO_PUBLIC_DATA_URL ?? '';
+  const request = (async () => {
+    try {
+      const response = await fetch(`${base}/data/copy/${locale}.json`);
+      if (!response.ok) return;
+      const catalogue = (await response.json()) as Partial<Copy>;
+      /* An empty or malformed body would replace the chrome with nothing. English is a
+         better answer than a page of blanks. */
+      if (catalogue && typeof catalogue === 'object' && Object.keys(catalogue).length) {
+        arrived.set(locale, catalogue);
+      }
+    } catch {
+      /* Offline, or the file is not served. English is already behind every key. */
+    }
+  })();
+
+  asking.set(locale, request);
+  return request;
+}
 
 /**
  * The chrome in one language, with English behind every key.
@@ -32,7 +95,7 @@ export const UI_LOCALES: readonly string[] = [DEFAULT_LOCALE, ...Object.keys(CAT
  * what a half-finished translation honestly looks like.
  */
 export function copyFor(locale: string): Copy {
-  const catalogue = CATALOGUES[locale];
+  const catalogue = arrived.get(locale);
   /* `locale` last so it always describes what was actually built, never what a
      catalogue might claim. */
   return catalogue ? { ...EN, ...catalogue, locale } : EN;
@@ -55,16 +118,17 @@ export const isMachineTranslated = (locale: string): boolean => locale !== DEFAU
  * how much is left, so a language can be reported as 60% done instead of quietly
  * serving English under its own flag.
  */
+/*
+ * Read from the manifest rather than counted here, because the catalogue being counted
+ * may not have arrived — and the language picker shows this figure for *every* locale,
+ * including the eleven a reader has not chosen. Counting what is in memory would report
+ * 0% for every language on offer, which is a confident wrong number rather than a slow
+ * one. `scripts/split-catalogues.mjs` computes it from the real catalogues at build time
+ * and a test asserts the two still agree.
+ */
 export function translationCoverage(locale: string): number {
-  const catalogue = CATALOGUES[locale];
-  if (!catalogue) return locale === DEFAULT_LOCALE ? 1 : 0;
-
-  const keys = Object.keys(EN) as (keyof Copy)[];
-  const done = keys.filter((key) => {
-    const value = catalogue[key];
-    return typeof value === 'string' && value.trim() !== '' && value !== EN[key];
-  });
-  return done.length / keys.length;
+  if (locale === DEFAULT_LOCALE) return 1;
+  return COVERAGE[locale] ?? 0;
 }
 
 interface LocaleState {
@@ -121,9 +185,21 @@ export const useLocale = create<LocaleState>((set) => {
     locale,
     copy: copyFor(locale),
     chosen,
+    /*
+     * The choice is remembered at once; the page changes language when the words for it
+     * have arrived.
+     *
+     * Switching first and swapping the words in afterwards would show the reader a page
+     * of English on the way to the language they just asked for — a flash of the one
+     * thing they were trying to get away from. Waiting is a few hundred milliseconds on
+     * an 18 KB file, and nothing on the second visit to a language.
+     *
+     * `locale` is set alongside `copy` rather than before it, so the two can never
+     * disagree: no render sees a Japanese locale with English copy.
+     */
     setLocale: (next) => {
       rememberChoice(next);
-      set({ locale: next, copy: copyFor(next), chosen: true });
+      void loadCopy(next).then(() => set({ locale: next, copy: copyFor(next), chosen: true }));
     },
   };
 });
