@@ -14,6 +14,7 @@ import { continentOf, continentRank, isCountry } from './continents';
 import { matchesDiet, type DietGroup, type DietKind } from './diet';
 import { matchesMeal, type MealOccasion } from './meals';
 import type { Dish, FilterKey, LevelKey, PathStep, SortKey } from './types';
+import { fold } from './fold';
 
 /** True when a dish sits under every step of the current geographic path. */
 export const inPath = (dish: Dish, path: PathStep[]): boolean =>
@@ -105,8 +106,10 @@ export interface PlaceGroup {
  * that has to hold every country on earth; deeper levels are one alphabetical list.
  */
 export function placeGroups(next: NextLevel | null, query: string, atCountryLevel: boolean): PlaceGroup[] {
-  const q = query.trim().toLowerCase();
-  const options = (next?.options ?? []).filter((o) => !q || o.label.toLowerCase().includes(q));
+  /* Folded, like the record search: a place is typed the same way a dish is, and
+     Córdoba, Łódź and Ōsaka are all places somebody will type without the marks. */
+  const q = fold(query.trim());
+  const options = (next?.options ?? []).filter((o) => !q || fold(o.label).includes(q));
   const byName = (a: PlaceOption, b: PlaceOption) => a.label.localeCompare(b.label);
 
   if (!atCountryLevel) {
@@ -236,15 +239,19 @@ function haystackFor(dish: Dish): string {
     ...dish.equipment,
   ]
     .filter(Boolean)
-    .join(' ')
-    .toLowerCase();
+    .join(' ');
 
-  haystacks.set(dish, built);
-  return built;
+  /* Folded, so a reader typing plain letters reaches a name that carries marks. One
+     name in ten does. See domain/fold.ts. */
+  const folded = fold(built);
+  haystacks.set(dish, folded);
+  return folded;
 }
 
 export function searchResults(dishes: Dish[], facets: SearchFacets): Dish[] {
-  const q = facets.query.trim().toLowerCase();
+  /* Both sides folded, never one: folding only the query would leave "creme" missing
+     "crème" exactly as before. */
+  const q = fold(facets.query.trim());
 
   const matched = dishes.filter((d) => {
     if (facets.levels.length && !facets.levels.includes(d.badgeLevel)) return false;

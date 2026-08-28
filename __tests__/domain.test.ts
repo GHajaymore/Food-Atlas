@@ -113,6 +113,8 @@ import {
 } from '../src/domain/photoSubmission';
 import { buildShelves, shelfLabel, shelfMatch, shelfTitle, today } from '../src/domain/shelves';
 import { readDish } from '../src/domain/translate';
+import { fold } from '../src/domain/fold';
+import type { SearchFacets } from '../src/domain/queries';
 import { assertPreserved, assertTargetScript, buildPrompt, preservedTerms, RemoteTranslationProvider } from '../src/domain/translationProvider';
 import type { Dish, DishTranslation } from '../src/domain/types';
 import { thumbnailUrl, watchUrl } from '../src/domain/video';
@@ -3468,5 +3470,69 @@ describe('a translation has to be in the language that was asked for', () => {
     expect(
       into('ru', { prepSummary: '\u0413\u043e\u0442\u043e\u0432\u0438\u0442\u0441\u044f \u0447\u0430\u0441\u0430\u043c\u0438 \u0441 Coconut oil.' }),
     ).not.toThrow();
+  });
+});
+
+/**
+ * One name in ten carries a mark, and a reader who knows the dish is often the one
+ * least able to type it.
+ */
+describe('a reader typing plain letters finds a name that carries marks', () => {
+  it('drops marks that Unicode can take apart', () => {
+    expect(fold('Bagòss')).toBe('bagoss');
+    expect(fold('crème brûlée')).toBe('creme brulee');
+    expect(fold('Erdäpfelknödel')).toBe('erdapfelknodel');
+    expect(fold('niño envuelto')).toBe('nino envuelto');
+    expect(fold('aşure')).toBe('asure');
+  });
+
+  /* These are letters in their own right, not a base plus a mark, so decomposition
+     leaves them untouched and they have to be named. */
+  it('maps the letters that do not decompose', () => {
+    expect(fold('rødgrød')).toBe('rodgrod');
+    expect(fold('Weißburgunder')).toBe('weissburgunder');
+    expect(fold('Æbleskiver')).toBe('aebleskiver');
+    expect(fold('Łazanki')).toBe('lazanki');
+  });
+
+  /*
+   * Folding is for the Latin alphabet. A Devanagari or Arabic mark is not a decoration
+   * on a letter — it is part of which letter it is — and merging them would make search
+   * answer with a different word.
+   */
+  it('leaves other writing systems alone', () => {
+    expect(fold('कढ़ी')).toBe('कढ़ी');
+    expect(fold('كبسة')).toBe('كبسة');
+    expect(fold('刀削麵')).toBe('刀削麵');
+  });
+
+  it('is stable, so folding a folded string changes nothing', () => {
+    for (const word of ['Bagòss', 'rødgrød', 'Weißburgunder', 'कढ़ी']) {
+      expect(fold(fold(word))).toBe(fold(word));
+    }
+  });
+});
+
+describe('search reaches the records the marks were hiding', () => {
+  const facets = (query: string): SearchFacets => ({
+    query,
+    levels: [],
+    categories: [],
+    ingredients: [],
+    sortBy: 'authenticity',
+  });
+
+  const marked: Dish = { ...halwa(), id: 90_001, name: 'Bagòss', loc: { ...halwa().loc, country: 'Italy' } };
+
+  it('finds a marked name from plain letters', () => {
+    expect(searchResults([marked], facets('bagoss')).map((d) => d.id)).toEqual([90_001]);
+  });
+
+  it('still finds it when the marks are typed', () => {
+    expect(searchResults([marked], facets('Bagòss')).map((d) => d.id)).toEqual([90_001]);
+  });
+
+  it('does not turn the fold into a wildcard', () => {
+    expect(searchResults([marked], facets('bogoss'))).toEqual([]);
   });
 });
