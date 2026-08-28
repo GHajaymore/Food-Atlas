@@ -39,12 +39,13 @@
  * remove: one line out of `package.json`.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const INDEX = resolve(HERE, '../dist/index.html');
+const DIST = resolve(HERE, '../dist');
 
 /** Exactly what `src/data/catalogue.ts` fetches, in the order it asks for them. */
 const SOURCES = ['catalogue', 'cuisines', 'cookbook', 'unesco', 'gi'];
@@ -59,6 +60,31 @@ const SOURCES = ['catalogue', 'cuisines', 'cookbook', 'unesco', 'gi'];
  * two drifting apart silently.
  */
 const BASE = process.env.EXPO_PUBLIC_DATA_URL ?? '';
+
+/**
+ * Every font file the build emitted, as a URL the browser can start immediately.
+ *
+ * The app blocks on its fonts — `if (!fontsLoaded) return <FeedSkeleton />` — and the
+ * browser could not learn they existed until the JavaScript bundle had downloaded, parsed
+ * and run. Measured on the live site: the five faces started at **1,211ms** and finished
+ * at 1,424ms, so the reader watched a skeleton for a second and a half while 667 KB of
+ * font sat unrequested. The JSON was already preloaded and started at 77ms; the fonts,
+ * which the render actually waits on, were not.
+ *
+ * Discovered from the build output rather than listed here. The names carry a content
+ * hash that changes whenever a face does, and a hard-coded list would preload a file that
+ * no longer exists — which is worse than no preload, because it costs a request and
+ * warms nothing.
+ */
+async function fontFiles(dir) {
+  const found = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const path = resolve(dir, entry.name);
+    if (entry.isDirectory()) found.push(...(await fontFiles(path)));
+    else if (/\.(ttf|otf|woff2?)$/i.test(entry.name)) found.push(path);
+  }
+  return found;
+}
 
 const MARKER = '<!-- wikifoodia-preload -->';
 
@@ -93,11 +119,23 @@ const main = async () => {
     (name) => `    <link rel="preload" as="fetch" crossorigin href="${BASE}/data/${name}.json" />`,
   ).join('\n');
 
-  html = html.replace('</head>', `${MARKER}\n${links}\n  </head>`);
+  /*
+   * `crossorigin` again, and required for a different reason here: a font is always
+   * fetched anonymously, so a preload without it is a second unmatched request rather
+   * than a head start.
+   */
+  const fonts = (await fontFiles(DIST)).map(
+    (path) => '/' + path.slice(DIST.length + 1).split(sep).join('/'),
+  );
+  const fontLinks = fonts
+    .map((href) => `    <link rel="preload" as="font" type="font/ttf" crossorigin href="${href}" />`)
+    .join('\n');
+
+  html = html.replace('</head>', `${MARKER}\n${links}\n${fontLinks}\n  </head>`);
   await writeFile(INDEX, html, 'utf8');
 
   process.stdout.write(
-    `Preloading ${SOURCES.length} sources from dist/index.html.\n` +
+    `Preloading ${SOURCES.length} sources and ${fonts.length} fonts from dist/index.html.\n` +
       'Verify in a browser that each file appears ONCE in resource timing — a CORS\n' +
       'mismatch on an as="fetch" preload downloads everything twice, silently.\n',
   );
