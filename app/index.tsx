@@ -406,7 +406,7 @@ export default function Feed() {
       {isBrowsing && popular.length ? (
       <View style={styles.popularSection}>
         <View style={styles.popularHeader}>
-          <H6>{copy.mostLookedUp}</H6>
+          <H6 level={2}>{copy.mostLookedUp}</H6>
           <Muted style={styles.byViews}>{copy.wikipediaReaders}</Muted>
         </View>
 

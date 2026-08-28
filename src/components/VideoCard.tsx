@@ -90,7 +90,7 @@ export function VideoCard({ video }: { video: Video }) {
 
       {hasIngredients ? (
         <View style={styles.panel}>
-          <H6 style={styles.panelHeading}>{copy.ingredientsInThisVideo}</H6>
+          <H6 level={3} style={styles.panelHeading}>{copy.ingredientsInThisVideo}</H6>
           <View style={styles.chips}>
             {video.ingredients!.map((ingredient) => (
               <Tag key={ingredient} label={ingredient} variant="neutral" />

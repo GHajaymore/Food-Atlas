@@ -546,7 +546,7 @@ export default function DishDetail() {
               someone who cooks it. */}
           {!isDocumented && dish.prepSummary ? (
             <>
-              <H5 style={styles.tightHeading}>{copy.howItsDescribed}</H5>
+              <H5 level={2} style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
                 {copy.quotedFromSource.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
               </Muted>
@@ -579,7 +579,7 @@ export default function DishDetail() {
 
               {dish.ingredients.length ? (
                 <>
-                  <H6 style={styles.equipmentHeading}>{copy.ingredientsNamedInAccount}</H6>
+                  <H6 level={3} style={styles.equipmentHeading}>{copy.ingredientsNamedInAccount}</H6>
                   <View style={[styles.chipWrap, styles.equipmentWrap]}>
                     {dish.ingredients.map((ingredient) => (
                       <Tag key={ingredient} label={ingredient} variant="neutral" />
@@ -625,7 +625,7 @@ export default function DishDetail() {
               Modern Adaptation, and calling its ingredients the "Authentic Version"
               contradicts the classification printed directly above it — which is the
               silent mislabelling the brief exists to prevent. */}
-          <H5 style={styles.h5}>{isAdaptation ? copy.thePublishedRecipe : copy.authenticVersion}</H5>
+          <H5 level={2} style={styles.h5}>{isAdaptation ? copy.thePublishedRecipe : copy.authenticVersion}</H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
               {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
@@ -659,7 +659,7 @@ export default function DishDetail() {
           {/* Only where there is equipment to name. Published recipes list none. */}
           {reading.equipment.length ? (
             <>
-              <H6 style={styles.equipmentHeading}>{copy.traditionalEquipment}</H6>
+              <H6 level={3} style={styles.equipmentHeading}>{copy.traditionalEquipment}</H6>
               <View style={[styles.chipWrap, styles.equipmentWrap]}>
                 {reading.equipment.map((item) => (
                   <Tag key={item} label={item} variant="outline" />
@@ -668,7 +668,7 @@ export default function DishDetail() {
             </>
           ) : null}
 
-          <H5 style={styles.tightHeading}>{copy.howItsMade}</H5>
+          <H5 level={2} style={styles.tightHeading}>{copy.howItsMade}</H5>
           <Muted style={styles.sectionLead}>
             {isAdaptation
               ? copy.methodAsPublished
@@ -705,7 +705,7 @@ export default function DishDetail() {
 
           {dish.popular ? (
             <>
-              <H5 style={styles.tightHeading}>{copy.mostPopularVersion}</H5>
+              <H5 level={2} style={styles.tightHeading}>{copy.mostPopularVersion}</H5>
               <Muted style={styles.sectionLead}>
                 {copy.whatTheInternetServes}
               </Muted>
@@ -739,7 +739,7 @@ export default function DishDetail() {
 
           {dish.videos.length ? (
             <>
-              <H5 style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
+              <H5 level={2} style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
               <Muted style={styles.sectionLead}>
                 {copy.videosRankedByCloseness}
               </Muted>
@@ -758,7 +758,7 @@ export default function DishDetail() {
                and say exactly what it is: a popularity-ordered starting point, not
                a video anyone has checked against the tradition. */
             <>
-              <H5 style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
+              <H5 level={2} style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
               <Muted style={styles.sectionLead}>
                 {copy.noVideoRecordedYet}
               </Muted>
@@ -779,7 +779,7 @@ export default function DishDetail() {
             </>
           )}
 
-          <H5 style={styles.h5}>{copy.whereTheMethodComesFrom}</H5>
+          <H5 level={2} style={styles.h5}>{copy.whereTheMethodComesFrom}</H5>
           <View style={styles.sources}>
             {dish.sources.map((source) => (
               <Pressable
@@ -804,7 +804,7 @@ export default function DishDetail() {
               the record split because both accounts were true of their own place. */}
           {siblings.length ? (
             <>
-              <H5 style={styles.tightHeading}>{copy.alsoMadeThisWay}</H5>
+              <H5 level={2} style={styles.tightHeading}>{copy.alsoMadeThisWay}</H5>
               <Muted style={styles.sectionLead}>
                 {copy.siblingsNeitherIsReal}
               </Muted>
@@ -831,7 +831,7 @@ export default function DishDetail() {
               score, which measures how a dish is made here, not who invented it. */}
           {dish.originClaims?.length ? (
             <>
-              <H5 style={styles.tightHeading}>{copy.originAndAttribution}</H5>
+              <H5 level={2} style={styles.tightHeading}>{copy.originAndAttribution}</H5>
               <Muted style={styles.sectionLead}>{originDisclaimer(copy)}</Muted>
               <View style={styles.sources}>
                 {dish.originClaims.map((claim) => (
@@ -856,7 +856,7 @@ export default function DishDetail() {
           {/* An adaptation is not claiming authenticity, so it is not asked to
               justify any — the question would invite the reader to read the answer
               as a defence of a claim the record never made. */}
-          <H5 style={styles.h5}>
+          <H5 level={2} style={styles.h5}>
             {isAdaptation
               ? copy.whyThisIsAnAdaptation
               : isDocumented

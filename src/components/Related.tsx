@@ -41,7 +41,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
       {/* H5, matching every other section heading on a record — "Watch it being
           made", "Where the method comes from", "How it's made". This was the one
           section of the page announced by a 13px uppercase eyebrow instead. */}
-      <H5>{copy.relatedTraditions}</H5>
+      <H5 level={2}>{copy.relatedTraditions}</H5>
       <Muted style={styles.note}>
         {copy.relatedTraditionsNote}
       </Muted>

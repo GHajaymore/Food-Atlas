@@ -26,6 +26,18 @@ import { useWideType } from '../theme/typeScale';
 
 type Props = TextProps & { children?: React.ReactNode };
 
+/**
+ * A heading, with the option of saying where it sits rather than inferring it from size.
+ *
+ * Size and depth usually agree, and where they do the default is right. Where they do not,
+ * the outline has to win: "Most looked up" is a rail on the home page, a sibling of
+ * "Disappearing" and "Authenticated", but it is drawn as an eyebrow — so it was announced
+ * as a level-4 heading directly after level 2, and somebody navigating by heading heard a
+ * subsection that does not exist. `level` lets the smaller treatment keep its place in the
+ * outline.
+ */
+type HeadingProps = Props & { level?: number };
+
 const base: TextStyle = { color: color.text };
 
 /**
@@ -60,19 +72,19 @@ function scaled(parts: (TextStyle | undefined | null | false)[], wide: boolean):
  * heading — so it is level 1. The rest step down from there, which is the hierarchy the
  * design already draws rather than the one the names imply.
  */
-export const H2 = ({ style, ...p }: Props) => {
+export const H2 = ({ style, level = 1, ...p }: HeadingProps) => {
   const wide = useWideType();
-  return <RNText accessibilityRole="header" aria-level={1} {...p} style={scaled([base, type.h2, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={level} {...p} style={scaled([base, type.h2, style as TextStyle], wide)} />;
 };
 
-export const H4 = ({ style, ...p }: Props) => {
+export const H4 = ({ style, level = 2, ...p }: HeadingProps) => {
   const wide = useWideType();
-  return <RNText accessibilityRole="header" aria-level={2} {...p} style={scaled([base, type.h4, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={level} {...p} style={scaled([base, type.h4, style as TextStyle], wide)} />;
 };
 
-export const H5 = ({ style, ...p }: Props) => {
+export const H5 = ({ style, level = 3, ...p }: HeadingProps) => {
   const wide = useWideType();
-  return <RNText accessibilityRole="header" aria-level={3} {...p} style={scaled([base, type.h5, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={level} {...p} style={scaled([base, type.h5, style as TextStyle], wide)} />;
 };
 
 /**
@@ -82,9 +94,25 @@ export const H5 = ({ style, ...p }: Props) => {
  * uppercase label with 0.08em tracking, and a serif at that size and treatment reads
  * worse rather than better. It is a signpost, not a heading.
  */
-export const H6 = ({ style, ...p }: Props) => {
+export const H6 = ({ style, level = 4, ...p }: HeadingProps) => {
   const wide = useWideType();
-  return <RNText accessibilityRole="header" aria-level={4} {...p} style={scaled([base, type.h6, { color: color.neutral[400] }, style as TextStyle], wide)} />;
+  return <RNText accessibilityRole="header" aria-level={level} {...p} style={scaled([base, type.h6, { color: color.neutral[400] }, style as TextStyle], wide)} />;
+};
+
+/**
+ * The eyebrow treatment, with no heading semantics — for a label that names a number.
+ *
+ * `Stat` used `H6` for its "DISHES", "COUNTRIES", "DOCUMENTED" labels, purely for the
+ * uppercase style, and each one entered the document outline as a heading. Five of them
+ * sit on the home page: somebody navigating by heading met five section titles that are
+ * not sections, each announcing a word with no content under it.
+ *
+ * H6 own comment already said it — "It is a signpost, not a heading" — while marking it
+ * as one. This is the signpost; H6 stays for the places that really are headings.
+ */
+export const Eyebrow = ({ style, ...p }: Props) => {
+  const wide = useWideType();
+  return <RNText {...p} style={scaled([base, type.h6, { color: color.neutral[400] }, style as TextStyle], wide)} />;
 };
 
 export const Body = ({ style, ...p }: Props) => {

@@ -48,15 +48,15 @@ import { canContribute } from '../domain/contribution';
 import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
 import { Disclosure } from './Disclosure';
-import { H6, Muted, T } from './Text';
+import { Eyebrow, Muted, T } from './Text';
 
 function Stat({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
   return (
     <View style={styles.stat}>
       <T style={[styles.figure, accent ? styles.figureAccent : null]}>{value}</T>
-      <H6 style={styles.statLabel} numberOfLines={2}>
+      <Eyebrow style={styles.statLabel} numberOfLines={2}>
         {label}
-      </H6>
+      </Eyebrow>
     </View>
   );
 }

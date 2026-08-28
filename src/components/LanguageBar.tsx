@@ -66,7 +66,7 @@ export function LanguageBar({
 
   return (
     <View style={styles.wrap}>
-      <H6 style={styles.heading}>{copy.readThisIn}</H6>
+      <H6 level={2} style={styles.heading}>{copy.readThisIn}</H6>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
         {offered.map((lang) => (
@@ -126,7 +126,7 @@ export function LanguageBar({
 
       {Object.keys(reading.glossary).length ? (
         <View style={styles.glossary}>
-          <H6 style={styles.heading}>{copy.whatTheseTermsMean}</H6>
+          <H6 level={2} style={styles.heading}>{copy.whatTheseTermsMean}</H6>
           {Object.entries(reading.glossary).map(([term, gloss]) => (
             <Muted key={term} style={styles.glossRow}>
               {/* The original term stays; the gloss sits beside it, never in place of it. */}
