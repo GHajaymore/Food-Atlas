@@ -210,6 +210,28 @@ export const useLocale = create<LocaleState>((set) => {
  * `useCopy()` rather than `useLocale().copy` at every call site: the selector keeps a
  * component from re-rendering when the locale is set to what it already was.
  */
+/**
+ * Tell the document which language it is in.
+ *
+ * Expo emits `<html lang="en">` and nothing changed it, so a reader who chose Japanese
+ * got a page of Japanese inside a document still declaring itself English. A screen
+ * reader takes the voice and the pronunciation rules from that attribute: the text was
+ * read out with English phonetics, which is closer to noise than to a translation.
+ *
+ * WCAG 3.1.1 (Language of Page) is a Level A criterion, and this is the whole of it.
+ *
+ * Subscribed rather than set inside `setLocale`, so it also covers the language chosen
+ * before the first render — the case that matters most, because it is every returning
+ * reader who ever picked one.
+ */
+const declareLanguage = (locale: string): void => {
+  if (typeof document === "undefined") return;
+  document.documentElement.lang = locale;
+};
+
+declareLanguage(useLocale.getState().locale);
+useLocale.subscribe((state) => declareLanguage(state.locale));
+
 export const useCopy = (): Copy => useLocale((state) => state.copy);
 
 /**
