@@ -111,6 +111,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   /* A prompt is a record's prose plus its rules. Anything far past that is not one. */
   if (prompt.length > 12_000) return json({ error: 'That is too long to translate in one request.' }, 413);
 
+  /*
+   * Both of these end up as columns, and both arrived unchecked.
+   *
+   * `target` becomes `translation.lang` and `dish` becomes `translation.dish_id`, so any
+   * string and any integer could be written — a day's worth of rows filed under languages
+   * that do not exist, against records that do not exist. The daily meter bounds the cost
+   * of that, which is why it was never dangerous, but a cache keyed on nonsense is a cache
+   * that never hits and grows for ever.
+   *
+   * A BCP-47 tag is short and has a shape. A record id is a positive integer inside the
+   * catalogue's range. Neither check refuses anything the app sends.
+   */
+  if (!/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(target) || target.length > 12) {
+    return json({ error: 'That is not a language tag.' }, 400);
+  }
+  if (dish !== null && (dish < 0 || dish > 2_000_000)) {
+    return json({ error: 'That is not a record in this atlas.' }, 400);
+  }
+
   const day = today();
 
   /* ---- 2. cache ---- */
@@ -123,16 +142,29 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   /* ---- 3. the meter ----
    *
-   * Read before the call, incremented after a successful one. A failed call is not
-   * charged and does not count — the reader gets nothing, so neither should the meter.
+   * The place is reserved before the call and given back if the call fails, rather than
+   * read now and incremented later.
+   *
+   * The earlier order — read `spent`, call the model, then increment — is a race, and on
+   * a Worker it is a race with real concurrency behind it. Every request that arrives
+   * while a call is in flight reads the same figure, and every one of them decides there
+   * is room. The overshoot is bounded by however many arrive at once, which is exactly
+   * the situation a limit exists to rule out: a burst is what a script looks like.
+   *
+   * `WHERE spent < ?` inside the statement makes the check and the increment one
+   * operation, so the ceiling holds however many requests arrive together. A failed call
+   * hands the place back below — a reader who got nothing should not be charged for it.
    */
-  const spent =
-    (await env.DB.prepare('SELECT spent FROM translation_day WHERE day = ?')
-      .bind(day)
-      .first<{ spent: number }>())?.spent ?? 0;
-
   const limit = Number(env.TRANSLATION_DAILY_LIMIT) || DAILY_LIMIT;
-  if (spent >= limit) {
+
+  const reserved = await env.DB.prepare(
+    'INSERT INTO translation_day (day, spent) VALUES (?, 1) ' +
+      'ON CONFLICT(day) DO UPDATE SET spent = spent + 1 WHERE spent < ?',
+  )
+    .bind(day, limit)
+    .run();
+
+  if (!reserved.meta.changes) {
     return json(
       {
         error:
@@ -142,6 +174,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       429,
     );
   }
+
+  /** Hand the reserved place back, so nothing is charged for an answer nobody received. */
+  const refund = () =>
+    env.DB.prepare('UPDATE translation_day SET spent = spent - 1 WHERE day = ? AND spent > 0')
+      .bind(day)
+      .run();
 
   /* ---- the call ---- */
   let text: string;
@@ -156,18 +194,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     });
     text = (result?.response ?? '').trim();
   } catch {
+    await refund();
     return json({ error: 'The translation service did not answer.' }, 502);
   }
 
-  if (!text) return json({ error: 'The translation service returned nothing.' }, 502);
-
-  /* Charged only now, and only once, whatever happens to the writes below. */
-  await env.DB.prepare(
-    'INSERT INTO translation_day (day, spent) VALUES (?, 1) ' +
-      'ON CONFLICT(day) DO UPDATE SET spent = spent + 1',
-  )
-    .bind(day)
-    .run();
+  if (!text) {
+    await refund();
+    return json({ error: 'The translation service returned nothing.' }, 502);
+  }
 
   if (dish !== null) {
     /*
