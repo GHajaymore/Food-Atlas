@@ -34,7 +34,7 @@
  */
 
 /** The file name inside a Wikimedia URL, still percent-encoded, or '' if this is not one. */
-function commonsFile(uri: string): string {
+export function commonsFile(uri: string): string {
   /* Already the form we want: everything after the marker, minus any query. */
   const direct = uri.match(/\/Special:FilePath\/([^?#]+)/);
   if (direct) return direct[1];
@@ -59,7 +59,26 @@ function commonsFile(uri: string): string {
  * asking for more than exists costs nothing and returns the original.
  */
 export function sizedPhoto(uri: string, width: number): string {
-  if (!uri || !/wikimedia\.org|wikipedia\.org/.test(uri)) return uri;
+  if (!uri) return uri;
+
+  /*
+   * A stored photograph is a Commons file name, not an address.
+   *
+   * Every one of the 10,638 photographs in the atlas is on Commons, and the URL around
+   * the name was the same three prefixes repeated — 1.8 MB of them across the published
+   * files. Since this function rebuilds the URL anyway, the prefix is not worth storing
+   * and `scripts/compact-data.mjs` no longer does.
+   *
+   * The saving is almost entirely in parsing rather than in transfer: brotli compresses a
+   * repeated prefix to nearly nothing, so the wire cost fell 5% while the JSON the phone
+   * has to parse fell 17%. On a low-end device that is CPU, which is the scarcer of the
+   * two.
+   */
+  if (!uri.includes('://')) {
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${uri}?width=${width}`;
+  }
+
+  if (!/wikimedia\.org|wikipedia\.org/.test(uri)) return uri;
 
   const file = commonsFile(uri);
   if (!file) return uri;

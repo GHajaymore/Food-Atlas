@@ -502,7 +502,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     breakdown: assessment.breakdown,
     views: viewsLabel(row.views),
 
-    readableIn: row.langs,
+    readableIn: row.langs ?? Object.keys(row.langNames ?? {}),
     localNames: row.langNames,
 
     prepSummary,
@@ -935,7 +935,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       breakdown: assessment.breakdown,
       views: viewsLabel(row.views),
 
-      readableIn: row.langs,
+      readableIn: row.langs ?? Object.keys(row.langNames ?? {}),
       localNames: row.langNames,
 
       prepSummary,

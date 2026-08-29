@@ -25,6 +25,7 @@
  */
 
 import { hasMethod } from '../src/domain/method';
+import { sizedPhoto } from '../src/domain/commons';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { buildCatalogue } from '../src/data/build';
@@ -1103,5 +1104,65 @@ describe('no value was dropped out of a method', () => {
     ['cookbook-detail.json', 17],
   ])('%s carries no more than the %i wounds left upstream', (file, ceiling) => {
     expect(wounds(file as string).length).toBeLessThanOrEqual(ceiling as number);
+  });
+});
+
+/**
+ * Every stored photograph still resolves to a real Commons address.
+ *
+ * The published files hold a file name rather than a URL now — 1.8 MB of repeated prefix
+ * that the app rebuilt at render time anyway. The risk that buys is silent: a name the
+ * rebuild cannot use produces a broken image on a card, and nothing in the build would
+ * say so.
+ *
+ * So the rule is checked on the published data rather than trusted to the writer: run
+ * every photograph through the same `sizedPhoto` the app uses, and require an absolute
+ * Commons URL carrying a width out the other end.
+ */
+describe('every published photograph can be turned back into an address', () => {
+  const published = ['catalogue.json', 'cuisines.json', 'cookbook.json'];
+
+  it.each(published)('%s holds names the app can resolve', (file) => {
+    const rows = JSON.parse(
+      readFileSync(resolve(__dirname, '..', 'public', 'data', file), 'utf8'),
+    ) as { photo?: unknown; name?: string; title?: string }[];
+
+    const broken: string[] = [];
+    for (const row of rows) {
+      if (typeof row.photo !== 'string' || !row.photo) continue;
+      const url = sizedPhoto(row.photo, 400);
+      /*
+       * Either a Commons address it can ask for at a width, or an absolute URL left
+       * exactly as it was. Both are usable; anything else is a name that resolves to
+       * nothing, which shows up as a broken card and nowhere else.
+       */
+      const rebuilt =
+        url.startsWith('https://commons.wikimedia.org/wiki/Special:FilePath/') && url.endsWith('?width=400');
+      const untouched = url === row.photo && url.startsWith('https://');
+      if (!rebuilt && !untouched) broken.push(`${row.name ?? row.title ?? '?'}: ${row.photo}`);
+    }
+    expect(broken.slice(0, 5)).toEqual([]);
+  });
+
+  /**
+   * A Commons photograph is stored as a name; anything else keeps its address.
+   *
+   * One record in 10,638 is the reason this is worded that way rather than "no URLs at
+   * all": a Wikibooks recipe illustrated with a file uploaded to `it.wikibooks` rather
+   * than to Commons. `Special:FilePath` on commons.wikimedia.org would answer 404 for it,
+   * so the full URL is the correct thing to keep — and a test demanding otherwise would
+   * have pushed the code into breaking a working photograph for the sake of consistency.
+   */
+  it.each(published)('%s keeps an address only where the file is not on Commons', (file) => {
+    const rows = JSON.parse(
+      readFileSync(resolve(__dirname, '..', 'public', 'data', file), 'utf8'),
+    ) as { photo?: unknown }[];
+
+    const stillUrls = rows
+      .map((r) => r.photo)
+      .filter((p): p is string => typeof p === 'string' && p.includes('://'));
+
+    /* None of them may be a Commons URL — those are the ones that should have compacted. */
+    expect(stillUrls.filter((u) => /\/wikipedia\/commons\//.test(u))).toEqual([]);
   });
 });

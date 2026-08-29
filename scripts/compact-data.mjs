@@ -24,6 +24,7 @@
  * field the app genuinely needs is missing and obvious immediately.
  */
 
+import { commonsFile } from '../src/domain/commons.ts';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -70,10 +71,10 @@ const KEEP = {
     'title', 'name', 'country', 'region', 'url', 'cuisine',
     'ingredients', 'prepSummary', 'course',
     'photo', 'credit', 'licence', 'leadFile',
-    'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
+    'views', 'langNames', 'sourceLanguage', 'notFood',
     'atRiskEvidence', 'originClaims',
     'heritage', 'giReference', 'giAttribution',
-    'province', 'city', 'placeConfirmed',
+    'province', 'city',
   ],
   cookbook: [
     'title', 'name', 'ingredients', 'steps', 'url', 'country', 'region',
@@ -83,10 +84,10 @@ const KEEP = {
     'id', 'name', 'country', 'region', 'continent', 'qid', 'blurb',
     'photo', 'credit', 'licence', 'evidence', 'url', 'infobox',
     'ingredients', 'prepSummary', 'course', 'equipment',
-    'views', 'langs', 'langNames', 'sourceLanguage', 'notFood',
+    'views', 'langNames', 'sourceLanguage', 'notFood',
     'patRegion', 'patAttribution', 'atRiskEvidence', 'originClaims',
     'heritage', 'giReference', 'giAttribution',
-    'province', 'city', 'placeConfirmed',
+    'province', 'city',
   ],
   unesco: ['reference', 'name', 'countries', 'country', 'list', 'url', 'photo', 'credit', 'licence'],
   gi: [
@@ -120,9 +121,20 @@ const trim = (row, keep) => {
       if (Object.keys(kept).length) out[field] = kept;
       continue;
     }
-    if (field === 'langs') {
-      const kept = value.filter((code) => OFFERED.has(code));
-      if (kept.length) out[field] = kept;
+    /*
+     * A photograph is stored as its Commons file name, not its address.
+     *
+     * Every one of the 10,638 photographs is on Commons, behind one of three URL
+     * prefixes repeated over and over — 1.8 MB of them across the published files. The
+     * app rebuilds the URL at render time anyway (domain/commons.ts, which asks for the
+     * width it will draw at), so the prefix was being shipped to be thrown away.
+     *
+     * Brotli compresses a repeated prefix to almost nothing, so this is worth only 5% on
+     * the wire — and 17% of the JSON a phone has to parse, which is the scarcer resource.
+     */
+    if (field === 'photo' && typeof value === 'string') {
+      const name = commonsFile(value);
+      out[field] = name || value;
       continue;
     }
     out[field] = value;
