@@ -172,8 +172,29 @@ export function loadCatalogue(): Promise<void> {
    *
    * That is the whole point: `loadCatalogue` resolves when the light payload is built, the
    * app paints, and this fills in behind it.
+   *
+   * ## Why it waits for the browser to be idle
+   *
+   * It used to start the instant the build was queued, which is the same moment the page
+   * is fetching sixty photographs, five fonts and the chrome. 3.92 MB of step text — a
+   * quarter of everything the app downloads — was competing for bandwidth with the things
+   * a reader is actually looking at, to fill in words on a screen most visits never reach.
+   *
+   * Idle rather than removed, deliberately. Dropping the prefetch would save that 1.2 MB
+   * on the wire for the many visits that never open a recipe, and cost every visit that
+   * does about 300 ms of waiting at exactly the moment somebody asked to read a method.
+   * Waiting for idle keeps both: nothing competes with the first paint, and the file is
+   * usually already there by the time anyone navigates.
+   *
+   * `requestIdleCallback` is not in Safari, so the fallback is a timer — the point is only
+   * to get out of the way of the first paint, and a second does that just as well.
    */
-  void loadCookbookSteps();
+  const soon = (start: () => void) => {
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(() => start(), { timeout: 4000 });
+    else if (typeof setTimeout === 'function') setTimeout(start, 1000);
+    else start();
+  };
+  soon(() => void loadCookbookSteps());
 
   return pending;
 }
