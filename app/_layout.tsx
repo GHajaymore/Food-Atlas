@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { FeedSkeleton } from '../src/components/FeedSkeleton';
+import { SkipLink } from '../src/components/SkipLink';
 import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';
 import { watchForExit } from '../src/data/events';
@@ -129,6 +130,15 @@ export default function RootLayout() {
        * most of what makes a set of screens read as one site rather than a sequence of
        * them. Renders nothing below the tablet breakpoint.
        */}
+      {/*
+       * Before the masthead, because that is the only position a skip link can work in.
+       *
+       * TopBar renders here, above the Stack, so anything inside a Screen comes after it
+       * in the document. Put there, the link was the ninth focusable element — a reader
+       * had already tabbed through all eight masthead controls to reach the thing that
+       * offers to skip them.
+       */}
+      <SkipLink />
       <TopBar />
       <Stack
         screenOptions={{

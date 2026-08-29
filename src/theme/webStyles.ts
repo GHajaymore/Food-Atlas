@@ -20,6 +20,33 @@ const CSS = `
 html, body, #root { background-color: ${color.bg}; }
 body { margin: 0; overscroll-behavior: none; }
 [data-lighten="true"] { mix-blend-mode: lighten; }
+
+/*
+ * The skip link: out of sight until somebody tabs to it.
+ *
+ * Clipped rather than hidden with display or visibility, because both of those take an
+ * element out of the tab order — which would make this link unreachable by exactly the
+ * people it exists for. A 1px clipped box stays focusable and occupies nothing.
+ *
+ * On focus it becomes an ordinary control in the top-left, above everything, painted in
+ * the accent so it reads as deliberate rather than as a rendering fault.
+ */
+[data-skip-link] {
+  position: absolute; left: 0; top: 0;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap;
+}
+[data-skip-link]:focus {
+  width: auto; height: auto; overflow: visible;
+  clip: auto; clip-path: none;
+  z-index: 1000; margin: 8px; padding: 10px 14px; border-radius: 8px;
+  background: ${color.accent}; color: ${color.bg};
+  font-family: Inter_600SemiBold, system-ui, sans-serif; font-size: 14px;
+  text-decoration: none;
+}
+/* The destination must not draw a ring of its own when focus lands on it. */
+#main:focus { outline: none; }
 /*
  * Scrollbars: hidden on a phone, present and styled on anything wider.
  *

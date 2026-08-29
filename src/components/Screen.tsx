@@ -97,6 +97,16 @@ export const Screen = forwardRef<ScrollView, Props>(function Screen(
          */}
         <View
           role="main"
+          /*
+           * Named and focusable, so the skip link has somewhere to land.
+           *
+           * `tabIndex={-1}` keeps it out of the tab order — it is a destination, not a
+           * stop. Without it, moving focus here does nothing in Firefox and Safari: an
+           * element that cannot hold focus silently refuses it, and the skip link appears
+           * to work while leaving the reader exactly where they were.
+           */
+          nativeID="main"
+          tabIndex={-1}
           style={[styles.column, { maxWidth: measure ? layout.readable : layout.shell }, pagePad]}
         >
           {/* Same rule as the footer below: rendered from one place, so no page can

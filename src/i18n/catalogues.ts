@@ -99,6 +99,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Esa dirección no es nuestra. El atlas sigue aquí: empieza por un lugar o busca un plato por su nombre.",
     noRecord: 'Sin registro',
+    skipToContent: "Saltar al atlas",
     backToTheFeed: 'Volver al inicio',
     bookmarkThis: 'Guardar esta tradición',
     photoOriginUnverified: 'Origen de la foto sin verificar',
@@ -1434,6 +1435,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Cette adresse n’est pas l’une des nôtres. L’atlas est toujours là : partez d’un lieu, ou cherchez un plat par son nom.",
     noRecord: 'Aucune fiche',
+    skipToContent: "Aller à l’atlas",
     backToTheFeed: 'Retour à l\'accueil',
     bookmarkThis: 'Mettre cette tradition en favori',
     photoOriginUnverified: 'Origine de la photo non vérifiée',
@@ -2768,6 +2770,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Diese Adresse gehört nicht zu uns. Der Atlas ist weiterhin da — beginnen Sie bei einem Ort oder suchen Sie ein Gericht beim Namen.",
     noRecord: 'Kein Eintrag',
+    skipToContent: "Zum Atlas springen",
     backToTheFeed: 'Zurück zur Übersicht',
     bookmarkThis: 'Diese Tradition merken',
     photoOriginUnverified: 'Herkunft des Fotos ungeprüft',
@@ -4102,6 +4105,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Questo indirizzo non è uno dei nostri. L’atlante è sempre qui: parti da un luogo, o cerca un piatto per nome.",
     noRecord: 'Nessuna scheda',
+    skipToContent: "Vai all’atlante",
     backToTheFeed: 'Torna alla home',
     bookmarkThis: 'Salva questa tradizione',
     photoOriginUnverified: 'Origine della foto non verificata',
@@ -5437,6 +5441,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Esse endereço não é nosso. O atlas continua aqui — comece por um lugar, ou procure um prato pelo nome.",
     noRecord: 'Sem registo',
+    skipToContent: "Ir para o atlas",
     backToTheFeed: 'Voltar ao início',
     bookmarkThis: 'Guardar esta tradição',
     photoOriginUnverified: 'Origem da foto não verificada',
@@ -6771,6 +6776,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Dat adres is niet van ons. De atlas is er nog steeds — begin bij een plaats, of zoek een gerecht op naam.",
     noRecord: 'Geen record',
+    skipToContent: "Naar de atlas",
     backToTheFeed: 'Terug naar het overzicht',
     bookmarkThis: 'Deze traditie bewaren',
     photoOriginUnverified: 'Herkomst van de foto niet geverifieerd',
@@ -8106,6 +8112,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Ten adres nie jest nasz. Atlas wciąż tu jest — zacznij od miejsca albo poszukaj potrawy po nazwie.",
     noRecord: 'Brak wpisu',
+    skipToContent: "Przejdź do atlasu",
     backToTheFeed: 'Powrót do strony głównej',
     bookmarkThis: 'Zapisz tę tradycję',
     photoOriginUnverified: 'Pochodzenie zdjęcia niezweryfikowane',
@@ -9464,6 +9471,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Bu adres bize ait değil. Atlas hâlâ burada — bir yerden başlayın ya da bir yemeği adıyla arayın.",
     noRecord: 'Kayıt yok',
+    skipToContent: "Atlasa geç",
     backToTheFeed: 'Akışa dön',
     bookmarkThis: 'Bu geleneği kaydet',
     photoOriginUnverified: 'Fotoğrafın kaynağı doğrulanmadı',
@@ -10799,6 +10807,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "Это не наш адрес. Атлас никуда не делся — начните с места или найдите блюдо по названию.",
     noRecord: 'Записи нет',
+    skipToContent: "Перейти к атласу",
     backToTheFeed: 'Вернуться на главную',
     bookmarkThis: 'Сохранить эту традицию',
     photoOriginUnverified: 'Происхождение фото не проверено',
@@ -12158,6 +12167,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "यह पता हमारा नहीं है। एटलस अब भी यहीं है — किसी जगह से शुरू करें, या किसी व्यंजन को नाम से खोजें।",
     noRecord: 'कोई रिकॉर्ड नहीं',
+    skipToContent: "एटलस पर जाएँ",
     backToTheFeed: 'मुख्य पृष्ठ पर लौटें',
     bookmarkThis: 'इस परंपरा को सहेजें',
     photoOriginUnverified: 'तस्वीर का स्रोत अपुष्ट',
@@ -13493,6 +13503,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "这个网址不是我们的。图册仍在这里——从一个地方开始，或按名称查找一道菜。",
     noRecord: '没有记录',
+    skipToContent: "跳至图册",
     backToTheFeed: '返回首页',
     bookmarkThis: '收藏这项传统',
     photoOriginUnverified: '照片来源未经核实',
@@ -14828,6 +14839,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     pageNotFoundBody:
       "このアドレスは当サイトのものではありません。アトラスはここにあります。場所から始めるか、料理を名前で探してください。",
     noRecord: '記録なし',
+    skipToContent: "アトラスへスキップ",
     backToTheFeed: 'ホームに戻る',
     bookmarkThis: 'この伝統を保存',
     photoOriginUnverified: '写真の出所は未確認',

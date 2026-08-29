@@ -104,6 +104,7 @@ export interface Copy {
   pageNotFound: string;
   pageNotFoundBody: string;
   noRecord: string;
+  skipToContent: string;
   backToTheFeed: string;
   bookmarkThis: string;
   photoOriginUnverified: string;
@@ -919,6 +920,7 @@ export const EN: Copy = {
   pageNotFoundBody:
     "That address is not one of ours. The atlas is still here — start from a place, or look for a dish by name.",
   noRecord: 'No record',
+  skipToContent: "Skip to the atlas",
   backToTheFeed: 'Back to the feed',
   bookmarkThis: 'Bookmark this tradition',
   photoOriginUnverified: 'Photo origin unverified',
