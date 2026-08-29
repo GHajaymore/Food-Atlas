@@ -24,7 +24,7 @@
  * would be stored.
  */
 
-import { accountIdFor, sessionCookie, sign, type AuthEnv } from './_session';
+import { accountIdFor, newSessionCookie, type AuthEnv } from './_session';
 import { STATE_COOKIE } from './google';
 
 const readCookie = (header: string | null, name: string): string => {
@@ -108,10 +108,9 @@ export const onRequestGet: PagesFunction<AuthEnv> = async ({ request, env }) => 
   }
 
   const account = await accountIdFor(subject, secret);
-  const signature = await sign(account, secret);
 
   const headers = new Headers({ Location: '/' });
-  headers.append('Set-Cookie', sessionCookie(account, signature));
+  headers.append('Set-Cookie', await newSessionCookie(account, secret));
   /* The state has done its job; leaving it usable would leave a replay available. */
   headers.append('Set-Cookie', `${STATE_COOKIE}=; Path=/api/auth; Max-Age=0; HttpOnly; Secure; SameSite=Lax`);
 

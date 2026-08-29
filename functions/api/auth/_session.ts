@@ -88,16 +88,53 @@ export const readCookie = (header: string | null, name: string): string => {
   return '';
 };
 
-/** The account this request is signed in as, or empty. */
+/**
+ * The account this request is signed in as, or empty.
+ *
+ * ## Why the issue time is inside the signature
+ *
+ * The cookie used to carry `account.signature` and nothing else, and `Max-Age` was doing
+ * all the expiring. `Max-Age` is an instruction to a browser, not a fact the server can
+ * rely on: anything that keeps sending the cookie — a copy taken off a shared machine,
+ * a value pasted into curl — stays signed in **for ever**, because the signature is still
+ * perfectly valid and there is nothing in it to go stale.
+ *
+ * The comment on `SESSION_MAX_AGE` says thirty days is "short enough that a shared
+ * computer forgets". That was only ever true of a browser that chose to honour it. Now the
+ * moment of issue is signed alongside the account, so age is something this side can check
+ * and the thirty days is the server's rule rather than a request.
+ *
+ * Nothing was live when this changed — `/api/auth/me` reports `available:false` until Ajay
+ * sets the Google credentials — so there was no old cookie to keep working, and the format
+ * is simply the right one from the start.
+ */
 export async function accountFrom(request: Request, secret: string): Promise<string> {
   const raw = readCookie(request.headers.get('Cookie'), SESSION_COOKIE);
-  const [account, signature] = raw.split('.');
-  if (!account || !signature) return '';
-  return same(await sign(account, secret), signature) ? account : '';
+  const [account, issued, signature] = raw.split('.');
+  if (!account || !issued || !signature) return '';
+
+  if (!same(await sign(`${account}.${issued}`, secret), signature)) return '';
+
+  /* A malformed or future-dated stamp is not a session. `Number()` on nonsense gives NaN,
+     and every comparison with NaN is false, so this rejects rather than admits. */
+  const age = Math.floor(Date.now() / 1000) - Number(issued);
+  if (!(age >= 0 && age <= SESSION_MAX_AGE)) return '';
+
+  return account;
 }
 
-export const sessionCookie = (account: string, signature: string): string =>
-  `${SESSION_COOKIE}=${account}.${signature}; Path=/api; Max-Age=${SESSION_MAX_AGE}; HttpOnly; Secure; SameSite=Lax`;
+/**
+ * A fresh session cookie, signed with the moment it was issued.
+ *
+ * One function rather than a `sign` at the call site and a cookie built from it: the
+ * signature and the stamp inside it have to agree, and the way to guarantee that is to
+ * leave no way to produce one without the other.
+ */
+export async function newSessionCookie(account: string, secret: string): Promise<string> {
+  const issued = Math.floor(Date.now() / 1000);
+  const signature = await sign(`${account}.${issued}`, secret);
+  return `${SESSION_COOKIE}=${account}.${issued}.${signature}; Path=/api; Max-Age=${SESSION_MAX_AGE}; HttpOnly; Secure; SameSite=Lax`;
+}
 
 /** Signing out. Same attributes, expired — a cookie is only cleared by its own path. */
 export const clearedCookie = (): string =>
