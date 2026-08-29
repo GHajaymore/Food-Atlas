@@ -128,13 +128,26 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   const day = today();
-  const spent =
-    (await env.DB.prepare('SELECT spent FROM translation_day WHERE day = ?')
-      .bind(day)
-      .first<{ spent: number }>())?.spent ?? 0;
-
   const limit = Number(env.TRANSLATION_DAILY_LIMIT) || DAILY_LIMIT;
-  if (spent >= limit) {
+
+  /*
+   * Reserved in the same statement that checks, for the reason `translate.ts` gives at
+   * length: reading the figure and incrementing it afterwards lets every request that
+   * arrives during a model call read the same number and all decide there is room.
+   *
+   * It matters more here than there, because this endpoint and that one share **one**
+   * counter. Two racy readers of a single ceiling can overshoot it together, and the whole
+   * point of sharing the counter was that a second AI feature must not be able to double
+   * the spend.
+   */
+  const reserved = await env.DB.prepare(
+    'INSERT INTO translation_day (day, spent) VALUES (?, 1) ' +
+      'ON CONFLICT(day) DO UPDATE SET spent = spent + 1 WHERE spent < ?',
+  )
+    .bind(day, limit)
+    .run();
+
+  if (!reserved.meta.changes) {
     return json(
       {
         error:
@@ -145,6 +158,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     );
   }
 
+  /** Hand the place back when no suggestion reaches the contributor. */
+  const refund = () =>
+    env.DB.prepare('UPDATE translation_day SET spent = spent - 1 WHERE day = ? AND spent > 0')
+      .bind(day)
+      .run();
+
   let polished: string;
   try {
     const result = await env.AI.run(MODEL, {
@@ -154,16 +173,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     });
     polished = (result.response ?? '').trim();
   } catch {
+    await refund();
     return json({ error: 'The polish service did not answer. Your text is unchanged.' }, 502);
   }
 
-  /* The meter counts a call that was made, not one that was useful. */
-  await env.DB.prepare(
-    'INSERT INTO translation_day (day, spent) VALUES (?, 1) ' +
-      'ON CONFLICT(day) DO UPDATE SET spent = spent + 1',
-  )
-    .bind(day)
-    .run();
+  /* The place stays reserved from here on: the meter counts a call that was made, not one
+     that turned out to be useful. Only a call that never happened is refunded. */
 
   /*
    * A model that returned nothing, or that returned something far longer or far shorter
