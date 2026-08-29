@@ -1,0 +1,21 @@
+# WikiFoodia — a free atlas of traditional food.
+#
+# There was no file here. The single-page app's catch-all answered /robots.txt with
+# index.html and a 200, so every crawler that asked was handed a page of HTML and told
+# it was the rules. The same shape of fault as the fonts that 404'd into index.html:
+# a 200 is not the same as an answer.
+#
+# Everything is readable. Nothing here is behind a login, and the atlas exists to be
+# found.
+
+User-agent: *
+Allow: /
+
+# The write paths. Nothing secret — they simply have nothing to index, and a crawler
+# following them spends its budget on forms rather than on food.
+Disallow: /propose
+Disallow: /contribute
+Disallow: /proposals
+Disallow: /admin
+
+Sitemap: https://wikifoodia.ajailabs.app/sitemap.xml
