@@ -95,6 +95,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Mantenerlo gratis',
     whatItCostsToRun: 'Lo que cuesta mantenerlo',
     anywhere: 'En cualquier lugar',
+    pageNotFound: "Aquí no hay ninguna página",
+    pageNotFoundBody:
+      "Esa dirección no es nuestra. El atlas sigue aquí: empieza por un lugar o busca un plato por su nombre.",
     noRecord: 'Sin registro',
     backToTheFeed: 'Volver al inicio',
     bookmarkThis: 'Guardar esta tradición',
@@ -1424,6 +1427,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Le garder gratuit',
     whatItCostsToRun: 'Ce que coûte son fonctionnement',
     anywhere: 'N\'importe où',
+    pageNotFound: "Pas de page ici",
+    pageNotFoundBody:
+      "Cette adresse n’est pas l’une des nôtres. L’atlas est toujours là : partez d’un lieu, ou cherchez un plat par son nom.",
     noRecord: 'Aucune fiche',
     backToTheFeed: 'Retour à l\'accueil',
     bookmarkThis: 'Mettre cette tradition en favori',
@@ -2752,6 +2758,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Kostenfrei halten',
     whatItCostsToRun: 'Was der Betrieb kostet',
     anywhere: 'Überall',
+    pageNotFound: "Hier ist keine Seite",
+    pageNotFoundBody:
+      "Diese Adresse gehört nicht zu uns. Der Atlas ist weiterhin da — beginnen Sie bei einem Ort oder suchen Sie ein Gericht beim Namen.",
     noRecord: 'Kein Eintrag',
     backToTheFeed: 'Zurück zur Übersicht',
     bookmarkThis: 'Diese Tradition merken',
@@ -4080,6 +4089,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Mantenerlo gratuito',
     whatItCostsToRun: 'Quanto costa mantenerlo',
     anywhere: 'Ovunque',
+    pageNotFound: "Qui non c’è nessuna pagina",
+    pageNotFoundBody:
+      "Questo indirizzo non è uno dei nostri. L’atlante è sempre qui: parti da un luogo, o cerca un piatto per nome.",
     noRecord: 'Nessuna scheda',
     backToTheFeed: 'Torna alla home',
     bookmarkThis: 'Salva questa tradizione',
@@ -5409,6 +5421,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Mantê-lo gratuito',
     whatItCostsToRun: 'O que custa mantê-lo',
     anywhere: 'Em qualquer lugar',
+    pageNotFound: "Aqui não há página",
+    pageNotFoundBody:
+      "Esse endereço não é nosso. O atlas continua aqui — comece por um lugar, ou procure um prato pelo nome.",
     noRecord: 'Sem registo',
     backToTheFeed: 'Voltar ao início',
     bookmarkThis: 'Guardar esta tradição',
@@ -6737,6 +6752,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Gratis houden',
     whatItCostsToRun: 'Wat het kost om te draaien',
     anywhere: 'Overal',
+    pageNotFound: "Hier is geen pagina",
+    pageNotFoundBody:
+      "Dat adres is niet van ons. De atlas is er nog steeds — begin bij een plaats, of zoek een gerecht op naam.",
     noRecord: 'Geen record',
     backToTheFeed: 'Terug naar het overzicht',
     bookmarkThis: 'Deze traditie bewaren',
@@ -8066,6 +8084,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Utrzymanie za darmo',
     whatItCostsToRun: 'Ile kosztuje utrzymanie',
     anywhere: 'Gdziekolwiek',
+    pageNotFound: "Tu nie ma takiej strony",
+    pageNotFoundBody:
+      "Ten adres nie jest nasz. Atlas wciąż tu jest — zacznij od miejsca albo poszukaj potrawy po nazwie.",
     noRecord: 'Brak wpisu',
     backToTheFeed: 'Powrót do strony głównej',
     bookmarkThis: 'Zapisz tę tradycję',
@@ -9418,6 +9439,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Ücretsiz tutmak',
     whatItCostsToRun: 'İşletmenin maliyeti',
     anywhere: 'Her yer',
+    pageNotFound: "Burada böyle bir sayfa yok",
+    pageNotFoundBody:
+      "Bu adres bize ait değil. Atlas hâlâ burada — bir yerden başlayın ya da bir yemeği adıyla arayın.",
     noRecord: 'Kayıt yok',
     backToTheFeed: 'Akışa dön',
     bookmarkThis: 'Bu geleneği kaydet',
@@ -10747,6 +10771,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'Оставить бесплатным',
     whatItCostsToRun: 'Во что обходится работа',
     anywhere: 'Где угодно',
+    pageNotFound: "Здесь нет такой страницы",
+    pageNotFoundBody:
+      "Это не наш адрес. Атлас никуда не делся — начните с места или найдите блюдо по названию.",
     noRecord: 'Записи нет',
     backToTheFeed: 'Вернуться на главную',
     bookmarkThis: 'Сохранить эту традицию',
@@ -12100,6 +12127,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: 'इसे मुफ़्त रखना',
     whatItCostsToRun: 'इसे चलाने में क्या लगता है',
     anywhere: 'कहीं भी',
+    pageNotFound: "यहाँ ऐसा कोई पृष्ठ नहीं है",
+    pageNotFoundBody:
+      "यह पता हमारा नहीं है। एटलस अब भी यहीं है — किसी जगह से शुरू करें, या किसी व्यंजन को नाम से खोजें।",
     noRecord: 'कोई रिकॉर्ड नहीं',
     backToTheFeed: 'मुख्य पृष्ठ पर लौटें',
     bookmarkThis: 'इस परंपरा को सहेजें',
@@ -13429,6 +13459,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: '保持免费',
     whatItCostsToRun: '运营成本',
     anywhere: '任何地方',
+    pageNotFound: "这里没有这个页面",
+    pageNotFoundBody:
+      "这个网址不是我们的。图册仍在这里——从一个地方开始，或按名称查找一道菜。",
     noRecord: '没有记录',
     backToTheFeed: '返回首页',
     bookmarkThis: '收藏这项传统',
@@ -14758,6 +14791,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     keepingItFree: '無料であり続けるために',
     whatItCostsToRun: '運営にかかる費用',
     anywhere: 'どこでも',
+    pageNotFound: "このページはありません",
+    pageNotFoundBody:
+      "このアドレスは当サイトのものではありません。アトラスはここにあります。場所から始めるか、料理を名前で探してください。",
     noRecord: '記録なし',
     backToTheFeed: 'ホームに戻る',
     bookmarkThis: 'この伝統を保存',

@@ -100,6 +100,9 @@ export interface Copy {
   anywhere: string;
 
   /** The dish screen's section headings and controls. */
+  /** The unmatched-route screen. See app/+not-found.tsx. */
+  pageNotFound: string;
+  pageNotFoundBody: string;
   noRecord: string;
   backToTheFeed: string;
   bookmarkThis: string;
@@ -909,6 +912,9 @@ export const EN: Copy = {
   whatItCostsToRun: 'What it costs to run',
   anywhere: 'Anywhere',
 
+  pageNotFound: "Not a page here",
+  pageNotFoundBody:
+    "That address is not one of ours. The atlas is still here — start from a place, or look for a dish by name.",
   noRecord: 'No record',
   backToTheFeed: 'Back to the feed',
   bookmarkThis: 'Bookmark this tradition',
