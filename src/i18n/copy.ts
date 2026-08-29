@@ -331,6 +331,9 @@ export interface Copy {
   nobodyRecordedTechnique: string;
   nobodyHasRecorded: string;
   ifIngredientUnavailable: string;
+  traditionalLabel: string;
+  ingredientsHeading: string;
+  methodHeading: string;
   commonModernSubstitute: string;
   adaptationNotAuthentic: string;
   whatTheInternetServes: string;
@@ -1268,6 +1271,9 @@ export const EN: Copy = {
     'Nobody has recorded how {dish} is made{place}. We could copy the most-published recipe from the internet and call it authentic, but that is the thing this atlas exists not to do — so the record stays as it is until someone who cooks it fills it in. If you do, you would be the first to write it down.',
   ifIngredientUnavailable:
     'If the traditional ingredient is unavailable',
+  traditionalLabel: "Traditional: ",
+  ingredientsHeading: "Ingredients",
+  methodHeading: "Method",
   commonModernSubstitute:
     'Common modern substitute: ',
   adaptationNotAuthentic:

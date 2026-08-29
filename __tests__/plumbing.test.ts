@@ -1166,3 +1166,70 @@ describe('every published photograph can be turned back into an address', () => 
     expect(stillUrls.filter((u) => /\/wikipedia\/commons\//.test(u))).toEqual([]);
   });
 });
+
+/**
+ * No screen prints English of its own.
+ *
+ * Ajay's report was "some dishes show some sections in native language while English is
+ * selected and vice versa". Most of that was the translation pipeline, and some of it was
+ * this: a handful of labels typed straight into JSX, bypassing the copy system entirely.
+ *
+ * The worst sat on the record screen, immediately beside a translated sibling:
+ *
+ *     <T>Traditional: </T>            <- English, always
+ *     <T>{copy.commonModernSubstitute}</T>   <- "Substitut moderne courant : "
+ *
+ * A French reader saw one label in their language and the next in English, in the same
+ * block, with nothing to explain the difference.
+ *
+ * `admin.tsx` is exempt and stays exempt: it is one person's console, it is reached by a
+ * link only he has, and translating an operations screen into twelve languages is work
+ * that serves nobody. That exemption is listed here rather than assumed, so it stays a
+ * decision.
+ */
+describe('every screen takes its words from the catalogue', () => {
+  const EXEMPT = new Set(['admin.tsx']);
+
+  /* Text between JSX tags, and strings handed to props that render as text. */
+  const BETWEEN = /}?>\s*([A-Z][A-Za-z][^<>{}\n]{3,})\s*</g;
+  const PROPS = /\b(label|placeholder|title|accessibilityLabel)=["']([A-Z][^"'\n]{3,})["']/g;
+
+  const screens = (dir: string): string[] => {
+    const out: string[] = [];
+    for (const entry of readdirSync(dir)) {
+      const path = join(dir, entry);
+      if (statSync(path).isDirectory()) out.push(...screens(path));
+      else if (path.endsWith('.tsx')) out.push(path);
+    }
+    return out;
+  };
+
+  const files = [...screens('app'), ...screens(join('src', 'components'))].filter(
+    (f) => ![...EXEMPT].some((name) => f.endsWith(name)),
+  );
+
+  it.each(files)('%s prints no English of its own', (file) => {
+    const source = readFileSync(file, 'utf8');
+    const found: string[] = [];
+
+    for (const match of source.matchAll(BETWEEN)) {
+      const text = match[1].trim();
+      /* A single capital, or a fragment of code the pattern caught by accident. */
+      if (/^[A-Z][a-z]?$/.test(text)) continue;
+      if (/[?(){}=]|\bPromise\b/.test(text)) continue;
+      found.push(text);
+    }
+    for (const match of source.matchAll(PROPS)) {
+      /*
+       * A placeholder holding an example — a dish name, a place, a file name — is a
+       * proper noun and does not translate. `contribute.tsx` shows "Kaipola" and
+       * "Kaipola.jpg", which read the same in every language.
+       */
+      if (/\.(jpg|png|jpeg)$/.test(match[2]) || !/\s/.test(match[2])) continue;
+      if (match[2].includes('›')) continue;
+      found.push(`${match[1]}="${match[2]}"`);
+    }
+
+    expect(found).toEqual([]);
+  });
+});

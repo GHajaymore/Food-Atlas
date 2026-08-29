@@ -146,7 +146,7 @@ export default function Proposals() {
 
                   {p.ingredients.length ? (
                     <View style={styles.list}>
-                      <T style={styles.listHead}>Ingredients</T>
+                      <T style={styles.listHead}>{copy.ingredientsHeading}</T>
                       {p.ingredients.map((item, i) => (
                         <Muted key={`${item}-${i}`} style={styles.item}>
                           {item}
@@ -157,7 +157,7 @@ export default function Proposals() {
 
                   {p.steps.length ? (
                     <View style={styles.list}>
-                      <T style={styles.listHead}>Method</T>
+                      <T style={styles.listHead}>{copy.methodHeading}</T>
                       {p.steps.map((step, i) => (
                         <Muted key={`${step}-${i}`} style={styles.item}>
                           {i + 1}. {step}

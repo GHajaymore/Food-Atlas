@@ -450,6 +450,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nadie ha registrado cómo se hace {dish}{place}. Podríamos copiar la receta más publicada de internet y llamarla auténtica, pero eso es justo lo que este atlas existe para no hacer, así que el registro se queda como está hasta que alguien que lo cocine lo complete. Si lo haces tú, serías la primera persona en escribirlo.',
     ifIngredientUnavailable:
       'Si el ingrediente tradicional no está disponible',
+    traditionalLabel: "Tradicional: ",
+    ingredientsHeading: "Ingredientes",
+    methodHeading: "Preparación",
     commonModernSubstitute:
       'Sustituto moderno habitual: ',
     adaptationNotAuthentic:
@@ -1782,6 +1785,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Personne n’a consigné comment se prépare {dish}{place}. Nous pourrions copier la recette la plus publiée d’internet et la dire authentique, mais c’est précisément ce que cet atlas existe pour ne pas faire — la fiche reste donc en l’état jusqu’à ce que quelqu’un qui le cuisine la remplisse. Si vous le faites, vous seriez la première personne à l’écrire.',
     ifIngredientUnavailable:
       'Si l’ingrédient traditionnel est introuvable',
+    traditionalLabel: "Traditionnel : ",
+    ingredientsHeading: "Ingrédients",
+    methodHeading: "Préparation",
     commonModernSubstitute:
       'Substitut moderne courant : ',
     adaptationNotAuthentic:
@@ -3113,6 +3119,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Niemand hat festgehalten, wie {dish} gemacht wird{place}. Wir könnten das meistveröffentlichte Rezept aus dem Internet übernehmen und es authentisch nennen, aber genau dafür gibt es diesen Atlas nicht — also bleibt der Eintrag, wie er ist, bis jemand ihn ausfüllt, der es kocht. Wenn Sie das tun, wären Sie die erste Person, die es aufschreibt.',
     ifIngredientUnavailable:
       'Wenn die traditionelle Zutat nicht zu bekommen ist',
+    traditionalLabel: "Traditionell: ",
+    ingredientsHeading: "Zutaten",
+    methodHeading: "Zubereitung",
     commonModernSubstitute:
       'Üblicher moderner Ersatz: ',
     adaptationNotAuthentic:
@@ -4444,6 +4453,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nessuno ha registrato come si fa {dish}{place}. Potremmo copiare la ricetta più pubblicata di internet e chiamarla autentica, ma è esattamente ciò che questo atlante esiste per non fare — quindi la scheda resta com’è finché non la compila qualcuno che lo cucina. Se lo fai tu, saresti la prima persona a scriverlo.',
     ifIngredientUnavailable:
       'Se l’ingrediente tradizionale non si trova',
+    traditionalLabel: "Tradizionale: ",
+    ingredientsHeading: "Ingredienti",
+    methodHeading: "Preparazione",
     commonModernSubstitute:
       'Sostituto moderno comune: ',
     adaptationNotAuthentic:
@@ -5776,6 +5788,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Ninguém registou como se faz {dish}{place}. Podíamos copiar a receita mais publicada da internet e chamar-lhe autêntica, mas é exatamente isso que este atlas existe para não fazer — por isso o registo fica como está até que alguém que o cozinhe o preencha. Se o fizer, seria a primeira pessoa a escrevê-lo.',
     ifIngredientUnavailable:
       'Se o ingrediente tradicional não se encontrar',
+    traditionalLabel: "Tradicional: ",
+    ingredientsHeading: "Ingredientes",
+    methodHeading: "Modo de preparo",
     commonModernSubstitute:
       'Substituto moderno habitual: ',
     adaptationNotAuthentic:
@@ -7107,6 +7122,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Niemand heeft vastgelegd hoe {dish} gemaakt wordt{place}. We zouden het meest gepubliceerde recept van internet kunnen overnemen en authentiek noemen, maar dat is precies wat deze atlas bestaat om niet te doen — dus het record blijft zoals het is tot iemand die het kookt het invult. Doet u dat, dan bent u de eerste die het opschrijft.',
     ifIngredientUnavailable:
       'Als het traditionele ingrediënt niet te krijgen is',
+    traditionalLabel: "Traditioneel: ",
+    ingredientsHeading: "Ingrediënten",
+    methodHeading: "Bereiding",
     commonModernSubstitute:
       'Gangbare moderne vervanger: ',
     adaptationNotAuthentic:
@@ -8439,6 +8457,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nikt nie zapisał, jak się robi {dish}{place}. Moglibyśmy skopiować z internetu najczęściej publikowany przepis i nazwać go autentycznym, ale właśnie po to ten atlas istnieje, żeby tego nie robić — więc wpis zostaje taki, jaki jest, dopóki nie uzupełni go ktoś, kto to gotuje. Jeśli zrobisz to ty, będziesz pierwszą osobą, która to spisze.',
     ifIngredientUnavailable:
       'Jeśli tradycyjnego składnika nie da się zdobyć',
+    traditionalLabel: "Tradycyjnie: ",
+    ingredientsHeading: "Składniki",
+    methodHeading: "Przygotowanie",
     commonModernSubstitute:
       'Częsty współczesny zamiennik: ',
     adaptationNotAuthentic:
@@ -9794,6 +9815,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{dish} nasıl yapılır{place}, kimse kaydetmemiş. İnternette en çok yayımlanan tarifi kopyalayıp özgün diyebilirdik, ama bu atlas tam da bunu yapmamak için var — bu yüzden kayıt, onu pişiren biri dolduruncaya kadar olduğu gibi kalıyor. Siz doldurursanız, bunu yazan ilk kişi olursunuz.',
     ifIngredientUnavailable:
       'Geleneksel malzeme bulunamıyorsa',
+    traditionalLabel: "Geleneksel: ",
+    ingredientsHeading: "Malzemeler",
+    methodHeading: "Hazırlanışı",
     commonModernSubstitute:
       'Yaygın modern karşılığı: ',
     adaptationNotAuthentic:
@@ -11126,6 +11150,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Никто не записал, как готовят {dish}{place}. Мы могли бы скопировать самый растиражированный рецепт из интернета и назвать его подлинным, но именно ради того, чтобы этого не делать, атлас и существует, — поэтому запись остаётся как есть, пока её не заполнит тот, кто это готовит. Если это сделаете вы, вы будете первым человеком, который это записал.',
     ifIngredientUnavailable:
       'Если традиционного ингредиента не достать',
+    traditionalLabel: "Традиционно: ",
+    ingredientsHeading: "Ингредиенты",
+    methodHeading: "Приготовление",
     commonModernSubstitute:
       'Обычная современная замена: ',
     adaptationNotAuthentic:
@@ -12482,6 +12509,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'किसी ने दर्ज नहीं किया कि {dish} कैसे बनता है{place}। हम इंटरनेट से सबसे ज़्यादा छपी विधि उठाकर उसे प्रामाणिक कह सकते थे, पर यह एटलस ठीक यही न करने के लिए है — इसलिए रिकॉर्ड वैसा ही रहता है जब तक कोई इसे पकाने वाला इसे न भरे। अगर आप भरें, तो इसे लिखने वाले पहले व्यक्ति आप होंगे।',
     ifIngredientUnavailable:
       'अगर पारंपरिक सामग्री न मिले',
+    traditionalLabel: "पारंपरिक: ",
+    ingredientsHeading: "सामग्री",
+    methodHeading: "विधि",
     commonModernSubstitute:
       'आम आधुनिक विकल्प: ',
     adaptationNotAuthentic:
@@ -13814,6 +13844,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '没有人记下 {dish} 怎么做{place}。我们大可以把网上流传最广的食谱抄过来，称它本真，但这份图册存在的意义恰恰是不这么做 — 所以这条记录就这样留着，等一个会做的人来填。如果那个人是你，你就是第一个把它写下来的人。',
     ifIngredientUnavailable:
       '如果买不到传统的那种食材',
+    traditionalLabel: "传统做法：",
+    ingredientsHeading: "食材",
+    methodHeading: "做法",
     commonModernSubstitute:
       '常见的现代替代品：',
     adaptationNotAuthentic:
@@ -15146,6 +15179,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{dish} の作り方{place}を、誰も記録していません。インターネットでいちばん多く公開されているレシピを写して本物と呼ぶこともできますが、このアトラスはまさにそれをしないために在ります。ですから、作る人が書き入れるまで記録はこのままです。あなたが書けば、それを書き留めた最初の人になります。',
     ifIngredientUnavailable:
       '伝統の材料が手に入らないとき',
+    traditionalLabel: "伝統的なもの：",
+    ingredientsHeading: "材料",
+    methodHeading: "作り方",
     commonModernSubstitute:
       'よくある現代の代用品：',
     adaptationNotAuthentic:

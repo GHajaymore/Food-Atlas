@@ -688,7 +688,7 @@ export default function DishDetail() {
           {reading.adaptation ? (
             <Disclosure summary={copy.ifIngredientUnavailable}>
               <Muted style={styles.adaptationLine}>
-                <T style={styles.adaptationLabel}>Traditional: </T>
+                <T style={styles.adaptationLabel}>{copy.traditionalLabel}</T>
                 {reading.adaptation.traditional}
               </Muted>
               <Muted style={styles.adaptationLine}>
