@@ -16,17 +16,17 @@ export const LOCALE_CODES: readonly string[] = ["es","fr","de","it","pt","nl","p
 /** How much of the chrome each locale actually translates, 0 to 1. */
 export const COVERAGE: Readonly<Record<string, number>> = Object.freeze(
   {
-    "es": 0.987229,
-    "fr": 0.965517,
-    "de": 0.97318,
-    "it": 0.979566,
-    "pt": 0.988506,
-    "nl": 0.971903,
-    "pl": 0.980843,
-    "tr": 0.984674,
-    "ru": 0.996169,
-    "hi": 0.997446,
-    "zh": 0.997446,
-    "ja": 0.997446
+    "es": 0.987277,
+    "fr": 0.965649,
+    "de": 0.973282,
+    "it": 0.979644,
+    "pt": 0.98855,
+    "nl": 0.97201,
+    "pl": 0.980916,
+    "tr": 0.984733,
+    "ru": 0.996183,
+    "hi": 0.997455,
+    "zh": 0.997455,
+    "ja": 0.997455
   },
 );

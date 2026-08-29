@@ -25,6 +25,13 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { FeedSkeleton } from '../src/components/FeedSkeleton';
+/*
+ * Re-exported, which is how expo-router finds it.
+ *
+ * Exported from the root layout it wraps every route, so no screen has to remember
+ * one — the same rule the footer and the masthead already follow here.
+ */
+export { ErrorBoundary } from './_error-boundary';
 import { SkipLink } from '../src/components/SkipLink';
 import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';

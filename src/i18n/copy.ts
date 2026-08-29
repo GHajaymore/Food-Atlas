@@ -67,6 +67,9 @@ export interface Copy {
 
   /** Startup. The first words a reader can possibly see, and sometimes the only ones. */
   loadingAtlas: string;
+  screenFailed: string;
+  screenFailedBody: string;
+  tryAgain: string;
   couldNotLoad: string;
 
   /**
@@ -890,6 +893,9 @@ export const EN: Copy = {
   iKnowHowItsMade: 'I know how it’s made — record it',
 
   loadingAtlas: 'Reading the atlas…',
+  screenFailed: "This screen stopped",
+  screenFailedBody: "Something went wrong here, and only here — the rest of the atlas is fine. Try this screen again, or go back to the feed.",
+  tryAgain: "Try this screen again",
   couldNotLoad: 'The atlas could not be loaded.',
 
   shelfDisappearing: 'Disappearing',
