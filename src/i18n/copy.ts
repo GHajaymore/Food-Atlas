@@ -269,6 +269,8 @@ export interface Copy {
   notAdvertising: string;
   notPopularity: string;
   notSocial: string;
+  recordedOrigin: string;
+  originDiffersNote: string;
   dimensionOrigin: string;
   dimensionIngredients: string;
   dimensionTechnique: string;
@@ -1143,6 +1145,8 @@ export const EN: Copy = {
   notPopularity:
     'Popularity is recorded and kept apart. The most-published version of a dish never becomes the authentic one.',
   notSocial: "Nothing here comes from social media. Where a dish is from is settled by documented sources and by the people who cook it — never by what is trending.",
+  recordedOrigin: "Recorded origin",
+  originDiffersNote: "Filed under {country} for browsing. This is where the record says the dish comes from, which is not always the same thing.",
   dimensionOrigin:
     'Where the dish is from, and how precisely. A town beats a country.',
   dimensionIngredients:

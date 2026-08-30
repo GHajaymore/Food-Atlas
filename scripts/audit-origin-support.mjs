@@ -41,7 +41,7 @@
  *   unplaceable the article names no country at all — nothing to check against
  */
 
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -179,6 +179,7 @@ const main = async () => {
       const text = byTitle.get(titleFrom(row.url));
       if (!text) {
         tally.unread += 1;
+        row.originSupport = 'unread';
         continue;
       }
       /*
@@ -197,11 +198,14 @@ const main = async () => {
       const named = countriesIn(`${fieldValue(text, 'place_of_origin')} , ${fieldValue(text, 'country')}`);
       if (!named.length) {
         tally.unplaceable += 1;
+        row.originSupport = 'unplaceable';
         unplaceable.push({ name: row.name, country: row.country });
       } else if (named.includes(row.country)) {
         tally.supported += 1;
+        row.originSupport = 'supported';
       } else {
         tally.unsupported += 1;
+        row.originSupport = 'unsupported';
         unsupported.push({ name: row.name, filed: row.country, article: named.slice(0, 4) });
       }
     }
@@ -223,6 +227,19 @@ const main = async () => {
   }
   console.log('\nFirst 20 unplaceable:');
   for (const u of unplaceable.slice(0, 20)) console.log(`  ${u.name} — filed ${u.country}`);
+
+  /*
+   * `--mark` writes the verdict onto each row as `originSupport`.
+   *
+   * Still not a correction — it records what this pass found so a later one can act on
+   * the right rows. Without it, any enrichment that wants to fix only the unsupported
+   * records has to re-read five thousand articles to rediscover which those are, and
+   * would quietly act on the confirmed ones if it skipped that.
+   */
+  if (process.argv.includes('--mark')) {
+    await writeFile(FILE, `${JSON.stringify(rows, null, 1)}\n`);
+    console.log(`\nmarked originSupport on ${targets.length} rows in ${FILE.split(/[\\/]/).pop()}`);
+  }
 };
 
 main();

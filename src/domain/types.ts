@@ -330,6 +330,20 @@ export interface Dish {
    * invented it.
    */
   originClaims?: OriginClaim[];
+  /**
+   * Where the dish is from, when that differs from the country it is filed under.
+   *
+   * A country, a wider region, or a former state — "Indian subcontinent", "Bengal",
+   * "Mughal Empire". Ajay asked for this after the Jalebi report, and it resolves a
+   * genuine bind: the atlas has to file every record under one country to navigate by,
+   * and Wikidata’s answer to where a dish comes from is frequently not a country at all.
+   *
+   * Overwriting `country` with it broke two things at once — the record left country
+   * browsing, and `domain.test.ts` failed because an origin the app cannot place has to
+   * carry a translation or it prints English into twelve languages. Kept beside the
+   * country instead, both statements stay true and neither is lost.
+   */
+  origin?: string;
 
   /** Fusion records only. */
   fusionNote?: string;

@@ -290,6 +290,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'La popularidad se registra y se mantiene aparte. La versión más publicada de un plato nunca se convierte en la auténtica.',
     notSocial: "Nada de lo que hay aquí procede de las redes sociales. De dónde es un plato lo deciden las fuentes documentadas y quienes lo cocinan, nunca lo que es tendencia.",
+    recordedOrigin: "Origen registrado",
+    originDiffersNote: "Archivado en {country} para la navegación. Esto es de donde la ficha dice que procede el plato, que no siempre es lo mismo.",
     dimensionOrigin:
       'De dónde es el plato, y con cuánta precisión. Un pueblo vale más que un país.',
     dimensionIngredients:
@@ -1625,6 +1627,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'La popularité est enregistrée et tenue à part. La version la plus publiée d’un plat ne devient jamais l’authentique.',
     notSocial: "Rien ici ne vient des réseaux sociaux. L’origine d’un plat est établie par des sources documentées et par ceux qui le cuisinent, jamais par ce qui fait le buzz.",
+    recordedOrigin: "Origine enregistrée",
+    originDiffersNote: "Classé sous {country} pour la navigation. Voici d’où la fiche indique que le plat vient, ce qui n’est pas toujours la même chose.",
     dimensionOrigin:
       'D’où vient le plat, et avec quelle précision. Une ville vaut mieux qu’un pays.',
     dimensionIngredients:
@@ -2959,6 +2963,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'Beliebtheit wird erfasst und getrennt gehalten. Die meistveröffentlichte Fassung eines Gerichts wird nie die echte.',
     notSocial: "Nichts hier stammt aus sozialen Netzwerken. Woher ein Gericht kommt, entscheiden belegte Quellen und die Menschen, die es kochen — nie das, was gerade im Trend liegt.",
+    recordedOrigin: "Erfasste Herkunft",
+    originDiffersNote: "Zur Navigation unter {country} eingeordnet. Dies ist der Ort, den der Eintrag als Herkunft des Gerichts nennt — nicht immer dasselbe.",
     dimensionOrigin:
       'Woher das Gericht kommt, und wie genau. Ein Ort schlägt ein Land.',
     dimensionIngredients:
@@ -4293,6 +4299,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'La popolarità è registrata e tenuta separata. La versione più pubblicata di un piatto non diventa mai quella autentica.',
     notSocial: "Niente qui viene dai social. Da dove viene un piatto lo stabiliscono le fonti documentate e chi lo cucina, mai ciò che è di tendenza.",
+    recordedOrigin: "Origine registrata",
+    originDiffersNote: "Archiviato in {country} per la navigazione. Questo è il luogo da cui la scheda dice che viene il piatto, che non è sempre la stessa cosa.",
     dimensionOrigin:
       'Da dove viene il piatto, e con quanta precisione. Un paese vale più di una nazione.',
     dimensionIngredients:
@@ -5628,6 +5636,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'A popularidade é registada e mantida à parte. A versão mais publicada de um prato nunca se torna a autêntica.',
     notSocial: "Nada aqui vem das redes sociais. De onde vem um prato é definido por fontes documentadas e por quem o cozinha, nunca pelo que está na moda.",
+    recordedOrigin: "Origem registada",
+    originDiffersNote: "Arquivado em {country} para navegação. É daqui que o registo diz que vem o prato, o que nem sempre é a mesma coisa.",
     dimensionOrigin:
       'De onde é o prato, e com que precisão. Uma vila vale mais do que um país.',
     dimensionIngredients:
@@ -6962,6 +6972,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'Populariteit wordt vastgelegd en apart gehouden. De meest gepubliceerde versie van een gerecht wordt nooit de echte.',
     notSocial: "Niets hier komt van sociale media. Waar een gerecht vandaan komt, wordt bepaald door gedocumenteerde bronnen en door de mensen die het koken — nooit door wat trending is.",
+    recordedOrigin: "Vastgelegde herkomst",
+    originDiffersNote: "Ondergebracht bij {country} om te bladeren. Dit is waar het record zegt dat het gerecht vandaan komt, wat niet altijd hetzelfde is.",
     dimensionOrigin:
       'Waar het gerecht vandaan komt, en hoe precies. Een dorp wint van een land.',
     dimensionIngredients:
@@ -8297,6 +8309,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'Popularność jest zapisywana i trzymana osobno. Najczęściej publikowana wersja potrawy nigdy nie staje się tą autentyczną.',
     notSocial: "Nic tutaj nie pochodzi z mediów społecznościowych. O pochodzeniu potrawy decydują udokumentowane źródła i ludzie, którzy ją gotują — nigdy to, co jest akurat modne.",
+    recordedOrigin: "Zapisane pochodzenie",
+    originDiffersNote: "Przypisane do {country} na potrzeby przeglądania. Tutaj wpis wskazuje pochodzenie potrawy, co nie zawsze jest tym samym.",
     dimensionOrigin:
       'Skąd potrawa pochodzi i jak dokładnie. Miasteczko bije kraj.',
     dimensionIngredients:
@@ -9655,6 +9669,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'Popülerlik kaydedilir ve ayrı tutulur. Bir yemeğin en çok yayımlanan sürümü asla otantik olan hâline gelmez.',
     notSocial: "Buradaki hiçbir şey sosyal medyadan gelmiyor. Bir yemeğin nereden geldiğine belgelenmiş kaynaklar ve onu pişiren insanlar karar verir, asla gündemde olan şey değil.",
+    recordedOrigin: "Kayıtlı köken",
+    originDiffersNote: "Gezinme için {country} altında dosyalandı. Kaydın yemeğin geldiğini söylediği yer burasıdır; bu her zaman aynı şey değildir.",
     dimensionOrigin:
       'Yemeğin nereden geldiği ve ne kadar kesin olarak. Bir kasaba, bir ülkeyi geçer.',
     dimensionIngredients:
@@ -10990,6 +11006,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'Популярность записывается и держится отдельно. Самая публикуемая версия блюда никогда не становится подлинной.',
     notSocial: "Ничто здесь не взято из социальных сетей. Откуда родом блюдо, решают документированные источники и люди, которые его готовят, — а не то, что сейчас в тренде.",
+    recordedOrigin: "Записанное происхождение",
+    originDiffersNote: "Отнесено к {country} для навигации. Здесь запись указывает происхождение блюда, а это не всегда одно и то же.",
     dimensionOrigin:
       'Откуда блюдо и насколько точно. Город весомее страны.',
     dimensionIngredients:
@@ -12349,6 +12367,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       'लोकप्रियता दर्ज होती है और अलग रखी जाती है। किसी व्यंजन का सबसे ज़्यादा प्रकाशित रूप कभी प्रामाणिक नहीं बनता।',
     notSocial: "यहाँ कुछ भी सोशल मीडिया से नहीं आता। कोई व्यंजन कहाँ का है, यह दस्तावेज़ी स्रोत और उसे पकाने वाले लोग तय करते हैं — कभी वह नहीं जो चलन में हो।",
+    recordedOrigin: "दर्ज उद्गम",
+    originDiffersNote: "ब्राउज़िंग के लिए {country} के अंतर्गत रखा गया। यह वह जगह है जहाँ से रिकॉर्ड कहता है कि व्यंजन आया है — दोनों हमेशा एक नहीं होते।",
     dimensionOrigin:
       'व्यंजन कहाँ का है, और कितनी बारीकी से। कस्बा देश से बेहतर है।',
     dimensionIngredients:
@@ -13684,6 +13704,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       '热度会被记录并单独存放。一道菜流传最广的版本，永远不会因此成为正宗的那一个。',
     notSocial: "这里没有任何内容来自社交媒体。一道菜来自哪里，由有据可查的资料和做这道菜的人决定，而不是由什么正在流行决定。",
+    recordedOrigin: "记录的起源",
+    originDiffersNote: "为便于浏览归入{country}。这是记录中所述这道菜的来源地，两者并不总是一致。",
     dimensionOrigin:
       '这道菜来自哪里，以及有多精确。一个镇胜过一个国家。',
     dimensionIngredients:
@@ -15019,6 +15041,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notPopularity:
       '人気は記録され、別に扱われます。最も多く公開された版が、そのために本物になることはありません。',
     notSocial: "ここにあるものは何一つソーシャルメディアから来ていません。料理がどこのものかを決めるのは、記録された資料とその料理を作る人々であり、流行っているものではありません。",
+    recordedOrigin: "記録された発祥",
+    originDiffersNote: "閲覧のために{country}に分類しています。これは記録がその料理の発祥として示す場所で、両者は必ずしも同じではありません。",
     dimensionOrigin:
       'その料理がどこのものか、そしてどこまで細かく特定できるか。町は国に勝ります。',
     dimensionIngredients:

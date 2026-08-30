@@ -229,6 +229,8 @@ interface ImportedRow extends PhotoRow {
   course?: string;
   atRiskEvidence?: string;
   originClaims?: string[];
+  /** Where the dish is from, when that is not the country it is filed under. */
+  origin?: string;
   langs?: string[];
   langNames?: Record<string, string>;
   views?: number;
@@ -552,6 +554,10 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     disclaimerKeys: assessment.disclaimerKeys,
     disclaimerParams: assessment.disclaimerParams,
     originClaims: originClaimsFrom(row.originClaims, row.url),
+    /* Only when it says something the filing does not already. A record filed under
+       India whose origin reads "India" has nothing to add and would print a line saying
+       so on every card. */
+    origin: row.origin && row.origin !== row.country ? row.origin : undefined,
     sourceLanguage: row.sourceLanguage ?? 'en',
   };
 }
@@ -602,6 +608,8 @@ interface CuisineRow extends PhotoRow {
   atRiskEvidence?: string;
   /** Countries the article names as origins, where it names more than one. */
   originClaims?: string[];
+  /** Where the dish is from, when that is not the country it is filed under. */
+  origin?: string;
   /**
    * The language the account on this record was read in.
    *
@@ -655,6 +663,8 @@ interface CuisineRow extends PhotoRow {
 
 /** A Wikibooks Cookbook recipe: a real method, and a country from its categories. */
 interface CookbookRow extends PhotoRow {
+  /** Where the dish is from, when that is not the country it is filed under. */
+  origin?: string;
   /** Set once the recipe-page image pass has walked this row. Where it produced the
    *  photograph, the picture is the one published on the recipe's own page. */
   pageImageChecked?: boolean;
@@ -966,6 +976,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       // one: a dish is described best in the language of the people who cook it. The
       // reader is told, and the translation layer is given something true to work from.
       originClaims: originClaimsFrom(row.originClaims, row.url),
+      /* The cuisine builder needs this as much as the import one, and getting it in only
+         one of them is why the field reached zero readers on its first outing. */
+      origin: row.origin && row.origin !== row.country ? row.origin : undefined,
       sourceLanguage: row.sourceLanguage ?? 'en',
     } satisfies Dish;
   });
@@ -1064,6 +1077,11 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
       },
     ],
     disclaimer: cookbookDisclaimer(row),
+    /* The third builder. The field was wired into the import and the cuisine mappings and
+       still did not show on naan, because the copy that wins for naan is the cookbook
+       one. Three sources, three mappings, and a field is only as present as its least
+       wired path. */
+    origin: row.origin && row.origin !== row.country ? row.origin : undefined,
     sourceLanguage: row.sourceLanguage ?? 'en',
   };
   });

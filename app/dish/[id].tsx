@@ -370,6 +370,32 @@ export default function DishDetail() {
         })}
       </View>
 
+      {/*
+       * Where the dish is from, when that is not where it is filed.
+       *
+       * The breadcrumb above says "India › Kerala" because the atlas has to file every
+       * record under one country to navigate by. That is a shelving decision, and a
+       * reader reasonably takes it as a claim about origin — which is how Jalebi filed
+       * under Egypt read as the atlas asserting jalebi is Egyptian.
+       *
+       * Ajay's suggestion, and it resolves a bind the old shape could not: origin is
+       * frequently not a country. "Indian subcontinent", "Bengal", "Mughal Empire" are
+       * the true answers, and none of them can be a filing country without dropping the
+       * record out of country browsing entirely.
+       *
+       * Shown only when it differs from the filed country — `build.ts` drops it
+       * otherwise, so this never prints "filed under India, origin India".
+       */}
+      {dish.origin ? (
+        <View style={styles.origin}>
+          <Muted style={styles.originLabel}>{copy.recordedOrigin}</Muted>
+          <T style={styles.originValue}>{placeName(dish.origin, copy, locale)}</T>
+          <Muted style={styles.originNote}>
+            {copy.originDiffersNote.replace('{country}', placeName(dish.loc.country, copy, locale))}
+          </Muted>
+        </View>
+      ) : null}
+
       {/* A record with several documented origins still has to be filed under one
           country — the atlas is navigated by place, and a record with nowhere is a
           record nobody finds. But printing that one country under the title, alone,
@@ -941,6 +967,19 @@ const styles = StyleSheet.create({
   atRiskQuote: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 6, fontStyle: 'italic' },
   atRiskNote: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 8 },
   breadcrumb: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 22 },
+  /* Set apart from the breadcrumb by a rule rather than a card: it qualifies the line
+     above it, and a card would read as a separate fact of its own. */
+  origin: {
+    marginTop: -10,
+    marginBottom: 22,
+    paddingTop: space[3],
+    borderTopWidth: 1,
+    borderTopColor: color.divider,
+    gap: 2,
+  },
+  originLabel: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.6 },
+  originValue: { fontSize: 15, color: color.neutral[100] },
+  originNote: { fontSize: 12, lineHeight: 17 },
   breadcrumbText: { fontSize: 13, lineHeight: 13 * 1.5 },
   deepest: { color: accentText },
   dim: { color: color.muted },

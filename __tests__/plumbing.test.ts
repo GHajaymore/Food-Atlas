@@ -163,6 +163,11 @@ const PLUMBING: { field: string; shows: string; reaches: (d: Dish) => boolean }[
     reaches: (d) => Boolean(d.loc.city),
   },
   {
+    field: 'origin',
+    shows: 'where the dish is from, when that is not where it is filed',
+    reaches: (d) => Boolean(d.origin),
+  },
+  {
     field: 'originClaims',
     shows: 'every country claiming it, with none picked as the winner',
     reaches: (d) => Boolean(d.originClaims?.length),
@@ -534,13 +539,23 @@ describe('a region is a place, not a branch of a category tree', () => {
    * Sultanate of Maguindanao and the Confederate States of Lanao — and none of those
    * changes this figure, because `isCountry` already excludes historical states.
    *
-   * Deliberately still an exact number. It failed, which is the whole point of it: a
-   * published coverage figure moved and somebody had to look at why and decide. A floor
-   * here would have let the atlas quietly stop covering a country.
+   * 156 became 161 when Wikidata origins were read across both sources. This time the
+   * atlas *gained* five:
+   * the pass corrected 75 records whose own article never supported the country they were
+   * filed under, and several countries got their first record — Djibouti, Botswana,
+   * Burkina Faso and the Seychelles among them. Hong Kong took sixteen records off China
+   * and Azerbaijan eight. Some of the 75 moved *between* countries that both already had
+   * records, which is why 75 corrections are worth four countries and not seventy-five.
+   * Nothing left the atlas.
+   *
+   * Deliberately still an exact number. It has now failed twice and been read twice,
+   * which is the whole point of it: a published coverage figure moved and somebody had to
+   * look at why and decide. A floor here would have let the atlas quietly stop covering a
+   * country — and would have said nothing when it started covering six.
    */
   it('loses no country, and no large number of records, to the repair', () => {
     expect(catalogueStats.total).toBeGreaterThan(17_000);
-    expect(catalogueStats.countries).toBe(156);
+    expect(catalogueStats.countries).toBe(161);
   });
 });
 
@@ -811,8 +826,37 @@ describe('a card names a place that agrees with its record', () => {
      * the American one specifically, and said so only after picking up the other by
      * accident.
      */
-    const tofu = catalogue.find((x) => x.name === 'Tofu' && x.loc.country === 'United States');
-    expect(tofu && cardPlace(tofu.breadcrumb, tofu.loc.country)).toBe('United States');
+    /*
+     * Tofu was this case and is not any more, for the same reason Chicken a la King
+     * stopped being one: the data underneath it got fixed. It was filed under the United
+     * States, which nothing supported; Wikidata's country of origin says China, and the
+     * origin pass moved it. Both tofu records now sit under China and neither can
+     * demonstrate a fallback.
+     *
+     * So the rule is checked against its own shape rather than against one record's
+     * misfiling, over every record that has it.
+     *
+     * The first attempt asserted this for *any* breadcrumb ending in a different country
+     * and failed on Kaymak — filed under India, region Armenia, card reading "Armenia".
+     * That is the code being right and the test being wrong: `cardPlace` suppresses a
+     * tail only when it names a country on a **different continent**. India and Armenia
+     * are both in Asia, so Armenia reads as a plausible place within the record and is
+     * shown; the United States and China are not, so China was a contradiction and was
+     * suppressed. Narrowed to the rule the function actually implements.
+     */
+    const chorba = catalogue.find((d) => d.name === 'Chorba' && d.loc.country === 'India');
+    expect(chorba?.breadcrumb).toEqual(['India', 'Algeria']);
+    expect(chorba && cardPlace(chorba.breadcrumb, chorba.loc.country)).toBe('India');
+
+    /* And the case is not a lone survivor: thirty records currently have a tail
+       suppressed this way. A floor rather than an exact count, because unlike the
+       coverage figure this number is not published to anybody — it only needs to stay
+       non-empty so the assertion above keeps testing something real. */
+    const suppressed = catalogue.filter((d) => {
+      const tail = d.breadcrumb[d.breadcrumb.length - 1];
+      return d.breadcrumb.length > 1 && tail !== d.loc.country && cardPlace(d.breadcrumb, d.loc.country) === d.loc.country;
+    });
+    expect(suppressed.length).toBeGreaterThan(10);
   });
 });
 
