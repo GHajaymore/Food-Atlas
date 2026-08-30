@@ -15,6 +15,7 @@
  */
 
 import { useCopy, useLocale } from '../i18n';
+import { languageByCode } from '../domain/language';
 import { placeName } from '../domain/continents';
 import { levelLabel } from '../domain/authenticity';
 import { router } from 'expo-router';
@@ -38,10 +39,38 @@ interface Props {
   compact?: boolean;
 }
 
+/**
+ * Is this record's prose in a language the reader did not ask for?
+ *
+ * Compared on the base tag, so `pt-BR` and `pt` are one language and a record written
+ * in `en-GB` is not announced to an `en` reader as foreign.
+ */
+const foreignTo = (sourceLanguage: string, locale: string): boolean => {
+  const base = (code: string) => (code || '').toLowerCase().split('-')[0];
+  const source = base(sourceLanguage);
+  return Boolean(source) && source !== base(locale);
+};
+
 export function DishCard({ dish, showViews, compact }: Props) {
   const copy = useCopy();
   const locale = useLocale((state) => state.locale);
   const open = () => router.push(`/dish/${dish.id}`);
+  /*
+   * 2,222 of the records carry prose in a language other than English, and the card
+   * printed it raw. An English reader browsing Japan met paragraphs of Japanese with
+   * nothing to say why — Ajay read it as the translation being broken, which is a fair
+   * reading of a page that hands you text you cannot read and does not mention it.
+   *
+   * Translating here is not the answer: a list is twenty-four records and translation is
+   * a metered call per record, so a single scroll would spend the day's allowance on text
+   * nobody stopped to read. The record page already offers translation, on demand, for
+   * the one record a reader actually opened.
+   *
+   * So the card says which language it is in. That turns unreadable text into a labelled
+   * fact — the same move the app makes everywhere else it cannot answer something.
+   */
+  const foreign = foreignTo(dish.sourceLanguage, locale);
+  const sourceTag = foreign ? languageByCode(dish.sourceLanguage)?.endonym ?? dish.sourceLanguage : '';
 
   if (compact) {
     return (
@@ -112,7 +141,10 @@ export function DishCard({ dish, showViews, compact }: Props) {
             {dish.meals.occasions.length ? ` · ${mealLabel(dish.meals)}` : ''}
           </Muted>
 
-          <T style={styles.blurb}>{dish.blurb}</T>
+          {foreign ? <Muted style={styles.blurbLang}>{sourceTag}</Muted> : null}
+          <T style={styles.blurb} numberOfLines={foreign ? 3 : undefined}>
+            {dish.blurb}
+          </T>
 
           <View style={styles.footer}>
             {/*
@@ -148,6 +180,9 @@ const styles = StyleSheet.create({
   meta: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   metaText: { fontSize: 11, color: color.meta, flex: 1 },
   diet: { fontSize: 11, marginTop: -2 },
+  /* Small, uppercase, quiet: it qualifies the paragraph under it rather than competing
+     with the dish name above. */
+  blurbLang: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 2 },
   blurb: { fontSize: 13, lineHeight: 13 * 1.5, opacity: 0.8 },
   footer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 4 },
   views: { fontSize: 11 },

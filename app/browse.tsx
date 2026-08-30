@@ -118,7 +118,21 @@ export default function Browse() {
           <View style={layout.wide ? styles.grid : undefined}>
             {visible.map((dish) => (
               <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : undefined}>
-                <DishCard dish={dish} showViews={false} />
+                {/*
+                  * A record with no photograph gets the row treatment, not a card with a
+                  * letter where the photograph would be.
+                  *
+                  * `index.tsx` has done this since the feed was built and this screen
+                  * never got it, which is how Japan's 737 records came to be 737 cards
+                  * each reserving 250px for an image that does not exist. Ajay described
+                  * it as "one long list with big pictures", and the pictures were the
+                  * part that was not there.
+                  *
+                  * Roughly half the atlas has no photograph, so on a typical filter this
+                  * is the difference between a page you can scan and a page you scroll
+                  * past.
+                  */}
+                <DishCard dish={dish} showViews={false} compact={!dish.photo} />
               </View>
             ))}
           </View>

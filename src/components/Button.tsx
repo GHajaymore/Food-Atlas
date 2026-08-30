@@ -43,11 +43,16 @@ export function IconButton({
   children,
   label,
   style,
+  accessibilityState,
 }: {
   onPress?: () => void;
   children: React.ReactNode;
   label: string;
   style?: ViewStyle;
+  /* For the icon buttons that disclose something rather than go somewhere. Without it a
+     screen reader announces the phone menu control as a plain button and never says
+     whether the panel it opens is currently open. */
+  accessibilityState?: { expanded?: boolean; selected?: boolean };
 }) {
   const content = <View style={styles.iconInner}>{children}</View>;
   if (!onPress) {
@@ -58,7 +63,13 @@ export function IconButton({
     );
   }
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={[styles.icon, style]}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={accessibilityState}
+      onPress={onPress}
+      style={[styles.icon, style]}
+    >
       {content}
     </Pressable>
   );

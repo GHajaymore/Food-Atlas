@@ -113,6 +113,7 @@ export interface Copy {
   privacyContactHeading: string;
   privacyContactBody: string;
   privacyLink: string;
+  menu: string;
   keepingItFree: string;
   whatItCostsToRun: string;
   anywhere: string;
@@ -945,6 +946,7 @@ export const EN: Copy = {
   privacyContactHeading: "Removing something, or asking",
   privacyContactBody: "Anything you wrote can be taken down — a proposal, a confirmation, or the name attached to one. There is no form for it yet: write to contact@ajailabs.app and it will be removed. The same address answers any question about what is held about you.",
   privacyLink: "Privacy",
+  menu: "Menu",
   keepingItFree: 'Keeping it free',
   whatItCostsToRun: 'What it costs to run',
   anywhere: 'Anywhere',

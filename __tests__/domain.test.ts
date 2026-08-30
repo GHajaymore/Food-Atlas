@@ -2859,6 +2859,10 @@ describe('the chrome in other languages', () => {
 
     'pl.geoRegion', // "region" is the Polish word, spelled the same.
 
+    // "Menu" is the ordinary word in five of these, borrowed from French and left
+    // alone. The ones with a form of their own used it: Menú, Menü, Меню, मेनू, 菜单.
+    'fr.menu', 'it.menu', 'pt.menu', 'nl.menu', 'pl.menu',
+
     // "Privacy" is the ordinary word in Italian and Dutch — both borrowed it whole,
     // and the ones with a native form used it: Privacidad, Confidentialité, Datenschutz.
     'it.privacyLink', 'nl.privacyLink',

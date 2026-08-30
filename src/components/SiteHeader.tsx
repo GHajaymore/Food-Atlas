@@ -24,15 +24,31 @@
  */
 
 import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
 import { router, usePathname } from 'expo-router';
-import { useCopy } from '../i18n';
+import { useCopy, type Copy } from '../i18n';
 import { useLayout } from '../theme/layout';
-import { color, space } from '../theme/tokens';
+import { color, font, space, TAP_TARGET } from '../theme/tokens';
 import { IconButton } from './Button';
 import { SearchIcon } from './icons';
 import { LanguagePicker } from './LanguagePicker';
 import { Pressable } from './Pressable';
+import { SessionControl } from './SessionControl';
+import { sectionOf } from './TopBar';
+import { T } from './Text';
 import { Wordmark } from './Wordmark';
+
+/* The same six as the desktop bar and in the same order, so the two chromes describe one
+   site. Built from copy rather than declared at module scope, because a module constant is
+   evaluated before a reader has chosen a language. */
+const linksFor = (copy: Copy): { label: string; to: string }[] => [
+  { label: copy.howItWorks, to: '/how' },
+  { label: copy.foodAtlas, to: '/atlas' },
+  { label: copy.search, to: '/search' },
+  { label: copy.proposeADish, to: '/propose' },
+  { label: copy.confirm, to: '/proposals' },
+  { label: copy.keepingItFree, to: '/support' },
+];
 
 /**
  * How large the name is set.
@@ -55,12 +71,20 @@ export function SiteHeader() {
   const copy = useCopy();
   const { wide } = useLayout();
   const path = usePathname();
+  const [open, setOpen] = useState(false);
 
   /* TopBar owns this from tablet up, and two language pickers on one page is worse
      than none. */
   if (wide) return null;
 
+  const here = sectionOf(path);
+  const go = (to: string) => {
+    setOpen(false);
+    router.push(to);
+  };
+
   return (
+    <View style={styles.wrap}>
     <View role="banner" style={styles.bar}>
       {/*
        * The wordmark is the way home, which is the convention every site on the web
@@ -88,7 +112,57 @@ export function SiteHeader() {
             <SearchIcon size={18} color={color.accent} />
           </IconButton>
         )}
+
+        <IconButton
+          label={copy.menu}
+          onPress={() => setOpen((was) => !was)}
+          accessibilityState={{ expanded: open }}
+        >
+          {/*
+           * Three rules, drawn rather than typed.
+           *
+           * The glyph everybody reaches for is ☰ (U+2630) — a trigram from the I Ching,
+           * which most fonts set at a different weight and height from the text beside it
+           * and which a screen reader may announce as "trigram for heaven". Three Views
+           * cost nothing, sit exactly where they are put, and carry no meaning of their
+           * own; the label above is what is announced.
+           */}
+          <View style={styles.glyph}>
+            <View style={styles.rule} />
+            <View style={styles.rule} />
+            <View style={styles.rule} />
+          </View>
+        </IconButton>
       </View>
+    </View>
+
+    {open ? (
+      <View role="navigation" style={styles.panel}>
+        {linksFor(copy).map((link) => {
+          const active = here === link.to;
+          return (
+            <Pressable
+              key={link.to}
+              accessibilityRole="link"
+              accessibilityState={{ selected: active }}
+              current={active}
+              accessibilityLabel={link.label}
+              tint="neutral"
+              onPress={() => go(link.to)}
+              style={styles.item}
+            >
+              {/* A bar at the leading edge rather than colour alone — colour is the one
+                  channel some readers do not have, and this row is how they know which
+                  section they are already in. */}
+              <View style={active ? styles.mark : styles.markOff} />
+              <T style={active ? styles.itemOn : styles.itemLabel}>{link.label}</T>
+            </Pressable>
+          );
+        })}
+        <View style={styles.divider} />
+        <SessionControl />
+      </View>
+    ) : null}
     </View>
   );
 }
@@ -101,8 +175,6 @@ const styles = StyleSheet.create({
    * z-index cannot reach past its parent.
    */
   bar: {
-    position: 'relative',
-    zIndex: 100,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -111,4 +183,24 @@ const styles = StyleSheet.create({
     marginBottom: space[4],
   },
   controls: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
+  /* The positioning moved up here from `bar`, so the menu panel and the language panel
+     share one stacking context and paint over the page rather than over each other. */
+  wrap: { position: 'relative', zIndex: 100 },
+  glyph: { width: 18, alignItems: 'center', gap: 4 },
+  rule: { width: 16, height: 1.5, backgroundColor: color.accent, borderRadius: 1 },
+  panel: {
+    marginTop: -space[2],
+    marginBottom: space[4],
+    paddingBottom: space[2],
+    borderBottomWidth: 1,
+    borderBottomColor: color.divider,
+  },
+  item: { flexDirection: 'row', alignItems: 'center', gap: space[3], minHeight: TAP_TARGET },
+  /* Reserved on every row rather than added to the current one, so opening the menu on one
+     page does not indent the labels differently from another. */
+  markOff: { width: 2, height: 18, backgroundColor: 'transparent', borderRadius: 1 },
+  mark: { width: 2, height: 18, backgroundColor: color.accent, borderRadius: 1 },
+  itemLabel: { fontSize: 15, color: color.neutral[100] },
+  itemOn: { fontSize: 15, color: color.accent, fontFamily: font.medium },
+  divider: { height: 1, backgroundColor: color.divider, marginVertical: space[2] },
 });

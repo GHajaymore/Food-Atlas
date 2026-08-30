@@ -47,6 +47,45 @@ const linksFor = (copy: Copy): { label: string; to: string }[] => [
   { label: copy.keepingItFree, to: '/support' },
 ];
 
+/**
+ * Which nav item owns the page you are on.
+ *
+ * The mark used to be `path === link.to`, which is true on exactly six URLs and false on
+ * every screen a reader actually arrives at by using the site. Open the atlas, choose
+ * Japan, and you are on `/browse` with nothing lit — the header goes blank at precisely
+ * the moment you are deepest in a section and most want to know where you are. Ajay hit
+ * it within a minute of looking.
+ *
+ * So a section owns its descendants. `/browse`, `/place` and every `/dish/…` belong to
+ * the atlas, because that is how a reader reached them and how they would describe where
+ * they are. `/contribute` belongs with proposing; `/privacy` and `/admin` belong with the
+ * page about how the project is run.
+ *
+ * Unlisted paths — `/` and anything added later — mark nothing, which is honest. A
+ * wrong highlight is worse than an absent one: it tells a reader they are somewhere they
+ * are not.
+ */
+const SECTIONS: { of: string; owns: string[] }[] = [
+  { of: '/how', owns: [] },
+  { of: '/atlas', owns: ['/browse', '/place', '/dish'] },
+  { of: '/search', owns: [] },
+  { of: '/propose', owns: ['/contribute'] },
+  { of: '/proposals', owns: [] },
+  { of: '/support', owns: ['/privacy', '/admin'] },
+];
+
+export const sectionOf = (path: string): string => {
+  for (const section of SECTIONS) {
+    for (const base of [section.of, ...section.owns]) {
+      /* Prefix-matched at a segment boundary, so `/dish/1` belongs to `/dish` while a
+         hypothetical `/dishwasher` would not. `/proposals` and `/propose` are why this
+         cannot be a bare `startsWith`. */
+      if (path === base || path.startsWith(base + '/')) return section.of;
+    }
+  }
+  return '';
+};
+
 export function TopBar() {
   const copy = useCopy();
   const links = linksFor(copy);
@@ -70,18 +109,24 @@ export function TopBar() {
 
         <View style={styles.links}>
           {links.map((link) => {
-            const active = path === link.to;
+            const active = sectionOf(path) === link.to;
             return (
               <Pressable
                 key={link.to}
                 accessibilityRole="link"
                 accessibilityState={{ selected: active }}
+                current={active}
                 accessibilityLabel={link.label}
                 tint="neutral"
                 onPress={() => router.push(link.to)}
                 style={styles.link}
               >
                 <T style={active ? styles.labelOn : styles.label}>{link.label}</T>
+                {/* A rule under the current section, not colour alone. Colour is doing
+                    real work here and it is the one channel some readers do not have;
+                    an underline is the affordance every browser tab and every nav bar
+                    has trained people to read, and it survives being looked at quickly. */}
+                <View style={active ? styles.underline : styles.underlineOff} />
               </Pressable>
             );
           })}
@@ -187,5 +232,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: space[3],
   },
   label: { fontSize: 13, color: color.muted },
+  /* Reserved on every item rather than added to the active one, so marking a section
+     cannot shift the row of labels by two pixels as a reader moves between pages. */
+  underlineOff: { height: 2, marginTop: 3, backgroundColor: 'transparent' },
+  underline: { height: 2, marginTop: 3, backgroundColor: color.accent, borderRadius: 1 },
   labelOn: { fontSize: 13, color: color.accent, fontFamily: font.medium },
 });
