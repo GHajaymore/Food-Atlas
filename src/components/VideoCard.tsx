@@ -15,7 +15,7 @@ import { StyleSheet, View } from 'react-native';
 import { planTranslation, withLanguage } from '../domain/language';
 import type { Video } from '../domain/types';
 import { openAtSource, thumbnailUrl, watchUrl } from '../domain/video';
-import { useTranslations } from '../state/translations';
+import { useLocale } from '../i18n';
 import { color, radius, space, TAP_TARGET } from '../theme/tokens';
 import { Button } from './Button';
 import { PlayIcon } from './icons';
@@ -27,7 +27,13 @@ import { Tag } from './Tag';
 export function VideoCard({ video }: { video: Video }) {
   const copy = useCopy();
   const hasIngredients = !!video.ingredients?.length;
-  const language = useTranslations((s) => s.language);
+  /* The reader's own language, straight from the picker.
+     *
+     * This used to read the *record's* reading language, which was a separate choice a
+     * reader made per record. That choice is gone with machine translation — the chrome
+     * language is now the only answer to "what does this reader read", which is also the
+     * answer this was approximating. */
+  const language = useLocale((s) => s.locale);
 
   // What the viewer will actually get in their language, and the sentence that says
   // so. We ask the provider for its own translated track or captions — we never dub

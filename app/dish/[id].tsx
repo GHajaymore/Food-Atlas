@@ -25,7 +25,6 @@ import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
 import { filterKeyFor, levelLabel } from '../../src/domain/authenticity';
-import { LanguageBar } from '../../src/components/LanguageBar';
 import { RecordColumns } from '../../src/components/RecordColumns';
 import { Related } from '../../src/components/Related';
 import { LocalNames } from '../../src/components/LocalNames';
@@ -53,12 +52,10 @@ import {
 } from '../../src/domain/traditions';
 import { dietLabel, GROUP_LABELS, traceLabels } from '../../src/domain/diet';
 import { MEAL_LABELS } from '../../src/domain/meals';
-import { availableLanguages } from '../../src/domain/translate';
 import { openAtSource } from '../../src/domain/video';
 import { searchUrl } from '../../src/domain/videoDiscovery';
 import { thresholds as scoreThresholds } from '../../src/data/settings';
 import { settings } from '../../src/state/store';
-import { useTranslations } from '../../src/state/translations';
 import { accentText, color, font, radius, space, tapArea, TAP_TARGET } from '../../src/theme/tokens';
 
 export default function DishDetail() {
@@ -102,15 +99,6 @@ export default function DishDetail() {
     };
   }, [dish?.id, textReady]);
 
-  const { language, setLanguage, requestTranslation, retryTranslation, read, statusFor, errorFor, canTranslate } =
-    useTranslations();
-
-  // Real-time: picking a language translates the record straight away, rather than
-  // parking the reader behind a button. No-ops when a translation already exists or
-  // no provider is wired up.
-  useEffect(() => {
-    if (dish) void requestTranslation(dish, { auto: true });
-  }, [dish, language, requestTranslation]);
 
   // Not an error state — an absence of records, worded in the app's voice.
   if (!dish) {
@@ -132,10 +120,6 @@ export default function DishDetail() {
   const related = dish.relatedId ? dishById(dish.relatedId) : undefined;
   /* The same dish held under another country. Derived, never stored — see related.ts. */
   const alsoRecorded = alsoRecordedIn(dish, catalogue);
-
-  // The record resolved into the reader's language. Names, ingredients and equipment
-  // come back untranslated by construction — see domain/translate.ts.
-  const reading = read(copy, dish);
 
   /**
    * Prose the app generated, rendered in the reader's language.
@@ -486,23 +470,6 @@ export default function DishDetail() {
         </>
       ) : (
         <>
-          {/* Translation is offered where there is prose worth translating — a
-              method or an article's account of one. A record with only its one-line
-              blurb gets no control, because that would promise a substance it does
-              not have. */}
-          {hasProse ? (
-            <LanguageBar
-              language={language}
-              onSelect={setLanguage}
-              available={availableLanguages(dish)}
-              reading={reading}
-              status={statusFor(dish)}
-              error={errorFor(dish)}
-              canTranslate={canTranslate()}
-              onTranslate={() => void retryTranslation(dish)}
-            />
-          ) : null}
-
           {/* An open challenge is shown, and the score is left alone. Hiding a live
               disagreement, or quietly docking the number, would be the same failure
               as claiming a certainty the evidence does not support. */}
@@ -673,7 +640,7 @@ export default function DishDetail() {
               {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
             </Muted>
           ) : null}
-          <Muted style={styles.prepSummary}>{reading.prepSummary}</Muted>
+          <Muted style={styles.prepSummary}>{dish.prepSummary}</Muted>
           <View style={styles.chipWrap}>
             {/*
              * Each ingredient opens everything made with it.
@@ -687,7 +654,7 @@ export default function DishDetail() {
              * tradition that does, which is the kind of thing an atlas is *for* and
              * which no amount of additional prose would have provided.
              */}
-            {reading.ingredients.map((ingredient) => (
+            {dish.ingredients.map((ingredient) => (
               <FacetLink
                 key={ingredient}
                 variant="chip"
@@ -699,11 +666,11 @@ export default function DishDetail() {
           </View>
 
           {/* Only where there is equipment to name. Published recipes list none. */}
-          {reading.equipment.length ? (
+          {dish.equipment.length ? (
             <>
               <H6 level={3} style={styles.equipmentHeading}>{copy.traditionalEquipment}</H6>
               <View style={[styles.chipWrap, styles.equipmentWrap]}>
-                {reading.equipment.map((item) => (
+                {dish.equipment.map((item) => (
                   <Tag key={item} label={item} variant="outline" />
                 ))}
               </View>
@@ -717,7 +684,7 @@ export default function DishDetail() {
               : copy.methodTraditional}
           </Muted>
           <View style={styles.steps}>
-            {reading.steps.map((step, i) => (
+            {dish.steps.map((step, i) => (
               <View key={step} style={styles.step}>
                 <View style={styles.stepNumber}>
                   <T style={styles.stepNumberText}>{i + 1}</T>
@@ -727,15 +694,15 @@ export default function DishDetail() {
             ))}
           </View>
 
-          {reading.adaptation ? (
+          {dish.adaptation ? (
             <Disclosure summary={copy.ifIngredientUnavailable}>
               <Muted style={styles.adaptationLine}>
                 <T style={styles.adaptationLabel}>{copy.traditionalLabel}</T>
-                {reading.adaptation.traditional}
+                {dish.adaptation.traditional}
               </Muted>
               <Muted style={styles.adaptationLine}>
                 <T style={styles.adaptationLabel}>{copy.commonModernSubstitute}</T>
-                {reading.adaptation.substitute}
+                {dish.adaptation.substitute}
               </Muted>
               <T style={styles.adaptationWarning}>
                 {copy.adaptationNotAuthentic}
@@ -908,7 +875,7 @@ export default function DishDetail() {
                 : copy.whatThisRecordIs}
           </H5>
           <Muted style={styles.disclaimer}>
-            {fromKeys(dish.disclaimerKeys, dish.disclaimerKey, reading.disclaimer, dish.disclaimerParams)}
+            {fromKeys(dish.disclaimerKeys, dish.disclaimerKey, dish.disclaimer, dish.disclaimerParams)}
           </Muted>
 
           {/* The prompt that turns a reader into a validator. Two taps, not a form —
