@@ -278,7 +278,6 @@ export default function DishDetail() {
           have to scroll past the method to find out the app knows it. The badges sit
           between the two now and cost about thirty pixels, which is not the scroll that
           rule was written against. */}
-      <LocalNames names={dish.localNames} original={dish.name} />
 
       {/* Where the photograph itself was taken, or that the source does not record it.
           Below the record's own identity rather than above it: this is a caveat about an
@@ -857,6 +856,21 @@ export default function DishDetail() {
             </>
           ) : null}
 
+          {/*
+           * What other languages call it, moved down out of the identity column.
+           *
+           * It sat between the dish name and the place it comes from, so on a phone a
+           * reader met six language names and a note about endonyms before learning
+           * where the food is from or how it is made. That is reference material about
+           * naming, not identity, and it reads better after the method it was pushing
+           * down the page.
+           *
+           * It also now carries the language job alone. The machine-translation control
+           * that used to sit beside it is gone, and this is the section that always did
+           * the job better: every name links to an article written by people who speak
+           * the language.
+           */}
+          <LocalNames names={dish.localNames} original={dish.name} />
           {/* A contested origin is recorded, not adjudicated — and kept away from the
               score, which measures how a dish is made here, not who invented it. */}
           {dish.originClaims?.length ? (
