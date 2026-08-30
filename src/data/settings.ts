@@ -15,6 +15,7 @@
  * meaning of the word Authentic.
  */
 
+import { adminHeaders } from './adminAuth';
 import { DEFAULTS, readSettings, type Settings } from '../domain/settings';
 import { PROPOSALS_URL, canPropose } from '../domain/proposals';
 import type { Thresholds } from '../domain/assess';
@@ -60,7 +61,8 @@ export async function saveSettings(token: string, changes: Partial<Settings>): P
   try {
     const response = await fetch(`${base()}/settings`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: adminHeaders(token, { 'Content-Type': 'application/json' }),
       body: JSON.stringify(changes),
       signal: AbortSignal.timeout(15000),
     });

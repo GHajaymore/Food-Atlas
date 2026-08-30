@@ -7,6 +7,7 @@
  * `migrations/0005_analytics.sql`.
  */
 
+import { adminHeaders } from './adminAuth';
 import { PROPOSALS_URL } from '../domain/proposals';
 
 export interface Tally {
@@ -30,13 +31,13 @@ export async function loadAnalytics(
   token: string,
   days = 30,
 ): Promise<Analytics | { error: string }> {
-  if (!token.trim()) return { error: 'No administrator token.' };
   try {
     const response = await fetch(`${base()}/analytics?days=${days}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: adminHeaders(token),
       signal: AbortSignal.timeout(15000),
     });
-    if (response.status === 401) return { error: 'That token was not accepted.' };
+    if (response.status === 401) return { error: 'Not authorised. Sign in as an administrator, or enter the token.' };
     if (!response.ok) return { error: `The server refused it (${response.status}).` };
     return (await response.json()) as Analytics;
   } catch {

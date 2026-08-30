@@ -20,6 +20,7 @@
  * one failure this app must never produce.
  */
 
+import { adminHeaders } from './adminAuth';
 import { EN, type Copy } from '../i18n/copy';
 import { saidLabels, SAID_REQUIRED } from '../domain/confirmations';
 import { stillNeeded } from '../domain/entry';
@@ -137,13 +138,13 @@ export async function submitProposal(copy: Copy, entry: Partial<Proposal>): Prom
  * looks like there is nothing to moderate.
  */
 export async function loadAllProposals(token: string): Promise<Proposal[] | { error: string }> {
-  if (!token.trim()) return { error: 'No administrator token.' };
   try {
     const response = await fetch(`${base()}/proposals?include=all`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: adminHeaders(token),
       signal: AbortSignal.timeout(TIMEOUT),
     });
-    if (response.status === 401) return { error: 'That token was not accepted.' };
+    if (response.status === 401) return { error: 'Not authorised. Sign in as an administrator, or enter the token.' };
     if (response.status === 503) return { error: 'No administrator is configured on the server.' };
     if (!response.ok) return { error: `The server refused it (${response.status}).` };
     const body: unknown = await response.json();
@@ -164,7 +165,8 @@ export async function setProposalStatus(
   try {
     const response = await fetch(`${base()}/proposals/${encodeURIComponent(id)}/status`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: adminHeaders(token, { 'Content-Type': 'application/json' }),
       body: JSON.stringify({ status, note }),
       signal: AbortSignal.timeout(TIMEOUT),
     });

@@ -6,16 +6,22 @@
   //
   // So the root tsconfig excludes this directory and this one checks it, with only the
   // globals Cloudflare actually provides. `npm run typecheck` runs both.
+  //
+  // `__tests__/roles.test.ts` is checked here rather than there for the same reason. It
+  // exercises the authorisation guard and the roles endpoint, so it names `D1Database`
+  // and `PagesFunction` — types that exist in this world and in no other. That is also
+  // why `jest` joins the types below: this is the one file in the program that has
+  // `describe` and `expect` in scope.
   "compilerOptions": {
     "strict": true,
     "target": "es2022",
     "module": "es2022",
     "moduleResolution": "bundler",
     "lib": ["es2022"],
-    "types": ["@cloudflare/workers-types"],
+    "types": ["@cloudflare/workers-types", "jest"],
     "noEmit": true,
     "skipLibCheck": true,
     "isolatedModules": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../__tests__/roles.test.ts"]
 }

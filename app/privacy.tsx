@@ -18,7 +18,11 @@
  *   - `functions/api/events.ts` — reads no IP, no user agent, no cookie. The identity
  *     cookie is scoped to `/api/proposals`, so the browser does not even send one here.
  *   - `functions/api/auth/_session.ts` — a salted one-way hash of Google's subject id.
- *     No email, no name, no picture, and no user table anywhere in the schema.
+ *     No email, no name, no picture.
+ *   - `migrations/0008_roles.sql` — `account_role` holds a row only for an owner or an
+ *     administrator. Signing in as an ordinary reader still writes nothing anywhere, which
+ *     is why the sentence about it could stay nearly as it was when roles arrived. If a
+ *     later change starts writing a row per reader, this page is wrong until it is edited.
  *   - `functions/api/auth/google.ts` — the scope requested is `openid`, and nothing else.
  *
  * The section that matters most is the one about other people's servers. Photographs come

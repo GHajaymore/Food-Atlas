@@ -11,6 +11,7 @@
  * work cannot happen on the server at all.
  */
 
+import { adminHeaders } from './adminAuth';
 import { PROPOSALS_URL } from '../domain/proposals';
 
 export interface RefreshRequest {
@@ -29,13 +30,13 @@ const base = () => PROPOSALS_URL.replace(/\/+$/, '');
 const TIMEOUT = 15000;
 
 export async function loadRefreshQueue(token: string): Promise<RefreshRequest[] | { error: string }> {
-  if (!token.trim()) return { error: 'No administrator token.' };
   try {
     const response = await fetch(`${base()}/refresh`, {
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: adminHeaders(token),
       signal: AbortSignal.timeout(TIMEOUT),
     });
-    if (response.status === 401) return { error: 'That token was not accepted.' };
+    if (response.status === 401) return { error: 'Not authorised. Sign in as an administrator, or enter the token.' };
     if (!response.ok) return { error: `The server refused it (${response.status}).` };
     const body: unknown = await response.json();
     return Array.isArray(body) ? (body as RefreshRequest[]) : [];
@@ -55,7 +56,8 @@ export async function queueRefresh(
   try {
     const response = await fetch(`${base()}/refresh`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      headers: adminHeaders(token, { 'Content-Type': 'application/json' }),
       body: JSON.stringify({ kind, target: target.trim() }),
       signal: AbortSignal.timeout(TIMEOUT),
     });

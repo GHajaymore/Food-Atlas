@@ -21,14 +21,46 @@
 
 import { PROPOSALS_URL } from '../domain/proposals';
 
+/**
+ * The three tiers, mirrored from `functions/api/_admin.ts`.
+ *
+ * Duplicated rather than imported: the Functions directory is a separate TypeScript
+ * project with its own worker globals, and one string union is a cheaper thing to keep
+ * in step than a build that reaches across both.
+ */
+export type Role = 'owner' | 'admin' | 'user';
+
+/** Whether this role may use the console at all. The only gate most screens need. */
+export const mayAdminister = (role: Role): boolean => role !== 'user';
+
 export interface Session {
   /** Whether sign-in is configured on this deployment at all. */
   available: boolean;
   signedIn: boolean;
+  /**
+   * What this reader may do.
+   *
+   * `owner` and `admin` both unlock the console; everybody else is `user`, which is the
+   * default and is the absence of a record rather than a record saying so. The one thing
+   * the owner can do that an admin cannot is appoint another admin.
+   *
+   * Read from the server on every page load rather than remembered, because a role can
+   * be withdrawn and a client that cached one would keep offering a screen the server
+   * has already started refusing.
+   */
+  role: Role;
+  /**
+   * This reader's own account id, and empty for everybody not signed in.
+   *
+   * The only handle by which an administrator can be granted the role — there is no
+   * email address in this system to invite anybody by. Shown to the person it belongs
+   * to so they can pass it on, and never shown for anybody else.
+   */
+  account: string;
 }
 
 /** Nothing configured: the app behaves exactly as it did before accounts existed. */
-export const NO_SESSION: Session = { available: false, signedIn: false };
+export const NO_SESSION: Session = { available: false, signedIn: false, role: 'user', account: '' };
 
 const base = () => PROPOSALS_URL.replace(/\/+$/, '');
 
@@ -61,7 +93,16 @@ async function askServer(): Promise<Session> {
     });
     if (!response.ok) return NO_SESSION;
     const body = (await response.json()) as Partial<Session>;
-    return { available: body.available === true, signedIn: body.signedIn === true };
+    const signedIn = body.signedIn === true;
+    return {
+      available: body.available === true,
+      signedIn,
+      /* Matched against the known strings rather than cast. A role arriving misspelt,
+         absent, or from a deployment newer than this bundle must not fall through to
+         privilege — unknown means `user`, in that direction only. */
+      role: !signedIn ? 'user' : body.role === 'owner' ? 'owner' : body.role === 'admin' ? 'admin' : 'user',
+      account: signedIn ? String(body.account ?? '') : '',
+    };
   } catch {
     /* Unreachable means unsigned-in, which is the safe direction: a confirmation made
        now is recorded as unverified rather than wrongly counted. */

@@ -26,12 +26,22 @@
  * cost paid by one person occasionally; the alternative is a credential sitting on disk
  * in every browser that has ever administered the site.
  *
- * ## Why there is no lock on the screen itself
+ * ## Why there is a lock on the screen now
  *
- * Anybody can open `/admin` and see the current values — which are already public at
- * `GET /api/settings`, and already visible in the app's own behaviour. Hiding the
- * screen would be a lock on a door with no wall around it. The authority is the token,
- * checked at the server, on the write.
+ * There did not used to be one, and the reasoning was sound for what the screen then
+ * was: the settings are public at `GET /api/settings`, so hiding them would have been a
+ * lock on a door with no wall around it.
+ *
+ * Two things changed. The screen grew analytics — deliberately not public, because the
+ * top-searched terms are a live map of what readers cannot find — and authority stopped
+ * being a shared string. With roles there is a real answer to "may this person be here",
+ * so the screen asks it, and an ordinary reader who wanders in is told what the page is
+ * rather than shown a console full of controls that will refuse them.
+ *
+ * The lock is still not the security boundary. Every write is checked at the server
+ * against the session's role, and would be checked identically if this screen were
+ * deleted. What the gate buys is that the refusal happens once, in a sentence, instead of
+ * four times as failed requests.
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -50,6 +60,8 @@ import { loadAnalytics, type Analytics as AnalyticsData, type Tally } from '../s
 import { loadAllProposals, setProposalStatus } from '../src/data/proposals';
 import { loadRefreshQueue, queueRefresh, type RefreshRequest } from '../src/data/refresh';
 import { loadSettings, saveSettings, settings as current } from '../src/data/settings';
+import { loadSession, signInUrl, type Session, NO_SESSION } from '../src/data/auth';
+import { appointAdmin, claimOwner, loadRoster, removeAdmin, type Roster } from '../src/data/roles';
 import type { Thresholds } from '../src/domain/assess';
 import { isAuthentic } from '../src/domain/authenticity';
 import type { Proposal } from '../src/domain/proposals';
@@ -482,6 +494,154 @@ const NUMBERS: { key: keyof Settings; label: string; note: string }[] = [
   },
 ];
 
+/**
+ * Who runs this site, and the controls to change that.
+ *
+ * Shown to anybody who may use the console; the appointment controls only to the owner,
+ * on `mayAppoint` from the server rather than on a role compared here. A client that
+ * decided for itself who may appoint would be a second copy of the rule, and the copy
+ * that drifts is always the one nobody thought was authoritative.
+ *
+ * ## The account id is the whole interface
+ *
+ * There is no email address in this system — the app asks Google for `openid` and
+ * nothing else — so the only handle somebody can be appointed by is the salted hash of
+ * their subject id. They sign in, read it off this screen, and send it over. Clumsy, and
+ * the alternative is a database that can identify people it was never asked to.
+ */
+function Access({ token, session }: { token: string; session: Session }) {
+  const [roster, setRoster] = useState<Roster | null>(null);
+  const [error, setError] = useState('');
+  const [candidate, setCandidate] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  const load = async () => {
+    setError('');
+    const result = await loadRoster(token);
+    setLoaded(true);
+    if ('error' in result) {
+      setRoster(null);
+      setError(result.error);
+      return;
+    }
+    setRoster(result.data);
+  };
+
+  /* Every mutation re-reads rather than patching what is on screen. The server decides
+     the outcome — an appointment can be refused for a reason this screen does not model
+     — so the list after a change should be the server's list, not this one's guess. */
+  const act = async (run: () => Promise<{ error: string } | object>) => {
+    /* Guarded here rather than with a disabled prop: `Button` has no disabled state, and
+       a control that looks live and does nothing is worse than one that is simply not
+       clickable twice. */
+    if (busy) return;
+    setBusy(true);
+    const result = await run();
+    setBusy(false);
+    if (result && 'error' in result) {
+      setError((result as { error: string }).error);
+      return;
+    }
+    setCandidate('');
+    await load();
+  };
+
+  const claim = roster && roster.people.length === 0;
+
+  return (
+    <View style={styles.panel}>
+      <H5>Who runs this site</H5>
+      <Muted style={styles.panelNote}>
+        The owner appoints administrators and can remove them. An administrator can use everything on
+        this screen and cannot pass the role on. Everybody else is a reader, which is not a record —
+        no row is written for anyone until they are given a role.
+      </Muted>
+
+      {session.account ? (
+        <View style={styles.identity}>
+          <Muted style={styles.identityLabel}>Your account id</Muted>
+          <T style={styles.identityValue} selectable>
+            {session.account}
+          </T>
+          <Muted style={styles.note}>
+            Send this to the owner if you need access. It identifies you here and nowhere else.
+          </Muted>
+        </View>
+      ) : null}
+
+      {!loaded ? (
+        <Button label="Show who has access" variant="secondary" block onPress={load} />
+      ) : null}
+
+      {error ? <T style={styles.message}>{error}</T> : null}
+
+      {claim ? (
+        <View style={styles.identity}>
+          <Muted style={styles.note}>
+            Nobody owns this site yet. Claiming it makes the account you are signed in as the owner —
+            the token proves the authority, the sign-in says who is claiming it, and both are needed.
+          </Muted>
+          <Button
+            label="Claim the owner seat"
+            block
+            onPress={() => act(() => claimOwner(token))}
+            style={styles.claim}
+          />
+        </View>
+      ) : null}
+
+      {roster?.people.map((person) => (
+        <View key={person.id} style={styles.person}>
+          <View style={styles.personWho}>
+            <T style={styles.personId}>{person.id.slice(0, 12)}</T>
+            <Muted style={styles.personMeta}>
+              {person.role === 'owner' ? 'Owner' : 'Administrator'}
+              {person.id === roster.you ? ' — you' : ''}
+            </Muted>
+          </View>
+          {roster.mayAppoint && person.role === 'admin' ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={'Remove administrator ' + person.id.slice(0, 12)}
+              onPress={() => act(() => removeAdmin(token, person.id))}
+              style={styles.remove}
+            >
+              <T style={styles.removeText}>Remove</T>
+            </Pressable>
+          ) : null}
+        </View>
+      ))}
+
+      {roster?.mayAppoint ? (
+        <>
+          <Field label="Appoint an administrator" style={styles.setting}>
+            <Input
+              value={candidate}
+              onChangeText={setCandidate}
+              placeholder="Their account id"
+              autoCapitalize="none"
+              accessibilityLabel="Account id to appoint"
+            />
+          </Field>
+          <Button
+            label="Appoint"
+            variant="secondary"
+            block
+            onPress={() => {
+              if (candidate.trim()) act(() => appointAdmin(token, candidate));
+            }}
+          />
+        </>
+      ) : null}
+
+      {loaded && roster && !roster.mayAppoint ? (
+        <Muted style={styles.note}>Only the owner can appoint or remove administrators.</Muted>
+      ) : null}
+    </View>
+  );
+}
+
 export default function Admin() {
   const copy = useCopy();
   const n = useNumber();
@@ -489,10 +649,26 @@ export default function Admin() {
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const [session, setSession] = useState<Session>(NO_SESSION);
+  const [asked, setAsked] = useState(false);
 
   useEffect(() => {
     loadSettings().then((s) => setDraft(toDraft(s)));
+    loadSession().then((s) => {
+      setSession(s);
+      setAsked(true);
+    });
   }, []);
+
+  /*
+   * A typed token still opens the screen, and that is not a hole.
+   *
+   * It is the same credential the server will check, so showing the controls to somebody
+   * holding it reveals nothing they could not obtain by using it. It is also the only way
+   * in on a database with no owner yet, and the way back if the owner account is lost —
+   * see the header of `migrations/0008_roles.sql`.
+   */
+  const mayAdminister = session.role !== 'user' || token.trim().length > 0;
 
   const proposed: Thresholds = {
     authenticAt: Number(draft.authenticAt),
@@ -655,6 +831,74 @@ export default function Admin() {
     </>
   );
 
+  /*
+   * Told, rather than shown a console that will refuse them.
+   *
+   * Held until the session answer arrives — rendering the locked state first and then
+   * replacing it would flash "you cannot be here" at the person who runs the site, on
+   * every single load.
+   */
+  if (asked && !mayAdminister) {
+    return (
+      <Screen measure footer={false}>
+        <NavRow title={copy.settingsTitle} />
+        <Card style={styles.locked}>
+          <CardKicker>Administrators only</CardKicker>
+          <CardBody>
+            This screen sets what the atlas counts as Authentic, moderates proposals, and shows what
+            readers are searching for. It is kept to the people who run the site.
+          </CardBody>
+        </Card>
+
+        {session.available && !session.signedIn ? (
+          <Button
+            label="Sign in"
+            block
+            onPress={() => {
+              window.location.href = signInUrl();
+            }}
+            style={styles.lockedAction}
+          />
+        ) : null}
+
+        {session.signedIn ? (
+          <View style={styles.identity}>
+            <Muted style={styles.identityLabel}>Your account id</Muted>
+            <T style={styles.identityValue} selectable>
+              {session.account}
+            </T>
+            <Muted style={styles.note}>
+              Send this to the owner if you need access. It identifies you here and nowhere else.
+            </Muted>
+          </View>
+        ) : null}
+
+        <Field label={copy.administratorToken} style={styles.setting}>
+          <Input
+            value={token}
+            onChangeText={setToken}
+            placeholder={copy.tokenNotStored}
+            secureTextEntry
+            autoCapitalize="none"
+            accessibilityLabel={copy.administratorToken}
+          />
+        </Field>
+        {/*
+          * Said here because there is nowhere else it could be said.
+          *
+          * Without it the field is a box with no stated effect: somebody holding the
+          * token has no way to know that typing it opens the screen, and the person
+          * setting the site up for the first time has no way to discover that the owner
+          * seat is claimed from inside rather than from a command line.
+          */}
+        <Muted style={styles.note}>
+          Entering it opens this screen. If nobody owns the site yet, sign in first and you can then
+          claim it — the token proves the authority and the sign-in says who is claiming it.
+        </Muted>
+      </Screen>
+    );
+  }
+
   return (
     <Screen footer={false}>
       <AdminColumns
@@ -665,6 +909,7 @@ export default function Admin() {
           <Moderation key="moderation" token={token} />,
           <RefreshQueue key="refresh" token={token} />,
           <Analytics key="analytics" token={token} />,
+          <Access key="access" token={token} session={session} />,
         ]}
       />
     </Screen>
@@ -673,6 +918,38 @@ export default function Admin() {
 
 const styles = StyleSheet.create({
   intro: { padding: space[4], gap: space[2], marginBottom: space[2] },
+  locked: { padding: space[4], gap: space[2], marginTop: space[4] },
+  lockedAction: { marginTop: space[4] },
+  panel: { marginTop: space[6], gap: space[3] },
+  panelNote: { fontSize: 12, lineHeight: 18 },
+  /* A monospaced 32-character hash, meant to be selected and sent to somebody. It gets a
+     surface of its own so it reads as a value to copy rather than as prose. */
+  identity: {
+    marginTop: space[3],
+    padding: space[3],
+    gap: space[1],
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: color.divider,
+  },
+  identityLabel: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.6 },
+  identityValue: { fontFamily: font.regular, fontSize: 12, lineHeight: 18, letterSpacing: 0.8, color: color.neutral[100] },
+  claim: { marginTop: space[2] },
+  person: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: space[3],
+    paddingVertical: space[3],
+    borderTopWidth: 1,
+    borderTopColor: color.divider,
+    minHeight: TAP_TARGET,
+  },
+  personWho: { flex: 1, gap: 2 },
+  personId: { fontFamily: font.regular, fontSize: 12, letterSpacing: 0.8, color: color.neutral[100] },
+  personMeta: { fontSize: 11 },
+  remove: { paddingHorizontal: space[3], justifyContent: 'center', minHeight: TAP_TARGET },
+  removeText: { fontSize: 12, color: color.accent },
   setting: { marginTop: space[4] },
   number: { width: 110 },
   note: { fontSize: 12, lineHeight: 17, marginTop: space[1] },

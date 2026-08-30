@@ -20,6 +20,13 @@
   "exclude": [
     "functions",
     "dist",
-    "node_modules"
+    "node_modules",
+    // A test of Worker code, checked by the Worker project instead — see the header of
+    // `functions/tsconfig.json` for why the two type worlds are kept apart. Excluding
+    // the directory is not enough on its own: TypeScript follows imports regardless of
+    // `exclude`, so a test in this program that reaches into `functions/` drags
+    // `D1Database` and `PagesFunction` in with it and fails on globals React Native has
+    // never had. Jest is unaffected — it transforms with Babel and reads no tsconfig.
+    "__tests__/roles.test.ts"
   ]
 }
