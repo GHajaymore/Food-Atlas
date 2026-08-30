@@ -519,8 +519,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Sin traducir todavía',
     translationRefused:
       'Una traducción automática llegó alterada, así que no se mostró. Este es el registro original.',
-    aDotMarks:
-      'Un punto marca un idioma al que ya se ha traducido este registro.',
+    aDotMarks: "Un punto señala un idioma al que ya se ha traducido esta ficha. Elegir uno sin punto solicita la traducción de inmediato; no hay nada más que pulsar.",
     opensOnceMoreRecords:
       '{language} se abrirá cuando {n} registros más se puedan leer en ese idioma.',
     noTranslationService:
@@ -1005,8 +1004,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Idioma: {language}. Cámbialo.',
     perCentTranslated:
       '{language}, {n} por ciento traducido',
-    translateThisRecord:
-      'Traducir este registro',
+    translateThisRecord: "Intentar traducir de nuevo",
     translating:
       'Traduciendo…',
     translate:
@@ -1856,8 +1854,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Pas encore traduit',
     translationRefused:
       'Une traduction automatique est revenue modifiée, elle n’a donc pas été affichée. Voici la fiche d’origine.',
-    aDotMarks:
-      'Un point signale une langue dans laquelle cette fiche est déjà traduite.',
+    aDotMarks: "Un point signale une langue dans laquelle cette fiche est déjà traduite. En choisir une sans point demande la traduction immédiatement — il n’y a rien d’autre à presser.",
     opensOnceMoreRecords:
       '{language} s’ouvrira quand {n} fiches de plus pourront s’y lire.',
     noTranslationService:
@@ -2342,8 +2339,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Langue : {language}. La changer.',
     perCentTranslated:
       '{language}, traduit à {n} pour cent',
-    translateThisRecord:
-      'Traduire cette fiche',
+    translateThisRecord: "Réessayer la traduction",
     translating:
       'Traduction…',
     translate:
@@ -3192,8 +3188,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Noch nicht übersetzt',
     translationRefused:
       'Eine maschinelle Übersetzung kam verändert zurück und wurde nicht angezeigt. Dies ist der ursprüngliche Eintrag.',
-    aDotMarks:
-      'Ein Punkt kennzeichnet eine Sprache, in die dieser Eintrag schon übersetzt ist.',
+    aDotMarks: "Ein Punkt kennzeichnet eine Sprache, in die dieser Eintrag bereits übersetzt ist. Eine ohne Punkt zu wählen fordert die Übersetzung sofort an — mehr ist nicht zu drücken.",
     opensOnceMoreRecords:
       '{language} öffnet sich, sobald {n} weitere Einträge darin lesbar sind.',
     noTranslationService:
@@ -3678,8 +3673,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Sprache: {language}. Ändern.',
     perCentTranslated:
       '{language}, zu {n} Prozent übersetzt',
-    translateThisRecord:
-      'Diesen Eintrag übersetzen',
+    translateThisRecord: "Übersetzung erneut versuchen",
     translating:
       'Wird übersetzt…',
     translate:
@@ -4528,8 +4522,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Non ancora tradotto',
     translationRefused:
       'Una traduzione automatica è tornata alterata e non è stata mostrata. Questa è la scheda originale.',
-    aDotMarks:
-      'Un punto segnala una lingua in cui questa scheda è già tradotta.',
+    aDotMarks: "Un punto segnala una lingua in cui questa scheda è già tradotta. Sceglierne una senza punto richiede subito la traduzione: non c’è altro da premere.",
     opensOnceMoreRecords:
       '{language} si aprirà quando altre {n} schede saranno leggibili in quella lingua.',
     noTranslationService:
@@ -5014,8 +5007,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Lingua: {language}. Cambiala.',
     perCentTranslated:
       '{language}, tradotto al {n} per cento',
-    translateThisRecord:
-      'Traduci questa scheda',
+    translateThisRecord: "Riprova la traduzione",
     translating:
       'Traduzione…',
     translate:
@@ -5865,8 +5857,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Ainda por traduzir',
     translationRefused:
       'Uma tradução automática voltou alterada, por isso não foi exibida. Este é o registo original.',
-    aDotMarks:
-      'Um ponto marca uma língua para a qual este registo já foi traduzido.',
+    aDotMarks: "Um ponto assinala um idioma para o qual este registo já foi traduzido. Escolher um sem ponto pede a tradução de imediato — não há mais nada para carregar.",
     opensOnceMoreRecords:
       '{language} abre quando mais {n} registos puderem ser lidos nessa língua.',
     noTranslationService:
@@ -6351,8 +6342,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Língua: {language}. Mudar.',
     perCentTranslated:
       '{language}, {n} por cento traduzido',
-    translateThisRecord:
-      'Traduzir este registo',
+    translateThisRecord: "Tentar traduzir novamente",
     translating:
       'A traduzir…',
     translate:
@@ -7201,8 +7191,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nog niet vertaald',
     translationRefused:
       'Een automatische vertaling kwam gewijzigd terug en is niet getoond. Dit is het oorspronkelijke record.',
-    aDotMarks:
-      'Een punt markeert een taal waarin dit record al vertaald is.',
+    aDotMarks: "Een stip markeert een taal waarin dit record al is vertaald. Een taal zonder stip kiezen vraagt meteen om een vertaling — er is verder niets te klikken.",
     opensOnceMoreRecords:
       '{language} gaat open zodra er {n} records meer in te lezen zijn.',
     noTranslationService:
@@ -7687,8 +7676,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Taal: {language}. Wijzigen.',
     perCentTranslated:
       '{language}, {n} procent vertaald',
-    translateThisRecord:
-      'Dit record vertalen',
+    translateThisRecord: "Vertaling opnieuw proberen",
     translating:
       'Bezig met vertalen…',
     translate:
@@ -8538,8 +8526,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Jeszcze nieprzetłumaczone',
     translationRefused:
       'Tłumaczenie maszynowe wróciło zmienione, więc nie zostało pokazane. To jest oryginalny zapis.',
-    aDotMarks:
-      'Kropka oznacza język, na który ten wpis jest już przetłumaczony.',
+    aDotMarks: "Kropka oznacza język, na który ten wpis został już przetłumaczony. Wybranie języka bez kropki od razu zamawia tłumaczenie — nie trzeba nic więcej naciskać.",
     opensOnceMoreRecords:
       '{language} otworzy się, gdy da się w nim przeczytać jeszcze {n} wpisów.',
     noTranslationService:
@@ -9024,8 +9011,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Język: {language}. Zmień.',
     perCentTranslated:
       '{language}, przetłumaczone w {n} procentach',
-    translateThisRecord:
-      'Przetłumacz ten wpis',
+    translateThisRecord: "Spróbuj przetłumaczyć ponownie",
     translating:
       'Tłumaczenie…',
     translate:
@@ -9898,8 +9884,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Henüz çevrilmedi',
     translationRefused:
       'Otomatik çeviri değişmiş olarak döndü, bu yüzden gösterilmedi. Bu, kaydın aslıdır.',
-    aDotMarks:
-      'Nokta, bu kaydın hâlihazırda çevrildiği bir dili gösterir.',
+    aDotMarks: "Nokta, bu kaydın hâlihazırda çevrildiği bir dili gösterir. Noktasız bir dil seçmek çeviriyi hemen ister; başka bir şeye basmanız gerekmez.",
     opensOnceMoreRecords:
       '{language}, o dilde {n} kayıt daha okunabilir olduğunda açılacak.',
     noTranslationService:
@@ -10384,8 +10369,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Dil: {language}. Değiştir.',
     perCentTranslated:
       '{language}, yüzde {n} çevrildi',
-    translateThisRecord:
-      'Bu kaydı çevir',
+    translateThisRecord: "Çeviriyi yeniden dene",
     translating:
       'Çevriliyor…',
     translate:
@@ -11235,8 +11219,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Ещё не переведено',
     translationRefused:
       'Машинный перевод вернулся изменённым, поэтому он не показан. Это оригинальная запись.',
-    aDotMarks:
-      'Точка отмечает язык, на который эта запись уже переведена.',
+    aDotMarks: "Точка отмечает язык, на который эта запись уже переведена. Выбор языка без точки сразу запрашивает перевод — нажимать больше ничего не нужно.",
     opensOnceMoreRecords:
       '{language} откроется, когда на нём можно будет прочесть ещё {n} записей.',
     noTranslationService:
@@ -11721,8 +11704,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Язык: {language}. Изменить.',
     perCentTranslated:
       '{language}, переведено на {n} процентов',
-    translateThisRecord:
-      'Перевести эту запись',
+    translateThisRecord: "Попробовать перевести снова",
     translating:
       'Перевод…',
     translate:
@@ -12596,8 +12578,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'अभी अनूदित नहीं',
     translationRefused:
       'मशीनी अनुवाद बदला हुआ लौटा, इसलिए उसे नहीं दिखाया गया। यह मूल विवरण है।',
-    aDotMarks:
-      'बिंदु उस भाषा को दर्शाता है जिसमें यह रिकॉर्ड पहले ही अनूदित है।',
+    aDotMarks: "बिंदु उस भाषा को दर्शाता है जिसमें यह रिकॉर्ड पहले ही अनूदित हो चुका है। बिना बिंदु वाली भाषा चुनते ही अनुवाद माँगा जाता है — और कुछ दबाने की ज़रूरत नहीं।",
     opensOnceMoreRecords:
       '{language} तब खुलेगी जब उसमें {n} और रिकॉर्ड पढ़े जा सकेंगे।',
     noTranslationService:
@@ -13082,8 +13063,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'भाषा: {language}। बदलें।',
     perCentTranslated:
       '{language}, {n} प्रतिशत अनूदित',
-    translateThisRecord:
-      'इस रिकॉर्ड का अनुवाद करें',
+    translateThisRecord: "अनुवाद फिर से आज़माएँ",
     translating:
       'अनुवाद हो रहा है…',
     translate:
@@ -13933,8 +13913,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '尚未翻译',
     translationRefused:
       '机器翻译返回时内容已被改动，因此未予显示。这是原始记录。',
-    aDotMarks:
-      '带点的语言表示这条记录已经译成了那种语言。',
+    aDotMarks: "圆点表示这条记录已翻译成该语言。选择没有圆点的语言会立即请求翻译，无需再点其他按钮。",
     opensOnceMoreRecords:
       '当有 {n} 条记录能用{language}阅读时，它就会开放。',
     noTranslationService:
@@ -14419,8 +14398,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '语言：{language}。可更改。',
     perCentTranslated:
       '{language}，已翻译 {n}%',
-    translateThisRecord:
-      '翻译这条记录',
+    translateThisRecord: "重新尝试翻译",
     translating:
       '翻译中…',
     translate:
@@ -15270,8 +15248,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'まだ翻訳されていません',
     translationRefused:
       '機械翻訳は内容が変わって戻ってきたため、表示していません。これは元の記録です。',
-    aDotMarks:
-      '点の付いた言語は、この記録がすでに訳されている言語です。',
+    aDotMarks: "点は、この記録がすでに翻訳されている言語を示します。点のない言語を選ぶとすぐに翻訳を要求します。ほかに押すものはありません。",
     opensOnceMoreRecords:
       '{language}は、あと {n} 件の記録が読めるようになると開きます。',
     noTranslationService:
@@ -15756,8 +15733,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '言語：{language}。変更できます。',
     perCentTranslated:
       '{language}、{n} パーセント翻訳済み',
-    translateThisRecord:
-      'この記録を訳す',
+    translateThisRecord: "翻訳をもう一度試す",
     translating:
       '翻訳中…',
     translate:

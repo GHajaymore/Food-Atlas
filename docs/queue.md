@@ -1327,6 +1327,38 @@ Proposed, not done:
    distinguishable from a real contested origin.
 3. Re-run coverage after both, since the published totals move.
 
+### Done: the two same-name cases that are not contested origins
+
+The abandoned rule stays abandoned — geography cannot separate a duplicate from a shared
+claim, and it would have deleted the Polish Pierogi record. Two subsets have no such
+ambiguity, and both are now handled in `build.ts`:
+
+**Same name and same country — 148 groups, 152 records.** Kabsa under India and Yemen may
+be a contested origin; Hákarl under Iceland *and Iceland* cannot be. It was held twice:
+once curated with five method steps and a score of 90, once imported with neither. The
+survivor is the better-documented record, ordered on steps, then ingredients, then score,
+then prose, then photograph, with the curated id as the tie-break. Deliberately not merged
+field-by-field — combining two records would invent a third that neither source vouches
+for, and the thin twin has nothing the thick one wants.
+
+**A Wikibooks gloss hiding a match in the same country — 95 records.** Cookbook titles read
+"Basbousa (Egyptian Semolina Cake)", which never matched the "Basbousa" it describes. The
+parenthetical is stripped for cookbook rows only: on encyclopaedia titles the same
+punctuation means the opposite, and "Roti (wrap)" in Trinidad is not "Roti" in India.
+Stripping across all sources collides 196 names and merges real foods — the same trap as
+the abandoned rule. The method is not lost: `cookbookByName` now answers to the gloss-free
+title too, so the recipe folds onto the record as its popular version instead of standing
+beside it.
+
+**Total: 17,724 → 17,477.** No country left the atlas — 161 before and after.
+`plumbing.test.ts` now asserts the invariant directly, because the fix lives in the build
+and a later source added to the concat list would reintroduce it silently.
+
+**Still open:** same name, *different* country. Jalebi is held as an Egyptian record and as
+an Indian Wikibooks recipe. That is exactly the case the abandoned rule was written for,
+and it is still not mechanically decidable — the country question there is genuinely
+contested, and the record now carries all four of its documented claims.
+
 ### The origin pass, extended to the import — and why the dedupe rule was abandoned
 
 **Done: the import is origin-checked.** `fix-origin-country.mjs` took a `--source` and now

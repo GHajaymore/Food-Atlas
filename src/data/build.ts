@@ -801,9 +801,36 @@ export function buildCatalogue(
  * What they supply is explicitly *the common recipe*, not the local tradition, which
  * is why a record enriched this way is never promoted by it.
  */
-const cookbookByName = new Map<string, CookbookRow>(
-  (rawCookbook as CookbookRow[]).map((r) => [r.name.trim().toLowerCase(), r]),
-);
+/**
+ * A Wikibooks title, with its descriptive gloss removed.
+ *
+ * Cookbook entries are titled "Basbousa (Egyptian Semolina Cake)", "Jalebi (Fritters in
+ * Syrup)", "Dal Makhani (Black Gram with Cream)". The parenthetical is a description for
+ * a reader browsing recipes, not a disambiguator, so the recipe never matched the record
+ * it describes and stood beside it as a second dish.
+ *
+ * Applied to cookbook titles only, and never to encyclopaedia ones, because there the
+ * same punctuation means the opposite: "Roti (wrap)" is a Trinidadian dish and not the
+ * Indian "Roti", and "Crab curry (Goan)" is not "Crab curry". Stripping across all
+ * sources collides 196 names and merges genuinely different foods -- the same trap
+ * docs/queue.md records for the abandoned region-name rule.
+ */
+const withoutGloss = (name: string): string =>
+  name
+    .trim()
+    .replace(/\s*\([^)]*\)\s*$/, '')
+    .trim()
+    .toLowerCase();
+
+const cookbookByName = new Map<string, CookbookRow>();
+for (const row of rawCookbook as CookbookRow[]) {
+  const exact = row.name.trim().toLowerCase();
+  cookbookByName.set(exact, row);
+  /* The gloss-free form too, so the method reaches the record the recipe describes --
+     but never over an exact match, which is always the better answer. */
+  const bare = withoutGloss(row.name);
+  if (bare && bare !== exact && !cookbookByName.has(bare)) cookbookByName.set(bare, row);
+}
 
 const importedRows = rawImported as ImportedRow[];
 
@@ -1410,6 +1437,17 @@ const cookbookDuplicates = new Set(
 );
 
 /**
+ * Name and country, across every tier the cookbook could duplicate.
+ *
+ * `alreadyPresent` above is built from the curated and imported records only, and the
+ * dish a Wikibooks recipe describes is usually a cuisine-tree one — so reusing it here
+ * would have matched almost nothing and looked like the rule simply had little to do.
+ */
+const heldByNameAndCountry = new Set(
+  [...curated, ...imported, ...fromCuisines].map((d) => key(d.name, d.loc.country)),
+);
+
+/**
  * The same dish, once under a country and once under something that is not one.
  *
  * Wikidata's country of origin is sometimes a region or a former state, so falafel
@@ -1447,7 +1485,19 @@ const isVaguerDuplicate = (dish: Dish): boolean =>
 const validImported = [...fromCuisines, ...imported]
   .filter((d) => !isVaguerDuplicate(d))
   .map(withCookbookMethod)
-  .concat(fromCookbook.filter((d) => !cookbookDuplicates.has(d.name.trim().toLowerCase())))
+  /* Dropped when the atlas already holds the dish the recipe describes, under the same
+     country. 119 records: "Basbousa (Egyptian Semolina Cake)" beside "Basbousa", both
+     Egypt. Same country is what keeps this honest -- it is the check the general
+     same-name rule could not make, and without it "Roti (wrap)" in Trinidad would be
+     folded onto "Roti" in India. The method they carry is not lost: 
+     now also answers to the gloss-free title, so it folds onto the record instead. */
+  .concat(
+    fromCookbook.filter(
+      (d) =>
+        !cookbookDuplicates.has(d.name.trim().toLowerCase()) &&
+        !heldByNameAndCountry.has(key(withoutGloss(d.name), d.loc.country)),
+    ),
+  )
   // UNESCO records lead the imported tier: they are the only ones carrying evidence
   // strong enough to be classified, so they should be the first thing a reader meets.
   .concat(fromUnesco)
@@ -1458,8 +1508,60 @@ const validImported = [...fromCuisines, ...imported]
   .concat(fromGiRegister.filter((d) => !alreadyPresent.has(key(d.name, d.loc.country))))
   .filter((dish) => findViolations(dish).length === 0);
 
+  /**
+   * The same dish, under the same country, more than once.
+   *
+   * `docs/queue.md` records the analysis of same-name pairs and the rule that was tried
+   * and abandoned: two records sharing a name where one's *region* names the other's
+   * *country*. Tested against all 163 groups, it caught 14 and got several backwards —
+   * it would have deleted the Polish Pierogi record and both halves of Nyama choma —
+   * because geography cannot tell a duplicate from a shared claim. That stays abandoned.
+   *
+   * This is the subset that rule never covered and where the ambiguity does not arise.
+   * Kabsa under India and Yemen may be a contested origin; Hákarl under Iceland **and
+   * Iceland** cannot be. One country, one name, two records is a data fault with no
+   * second reading — 148 groups of them, 152 extra records.
+   *
+   * The survivor is the best-documented one rather than the first: Hákarl was held as a
+   * curated record with five method steps and a score of 90, and again as an import with
+   * no method and a score of 22. Ordering by what a record actually carries keeps the one
+   * a reader should meet, whichever source it came from.
+   *
+   * Deliberately *not* merged field-by-field. Combining two records would invent a third
+   * that neither source vouches for, and the thin twin has nothing the thick one wants.
+   */
+  const documented = (d: Dish): number[] => [
+    d.steps.length,
+    d.ingredients?.length ?? 0,
+    d.score ?? 0,
+    d.prepSummary?.trim() ? 1 : 0,
+    d.photo ? 1 : 0,
+    /* Last, and only as a tie-break: curated ids are the low ones, and where two records
+       are otherwise identical the hand-written one is the one to keep. */
+    -d.id,
+  ];
+
+  /** Lexicographic on the list above: the first thing they differ on decides. */
+  const betterDocumented = (a: Dish, b: Dish): boolean => {
+    const left = documented(a);
+    const right = documented(b);
+    for (let i = 0; i < left.length; i += 1) {
+      if (left[i] !== right[i]) return left[i] > right[i];
+    }
+    return false;
+  };
+
+  const best = new Map<string, Dish>();
+  for (const dish of [...curated, ...validImported]) {
+    const twin = key(dish.name, dish.loc.country);
+    const held = best.get(twin);
+    if (!held || betterDocumented(dish, held)) best.set(twin, dish);
+  }
+
   /** Everything the app can show. Curated records first, so they lead every list. */
-  const catalogue: Dish[] = [...curated, ...validImported];
+  const catalogue: Dish[] = [...curated, ...validImported].filter(
+    (dish) => best.get(key(dish.name, dish.loc.country)) === dish,
+  );
 
   const stats: CatalogueStats = {
   total: catalogue.length,

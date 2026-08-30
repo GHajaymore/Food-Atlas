@@ -1375,8 +1375,7 @@ export const EN: Copy = {
     'Not translated yet',
   translationRefused:
     'An automatic translation came back altered, so it was not shown. This is the original record.',
-  aDotMarks:
-    'A dot marks a language this record has already been translated into.',
+  aDotMarks: "A dot marks a language this record has already been translated into. Choosing one without a dot asks for a translation straight away — there is nothing else to press.",
   opensOnceMoreRecords:
     '{language} opens once {n} more records can be read in it.',
   noTranslationService:
@@ -1861,8 +1860,7 @@ export const EN: Copy = {
     'Language: {language}. Change it.',
   perCentTranslated:
     '{language}, {n} per cent translated',
-  translateThisRecord:
-    'Translate this record',
+  translateThisRecord: "Try translating again",
   translating:
     'Translating…',
   translate:

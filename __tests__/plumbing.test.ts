@@ -808,6 +808,32 @@ describe('a card names a place that agrees with its record', () => {
     expect(specific.length).toBeGreaterThan(1000);
   });
 
+  /*
+   * One name, one country, one record.
+   *
+   * docs/queue.md records the general same-name problem and the rule that was tried and
+   * abandoned for it: two records sharing a name where one region names the other country.
+   * That rule caught 14 of 163 groups and got several backwards, because geography cannot
+   * separate a duplicate from a shared claim. Kabsa under India and Yemen may be a real
+   * contested origin and the app models it properly.
+   *
+   * This is the subset with no second reading. Hakarl was held twice under Iceland — once
+   * curated with five method steps and a score of 90, once imported with neither — and no
+   * contested-origin story explains that. 148 groups, 152 extra records, all gone.
+   *
+   * Asserted rather than assumed, because the build is where it is fixed and a later
+   * source added to the concat list would reintroduce it silently.
+   */
+  it('holds no dish twice under the same country', () => {
+    const groups = new Map<string, Dish[]>();
+    for (const dish of catalogue) {
+      const k = `${dish.name.trim().toLowerCase()}::${dish.loc.country}`;
+      groups.set(k, [...(groups.get(k) ?? []), dish]);
+    }
+    const twinned = [...groups.entries()].filter(([, held]) => held.length > 1);
+    expect(twinned.map(([k, held]) => `${k} ×${held.length}`)).toEqual([]);
+  });
+
   it('falls back to the country for a record whose origin is contested', () => {
     /*
      * Tofu is the case that has to keep working: filed under the United States, claiming
