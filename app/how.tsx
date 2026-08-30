@@ -133,6 +133,11 @@ export default function How() {
                 copy.notAlgorithm,
                 copy.notAdvertising,
                 copy.notPopularity,
+                /* Last, because it is the one a reader is least expecting and most likely
+                   to remember — and because it is the only line here that names a thing
+                   the rest of the internet does by default. Ajay asked for it stated
+                   plainly: not using social media is a difference worth claiming. */
+                copy.notSocial,
               ].map((line) => (
                 <Muted key={line} style={styles.not}>
                   {line}

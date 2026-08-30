@@ -289,6 +289,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Sin publicidad, y ningún lector es rastreado.',
     notPopularity:
       'La popularidad se registra y se mantiene aparte. La versión más publicada de un plato nunca se convierte en la auténtica.',
+    notSocial: "Nada de lo que hay aquí procede de las redes sociales. De dónde es un plato lo deciden las fuentes documentadas y quienes lo cocinan, nunca lo que es tendencia.",
     dimensionOrigin:
       'De dónde es el plato, y con cuánta precisión. Un pueblo vale más que un país.',
     dimensionIngredients:
@@ -1623,6 +1624,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Pas de publicité, et aucun lecteur n’est pisté.',
     notPopularity:
       'La popularité est enregistrée et tenue à part. La version la plus publiée d’un plat ne devient jamais l’authentique.',
+    notSocial: "Rien ici ne vient des réseaux sociaux. L’origine d’un plat est établie par des sources documentées et par ceux qui le cuisinent, jamais par ce qui fait le buzz.",
     dimensionOrigin:
       'D’où vient le plat, et avec quelle précision. Une ville vaut mieux qu’un pays.',
     dimensionIngredients:
@@ -2956,6 +2958,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Keine Werbung, und kein Lesender wird verfolgt.',
     notPopularity:
       'Beliebtheit wird erfasst und getrennt gehalten. Die meistveröffentlichte Fassung eines Gerichts wird nie die echte.',
+    notSocial: "Nichts hier stammt aus sozialen Netzwerken. Woher ein Gericht kommt, entscheiden belegte Quellen und die Menschen, die es kochen — nie das, was gerade im Trend liegt.",
     dimensionOrigin:
       'Woher das Gericht kommt, und wie genau. Ein Ort schlägt ein Land.',
     dimensionIngredients:
@@ -4289,6 +4292,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Niente pubblicità, e nessun lettore viene tracciato.',
     notPopularity:
       'La popolarità è registrata e tenuta separata. La versione più pubblicata di un piatto non diventa mai quella autentica.',
+    notSocial: "Niente qui viene dai social. Da dove viene un piatto lo stabiliscono le fonti documentate e chi lo cucina, mai ciò che è di tendenza.",
     dimensionOrigin:
       'Da dove viene il piatto, e con quanta precisione. Un paese vale più di una nazione.',
     dimensionIngredients:
@@ -5623,6 +5627,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Sem publicidade, e nenhum leitor é rastreado.',
     notPopularity:
       'A popularidade é registada e mantida à parte. A versão mais publicada de um prato nunca se torna a autêntica.',
+    notSocial: "Nada aqui vem das redes sociais. De onde vem um prato é definido por fontes documentadas e por quem o cozinha, nunca pelo que está na moda.",
     dimensionOrigin:
       'De onde é o prato, e com que precisão. Uma vila vale mais do que um país.',
     dimensionIngredients:
@@ -6956,6 +6961,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Geen reclame, en geen lezer wordt gevolgd.',
     notPopularity:
       'Populariteit wordt vastgelegd en apart gehouden. De meest gepubliceerde versie van een gerecht wordt nooit de echte.',
+    notSocial: "Niets hier komt van sociale media. Waar een gerecht vandaan komt, wordt bepaald door gedocumenteerde bronnen en door de mensen die het koken — nooit door wat trending is.",
     dimensionOrigin:
       'Waar het gerecht vandaan komt, en hoe precies. Een dorp wint van een land.',
     dimensionIngredients:
@@ -8290,6 +8296,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bez reklam, i żaden czytelnik nie jest śledzony.',
     notPopularity:
       'Popularność jest zapisywana i trzymana osobno. Najczęściej publikowana wersja potrawy nigdy nie staje się tą autentyczną.',
+    notSocial: "Nic tutaj nie pochodzi z mediów społecznościowych. O pochodzeniu potrawy decydują udokumentowane źródła i ludzie, którzy ją gotują — nigdy to, co jest akurat modne.",
     dimensionOrigin:
       'Skąd potrawa pochodzi i jak dokładnie. Miasteczko bije kraj.',
     dimensionIngredients:
@@ -9647,6 +9654,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Reklam yok ve hiçbir okur izlenmiyor.',
     notPopularity:
       'Popülerlik kaydedilir ve ayrı tutulur. Bir yemeğin en çok yayımlanan sürümü asla otantik olan hâline gelmez.',
+    notSocial: "Buradaki hiçbir şey sosyal medyadan gelmiyor. Bir yemeğin nereden geldiğine belgelenmiş kaynaklar ve onu pişiren insanlar karar verir, asla gündemde olan şey değil.",
     dimensionOrigin:
       'Yemeğin nereden geldiği ve ne kadar kesin olarak. Bir kasaba, bir ülkeyi geçer.',
     dimensionIngredients:
@@ -10981,6 +10989,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Никакой рекламы, и ни за одним читателем не следят.',
     notPopularity:
       'Популярность записывается и держится отдельно. Самая публикуемая версия блюда никогда не становится подлинной.',
+    notSocial: "Ничто здесь не взято из социальных сетей. Откуда родом блюдо, решают документированные источники и люди, которые его готовят, — а не то, что сейчас в тренде.",
     dimensionOrigin:
       'Откуда блюдо и насколько точно. Город весомее страны.',
     dimensionIngredients:
@@ -12339,6 +12348,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'कोई विज्ञापन नहीं, और किसी पाठक को ट्रैक नहीं किया जाता।',
     notPopularity:
       'लोकप्रियता दर्ज होती है और अलग रखी जाती है। किसी व्यंजन का सबसे ज़्यादा प्रकाशित रूप कभी प्रामाणिक नहीं बनता।',
+    notSocial: "यहाँ कुछ भी सोशल मीडिया से नहीं आता। कोई व्यंजन कहाँ का है, यह दस्तावेज़ी स्रोत और उसे पकाने वाले लोग तय करते हैं — कभी वह नहीं जो चलन में हो।",
     dimensionOrigin:
       'व्यंजन कहाँ का है, और कितनी बारीकी से। कस्बा देश से बेहतर है।',
     dimensionIngredients:
@@ -13673,6 +13683,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '没有广告，也不追踪任何读者。',
     notPopularity:
       '热度会被记录并单独存放。一道菜流传最广的版本，永远不会因此成为正宗的那一个。',
+    notSocial: "这里没有任何内容来自社交媒体。一道菜来自哪里，由有据可查的资料和做这道菜的人决定，而不是由什么正在流行决定。",
     dimensionOrigin:
       '这道菜来自哪里，以及有多精确。一个镇胜过一个国家。',
     dimensionIngredients:
@@ -15007,6 +15018,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '広告はなく、読む人が追跡されることもありません。',
     notPopularity:
       '人気は記録され、別に扱われます。最も多く公開された版が、そのために本物になることはありません。',
+    notSocial: "ここにあるものは何一つソーシャルメディアから来ていません。料理がどこのものかを決めるのは、記録された資料とその料理を作る人々であり、流行っているものではありません。",
     dimensionOrigin:
       'その料理がどこのものか、そしてどこまで細かく特定できるか。町は国に勝ります。',
     dimensionIngredients:

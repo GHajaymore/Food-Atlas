@@ -337,11 +337,27 @@ export default function DishDetail() {
            */
           const opensAt = i === 0 ? part : dish.loc.region || part;
 
+          /*
+           * Displayed in the reader's language; queried in English, always.
+           *
+           * `DishCard` has run its breadcrumb through `placeName` since it was written
+           * and this page never did, so a French reader met "India" here and "Inde" on
+           * the card for the same dish. Found while checking what else stayed English on
+           * a translated record.
+           *
+           * The query below keeps `part` untouched, and that is not an oversight: the
+           * atlas is keyed on English place names — it is what the filters compare and
+           * what the data stores — so translating the value as well as the label would
+           * send a French reader to a country that matches nothing. `placeName` says the
+           * same of itself: it translates the display of a name and nothing else.
+           */
+          const shown = placeName(part, copy, locale);
+
           return (
           <Muted key={part} style={styles.breadcrumbText}>
             <FacetLink
-              label={part}
-              describedAs={copy.everythingFrom.replace('{place}', opensAt)}
+              label={shown}
+              describedAs={copy.everythingFrom.replace('{place}', placeName(opensAt, copy, locale))}
               query={
                 i === 0
                   ? { country: part }
@@ -819,7 +835,9 @@ export default function DishDetail() {
                     style={styles.sourceRow}
                   >
                     <T style={styles.sourceTitle}>{sibling.name}</T>
-                    <Muted style={styles.sourceMeta}>{sibling.breadcrumb.join(' › ')}</Muted>
+                    <Muted style={styles.sourceMeta}>
+                      {sibling.breadcrumb.map((step) => placeName(step, copy, locale)).join(' › ')}
+                    </Muted>
                     {forked.length ? <Muted style={styles.sourceMeta}>{forked[0].differs}</Muted> : null}
                   </Pressable>
                 ))}
