@@ -850,15 +850,30 @@ export default function Admin() {
           </CardBody>
         </Card>
 
+        {/*
+          * Two ways in, labelled as two.
+          *
+          * They used to be one unbroken column: a primary "Sign in" button, then the
+          * token field directly under it with nothing between. Ajay went to test the
+          * token, read the button as the only way forward, clicked it and was sent to
+          * Google — the wrong door, and the field he wanted was below it looking like
+          * part of the same step.
+          *
+          * A button and a field stacked with no separation read as one flow. These are
+          * alternatives, so they are drawn as alternatives.
+          */}
         {session.available && !session.signedIn ? (
-          <Button
-            label="Sign in"
-            block
-            onPress={() => {
-              window.location.href = signInUrl();
-            }}
-            style={styles.lockedAction}
-          />
+          <View style={styles.route}>
+            <Muted style={styles.routeLabel}>If you run this site</Muted>
+            <Button
+              label="Sign in"
+              block
+              onPress={() => {
+                window.location.href = signInUrl();
+              }}
+              style={styles.lockedAction}
+            />
+          </View>
         ) : null}
 
         {session.signedIn ? (
@@ -873,28 +888,32 @@ export default function Admin() {
           </View>
         ) : null}
 
-        <Field label={copy.administratorToken} style={styles.setting}>
-          <Input
-            value={token}
-            onChangeText={setToken}
-            placeholder={copy.tokenNotStored}
-            secureTextEntry
-            autoCapitalize="none"
-            accessibilityLabel={copy.administratorToken}
-          />
-        </Field>
-        {/*
-          * Said here because there is nowhere else it could be said.
-          *
-          * Without it the field is a box with no stated effect: somebody holding the
-          * token has no way to know that typing it opens the screen, and the person
-          * setting the site up for the first time has no way to discover that the owner
-          * seat is claimed from inside rather than from a command line.
-          */}
-        <Muted style={styles.note}>
-          Entering it opens this screen. If nobody owns the site yet, sign in first and you can then
-          claim it — the token proves the authority and the sign-in says who is claiming it.
-        </Muted>
+        <View style={styles.route}>
+          <View style={styles.routeRule} />
+          <Muted style={styles.routeLabel}>Or open it with the administrator token</Muted>
+          <Field label={copy.administratorToken} style={styles.setting}>
+            <Input
+              value={token}
+              onChangeText={setToken}
+              placeholder={copy.tokenNotStored}
+              secureTextEntry
+              autoCapitalize="none"
+              accessibilityLabel={copy.administratorToken}
+            />
+          </Field>
+          {/*
+            * Said here because there is nowhere else it could be said.
+            *
+            * Without it the field is a box with no stated effect: somebody holding the
+            * token has no way to know that typing it opens the screen, and the person
+            * setting the site up for the first time has no way to discover that the
+            * owner seat is claimed from inside rather than from a command line.
+            */}
+          <Muted style={styles.note}>
+            Entering it opens this screen. It is the way in for whoever holds the token rather than
+            an account — and, on a site nobody owns yet, the way the owner seat is first claimed.
+          </Muted>
+        </View>
       </Screen>
     );
   }
@@ -919,7 +938,12 @@ export default function Admin() {
 const styles = StyleSheet.create({
   intro: { padding: space[4], gap: space[2], marginBottom: space[2] },
   locked: { padding: space[4], gap: space[2], marginTop: space[4] },
-  lockedAction: { marginTop: space[4] },
+  lockedAction: { marginTop: space[2] },
+  route: { marginTop: space[6] },
+  routeRule: { height: 1, backgroundColor: color.divider, marginBottom: space[4] },
+  /* Small, uppercase and quiet: it names which of the two routes follows without
+     competing with the control underneath it for the eye. */
+  routeLabel: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: space[2] },
   panel: { marginTop: space[6], gap: space[3] },
   panelNote: { fontSize: 12, lineHeight: 18 },
   /* A monospaced 32-character hash, meant to be selected and sent to somebody. It gets a

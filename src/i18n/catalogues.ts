@@ -523,8 +523,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'No hay ningún servicio de traducción conectado a esta versión, así que nada se puede traducir automáticamente. De todos modos, la traducción de alguien que cocina este plato vale más: se puede aportar desde Añadir una tradición.',
     whatTheseTermsMean:
       'Qué significan estos términos',
-    signedIn:
-      'Sesión iniciada',
     signOut:
       'Cerrar sesión',
     signedInSignOut:
@@ -1858,8 +1856,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Aucun service de traduction n’est relié à cette version, rien ne peut donc être traduit automatiquement. De toute façon, une traduction faite par quelqu’un qui cuisine ce plat vaut mieux : elle peut être proposée via Ajouter une tradition.',
     whatTheseTermsMean:
       'Ce que ces termes veulent dire',
-    signedIn:
-      'Connecté',
     signOut:
       'Se déconnecter',
     signedInSignOut:
@@ -3192,8 +3188,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'An diesen Build ist kein Übersetzungsdienst angeschlossen, es kann also nichts automatisch übersetzt werden. Eine Übersetzung von jemandem, der dieses Gericht kocht, ist ohnehin mehr wert — sie lässt sich über Eine Tradition hinzufügen beitragen.',
     whatTheseTermsMean:
       'Was diese Begriffe bedeuten',
-    signedIn:
-      'Angemeldet',
     signOut:
       'Abmelden',
     signedInSignOut:
@@ -4526,8 +4520,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'A questa build non è collegato nessun servizio di traduzione, quindi non si può tradurre nulla automaticamente. Del resto una traduzione di chi cucina questo piatto vale di più: si può proporre da Aggiungi una tradizione.',
     whatTheseTermsMean:
       'Cosa vogliono dire questi termini',
-    signedIn:
-      'Accesso effettuato',
     signOut:
       'Esci',
     signedInSignOut:
@@ -5861,8 +5853,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Não há nenhum serviço de tradução ligado a esta versão, por isso nada pode ser traduzido automaticamente. De qualquer forma, uma tradução de quem cozinha este prato vale mais — pode ser dada em Adicionar uma tradição.',
     whatTheseTermsMean:
       'O que estes termos querem dizer',
-    signedIn:
-      'Sessão iniciada',
     signOut:
       'Terminar sessão',
     signedInSignOut:
@@ -7195,8 +7185,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Aan deze build is geen vertaaldienst gekoppeld, dus er kan niets automatisch vertaald worden. Een vertaling van iemand die dit gerecht kookt is sowieso meer waard — die kan via Een traditie toevoegen worden aangeleverd.',
     whatTheseTermsMean:
       'Wat deze termen betekenen',
-    signedIn:
-      'Aangemeld',
     signOut:
       'Afmelden',
     signedInSignOut:
@@ -8530,8 +8518,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Do tej wersji nie podłączono żadnej usługi tłumaczenia, więc nic nie da się przetłumaczyć automatycznie. I tak tłumaczenie od kogoś, kto gotuje tę potrawę, jest warte więcej — można je przekazać przez Dodaj tradycję.',
     whatTheseTermsMean:
       'Co znaczą te określenia',
-    signedIn:
-      'Zalogowano',
     signOut:
       'Wyloguj',
     signedInSignOut:
@@ -9888,8 +9874,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bu sürüme bağlı bir çeviri hizmeti yok, bu yüzden hiçbir şey kendiliğinden çevrilemiyor. Zaten bu yemeği pişiren birinin çevirisi daha değerlidir — Bir gelenek ekleyin üzerinden verilebilir.',
     whatTheseTermsMean:
       'Bu terimler ne demek',
-    signedIn:
-      'Oturum açık',
     signOut:
       'Çıkış yap',
     signedInSignOut:
@@ -11223,8 +11207,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'К этой сборке не подключён сервис перевода, поэтому автоматически ничего перевести нельзя. Перевод от того, кто готовит это блюдо, всё равно ценнее — его можно передать через Добавить традицию.',
     whatTheseTermsMean:
       'Что означают эти слова',
-    signedIn:
-      'Вы вошли',
     signOut:
       'Выйти',
     signedInSignOut:
@@ -12582,8 +12564,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'इस बिल्ड से कोई अनुवाद सेवा जुड़ी नहीं है, इसलिए कुछ भी अपने आप अनूदित नहीं हो सकता। वैसे भी जो इस व्यंजन को पकाता है, उसका अनुवाद ज़्यादा क़ीमती है — वह परंपरा जोड़ें से दिया जा सकता है।',
     whatTheseTermsMean:
       'इन शब्दों का मतलब',
-    signedIn:
-      'साइन इन है',
     signOut:
       'साइन आउट',
     signedInSignOut:
@@ -13917,8 +13897,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '这个版本没有接入任何翻译服务，所以无法自动翻译任何内容。何况，会做这道菜的人给的翻译更有价值 — 可以通过添加一项传统提供。',
     whatTheseTermsMean:
       '这些说法是什么意思',
-    signedIn:
-      '已登录',
     signOut:
       '退出登录',
     signedInSignOut:
@@ -15252,8 +15230,6 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'このビルドには翻訳サービスがつながっていないので、自動で訳せるものはありません。そもそも、この料理を作る人による翻訳のほうが値打ちがあります。伝統を追加するから寄せられます。',
     whatTheseTermsMean:
       'これらの言葉の意味',
-    signedIn:
-      'サインイン中',
     signOut:
       'サインアウト',
     signedInSignOut:

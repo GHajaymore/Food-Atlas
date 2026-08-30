@@ -74,7 +74,18 @@ export function SessionControl({ compact }: { compact?: boolean }) {
       >
         <T style={styles.mark}>●</T>
         <View style={compact ? undefined : styles.text}>
-          <T style={styles.label}>{compact ? copy.signedIn : copy.signOut}</T>
+          {/* "Sign out" in both, not "Signed in" in the masthead.
+
+              It is a button, and a button says what pressing it does. Labelling it with
+              a state left the desktop bar reading as a status while the identical
+              control in the phone colophon read as an action — and the accessibility
+              label has said `signedInSignOut` throughout, so a screen reader announced
+              the truth that the visible text withheld.
+
+              Nothing is lost by dropping the status: the dot beside it and the presence
+              of the control both already say a session exists. Ajay asked for this after
+              looking for a way to sign out and finding what looked like a label. */}
+          <T style={styles.label}>{copy.signOut}</T>
           {compact ? null : (
             <Muted style={styles.note}>{copy.confirmationsCount}</Muted>
           )}

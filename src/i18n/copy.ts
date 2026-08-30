@@ -397,7 +397,6 @@ export interface Copy {
   opensOnceMoreRecords: string;
   noTranslationService: string;
   whatTheseTermsMean: string;
-  signedIn: string;
   signOut: string;
   signedInSignOut: string;
   confirmationsCount: string;
@@ -1376,8 +1375,6 @@ export const EN: Copy = {
     'No translation service is connected to this build, so nothing can be translated automatically. A translation from someone who cooks this dish is worth more than one anyway — it can be contributed through Add a tradition.',
   whatTheseTermsMean:
     'What these terms mean',
-  signedIn:
-    'Signed in',
   signOut:
     'Sign out',
   signedInSignOut:
