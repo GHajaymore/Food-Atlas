@@ -98,6 +98,21 @@ export interface Copy {
   confidence: string;
   growTheAtlas: string;
   addATradition: string;
+  privacyTitle: string;
+  privacyLede: string;
+  privacyCountsHeading: string;
+  privacyCountsBody: string;
+  privacyCookiesHeading: string;
+  privacyCookiesBody: string;
+  privacyPublicHeading: string;
+  privacyPublicBody: string;
+  privacyOthersHeading: string;
+  privacyOthersBody: string;
+  privacyPlainHeading: string;
+  privacyPlainBody: string;
+  privacyContactHeading: string;
+  privacyContactBody: string;
+  privacyLink: string;
   keepingItFree: string;
   whatItCostsToRun: string;
   anywhere: string;
@@ -918,6 +933,21 @@ export const EN: Copy = {
   confidence: 'Confidence',
   growTheAtlas: 'Grow the atlas',
   addATradition: 'Add a tradition from your area',
+  privacyTitle: "What this site knows about you",
+  privacyLede: "Almost nothing, and this page says exactly what. There is no advertising here, no analytics service, and no profile of you anywhere. Every line below can be checked against the source code, which is public. This page is written in English, and the English version is the authoritative one.",
+  privacyCountsHeading: "Counted, not tracked",
+  privacyCountsBody: "How many people opened a dish or ran a search, as a number, once a day. There is no column for who did it and no time finer than the date, so two counts cannot be joined into a trail of one person's reading. Your IP address, your browser and your location are never read.",
+  privacyCookiesHeading: "Cookies, and signing in",
+  privacyCookiesBody: "Two cookies, both signed and neither readable by scripts on the page. One keeps a confirmation counting once per person. The other exists only if you sign in with Google — and even then the app asks Google for one thing: that you are the same person as last time. No email address, no name, no picture, and no user table anywhere in this database. Your chosen language is remembered inside your own browser and never sent anywhere.",
+  privacyPublicHeading: "What you write is public",
+  privacyPublicBody: "A dish you propose, and a confirmation you add, are published on the record along with the name you type and how you describe your connection to the place. That is the point: evidence is only worth something if a reader can see who gave it. Write nothing there you would not want read.",
+  privacyOthersHeading: "Other people's servers",
+  privacyOthersBody: "Photographs come from Wikimedia Commons and video stills from YouTube, so your browser fetches them directly and those companies see your IP address as a result. The site itself is served by Cloudflare. They keep their own logs under their own policies, and this project has no control over them. Saying \"nothing tracked\" without saying that would be a half-truth.",
+  privacyPlainHeading: "Who runs this, and what it is not",
+  privacyPlainBody: "This site is operated by AjAi Labs. It is free, carries no advertising and sells nothing. Nothing here is dietary, allergen, nutritional or medical advice: records are built from openly licensed sources and may omit an ingredient or describe a method inaccurately, so check an authoritative source before cooking for anyone whose health depends on it. The atlas is provided as it is, without warranty of any kind. To the maximum extent permitted by law, AjAi Labs accepts no liability for any loss arising from use of the site or from reliance on anything published here. Content submitted by readers is the responsibility of whoever submitted it, and material on other people's sites is neither controlled nor endorsed by us.",
+  privacyContactHeading: "Removing something, or asking",
+  privacyContactBody: "Anything you wrote can be taken down — a proposal, a confirmation, or the name attached to one. There is no form for it yet: write to contact@ajailabs.app and it will be removed. The same address answers any question about what is held about you.",
+  privacyLink: "Privacy",
   keepingItFree: 'Keeping it free',
   whatItCostsToRun: 'What it costs to run',
   anywhere: 'Anywhere',

@@ -2859,6 +2859,10 @@ describe('the chrome in other languages', () => {
 
     'pl.geoRegion', // "region" is the Polish word, spelled the same.
 
+    // "Privacy" is the ordinary word in Italian and Dutch — both borrowed it whole,
+    // and the ones with a native form used it: Privacidad, Confidentialité, Datenschutz.
+    'it.privacyLink', 'nl.privacyLink',
+
     /*
      * Continents. A continent's name is a proper noun and several are spelled identically
      * across languages — every one of these is the correct word in its own language, and

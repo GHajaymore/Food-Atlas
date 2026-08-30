@@ -24,7 +24,7 @@
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
-import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
+import { Block } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
 import { useCopy, useNumber } from '../src/i18n';
 import { Pressable } from '../src/components/Pressable';
@@ -107,12 +107,19 @@ export default function Support() {
           ) : null}
         </>
       ) : (
-        /* No destination, no button. A donate control pointing nowhere spends a
-           reader's goodwill on a dead link, which is worse than not asking. */
-        <Card style={styles.pending}>
-          <CardKicker>{copy.notOpenForDonationsYet}</CardKicker>
-          <CardBody>{copy.donationsPendingBody}</CardBody>
-        </Card>
+        /*
+         * Nothing at all, rather than a card saying "not open for donations yet".
+         *
+         * That placeholder was the worst of both readings: it asked for nothing while
+         * promising a future ask, on a project that does not collect money and is not
+         * waiting to. Ajay called it out directly. With no destination configured the
+         * page now goes straight from what money cannot buy here to the thing that is
+         * actually wanted, which is a tradition.
+         *
+         * The wiring above is untouched, so setting EXPO_PUBLIC_DONATE_URL or an Open
+         * Collective slug brings the button back with no code change.
+         */
+        null
       )}
 
       <Muted style={styles.footnote}>{copy.mostUsefulThing}</Muted>
@@ -170,7 +177,6 @@ const styles = StyleSheet.create({
   notForSale: { fontSize: 11, lineHeight: 11 * 1.55, borderLeftWidth: 1, borderLeftColor: color.divider, paddingLeft: 10 },
 
   ledger: { marginTop: 10 },
-  pending: { marginBottom: 16 },
   footnote: { fontSize: 11, lineHeight: 11 * 1.55, marginTop: 12 },
   contribute: { marginTop: 12 },
 });

@@ -77,6 +77,7 @@ const columnsFor = (copy: Copy): Column[] => [
     links: [
       { label: copy.howItWorks, to: '/how' },
       { label: copy.keepingItFree, to: '/support' },
+      { label: copy.privacyLink, to: '/privacy' },
     ],
   },
 ];

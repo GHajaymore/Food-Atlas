@@ -42,6 +42,7 @@ const linksFor = (copy: Copy): { label: string; to: string; note: string }[] => 
    */
   { label: copy.confirmAProposal, to: '/proposals', note: copy.navConfirmNote },
   { label: copy.keepingItFree, to: '/support', note: copy.navSupportNote },
+  { label: copy.privacyLink, to: '/privacy', note: copy.privacyTitle },
 ];
 
 export function SiteNav() {
