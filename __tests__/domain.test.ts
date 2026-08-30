@@ -1742,6 +1742,64 @@ describe('the translation provider is held to the preservation rules', () => {
     expect(prompt).toMatch(/Do NOT change any number, duration, temperature/);
   });
 
+  /*
+   * A zero is not an instruction the smallest model reads.
+   *
+   * The rule said "Keep the same number of steps: 0", which is true and which the model
+   * walked past, because the JSON shape below it still asks for a steps array. On Jalebi
+   * that produced one invented sentence repeated until the response was truncated.
+   */
+  it('tells a record with no method that its steps array must be empty', () => {
+    const none = { ...target(), steps: [] };
+    const prompt = buildPrompt(none, 'fr');
+    expect(prompt).toMatch(/NO recorded method/);
+    expect(prompt).toMatch(/must be exactly \[\]/);
+    expect(prompt).not.toMatch(/Keep the same number of steps/);
+  });
+
+  it('still asks a record with a method to keep every step', () => {
+    const prompt = buildPrompt(target(), 'fr');
+    expect(prompt).toMatch(/Keep the same number of steps: \d+/);
+    expect(prompt).not.toMatch(/NO recorded method/);
+  });
+  /*
+   * Every other rule passes on a response that changed nothing at all.
+   *
+   * Nothing was renamed, no number moved, no step appeared, and the script check allows
+   * the original's own script because a translation may quote it. So Jalebi's Arabic came
+   * back verbatim, passed, and displayed under a banner reading "Machine translation" —
+   * a claim that a translation had happened when it had not.
+   */
+  it('refuses a response that handed the original back unchanged', () => {
+    const dish = target();
+    const echo: DishTranslation = {
+      code: 'fr',
+      blurb: dish.blurb,
+      prepSummary: dish.prepSummary,
+      steps: dish.steps,
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+    };
+    expect(() => assertTargetScript(dish, echo, 'fr')).toThrow(/returned the original text unchanged/);
+  });
+
+  it('allows a translation that actually changed the prose', () => {
+    const dish = target();
+    const real: DishTranslation = {
+      code: 'fr',
+      blurb: 'Une description entierement differente du plat, ecrite en francais pour ce test.',
+      prepSummary: 'Un resume de la preparation, egalement en francais et nettement plus long que quarante caracteres.',
+      steps: dish.steps,
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+    };
+    expect(() => assertTargetScript(dish, real, 'fr')).not.toThrow();
+  });
+
   it('rejects a translation that dropped a step', () => {
     const dish = target();
     const bad: DishTranslation = {

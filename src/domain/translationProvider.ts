@@ -264,6 +264,30 @@ const A_WORD = 3;
  * has no innocent explanation.
  */
 export function assertTargetScript(dish: Dish, result: DishTranslation, target: string): void {
+  /*
+   * The prose handed back unchanged is not a translation.
+   *
+   * The script check below cannot catch this, and correctly so: it allows any script that
+   * appears in the original, because a translation may legitimately quote it. An answer
+   * that is byte-identical to the source is allowed by that rule and by every other one
+   * here — nothing was renamed, no number moved, no step appeared.
+   *
+   * Asked for French, Jalebi's Arabic account came back verbatim with only the glossary
+   * in French. Every check passed, so the record displayed the original Arabic under a
+   * banner reading "Machine translation" — a claim that a translation had happened when
+   * it had not, which is worse than the failure it replaced.
+   *
+   * Length-guarded because a very short blurb can legitimately survive translation
+   * unchanged — a proper noun, a one-word name. Forty characters is past that.
+   */
+  const untouched = (a: string, b: string) => a.trim().length > 40 && a.trim() === b.trim();
+  if (untouched(dish.blurb, result.blurb) && untouched(dish.prepSummary, result.prepSummary)) {
+    throw new PreservationError(
+      `Translation into ${languageName(target)} returned the original text unchanged. ` +
+        `An untranslated record is not shown as a translation.`,
+    );
+  }
+
   const language = target.toLowerCase().split(/[-_]/)[0];
   const allowed = new Set([
     ...(WRITTEN_IN[language] ?? []),
@@ -295,7 +319,21 @@ export function buildPrompt(dish: Dish, target: string): string {
     '2. Do NOT change any number, duration, temperature, quantity or proportion.',
     '3. Do NOT simplify, shorten, modernise or make the method more approachable. Translate what is there, including hand techniques and long waiting times.',
     '4. Do NOT add an ingredient, a step, or an explanatory aside that is not in the original.',
-    `5. Keep the same number of steps: ${dish.steps.length}.`,
+    /*
+     * A record with no method needs telling so in words, not by a zero.
+     *
+     * "Keep the same number of steps: 0" is a true instruction that the smallest model
+     * reads straight past, because the shape below still asks for a `steps` array and an
+     * array wants filling. Asked for French, Jalebi came back with the same invented
+     * Arabic sentence repeated until the response hit `max_tokens` and the JSON was cut
+     * off mid-array — which is what Ajay saw as the language picker doing nothing.
+     *
+     * The guards added elsewhere stop that being cached or shown. This is the attempt to
+     * stop it happening: say there is no method, and say what the array must be.
+     */
+    dish.steps.length === 0
+      ? '5. This record has NO recorded method. "steps" must be exactly []. Do not write any steps, and do not invent a preparation.'
+      : `5. Keep the same number of steps: ${dish.steps.length}.`,
     '',
     'Return JSON only, matching this shape:',
     '{"blurb":string,"prepSummary":string,"steps":string[],"adaptation":{"traditional":string,"substitute":string}|null,"disclaimer":string,"glossary":{[originalTerm:string]:string}}',
