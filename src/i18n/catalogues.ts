@@ -138,8 +138,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Propón uno que falte en el atlas',
     whatItDoesNotBuy: 'Lo que no compra',
     contributeOnOpenCollective: 'Contribuir en Open Collective',
-    readTheLedger: 'Ver el libro de cuentas — cada aporte y cada gasto',
-    notOpenForDonationsYet: 'Aún no abierto a donaciones',
+    readTheLedger: 'Ver el libro de cuentas — cada aporte y cada gasto',
     browse: 'Explorar',
     startAgain: 'Empezar de nuevo',
     openProposals: 'Propuestas abiertas',
@@ -259,9 +258,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Aquí no hay publicidad, y no se rastrea a ningún lector.',
     donationFootnote:
-      'Se abre en Open Collective. Aquí no se cobra nada: esta app no guarda datos de pago tuyos y nunca lo hará.',
-    donationsPendingBody:
-      'Todavía no hay adónde enviar dinero. Nada del atlas depende de que lo haya: está construido con fuentes libres de leer, y eso no cambia.',
+      'Se abre en Open Collective. Aquí no se cobra nada: esta app no guarda datos de pago tuyos y nunca lo hará.',
     mostUsefulThing:
       'Lo más útil que alguien puede dar a este atlas no es dinero. La mayor parte es un nombre y un lugar porque nadie ha escrito cómo se hace la comida.',
     administration:
@@ -1476,8 +1473,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Proposez-en un qui manque à l’atlas',
     whatItDoesNotBuy: 'Ce que cela n’achète pas',
     contributeOnOpenCollective: 'Contribuer sur Open Collective',
-    readTheLedger: 'Consulter le registre — chaque contribution et chaque dépense',
-    notOpenForDonationsYet: 'Pas encore ouvert aux dons',
+    readTheLedger: 'Consulter le registre — chaque contribution et chaque dépense',
     browse: 'Parcourir',
     startAgain: 'Recommencer',
     openProposals: 'Propositions ouvertes',
@@ -1597,9 +1593,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Rien ici n’est de la publicité, et aucun lecteur n’est pisté.',
     donationFootnote:
-      'S’ouvre sur Open Collective. Rien n’est encaissé ici — cette application ne détient aucune de vos coordonnées de paiement et n’en détiendra jamais.',
-    donationsPendingBody:
-      'Il n’y a encore nulle part où envoyer de l’argent. Rien dans l’atlas n’en dépend : il est bâti sur des sources libres de lecture, et cela ne change pas.',
+      'S’ouvre sur Open Collective. Rien n’est encaissé ici — cette application ne détient aucune de vos coordonnées de paiement et n’en détiendra jamais.',
     mostUsefulThing:
       'La chose la plus utile que l’on puisse donner à cet atlas n’est pas de l’argent. L’essentiel se résume à un nom et un lieu, parce que personne n’a écrit comment le plat se prépare.',
     administration:
@@ -2813,8 +2807,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Schlagen Sie eines vor, das dem Atlas fehlt',
     whatItDoesNotBuy: 'Was es nicht kauft',
     contributeOnOpenCollective: 'Auf Open Collective beitragen',
-    readTheLedger: 'Das Kassenbuch lesen — jeder Beitrag und jede Ausgabe',
-    notOpenForDonationsYet: 'Noch nicht für Spenden geöffnet',
+    readTheLedger: 'Das Kassenbuch lesen — jeder Beitrag und jede Ausgabe',
     browse: 'Stöbern',
     startAgain: 'Neu beginnen',
     openProposals: 'Offene Vorschläge',
@@ -2934,9 +2927,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Nichts hier ist Werbung, und kein Lesender wird verfolgt.',
     donationFootnote:
-      'Öffnet bei Open Collective. Hier wird nichts eingezogen — diese App hält keine Ihrer Zahlungsdaten und wird das nie tun.',
-    donationsPendingBody:
-      'Es gibt noch keinen Ort, an den Geld gehen könnte. Nichts am Atlas hängt davon ab — er steht auf frei lesbaren Quellen, und daran ändert sich nichts.',
+      'Öffnet bei Open Collective. Hier wird nichts eingezogen — diese App hält keine Ihrer Zahlungsdaten und wird das nie tun.',
     mostUsefulThing:
       'Das Nützlichste, das jemand diesem Atlas geben kann, ist kein Geld. Das meiste davon ist ein Name und ein Ort, weil niemand aufgeschrieben hat, wie das Essen gemacht wird.',
     administration:
@@ -4150,8 +4141,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Proponine uno che manca all’atlante',
     whatItDoesNotBuy: 'Che cosa non compra',
     contributeOnOpenCollective: 'Contribuisci su Open Collective',
-    readTheLedger: 'Leggi il registro — ogni contributo e ogni spesa',
-    notOpenForDonationsYet: 'Non ancora aperto alle donazioni',
+    readTheLedger: 'Leggi il registro — ogni contributo e ogni spesa',
     browse: 'Sfoglia',
     startAgain: 'Ricomincia',
     openProposals: 'Proposte aperte',
@@ -4271,9 +4261,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Qui non c’è pubblicità, e nessun lettore viene tracciato.',
     donationFootnote:
-      'Si apre su Open Collective. Qui non si incassa nulla: questa app non conserva alcun tuo dato di pagamento e non lo farà mai.',
-    donationsPendingBody:
-      'Non c’è ancora dove mandare del denaro. Niente dell’atlante dipende da questo: è costruito su fonti libere da leggere, e questo non cambia.',
+      'Si apre su Open Collective. Qui non si incassa nulla: questa app non conserva alcun tuo dato di pagamento e non lo farà mai.',
     mostUsefulThing:
       'La cosa più utile che si possa dare a questo atlante non è il denaro. Gran parte di esso è un nome e un luogo perché nessuno ha scritto come si prepara il cibo.',
     administration:
@@ -5488,8 +5476,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Proponha um que falte ao atlas',
     whatItDoesNotBuy: 'O que não compra',
     contributeOnOpenCollective: 'Contribuir no Open Collective',
-    readTheLedger: 'Ler o livro de contas — cada contributo e cada despesa',
-    notOpenForDonationsYet: 'Ainda não aberto a donativos',
+    readTheLedger: 'Ler o livro de contas — cada contributo e cada despesa',
     browse: 'Explorar',
     startAgain: 'Começar de novo',
     openProposals: 'Propostas abertas',
@@ -5609,9 +5596,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Nada aqui é publicidade, e nenhum leitor é rastreado.',
     donationFootnote:
-      'Abre no Open Collective. Aqui não se cobra nada — esta aplicação não guarda dados de pagamento seus e nunca guardará.',
-    donationsPendingBody:
-      'Ainda não há para onde enviar dinheiro. Nada no atlas depende disso — está construído sobre fontes livres de ler, e isso não muda.',
+      'Abre no Open Collective. Aqui não se cobra nada — esta aplicação não guarda dados de pagamento seus e nunca guardará.',
     mostUsefulThing:
       'A coisa mais útil que alguém pode dar a este atlas não é dinheiro. A maior parte dele é um nome e um lugar porque ninguém escreveu como a comida se faz.',
     administration:
@@ -6825,8 +6810,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Stel er een voor die de atlas mist',
     whatItDoesNotBuy: 'Wat het niet koopt',
     contributeOnOpenCollective: 'Bijdragen via Open Collective',
-    readTheLedger: 'Lees het kasboek — elke bijdrage en elke uitgave',
-    notOpenForDonationsYet: 'Nog niet open voor donaties',
+    readTheLedger: 'Lees het kasboek — elke bijdrage en elke uitgave',
     browse: 'Bladeren',
     startAgain: 'Opnieuw beginnen',
     openProposals: 'Open voorstellen',
@@ -6946,9 +6930,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Niets hier is reclame, en geen lezer wordt gevolgd.',
     donationFootnote:
-      'Opent bij Open Collective. Hier wordt niets geïnd — deze app bewaart geen betaalgegevens van u en zal dat nooit doen.',
-    donationsPendingBody:
-      'Er is nog nergens om geld heen te sturen. Niets aan de atlas hangt daarvan af — hij staat op bronnen die vrij te lezen zijn, en dat verandert niet.',
+      'Opent bij Open Collective. Hier wordt niets geïnd — deze app bewaart geen betaalgegevens van u en zal dat nooit doen.',
     mostUsefulThing:
       'Het nuttigste dat iemand deze atlas kan geven is geen geld. Het meeste ervan is een naam en een plek, omdat niemand heeft opgeschreven hoe het eten gemaakt wordt.',
     administration:
@@ -8163,8 +8145,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Zaproponuj tę, której brakuje w atlasie',
     whatItDoesNotBuy: 'Czego to nie kupuje',
     contributeOnOpenCollective: 'Wesprzyj przez Open Collective',
-    readTheLedger: 'Przeczytaj księgę — każdą wpłatę i każdy wydatek',
-    notOpenForDonationsYet: 'Jeszcze nie otwarte na wpłaty',
+    readTheLedger: 'Przeczytaj księgę — każdą wpłatę i każdy wydatek',
     browse: 'Przeglądaj',
     startAgain: 'Zacznij od nowa',
     openProposals: 'Otwarte propozycje',
@@ -8284,9 +8265,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Nic tutaj nie jest reklamą i żaden czytelnik nie jest śledzony.',
     donationFootnote:
-      'Otwiera się w Open Collective. Tutaj nic nie jest pobierane — ta aplikacja nie przechowuje żadnych twoich danych płatniczych i nigdy nie będzie.',
-    donationsPendingBody:
-      'Nie ma jeszcze dokąd wysłać pieniędzy. Nic w atlasie od tego nie zależy — stoi na źródłach wolnych do czytania, a to się nie zmienia.',
+      'Otwiera się w Open Collective. Tutaj nic nie jest pobierane — ta aplikacja nie przechowuje żadnych twoich danych płatniczych i nigdy nie będzie.',
     mostUsefulThing:
       'Najbardziej przydatną rzeczą, jaką można dać temu atlasowi, nie są pieniądze. Większość z niego to nazwa i miejsce, bo nikt nie zapisał, jak tę potrawę się robi.',
     administration:
@@ -9524,8 +9503,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Atlasta eksik olan birini önerin',
     whatItDoesNotBuy: 'Neyi satın almaz',
     contributeOnOpenCollective: 'Open Collective üzerinden katkıda bulunun',
-    readTheLedger: 'Defteri okuyun — her katkı ve her gider',
-    notOpenForDonationsYet: 'Bağışlara henüz açık değil',
+    readTheLedger: 'Defteri okuyun — her katkı ve her gider',
     browse: 'Göz at',
     startAgain: 'Yeniden başla',
     openProposals: 'Açık öneriler',
@@ -9645,9 +9623,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Burada hiçbir şey reklam değildir ve hiçbir okur izlenmez.',
     donationFootnote:
-      'Open Collective’te açılır. Burada hiçbir tahsilat yapılmaz — bu uygulama ödeme bilgilerinizi tutmaz ve hiçbir zaman tutmayacak.',
-    donationsPendingBody:
-      'Henüz para gönderilecek bir yer yok. Atlasta hiçbir şey buna bağlı değil; okunması serbest kaynaklar üzerine kurulu ve bu değişmiyor.',
+      'Open Collective’te açılır. Burada hiçbir tahsilat yapılmaz — bu uygulama ödeme bilgilerinizi tutmaz ve hiçbir zaman tutmayacak.',
     mostUsefulThing:
       'Bu atlasa verilebilecek en yararlı şey para değildir. Atlasın çoğu bir ad ve bir yerden ibaret, çünkü kimse yemeğin nasıl yapıldığını yazmamış.',
     administration:
@@ -10862,8 +10838,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'Предложите то, чего в атласе нет',
     whatItDoesNotBuy: 'Что на это не купить',
     contributeOnOpenCollective: 'Поддержать через Open Collective',
-    readTheLedger: 'Открыть книгу учёта — каждый взнос и каждый расход',
-    notOpenForDonationsYet: 'Приём пожертвований пока не открыт',
+    readTheLedger: 'Открыть книгу учёта — каждый взнос и каждый расход',
     browse: 'Обзор',
     startAgain: 'Начать заново',
     openProposals: 'Открытые предложения',
@@ -10983,9 +10958,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'Здесь нет рекламы, и ни за одним читателем не следят.',
     donationFootnote:
-      'Откроется на Open Collective. Здесь ничего не принимается — приложение не хранит ваших платёжных данных и не будет.',
-    donationsPendingBody:
-      'Отправлять деньги пока некуда. Ничто в атласе от этого не зависит — он построен на источниках, свободных для чтения, и это не меняется.',
+      'Откроется на Open Collective. Здесь ничего не принимается — приложение не хранит ваших платёжных данных и не будет.',
     mostUsefulThing:
       'Самое полезное, что можно дать этому атласу, — не деньги. Большая его часть — это название и место, потому что никто не записал, как эту еду готовят.',
     administration:
@@ -12224,8 +12197,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'जो एटलस में नहीं है, वह प्रस्तावित करें',
     whatItDoesNotBuy: 'इससे क्या नहीं मिलता',
     contributeOnOpenCollective: 'Open Collective पर योगदान करें',
-    readTheLedger: 'लेखा-जोखा देखें — हर योगदान और हर ख़र्च',
-    notOpenForDonationsYet: 'अभी दान के लिए खुला नहीं',
+    readTheLedger: 'लेखा-जोखा देखें — हर योगदान और हर ख़र्च',
     browse: 'देखें',
     startAgain: 'फिर से शुरू करें',
     openProposals: 'खुले प्रस्ताव',
@@ -12345,9 +12317,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'यहाँ कुछ भी विज्ञापन नहीं है, और किसी पाठक को ट्रैक नहीं किया जाता।',
     donationFootnote:
-      'Open Collective पर खुलता है। यहाँ कुछ भी वसूला नहीं जाता — यह ऐप आपके भुगतान विवरण नहीं रखता और कभी नहीं रखेगा।',
-    donationsPendingBody:
-      'पैसे भेजने की अभी कोई जगह नहीं है। एटलस में कुछ भी इस पर निर्भर नहीं है — यह पढ़ने के लिए मुफ़्त स्रोतों पर बना है, और वह नहीं बदलता।',
+      'Open Collective पर खुलता है। यहाँ कुछ भी वसूला नहीं जाता — यह ऐप आपके भुगतान विवरण नहीं रखता और कभी नहीं रखेगा।',
     mostUsefulThing:
       'इस एटलस को कोई जो सबसे उपयोगी चीज़ दे सकता है वह पैसा नहीं है। इसका ज़्यादातर हिस्सा बस एक नाम और एक जगह है, क्योंकि किसी ने लिखा ही नहीं कि वह खाना कैसे बनता है।',
     administration:
@@ -13562,8 +13532,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: '提议一道图谱里没有的菜',
     whatItDoesNotBuy: '这笔钱买不到什么',
     contributeOnOpenCollective: '在 Open Collective 上支持',
-    readTheLedger: '查看账本 — 每一笔收入与支出',
-    notOpenForDonationsYet: '尚未开放捐助',
+    readTheLedger: '查看账本 — 每一笔收入与支出',
     browse: '浏览',
     startAgain: '重新开始',
     openProposals: '待确认的提议',
@@ -13683,9 +13652,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       '这里没有任何广告，也不追踪任何读者。',
     donationFootnote:
-      '在 Open Collective 打开。这里不收取任何款项 — 本应用不保存你的支付信息，将来也不会。',
-    donationsPendingBody:
-      '目前还没有可以汇款的地方。图册里没有任何东西依赖于此 — 它建立在可自由阅读的来源之上，而这一点不会变。',
+      '在 Open Collective 打开。这里不收取任何款项 — 本应用不保存你的支付信息，将来也不会。',
     mostUsefulThing:
       '能给这份图谱最有用的东西不是钱。它大部分只有一个名字和一个地方，因为没有人写下这道菜怎么做。',
     administration:
@@ -14900,8 +14867,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     proposeOneMissing: 'アトラスにない料理を提案する',
     whatItDoesNotBuy: 'それで買えないもの',
     contributeOnOpenCollective: 'Open Collective で支援する',
-    readTheLedger: '会計を見る — すべての寄付と支出',
-    notOpenForDonationsYet: '寄付はまだ受け付けていません',
+    readTheLedger: '会計を見る — すべての寄付と支出',
     browse: '見てまわる',
     startAgain: 'やり直す',
     openProposals: '確認待ちの提案',
@@ -15021,9 +14987,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     notForSaleAdvertising:
       'ここに広告はありません。読む人が追跡されることもありません。',
     donationFootnote:
-      'Open Collective で開きます。ここでは何も受け取りません — このアプリはあなたの支払い情報を保持しませんし、今後も保持しません。',
-    donationsPendingBody:
-      'お金を送る先はまだありません。アトラスの何もそれに依存していません。自由に読める資料の上に成り立っていて、そこは変わりません。',
+      'Open Collective で開きます。ここでは何も受け取りません — このアプリはあなたの支払い情報を保持しませんし、今後も保持しません。',
     mostUsefulThing:
       'このアトラスに差し出せるいちばん役に立つものは、お金ではありません。その大半は名前と場所だけです。誰もその料理の作り方を書き留めなかったからです。',
     administration:

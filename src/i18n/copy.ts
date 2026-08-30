@@ -167,8 +167,7 @@ export interface Copy {
   proposeOneMissing: string;
   whatItDoesNotBuy: string;
   contributeOnOpenCollective: string;
-  readTheLedger: string;
-  notOpenForDonationsYet: string;
+  readTheLedger: string;
   browse: string;
   startAgain: string;
   openProposals: string;
@@ -252,8 +251,7 @@ export interface Copy {
   notForSaleAuthentic: string;
   notForSalePromotion: string;
   notForSaleAdvertising: string;
-  donationFootnote: string;
-  donationsPendingBody: string;
+  donationFootnote: string;
   mostUsefulThing: string;
   administration: string;
   administrationNote: string;
@@ -992,8 +990,7 @@ export const EN: Copy = {
   proposeOneMissing: 'Propose one the atlas is missing',
   whatItDoesNotBuy: 'What it does not buy',
   contributeOnOpenCollective: 'Contribute on Open Collective',
-  readTheLedger: 'Read the ledger — every contribution and expense',
-  notOpenForDonationsYet: 'Not open for donations yet',
+  readTheLedger: 'Read the ledger — every contribution and expense',
   browse: 'Browse',
   startAgain: 'Start again',
   openProposals: 'Open proposals',
@@ -1113,9 +1110,7 @@ export const EN: Copy = {
   notForSaleAdvertising:
     'Nothing here is advertising, and no reader is tracked.',
   donationFootnote:
-    'Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and never will.',
-  donationsPendingBody:
-    'There is nowhere to send money to yet. Nothing about the atlas depends on there being one — it is built on sources that are free to read, and that does not change.',
+    'Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and never will.',
   mostUsefulThing:
     'The most useful thing anyone can give this atlas is not money. Most of it is a name and a place because nobody has written down how the food is made.',
   administration:
