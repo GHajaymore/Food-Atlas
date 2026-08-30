@@ -205,14 +205,43 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   if (dish !== null) {
     /*
-     * Stored even though the app has not parsed it yet.
+     * Two things this layer *can* check, and must, before storing anything.
      *
-     * The parse and the preserved-term check live in `translationProvider.ts`, where the
-     * record's own ingredient list is available; this layer has the text and nothing to
-     * check it against. A rejected translation therefore stays cached — which is right,
-     * because a second call would send the identical prompt to the identical model and
-     * pay again for the same answer.
+     * The old note here said a rejected translation stays cached because "this layer has
+     * the text and nothing to check it against". That is true of the preserved-term check
+     * — it needs the record's ingredient list, which lives in the app — and false of
+     * everything below. Whether the model returned parseable JSON, and whether it fell
+     * into a repetition loop, are answerable here with nothing but the text.
+     *
+     * It mattered. Asked for French, Jalebi's Arabic account came back untranslated, with
+     * the same invented Arabic sentence repeated thirty-odd times until the response hit
+     * `max_tokens` and the JSON was cut off mid-array. That was stored, so every later
+     * reader got the truncated garbage back marked `cached: true` and the record was
+     * permanently unreadable in French. Ajay found it as "Read this in doesn't do
+     * anything", which is exactly what it looks like from the page.
+     *
+     * Re-asking costs one call against a daily allowance that already bounds the spend.
+     * Storing a response nobody can parse costs the record, for good.
      */
+    let parsed: { steps?: unknown } | null = null;
+    try {
+      parsed = JSON.parse(text) as { steps?: unknown };
+    } catch {
+      await refund();
+      return json({ error: 'The translation service returned something unreadable.' }, 502);
+    }
+
+    /*
+     * A small model asked to fill a `steps` array for a record that has no method will
+     * sometimes emit the same sentence until it runs out of room. One repeat is a
+     * coincidence; a dozen identical strings is a model that stopped translating.
+     */
+    const steps = Array.isArray(parsed?.steps) ? (parsed.steps as unknown[]).map(String) : [];
+    if (steps.length > 2 && new Set(steps).size === 1) {
+      await refund();
+      return json({ error: 'The translation service repeated itself instead of translating.' }, 502);
+    }
+
     await env.DB.prepare(
       'INSERT INTO translation (dish_id, lang, body, translator, made_on) VALUES (?, ?, ?, ?, ?) ' +
         'ON CONFLICT(dish_id, lang) DO UPDATE SET body = excluded.body, made_on = excluded.made_on',

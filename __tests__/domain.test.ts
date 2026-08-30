@@ -1757,6 +1757,33 @@ describe('the translation provider is held to the preservation rules', () => {
     expect(() => assertPreserved(dish, bad)).toThrow(/method must survive translation intact/);
   });
 
+  /*
+   * The other side of the same rule, and the one that made a live record unreadable.
+   *
+   * Jalebi is documented in Arabic and has no recorded method. Asked for French, the
+   * model returned fifteen steps it had made up, the step-count rule refused the whole
+   * response, and a reader clicking a language got an error instead of a translation --
+   * which is what Ajay reported as the control doing nothing.
+   *
+   * There is no method here to protect, so invented steps are dropped and the prose
+   * translation stands. The rule still fires the moment there is something to lose.
+   */
+  it('drops invented steps for a record that has no method, rather than refusing it', () => {
+    const dish = { ...target(), steps: [] };
+    const invented: DishTranslation = {
+      code: 'fr',
+      blurb: dish.blurb,
+      prepSummary: dish.prepSummary,
+      steps: ['Une etape inventee', 'Une autre'],
+      adaptation: dish.adaptation,
+      disclaimer: dish.disclaimer,
+      translator: 'automated translation',
+      machine: true,
+    };
+    expect(() => assertPreserved(dish, invented)).not.toThrow();
+    expect(invented.steps).toEqual([]);
+  });
+
   it('rejects a translation that changed a duration', () => {
     const dish = target();
     const bad: DishTranslation = {

@@ -73,10 +73,47 @@ export const preservedTerms = (dish: Dish): string[] => [
 ];
 
 /**
+ * How long a translation may take before the app gives up on it.
+ *
+ * Neither request had a timeout, so a model that never answered left the record on
+ * "Translating…" for ever. Ajay reported the language picker as doing nothing, and on a
+ * record whose model call hangs that is precisely what it does: the request goes out, the
+ * button changes, and nothing ever comes back to change it again.
+ *
+ * Forty-five seconds is well past a normal answer — a short prompt returns in under two —
+ * and well short of a reader concluding the page is broken. Failing is not worse than
+ * hanging here: the banner says what happened and offers the retry.
+ */
+const TRANSLATION_TIMEOUT = 45_000;
+
+/**
  * Reject a response that altered a preserved term or dropped a step. This is the
  * check that turns "please don't rename the ingredients" from a hope into a rule.
  */
 export function assertPreserved(dish: Dish, result: DishTranslation): void {
+  /*
+   * A record with no method cannot have one corrupted, so invented steps are dropped
+   * rather than treated as a corrupted translation.
+   *
+   * Found from Ajay's report that "Read this in" does nothing on Jalebi. It does: it
+   * asks for a translation, the model returns fifteen method steps for a record that has
+   * none, and this rule refuses the whole response — so the reader clicks a language and
+   * gets an error at the bottom of the page, which reads as nothing happening.
+   *
+   * The rule is right about what it protects. It exists so a translation cannot alter or
+   * lose a method that a person recorded, and that is worth failing loudly for. But there
+   * is no method here to lose: the only fault is content the model invented, and the
+   * correct answer to invented content is to not show it. Refusing instead threw away a
+   * perfectly good translation of the prose beside it and left the record unreadable to
+   * everyone who does not read Arabic.
+   *
+   * The other checks below still run on the prose, so a response that also mangled an
+   * ingredient name or a fermentation time is still refused.
+   */
+  if (dish.steps.length === 0 && result.steps.length > 0) {
+    result.steps = [];
+  }
+
   if (result.steps.length !== dish.steps.length) {
     throw new PreservationError(
       `Translation returned ${result.steps.length} steps for a ${dish.steps.length}-step method. ` +
@@ -345,6 +382,7 @@ export class RemoteTranslationProvider implements TranslationProvider {
 
     const response = await fetch(this.endpoint, {
       method: 'POST',
+      signal: AbortSignal.timeout(TRANSLATION_TIMEOUT),
       headers: { 'Content-Type': 'application/json' },
       /* The record id is the cache key at the other end: a (record, language) pair is
          translated once and read for ever. Testimony sends none — one sentence by one
@@ -392,6 +430,7 @@ export class RemoteTranslationProvider implements TranslationProvider {
 
     const response = await fetch(this.endpoint, {
       method: 'POST',
+      signal: AbortSignal.timeout(TRANSLATION_TIMEOUT),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: testimonyPrompt(text, target), target }),
     });
