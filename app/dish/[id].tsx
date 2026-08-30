@@ -482,7 +482,26 @@ export default function DishDetail() {
             </Card>
           ) : null}
 
-          {dish.score !== null ? (
+          {/*
+            * Shown only where there is something for it to measure.
+            *
+            * Four of the six dimensions ask how a dish is made — ingredients, technique,
+            * local source, community. On a record with no method and no ingredient list
+            * they are all structurally zero, and the page was printing "12/100" over
+            * "0, 0, 0, 0" a few inches above a paragraph that already said, in a
+            * sentence, that nobody has recorded how this is made.
+            *
+            * 3,175 records are in that state. The number was not wrong, it was answering
+            * the wrong question: it reads as a verdict on the food — this dish is 12%
+            * authentic — when the true statement is about our documentation. `assess`
+            * already returns `null` for the 5,412 records that have nothing at all, and
+            * those pages are the better ones. This extends the same judgement to the tier
+            * that has an article and nothing else.
+            *
+            * The badge stays. "Unverified — insufficient evidence" is the classification
+            * and it is honest; it is the *breakdown* that had nothing to break down.
+            */}
+          {dish.score !== null && (dish.ingredients.length > 0 || dish.steps.length > 0) ? (
             <ScoreBreakdown
               score={dish.score}
               breakdown={dish.breakdown}
