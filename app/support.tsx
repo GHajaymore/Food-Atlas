@@ -91,7 +91,18 @@ export default function Support() {
             block
             onPress={() => openAtSource(DONATION_URL)}
           />
-          <Muted style={styles.footnote}>{copy.donationFootnote}</Muted>
+          {/*
+            * Only where it is true. The sentence names Open Collective, and the button
+            * above it goes to whatever `EXPO_PUBLIC_DONATE_URL` points at — Ko-fi, GitHub
+            * Sponsors, anything. Shown unconditionally it told a reader the wrong
+            * destination, which is the one thing a donation page cannot afford to do.
+            *
+            * The reassurance it also carries — that this app holds no payment details —
+            * is worth having on every platform, and gets its own sentence when a
+            * non-Open-Collective destination is actually configured. Nothing is
+            * configured today, so writing that string now would be writing it blind.
+            */}
+          {hasPublicLedger() ? <Muted style={styles.footnote}>{copy.donationFootnote}</Muted> : null}
           {/* The reason for choosing this platform, offered rather than claimed. An
               app that publishes its own coverage gaps should let anyone read the
               ledger too, and that promise is kept by the platform rather than by us

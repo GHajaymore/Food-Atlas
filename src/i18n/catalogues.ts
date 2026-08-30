@@ -229,8 +229,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'El {p}% del catálogo viene solo de {country}. Eso refleja qué países se han catalogado en las fuentes abiertas de las que parte esto, no dónde está la comida del mundo.',
     growTheAtlasBody:
       'Para cada plato, el atlas primero toma la receta más publicada de internet y la clasifica. Donde no existe nada en línea, una aportación de la comunidad se convierte en el registro.',
-    keepingItFreeBody:
-      'Todo lo de aquí está construido con fuentes que no cuestan nada y siguen así. Una sola cosa cuesta dinero, y está apagada hasta que se pueda pagar.',
+    keepingItFreeBody: "Todo lo de aquí está construido con fuentes que no cuestan nada y siguen así. La única parte que sí cuesta —traducir una ficha a tu idioma— funciona con una cuota diaria gratuita y se detiene cuando se agota, en lugar de generar una factura.",
     meterDocumented:
       'Tiene un método registrado',
     meterDocumentedNote:
@@ -267,8 +266,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Lo más útil que alguien puede dar a este atlas no es dinero. La mayor parte es un nombre y un lugar porque nadie ha escrito cómo se hace la comida.',
     administration:
       'Administración',
-    administrationNote:
-      'Umbrales, moderación, comprobación de fuentes y uso. Requiere un token.',
+    administrationNote: "Umbrales, moderación, comprobación de fuentes y uso. Para quienes gestionan el sitio.",
     howLead:
       'Esa es la regla sobre la que está construido este atlas, y es aritmética, no una política, lo que significa que puedes comprobarla en vez de confiar en ella.',
     sixDimensionsBody:
@@ -1569,8 +1567,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{p} % du catalogue vient de {country} à lui seul. Cela reflète quels pays ont été catalogués dans les sources ouvertes dont ceci part, et non où se trouve la nourriture du monde.',
     growTheAtlasBody:
       'Pour chaque plat, l’atlas prend d’abord la recette la plus publiée sur internet et la classe. Là où rien n’existe en ligne, une contribution de la communauté devient la fiche.',
-    keepingItFreeBody:
-      'Tout ici est construit à partir de sources qui ne coûtent rien et le restent. Une seule chose coûte de l’argent, et elle est désactivée tant qu’elle ne peut pas être payée.',
+    keepingItFreeBody: "Tout ici est construit à partir de sources qui ne coûtent rien et le restent. La seule partie qui coûte — traduire une fiche dans votre langue — fonctionne avec un quota quotidien gratuit et s’arrête une fois celui-ci épuisé, plutôt que de facturer quoi que ce soit.",
     meterDocumented:
       'A une méthode enregistrée',
     meterDocumentedNote:
@@ -1607,8 +1604,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'La chose la plus utile que l’on puisse donner à cet atlas n’est pas de l’argent. L’essentiel se résume à un nom et un lieu, parce que personne n’a écrit comment le plat se prépare.',
     administration:
       'Administration',
-    administrationNote:
-      'Seuils, modération, vérification des sources et usage. Nécessite un jeton.',
+    administrationNote: "Seuils, modération, vérification des sources et usage. Réservé à ceux qui gèrent le site.",
     howLead:
       'C’est la règle sur laquelle cet atlas est bâti, et c’est de l’arithmétique et non une politique — ce qui veut dire que vous pouvez la vérifier plutôt que la croire.',
     sixDimensionsBody:
@@ -2908,8 +2904,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{p} % des Katalogs stammen allein aus {country}. Das zeigt, welche Länder in den offenen Quellen erfasst wurden, aus denen dies aufgebaut ist — nicht, wo das Essen der Welt ist.',
     growTheAtlasBody:
       'Für jedes Gericht holt der Atlas zuerst das im Internet meistveröffentlichte Rezept und ordnet es ein. Wo online nichts existiert, wird ein Beitrag aus der Gemeinschaft zum Eintrag.',
-    keepingItFreeBody:
-      'Alles hier ist aus Quellen gebaut, die nichts kosten und das bleiben. Eine einzige Sache kostet Geld, und sie ist abgeschaltet, bis sie bezahlt werden kann.',
+    keepingItFreeBody: "Alles hier ist aus Quellen gebaut, die nichts kosten und das bleiben. Der einzige Teil, der etwas kostet – einen Eintrag in Ihre Sprache zu übersetzen –, läuft über ein kostenloses Tageskontingent und hört auf, wenn es aufgebraucht ist, statt Kosten zu verursachen.",
     meterDocumented:
       'Hat eine erfasste Zubereitung',
     meterDocumentedNote:
@@ -2946,8 +2941,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Das Nützlichste, das jemand diesem Atlas geben kann, ist kein Geld. Das meiste davon ist ein Name und ein Ort, weil niemand aufgeschrieben hat, wie das Essen gemacht wird.',
     administration:
       'Verwaltung',
-    administrationNote:
-      'Schwellenwerte, Moderation, Quellenprüfungen und Nutzung. Erfordert ein Token.',
+    administrationNote: "Schwellenwerte, Moderation, Quellenprüfung und Nutzung. Für die Menschen, die die Website betreiben.",
     howLead:
       'Das ist die Regel, auf der dieser Atlas gebaut ist, und sie ist Arithmetik statt Politik — Sie können sie also prüfen, statt ihr zu glauben.',
     sixDimensionsBody:
@@ -4247,8 +4241,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Il {p}% del catalogo viene dalla sola {country}. Questo riflette quali paesi sono stati catalogati nelle fonti aperte da cui parte, non dove si trova il cibo del mondo.',
     growTheAtlasBody:
       'Per ogni piatto l’atlante prende prima la ricetta più pubblicata su internet e la classifica. Dove online non esiste nulla, un contributo della comunità diventa la scheda.',
-    keepingItFreeBody:
-      'Tutto qui è costruito con fonti che non costano nulla e restano così. Una sola cosa costa denaro, ed è spenta finché non potrà essere pagata.',
+    keepingItFreeBody: "Tutto qui è costruito da fonti che non costano nulla e restano così. L’unica parte che ha un costo — tradurre una scheda nella tua lingua — funziona con una quota giornaliera gratuita e si ferma quando si esaurisce, invece di generare una spesa.",
     meterDocumented:
       'Ha un metodo registrato',
     meterDocumentedNote:
@@ -4285,8 +4278,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'La cosa più utile che si possa dare a questo atlante non è il denaro. Gran parte di esso è un nome e un luogo perché nessuno ha scritto come si prepara il cibo.',
     administration:
       'Amministrazione',
-    administrationNote:
-      'Soglie, moderazione, controllo delle fonti e utilizzo. Richiede un token.',
+    administrationNote: "Soglie, moderazione, controllo delle fonti e utilizzo. Per chi gestisce il sito.",
     howLead:
       'È la regola su cui questo atlante è costruito, ed è aritmetica e non una politica — il che significa che puoi verificarla invece di fidarti.',
     sixDimensionsBody:
@@ -5587,8 +5579,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{p}% do catálogo vem só de {country}. Isso reflete que países foram catalogados nas fontes abertas de que isto parte, não onde está a comida do mundo.',
     growTheAtlasBody:
       'Para cada prato, o atlas puxa primeiro a receita mais publicada na internet e classifica-a. Onde não existe nada em linha, uma contribuição da comunidade passa a ser o registo.',
-    keepingItFreeBody:
-      'Tudo aqui é construído com fontes que não custam nada e assim continuam. Uma única coisa custa dinheiro, e está desligada até poder ser paga.',
+    keepingItFreeBody: "Tudo aqui é construído a partir de fontes que não custam nada e continuam assim. A única parte que custa — traduzir um registo para a sua língua — funciona com uma quota diária gratuita e para quando esta se esgota, em vez de gerar custos.",
     meterDocumented:
       'Tem método registado',
     meterDocumentedNote:
@@ -5625,8 +5616,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'A coisa mais útil que alguém pode dar a este atlas não é dinheiro. A maior parte dele é um nome e um lugar porque ninguém escreveu como a comida se faz.',
     administration:
       'Administração',
-    administrationNote:
-      'Limiares, moderação, verificação de fontes e utilização. Precisa de um token.',
+    administrationNote: "Limiares, moderação, verificação de fontes e utilização. Para quem gere o site.",
     howLead:
       'É a regra sobre a qual este atlas é construído, e é aritmética e não uma política — o que significa que a pode verificar em vez de confiar nela.',
     sixDimensionsBody:
@@ -6926,8 +6916,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{p}% van de catalogus komt alleen uit {country}. Dat laat zien welke landen zijn vastgelegd in de open bronnen waarop dit is gebouwd — niet waar het eten van de wereld is.',
     growTheAtlasBody:
       'Voor elk gerecht haalt de atlas eerst het meest gepubliceerde recept van internet en deelt het in. Waar online niets bestaat, wordt een bijdrage uit de gemeenschap het record.',
-    keepingItFreeBody:
-      'Alles hier is gebouwd op bronnen die niets kosten en dat blijven. Eén ding kost wel geld, en het staat uit tot het betaald kan worden.',
+    keepingItFreeBody: "Alles hier is gebouwd op bronnen die niets kosten en dat blijven. Het enige onderdeel dat wel geld kost — een record naar jouw taal vertalen — draait op een gratis daglimiet en stopt zodra die op is, in plaats van kosten te maken.",
     meterDocumented:
       'Heeft een vastgelegde bereiding',
     meterDocumentedNote:
@@ -6964,8 +6953,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Het nuttigste dat iemand deze atlas kan geven is geen geld. Het meeste ervan is een naam en een plek, omdat niemand heeft opgeschreven hoe het eten gemaakt wordt.',
     administration:
       'Beheer',
-    administrationNote:
-      'Drempels, moderatie, broncontroles en gebruik. Vereist een token.',
+    administrationNote: "Drempels, moderatie, broncontrole en gebruik. Voor de mensen die de site beheren.",
     howLead:
       'Dat is de regel waarop deze atlas is gebouwd, en het is rekenkunde en geen beleid — u kunt haar dus controleren in plaats van erop te vertrouwen.',
     sixDimensionsBody:
@@ -8266,8 +8254,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{p}% katalogu pochodzi z samych {country}. To pokazuje, które kraje opisano w otwartych źródłach, na których to powstało, a nie gdzie jest jedzenie świata.',
     growTheAtlasBody:
       'Dla każdej potrawy atlas najpierw bierze najczęściej publikowany przepis z internetu i go klasyfikuje. Tam, gdzie w sieci nie ma nic, wpisem staje się zgłoszenie od społeczności.',
-    keepingItFreeBody:
-      'Wszystko tutaj powstało ze źródeł, które nic nie kosztują i takie zostaną. Jedna rzecz kosztuje pieniądze i jest wyłączona, dopóki nie będzie za co jej opłacić.',
+    keepingItFreeBody: "Wszystko tutaj powstaje ze źródeł, które nic nie kosztują i takie pozostaną. Jedyna część, która kosztuje — tłumaczenie wpisu na Twój język — działa w ramach darmowego dziennego limitu i zatrzymuje się po jego wyczerpaniu, zamiast generować rachunek.",
     meterDocumented:
       'Ma zapisany sposób przyrządzania',
     meterDocumentedNote:
@@ -8304,8 +8291,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Najbardziej przydatną rzeczą, jaką można dać temu atlasowi, nie są pieniądze. Większość z niego to nazwa i miejsce, bo nikt nie zapisał, jak tę potrawę się robi.',
     administration:
       'Administracja',
-    administrationNote:
-      'Progi, moderacja, sprawdzanie źródeł i użycie. Wymaga tokenu.',
+    administrationNote: "Progi, moderacja, sprawdzanie źródeł i statystyki. Dla osób prowadzących tę stronę.",
     howLead:
       'To reguła, na której zbudowany jest ten atlas, i jest arytmetyką, a nie polityką — czyli możesz ją sprawdzić, zamiast w nią wierzyć.',
     sixDimensionsBody:
@@ -9629,8 +9615,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Kataloğun %{p}’i tek başına {country} kaynaklı. Bu, hangi ülkelerin dayandığımız açık kaynaklarda kayda geçtiğini gösterir — dünyanın yemeğinin nerede olduğunu değil.',
     growTheAtlasBody:
       'Atlas her yemek için önce internette en çok yayımlanmış tarifi alır ve sınıflandırır. Çevrimiçi hiçbir şey yoksa, topluluktan gelen bir katkı kaydın kendisi olur.',
-    keepingItFreeBody:
-      'Buradaki her şey hiçbir şeye mal olmayan ve öyle kalan kaynaklardan kuruldu. Tek bir şey para tutuyor ve karşılanabilene kadar kapalı.',
+    keepingItFreeBody: "Buradaki her şey hiçbir ücreti olmayan ve öyle kalan kaynaklardan kuruldu. Ücreti olan tek bölüm — bir kaydı sizin dilinize çevirmek — ücretsiz bir günlük kotayla çalışır ve kota dolduğunda fatura çıkarmak yerine durur.",
     meterDocumented:
       'Kayıtlı yapılışı var',
     meterDocumentedNote:
@@ -9667,8 +9652,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bu atlasa verilebilecek en yararlı şey para değildir. Atlasın çoğu bir ad ve bir yerden ibaret, çünkü kimse yemeğin nasıl yapıldığını yazmamış.',
     administration:
       'Yönetim',
-    administrationNote:
-      'Eşikler, denetim, kaynak kontrolleri ve kullanım. Bir belirteç gerektirir.',
+    administrationNote: "Eşikler, moderasyon, kaynak denetimi ve kullanım. Siteyi yönetenler için.",
     howLead:
       'Bu atlasın kurulduğu kural budur ve bir politika değil, aritmetiktir — yani ona güvenmek yerine denetleyebilirsiniz.',
     sixDimensionsBody:
@@ -10969,8 +10953,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '{p}% каталога приходится на одну {country}. Это говорит о том, какие страны описаны в открытых источниках, из которых всё построено, а не о том, где находится еда мира.',
     growTheAtlasBody:
       'Для каждого блюда атлас сначала берёт самый публикуемый в интернете рецепт и классифицирует его. Там, где в сети нет ничего, записью становится присланное сообществом.',
-    keepingItFreeBody:
-      'Всё здесь построено на источниках, которые ничего не стоят и такими остаются. Одна вещь стоит денег, и она выключена, пока её нечем оплатить.',
+    keepingItFreeBody: "Всё здесь построено на источниках, которые ничего не стоят и такими остаются. Единственная часть, которая стоит денег, — перевод записи на ваш язык — работает в рамках бесплатного дневного лимита и останавливается, когда он исчерпан, а не выставляет счёт.",
     meterDocumented:
       'Есть записанный способ приготовления',
     meterDocumentedNote:
@@ -11007,8 +10990,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Самое полезное, что можно дать этому атласу, — не деньги. Большая его часть — это название и место, потому что никто не записал, как эту еду готовят.',
     administration:
       'Администрирование',
-    administrationNote:
-      'Пороги, модерация, проверка источников и использование. Нужен токен.',
+    administrationNote: "Пороги, модерация, проверка источников и статистика. Для тех, кто ведёт сайт.",
     howLead:
       'Это правило, на котором построен атлас, и это арифметика, а не политика — значит, его можно проверить, а не принимать на веру.',
     sixDimensionsBody:
@@ -12333,8 +12315,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'कैटलॉग का {p}% अकेले {country} से आता है। यह दिखाता है कि जिन खुले स्रोतों पर यह बना है उनमें कौन से देश दर्ज हुए — यह नहीं कि दुनिया का खाना कहाँ है।',
     growTheAtlasBody:
       'हर व्यंजन के लिए एटलस पहले इंटरनेट पर सबसे ज़्यादा प्रकाशित विधि लेता है और उसे वर्गीकृत करता है। जहाँ ऑनलाइन कुछ नहीं है, वहाँ समुदाय से आया योगदान ही रिकॉर्ड बनता है।',
-    keepingItFreeBody:
-      'यहाँ सब कुछ ऐसे स्रोतों से बना है जिनकी कोई क़ीमत नहीं और आगे भी नहीं होगी। एक चीज़ में पैसे लगते हैं, और जब तक उसका ख़र्च न उठाया जा सके वह बंद है।',
+    keepingItFreeBody: "यहाँ सब कुछ ऐसे स्रोतों से बना है जिनकी कोई कीमत नहीं है और वैसे ही रहेंगे। जिस एक हिस्से की कीमत है — किसी रिकॉर्ड का आपकी भाषा में अनुवाद — वह एक मुफ़्त दैनिक सीमा पर चलता है और सीमा ख़त्म होने पर बिल बनाने के बजाय रुक जाता है।",
     meterDocumented:
       'दर्ज विधि है',
     meterDocumentedNote:
@@ -12371,8 +12352,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'इस एटलस को कोई जो सबसे उपयोगी चीज़ दे सकता है वह पैसा नहीं है। इसका ज़्यादातर हिस्सा बस एक नाम और एक जगह है, क्योंकि किसी ने लिखा ही नहीं कि वह खाना कैसे बनता है।',
     administration:
       'प्रशासन',
-    administrationNote:
-      'सीमाएँ, मॉडरेशन, स्रोत जाँच और उपयोग। टोकन चाहिए।',
+    administrationNote: "सीमाएँ, मॉडरेशन, स्रोत जाँच और उपयोग। इस साइट को चलाने वालों के लिए।",
     howLead:
       'यही वह नियम है जिस पर यह एटलस टिका है, और यह नीति नहीं, अंकगणित है — यानी आप इस पर भरोसा करने के बजाय इसे जाँच सकते हैं।',
     sixDimensionsBody:
@@ -13673,8 +13653,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '图谱有 {p}% 来自 {country} 一国。这反映的是哪些国家在本项目所依据的开放资料中被记录过，而不是世界的食物在哪里。',
     growTheAtlasBody:
       '每一道菜，图谱先取网上流传最广的食谱并加以分类。网上什么都没有的，社区提交的内容就成为该记录。',
-    keepingItFreeBody:
-      '这里的一切都建立在不花钱、且会继续不花钱的资料之上。只有一件事需要花钱，在能够支付之前它是关闭的。',
+    keepingItFreeBody: "这里的一切都建立在不花钱、也将一直如此的资料来源上。唯一需要花钱的部分——把一条记录翻译成你的语言——使用免费的每日额度，额度用完就停止，而不会产生账单。",
     meterDocumented:
       '有记录的做法',
     meterDocumentedNote:
@@ -13711,8 +13690,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '能给这份图谱最有用的东西不是钱。它大部分只有一个名字和一个地方，因为没有人写下这道菜怎么做。',
     administration:
       '管理',
-    administrationNote:
-      '阈值、审核、来源检查与使用情况。需要令牌。',
+    administrationNote: "阈值、审核、来源核查和使用情况。仅供运营这个网站的人使用。",
     howLead:
       '这就是这份图谱赖以建立的规则，它是算术而不是政策 — 也就是说你可以核对它，而不必相信它。',
     sixDimensionsBody:
@@ -15013,8 +14991,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '目録の {p}% が {country} 一国からのものです。これは、もとにした公開資料でどの国が記録されてきたかを示すもので、世界の食べものがどこにあるかを示すものではありません。',
     growTheAtlasBody:
       'それぞれの料理について、アトラスはまずネット上で最も多く公開されているレシピを取り、分類します。ネットに何もない場合は、地域からの投稿がその記録になります。',
-    keepingItFreeBody:
-      'ここにあるものはすべて、費用がかからず今後もかからない資料から作られています。ひとつだけ費用のかかるものがあり、支払えるようになるまで止めてあります。',
+    keepingItFreeBody: "ここにあるものはすべて、費用のかからない資料から作られており、これからもそうです。費用がかかる唯一の部分——記録をあなたの言語に翻訳すること——は無料の1日あたりの上限の範囲で動き、上限に達すると課金するのではなく停止します。",
     meterDocumented:
       '作り方の記録がある',
     meterDocumentedNote:
@@ -15051,8 +15028,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'このアトラスに差し出せるいちばん役に立つものは、お金ではありません。その大半は名前と場所だけです。誰もその料理の作り方を書き留めなかったからです。',
     administration:
       '管理',
-    administrationNote:
-      'しきい値、モデレーション、出典の確認、利用状況。トークンが必要です。',
+    administrationNote: "しきい値、モデレーション、出典の確認、利用状況。このサイトを運営する人のためのものです。",
     howLead:
       'これがこのアトラスの土台にある規則です。方針ではなく算術なので、信じるのではなく確かめられます。',
     sixDimensionsBody:

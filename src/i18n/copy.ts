@@ -1083,8 +1083,7 @@ export const EN: Copy = {
     '{p}% of the catalogue comes from {country} alone. That reflects which countries have been catalogued in the open sources this is built from — not where the world’s food is.',
   growTheAtlasBody:
     'For each dish the atlas first pulls the most widely published recipe on the internet and classifies it. Where nothing exists online, a submission from the community becomes the record.',
-  keepingItFreeBody:
-    'Everything here is built from sources that cost nothing and stay that way. One thing does cost money, and it is switched off until it can be paid for.',
+  keepingItFreeBody: "Everything here is built from sources that cost nothing and stay that way. The one part that does cost — translating a record into your language — runs on a free daily allowance and stops when that is used up, rather than billing anybody.",
   meterDocumented:
     'Has a recorded method',
   meterDocumentedNote:
@@ -1121,8 +1120,7 @@ export const EN: Copy = {
     'The most useful thing anyone can give this atlas is not money. Most of it is a name and a place because nobody has written down how the food is made.',
   administration:
     'Administration',
-  administrationNote:
-    'Thresholds, moderation, source checks and usage. Needs a token.',
+  administrationNote: "Thresholds, moderation, source checks and usage. For the people who run the site.",
   howLead:
     'That is the rule this atlas is built on, and it is arithmetic rather than a policy — which means you can check it rather than trust it.',
   sixDimensionsBody:
