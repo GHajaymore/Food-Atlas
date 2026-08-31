@@ -61,7 +61,7 @@ import { loadAllProposals, setProposalStatus } from '../src/data/proposals';
 import { loadRefreshQueue, queueRefresh, type RefreshRequest } from '../src/data/refresh';
 import { loadSettings, saveSettings, settings as current } from '../src/data/settings';
 import { loadSession, signInUrl, type Session, NO_SESSION } from '../src/data/auth';
-import { appointAdmin, claimOwner, loadRoster, removeAdmin, type Roster } from '../src/data/roles';
+import { appointAdmin, claimOwner, loadRoster, removeAdmin, transferOwner, type Roster } from '../src/data/roles';
 import type { Thresholds } from '../src/domain/assess';
 import { isAuthentic } from '../src/domain/authenticity';
 import type { Proposal } from '../src/domain/proposals';
@@ -513,6 +513,8 @@ function Access({ token, session }: { token: string; session: Session }) {
   const [roster, setRoster] = useState<Roster | null>(null);
   const [error, setError] = useState('');
   const [candidate, setCandidate] = useState('');
+  const [heir, setHeir] = useState('');
+  const [confirmHeir, setConfirmHeir] = useState(false);
   const [busy, setBusy] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -632,6 +634,55 @@ function Access({ token, session }: { token: string; session: Session }) {
               if (candidate.trim()) act(() => appointAdmin(token, candidate));
             }}
           />
+
+          {/*
+            * Handing the seat on, behind a confirmation.
+            *
+            * The seat used to be a dead end: the owner could not be removed and the token
+            * could not appoint once one existed, so there was no route from one owner to
+            * the next. Ajay needs one to move the project off his personal Google account —
+            * the seat is bound to a hash of the Google subject id, so a different account
+            * signs in as a stranger.
+            *
+            * Two presses rather than one. Everything else on this screen is reversible by
+            * the person doing it; this is the single action that takes away the power to
+            * undo it, because after it lands the appointing rights belong to somebody else.
+            */}
+          <View style={styles.transfer}>
+            <Field label="Hand the owner seat to" style={styles.setting}>
+              <Input
+                value={heir}
+                onChangeText={(next) => {
+                  setHeir(next);
+                  setConfirmHeir(false);
+                }}
+                placeholder="Their account id"
+                autoCapitalize="none"
+                accessibilityLabel="Account id to hand the owner seat to"
+              />
+            </Field>
+            <Muted style={styles.note}>
+              They become the owner and you stay an administrator. Only they can appoint after
+              that — including appointing you back.
+            </Muted>
+            <Button
+              label={confirmHeir ? 'Confirm — hand it over' : 'Hand over the owner seat'}
+              variant="secondary"
+              block
+              onPress={() => {
+                if (!heir.trim()) return;
+                if (!confirmHeir) {
+                  setConfirmHeir(true);
+                  return;
+                }
+                setConfirmHeir(false);
+                act(() => transferOwner(token, heir).then((r) => {
+                  setHeir('');
+                  return r;
+                }));
+              }}
+            />
+          </View>
         </>
       ) : null}
 
@@ -959,6 +1010,14 @@ const styles = StyleSheet.create({
   identityLabel: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.6 },
   identityValue: { fontFamily: font.regular, fontSize: 12, lineHeight: 18, letterSpacing: 0.8, color: color.neutral[100] },
   claim: { marginTop: space[2] },
+  /* Set apart by a rule: it is the one control here that changes what the person using
+     the screen is allowed to do next. */
+  transfer: {
+    marginTop: space[6],
+    paddingTop: space[4],
+    borderTopWidth: 1,
+    borderTopColor: color.divider,
+  },
   person: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -16,7 +16,7 @@
  */
 
 import { admin, ownerId, roleOf, type AdminEnv } from '../functions/api/_admin';
-import { onRequestDelete, onRequestPost } from '../functions/api/admin/roles';
+import { onRequestDelete, onRequestPost, onRequestPut } from '../functions/api/admin/roles';
 import { newSessionCookie } from '../functions/api/auth/_session';
 
 const SECRET = 'a-test-secret-that-is-not-the-real-one';
@@ -33,6 +33,11 @@ function db(rows: Row[] = []) {
   const store = [...rows];
   const database = {
     rows: store,
+    async batch(statements: { run(): Promise<unknown> }[]) {
+      const out = [];
+      for (const statement of statements) out.push(await statement.run());
+      return out;
+    },
     prepare(sql: string) {
       const text = sql.replace(/\s+/g, ' ').trim();
       let args: unknown[] = [];
@@ -57,6 +62,26 @@ function db(rows: Row[] = []) {
           throw new Error('unrecognised all(): ' + text);
         },
         async run() {
+          if (text.startsWith('update account_role set role')) {
+            const [grantedBy, id] = args as string[];
+            const row = store.find((r) => r.id === id);
+            if (row) {
+              row.role = 'admin';
+              row.granted_by = grantedBy;
+            }
+            return { meta: { changes: row ? 1 : 0 } };
+          }
+          if (text.startsWith('insert into account_role') && text.includes('on conflict')) {
+            const [id, grantedBy] = args as string[];
+            const existing = store.find((r) => r.id === id);
+            if (existing) {
+              existing.role = 'owner';
+              existing.granted_by = grantedBy;
+            } else {
+              store.push({ id, role: 'owner', granted_by: grantedBy, granted: '2026-08-30 00:00:00' });
+            }
+            return { meta: { changes: 1 } };
+          }
           if (text.startsWith('insert into account_role')) {
             const [id, second] = args as string[];
             const role = text.includes("'owner'") ? 'owner' : 'admin';
@@ -292,5 +317,78 @@ describe('who may remove one', () => {
     const store = withAdmin();
     const response = await call(await as(OWNER, { method: 'DELETE', url: url(STRANGER) }), store);
     expect(response.status).toBe(404);
+  });
+});
+
+describe('handing the owner seat on', () => {
+  const call = async (request: Request, database: D1Database) =>
+    (await onRequestPut({ request, env: env(database) } as never)) as Response;
+
+  const withAdmin = () =>
+    db([
+      { id: OWNER, role: 'owner', granted_by: 'bootstrap', granted: '' },
+      { id: ADMIN, role: 'admin', granted_by: OWNER, granted: '' },
+    ]);
+
+  /*
+   * The reason this endpoint exists. The seat was a dead end — the owner could not be
+   * removed and the token could not appoint once one existed — so an owner who lost or
+   * left their Google account took the atlas's only appointing authority with them.
+   */
+  it('moves the seat, and keeps the outgoing owner as an administrator', async () => {
+    const store = withAdmin();
+    const response = await call(await as(OWNER, { method: 'PUT', body: { account: STRANGER } }), store);
+    expect(response.status).toBe(200);
+    expect(await roleOf(store, STRANGER)).toBe('owner');
+    expect(await roleOf(store, OWNER)).toBe('admin');
+    expect(await ownerId(store)).toBe(STRANGER);
+  });
+
+  it('promotes an existing administrator without leaving a second row', async () => {
+    const store = withAdmin();
+    await call(await as(OWNER, { method: 'PUT', body: { account: ADMIN } }), store);
+    expect(await roleOf(store, ADMIN)).toBe('owner');
+    expect(store.rows.filter((r) => r.id === ADMIN)).toHaveLength(1);
+  });
+
+  /* One owner is a schema guarantee, not an endpoint promise. If this ever counts two,
+     the partial unique index is the thing that has been broken. */
+  it('never leaves the atlas with two owners or none', async () => {
+    const store = withAdmin();
+    await call(await as(OWNER, { method: 'PUT', body: { account: STRANGER } }), store);
+    expect(store.rows.filter((r) => r.role === 'owner')).toHaveLength(1);
+  });
+
+  it('does not let an administrator hand on a seat they do not hold', async () => {
+    const store = withAdmin();
+    const response = await call(await as(ADMIN, { method: 'PUT', body: { account: STRANGER } }), store);
+    expect(response.status).toBe(403);
+    expect(await ownerId(store)).toBe(OWNER);
+  });
+
+  it('does not let the break-glass token hand the seat on', async () => {
+    const store = withAdmin();
+    const response = await call(
+      await as('', { token: TOKEN, method: 'PUT', body: { account: STRANGER } }),
+      store,
+    );
+    expect(response.status).toBe(403);
+    expect(await ownerId(store)).toBe(OWNER);
+  });
+
+  it('refuses a handover to the account already holding it', async () => {
+    const store = withAdmin();
+    const response = await call(await as(OWNER, { method: 'PUT', body: { account: OWNER } }), store);
+    expect(response.status).toBe(409);
+    expect(await ownerId(store)).toBe(OWNER);
+  });
+
+  it('refuses anything that is not an account id', async () => {
+    const store = withAdmin();
+    for (const account of ['', 'nope', OWNER.slice(0, 31), 'Z'.repeat(32)]) {
+      const response = await call(await as(OWNER, { method: 'PUT', body: { account } }), store);
+      expect(response.status).toBe(400);
+    }
+    expect(await ownerId(store)).toBe(OWNER);
   });
 });

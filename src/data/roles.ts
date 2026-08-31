@@ -79,6 +79,24 @@ export const appointAdmin = (token: string, account: string): Promise<Result<{ g
     body: JSON.stringify({ account: account.trim().toLowerCase() }),
   });
 
+/**
+ * Hand the owner seat to another account.
+ *
+ * The one action here that changes what the *current* reader may do: the outgoing owner
+ * keeps console access as an administrator and loses the power to appoint. The screen asks
+ * before calling this — a server that accepts an irreversible instruction only when a
+ * magic word is attached is a server pretending to be a user interface.
+ */
+export const transferOwner = (
+  token: string,
+  account: string,
+): Promise<Result<{ owner: string; previousOwner: string }>> =>
+  ask('/admin/roles', {
+    method: 'PUT',
+    headers: adminHeaders(token, { 'Content-Type': 'application/json' }),
+    body: JSON.stringify({ account: account.trim().toLowerCase() }),
+  });
+
 export const removeAdmin = (token: string, account: string): Promise<Result<{ revoked: string }>> =>
   ask(`/admin/roles?account=${encodeURIComponent(account.trim().toLowerCase())}`, {
     method: 'DELETE',

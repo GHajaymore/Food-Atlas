@@ -28,7 +28,7 @@
  *   * **No self-promotion.** A `user` cannot leave `user`, with or without a session.
  *     The only path from nothing to something is the owner, or the token at bootstrap.
  *   * **The owner cannot be removed.** Not by an admin, and not by the owner. Handing the
- *     seat on is a transfer, not a deletion followed by hope.
+ *     seat on is a transfer — `onRequestPut` — not a deletion followed by hope.
  *   * **Only the owner writes.** Read is open to anybody who may use the console, so an
  *     admin can see who else has access; writing is the owner's alone.
  *
@@ -135,6 +135,73 @@ export const onRequestPost: PagesFunction<AdminEnv> = async ({ request, env }) =
     .run();
 
   return json({ granted: account, role: 'admin', by: who.account }, 201);
+};
+
+/**
+ * `PUT /api/admin/roles` — hand the owner seat to another account. Owner only.
+ *
+ * ## Why this had to exist
+ *
+ * The seat was a dead end. `DELETE` refuses to remove an owner — deliberately, so one
+ * careless click could not strand the console — and `POST` will not let the token appoint
+ * anybody once an owner exists. Between those two rules there was no path from one owner
+ * to the next, which is fine until the day somebody needs one.
+ *
+ * Ajay needs one now: he is moving the project off his personal Google account. The seat
+ * is bound to a salted hash of the Google subject id, so a different account is a
+ * different person to this app and would sign in as `user`. Without this the only way
+ * through was deleting the row by hand in D1.
+ *
+ * ## Why the outgoing owner becomes an administrator
+ *
+ * Not a reader. Handing the seat on is a change of authority, not a resignation from the
+ * project, and dropping the previous owner to `user` would lock them out of the console
+ * in the same instant — including from the mistake they just made. The new owner can
+ * remove them afterwards, which is the ordinary path and reversible.
+ *
+ * ## Why one batch
+ *
+ * The schema allows exactly one owner — a partial unique index, not an endpoint check. So
+ * the demotion has to land before the promotion, and if the promotion then failed on its
+ * own the atlas would have no owner at all and no way to appoint one. `batch` applies
+ * both or neither.
+ */
+export const onRequestPut: PagesFunction<AdminEnv> = async ({ request, env }) => {
+  const who = await admin(request, env);
+  if (!who.ok) return who.response;
+
+  if (who.role !== 'owner') {
+    return json({ error: 'Only the owner can hand the seat on.' }, 403);
+  }
+
+  let body: { account?: unknown };
+  try {
+    body = (await request.json()) as { account?: unknown };
+  } catch {
+    return json({ error: 'Could not read that.' }, 400);
+  }
+
+  const account = String(body.account ?? '').trim().toLowerCase();
+  if (!ACCOUNT_ID.test(account)) {
+    return json({ error: 'That is not an account id.' }, 400);
+  }
+  if (account === who.account) {
+    return json({ error: 'That account already holds the seat.' }, 409);
+  }
+
+  await env.DB.batch([
+    /* The outgoing owner first, so the single-owner index is never contended. */
+    env.DB.prepare("update account_role set role = 'admin', granted_by = ? where id = ?").bind(
+      account,
+      who.account,
+    ),
+    env.DB.prepare(
+      "insert into account_role (id, role, granted_by) values (?, 'owner', ?) " +
+        "on conflict(id) do update set role = 'owner', granted_by = excluded.granted_by, granted = datetime('now')",
+    ).bind(account, who.account),
+  ]);
+
+  return json({ owner: account, previousOwner: who.account, keptAs: 'admin' });
 };
 
 export const onRequestDelete: PagesFunction<AdminEnv> = async ({ request, env }) => {
