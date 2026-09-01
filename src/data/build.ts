@@ -19,7 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
-import { hasMethod } from '../domain/method';
+import { hasMethod, scorable } from '../domain/method';
 import { EN } from '../i18n/copy';
 import { DEFAULT_THRESHOLDS, assess, type Evidence, type Thresholds } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
@@ -1559,9 +1559,24 @@ const validImported = [...fromCuisines, ...imported]
   }
 
   /** Everything the app can show. Curated records first, so they lead every list. */
-  const catalogue: Dish[] = [...curated, ...validImported].filter(
-    (dish) => best.get(key(dish.name, dish.loc.country)) === dish,
-  );
+  const catalogue: Dish[] = [...curated, ...validImported]
+    .filter((dish) => best.get(key(dish.name, dish.loc.country)) === dish)
+    /*
+     * A score is withheld where there is nothing for it to measure.
+     *
+     * Four of the six dimensions ask how a dish is made, so a record with neither an
+     * ingredient list nor a method scores zero on all four and its number is arithmetic
+     * on emptiness. `assess` already returns null for a record with nothing at all; this
+     * is the same judgement for the tier that has an article and nothing else.
+     *
+     * Done here rather than on the record screen, which is where it was done first and
+     * was worse: the page hid the number while 3,175 cards went on printing "12/100" for
+     * the same dish. One place, so every surface agrees.
+     *
+     * The breakdown goes with it. A list of six zeros is not evidence of anything except
+     * that nobody has written the dish down.
+     */
+    .map((dish) => (dish.score !== null && !scorable(dish) ? { ...dish, score: null, breakdown: [] } : dish));
 
   const stats: CatalogueStats = {
   total: catalogue.length,

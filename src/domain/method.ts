@@ -36,3 +36,22 @@ export const methodLength = (dish: Pick<Dish, 'steps' | 'stepCount'>): number =>
 
 /** Whether a record documents a method at all. */
 export const hasMethod = (dish: Pick<Dish, 'steps' | 'stepCount'>): boolean => methodLength(dish) > 0;
+
+/**
+ * Is there anything here for a score to measure?
+ *
+ * Four of the six evidence dimensions ask *how a dish is made* — ingredients, technique,
+ * local source, community validation. A record with neither an ingredient list nor a
+ * method scores structurally zero on all four, so its number is arithmetic on emptiness:
+ * it reads as a verdict on the food when the true statement is about our documentation.
+ *
+ * `assess` already declines to score a record that has nothing at all. This is the same
+ * judgement extended to the tier that has an encyclopaedia article and nothing else —
+ * 3,175 records, scoring 12 to 20.
+ *
+ * Exported and used in one place, `build.ts`, so that every surface agrees. Gating only
+ * the record page left cards saying "12/100" for a dish whose own page showed no score,
+ * which is a worse fault than the one it fixed.
+ */
+export const scorable = (dish: Pick<Dish, 'steps' | 'stepCount' | 'ingredients'>): boolean =>
+  hasMethod(dish) || dish.ingredients.length > 0;

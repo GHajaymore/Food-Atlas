@@ -500,7 +500,7 @@ export default function DishDetail() {
             * The badge stays. "Unverified — insufficient evidence" is the classification
             * and it is honest; it is the *breakdown* that had nothing to break down.
             */}
-          {dish.score !== null && (dish.ingredients.length > 0 || dish.steps.length > 0) ? (
+          {dish.score !== null ? (
             <ScoreBreakdown
               score={dish.score}
               breakdown={dish.breakdown}
