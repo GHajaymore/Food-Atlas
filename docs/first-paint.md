@@ -245,3 +245,69 @@ Brotli already models a repeated prefix and a small enum almost perfectly — th
 finding as the photo-URL experiment above. `leadFile` is the one that is arguably worth it
 at 20 KB compressed and 108 KB decoded, since the app reads only whether it is present and
 never its value; it is left alone because 20 KB is not worth another field to keep in step.
+
+---
+
+# What the prerendered records turned out to be for
+
+Also 2026-09-01, measured after the accounts moved.
+
+## The skeleton never appears on a record page
+
+Sampling `#root` every 16 ms on the live site, with the probe starting 469 ms after
+navigation:
+
+| route | what is on screen | until |
+|---|---|---|
+| `/dish/1020` | the record's own article | **1,275 ms**, then the app |
+| `/` | the loading skeleton | **1,738 ms**, then the app |
+
+React does not commit into `#root` until the catalogue is built, so whatever the file
+already contains stays up for the entire wait. `prerender-records.mjs` was written for
+crawlers; it turns out to be the page a search visitor actually reads for a second and a
+half. Its own comment said the opposite — *"a reader never sees it"* — and that has been
+corrected in the file.
+
+That is why the article now carries the **photograph**. An atlas of food showing no food
+for 1.3 seconds is failing the only reader it has at that moment.
+
+## The bug that found
+
+Records store a Commons *file name*, not an address — `sizedPhoto()` rebuilds the URL at
+render time, which is how 1.8 MB of repeated prefixes stopped being shipped. Every screen
+in the app goes through that function. The prerender did not, and wrote the stored value
+straight into the card tags:
+
+```html
+<meta property="og:image" content="Popcorn%209.jpg">
+```
+
+**All 5,547 of them.** Every link shared into WhatsApp, Slack or a group chat previewed as
+a title and a blank square, and the same value was in the `image` of 1,712 Recipe blocks.
+
+Nothing failed. The tag was present, the value was non-empty, and the check that counted
+how many records carried an image counted these as carrying one. It surfaced only from
+reading the output of an unrelated change.
+
+Fixed by routing both through `sizedPhoto`, verified end to end: the URL returns HTTP 200
+and 206 KB of `image/jpeg`, and the `<img>` paints at 960×541 inside the page's own CSP.
+
+## Prerendering the front page: tried, measured, reverted
+
+The obvious next step, given the table above, is to bake the `WhatThisIs` block into
+`index.html` so `/` gets what `/dish/…` gets. It was built — real counts from
+`catalogueStats`, plus a separate file per screen so `_redirects` could not land the front
+page's words on `/atlas` — deployed, and reverted the same hour.
+
+**It does not behave the way a record page does.** On `/` the index route is in the
+initial bundle, React commits immediately, and the masthead is replaced by the skeleton a
+few hundred milliseconds in. The reader gets masthead → skeleton → app: three states,
+which is precisely what `app/_layout.tsx` says it was rewritten to remove — *"three
+states, two of which said nothing at all"*. The skeleton already shows true copy, so the
+swap bought no information and cost a flash.
+
+A version that would work is to make the skeleton *be* the masthead — React renders it, so
+there is nothing to replace — with the two counts written to a generated module at build
+time so they cannot go stale. Not done: the current skeleton is already honest and
+on-brand, and the real cost on `/` is the 2,145 KB and the build of 17,477 records behind
+it, not what is drawn while waiting.

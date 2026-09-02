@@ -60,8 +60,28 @@ const SITE = 'https://wikifoodia.ajailabs.app';
  * prose-documented records out of the index when the accounts moved too.
  */
 import { builtCatalogue } from './lib/built-catalogue.mjs';
+import { sizedPhoto } from '../src/domain/commons.ts';
 
 const { catalogue } = await builtCatalogue();
+
+/**
+ * A photograph's address, which is not what the record stores.
+ *
+ * `compact-data.mjs` keeps the Commons *file name* and `sizedPhoto` rebuilds the URL at
+ * render time, because the three repeated prefixes were 1.8 MB of JSON nobody needed.
+ * Every screen in the app goes through that function. This file did not, and wrote the
+ * stored value straight into `og:image` and into the recipe markup — so every record
+ * published `<meta property="og:image" content="Popcorn%209.jpg">`.
+ *
+ * Nothing failed. The tag was present, the value was non-empty, and the checks that
+ * counted how many records carried an image counted these. What it cost is invisible from
+ * inside the atlas: a link shared into WhatsApp, Slack or a group chat previewed as a
+ * title with a blank square, and word of mouth is half of how this thing travels.
+ *
+ * 1200px because that is what the card scrapers ask for; Commons resizes on request, so
+ * this costs nothing to store.
+ */
+const photoUrl = (dish, width = 1200) => (dish.photo ? sizedPhoto(dish.photo, width) : '');
 
 /** Text safe to drop between tags or inside a double-quoted attribute. */
 const escape = (value) =>
@@ -115,7 +135,7 @@ const recipeMarkup = (dish, url) => {
     url,
     inLanguage: dish.sourceLanguage || 'en',
     description: describe(dish) || undefined,
-    image: dish.photo || undefined,
+    image: photoUrl(dish) || undefined,
     recipeCuisine: dish.cuisine || undefined,
     recipeCategory: dish.category || undefined,
     recipeIngredient: dish.ingredients.length ? dish.ingredients : undefined,
@@ -161,7 +181,7 @@ for (const dish of worthIndexing) {
     `<meta property="og:title" content="${escape(title)}"/>`,
     `<meta property="og:description" content="${escape(description)}"/>`,
     `<meta property="og:url" content="${escape(url)}"/>`,
-    dish.photo ? `<meta property="og:image" content="${escape(dish.photo)}"/>` : '',
+    dish.photo ? `<meta property="og:image" content="${escape(photoUrl(dish))}"/>` : '',
     `<meta name="twitter:card" content="${dish.photo ? 'summary_large_image' : 'summary'}"/>`,
     recipeMarkup(dish, url),
   ]
@@ -169,21 +189,37 @@ for (const dish of worthIndexing) {
     .join('\n    ');
 
   /*
-   * Rendered inside `#root`, which React empties on mount.
+   * Rendered inside `#root`, and a reader does see it.
    *
-   * A crawler that does not run JavaScript reads this; a reader never sees it, because
-   * `createRoot().render()` replaces the container's children on the first frame. It
-   * carries only what the record actually holds — no invented summary, and the same
-   * ingredient names the page itself shows.
+   * The comment here used to say the opposite — that `createRoot().render()` replaces the
+   * container's children on the first frame, so this was for crawlers only. Measured on
+   * the live site, sampling `#root` every 16 ms: on `/dish/1020` this markup is on screen
+   * from the first paint until **1,275 ms**, when the built record replaces it. The
+   * loading skeleton never appears on a record page at all. React does not commit until
+   * the catalogue is built, so whatever the file already holds simply stays up.
+   *
+   * That makes this the page for the whole of a search visitor's wait, not a fallback for
+   * robots — which is why it now carries the photograph. An atlas of food that shows no
+   * food for a second and a half is failing the only reader it has at that moment, and the
+   * picture is the fastest true thing it can put on screen.
+   *
+   * Still only what the record actually holds: no invented summary, the same ingredient
+   * names the app shows, and the photograph credited exactly as the app credits it,
+   * because these licences require attribution wherever the image appears.
    */
+  const photo = photoUrl(dish, 800);
   const body = [
     `<article>`,
+    photo
+      ? `<img src="${escape(photo)}" alt="${escape(dish.name)}" width="800" style="max-width:100%;height:auto"/>`
+      : '',
     `<h1>${escape(dish.name)}</h1>`,
     place ? `<p>${escape(place)}</p>` : '',
     description ? `<p>${escape(description)}</p>` : '',
     dish.ingredients.length
       ? `<h2>Ingredients</h2><ul>${dish.ingredients.map((i) => `<li>${escape(i)}</li>`).join('')}</ul>`
       : '',
+    photo && dish.credit ? `<p><small>${escape(dish.credit)}</small></p>` : '',
     `<p><a href="${escape(url)}">Open this record in the atlas</a></p>`,
     `</article>`,
   ]
