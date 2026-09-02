@@ -61,6 +61,7 @@ const SITE = 'https://wikifoodia.ajailabs.app';
  */
 import { builtCatalogue } from './lib/built-catalogue.mjs';
 import { sizedPhoto } from '../src/domain/commons.ts';
+import { alsoRecordedIn } from '../src/domain/related.ts';
 
 const { catalogue } = await builtCatalogue();
 
@@ -181,6 +182,52 @@ const worthIndexing = catalogue.filter(
   (dish) => dish.steps.length > 0 || dish.ingredients.length > 0 || (dish.prepSummary ?? '').trim(),
 );
 
+/**
+ * Somewhere to go from here.
+ *
+ * Every one of these pages carried exactly one link — back into the app — which made 8,883
+ * of them dead ends. A crawler that lands on one can read it and then has nowhere to walk,
+ * so the sitemap was the only way any of them were reachable from any other. That is the
+ * difference between a list of pages and a site.
+ *
+ * ## Why other records, and not the place
+ *
+ * The obvious link is the country, but a place is browsed at `/browse?country=Morocco`,
+ * which is client-rendered: every one of those URLs answers with the same `index.html`.
+ * Pointing 8,883 pages at query strings that all serve identical HTML is the textbook
+ * shape of a duplicate-content problem, and it would be the atlas asking to be penalised
+ * for the one thing it has actually done properly.
+ *
+ * Records are the opposite: each has its own file, its own title and its own description.
+ * So the links go dish to dish, and only ever to a record that was itself written here —
+ * a link into a page with nothing on it would be worse than no link.
+ *
+ * ## Ordering
+ *
+ * Best-documented first, then by name. Deterministic on purpose: a link graph that
+ * reshuffles every build looks unstable to a crawler and produces a diff nobody can read.
+ */
+const NEIGHBOURS = 6;
+
+const indexed = new Set(worthIndexing.map((dish) => dish.id));
+
+const byCountry = new Map();
+for (const dish of worthIndexing) {
+  const country = dish.loc.country;
+  if (!country) continue;
+  if (!byCountry.has(country)) byCountry.set(country, []);
+  byCountry.get(country).push(dish);
+}
+for (const list of byCountry.values()) {
+  list.sort((a, b) => {
+    const documented = (d) => (d.steps.length ? 2 : d.ingredients.length ? 1 : 0);
+    return documented(b) - documented(a) || a.name.localeCompare(b.name);
+  });
+}
+
+/** The same dish held under another country, where the atlas actually holds one. */
+const elsewhereFor = (dish) => alsoRecordedIn(dish, catalogue).filter((other) => indexed.has(other.id));
+
 mkdirSync(resolve(DIST, 'dish'), { recursive: true });
 
 let written = 0;
@@ -241,6 +288,35 @@ for (const dish of worthIndexing) {
    * because these licences require attribution wherever the image appears.
    */
   const photo = photoUrl(dish, 800);
+
+  /*
+   * Two lists, both true statements about the catalogue rather than recommendations.
+   *
+   * "Also recorded in" is the same dish held under another country — the atlas's own
+   * `alsoRecordedIn`, so this page and the app agree about what that means. "More from"
+   * is simply the other records filed under this place, which is what it says.
+   *
+   * Filtered to records that were written here, so no link leads to a page that does not
+   * exist as a file, and never to this dish itself.
+   */
+  const alsoIn = elsewhereFor(dish);
+  const near = (byCountry.get(dish.loc.country) ?? [])
+    .filter((other) => other.id !== dish.id && !alsoIn.some((a) => a.id === other.id))
+    .slice(0, NEIGHBOURS);
+
+  const linkTo = (other) =>
+    `<li><a href="${escape(`${SITE}/dish/${other.id}`)}">${escape(other.name)}</a>` +
+    `${other.loc.country && other.loc.country !== dish.loc.country ? ` — ${escape(other.loc.country)}` : ''}</li>`;
+
+  const links = [
+    alsoIn.length ? `<h2>Also recorded in</h2><ul>${alsoIn.map(linkTo).join('')}</ul>` : '',
+    near.length
+      ? `<h2>More from ${escape(dish.loc.country)}</h2><ul>${near.map(linkTo).join('')}</ul>`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('');
+
   const body = [
     `<article>`,
     photo
@@ -254,6 +330,7 @@ for (const dish of worthIndexing) {
       : '',
     photo && dish.credit ? `<p><small>${escape(dish.credit)}</small></p>` : '',
     `<p><a href="${escape(url)}">Open this record in the atlas</a></p>`,
+    links,
     `</article>`,
   ]
     .filter(Boolean)

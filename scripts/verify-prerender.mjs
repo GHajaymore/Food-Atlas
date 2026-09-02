@@ -72,6 +72,10 @@ const sample = (list, value) => {
   return list;
 };
 
+/** Record ids these pages link to, so a link into a page that was never written shows up. */
+const linkTargets = new Map();
+let pagesWithLinks = 0;
+
 const badOgImage = [];
 const badTwitterImage = [];
 const badCanonical = [];
@@ -117,6 +121,19 @@ for (const name of files) {
     if (!/alt="[^"]{3,}"/.test(img[2])) sample(emptyAlt, name);
   }
 
+  /*
+   * The link graph. Each page links to other records so a crawler can walk the atlas
+   * rather than reaching 8,883 dead ends and relying on the sitemap alone. A link to a
+   * record that was not written here resolves to the SPA fallback — a 200 carrying the
+   * wrong page, which is the failure this whole file exists to catch.
+   */
+  const self = name.replace('.html', '');
+  const targets = [...html.matchAll(/href="https:\/\/[^"]*\/dish\/(\d+)"/g)]
+    .map((m) => m[1])
+    .filter((id) => id !== self);
+  if (targets.length) pagesWithLinks += 1;
+  for (const id of targets) linkTargets.set(id, (linkTargets.get(id) ?? 0) + 1);
+
   const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   if (ld) {
     count.recipe += 1;
@@ -157,6 +174,26 @@ for (const [what, bad] of [
   ['Recipe image', badRecipeImage],
 ]) {
   if (bad.length) fail(`${what} is not a URL on at least ${bad.length} page(s): ${bad.join(' | ')}`);
+}
+
+/*
+ * Every internal link must land on a file that exists. A dangling one does not 404 — the
+ * SPA catch-all answers it with index.html and a 200, so it is invisible from the outside.
+ */
+{
+  const written = new Set(files.map((name) => name.replace('.html', '')));
+  const dangling = [...linkTargets.keys()].filter((id) => !written.has(id));
+  if (dangling.length) {
+    fail(`${dangling.length} internal link target(s) have no page: ${dangling.slice(0, 5).join(', ')}`);
+  } else {
+    const total = [...linkTargets.values()].reduce((a, b) => a + b, 0);
+    notes.push(`link graph: ${total} internal links, none dangling, on ${pagesWithLinks} of ${count.pages} pages`);
+  }
+  /* A record with no neighbours in its own country is legitimate — 32 of them, mostly the
+     sole record filed under a continent. A collapse to nothing is not. */
+  if (pagesWithLinks < count.pages * 0.9) {
+    fail(`only ${pagesWithLinks} of ${count.pages} pages link anywhere — the link graph has collapsed`);
+  }
 }
 
 if (emptyAlt.length) fail(`a photograph has no alt text on at least ${emptyAlt.length} page(s): ${emptyAlt.join(' | ')}`);
