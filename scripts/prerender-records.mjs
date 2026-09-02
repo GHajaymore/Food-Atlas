@@ -83,6 +83,23 @@ const { catalogue } = await builtCatalogue();
  */
 const photoUrl = (dish, width = 1200) => (dish.photo ? sizedPhoto(dish.photo, width) : '');
 
+/**
+ * What the picture can honestly be said to show.
+ *
+ * `photoVerified` is false on every built record and true only on the three curated ones
+ * — `build.ts` says why: *"knowing a picture was attached to the right subject is not
+ * knowing it shows the dish as made in the place."* The record screen prints that
+ * qualification beside the photograph.
+ *
+ * Alt text is the one place it would be easy to drop, because "a photograph of Jalebi" is
+ * the obvious phrasing and reads perfectly well. It would also be the atlas asserting, to
+ * the readers least able to check it, exactly the thing it tells everybody else it has not
+ * established. So an unverified picture is described as what it verifiably is: a file
+ * filed under this name on Commons.
+ */
+const photoAlt = (dish) =>
+  dish.photoVerified ? dish.name : `Photograph filed under “${dish.name}” on Wikimedia Commons`;
+
 /** Text safe to drop between tags or inside a double-quoted attribute. */
 const escape = (value) =>
   String(value ?? '')
@@ -177,12 +194,28 @@ for (const dish of worthIndexing) {
     `<title>${escape(title)}</title>`,
     `<meta name="description" content="${escape(description)}"/>`,
     `<link rel="canonical" href="${escape(url)}"/>`,
+    /*
+     * Both namespaces, in full, because the strip below removes both in full.
+     *
+     * `inject-meta.mjs` writes a complete card for the site and says why it writes the
+     * Twitter tags separately: *"Twitter/X reads its own namespace and falls back to Open
+     * Graph inconsistently."* This file removed every `og:` and `twitter:` tag the shell
+     * carried — it has to, or each record would hold two of each — and then rewrote only
+     * the Open Graph half. So the one page type that ever gets shared was the one relying
+     * on the fallback that comment warns about, and it also lost `og:site_name`, which is
+     * the word "WikiFoodia" under the preview.
+     */
+    `<meta property="og:site_name" content="WikiFoodia"/>`,
     `<meta property="og:type" content="article"/>`,
     `<meta property="og:title" content="${escape(title)}"/>`,
     `<meta property="og:description" content="${escape(description)}"/>`,
     `<meta property="og:url" content="${escape(url)}"/>`,
     dish.photo ? `<meta property="og:image" content="${escape(photoUrl(dish))}"/>` : '',
+    dish.photo ? `<meta property="og:image:alt" content="${escape(photoAlt(dish))}"/>` : '',
     `<meta name="twitter:card" content="${dish.photo ? 'summary_large_image' : 'summary'}"/>`,
+    `<meta name="twitter:title" content="${escape(title)}"/>`,
+    `<meta name="twitter:description" content="${escape(description)}"/>`,
+    dish.photo ? `<meta name="twitter:image" content="${escape(photoUrl(dish))}"/>` : '',
     recipeMarkup(dish, url),
   ]
     .filter(Boolean)
@@ -211,7 +244,7 @@ for (const dish of worthIndexing) {
   const body = [
     `<article>`,
     photo
-      ? `<img src="${escape(photo)}" alt="${escape(dish.name)}" width="800" style="max-width:100%;height:auto"/>`
+      ? `<img src="${escape(photo)}" alt="${escape(photoAlt(dish))}" width="800" style="max-width:100%;height:auto"/>`
       : '',
     `<h1>${escape(dish.name)}</h1>`,
     place ? `<p>${escape(place)}</p>` : '',
