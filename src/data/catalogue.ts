@@ -103,6 +103,30 @@ async function loadConfirmations(): Promise<ConfirmationIndex> {
   }
 }
 
+/**
+ * Is this reader paying for every byte?
+ *
+ * `saveData` is the reader saying so explicitly, through the browser's own data-saver
+ * setting, and is honoured without qualification. `effectiveType` is the browser's
+ * estimate of the link; 3g or worse is the line, because a megabyte is roughly twenty
+ * seconds there.
+ *
+ * Exported so it can be asserted rather than assumed. Spending somebody's data when they
+ * asked you not to is invisible from the inside — the app looks identical, the file simply
+ * arrives — so the only way this stays true is a test that says so.
+ *
+ * Returns false where the browser offers no answer. Guessing that an unknown connection is
+ * expensive would withhold the prefetch from every Safari and Firefox reader, which is a
+ * worse trade than the one it is trying to avoid.
+ */
+export function onAMeteredConnection(): boolean {
+  const link = (globalThis as { navigator?: { connection?: { saveData?: boolean; effectiveType?: string } } })
+    .navigator?.connection;
+  if (!link) return false;
+  if (link.saveData) return true;
+  return ['slow-2g', '2g', '3g'].includes(link.effectiveType ?? '');
+}
+
 export function loadCatalogue(): Promise<void> {
   pending ??= (async () => {
     /*
@@ -194,7 +218,30 @@ export function loadCatalogue(): Promise<void> {
     else if (typeof setTimeout === 'function') setTimeout(start, 1000);
     else start();
   };
-  soon(() => void loadCookbookSteps());
+
+  /*
+   * Not on a connection that has to pay for it.
+   *
+   * The prefetch above is a good trade on a fast link: it waits for idle, so it costs no
+   * first paint, and it means the method is already there when somebody opens a record.
+   * It is a bad trade on a metered one, where 1.2 MB is money rather than milliseconds and
+   * most visits never open a record at all.
+   *
+   * That matters more here than the numbers suggest. The atlas holds 14,352 records that
+   * nobody has written down, and the people who could write them down are
+   * disproportionately the ones on 3G in the places the food comes from. Spending their
+   * data on step text they did not ask for, to save a third of a second they would never
+   * have noticed, is the wrong way round.
+   *
+   * `saveData` is the reader saying so explicitly and is honoured without qualification.
+   * `effectiveType` is the browser's own estimate of the link, and 3g or worse is the line
+   * — a 1.2 MB speculative fetch is roughly twenty seconds there.
+   *
+   * Nothing is lost when this declines: `app/dish/[id].tsx` asks for the text when a
+   * record is opened and re-renders when it lands, which is the path every visit takes on
+   * a browser without `requestIdleCallback` anyway.
+   */
+  if (!onAMeteredConnection()) soon(() => void loadCookbookSteps());
 
   return pending;
 }
