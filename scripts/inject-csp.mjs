@@ -20,9 +20,25 @@
  *
  * ## What each source is for, and why it is not narrower
  *
- * `img-src` — Commons serves the photographs, and redirects to `upload.wikimedia.org`, so
- * both hosts are needed for a single image. `img.youtube.com` is the still frame on a
- * video card. `data:` because react-native-web inlines small shapes.
+ * `img-src` — one photograph needs three Wikimedia hosts, because Commons answers a
+ * request for it with a chain rather than an image:
+ *
+ *     commons.wikimedia.org/wiki/Special:FilePath/NAME?width=400
+ *       302 -> commons.wikimedia.org/w/index.php?title=Special:Redirect/file/NAME
+ *       301 -> thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/NAME/500px-NAME
+ *
+ * A browser applies this policy to the *end* of that chain, not the start, so the host
+ * Wikimedia happens to land on is the one that has to be listed. It used to be
+ * `upload.wikimedia.org`; some time before 2 September 2026 it became
+ * `thumb.wikimedia.org`, and every photograph on the site began failing with a console
+ * error and no other symptom — the layout is identical whether an image is blocked or
+ * merely absent, and half the atlas has no photograph anyway.
+ *
+ * `upload.wikimedia.org` stays: it is still where some files resolve, and a host that has
+ * been the answer once may be the answer again.
+ *
+ * `img.youtube.com` is the still frame on a video card. `data:` because react-native-web
+ * inlines small shapes.
  *
  * `style-src` needs `'unsafe-inline'` and there is no way around it: react-native-web
  * builds its stylesheet at runtime through the CSSOM, so there is no file to name and no
@@ -61,7 +77,7 @@ const main = async () => {
     "default-src 'self'",
     `script-src 'self' ${hashes.join(' ')}`.trim(),
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: https://commons.wikimedia.org https://upload.wikimedia.org https://img.youtube.com",
+    "img-src 'self' data: https://commons.wikimedia.org https://upload.wikimedia.org https://thumb.wikimedia.org https://img.youtube.com",
     "font-src 'self'",
     "connect-src 'self'",
     "form-action 'self'",
