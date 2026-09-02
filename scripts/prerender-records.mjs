@@ -53,13 +53,48 @@ const SITE = 'https://wikifoodia.ajailabs.app';
 const read = (name) => JSON.parse(readFileSync(resolve(HERE, `../public/data/${name}.json`), 'utf8'));
 
 const { buildCatalogue } = await import('../src/data/build.ts');
-const { catalogue } = buildCatalogue(
+const { recipeLines } = await import('../src/domain/recipeLines.ts');
+const { decodeEntities } = await import('../src/domain/text.ts');
+
+const { catalogue, cookbookRows } = buildCatalogue(
   read('catalogue'),
   read('cuisines'),
   read('cookbook'),
   read('unesco'),
   read('gi'),
 );
+
+/*
+ * Put the method back before anything is written.
+ *
+ * `cookbook.json` ships without its step text — 56% of that file, held back so a first
+ * paint does not wait on words only one screen reads. The app patches it in afterwards
+ * from `cookbook-detail.json`, so a built record carries `stepCount` and an empty
+ * `steps` until that lands.
+ *
+ * A build script never runs that second fetch, so the first version of this wrote recipe
+ * markup for **6 records instead of 4,488** — the six curated ones that carry their steps
+ * inline. Every cookbook record looked methodless and was marked up as though it had
+ * nothing to say. Nothing failed; the file count was identical; only reading the output
+ * showed it.
+ *
+ * Attached exactly as `loadCookbookSteps` attaches it, through the same two cleaners, so
+ * the method in the markup is the method on the page rather than a rawer version of it.
+ */
+{
+  const detail = read('cookbook-detail');
+  const byId = new Map(catalogue.map((dish) => [dish.id, dish]));
+  let attached = 0;
+  for (let i = 0; i < cookbookRows.length; i += 1) {
+    const steps = detail[cookbookRows[i]]?.steps;
+    if (!steps?.length) continue;
+    const dish = byId.get(300_000 + i);
+    if (!dish) continue;
+    dish.steps = recipeLines(steps.map(decodeEntities));
+    attached += 1;
+  }
+  process.stderr.write(`prerender-records: method text attached to ${attached} records\n`);
+}
 
 /** Text safe to drop between tags or inside a double-quoted attribute. */
 const escape = (value) =>
@@ -75,6 +110,65 @@ const describe = (dish) => {
   if (source.length <= 155) return source;
   const cut = source.slice(0, 155);
   return `${cut.slice(0, cut.lastIndexOf(' ')) || cut}…`;
+};
+
+/**
+ * The record as `schema.org/Recipe`, or nothing.
+ *
+ * This is what lets a search engine show a dish as a dish — with its picture, its
+ * ingredients and its method — rather than as a blue link among blue links. For an atlas
+ * whose entire distribution is search and word of mouth, that is the difference between
+ * being found by somebody who cooks this food and not being found at all.
+ *
+ * ## Only where there is a method
+ *
+ * `Recipe` promises `recipeInstructions`. 4,488 records have a real method and can make
+ * that promise; 3,119 more have an ingredient list and no method and cannot. Marking those
+ * up as recipes would be a lie told in a machine-readable format, which is the worst place
+ * to tell one — it is also exactly what Google's own validator flags, so it would not even
+ * work. They get no markup rather than a hollow claim.
+ *
+ * ## What is deliberately absent
+ *
+ * No `cookTime`, no `recipeYield`, no `nutrition`, no `aggregateRating`. Rich results
+ * reward every one of those and the atlas does not hold a single one of them. Inventing a
+ * cooking time to win a star rating is the precise failure this project exists not to
+ * commit, and it would be committed here in a form no reader could see.
+ *
+ * `citation` carries the source instead. The atlas did not write these methods down —
+ * Wikipedia, Wikibooks and the registers did — and the markup says so.
+ */
+const recipeMarkup = (dish, url) => {
+  if (!dish.steps.length) return '';
+
+  const recipe = {
+    '@context': 'https://schema.org',
+    '@type': 'Recipe',
+    name: dish.name,
+    url,
+    inLanguage: dish.sourceLanguage || 'en',
+    description: describe(dish) || undefined,
+    image: dish.photo || undefined,
+    recipeCuisine: dish.cuisine || undefined,
+    recipeCategory: dish.category || undefined,
+    recipeIngredient: dish.ingredients.length ? dish.ingredients : undefined,
+    recipeInstructions: dish.steps.map((step) => ({ '@type': 'HowToStep', text: step })),
+    /* Who actually recorded it. The atlas is the publisher of the page, never the author
+       of the method. */
+    citation: (dish.sources ?? [])
+      .filter((source) => source.url)
+      .map((source) => ({ '@type': 'CreativeWork', name: source.title, url: source.url })),
+  };
+
+  for (const [key, value] of Object.entries(recipe)) {
+    if (value === undefined || (Array.isArray(value) && !value.length)) delete recipe[key];
+  }
+
+  /*
+   * `</` is escaped because a step containing it would otherwise close the script tag and
+   * spill the rest of the record into the page as markup.
+   */
+  return `<script type="application/ld+json">${JSON.stringify(recipe).replace(/<\//g, '<\\/')}</script>`;
 };
 
 const shell = readFileSync(resolve(DIST, 'index.html'), 'utf8');
@@ -102,6 +196,7 @@ for (const dish of worthIndexing) {
     `<meta property="og:url" content="${escape(url)}"/>`,
     dish.photo ? `<meta property="og:image" content="${escape(dish.photo)}"/>` : '',
     `<meta name="twitter:card" content="${dish.photo ? 'summary_large_image' : 'summary'}"/>`,
+    recipeMarkup(dish, url),
   ]
     .filter(Boolean)
     .join('\n    ');
