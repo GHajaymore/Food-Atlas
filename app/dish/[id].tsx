@@ -11,7 +11,7 @@
  *     adaptation. It is never merged into the authentic ingredient list above it.
  */
 
-import { hasMethod, methodLength } from '../../src/domain/method';
+import { hasMethod, hasProse, methodLength } from '../../src/domain/method';
 import { photoOriginLabel } from '../../src/domain/photoProvenance';
 import { languageNameIn } from '../../src/domain/language';
 import { placeName } from '../../src/domain/continents';
@@ -37,7 +37,7 @@ import { Screen } from '../../src/components/Screen';
 import { H2, H5, H6, Muted, T } from '../../src/components/Text';
 import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
-import { catalogue, dishById, loadCookbookSteps } from '../../src/data/catalogue';
+import { catalogue, dishById, loadCookbookSteps, loadProse } from '../../src/data/catalogue';
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { atRiskNote } from '../../src/domain/atRisk';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
@@ -76,22 +76,34 @@ export default function DishDetail() {
   }, [dish?.id]);
 
   /*
-   * Wait for the method text, if it has not arrived.
+   * Wait for the words, if they have not arrived.
    *
-   * Cookbook step text is held back from the first payload and patched into the records in
-   * place once it lands — 31% off the critical path, see `docs/first-paint.md`. Mutating an
-   * array does not re-render a screen that is already open, so this screen asks for the
-   * text and re-renders itself once it has it.
+   * Two bodies of text are held back from the first payload and patched into the records
+   * in place once they land: cookbook steps, and the written accounts — together about
+   * 44% of what a cold visit used to cost. See `docs/first-paint.md`. Mutating a record
+   * does not re-render a screen that is already open, so this screen asks for both and
+   * re-renders itself once it has them.
    *
-   * Only this screen needs to: everywhere else asks `methodLength()`, which has been right
-   * since the first frame. Already satisfied on every visit after the first, which is why
-   * the state starts as whether the words are there or were never coming.
+   * Only this screen needs to. Everywhere else asks `methodLength()` or `hasProse()`,
+   * which have been right since the first frame — including the two branches below that
+   * choose between showing an account and saying nobody has written one. Those ask the
+   * length for exactly this reason: asking the string would put "nobody has recorded how
+   * this is made" under a dish whose account was still in flight.
+   *
+   * Already satisfied on every visit after the first, which is why the state starts as
+   * whether the words are there or were never coming.
    */
-  const [textReady, setTextReady] = useState(() => !dish || dish.steps.length > 0 || !methodLength(dish));
+  const [textReady, setTextReady] = useState(
+    () =>
+      !dish ||
+      ((dish.steps.length > 0 || !methodLength(dish)) &&
+        (dish.prepSummary.length > 0 || !hasProse(dish))),
+  );
   useEffect(() => {
     if (textReady) return;
     let alive = true;
-    void loadCookbookSteps().then(() => {
+    /* Two files, both wanted before this screen is complete, and neither rejects. */
+    void Promise.all([loadCookbookSteps(), loadProse()]).then(() => {
       if (alive) setTextReady(true);
     });
     return () => {
@@ -164,17 +176,10 @@ export default function DishDetail() {
    */
   const askPlace = dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country;
 
-  /**
-   * Whether there is prose here worth translating.
-   *
-   * Deliberately wider than `isDocumented`. An ordered method is not the only thing
-   * worth reading in another language — an article's account of how a dish is made
-   * is prose too, and the infobox pass gave that to well over a thousand records
-   * that will never have numbered steps. Gating translation on `steps` left every
-   * one of them readable only in English while the screen displayed a paragraph of
-   * preparation right underneath.
-   */
-  const hasProse = hasMethod(dish) || Boolean(dish.prepSummary?.trim());
+  /* `hasProse` was declared here to decide what was worth offering for translation. The
+     machine translation it gated is gone, and it had outlived it unused. The name now
+     belongs to the helper in `domain/method.ts`, which answers a different question:
+     whether the account exists, rather than whether it has finished downloading. */
   /** An adaptation documents how a dish is made today, not how its tradition makes it. */
   const isAdaptation = dish.badgeLevel === 'adaptation';
   /*
@@ -571,7 +576,7 @@ export default function DishDetail() {
               from a source and labelled as such, so it never passes for the
               traditional preparation — which is still open, and still needs
               someone who cooks it. */}
-          {!isDocumented && dish.prepSummary ? (
+          {!isDocumented && hasProse(dish) ? (
             <>
               <H5 level={2} style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
@@ -625,7 +630,7 @@ export default function DishDetail() {
             </>
           ) : null}
 
-          {!isDocumented && !dish.prepSummary ? (
+          {!isDocumented && !hasProse(dish) ? (
             <Card style={styles.undocumented}>
               <CardKicker>{copy.notDocumentedYet}</CardKicker>
               {/*

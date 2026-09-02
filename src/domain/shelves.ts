@@ -1,4 +1,4 @@
-import { hasMethod, methodLength } from './method';
+import { hasMethod, hasProse, methodLength } from './method';
 import { placeName } from './continents';
 /**
  * The home screen as doorways rather than a list.
@@ -168,7 +168,7 @@ export const today = (): number => Math.floor(Date.now() / 86_400_000);
  * and recruiting is the entire point of putting these first.
  */
 function urgentOrder(dishes: Dish[], take: number): Dish[] {
-  const documented = (d: Dish) => (hasMethod(d) ? 2 : d.prepSummary.trim() ? 1 : 0);
+  const documented = (d: Dish) => (hasMethod(d) ? 2 : hasProse(d) ? 1 : 0);
 
   return dishes
     .filter((d) => d.photo)

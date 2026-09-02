@@ -28,16 +28,11 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(HERE, '../dist');
 const SITE = 'https://wikifoodia.ajailabs.app';
 
-const read = (name) => JSON.parse(readFileSync(resolve(HERE, `../public/data/${name}.json`), 'utf8'));
+/* With the deferred text put back — this list must match the one `prerender-records.mjs`
+   writes, and both are decided by fields that arrive after the first paint. */
+import { builtCatalogue } from './lib/built-catalogue.mjs';
 
-const { buildCatalogue } = await import('../src/data/build.ts');
-const { catalogue } = buildCatalogue(
-  read('catalogue'),
-  read('cuisines'),
-  read('cookbook'),
-  read('unesco'),
-  read('gi'),
-);
+const { catalogue } = await builtCatalogue();
 
 /** The same rule `prerender-records.mjs` applies, so the two lists cannot drift apart. */
 const indexed = catalogue.filter(

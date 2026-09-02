@@ -187,6 +187,8 @@ export function loadCatalogue(): Promise<void> {
     const built = buildCatalogue(imported, cuisines, cookbook, unesco, gi, confirmations, thresholds());
     catalogue = built.catalogue;
     cookbookRows = built.cookbookRows;
+    cuisineRows = built.cuisineRows;
+    importedProseRows = built.importedProseRows;
     catalogueStats = built.stats;
     languageCoverage = coverageOf(catalogue);
   })();
@@ -241,7 +243,10 @@ export function loadCatalogue(): Promise<void> {
    * record is opened and re-renders when it lands, which is the path every visit takes on
    * a browser without `requestIdleCallback` anyway.
    */
-  if (!onAMeteredConnection()) soon(() => void loadCookbookSteps());
+  if (!onAMeteredConnection()) {
+    soon(() => void loadCookbookSteps());
+    soon(() => void loadProse());
+  }
 
   return pending;
 }
@@ -249,7 +254,15 @@ export function loadCatalogue(): Promise<void> {
 /** Which source row each cookbook record came from. Filled by the build. */
 let cookbookRows: number[] = [];
 
+/** Which row of `cuisines.json` each cuisine record came from. Filled by the build. */
+let cuisineRows: number[] = [];
+
+/** Which record each row of `catalogue.json` became, as record ids. Filled by the build. */
+let importedProseRows: number[] = [];
+
 let stepsPending: Promise<void> | null = null;
+
+let prosePending: Promise<void> | null = null;
 
 /**
  * The half of cookbook.json the first paint does not need.
@@ -301,4 +314,64 @@ export function loadCookbookSteps(): Promise<void> {
   })();
 
   return stepsPending;
+}
+
+/**
+ * The written accounts, which only one screen reads as words.
+ *
+ * `prepSummary` is 46% of `cuisines.json` and 19% of `catalogue.json`, and every use of
+ * it except displaying it is a question about length: does this record have an account,
+ * how long is it, does it mention decline, what are its first 220 characters. All four
+ * answers ship in the first payload as `prepLength`, `atRiskEvidence` and `blurb`, so
+ * scores, shelves, counts and cards are right from the first frame and none of them is
+ * waiting for this. It fills in the paragraph on the record page.
+ *
+ * Two files, two mappings, because the records are numbered three different ways. Cuisine
+ * records are `100_000 + index` over rows that survived a filter, so they need
+ * `cuisineRows` the way cookbook records need `cookbookRows`. Imported records carry
+ * their row's own id, so `importedProseRows` is just that column.
+ *
+ * Same non-rejecting contract as `loadCookbookSteps`. A failure costs the paragraph and
+ * nothing else — the badge, the card and the shelf were never reading it.
+ */
+export function loadProse(): Promise<void> {
+  prosePending ??= (async () => {
+    await pending;
+
+    const byId = new Map(catalogue.map((dish) => [dish.id, dish]));
+
+    /** Read one detail file and put its paragraphs where the map says they go. */
+    const attach = async (file: string, idFor: (row: number) => number | undefined) => {
+      try {
+        const response = await fetch(`${BASE}/data/${file}-detail.json`);
+        if (!response.ok) return;
+        const detail = (await response.json()) as { prepSummary?: string }[];
+        if (!Array.isArray(detail)) return;
+
+        for (let row = 0; row < detail.length; row += 1) {
+          const prose = detail[row]?.prepSummary;
+          if (!prose) continue;
+          const id = idFor(row);
+          if (id === undefined) continue;
+          /* Cleaned by `compact-data.mjs` with the builder's own `cleanProse`, so a late
+             paragraph is the same string an early one would have been. */
+          const dish = byId.get(id);
+          if (dish) dish.prepSummary = prose;
+        }
+      } catch {
+        /* Offline, or the file is not served. Every figure on screen is already right. */
+      }
+    };
+
+    /* Row -> record for the cuisine file, inverting the record -> row map the build kept. */
+    const cuisineIdFor = new Map<number, number>();
+    for (let i = 0; i < cuisineRows.length; i += 1) cuisineIdFor.set(cuisineRows[i], 100_000 + i);
+
+    await Promise.all([
+      attach('cuisines', (row) => cuisineIdFor.get(row)),
+      attach('catalogue', (row) => importedProseRows[row]),
+    ]);
+  })();
+
+  return prosePending;
 }

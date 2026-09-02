@@ -21,7 +21,15 @@ const commons = (file: string) =>
   `https://commons.wikimedia.org/wiki/Special:FilePath/${file}?width=900`;
 const commonsPage = (file: string) => `https://commons.wikimedia.org/wiki/File:${file}`;
 
-const SEED: Dish[] = [
+/*
+ * `prepLength` is measured rather than typed out.
+ *
+ * On a built record it is written by the compaction, because the prose is fetched after
+ * the first paint and the length has to be known before it lands. These six carry their
+ * account inline and always have, so the honest value is the one the string reports —
+ * and a hand-copied number here would be a fixture that disagrees with itself.
+ */
+const SEED: Omit<Dish, 'prepLength'>[] = [
   {
     id: 1,
     name: 'Kozhikode Halwa',
@@ -744,7 +752,9 @@ const SEED: Dish[] = [
  * The catalogue, gated through the invariants. A record that breaks one of the
  * brief's hard rules never reaches a screen.
  */
-export const dishes: Dish[] = assertDishes(SEED);
+export const dishes: Dish[] = assertDishes(
+  SEED.map((dish) => ({ ...dish, prepLength: dish.prepSummary.length })),
+);
 
 export const dishById = (id: number | null | undefined): Dish | undefined =>
   dishes.find((d) => d.id === id);

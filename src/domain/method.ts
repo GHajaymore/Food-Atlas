@@ -55,3 +55,18 @@ export const hasMethod = (dish: Pick<Dish, 'steps' | 'stepCount'>): boolean => m
  */
 export const scorable = (dish: Pick<Dish, 'steps' | 'stepCount' | 'ingredients'>): boolean =>
   hasMethod(dish) || dish.ingredients.length > 0;
+
+/**
+ * Is there a written account of this dish, whether or not it has arrived yet?
+ *
+ * The companion to `hasMethod`, and it exists for the same reason. `prepSummary` is
+ * fetched after the first paint, so `dish.prepSummary.trim()` answers "no" for a second
+ * or so on every record that has one — and six places asked it that way. The front page
+ * reordered, the headline counts read low, and a documented dish was offered the
+ * bare-record treatment, all of it correcting itself once the text landed.
+ *
+ * `prepLength` is measured at build time on the *cleaned* prose, which is what
+ * `prepSummary` holds once it arrives, so this is true from the first frame and stays
+ * true. Never ask the string.
+ */
+export const hasProse = (dish: Pick<Dish, 'prepLength'>): boolean => dish.prepLength > 0;

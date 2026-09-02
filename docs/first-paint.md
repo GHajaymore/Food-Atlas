@@ -82,6 +82,12 @@ reads the prose itself to decide whether a tradition is declining. A boolean can
 for either. With `prepSummary` and `langNames` both immovable, the realistic prize is
 **31%** — 2.92 MB to 2.02 MB — not 62%.
 
+> **This paragraph was half wrong, and was corrected on 2026-09-01.** See *The accounts
+> moved after all* at the foot of this document. The objection above is to deferring the
+> *facts*, and it is correct about that — but `hasAccount` is a comparison against a
+> length, and a length is a number that can be written down at build time. `prepSummary`
+> moved; `langNames` did not, and the reasoning for it still stands.
+
 **The placeholder trick produces invalid records.** Filling `steps` with empty strings of
 the right length keeps every `.length` correct, which was the whole idea, and
 `plumbing.test.ts` failed immediately: *"never shows a bullet with nothing beside it"*,
@@ -139,3 +145,103 @@ heap, not in transfer, and transfer is what the 1,215 ms is made of.
 Which leaves the heavy-field split as the only real lever, at **31%** rather than the 62%
 it looked like on paper — still worth having, and worth doing in one deliberate sitting
 rather than at the end of a long one.
+
+---
+
+# The accounts moved after all
+
+Written 2026-09-01, after the cookbook split had shipped and the numbers were taken again.
+
+## Where the critical path actually stood
+
+The prediction above was 2.02 MB. Measured on the live site with `transferSize`, it was
+**2,583 KB** — and `cuisines.json` alone was 1,434 KB of that, 56%, by then the single
+largest thing between a reader and the first paint.
+
+## What made `prepSummary` movable
+
+The objection recorded above is to deferring the *facts* the prose carries. That was right,
+and it is not an objection to deferring the *text*. Every runtime use of `prepSummary`
+other than displaying it reduces to something a build can compute:
+
+| the read | what it becomes |
+|---|---|
+| `hasAccount: prepSummary.length > 0` | `prepLength > 0` |
+| `extractLength: prepSummary.length` | `prepLength` |
+| `registerMethod: patRegion && prepSummary` | `patRegion && prepLength` |
+| `detectAtRisk(prepSummary)` | `atRiskEvidence`, precomputed |
+| `cleanBlurb(prepSummary.slice(0, 220))` | `blurb`, precomputed |
+| `prepSummary.trim()` in six screens | `hasProse()` |
+
+Which leaves the record screen, the one place that shows the prose as prose. The same
+shape as `steps`, and without the trap that killed the first attempt: nothing needs a
+placeholder, because a length is a number rather than a list of empty strings.
+
+`compact-data.mjs` computes those scalars with **the builder's own `cleanProse`,
+`cleanBlurb` and `cleanName`, imported rather than reimplemented** — `cleanProse` prepends
+the dish name to a sentence that lost its subject, so a length measured the wrong way would
+move badges across the atlas with nothing on screen to say so.
+
+## What it was worth
+
+Measured over the wire, before and after:
+
+```
+critical path   2,583 KB  ->  2,145 KB   (438 KB, 17% less)
+  cuisines.json 1,434 KB  ->  1,113 KB
+  catalogue.json  414 KB  ->    297 KB
+deferred        1,215 KB  ->  2,071 KB
+```
+
+**Not the 26% it first looked like.** The card still needs the opening 220 characters of
+the account, so only the tail can actually go — and `prepSummary` averages about 400
+characters. Roughly half of the field was always going to stay.
+
+`catalogue.json` gives up more of its share than `cuisines.json` does, because its rows
+already carry Wikidata's own short description and there is nothing to keep back for them.
+
+## Three things this got wrong on the way
+
+**Overwriting the wrong `blurb`.** The two sources answer "what does this card say" in
+opposite directions, and the field has the same name in both. A cuisine row has never
+carried a blurb, so its builder cuts one from the account; an imported row carries
+Wikidata's short description, which its builder has always preferred to the article prose.
+Deriving for both replaced **597** of those descriptions with the opening of a Wikipedia
+paragraph — Popcorn stopped saying what popcorn is and started saying it can be cooked
+with butter or oil. Caught by `scripts/verify-prose-split.mjs`, which was written before
+the change and builds the catalogue from the old files and the new ones and compares every
+score, badge, blurb and at-risk finding. That script is the reason this was a ten-minute
+problem rather than a silent regression.
+
+**The build scripts read a half-loaded catalogue.** `prerender-records.mjs` and
+`emit-sitemap.mjs` call `buildCatalogue` and never run the second fetch, so a record
+documented only by prose looked like a bare name: **8,890 prerendered pages fell to
+7,607**, and the sitemap agreed with the wrong number. This is the second time that exact
+trap has been hit — the first wrote recipe markup for 6 records instead of 4,488 — so the
+reconstruction now lives once, in `scripts/lib/built-catalogue.mjs`, and both scripts ask
+it for a finished catalogue. **Anything deferred in future belongs in that function.**
+
+**Two `.length` reads that were already wrong.** `documented()` in the dedup ranker read
+`d.steps.length` — which has been 0 for every cookbook record since the step text was
+deferred, quietly costing those records the tie-break against a thinner import of the same
+dish. And `plumbing.test.ts` traced the `prepSummary` field, which no published row carries
+any more, so its assertion would have gone on passing while checking nothing. Both now ask
+the counts.
+
+## What is left, and what is not worth trying
+
+`langNames` is still 19% of `cuisines.json` and still immovable for the reason recorded
+above: `queries.ts` searches it and `proposals.ts` dedupes against it.
+
+Two more field-level ideas were measured on the published files and are **not worth doing**,
+recorded here so nobody spends an afternoon on them:
+
+```
+url dropped where derivable from title   25 KB brotli  (2%)
+licence replaced by a 29-value code       3 KB brotli  (0%)
+```
+
+Brotli already models a repeated prefix and a small enum almost perfectly — the same
+finding as the photo-URL experiment above. `leadFile` is the one that is arguably worth it
+at 20 KB compressed and 108 KB decoded, since the app reads only whether it is present and
+never its value; it is left alone because 20 KB is not worth another field to keep in step.

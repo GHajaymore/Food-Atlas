@@ -35,7 +35,7 @@
  * of those.
  */
 
-import { hasMethod } from '../domain/method';
+import { hasMethod, hasProse } from '../domain/method';
 import { StyleSheet, View } from 'react-native';
 import { router } from 'expo-router';
 import { catalogue, catalogueStats } from '../data/catalogue';
@@ -71,7 +71,7 @@ function Stat({ value, label, accent }: { value: string; label: string; accent?:
 export function useMissionNumbers() {
   const { total, countries } = catalogueStats;
 
-  const documented = catalogue.filter((d) => hasMethod(d) || d.prepSummary.trim()).length;
+  const documented = catalogue.filter((d) => hasMethod(d) || hasProse(d)).length;
   const unwritten = total - documented;
   const authenticated = catalogue.filter((d) => isAuthentic(d.badgeLevel)).length;
 

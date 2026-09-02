@@ -50,51 +50,18 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(HERE, '../dist');
 const SITE = 'https://wikifoodia.ajailabs.app';
 
-const read = (name) => JSON.parse(readFileSync(resolve(HERE, `../public/data/${name}.json`), 'utf8'));
-
-const { buildCatalogue } = await import('../src/data/build.ts');
-const { recipeLines } = await import('../src/domain/recipeLines.ts');
-const { decodeEntities } = await import('../src/domain/text.ts');
-
-const { catalogue, cookbookRows } = buildCatalogue(
-  read('catalogue'),
-  read('cuisines'),
-  read('cookbook'),
-  read('unesco'),
-  read('gi'),
-);
-
 /*
- * Put the method back before anything is written.
+ * A finished catalogue, not a half-loaded one.
  *
- * `cookbook.json` ships without its step text — 56% of that file, held back so a first
- * paint does not wait on words only one screen reads. The app patches it in afterwards
- * from `cookbook-detail.json`, so a built record carries `stepCount` and an empty
- * `steps` until that lands.
- *
- * A build script never runs that second fetch, so the first version of this wrote recipe
- * markup for **6 records instead of 4,488** — the six curated ones that carry their steps
- * inline. Every cookbook record looked methodless and was marked up as though it had
- * nothing to say. Nothing failed; the file count was identical; only reading the output
- * showed it.
- *
- * Attached exactly as `loadCookbookSteps` attaches it, through the same two cleaners, so
- * the method in the markup is the method on the page rather than a rawer version of it.
+ * Both the step text and the written accounts are held back from the first payload, and a
+ * build script never runs the fetch that brings them in. Reconstructing that here is what
+ * `scripts/lib/built-catalogue.mjs` is for, and it exists because this file got it wrong
+ * twice: first writing recipe markup for 6 records instead of 4,488, then dropping 1,283
+ * prose-documented records out of the index when the accounts moved too.
  */
-{
-  const detail = read('cookbook-detail');
-  const byId = new Map(catalogue.map((dish) => [dish.id, dish]));
-  let attached = 0;
-  for (let i = 0; i < cookbookRows.length; i += 1) {
-    const steps = detail[cookbookRows[i]]?.steps;
-    if (!steps?.length) continue;
-    const dish = byId.get(300_000 + i);
-    if (!dish) continue;
-    dish.steps = recipeLines(steps.map(decodeEntities));
-    attached += 1;
-  }
-  process.stderr.write(`prerender-records: method text attached to ${attached} records\n`);
-}
+import { builtCatalogue } from './lib/built-catalogue.mjs';
+
+const { catalogue } = await builtCatalogue();
 
 /** Text safe to drop between tags or inside a double-quoted attribute. */
 const escape = (value) =>

@@ -10,7 +10,7 @@
  * record, not a rendering bug.
  */
 
-import { hasMethod, methodLength } from './method';
+import { hasMethod, hasProse, methodLength } from './method';
 import { isAuthentic, SCORE_DIMENSIONS } from './authenticity';
 import type { Dish } from './types';
 
@@ -248,10 +248,10 @@ function findSelfContradictions(dishes: Dish[]): string[] {
     // The disclaimer for an empty record says so in as many words. If the record then
     // has a method, one of the two is lying to the reader.
     const claimsNothingRecorded = /only the name and the place are recorded|nothing documents how this is made/i;
-    if (claimsNothingRecorded.test(dish.disclaimer) && (hasMethod(dish) || dish.prepSummary.trim())) {
+    if (claimsNothingRecorded.test(dish.disclaimer) && (hasMethod(dish) || hasProse(dish))) {
       problems.push(
         `${dish.name}: says nothing is recorded about how it is made, directly above ` +
-          `${methodLength(dish)} steps and ${dish.prepSummary.trim().length} characters of preparation.`,
+          `${methodLength(dish)} steps and ${dish.prepLength} characters of preparation.`,
       );
     }
   }

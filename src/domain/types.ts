@@ -244,6 +244,19 @@ export interface Dish {
   views: string;
 
   prepSummary: string;
+  /**
+   * How long the preparation account is, in characters, known from the first frame.
+   *
+   * `prepSummary` is 46% of `cuisines.json` and is read as *text* by exactly one screen.
+   * Everything else — the score, the shelves, the headline counts, the bare-record
+   * treatment — only ever asks whether there is an account and how long it is, so the
+   * prose is fetched after the paint and this carries the fact in the meantime.
+   *
+   * The same arrangement as `stepCount`, and for the same reason. Ask this, never
+   * `prepSummary.length`, or the answer changes depending on how long the reader has
+   * been on the page. `hasProse()` in `domain/method.ts` is the usual way in.
+   */
+  prepLength: number;
   /** Traditional only. Never contains a substitute. */
   ingredients: string[];
   /** Traditional only. Not converted to modern appliances. */

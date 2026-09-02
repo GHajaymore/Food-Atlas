@@ -19,7 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
-import { hasMethod, scorable } from '../domain/method';
+import { hasMethod, hasProse, methodLength, scorable } from '../domain/method';
 import { EN } from '../i18n/copy';
 import { DEFAULT_THRESHOLDS, assess, type Evidence, type Thresholds } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
@@ -117,7 +117,7 @@ const closeBracket = (name: string): string => {
   return opens === closes + 1 && !name.endsWith('(') ? `${name})` : name;
 };
 
-const cleanName = (name: string): string =>
+export const cleanName = (name: string): string =>
   sentenceCase(
     closeBracket(decodeEntities(name).replace(/\s+PAT$/, '').replace(FOOD_DISAMBIGUATOR, '').trim()),
   );
@@ -159,13 +159,20 @@ const LEADING_IMAGE_PARAM =
 
 const LOST_SUBJECT = /^(is|are|was|were|refers to|consists of)\b/;
 
-const cleanProse = (text: string, name: string): string => {
+/*
+ * Exported for `scripts/compact-data.mjs`, which defers the prose and has to measure the
+ * cleaned length rather than the raw one — `cleanProse` prepends the dish name to a
+ * sentence that lost its subject, so the two differ, and `hasAccount` feeds `assess()`.
+ * The script calls this rather than reimplementing it, so the number it writes is the
+ * number the builder would have computed.
+ */
+export const cleanProse = (text: string, name: string): string => {
   const prose = decodeEntities(text).replace(LEADING_IMAGE_PARAM, '').replace(/\s+/g, ' ').trim();
   if (!prose) return '';
   return LOST_SUBJECT.test(prose) ? `${name.trim()} ${prose}` : prose;
 };
 
-const cleanBlurb = (blurb: string, name: string): string => {
+export const cleanBlurb = (blurb: string, name: string): string => {
   const text = decodeEntities(blurb).replace(/\s+/g, ' ').trim().replace(/[,;:]$/, '');
   if (!text) return '';
   if (text.toLowerCase() === name.trim().toLowerCase()) return '';
@@ -226,6 +233,12 @@ interface ImportedRow extends PhotoRow {
   infobox?: boolean;
   ingredients?: string[];
   prepSummary?: string;
+  /**
+   * Length of the *cleaned* prose, written by `compact-data.mjs` when it holds the text
+   * back. Present in the published files and absent from the source ones, so the builder
+   * falls back to measuring `prepSummary` and reads either shape identically.
+   */
+  prepLength?: number;
   course?: string;
   atRiskEvidence?: string;
   originClaims?: string[];
@@ -436,6 +449,14 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     row.ingredients?.length ? row.ingredients : (row.evidence?.ingredients ?? []),
   );
   const prepSummary = cleanProse(row.prepSummary ?? '', name);
+  /*
+   * How long the account is, which is evidence, and separate from whether it has arrived.
+   *
+   * `compact-data.mjs` holds the prose back to the second payload and writes this in its
+   * place. Measuring `prepSummary` here instead would score the record on how much of it
+   * had downloaded, which is the one thing a score must never depend on.
+   */
+  const prepLength = row.prepLength ?? prepSummary.length;
 
   // Classification is earned from the evidence gathered by the enrichment pass, not
   // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
@@ -449,8 +470,8 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     heritage: [...(row.evidence?.heritage ?? []), ...(row.heritage ?? [])],
     // Having read the article is itself the evidence that one exists.
     hasArticle: row.evidence?.hasArticle ?? Boolean(row.infobox && row.url),
-    extractLength: row.evidence?.extractLength ?? prepSummary.length,
-    hasAccount: prepSummary.length > 0,
+    extractLength: row.evidence?.extractLength ?? prepLength,
+    hasAccount: prepLength > 0,
     /*
      * The one source in the catalogue whose account is a register's own documented
      * production method. `ingest-pat-register.mjs` fills `prepSummary` from the PAT
@@ -460,7 +481,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
      * Nothing else qualifies. A Wikibooks recipe and an encyclopaedia paragraph both
      * describe a method without evidencing that it is the method of the place.
      */
-    registerMethod: Boolean(row.patRegion && prepSummary),
+    registerMethod: Boolean(row.patRegion && prepLength),
     // The only dimensions no source can fill. Zero for every record until the
     // confirmations endpoint exists — see `domain/confirmations.ts`.
     validations: validationsOf(confirmed),
@@ -508,6 +529,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     localNames: row.langNames,
 
     prepSummary,
+    prepLength,
     // From Wikidata's "made from material". Traditional ingredients only — there is
     // no substitute list on an import, so nothing can leak between the two.
     ingredients,
@@ -659,6 +681,17 @@ interface CuisineRow extends PhotoRow {
    * source does not have, and would let an import read as a documented tradition.
    */
   prepSummary?: string;
+  /** Length of the cleaned prose, written by `compact-data.mjs` when it defers the text. */
+  prepLength?: number;
+  /**
+   * The card's sentence, cut from `prepSummary` by `compact-data.mjs`.
+   *
+   * Absent from the source file — no cuisine row has ever carried one — and written by
+   * the compaction so a card still has something to say while the prose is in flight.
+   * The 220 characters it keeps are why deferring this text is worth about half of what
+   * it looks like on paper: the card needs the opening of the account either way.
+   */
+  blurb?: string;
 }
 
 /** A Wikibooks Cookbook recipe: a real method, and a country from its categories. */
@@ -791,7 +824,13 @@ export function buildCatalogue(
    * silently re-badges itself.
    */
   t: Thresholds = DEFAULT_THRESHOLDS,
-): { catalogue: Dish[]; stats: CatalogueStats; cookbookRows: number[] } {
+): {
+  catalogue: Dish[];
+  stats: CatalogueStats;
+  cookbookRows: number[];
+  cuisineRows: number[];
+  importedProseRows: number[];
+} {
 /**
  * Cookbook recipes carry a method but no place, so they cannot stand as atlas
  * records of their own — a record with no country has nowhere to sit and nothing to
@@ -862,6 +901,15 @@ const hasSomethingToShow = (row: ImportedRow): boolean =>
 const imported: Dish[] = importedRows.filter(hasSomethingToShow).map((row) => expand(row, rawConfirmations, t));
 
 /**
+ * Which record each row of `catalogue.json` became, for the prose that arrives later.
+ *
+ * Simpler than its cuisine and cookbook counterparts because these rows carry their own
+ * `id` and keep it — so this is the row order, read as record ids, and a row that was
+ * held back just names a record the loader will not find.
+ */
+const importedProseRows: number[] = importedRows.map((row) => row.id);
+
+/**
  * Cuisine-tree records, added for the countries the structured sources under-serve.
  *
  * Ids start at 100000 so the three sources never collide. Anything already present
@@ -873,9 +921,20 @@ const alreadyPresent = new Set([...curated, ...imported].map((d) => key(d.name, 
 /* Computed once from the raw rows, before anything is scored. See `categoryRegions`. */
 const treeCategories = categoryRegions(rawCuisines, [rawImported, rawCookbook, rawUnesco, rawGi]);
 
+/**
+ * Which source row each cuisine record came from, for the prose that arrives later.
+ *
+ * The filter below drops rows, so a record's index is not its row's index, and
+ * `cuisines-detail.json` is index-aligned with the *rows*. Without this map a late
+ * paragraph lands under a different dish — the same hazard `cookbookRows` exists for,
+ * and the reason both are carried out of the build rather than recomputed.
+ */
+const cuisineRows: number[] = [];
+
 const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
+  .map((row, sourceIndex) => ({ row, sourceIndex }))
   .filter(
-    (row) =>
+    ({ row }) =>
       row.name &&
       row.country &&
       // Wikidata's own verdict, where it has one. It outranks the name rules
@@ -885,7 +944,8 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       isFood(cleanName(row.name)) &&
       !alreadyPresent.has(key(row.name, canonicalCountry(row.country))),
   )
-  .map((row, index) => {
+  .map(({ row, sourceIndex }, index) => {
+    cuisineRows[index] = sourceIndex;
     const name = cleanName(row.name);
     const country = canonicalCountry(row.country);
     /* The branch of the category tree this was found in is not necessarily a place the
@@ -904,6 +964,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = cleanLines(row.ingredients);
     const prepSummary = cleanProse(row.prepSummary ?? '', name);
+    /* Evidence, and independent of whether the text itself has arrived — see the twin
+       of this line in the import builder above. */
+    const prepLength = row.prepLength ?? prepSummary.length;
     /**
      * Decline is stated in an article's opening and its history, not in its recipe.
      *
@@ -929,7 +992,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       hasArticle: true,
       // A described preparation is more of the article than a bare stub, and the
       // assessment reads length as a proxy for how much is actually documented.
-      extractLength: prepSummary.length,
+      extractLength: prepLength,
     });
 
     return {
@@ -960,9 +1023,22 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       atRisk: risk.atRisk,
       atRiskEvidence: risk.evidence || undefined,
 
-      blurb: prepSummary
-        ? cleanBlurb(prepSummary.slice(0, 220), name)
-        : `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
+      /*
+       * The card's sentence: the first 220 characters of the account, or an admission.
+       *
+       * Two ways in, because the prose arrives in two shapes. Reading the source files
+       * it is cut from `prepSummary` here, as it always was. Reading the published ones
+       * the text is in the second payload, so `compact-data.mjs` cuts it at build time
+       * with this same `cleanBlurb` and stores the result — the row's own `blurb` is
+       * *overwritten* there precisely so the two routes cannot drift.
+       *
+       * Order matters. `prepSummary` is checked first so the source files stay the
+       * authority, and a stale `blurb` on a source row goes on being ignored exactly as
+       * it has been.
+       */
+      blurb:
+        (prepSummary ? cleanBlurb(prepSummary.slice(0, 220), name) : (row.blurb ?? '')) ||
+        `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
       // The lead image of the dish's own article where the lead-image pass found
       // one; otherwise this row's picture came from a Commons name search.
@@ -976,6 +1052,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
       localNames: row.langNames,
 
       prepSummary,
+      prepLength,
       ingredients,
       equipment: [],
       // Never populated from an article. Prose is a description, not a method.
@@ -1084,6 +1161,8 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     views: '',
 
     prepSummary: `Published method, ${rowSteps(row)} steps.`,
+    /* Written here, never deferred: this line is generated, not quoted from a source. */
+    prepLength: `Published method, ${rowSteps(row)} steps.`.length,
     ingredients: cleanLines(row.ingredients),
     equipment: [],
     steps: cleanLines(row.steps),
@@ -1238,6 +1317,7 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
     views: '',
 
     prepSummary: '',
+    prepLength: 0,
     ingredients: [],
     equipment: [],
     steps: [],
@@ -1362,6 +1442,7 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
       views: '',
 
       prepSummary: '',
+      prepLength: 0,
       ingredients: [],
       equipment: [],
       steps: [],
@@ -1530,11 +1611,18 @@ const validImported = [...fromCuisines, ...imported]
    * Deliberately *not* merged field-by-field. Combining two records would invent a third
    * that neither source vouches for, and the thin twin has nothing the thick one wants.
    */
+  /*
+   * Counts, not contents. Both `steps` and `prepSummary` are fetched after the first
+   * paint, so both are empty while this runs — `steps.length` has read 0 for every
+   * cookbook record since that text was deferred, which quietly cost those records the
+   * tie-break against a thinner import of the same dish. `methodLength` and `prepLength`
+   * are correct from the first frame and are what these two lines always meant.
+   */
   const documented = (d: Dish): number[] => [
-    d.steps.length,
+    methodLength(d),
     d.ingredients?.length ?? 0,
     d.score ?? 0,
-    d.prepSummary?.trim() ? 1 : 0,
+    hasProse(d) ? 1 : 0,
     d.photo ? 1 : 0,
     /* Last, and only as a tie-break: curated ids are the low ones, and where two records
        are otherwise identical the hand-written one is the one to keep. */
@@ -1590,7 +1678,7 @@ const validImported = [...fromCuisines, ...imported]
   withIngredients: catalogue.filter((d) => (d.ingredients?.length ?? 0) > 0).length,
 };
 
-  return { catalogue, stats, cookbookRows };
+  return { catalogue, stats, cookbookRows, cuisineRows, importedProseRows };
 }
 
 /** The coverage figures the atlas page reports. */

@@ -24,7 +24,7 @@
  * value is *right* — the domain tests do that — only that it arrives.
  */
 
-import { hasMethod } from '../src/domain/method';
+import { hasMethod, hasProse, methodLength } from '../src/domain/method';
 import { sizedPhoto } from '../src/domain/commons';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -115,7 +115,16 @@ const PLUMBING: { field: string; shows: string; reaches: (d: Dish) => boolean }[
     shows: 'an account written in a language other than English',
     reaches: (d) => Boolean(d.sourceLanguage && d.sourceLanguage !== 'en'),
   },
-  { field: 'prepSummary', shows: 'a described preparation', reaches: (d) => Boolean(d.prepSummary?.trim()) },
+  /*
+   * `prepLength`, not `prepSummary`, and for the reason spelled out under `stepCount`.
+   *
+   * The accounts are held back from the shipped payload too now, so no row in
+   * `public/data` carries `prepSummary` — and the guard above, which skips a field
+   * nothing has written yet, would quietly skip this one and go on passing while
+   * asserting nothing at all. That is the same silent hole the step text left, found by
+   * reading this list after moving the prose rather than by anything failing.
+   */
+  { field: 'prepLength', shows: 'a described preparation', reaches: (d) => hasProse(d) },
   { field: 'ingredients', shows: 'an ingredient list', reaches: (d) => d.ingredients.length > 0 },
   /*
    * `stepCount`, not `steps`.
@@ -295,6 +304,10 @@ describe('what the scripts write reaches the reader', () => {
       // itself is held back from the first payload. Read through methodLength(), never
       // shown. See domain/method.ts.
       'stepCount',
+      // How long a written account is, written by compact-data.mjs for the same reason and
+      // read the same way -- through hasProse(). It is the account's *evidence*, which is
+      // why it cannot wait for the account: extractLength and hasAccount both feed assess().
+      'prepLength',
     ]);
 
     const declared = new Set([...PLUMBING.map((p) => p.field), ...BOOKKEEPING, ...STRUCTURAL, ...PHOTO_PROVENANCE]);
@@ -364,10 +377,19 @@ describe('a record never contradicts what it is showing', () => {
      * no record without a preparation says one exists — the atlas's own measure of
      * itself is the share that has one.
      */
+    /*
+     * Counts, not contents — both texts are fetched after the first paint.
+     *
+     * Asking `prepSummary` and `steps` here made this fail on 40 records the moment the
+     * accounts were deferred, and the records were all fine: the test was reading the
+     * atlas a second before its words arrived and concluding they were never coming.
+     * `hasProse` and `methodLength` are the same question asked of the evidence, which is
+     * right from the first frame — and asking them is the rule this test now also checks.
+     */
     const claiming = catalogue.filter(
       (d) =>
-        !d.prepSummary.trim() &&
-        !d.steps.length &&
+        !hasProse(d) &&
+        !methodLength(d) &&
         /A published account describes how this is made|the method is recorded/i.test(d.disclaimer),
     );
     expect(claiming.map((d) => d.name)).toEqual([]);
