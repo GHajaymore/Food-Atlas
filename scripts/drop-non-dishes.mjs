@@ -41,6 +41,50 @@ const DRY = process.argv.includes('--dry');
 
 const FILES = ['../src/data/cuisines.json', '../src/data/catalogue.json'].map((f) => resolve(HERE, f));
 
+/**
+ * Descriptions in which the source says, itself, that this is a company's product.
+ *
+ * The atlas offers *"a free atlas of traditional dishes — where each one comes from, and
+ * who vouches for it"*, and it held Cheetos, Doublemint, Wonder Bread, Soylent, Wrigley's
+ * Spearmint, Dom Pérignon and 58 more. Every one carried a country, a badge and an
+ * authenticity score, so the atlas was making a claim about the traditional preparation of
+ * a chewing gum. A brand is a thing that vouches for itself, which is the opposite of what
+ * every record here is supposed to be able to do.
+ *
+ * Read off `blurb` rather than the title, because that is Wikidata's own classification of
+ * the subject rather than a guess from its name — a much stronger signal than the title
+ * rules above, and the reason this one does not need them.
+ *
+ * All 64 were read before this was written. Not one was a dish, and the ones the first,
+ * narrower pattern missed — *"Brazilian chocolate powder product belonging to the Nescau
+ * brand"*, *"wheat snack brand"* — were brands too, so the risk here was under-matching
+ * rather than over-matching.
+ */
+const SELLS_ITSELF = /\bbrands?\b|^(company|corporation|manufacturer)\b/i;
+
+/*
+ * This rule is only safe on the files in `src/data`, which is where `FILES` points.
+ *
+ * On a source row, `blurb` is Wikidata's one-line classification of the subject — "brand
+ * of chewing gum" — and a record described that way is one. On a *published* row it can be
+ * something else entirely: `compact-data.mjs` writes a `blurb` for every cuisine record by
+ * cutting the first 220 characters of the article's own prose, and prose mentions brands in
+ * passing. *Nom yen* is a Thai iced milk whose account names the condensed-milk brand it is
+ * usually made with; run this rule against that text and a real dish is deleted for saying
+ * so. Point `FILES` at `public/data` and it will.
+ */
+
+/**
+ * What rescues a record the rule above caught.
+ *
+ * A protected designation is a *place's* claim on a name, granted by a register and
+ * checkable by anybody — the exact opposite of a company's claim on one, even though the
+ * word "brand" can reasonably appear in both descriptions. None of the 64 carried one, so
+ * this changes nothing today; it is here because the day a PDO is described loosely is the
+ * day this rule would quietly delete the best-evidenced record in the file.
+ */
+const protectedName = (row) => Boolean(row.heritage?.length || row.giReference || row.patRegion);
+
 /** Titles that describe a subject rather than name a dish. */
 const NOT_A_DISH = [
   [/^List of /i, 'list article'],
@@ -61,6 +105,14 @@ const main = async () => {
     const rows = JSON.parse(await readFile(file, 'utf8'));
     const kept = rows.filter((row) => {
       const name = (row.name ?? '').trim();
+
+      /* The source's own word for what this is, which outranks any reading of its title. */
+      if (SELLS_ITSELF.test(row.blurb ?? '') && !protectedName(row)) {
+        log.push(`  ${name} — ${row.country ?? '(no country)'} [brand: ${(row.blurb ?? '').slice(0, 44)}]`);
+        removed += 1;
+        return false;
+      }
+
       const hit = NOT_A_DISH.find(([pattern]) => pattern.test(name));
       if (!hit) return true;
 
