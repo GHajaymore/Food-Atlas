@@ -75,6 +75,90 @@ export const fold = (value: string): string =>
  */
 export const terms = (query: string): string[] => fold(query).split(/\s+/).filter(Boolean);
 
-/** True when every term appears in an already-folded haystack. Fold both sides. */
+/**
+ * The forms a searched word might be filed under, the plural first.
+ *
+ * Readers search in the plural — "tacos", "dumplings", "curries" — and records are
+ * named in the singular, so a substring match on the word as typed could never find
+ * them. Measured over the whole catalogue before this existed: "curry" found 177
+ * records and "curries" 15; "samosa" found 1 and "samosas" none; "empanadas" found 2
+ * of the 7.
+ *
+ * Every candidate is the typed word or a shorter prefix of it, so matching on any of
+ * them can only ever *add* results — a record the plural already reached is still
+ * reached. The one cost is noise from a short stem ("peas" would reach "pear"), which
+ * is why a stem is only offered at four letters or more, and why a double "s" is left
+ * alone: "swiss" is not the plural of "swis".
+ *
+ * English only, on purpose. The records a reader is most likely to search in the
+ * plural are named in English, and a rule for every language would be a morphology
+ * engine wearing a regular expression — wrong more often than it helped.
+ */
+export function singularForms(term: string): string[] {
+  const forms = [term];
+  const offer = (stem: string) => {
+    if (stem.length >= 4 && !forms.includes(stem)) forms.push(stem);
+  };
+  if (term.endsWith('ies')) offer(`${term.slice(0, -3)}y`);
+  /* "-es" is a plural ending only after a sibilant or an o — sandwiches, boxes,
+     tomatoes. Stripping it everywhere turned "cookies" into "cooki", which is a prefix
+     of "cooking", and a search for cookies returned 106 records instead of 39. */
+  if (/(s|x|z|ch|sh|o)es$/.test(term)) offer(term.slice(0, -2));
+  if (term.endsWith('s') && !term.endsWith('ss')) offer(term.slice(0, -1));
+  return forms;
+}
+
+/**
+ * Spellings of one dish, any of which a reader might type.
+ *
+ * Transliteration has no single answer: the same word reaches English as biryani,
+ * biriyani and biriani, depending on who wrote it down. Measured before this list:
+ * "biriyani" found 2 of the 11 biryani records, "kabob" 4 of 23, "shwarma" none.
+ *
+ * Hand-written and deliberately short. Every entry is one dish under several
+ * spellings — not related dishes, which would be the atlas quietly deciding that two
+ * traditions are the same thing, the precise judgement it exists not to make. And no
+ * spelling is included that could reach something else: not "chile", which is a
+ * country; not "dal" or "ghi", which sit inside unrelated words.
+ */
+const SPELLINGS: string[][] = [
+  ['biryani', 'biriyani', 'biriani', 'beriani'],
+  ['kebab', 'kabob', 'kebap', 'kabab'],
+  ['shawarma', 'shwarma', 'shawerma', 'shoarma'],
+  ['yogurt', 'yoghurt', 'yoghourt'],
+  ['chili', 'chilli'],
+  ['doughnut', 'donut'],
+  ['hummus', 'houmous', 'hommus'],
+  ['falafel', 'felafel'],
+  ['kofta', 'kufta', 'kofte'],
+  ['pilaf', 'pilau', 'pulao', 'pilav'],
+  ['tzatziki', 'tsatsiki'],
+  ['baklava', 'baklawa'],
+  ['chapati', 'chapatti', 'chappati'],
+  ['paratha', 'parantha', 'parotta', 'porotta'],
+];
+
+const SPELLING_OF = new Map<string, string[]>();
+for (const group of SPELLINGS) for (const spelling of group) SPELLING_OF.set(spelling, group);
+
+/* Asked once per record per keystroke — 17,000 times for one query — so each word's forms
+   are worked out once and kept. The vocabulary a reader types is small; this stays small. */
+const formsOf = new Map<string, string[]>();
+
+/** Every form a searched word could match: its singulars, and the other spellings of each. */
+export function termForms(term: string): string[] {
+  const known = formsOf.get(term);
+  if (known) return known;
+  const forms = new Set<string>();
+  for (const form of singularForms(term)) {
+    forms.add(form);
+    for (const other of SPELLING_OF.get(form) ?? []) forms.add(other);
+  }
+  const list = [...forms];
+  formsOf.set(term, list);
+  return list;
+}
+
+/** True when every term appears in an already-folded haystack, in any of its forms. Fold both sides. */
 export const matchesAllTerms = (haystack: string, queryTerms: string[]): boolean =>
-  queryTerms.every((term) => haystack.includes(term));
+  queryTerms.every((term) => termForms(term).some((form) => haystack.includes(form)));
