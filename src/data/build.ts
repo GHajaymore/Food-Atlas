@@ -1382,7 +1382,33 @@ interface GiRow {
 const fromGiRegister: Dish[] = (rawGi as GiRow[])
   .filter((row) => isFood(cleanName(row.name)))
   .map((row, index) => {
-    const country = canonicalCountry(row.country);
+    /*
+     * A cross-border designation, stated as one, rather than filed as a country that
+     * does not exist.
+     *
+     * The register lists every member state a designation covers, comma-separated, and
+     * this used to take that string whole — so Istarski pršut was filed under a country
+     * called "Croatia, Slovenia", which `isCountry` rejects, which put ten protected
+     * products in the Elsewhere bucket, out of both countries' lists and off the map.
+     *
+     * UNESCO joint inscriptions already have the right shape and this copies it: file
+     * under the first state the register names, and record every state as an origin
+     * claim sourced to the register itself. Nothing is picked as the winner; the
+     * register did not pick one either.
+     *
+     * The register writes a region in parentheses where a designation covers only part
+     * of a state — "United Kingdom (Northern Ireland)". The state is what the atlas files
+     * under; the region is kept in the claim, where it is still true.
+     */
+    const states = String(row.country ?? '')
+      .split(/\s*,\s*/)
+      .map((listed) => {
+        const part = listed.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+        return { place: canonicalCountry(part ? part[1] : listed), within: part ? part[2] : '' };
+      })
+      .filter((state) => state.place);
+    const country = states[0]?.place ?? '';
+    const joint = states.length > 1;
     const heritage = [`${row.designation}, European Union register`];
 
     /*
@@ -1427,9 +1453,14 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
       traditionalBadge: false,
       atRisk: false,
 
-      blurb: row.category
-        ? `${row.designationCode || row.designation} of ${country}. ${row.category.replace(/^Class [\d.]+\.?\s*/, '')}.`
-        : `${row.designationCode || row.designation} of ${country}.`,
+      /* Every state the register names, so a joint designation is not described as one
+         country's alone on the card that files it under that country. */
+      blurb: (() => {
+        const names = states.map((s) => s.place);
+        const where = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : country;
+        const kind = `${row.designationCode || row.designation}${joint ? ' registered jointly by' : ' of'} ${where}.`;
+        return row.category ? `${kind} ${row.category.replace(/^Class [\d.]+\.?\s*/, '')}.` : kind;
+      })(),
 
       photo: '',
       credit: '',
@@ -1469,6 +1500,22 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
     disclaimerKeys: assessment.disclaimerKeys,
     disclaimerParams: assessment.disclaimerParams,
       sourceLanguage: 'en',
+      // One designation covering several member states — the same shape as a joint
+      // UNESCO inscription, sourced to the register that made it joint.
+      originClaims: joint
+        ? states.map((state) => ({
+            place: state.place,
+            claim: state.within
+              ? `Covered by this jointly registered designation, in ${state.within}.`
+              : 'A member state covered by this jointly registered designation.',
+            source: {
+              title: `${row.name}${row.reference ? ` — ${row.reference}` : ''}`,
+              publisher: row.attribution,
+              url: row.url,
+              note: `Registered as a ${row.designation}. The register lists every state; it ranks none of them first.`,
+            },
+          }))
+        : undefined,
     } satisfies Dish;
   });
 
