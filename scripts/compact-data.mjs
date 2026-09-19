@@ -33,7 +33,7 @@ import { commonsFile } from '../src/domain/commons.ts';
  * implementation of any of them would drift silently, and the drift would show up as
  * badges moving across the atlas with nothing to point at.
  */
-import { cleanBlurb, cleanName, cleanProse } from '../src/data/build.ts';
+import { cleanBlurb, cleanName, cleanProse, proseLength } from '../src/data/build.ts';
 import { detectAtRisk } from '../src/domain/atRisk.ts';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -239,7 +239,7 @@ const main = async () => {
 
       if (defer.includes('prepSummary')) {
         const text = prose[i];
-        if (text) out.prepLength = text.length;
+        if (text) out.prepLength = proseLength(text);
         else delete out.prepLength;
 
         /*

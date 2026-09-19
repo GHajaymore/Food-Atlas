@@ -36,7 +36,7 @@ import { alsoRecordedIn } from '../src/domain/related';
 import { CARD_WIDTH, SHELL, type Size } from '../src/theme/layout';
 import { PAGE_PADDING } from '../src/theme/tokens';
 import { HEADLINE_TYPE } from '../src/components/Mission';
-import { continentOf, knownCountry } from '../src/domain/continents';
+import { continentOf, isCountry, knownCountry } from '../src/domain/continents';
 import { canonicalCountry } from '../src/domain/countryNames';
 import type { Confirmation } from '../src/domain/confirmations';
 import type { Dish } from '../src/domain/types';
@@ -892,19 +892,24 @@ describe('a card names a place that agrees with its record', () => {
      * shown; the United States and China are not, so China was a contradiction and was
      * suppressed. Narrowed to the rule the function actually implements.
      */
-    const chorba = catalogue.find((d) => d.name === 'Chorba' && d.loc.country === 'India');
-    expect(chorba?.breadcrumb).toEqual(['India', 'Algeria']);
-    expect(chorba && cardPlace(chorba.breadcrumb, chorba.loc.country)).toBe('India');
+    /* The rule itself, on its own shape: a tail naming a country on another continent
+       is a contradiction, and the card falls back to the record's own country. */
+    expect(cardPlace(['India', 'Algeria'], 'India')).toBe('India');
 
-    /* And the case is not a lone survivor: thirty records currently have a tail
-       suppressed this way. A floor rather than an exact count, because unlike the
-       coverage figure this number is not published to anybody — it only needs to stay
-       non-empty so the assertion above keeps testing something real. */
-    const suppressed = catalogue.filter((d) => {
-      const tail = d.breadcrumb[d.breadcrumb.length - 1];
-      return d.breadcrumb.length > 1 && tail !== d.loc.country && cardPlace(d.breadcrumb, d.loc.country) === d.loc.country;
+    /*
+     * And the data no longer has the shape at all.
+     *
+     * This used to find Chorba — filed under India with the region "Algeria" — and some
+     * thirty like it, and assert the card hid the contradiction. The build now refuses
+     * another country as a region at the source (`regionThatIsAPlace`), so the breadcrumb
+     * itself stops lying rather than the card covering for it. Kaymak, "India › Armenia",
+     * which the card used to *show* because both are in Asia, is gone for the same reason.
+     */
+    const foreignTail = catalogue.filter((d) => {
+      const region = d.loc.region;
+      return region && isCountry(canonicalCountry(region)) && canonicalCountry(region) !== d.loc.country;
     });
-    expect(suppressed.length).toBeGreaterThan(10);
+    expect(foreignTail.map((d) => `${d.name}: ${d.loc.country} › ${d.loc.region}`)).toEqual([]);
   });
 });
 

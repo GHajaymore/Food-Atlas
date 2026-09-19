@@ -35,7 +35,8 @@ import { recipeLines } from '../domain/recipeLines';
 import { decodeEntities, sentenceCase } from '../domain/text';
 import { findViolations } from '../domain/invariants';
 import type { BreakdownRow, Dish } from '../domain/types';
-import { dishes as curated } from './seed';
+import { dishes as seedDishes } from './seed';
+import { isExcluded } from './exclusions';
 
 /**
  * `assess` with the thresholds first.
@@ -167,10 +168,51 @@ const LOST_SUBJECT = /^(is|are|was|were|refers to|consists of)\b/;
  * number the builder would have computed.
  */
 export const cleanProse = (text: string, name: string): string => {
-  const prose = decodeEntities(text).replace(LEADING_IMAGE_PARAM, '').replace(/\s+/g, ' ').trim();
+  const prose = endAtSentence(decodeEntities(text).replace(LEADING_IMAGE_PARAM, '').replace(/\s+/g, ' ').trim());
   if (!prose) return '';
   return LOST_SUBJECT.test(prose) ? `${name.trim()} ${prose}` : prose;
 };
+
+/*
+ * A sentence ending in any script the atlas holds, followed by a space or the end.
+ * The space matters: "3.5 cups" and "e.g." are not the end of anything.
+ */
+const SENTENCE_END = /[.!?…。！？।॥။።؟۔៕][)"”’»」』]*(?=\s|$)/gu;
+
+/**
+ * An account that stops where its sentence does, rather than where a script's limit did.
+ *
+ * Several ingest passes cut the text they fetched at a fixed length — 600 characters
+ * here, 900 there — and 736 of the 3,908 accounts in the atlas were shipped ending
+ * wherever the knife fell, 613 of them mid-word: "…Ekşili yah", "…humect", a Hindi
+ * sentence broken off after "उत्तर प्र". The reader cannot tell a source that says
+ * nothing more from one we cut, and a sentence that stops halfway reads as a broken page.
+ *
+ * So it is cut back to its last complete sentence, provided that keeps most of the text.
+ * Where it would not — one long run-on sentence, or a script with no full stop, which is
+ * Thai — the text is kept and marked as an excerpt with an ellipsis, which is true.
+ *
+ * Nothing is invented and nothing is rewritten: the only operations are removing a
+ * trailing fragment and adding a mark that says there was more.
+ */
+export function endAtSentence(text: string): string {
+  const trimmed = text.trim();
+  if (trimmed.length < 80) return trimmed;
+  if (/[.!?…。！？।॥။።؟۔៕་][)"”’»」』]*$/u.test(trimmed)) return trimmed;
+  let last = -1;
+  for (const match of trimmed.matchAll(SENTENCE_END)) last = (match.index ?? 0) + match[0].length;
+  if (last >= trimmed.length * 0.5) return trimmed.slice(0, last).trim();
+  return `${trimmed.replace(/[\s,;:–—-]+$/u, '')}…`;
+}
+
+/**
+ * How long an account is, as evidence — not counting the excerpt mark `endAtSentence` adds.
+ *
+ * The mark is punctuation. Counting it took 21 accounts cut at exactly 600 characters to
+ * 601, across the line where documentation is scored higher, so a mark meaning "there was
+ * more" raised their scores. A score must not depend on how the text was tidied.
+ */
+export const proseLength = (prose: string): number => prose.replace(/…$/u, '').length;
 
 export const cleanBlurb = (blurb: string, name: string): string => {
   const text = decodeEntities(blurb).replace(/\s+/g, ' ').trim().replace(/[,;:]$/, '');
@@ -357,7 +399,79 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
  * China" as a region, which the atlas then presented as geographic depth it does not
  * have. An empty region is the honest answer there.
  */
-const cleanRegion = (region: string, country: string): string => placeBelow(region ?? '', country);
+const cleanRegion = (region: string, country: string): string =>
+  regionThatIsAPlace(placeBelow(region ?? '', country), country);
+
+/**
+ * A cuisine adjective that names a place inside the country, and the place it names.
+ *
+ * The cuisine tree files dishes under "Cantonese cuisine", "Maharashtrian cuisine", and the
+ * scraper kept the adjective as the region: **China › Cantonese**. Where the adjective has
+ * one place behind it, inside the country the record is filed under, the breadcrumb gets
+ * the place. Outside that country the adjective is dropped, not moved — "Hong Kong ›
+ * Cantonese" and "Vietnam › Cantonese" are Cantonese cooking elsewhere, not Guangdong.
+ */
+const DEMONYM_PLACE: Record<string, { country: string; place: string }> = {
+  Cantonese: { country: 'China', place: 'Guangdong' },
+  Hainanese: { country: 'China', place: 'Hainan' },
+  /* Never translated: the atlas files Macau as a country of its own, so "China › Macau"
+     would be one country presented as a region of another. Dropped everywhere. */
+  Macanese: { country: '', place: '' },
+  Maharashtrian: { country: 'India', place: 'Maharashtra' },
+  Assamese: { country: 'India', place: 'Assam' },
+  Javanese: { country: 'Indonesia', place: 'Java' },
+  Balinese: { country: 'Indonesia', place: 'Bali' },
+  Acehnese: { country: 'Indonesia', place: 'Aceh' },
+  Jeparanese: { country: 'Indonesia', place: 'Jepara' },
+  Chittagonian: { country: 'Bangladesh', place: 'Chittagong' },
+};
+
+/** Words that make a region label a kind of food: "Chinese beef", "Japanese cakes". */
+const FOOD_CATEGORY =
+  /\b(beef|pork|chicken|duck|egg|eggs|cakes?|cookies|dumplings|pickles|sausages|curries|fish|vodkas|fusion|imperial)\b/i;
+
+/** Labels for a people, a language or a faith rather than a place. */
+const NOT_A_PLACE =
+  /-speaking|^(east|southeast|south|central|west) asian$|^oceanian$|^(mizrahi jewish|chinese islamic|islamic|anglo-indian|assyrian)$|^baltic states$/i;
+
+/** Former states, which are the country's past rather than a part of it. */
+const FORMER_STATE = /\b(empire|ssr)\b|^british hong kong$/i;
+
+/**
+ * A nationality adjective ending in -an / -ese / -ish that belongs to a different country:
+ * "Japan › Faroese", "Senegal › Gambian", "India › Bhutanese". Matched on the ending
+ * and checked against the record's own country, so Fujian, the Ionian Islands and the
+ * Valencian Community — places whose names merely end the same way — are untouched.
+ */
+const FOREIGN_DEMONYM = /^(bhutanese|faroese|mauritian|gambian|gabonese|mauritanian|namibian|burundian|cocossian)$/i;
+
+/**
+ * The region as a place, or nothing.
+ *
+ * Measured over the built catalogue: about 150 records carried a region that is not a
+ * place — a food category, a language area, a community, a former state, another
+ * country's adjective, or another country outright ("Ghana › Democratic Republic of the
+ * Congo", "Japan › People's Republic of China"). Each was printed as a step of the
+ * breadcrumb and offered as a place to browse, and each earned the record the geography
+ * points a real region earns.
+ *
+ * An empty region is the honest answer for all of them: the record is filed under its
+ * country, which is true, and claims no depth nobody recorded. Only the adjectives in
+ * `DEMONYM_PLACE`, which name exactly one place in the same country, are translated
+ * rather than dropped.
+ */
+function regionThatIsAPlace(region: string, country: string): string {
+  const label = region.trim();
+  if (!label) return '';
+  const known = DEMONYM_PLACE[label];
+  if (known) return known.country === country ? known.place : '';
+  if (FOOD_CATEGORY.test(label) || NOT_A_PLACE.test(label) || FORMER_STATE.test(label)) return '';
+  if (FOREIGN_DEMONYM.test(label)) return '';
+  /* Another country outright is never a region of this one. */
+  if (isCountry(canonicalCountry(label)) && canonicalCountry(label) !== country) return '';
+  if (/^people'?s republic of china$/i.test(label) || /^democratic republic of the congo$/i.test(label)) return '';
+  return label;
+}
 
 /**
  * Regions that are not places — they are the branch of Wikipedia's category tree the
@@ -456,7 +570,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
    * place. Measuring `prepSummary` here instead would score the record on how much of it
    * had downloaded, which is the one thing a score must never depend on.
    */
-  const prepLength = row.prepLength ?? prepSummary.length;
+  const prepLength = row.prepLength ?? proseLength(prepSummary);
 
   // Classification is earned from the evidence gathered by the enrichment pass, not
   // assumed. Un-enriched rows have no evidence and stay Unverified with no score.
@@ -898,6 +1012,62 @@ const hasSomethingToShow = (row: ImportedRow): boolean =>
     !!row.evidence?.hasArticle ||
     !!row.photo);
 
+/**
+ * The hand-written records, scored by the same rules as everything else.
+ *
+ * `seed.ts` carries a score and a badge for each, typed by hand — Kozhikode Halwa at 94,
+ * "Authentic — Local", with *Local source 100* and *Community validation 90*. Its own
+ * header says those numbers are illustrative and that "in production they must be
+ * computed from the evidence checks and community validation". They were shipped to
+ * production anyway, as the atlas's lead record, with confirmations nobody had given:
+ * the confirmations endpoint has never been switched on.
+ *
+ * That was the atlas doing, on its most visible page, the one thing it tells readers it
+ * never does. So the hand-written text stays — the method, the sources, the
+ * adaptation, the argument about origin, all of which is real work — and the verdict is
+ * taken from the evidence like any other record's. With no confirmations that verdict
+ * tops out at 43, which is what the scale printed beside it says.
+ *
+ * Fusion keeps its classification and its null score: that is a statement about what
+ * the dish is, not a measurement of how well it is documented.
+ */
+const HERITAGE_TITLE = /intangible cultural heritage|\b(PDO|PGI|TSG|STG|DOP|IGP|DOC)\b/i;
+const curated: Dish[] = seedDishes.map((dish) => {
+  if (dish.badgeLevel === 'fusion') return dish;
+  const confirmed = confirmationsFor(rawConfirmations, dish.id);
+  const assessment = assessWith(t, {
+    hasCountry: Boolean(dish.loc.country),
+    hasRegion: Boolean(dish.loc.region),
+    ingredients: dish.ingredients,
+    heritage: dish.sources.filter((s) => HERITAGE_TITLE.test(`${s.title} ${s.publisher}`)).map((s) => s.title),
+    /* Every curated source is a published account of this dish — Sahapedia, a heritage
+       archive, a regional study — which is what "has an article" measures. Matching
+       only Wikipedia scored Kozhikode Halwa's documentation at zero. */
+    hasArticle: dish.sources.some((s) => Boolean(s.url)),
+    extractLength: dish.prepSummary.length,
+    hasAccount: dish.prepSummary.trim().length > 0 || dish.steps.length > 0,
+    registerMethod: false,
+    validations: validationsOf(confirmed),
+    validatedLocally: confirmedLocally(confirmed),
+  });
+  return {
+    ...dish,
+    badgeLevel: assessment.level,
+    badgeIcon: assessment.badgeIcon,
+    badgeLabel: assessment.badgeLabel,
+    badgeLabelFull: assessment.badgeLabelFull,
+    score: assessment.score,
+    breakdown: assessment.breakdown,
+    disclaimer: assessment.disclaimer,
+    disclaimerKey: assessment.disclaimerKey,
+    disclaimerKeys: assessment.disclaimerKeys,
+    disclaimerParams: assessment.disclaimerParams,
+    /* Who confirmed it, not only how many — the same as an imported record, so a
+       curated dish that earns its badge shows the people who gave it. */
+    confirmations: confirmed.people,
+  };
+});
+
 const imported: Dish[] = importedRows.filter(hasSomethingToShow).map((row) => expand(row, rawConfirmations, t));
 
 /**
@@ -966,7 +1136,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
     const prepSummary = cleanProse(row.prepSummary ?? '', name);
     /* Evidence, and independent of whether the text itself has arrived — see the twin
        of this line in the import builder above. */
-    const prepLength = row.prepLength ?? prepSummary.length;
+    const prepLength = row.prepLength ?? proseLength(prepSummary);
     /**
      * Decline is stated in an article's opening and its history, not in its recipe.
      *
@@ -1276,10 +1446,20 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
     loc: { country: canonicalCountry(row.country), region: '', province: '', city: '', village: '' },
     breadcrumb: [canonicalCountry(row.country)],
 
-    badgeLevel: 'regional' as const,
-    badgeIcon: '🟢',
-    badgeLabel: 'Authentic — Regional',
-    badgeLabelFull: 'Authentic — Regional',
+    /*
+     * An inscription is the strongest evidence a tradition exists, and still not the
+     * atlas's "Authentic".
+     *
+     * This was hard-coded to "Authentic — Regional" for all 28 inscriptions, with no
+     * score. Same reasoning as the heritage branch in `assess`, and the same fix: the
+     * word is reserved for people from the place confirming a preparation, which is the
+     * only route the threshold allows. UNESCO documents a practice; the disclaimer below
+     * already says so, and the badge now agrees with it.
+     */
+    badgeLevel: 'variation' as const,
+    badgeIcon: '🟡',
+    badgeLabel: 'Traditional Variation',
+    badgeLabelFull: 'Traditional Variation',
     // Not set: the inscription evidences the tradition, not the absence of modern
     // substitution in any particular preparation of it.
     traditionalBadge: false,
@@ -1668,7 +1848,11 @@ const validImported = [...fromCuisines, ...imported]
   const documented = (d: Dish): number[] => [
     methodLength(d),
     d.ingredients?.length ?? 0,
-    d.score ?? 0,
+    /* The score a reader will see, not the raw one. A record with nothing to measure has
+       its score withheld further down, so ranking on the raw number let "Dalpuri" — a
+       name and a photograph — beat "Dal puri", which carries a 582-character account,
+       on a figure neither of them will ever display. */
+    scorable(d) ? (d.score ?? 0) : 0,
     hasProse(d) ? 1 : 0,
     d.photo ? 1 : 0,
     /* Last, and only as a tie-break: curated ids are the low ones, and where two records
@@ -1686,16 +1870,38 @@ const validImported = [...fromCuisines, ...imported]
     return false;
   };
 
+  /*
+   * Twins are matched on the letters of the name, not its spacing.
+   *
+   * The key above lowercases and nothing else, so "Dal puri" and "Dalpuri", "Bhel puri"
+   * and "Bhelpuri", "Sev puri" and "Sevpuri" were three pairs of the same dish in the
+   * same country, each shown twice — about forty such pairs across the atlas. This pass
+   * folds accents and ignores everything that is not a letter or a digit, in any script.
+   *
+   * Only here, deliberately. `key` is also used before cuisine records are numbered,
+   * and loosening it there would renumber every record after the first new match and
+   * break its address. This runs after every id is fixed, so the better-documented twin
+   * survives under its own id and nothing else moves.
+   */
+  const twinKey = (dish: Dish) =>
+    `${dish.name
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]/gu, '')}|${dish.loc.country.trim().toLowerCase()}`;
+
   const best = new Map<string, Dish>();
   for (const dish of [...curated, ...validImported]) {
-    const twin = key(dish.name, dish.loc.country);
+    const twin = twinKey(dish);
     const held = best.get(twin);
     if (!held || betterDocumented(dish, held)) best.set(twin, dish);
   }
 
   /** Everything the app can show. Curated records first, so they lead every list. */
   const catalogue: Dish[] = [...curated, ...validImported]
-    .filter((dish) => best.get(key(dish.name, dish.loc.country)) === dish)
+    .filter((dish) => best.get(twinKey(dish)) === dish)
+    /* Read and excluded by name, after every id is fixed. See `exclusions.ts`. */
+    .filter((dish) => !isExcluded(dish.name, dish.loc.country))
     /*
      * A score is withheld where there is nothing for it to measure.
      *

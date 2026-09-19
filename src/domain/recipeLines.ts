@@ -96,7 +96,18 @@ function beforeFurniture(line: string): string {
  * cut, and printing an empty bullet is worse than printing no bullet.
  */
 function readableLine(raw: string): string[] {
-  const line = raw.replace(/\s+/g, ' ').trim();
+  /*
+   * A wiki link's brackets, whole or orphaned, reduced to the words inside.
+   *
+   * "[[coriandre|coriandre longue]]" is a link the source rendered as its label; the
+   * reader should see the label. An orphan is what is left when an ingest cut the line
+   * mid-link — Tacaca shipped the ingredient "coriandre longue fraiche]]". Either way
+   * the brackets are the source's markup, never the recipe's words.
+   */
+  const unlinked = raw
+    .replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1')
+    .replace(/\[\[|\]\]/g, '');
+  const line = unlinked.replace(/\s+/g, ' ').trim();
   if (!line || HEADING.test(line) || NO_CONTENT.test(line)) return [];
 
   const kept = beforeFurniture(line);

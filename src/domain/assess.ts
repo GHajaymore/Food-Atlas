@@ -353,12 +353,25 @@ export function assess(e: Evidence, t: Thresholds = DEFAULT_THRESHOLDS): Assessm
     };
   }
 
-  // A heritage designation is an institution's register of traditional products
-  // tied to a place — the brief's "recognised traditional preparation associated
-  // with a broader region".
+  /*
+   * A heritage designation establishes the tradition and its region — and stops there.
+   *
+   * This branch used to award "Authentic — Regional", on the design brief's wording that
+   * a recognised traditional preparation of a broader region is regional. It contradicted
+   * `AUTHENTIC_AT` forty lines up — "no amount of documentation can promote a record" —
+   * and the contradiction was printed on every one of them: 37 records showed "Authentic"
+   * beside a score of 32 to 35, directly under a scale reading "43 · documents stop here,
+   * 55 · Authentic begins". Halloumi, Pane di Altamura, Ciauscolo.
+   *
+   * A register is an institution vouching for a name. The atlas's word "Authentic" is
+   * reserved for people from the place vouching for a preparation, and the only way to
+   * reach it is the promotion branch above. So a registered product is the strongest
+   * kind of documented version, and is labelled as one; the disclaimer already says what
+   * the register establishes and what it does not.
+   */
   if (e.heritage.length && e.ingredients.length) {
     return {
-      ...CLASSIFICATION.regional,
+      ...CLASSIFICATION.variation,
       score,
       breakdown,
       disclaimerKey: 'disclaimerHeritageNoMethod',

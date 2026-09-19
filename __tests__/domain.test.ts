@@ -455,10 +455,20 @@ describe('an imported record earns its classification', () => {
     expect(a.disclaimer).toMatch(/no one from the place has confirmed it/);
   });
 
-  it('reaches Authentic — Regional only with a heritage designation and ingredients', () => {
+  it('does not call a registered product Authentic — a register vouches for a name, not a preparation', () => {
+    /* This used to assert `regional`. It shipped 37 records labelled "Authentic" beside
+       scores of 32–35, under a scale saying Authentic begins at 55. The register is
+       still credited — it is the strongest documented version — and still said to
+       leave the method open. */
     const a = assess({ ...base, hasRegion: true, ingredients: ['pork', 'salt'], heritage: ['PDO'] });
-    expect(a.level).toBe('regional');
+    expect(a.level).toBe('variation');
     expect(a.disclaimer).toMatch(/does not establish the method/);
+  });
+
+  it('reaches Authentic only through confirmations, whatever the paperwork', () => {
+    const paperwork = { ...base, hasRegion: true, ingredients: ['a', 'b', 'c'], heritage: ['PDO', 'UNESCO'], hasArticle: true, extractLength: 5000, hasAccount: true, registerMethod: true };
+    expect(assess(paperwork).level).toBe('variation');
+    expect(assess(paperwork).score!).toBeLessThan(55);
   });
 
   it('never infers technique or community validation', () => {
