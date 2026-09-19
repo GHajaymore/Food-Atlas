@@ -11,10 +11,13 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wikifoodia.app"
+      "bundleIdentifier": "app.ajailabs.wikifoodia",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "com.wikifoodia.app",
+      "package": "app.ajailabs.wikifoodia",
       "adaptiveIcon": {
         "backgroundColor": "#161826",
         "foregroundImage": "./assets/android-icon-foreground.png",
