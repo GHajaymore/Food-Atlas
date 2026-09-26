@@ -20,6 +20,7 @@
  */
 
 import { hasMethod, hasProse, methodLength, scorable } from '../domain/method';
+import { isAuthentic } from '../domain/authenticity';
 import { EN } from '../i18n/copy';
 import { DEFAULT_THRESHOLDS, assess, type Evidence, type Thresholds } from '../domain/assess';
 import { detectAtRisk } from '../domain/atRisk';
@@ -1056,6 +1057,16 @@ const curated: Dish[] = seedDishes.map((dish) => {
     badgeIcon: assessment.badgeIcon,
     badgeLabel: assessment.badgeLabel,
     badgeLabelFull: assessment.badgeLabelFull,
+    /*
+     * The "No Changes" badge goes with the classification it certifies.
+     *
+     * `invariants.ts`: *the Traditional Preparation badge belongs only to authentic
+     * records*. Four curated records kept `traditionalBadge: true` from the seed while
+     * their classification dropped to Traditional Variation, so they shipped carrying a
+     * badge the atlas's own rules say they cannot hold. It returns the day confirmations
+     * lift them back.
+     */
+    traditionalBadge: dish.traditionalBadge && isAuthentic(assessment.level),
     score: assessment.score,
     breakdown: assessment.breakdown,
     disclaimer: assessment.disclaimer,
@@ -1362,23 +1373,13 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
   };
   });
 
-/**
- * What an inscription evidences, dimension by dimension.
- *
- * Named once and shared by every inscription record, so the score below it cannot
- * drift away from it. See the note at `score` for what happened when it could.
+/*
+ * `UNESCO_BREAKDOWN` stood here: a hand-written six-dimension table given to every
+ * inscription, awarding *Local source 80* and *Community validation 70* to records nobody
+ * had confirmed — the two dimensions `/how` tells readers only people can answer. Deleted
+ * rather than corrected, because `assess` already answers this question for every other
+ * record and a second table is how the two drift apart. See the inscription builder below.
  */
-const UNESCO_BREAKDOWN: BreakdownRow[] = [
-  ['Geographic connection', 85],
-  ['Traditional ingredients', 0],
-  ['Traditional technique', 0],
-  ['Local source', 80],
-  ['Cultural documentation', 95],
-  ['Community validation', 70],
-];
-
-const meanOf = (rows: readonly BreakdownRow[]): number =>
-  Math.round(rows.reduce((sum, [, value]) => sum + value, 0) / rows.length);
 
 /** A UNESCO Intangible Cultural Heritage inscription. */
 interface UnescoRow extends PhotoRow {
@@ -1431,6 +1432,34 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
   const urgent = row.list === 'urgent-safeguarding';
   const shared = row.countries.length > 1;
 
+  /*
+   * Scored by the same model as everything else, rather than by a table.
+   *
+   * `UNESCO_BREAKDOWN` awarded every inscription *Local source 80* and *Community
+   * validation 70* — the two dimensions `/how` tells readers only people can answer —
+   * for records nobody has ever confirmed. The same fabrication as the hand-typed
+   * curated scores, in a table instead of a literal.
+   *
+   * It also could not survive the atlas's own rules. The score-withholding pass strips
+   * the number from any record with neither ingredients nor a method, which is every
+   * inscription, so all 27 shipped as a classified record carrying no score — a state
+   * `findViolations` calls a violation and the app was quietly filtering around.
+   *
+   * Asking `assess` instead gives 20, Unverified, with all six dimensions present and
+   * the two human ones at zero, which is what an inscription actually evidences: that
+   * the tradition exists and is documented, not that anyone recorded how it is cooked.
+   * The bespoke disclaimer below still says the rest.
+   */
+  const assessment = assessWith(t, {
+    hasCountry: Boolean(canonicalCountry(row.country)),
+    hasRegion: false,
+    ingredients: [],
+    heritage: [`UNESCO Intangible Cultural Heritage${urgent ? ', in need of urgent safeguarding' : ''}`],
+    hasArticle: false,
+    extractLength: 0,
+    hasAccount: false,
+  });
+
   return {
     id: 500_000 + index,
     name: cleanName(dish.name),
@@ -1456,10 +1485,10 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
      * only route the threshold allows. UNESCO documents a practice; the disclaimer below
      * already says so, and the badge now agrees with it.
      */
-    badgeLevel: 'variation' as const,
-    badgeIcon: '🟡',
-    badgeLabel: 'Traditional Variation',
-    badgeLabelFull: 'Traditional Variation',
+    badgeLevel: assessment.level,
+    badgeIcon: assessment.badgeIcon,
+    badgeLabel: assessment.badgeLabel,
+    badgeLabelFull: assessment.badgeLabelFull,
     // Not set: the inscription evidences the tradition, not the absence of modern
     // substitution in any particular preparation of it.
     traditionalBadge: false,
@@ -1490,10 +1519,10 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
      * answer from the one on the card. In an atlas whose argument is that its figures
      * can be checked, that is the worst kind of small error.
      */
-    score: meanOf(UNESCO_BREAKDOWN),
+    score: assessment.score,
     // A copy per record: the array is mutable by its type, and one shared instance
     // handed to thirty-seven records is a bug waiting for the first thing that sorts it.
-    breakdown: [...UNESCO_BREAKDOWN],
+    breakdown: assessment.breakdown,
     views: '',
 
     prepSummary: '',

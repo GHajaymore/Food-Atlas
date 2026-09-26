@@ -32,6 +32,8 @@ import { buildCatalogue } from '../src/data/build';
 import { EN } from '../src/i18n/copy';
 import { copyFor, joinOr, UI_LOCALES } from '../src/i18n';
 import { cardPlace, isWithin, notAPlaceBelow } from '../src/domain/place';
+import { findViolations } from '../src/domain/invariants';
+import { isAuthentic } from '../src/domain/authenticity';
 import { alsoRecordedIn } from '../src/domain/related';
 import { CARD_WIDTH, SHELL, type Size } from '../src/theme/layout';
 import { PAGE_PADDING } from '../src/theme/tokens';
@@ -777,6 +779,43 @@ describe('the pantry note counts rather than estimates', () => {
  * breadcrumb step that is not a place at all, and one that names a different country —
  * true for a contested record, and still the atlas contradicting itself in two lines.
  */
+describe('the atlas obeys its own rules', () => {
+  /*
+   * `findViolations` is applied as a filter partway through the build, so anything that
+   * became invalid *after* that point shipped unnoticed — and things did.
+   *
+   * 27 UNESCO records were classified, then had their score stripped by the
+   * score-withholding pass that runs later, leaving a classified record carrying no
+   * number: a state the same function calls a violation. Four curated records kept the
+   * "No Changes" badge after their classification dropped below Authentic, which that
+   * badge is reserved for. Both were invisible because nothing checked the finished
+   * article — only the middle of the pipeline.
+   */
+  it('ships no record that violates its own invariants', () => {
+    const offenders = catalogue.flatMap((dish) =>
+      findViolations(dish).map((problem) => `${dish.id} ${dish.name}: ${problem.replace(/^Dish \d+ \([^)]*\) violates /, '')}`),
+    );
+    expect(offenders.slice(0, 10)).toEqual([]);
+  });
+
+  it('never prints a classification without the score that justifies it', () => {
+    const wordless = catalogue.filter(
+      (d) => (isAuthentic(d.badgeLevel) || d.badgeLevel === 'variation') && (d.score === null || d.breakdown.length !== 6),
+    );
+    expect(wordless.map((d) => `${d.name} (${d.badgeLevel}, score ${d.score}, ${d.breakdown.length} dimensions)`)).toEqual([]);
+  });
+
+  it('gives nobody local-source or community points without confirmations', () => {
+    /* The two dimensions /how says only people can answer. A table once handed every
+       UNESCO inscription 80 and 70 of them. */
+    const invented = catalogue.filter((d) => {
+      const by = Object.fromEntries(d.breakdown);
+      return !d.confirmations?.length && ((by['Local source'] ?? 0) > 0 || (by['Community validation'] ?? 0) > 0);
+    });
+    expect(invented.map((d) => `${d.name}: ${JSON.stringify(d.breakdown)}`).slice(0, 5)).toEqual([]);
+  });
+});
+
 describe('a card names a place that agrees with its record', () => {
   const tail = (d: Dish) => (d.breadcrumb.length ? d.breadcrumb[d.breadcrumb.length - 1] : '');
 
