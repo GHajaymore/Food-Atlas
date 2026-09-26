@@ -90,6 +90,39 @@ const main = async () => {
   ].join('\n');
 
   html = html.replace('</head>', `${MARKER}\n${tags}\n  </head>`);
+
+  /*
+   * The message for a reader with JavaScript off, made visible and made true.
+   *
+   * Expo writes `<noscript>You need to enable JavaScript to run this app.</noscript>` with
+   * no styling, so it renders as black text on the atlas's near-black page: 1.19:1, which
+   * is to say invisible. A reader with scripting blocked got a blank screen and no
+   * explanation — measured, not assumed.
+   *
+   * It was also no longer true. `prerender-records.mjs` writes the dish, its place, its
+   * account and its ingredients into every record page, and React only replaces that once
+   * it runs — so those pages read perfectly well with JavaScript off. Only search and
+   * browsing need it. The message now says which is which, and points at the sitemap,
+   * which is a plain list of every record and needs nothing to read.
+   */
+  const noscript =
+    '<noscript>' +
+    '<div style="max-width:34rem;margin:12vh auto;padding:0 1.25rem;color:#e9e9ed;' +
+    'font:400 1rem/1.6 system-ui,-apple-system,Segoe UI,sans-serif">' +
+    '<p style="font-size:1.35rem;font-weight:600;margin:0 0 .6rem">WikiFoodia</p>' +
+    '<p style="margin:0 0 .9rem">Searching and browsing the atlas need JavaScript, which is switched off in this browser.</p>' +
+    '<p style="margin:0">Every dish page reads without it — for example ' +
+    '<a href="/dish/1" style="color:#d9a441">Kozhikode Halwa</a>. ' +
+    '<a href="/sitemap.xml" style="color:#d9a441">The sitemap</a> lists them all.</p>' +
+    '</div></noscript>';
+
+  const before = html;
+  html = html.replace(/<noscript>[\s\S]*?<\/noscript>/, noscript);
+  if (html === before) {
+    process.stderr.write('inject-meta: no <noscript> block found — has the export template changed?\n');
+    process.exitCode = 1;
+  }
+
   await writeFile(INDEX, html, 'utf8');
 
   process.stdout.write('inject-meta: description, Open Graph and Twitter card written.\n');
