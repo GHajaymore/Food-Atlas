@@ -115,8 +115,24 @@ const main = async () => {
    * later `fetch()`, even same-origin. Omitting it is the mismatch that downloads
    * everything twice.
    */
+  /*
+   * The version has to be on the preload too, or the warning below comes true.
+   *
+   * `catalogue.ts` asks for `/data/x.json?v=<hash>` so a corrected file arrives at a new
+   * address. The preload kept the bare path, which is a different URL — so the browser
+   * fetched all five twice: 2,143 KB of preload nobody claimed, then 2,143 KB the app
+   * actually used. Measured on the live site within minutes of shipping the version stamp,
+   * which is exactly the failure this file was already written to warn about.
+   */
+  const stamp = (await readFile(resolve(HERE, '../src/data/version.ts'), 'utf8')).match(/'([0-9a-f]{12})'/)?.[1];
+  if (!stamp) {
+    process.stderr.write('inject-preload: no DATA_VERSION in src/data/version.ts — run npm run stamp:data\n');
+    process.exitCode = 1;
+    return;
+  }
+
   const links = SOURCES.map(
-    (name) => `    <link rel="preload" as="fetch" crossorigin href="${BASE}/data/${name}.json" />`,
+    (name) => `    <link rel="preload" as="fetch" crossorigin href="${BASE}/data/${name}.json?v=${stamp}" />`,
   ).join('\n');
 
   /*

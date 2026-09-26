@@ -16,6 +16,7 @@ import { create } from 'zustand';
 
 import { negotiateLocale, devicePreferences, DEFAULT_LOCALE } from '../domain/uiLanguage';
 import { EN, type Copy } from './copy';
+import { DATA_VERSION } from '../data/version';
 import { COVERAGE, LOCALE_CODES } from './manifest';
 
 export type { Copy } from './copy';
@@ -69,7 +70,7 @@ export function loadCopy(locale: string): Promise<void> {
   const base = process.env.EXPO_PUBLIC_DATA_URL ?? '';
   const request = (async () => {
     try {
-      const response = await fetch(`${base}/data/copy/${locale}.json`);
+      const response = await fetch(`${base}/data/copy/${locale}.json?v=${DATA_VERSION}`);
       if (!response.ok) return;
       const catalogue = (await response.json()) as Partial<Copy>;
       /* An empty or malformed body would replace the chrome with nothing. English is a

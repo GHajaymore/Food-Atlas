@@ -29,6 +29,7 @@
  * a count that quietly halved, two files that should agree and no longer do.
  */
 
+import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -210,6 +211,61 @@ else {
   const listed = (readFileSync(sitemap, 'utf8').match(/\/dish\//g) ?? []).length;
   if (listed !== count.pages) fail(`the sitemap lists ${listed} records and ${count.pages} were written`);
   else notes.push(`sitemap agrees: ${listed} records`);
+}
+
+/*
+ * The data version in the bundle must match the data actually being shipped.
+ *
+ * `/data/*` is served `immutable` for a year, which is only safe because the app asks for
+ * `?v=<hash of the data>`. If the data changed and the stamp did not — a build that skipped
+ * `stamp-data-version`, or a hand-edited JSON file dropped into `dist` — readers would be
+ * pinned to the old copy for a year with no way to notice. That is the failure the old
+ * `stale-while-revalidate` note was trying to avoid, made worse, so it is checked.
+ */
+{
+  const dataDir = resolve(DIST, 'data');
+  const stamped = (readFileSync(resolve(HERE, '../src/data/version.ts'), 'utf8').match(/'([0-9a-f]{12})'/) ?? [])[1];
+  const hash = createHash('sha256');
+  for (const name of readdirSync(dataDir).filter((n) => n.endsWith('.json')).sort()) {
+    hash.update(name);
+    hash.update(readFileSync(resolve(dataDir, name)));
+  }
+  const copyDir = resolve(dataDir, 'copy');
+  let copies = [];
+  try {
+    copies = readdirSync(copyDir).filter((n) => n.endsWith('.json')).sort();
+  } catch {
+    /* No per-locale copy in this build. */
+  }
+  for (const name of copies) {
+    hash.update(`copy/${name}`);
+    hash.update(readFileSync(resolve(copyDir, name)));
+  }
+  const actual = hash.digest('hex').slice(0, 12);
+
+  if (!stamped) fail('src/data/version.ts has no DATA_VERSION to read');
+  else if (stamped !== actual) {
+    fail(`the data in dist hashes to ${actual} but the bundle asks for ${stamped} — run npm run stamp:data`);
+  } else {
+    const bundles = readdirSync(resolve(DIST, '_expo/static/js/web')).filter((n) => n.endsWith('.js'));
+    const carried = bundles.some((n) => readFileSync(resolve(DIST, '_expo/static/js/web', n), 'utf8').includes(stamped));
+    if (carried) notes.push(`data version ${stamped} matches the shipped data and is in the bundle`);
+    else fail(`data version ${stamped} is not in any shipped bundle — the app would ask for unversioned data`);
+
+    /*
+     * And the preloads must ask for the same URL the app does. A preload whose href does
+     * not match is not a head start, it is a second copy: shipping the version stamp
+     * without it downloaded all five sources twice, 2,143 KB wasted on the first paint.
+     */
+    const shell = readFileSync(resolve(DIST, 'index.html'), 'utf8');
+    const preloads = [...shell.matchAll(/<link rel="preload"[^>]*href="([^"]*\/data\/[^"]*)"/g)].map((m) => m[1]);
+    const unversioned = preloads.filter((href) => !href.includes(`v=${stamped}`));
+    if (unversioned.length) {
+      fail(`${unversioned.length} data preload(s) do not carry v=${stamped}, so each file downloads twice: ${unversioned.slice(0, 3).join(', ')}`);
+    } else if (preloads.length) {
+      notes.push(`${preloads.length} data preloads carry the version`);
+    }
+  }
 }
 
 /* Silence here would be the deployment simply beginning to fail one day. */

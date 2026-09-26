@@ -11,16 +11,26 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# The catalogue is the opposite case: 14.7 MB behind four filenames that never
-# change, holding content that changes whenever an ingest script runs. `immutable`
-# here would pin a reader to whatever data they first downloaded, possibly for
-# ever, so it is wrong however tempting the size makes it.
+# The catalogue used to be the opposite case: content that changes whenever an ingest
+# runs, behind filenames that never do. It was served `max-age=3600,
+# stale-while-revalidate=604800` with a note saying an ingest "reaches everybody within
+# the hour".
 #
-# An hour of freshness with a week of stale-while-revalidate means a repeat visit
-# paints from cache immediately while the new copy downloads behind it, and an
-# ingest run reaches everybody within the hour.
+# It did not. Stale-while-revalidate serves the **old** copy to the first visit after the
+# hour and fetches the new one behind it, so a correction lands one visit late — and a
+# reader who visits once a week is never shown anything newer than a week. The day after
+# 37 records stopped being labelled "Authentic", Ajay was still shown a dish scored 29 and
+# called authenticated. The atlas was right and his browser was a week behind.
+#
+# The app now asks for `/data/x.json?v=<hash of the data>` (scripts/stamp-data-version.mjs),
+# so corrected data has an address no cache has ever seen and arrives on the next visit.
+# That is what makes `immutable` correct here rather than tempting: the address names the
+# contents, so the copy behind it really can never change.
+#
+# An unversioned `/data/x.json` — typed by hand, or fetched by a script — is cached under
+# its own address and can go stale for a year. Nothing the app does asks for one.
 /data/*
-  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, immutable
 
 # Applied to everything, including the JSON above.
 /*

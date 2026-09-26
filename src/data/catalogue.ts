@@ -22,6 +22,7 @@
  * inside a component or a function, where the read happens after the load.
  */
 
+import { DATA_VERSION } from './version';
 import { CONFIRMATIONS_URL, canConfirm, type ConfirmationIndex } from '../domain/confirmations';
 import { coverageOf, type LanguageCoverage } from '../domain/language';
 import { recipeLines } from '../domain/recipeLines';
@@ -70,6 +71,25 @@ export const shareWithoutIngredients = (): number =>
  * build has no such neighbour, so the origin is read from the environment there.
  */
 const BASE = process.env.EXPO_PUBLIC_DATA_URL ?? '';
+
+/**
+ * A data file's address, stamped with the version of the data inside it.
+ *
+ * `_headers` used to serve these as `max-age=3600, stale-while-revalidate=604800`, on the
+ * reasoning that "an ingest run reaches everybody within the hour". Stale-while-revalidate
+ * does not do that: it hands the **old** copy to the first visit after the hour and fetches
+ * the new one behind it, so a correction lands one visit late — and a reader who comes once
+ * a week is never shown anything newer than a week.
+ *
+ * That is not academic. The day after 37 records stopped being labelled "Authentic", Ajay
+ * was still shown a dish scored 29 and called authenticated. The atlas was right; his
+ * browser was a week behind, and a correction nobody receives is not a correction.
+ *
+ * Stamping the version into the URL makes corrected data a different address, so no cache
+ * anywhere can answer with the old one, and the files can then be cached hard — an address
+ * that names its contents never goes out of date.
+ */
+const dataUrl = (path: string): string => `${BASE}/data/${path}?v=${DATA_VERSION}`;
 
 const SOURCES = ['catalogue', 'cuisines', 'cookbook', 'unesco', 'gi'] as const;
 
@@ -149,7 +169,7 @@ export function loadCatalogue(): Promise<void> {
     const [sources, confirmations] = await Promise.all([
       Promise.all(
         SOURCES.map(async (name) => {
-          const response = await fetch(`${BASE}/data/${name}.json`);
+          const response = await fetch(dataUrl(`${name}.json`));
           if (!response.ok) throw new Error(`Could not load ${name}.json (${response.status}).`);
           return (await response.json()) as unknown[];
         }),
@@ -287,7 +307,7 @@ export function loadCookbookSteps(): Promise<void> {
     await pending;
 
     try {
-      const response = await fetch(`${BASE}/data/cookbook-detail.json`);
+      const response = await fetch(dataUrl('cookbook-detail.json'));
       if (!response.ok) return;
       const detail = (await response.json()) as { steps?: string[] }[];
       if (!Array.isArray(detail)) return;
@@ -343,7 +363,7 @@ export function loadProse(): Promise<void> {
     /** Read one detail file and put its paragraphs where the map says they go. */
     const attach = async (file: string, idFor: (row: number) => number | undefined) => {
       try {
-        const response = await fetch(`${BASE}/data/${file}-detail.json`);
+        const response = await fetch(dataUrl(`${file}-detail.json`));
         if (!response.ok) return;
         const detail = (await response.json()) as { prepSummary?: string }[];
         if (!Array.isArray(detail)) return;
