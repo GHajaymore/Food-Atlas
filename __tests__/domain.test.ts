@@ -2610,6 +2610,20 @@ describe('the chrome in other languages', () => {
    */
   const SAME_WORD_IN_BOTH = new Set<string>([
     'fr.administration', // Administration — same spelling, same meaning, in French.
+
+    /*
+     * Six keys that were simply missing, found by counting each catalogue against the
+     * English one: five of twelve languages had no word for "video", French none for
+     * "cuisine", Dutch none for "filters". Each fell back to English and read correctly,
+     * which is why nothing noticed.
+     *
+     * Filled rather than left silent, because in every one of these the word a reader
+     * expects is the English one — and listed here, because this test's whole point is
+     * that an echo must be a decision rather than a gap nobody looked at.
+     */
+    'de.video', 'it.video', 'nl.video', 'tr.video', // Video — the word itself in all four.
+    'fr.cuisine', // Cuisine is French before it is English.
+    'nl.filters', // Dutch uses "filters", plural and all.
     /*
      * The four "Hosting" entries that used to sit here are gone with the funding table
      * they belonged to. Removed rather than left: the check below exists precisely so a
