@@ -39,6 +39,7 @@ import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById, loadCookbookSteps, loadProse } from '../../src/data/catalogue';
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
+import { useNoIndex } from '../../src/domain/noindex';
 import { atRiskNote } from '../../src/domain/atRisk';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
 import {
@@ -66,6 +67,10 @@ export default function DishDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const dish = dishById(Number(id));
+
+  /* A record id that matches nothing still answers 200 with the app shell, so say plainly
+     that this address is not a page. See domain/noindex.ts. */
+  useNoIndex(!dish);
 
   /*
    * One count per record opened. The dish id and nothing else — no reader, no session,

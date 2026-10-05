@@ -34,9 +34,13 @@ import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
 import { Screen } from '../src/components/Screen';
 import { useCopy } from '../src/i18n';
+import { useNoIndex } from '../src/domain/noindex';
 
 export default function NotFound() {
   const copy = useCopy();
+  /* Every unmatched URL answers 200 with the app shell, so without this a typo is a page
+     as far as a crawler is concerned. See domain/noindex.ts. */
+  useNoIndex();
 
   return (
     <Screen>
