@@ -36,6 +36,21 @@ export function Related({ items }: { items: RelatedDish[] }) {
   const layout = useLayout();
   if (!items.length) return null;
 
+  /*
+   * When every suggestion is here for the same reason, say it once.
+   *
+   * The note above defends the per-card reason, and it is right whenever the reasons
+   * differ: a reader can see whether "also from Kerala" is the connection they wanted or
+   * whether they were following the ghee. On a record whose neighbours all share one
+   * country it conveys nothing eight times that it does not convey once — measured on
+   * Chapa namak, where "Also from Afghanistan" printed under all eight cards.
+   *
+   * Only the printed line is folded into the heading. Each card still announces its own
+   * reason to a screen reader, which reads them one at a time and has no heading in view.
+   */
+  const reasons = new Set(items.map((item) => item.reason));
+  const sharedReason = items.length > 1 && reasons.size === 1 ? items[0].reason : null;
+
   return (
     <View style={styles.wrap}>
       {/* H5, matching every other section heading on a record — "Watch it being
@@ -43,7 +58,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
           section of the page announced by a 13px uppercase eyebrow instead. */}
       <H5 level={2}>{copy.relatedTraditions}</H5>
       <Muted style={styles.note}>
-        {copy.relatedTraditionsNote}
+        {sharedReason ?? copy.relatedTraditionsNote}
       </Muted>
 
       <View style={styles.grid}>
@@ -75,9 +90,11 @@ export function Related({ items }: { items: RelatedDish[] }) {
             <T style={styles.name} numberOfLines={2}>
               {dish.name}
             </T>
-            <T style={styles.reason} numberOfLines={1}>
-              {reason}
-            </T>
+            {sharedReason ? null : (
+              <T style={styles.reason} numberOfLines={1}>
+                {reason}
+              </T>
+            )}
             <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
           </Pressable>
         ))}

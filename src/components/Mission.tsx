@@ -161,8 +161,17 @@ export function MissionFigures() {
 
   return (
     <View style={[styles.stats, wide ? styles.statsWide : null]}>
-      <Stat value={n(total)} label={copy.statDishes} />
-      <Stat value={String(countries)} label={copy.statCountries} />
+      {/*
+       * The first two only on a wide screen, where nothing else has said them.
+       *
+       * On a phone `WhatThisIs` is the masthead and prints the same two figures — 17,358
+       * dishes, 161 countries — a screen above this row, so printing them again is the
+       * same repetition the record pages had: a fact restated rather than a fact added.
+       * The three below are this row's own, and the descent still reads from the widest
+       * number it shows to the narrowest.
+       */}
+      {wide ? <Stat value={n(total)} label={copy.statDishes} /> : null}
+      {wide ? <Stat value={String(countries)} label={copy.statCountries} /> : null}
       <Stat value={n(documented)} label={copy.statDocumented} />
       <Stat value={n(heritage)} label={copy.statRegistered} />
       {/* The accent goes on the only figure a person, rather than a source, can move. */}
