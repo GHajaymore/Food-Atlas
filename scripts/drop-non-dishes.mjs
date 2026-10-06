@@ -32,6 +32,18 @@
  * not food; it does not adjudicate what counts as a dish.
  */
 
+/*
+ * ## Before running this again
+ *
+ * It deletes rows, and a cuisine or cookbook record's id is its position among the rows
+ * that survive filtering — so removing one row from `cuisines.json` or `cookbook.json`
+ * renumbers every record after it, changing the address of thousands of pages that are
+ * already published and linked. `catalogue.json` rows carry their own `id` and are safe.
+ *
+ * For a handful of records, prefer `src/data/exclusions.ts`, which drops them from the
+ * built catalogue after every id is fixed. Use this script when re-ingesting anyway.
+ */
+
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

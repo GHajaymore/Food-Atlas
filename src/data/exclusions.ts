@@ -48,6 +48,25 @@ export const NOT_TRADITIONS: { name: string; country: string; why: string }[] = 
     country: 'Vietnam',
     why: 'A historical event in the coffee trade, not a dish.',
   },
+
+  /*
+   * Found on 2026-10-05 by asking a different question: which records are *named* for a
+   * country they are not filed under. Most answers were honest — "Japanese style peanuts"
+   * really is a Mexican snack, "Swiss wing" is a Hong Kong dish whose own account says it
+   * is not Swiss — but these seven were not dishes at all.
+   *
+   * The three works are the gap in `drop-non-dishes`'s title rule, which matches a
+   * parenthetical of exactly "(film)" and not "(1973 film)". Excluded here rather than
+   * widening that rule and re-running it, because that script deletes rows from
+   * `cuisines.json` and a deleted row renumbers every record after it.
+   */
+  { name: 'Turkish Delight (1973 film)', country: 'Netherlands', why: 'Paul Verhoeven’s 1973 drama, not a confection.' },
+  { name: 'The Banquet (1991 film)', country: 'Hong Kong', why: 'A 1991 film.' },
+  { name: 'Tiffin (book)', country: 'India', why: 'A book about food, not a food.' },
+  { name: 'Burger King French Toast Sticks', country: 'United States', why: 'A Burger King menu item — its own description says so.' },
+  { name: 'Cheetos Mexican Street Corn', country: 'United States', why: 'A Cheetos flavour variant, by its own description.' },
+  { name: "Fry's Turkish Delight", country: 'United Kingdom', why: 'A branded confectionery bar, not the confection itself — which the atlas holds separately.' },
+  { name: 'Black russian', country: 'France', why: 'A modern mixed drink recipe, like the three cocktails above it.' },
 ];
 
 const excluded = new Set(NOT_TRADITIONS.map((entry) => `${entry.name}|${entry.country}`));
