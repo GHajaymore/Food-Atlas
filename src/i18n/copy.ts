@@ -1055,7 +1055,7 @@ export const EN: Copy = {
   nothingIsWaiting:
     'Nothing is waiting',
   nothingIsWaitingNote:
-    'Every proposal has been decided. If you know a dish the atlas does not have, it starts here.',
+    'No dish is waiting to be confirmed. If you know one the atlas does not have, it starts here.',
   loading:
     'Loading…',
   proposedBy:

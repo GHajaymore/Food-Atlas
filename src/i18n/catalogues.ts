@@ -195,8 +195,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Esto necesita un sitio donde guardar lo que la gente envía. Hasta que exista, la app lo dice en vez de mostrar una lista vacía como si nadie tuviera nada que aportar.',
     nothingIsWaiting:
       'No hay nada pendiente',
-    nothingIsWaitingNote:
-      'Todas las propuestas han sido resueltas. Si conoces un plato que el atlas no tiene, empieza aquí.',
+    nothingIsWaitingNote: "No hay ningún plato esperando confirmación. Si conoces uno que el atlas no tiene, empieza aquí.",
     loading:
       'Cargando…',
     proposedBy:
@@ -1533,8 +1532,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Il faut un endroit où stocker ce que les gens envoient. En attendant, l’application le dit plutôt que d’afficher une liste vide comme si personne n’avait rien à ajouter.',
     nothingIsWaiting:
       'Rien en attente',
-    nothingIsWaitingNote:
-      'Toutes les propositions ont été tranchées. Si vous connaissez un plat que l’atlas n’a pas, cela commence ici.',
+    nothingIsWaitingNote: "Aucun plat n’attend d’être confirmé. Si vous en connaissez un que l’atlas n’a pas, cela commence ici.",
     loading:
       'Chargement…',
     proposedBy:
@@ -2870,8 +2868,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Dafür braucht es einen Ort, an dem gespeichert wird, was Menschen senden. Bis es ihn gibt, sagt die App das, statt eine leere Liste zu zeigen, als hätte niemand etwas beizutragen.',
     nothingIsWaiting:
       'Nichts wartet',
-    nothingIsWaitingNote:
-      'Über jeden Vorschlag ist entschieden. Wenn Sie ein Gericht kennen, das der Atlas nicht hat, beginnt es hier.',
+    nothingIsWaitingNote: "Kein Gericht wartet auf Bestätigung. Wenn Sie eines kennen, das der Atlas nicht hat, beginnt es hier.",
     loading:
       'Wird geladen…',
     proposedBy:
@@ -4207,8 +4204,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Serve un posto dove conservare ciò che le persone inviano. Finché non c’è, l’app lo dice invece di mostrare una lista vuota come se nessuno avesse nulla da aggiungere.',
     nothingIsWaiting:
       'Non c’è nulla in attesa',
-    nothingIsWaitingNote:
-      'Ogni proposta è stata decisa. Se conosci un piatto che l’atlante non ha, si comincia da qui.',
+    nothingIsWaitingNote: "Nessun piatto è in attesa di conferma. Se ne conosci uno che l’atlante non ha, si comincia da qui.",
     loading:
       'Caricamento…',
     proposedBy:
@@ -5544,8 +5540,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Isto precisa de um sítio onde guardar o que as pessoas enviam. Até existir, a aplicação di-lo em vez de mostrar uma lista vazia como se ninguém tivesse nada a acrescentar.',
     nothingIsWaiting:
       'Nada está à espera',
-    nothingIsWaitingNote:
-      'Todas as propostas foram decididas. Se conhece um prato que o atlas não tem, começa aqui.',
+    nothingIsWaitingNote: "Nenhum prato está à espera de confirmação. Se conhece um que o atlas não tem, começa aqui.",
     loading:
       'A carregar…',
     proposedBy:
@@ -6882,8 +6877,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Hiervoor is een plek nodig om te bewaren wat mensen sturen. Tot die er is zegt de app dat, in plaats van een lege lijst te tonen alsof niemand iets bij te dragen had.',
     nothingIsWaiting:
       'Er wacht niets',
-    nothingIsWaitingNote:
-      'Over elk voorstel is beslist. Kent u een gerecht dat de atlas niet heeft, dan begint het hier.',
+    nothingIsWaitingNote: "Er wacht geen gerecht op bevestiging. Ken je er een dat de atlas niet heeft, dan begint het hier.",
     loading:
       'Laden…',
     proposedBy:
@@ -8219,8 +8213,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Potrzebne jest miejsce, w którym zapisze się to, co ludzie przysyłają. Dopóki go nie ma, aplikacja mówi to wprost, zamiast pokazywać pustą listę, jakby nikt nie miał nic do dodania.',
     nothingIsWaiting:
       'Nic nie czeka',
-    nothingIsWaitingNote:
-      'Każda propozycja została rozstrzygnięta. Jeśli znasz potrawę, której atlas nie ma, zaczyna się tutaj.',
+    nothingIsWaitingNote: "Żadne danie nie czeka na potwierdzenie. Jeśli znasz takie, którego atlas nie ma, zacznij tutaj.",
     loading:
       'Wczytywanie…',
     proposedBy:
@@ -9580,8 +9573,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bunun için gönderilenleri saklayacak bir yer gerekiyor. O olana kadar uygulama bunu söylüyor; kimsenin ekleyecek bir şeyi yokmuş gibi boş bir liste göstermek yerine.',
     nothingIsWaiting:
       'Bekleyen bir şey yok',
-    nothingIsWaitingNote:
-      'Her öneri karara bağlandı. Atlasta olmayan bir yemek biliyorsanız, başlangıç burası.',
+    nothingIsWaitingNote: "Onay bekleyen bir yemek yok. Atlasta olmayan bir yemek biliyorsanız, buradan başlar.",
     loading:
       'Yükleniyor…',
     proposedBy:
@@ -10917,8 +10909,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Для этого нужно место, где хранить присланное. Пока его нет, приложение так и говорит, вместо того чтобы показывать пустой список, будто никому нечего добавить.',
     nothingIsWaiting:
       'Ничего не ждёт',
-    nothingIsWaitingNote:
-      'По каждому предложению принято решение. Если вы знаете блюдо, которого нет в атласе, всё начинается здесь.',
+    nothingIsWaitingNote: "Ни одно блюдо не ждёт подтверждения. Если вы знаете блюдо, которого нет в атласе, начните здесь.",
     loading:
       'Загрузка…',
     proposedBy:
@@ -12278,8 +12269,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'इसके लिए एक जगह चाहिए जहाँ लोगों का भेजा हुआ रखा जा सके। जब तक वह नहीं है, ऐप यही कहता है — खाली सूची दिखाने के बजाय, मानो किसी के पास कुछ जोड़ने को न हो।',
     nothingIsWaiting:
       'कुछ भी लंबित नहीं',
-    nothingIsWaitingNote:
-      'हर प्रस्ताव पर निर्णय हो चुका है। अगर आप कोई ऐसा व्यंजन जानते हैं जो एटलस में नहीं है, शुरुआत यहीं से है।',
+    nothingIsWaitingNote: "पुष्टि के लिए कोई व्यंजन प्रतीक्षा में नहीं है। यदि आप कोई ऐसा व्यंजन जानते हैं जो एटलस में नहीं है, तो शुरुआत यहीं से होती है।",
     loading:
       'लोड हो रहा है…',
     proposedBy:
@@ -13615,8 +13605,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '这需要一个地方来存放大家提交的内容。在有之前，应用会如实说明，而不是显示一份空列表，好像没人有话要说。',
     nothingIsWaiting:
       '没有待处理的',
-    nothingIsWaitingNote:
-      '每一条提议都已有结论。如果你知道图谱里没有的菜，就从这里开始。',
+    nothingIsWaitingNote: "目前没有待确认的菜肴。如果你知道图集里没有的菜，可以从这里开始。",
     loading:
       '加载中…',
     proposedBy:
@@ -14952,8 +14941,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '送られたものを保管する場所が必要です。それができるまでは、誰も付け加えるものがないかのように空の一覧を見せるのではなく、その旨をお伝えします。',
     nothingIsWaiting:
       '待っているものはありません',
-    nothingIsWaitingNote:
-      'すべての提案に結論が出ています。アトラスにない料理をご存じなら、ここから始まります。',
+    nothingIsWaitingNote: "確認を待っている料理はありません。アトラスにない料理をご存じなら、ここから始まります。",
     loading:
       '読み込み中…',
     proposedBy:
