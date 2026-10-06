@@ -189,9 +189,18 @@ export function MissionCallout() {
       <T style={styles.ask}>
         {copy.missionAsk.replace('{n}', n(unwritten)).replace('{people}', String(VALIDATIONS_REQUIRED))}
       </T>
-      <Muted style={styles.askBody}>
-        {copy.missionAskBody}
-      </Muted>
+      {/*
+       * `missionAskBody` stood here and has been removed from the opening screen.
+       *
+       * Measured at 1440px: 274 words between the top of the page and the first dish, and
+       * the same point made three times before it — the figures count the records with no
+       * method, the one-line ask above says what that means, and this paragraph said it
+       * again at length. Nothing is lost: `MissionFootnotes`, further down this same page,
+       * carries the fuller version of the argument behind "Why a source cannot
+       * authenticate a dish", with the arithmetic that makes it checkable.
+       *
+       * The ask and both buttons stay in the open, because that is what a reader acts on.
+       */}
       <View style={styles.actions}>
         <Button label={copy.recordADishYouKnow} onPress={() => router.push('/contribute')} />
         <Button

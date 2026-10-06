@@ -171,6 +171,17 @@ export default function DishDetail() {
   // describe a preparation, so they only render where there is one.
   const isDocumented = hasMethod(dish);
 
+  /*
+   * A record holding a name and a place and nothing else — half the atlas, 8,500 of
+   * them, and the pages a search engine sends people to first.
+   *
+   * Such a page had five passages saying the same absence in different words and ran to
+   * 536 measured words. Everything it says is true and most of it is said more than
+   * once, so the sections that only restate the emptiness are folded here rather than
+   * removed: one ask in the open, the reasoning a tap away.
+   */
+  const bare = !isDocumented && !hasProse(dish);
+
   /**
    * The finest place the record actually names, for the ask on an empty record.
    *
@@ -548,7 +559,11 @@ export default function DishDetail() {
                 <Tag key={trace} label={trace} variant="outline" />
               ))}
             </View>
-            <Muted style={styles.dietBasis}>{fromKey(dish.diet.basisKey, dish.diet.basis)}</Muted>
+            {/* On an empty record the basis is a third way of saying nobody has written
+                the dish down — "no dietary classification can be made until the method is
+                documented". The chip above it already says Not classified, which is the
+                part a reader needs; the sentence stays for everyone else. */}
+            {bare ? null : <Muted style={styles.dietBasis}>{fromKey(dish.diet.basisKey, dish.diet.basis)}</Muted>}
 
             {dish.meals.note ? (
               <>
@@ -781,8 +796,16 @@ export default function DishDetail() {
                 {copy.videosRankedByCloseness}
               </Muted>
               <View style={styles.videos}>
+                {/* The note about a missing ingredient list belongs to the group, not to
+                    each video, so only the first card that needs it carries it. */}
                 {dish.videos.map((video) => (
-                  <VideoCard key={video.id} video={video} />
+                  <VideoCard
+                    key={video.id}
+                    video={video}
+                    explainMissingIngredients={
+                      video.id === dish.videos.find((v) => !v.ingredients?.length)?.id
+                    }
+                  />
                 ))}
               </View>
               <Muted style={styles.videoNote}>
@@ -794,26 +817,48 @@ export default function DishDetail() {
             /* No curated video. Rather than an empty section, offer the search —
                and say exactly what it is: a popularity-ordered starting point, not
                a video anyone has checked against the tradition. */
-            <>
-              <H5 level={2} style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
-              <Muted style={styles.sectionLead}>
-                {copy.noVideoRecordedYet}
-              </Muted>
-              <Block style={styles.discoverBlock}>
-                <Muted style={styles.discoverNote}>
-                  {copy.videoSearchNote.replace('{place}', dish.breadcrumb[0])}
-                </Muted>
-                <Button
-                  label={copy.findPreparationVideos}
-                  variant="secondary"
-                  block
-                  onPress={() => openAtSource(searchUrl(dish))}
-                />
-                <Muted style={styles.discoverNote}>
-                  {copy.findOneFromThePlace}
-                </Muted>
-              </Block>
-            </>
+            (() => {
+              const search = (
+                <Block style={styles.discoverBlock}>
+                  <Muted style={styles.discoverNote}>
+                    {copy.videoSearchNote.replace('{place}', dish.breadcrumb[0])}
+                  </Muted>
+                  <Button
+                    label={copy.findPreparationVideos}
+                    variant="secondary"
+                    block
+                    onPress={() => openAtSource(searchUrl(dish))}
+                  />
+                  <Muted style={styles.discoverNote}>
+                    {copy.findOneFromThePlace}
+                  </Muted>
+                </Block>
+              );
+
+              /*
+               * On an empty record this whole section is a second answer to a question
+               * the page has already answered — there is no video because nobody has
+               * written the dish down — and it ends in a button competing with the one
+               * ask that matters. Folded under its own heading, so it is one tap for the
+               * reader who wants it and silence for the reader who does not. Every
+               * qualification it carries, about results ordered by reach rather than by
+               * who cooked it, is inside and unchanged.
+               */
+              return bare ? (
+                <Disclosure summary={copy.watchItBeingMade}>
+                  <Muted style={styles.sectionLead}>{copy.noVideoRecordedYet}</Muted>
+                  {search}
+                </Disclosure>
+              ) : (
+                <>
+                  <H5 level={2} style={styles.tightHeading}>{copy.watchItBeingMade}</H5>
+                  <Muted style={styles.sectionLead}>
+                    {copy.noVideoRecordedYet}
+                  </Muted>
+                  {search}
+                </>
+              );
+            })()
           )}
 
           <H5 level={2} style={styles.h5}>{copy.whereTheMethodComesFrom}</H5>
@@ -910,16 +955,38 @@ export default function DishDetail() {
           {/* An adaptation is not claiming authenticity, so it is not asked to
               justify any — the question would invite the reader to read the answer
               as a defence of a claim the record never made. */}
-          <H5 level={2} style={styles.h5}>
-            {isAdaptation
-              ? copy.whyThisIsAnAdaptation
-              : isDocumented
-                ? copy.whyConsideredAuthentic
-                : copy.whatThisRecordIs}
-          </H5>
-          <Muted style={styles.disclaimer}>
-            {fromKeys(dish.disclaimerKeys, dish.disclaimerKey, dish.disclaimer, dish.disclaimerParams)}
-          </Muted>
+          {bare ? (
+            /*
+             * Folded on an empty record, because it is the fifth time the page says it.
+             *
+             * Measured on Chapa namak: 536 words for a record holding two facts, a name
+             * and a country, and five separate passages saying nobody has written the
+             * dish down — the dietary basis, the ask, the video section, the provenance
+             * line, and this. Each is well written; together they are a wall, and the one
+             * that matters is the ask.
+             *
+             * Folded rather than cut. Every word is still here for the reader who wants
+             * the reasoning, which is also what keeps the claim checkable.
+             */
+            <Disclosure summary={copy.whatThisRecordIs}>
+              <Muted style={styles.disclaimer}>
+                {fromKeys(dish.disclaimerKeys, dish.disclaimerKey, dish.disclaimer, dish.disclaimerParams)}
+              </Muted>
+            </Disclosure>
+          ) : (
+            <>
+              <H5 level={2} style={styles.h5}>
+                {isAdaptation
+                  ? copy.whyThisIsAnAdaptation
+                  : isDocumented
+                    ? copy.whyConsideredAuthentic
+                    : copy.whatThisRecordIs}
+              </H5>
+              <Muted style={styles.disclaimer}>
+                {fromKeys(dish.disclaimerKeys, dish.disclaimerKey, dish.disclaimer, dish.disclaimerParams)}
+              </Muted>
+            </>
+          )}
 
           {/* The prompt that turns a reader into a validator. Two taps, not a form —
               correcting your own food is a far stronger motive than filling in a
