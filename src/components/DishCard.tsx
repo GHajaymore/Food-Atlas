@@ -18,6 +18,7 @@ import { useCopy, useLocale } from '../i18n';
 import { languageByCode } from '../domain/language';
 import { placeName } from '../domain/continents';
 import { levelLabel } from '../domain/authenticity';
+import { hasMethod, hasProse } from '../domain/method';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { dietLabel } from '../domain/diet';
@@ -141,10 +142,25 @@ export function DishCard({ dish, showViews, compact }: Props) {
             {dish.meals.occasions.length ? ` · ${mealLabel(dish.meals)}` : ''}
           </Muted>
 
-          {foreign ? <Muted style={styles.blurbLang}>{sourceTag}</Muted> : null}
-          <T style={styles.blurb} numberOfLines={foreign ? 3 : undefined}>
-            {dish.blurb}
-          </T>
+          {/*
+           * Nothing where the blurb is the fallback sentence.
+           *
+           * A record with neither a method nor an account has no description, so the build
+           * writes one: "Recorded as a dish of India. How it is traditionally prepared has
+           * not been documented here yet." On a record page that is fair warning. On a
+           * list it is the same fifteen words under card after card — five identical lines
+           * on one screen of /browse, measured — and the badge beside each already says
+           * Unverified. The sentence is still written into the data, because the prerender
+           * uses it as the page description where a record has ingredients but no prose.
+           */}
+          {hasMethod(dish) || hasProse(dish) ? (
+            <>
+              {foreign ? <Muted style={styles.blurbLang}>{sourceTag}</Muted> : null}
+              <T style={styles.blurb} numberOfLines={foreign ? 3 : undefined}>
+                {dish.blurb}
+              </T>
+            </>
+          ) : null}
 
           <View style={styles.footer}>
             {/*
