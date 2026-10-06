@@ -168,7 +168,7 @@ export interface Copy {
   proposeOneMissing: string;
   whatItDoesNotBuy: string;
   contributeOnOpenCollective: string;
-  readTheLedger: string;
+  readTheLedger: string;
   browse: string;
   startAgain: string;
   openProposals: string;
@@ -252,7 +252,7 @@ export interface Copy {
   notForSaleAuthentic: string;
   notForSalePromotion: string;
   notForSaleAdvertising: string;
-  donationFootnote: string;
+  donationFootnote: string;
   mostUsefulThing: string;
   administration: string;
   administrationNote: string;
@@ -351,6 +351,10 @@ export interface Copy {
   originAndAttribution: string;
   nobodyRecordedTechnique: string;
   nobodyHasRecorded: string;
+  /** The same absence in one line, for the card a reader actually acts on. */
+  nobodyHasWrittenItDown: string;
+  /** Opens the fold holding `nobodyHasRecorded`, which explains why the record is empty. */
+  whyThisRecordIsEmpty: string;
   ifIngredientUnavailable: string;
   traditionalLabel: string;
   ingredientsHeading: string;
@@ -994,7 +998,7 @@ export const EN: Copy = {
   proposeOneMissing: 'Propose one the atlas is missing',
   whatItDoesNotBuy: 'What it does not buy',
   contributeOnOpenCollective: 'Contribute on Open Collective',
-  readTheLedger: 'Read the ledger — every contribution and expense',
+  readTheLedger: 'Read the ledger — every contribution and expense',
   browse: 'Browse',
   startAgain: 'Start again',
   openProposals: 'Open proposals',
@@ -1114,7 +1118,7 @@ export const EN: Copy = {
   notForSaleAdvertising:
     'Nothing here is advertising, and no reader is tracked.',
   donationFootnote:
-    'Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and never will.',
+    'Opens at Open Collective. Nothing is collected here — this app holds no payment details of yours and never will.',
   mostUsefulThing:
     'The most useful thing anyone can give this atlas is not money. Most of it is a name and a place because nobody has written down how the food is made.',
   administration:
@@ -1307,6 +1311,14 @@ export const EN: Copy = {
     'Nobody has recorded the technique — the timings, the vessel, the order things happen in. That is what would lift this record out of Unverified, and it takes someone who cooks it.',
   nobodyHasRecorded:
     'Nobody has recorded how {dish} is made{place}. We could copy the most-published recipe from the internet and call it authentic, but that is the thing this atlas exists not to do — so the record stays as it is until someone who cooks it fills it in. If you do, you would be the first to write it down.',
+  /*
+   * The ask, in one line. The place is not interpolated here: it is printed directly above
+   * this card, and threading it through thirteen languages buys a repetition rather than a
+   * fact. The dish is named, because what makes a reader stop is seeing a dish they know
+   * with nothing under it.
+   */
+  nobodyHasWrittenItDown: 'Nobody has written down how {dish} is made. You would be the first.',
+  whyThisRecordIsEmpty: 'Why this record is empty',
   ifIngredientUnavailable:
     'If the traditional ingredient is unavailable',
   traditionalLabel: "Traditional: ",

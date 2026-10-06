@@ -452,6 +452,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nadie ha registrado la técnica: los tiempos, el recipiente, el orden en que ocurren las cosas. Eso es lo que sacaría a este registro de Sin verificar, y hace falta alguien que lo cocine.',
     nobodyHasRecorded:
       'Nadie ha registrado cómo se hace {dish}{place}. Podríamos copiar la receta más publicada de internet y llamarla auténtica, pero eso es justo lo que este atlas existe para no hacer, así que el registro se queda como está hasta que alguien que lo cocine lo complete. Si lo haces tú, serías la primera persona en escribirlo.',
+    nobodyHasWrittenItDown: "Nadie ha escrito cómo se prepara {dish}. Serías la primera persona en hacerlo.",
+    whyThisRecordIsEmpty: "Por qué este registro está vacío",
     ifIngredientUnavailable:
       'Si el ingrediente tradicional no está disponible',
     traditionalLabel: "Tradicional: ",
@@ -1788,6 +1790,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Personne n’a consigné la technique — les durées, le récipient, l’ordre des gestes. C’est cela qui sortirait cette fiche de Non vérifié, et il faut quelqu’un qui le cuisine.',
     nobodyHasRecorded:
       'Personne n’a consigné comment se prépare {dish}{place}. Nous pourrions copier la recette la plus publiée d’internet et la dire authentique, mais c’est précisément ce que cet atlas existe pour ne pas faire — la fiche reste donc en l’état jusqu’à ce que quelqu’un qui le cuisine la remplisse. Si vous le faites, vous seriez la première personne à l’écrire.',
+    nobodyHasWrittenItDown: "Personne n’a écrit comment {dish} se prépare. Vous seriez la première personne à le faire.",
+    whyThisRecordIsEmpty: "Pourquoi cette fiche est vide",
     ifIngredientUnavailable:
       'Si l’ingrédient traditionnel est introuvable',
     traditionalLabel: "Traditionnel : ",
@@ -3123,6 +3127,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Die Technik hat niemand festgehalten — die Zeiten, das Gefäß, die Reihenfolge der Handgriffe. Genau das würde diesen Eintrag aus Ungeprüft herausholen, und dafür braucht es jemanden, der es kocht.',
     nobodyHasRecorded:
       'Niemand hat festgehalten, wie {dish} gemacht wird{place}. Wir könnten das meistveröffentlichte Rezept aus dem Internet übernehmen und es authentisch nennen, aber genau dafür gibt es diesen Atlas nicht — also bleibt der Eintrag, wie er ist, bis jemand ihn ausfüllt, der es kocht. Wenn Sie das tun, wären Sie die erste Person, die es aufschreibt.',
+    nobodyHasWrittenItDown: "Niemand hat aufgeschrieben, wie {dish} zubereitet wird. Sie wären die erste Person.",
+    whyThisRecordIsEmpty: "Warum dieser Eintrag leer ist",
     ifIngredientUnavailable:
       'Wenn die traditionelle Zutat nicht zu bekommen ist',
     traditionalLabel: "Traditionell: ",
@@ -4458,6 +4464,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nessuno ha registrato la tecnica: i tempi, il recipiente, l’ordine delle cose. È questo che porterebbe la scheda fuori da Non verificato, e serve qualcuno che lo cucini.',
     nobodyHasRecorded:
       'Nessuno ha registrato come si fa {dish}{place}. Potremmo copiare la ricetta più pubblicata di internet e chiamarla autentica, ma è esattamente ciò che questo atlante esiste per non fare — quindi la scheda resta com’è finché non la compila qualcuno che lo cucina. Se lo fai tu, saresti la prima persona a scriverlo.',
+    nobodyHasWrittenItDown: "Nessuno ha scritto come si prepara {dish}. Saresti la prima persona a farlo.",
+    whyThisRecordIsEmpty: "Perché questa scheda è vuota",
     ifIngredientUnavailable:
       'Se l’ingrediente tradizionale non si trova',
     traditionalLabel: "Tradizionale: ",
@@ -5793,6 +5801,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Ninguém registou a técnica — os tempos, o recipiente, a ordem das coisas. É isso que tiraria este registo de Por verificar, e é preciso alguém que o cozinhe.',
     nobodyHasRecorded:
       'Ninguém registou como se faz {dish}{place}. Podíamos copiar a receita mais publicada da internet e chamar-lhe autêntica, mas é exatamente isso que este atlas existe para não fazer — por isso o registo fica como está até que alguém que o cozinhe o preencha. Se o fizer, seria a primeira pessoa a escrevê-lo.',
+    nobodyHasWrittenItDown: "Ninguém escreveu como se prepara {dish}. Seria a primeira pessoa a fazê-lo.",
+    whyThisRecordIsEmpty: "Porque este registo está vazio",
     ifIngredientUnavailable:
       'Se o ingrediente tradicional não se encontrar',
     traditionalLabel: "Tradicional: ",
@@ -7129,6 +7139,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Niemand heeft de techniek vastgelegd — de tijden, de pan, de volgorde van de handelingen. Juist dat zou dit record uit Niet geverifieerd halen, en daar is iemand voor nodig die het kookt.',
     nobodyHasRecorded:
       'Niemand heeft vastgelegd hoe {dish} gemaakt wordt{place}. We zouden het meest gepubliceerde recept van internet kunnen overnemen en authentiek noemen, maar dat is precies wat deze atlas bestaat om niet te doen — dus het record blijft zoals het is tot iemand die het kookt het invult. Doet u dat, dan bent u de eerste die het opschrijft.',
+    nobodyHasWrittenItDown: "Niemand heeft opgeschreven hoe {dish} wordt gemaakt. Jij zou de eerste zijn.",
+    whyThisRecordIsEmpty: "Waarom dit record leeg is",
     ifIngredientUnavailable:
       'Als het traditionele ingrediënt niet te krijgen is',
     traditionalLabel: "Traditioneel: ",
@@ -8464,6 +8476,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Nikt nie zapisał techniki — czasów, naczynia, kolejności czynności. To właśnie wyciągnęłoby ten wpis z Niesprawdzonych, a potrzeba do tego kogoś, kto to gotuje.',
     nobodyHasRecorded:
       'Nikt nie zapisał, jak się robi {dish}{place}. Moglibyśmy skopiować z internetu najczęściej publikowany przepis i nazwać go autentycznym, ale właśnie po to ten atlas istnieje, żeby tego nie robić — więc wpis zostaje taki, jaki jest, dopóki nie uzupełni go ktoś, kto to gotuje. Jeśli zrobisz to ty, będziesz pierwszą osobą, która to spisze.',
+    nobodyHasWrittenItDown: "Nikt nie zapisał, jak przygotowuje się {dish}. Byłbyś pierwszą osobą.",
+    whyThisRecordIsEmpty: "Dlaczego ten wpis jest pusty",
     ifIngredientUnavailable:
       'Jeśli tradycyjnego składnika nie da się zdobyć',
     traditionalLabel: "Tradycyjnie: ",
@@ -9823,6 +9837,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Tekniği kimse kaydetmemiş — süreleri, kabı, işlerin sırasını. Bu kaydı Doğrulanmamış olmaktan çıkaracak olan tam da budur ve bunun için onu pişiren birine ihtiyaç var.',
     nobodyHasRecorded:
       '{dish} nasıl yapılır{place}, kimse kaydetmemiş. İnternette en çok yayımlanan tarifi kopyalayıp özgün diyebilirdik, ama bu atlas tam da bunu yapmamak için var — bu yüzden kayıt, onu pişiren biri dolduruncaya kadar olduğu gibi kalıyor. Siz doldurursanız, bunu yazan ilk kişi olursunuz.',
+    nobodyHasWrittenItDown: "{dish} nasıl yapılır, kimse yazmamış. İlk yazan siz olurdunuz.",
+    whyThisRecordIsEmpty: "Bu kayıt neden boş",
     ifIngredientUnavailable:
       'Geleneksel malzeme bulunamıyorsa',
     traditionalLabel: "Geleneksel: ",
@@ -11158,6 +11174,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Технику никто не записал — время, посуду, порядок действий. Именно это вывело бы запись из Не проверено, и для этого нужен человек, который это готовит.',
     nobodyHasRecorded:
       'Никто не записал, как готовят {dish}{place}. Мы могли бы скопировать самый растиражированный рецепт из интернета и назвать его подлинным, но именно ради того, чтобы этого не делать, атлас и существует, — поэтому запись остаётся как есть, пока её не заполнит тот, кто это готовит. Если это сделаете вы, вы будете первым человеком, который это записал.',
+    nobodyHasWrittenItDown: "Никто не записал, как готовят {dish}. Вы были бы первым.",
+    whyThisRecordIsEmpty: "Почему эта запись пуста",
     ifIngredientUnavailable:
       'Если традиционного ингредиента не достать',
     traditionalLabel: "Традиционно: ",
@@ -12517,6 +12535,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'तकनीक किसी ने दर्ज नहीं की — समय, बर्तन, चीज़ों का क्रम। यही इस रिकॉर्ड को असत्यापित से बाहर निकालेगा, और इसके लिए कोई ऐसा चाहिए जो इसे पकाता हो।',
     nobodyHasRecorded:
       'किसी ने दर्ज नहीं किया कि {dish} कैसे बनता है{place}। हम इंटरनेट से सबसे ज़्यादा छपी विधि उठाकर उसे प्रामाणिक कह सकते थे, पर यह एटलस ठीक यही न करने के लिए है — इसलिए रिकॉर्ड वैसा ही रहता है जब तक कोई इसे पकाने वाला इसे न भरे। अगर आप भरें, तो इसे लिखने वाले पहले व्यक्ति आप होंगे।',
+    nobodyHasWrittenItDown: "किसी ने नहीं लिखा कि {dish} कैसे बनाई जाती है। आप पहले व्यक्ति होंगे।",
+    whyThisRecordIsEmpty: "यह रिकॉर्ड खाली क्यों है",
     ifIngredientUnavailable:
       'अगर पारंपरिक सामग्री न मिले',
     traditionalLabel: "पारंपरिक: ",
@@ -13852,6 +13872,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '没有人记下做法 — 火候、器具、先后次序。正是这些才能让这条记录脱离未核实，而这需要一个真正做这道菜的人。',
     nobodyHasRecorded:
       '没有人记下 {dish} 怎么做{place}。我们大可以把网上流传最广的食谱抄过来，称它本真，但这份图册存在的意义恰恰是不这么做 — 所以这条记录就这样留着，等一个会做的人来填。如果那个人是你，你就是第一个把它写下来的人。',
+    nobodyHasWrittenItDown: "还没有人写下 {dish} 的做法。你会是第一个。",
+    whyThisRecordIsEmpty: "这条记录为什么是空的",
     ifIngredientUnavailable:
       '如果买不到传统的那种食材',
     traditionalLabel: "传统做法：",
@@ -15187,6 +15209,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '作り方を誰も書き残していません。時間も、道具も、手順の順序も。それこそがこの記録を未確認から引き上げるものであり、そのためには実際に作る人が要ります。',
     nobodyHasRecorded:
       '{dish} の作り方{place}を、誰も記録していません。インターネットでいちばん多く公開されているレシピを写して本物と呼ぶこともできますが、このアトラスはまさにそれをしないために在ります。ですから、作る人が書き入れるまで記録はこのままです。あなたが書けば、それを書き留めた最初の人になります。',
+    nobodyHasWrittenItDown: "{dish} の作り方は、まだ誰も書き残していません。あなたが最初の一人になります。",
+    whyThisRecordIsEmpty: "この記録が空である理由",
     ifIngredientUnavailable:
       '伝統の材料が手に入らないとき',
     traditionalLabel: "伝統的なもの：",

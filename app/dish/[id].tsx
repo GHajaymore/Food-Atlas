@@ -662,12 +662,23 @@ export default function DishDetail() {
                * So the sentence says which dish and which place, and then says plainly
                * that they would be the first, because they would be.
                */}
-              <CardBody>
-                {copy.nobodyHasRecorded
-                  .replace('{dish}', dish.name)
-                  .replace('{place}', askPlace ? copy.inPlace.replace('{place}', askPlace) : '')}
-              </CardBody>
+              {/*
+               * One line, then the button. The 60-word version is the best writing on the
+               * page and it was the first thing a reader met on 8,500 records; it is the
+               * argument for the ask rather than the ask, so it moves behind its own
+               * summary. Both exist in all thirteen languages — the short line was written
+               * by hand for each, not machine-translated, because this is the one sentence
+               * the atlas asks somebody to act on.
+               */}
+              <CardBody>{copy.nobodyHasWrittenItDown.replace('{dish}', dish.name)}</CardBody>
               <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
+              <Disclosure summary={copy.whyThisRecordIsEmpty}>
+                <CardBody>
+                  {copy.nobodyHasRecorded
+                    .replace('{dish}', dish.name)
+                    .replace('{place}', askPlace ? copy.inPlace.replace('{place}', askPlace) : '')}
+                </CardBody>
+              </Disclosure>
             </Card>
           ) : null}
 
