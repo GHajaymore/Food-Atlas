@@ -630,7 +630,7 @@ export default function DishDetail() {
                 <CardBody>
                   {copy.nobodyRecordedTechnique}
                 </CardBody>
-                <Button label={copy.recordHowItsMade} block onPress={() => router.push('/contribute')} />
+                <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
               </Card>
             </>
           ) : null}
@@ -652,7 +652,7 @@ export default function DishDetail() {
                   .replace('{dish}', dish.name)
                   .replace('{place}', askPlace ? copy.inPlace.replace('{place}', askPlace) : '')}
               </CardBody>
-              <Button label={copy.recordHowItsMade} block onPress={() => router.push('/contribute')} />
+              <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
             </Card>
           ) : null}
 
@@ -930,8 +930,8 @@ export default function DishDetail() {
             {/* Named and counted, under the general case. Absent where the record has no
                 place worth naming — "two more people from somewhere" is not an ask. */}
             {ask.standing ? <Muted style={styles.standing}>{ask.standing}</Muted> : null}
-            <Button label={ask.yes} variant="secondary" block onPress={() => router.push('/contribute')} />
-            <Button label={ask.no} block onPress={() => router.push('/contribute')} />
+            <Button label={ask.yes} variant="secondary" block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
+            <Button label={ask.no} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
           </Card>
         </>
       )}

@@ -101,7 +101,7 @@ export default function Contribute() {
   const photoResult = photoInput.trim() ? parsePhotoReference(copy, photoInput) : null;
 
   /** The dish a fruitless search was for, where the reader arrived from one. */
-  const { dish: askedFor } = useLocalSearchParams<{ dish?: string }>();
+  const { dish: askedFor, place: placeAskedFor } = useLocalSearchParams<{ dish?: string; place?: string }>();
 
   /**
    * What the reader actually typed.
@@ -115,7 +115,16 @@ export default function Contribute() {
     // Seeded from the search that found nothing. Somebody who has just been told the
     // atlas does not have their food should not then be asked to type its name again.
     dish: typeof askedFor === 'string' ? askedFor : '',
-    place: '',
+    /*
+     * The place too, and from the record page as well as from a search that found nothing.
+     *
+     * This screen already carried the name across from an empty search, with the comment
+     * above saying why. The much larger door was the one it did not cover: 8,500 records
+     * hold a name and a place and nothing else, and each one ends in "Record how it's
+     * made" — which pushed to a blank form. Somebody who has just read about Kozhikode
+     * Halwa, in Kozhikode, should not arrive at a page asking what dish they mean.
+     */
+    place: typeof placeAskedFor === 'string' ? placeAskedFor : '',
     cooks: '',
     ingredients: '',
     connection: '',
