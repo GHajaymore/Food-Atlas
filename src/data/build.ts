@@ -425,6 +425,31 @@ const DEMONYM_PLACE: Record<string, { country: string; place: string }> = {
   Acehnese: { country: 'Indonesia', place: 'Aceh' },
   Jeparanese: { country: 'Indonesia', place: 'Jepara' },
   Chittagonian: { country: 'Bangladesh', place: 'Chittagong' },
+  /*
+   * Added after reading a record rather than the data: "India › Goan" was printed on the
+   * page, in "Also from Goan", and in the ask — "3 more people connected to Goan". The
+   * stem rule below cannot reach any of these, because none of their stems is a country.
+   */
+  Goan: { country: 'India', place: 'Goa' },
+  Punjabi: { country: 'India', place: 'Punjab' },
+  Gujarati: { country: 'India', place: 'Gujarat' },
+  Rajasthani: { country: 'India', place: 'Rajasthan' },
+  Bihari: { country: 'India', place: 'Bihar' },
+  Hyderabadi: { country: 'India', place: 'Hyderabad' },
+  Kashmiri: { country: 'India', place: 'Kashmir' },
+  Mangalorean: { country: 'India', place: 'Mangalore' },
+  Tripuri: { country: 'India', place: 'Tripura' },
+  Uttarakhandi: { country: 'India', place: 'Uttarakhand' },
+  'Uttar Pradeshi': { country: 'India', place: 'Uttar Pradesh' },
+  /* Never translated, for the same reason as Macanese: the atlas files Tibet as a
+     country of its own, so "China › Tibet" would be one country presented as a region
+     of another — and the test that holds that invariant caught this one. Dropped. */
+  Tibetan: { country: '', place: '' },
+  Okinawan: { country: 'Japan', place: 'Okinawa' },
+  Sindhi: { country: 'Pakistan', place: 'Sindh' },
+  Lahori: { country: 'Pakistan', place: 'Lahore' },
+  Balochi: { country: 'Pakistan', place: 'Balochistan' },
+  Awadhi: { country: 'India', place: 'Awadh' },
 };
 
 /** Words that make a region label a kind of food: "Chinese beef", "Japanese cakes". */
@@ -433,10 +458,10 @@ const FOOD_CATEGORY =
 
 /** Labels for a people, a language or a faith rather than a place. */
 const NOT_A_PLACE =
-  /-speaking|^(east|southeast|south|central|west) asian$|^oceanian$|^(mizrahi jewish|chinese islamic|islamic|anglo-indian|assyrian)$|^baltic states$/i;
+  /-speaking|^(east|southeast|south|central|west) asian$|^oceanian$|^(mizrahi jewish|chinese islamic|islamic|anglo-indian|assyrian)$|^baltic states$|^(meitei|newari|parsi|peranakan|mughlai|maghrebi|latin american|catalan|emirati)$/i;
 
 /** Former states, which are the country's past rather than a part of it. */
-const FORMER_STATE = /\b(empire|ssr)\b|^british hong kong$/i;
+const FORMER_STATE = /\b(empire|ssr)\b|^british hong kong$|^ancient /i;
 
 /**
  * A nationality adjective ending in -an / -ese / -ish that belongs to a different country:
@@ -445,6 +470,52 @@ const FORMER_STATE = /\b(empire|ssr)\b|^british hong kong$/i;
  * Valencian Community — places whose names merely end the same way — are untouched.
  */
 const FOREIGN_DEMONYM = /^(bhutanese|faroese|mauritian|gambian|gabonese|mauritanian|namibian|burundian|cocossian)$/i;
+
+/**
+ * A nationality adjective, worked out rather than listed.
+ *
+ * The list above was written from the cases somebody had seen, and the ones nobody had
+ * seen were still on the pages: "Ghana › Angolan", "Indonesia › Belizean", "India ›
+ * Emirati", "Morocco › Andorran", "Japan › Isle of Man". Each prints as a step of the
+ * place trail, which is the one thing on a record a reader is invited to confirm.
+ *
+ * So the ending is undone instead: a handful of ways English builds a demonym, tried in
+ * turn, and the label is a demonym if any of them lands on a country this atlas knows.
+ * "Angolan" → Angola, "Belizean" → Belize, "Kuwaiti" → Kuwait, "Japanese" → Japan,
+ * "South African" → South Africa.
+ *
+ * Dropped whether or not it is *this* record's country: "Ghana › Ghanaian" adds no
+ * depth, it just says the country twice.
+ *
+ * Deliberately conservative. A stem is accepted only when it is a country outright, so
+ * places whose names merely end the same way are untouched — Fujian, Milan, Busan,
+ * Sichuan, Kalimantan and Rajasthan all stem to something that is not a country. The
+ * adjectives that name a *region* rather than a country — Goan, Tibetan, Okinawan —
+ * cannot be reached this way and are translated by name in `DEMONYM_PLACE` above.
+ */
+function isDemonymOfACountry(label: string): boolean {
+  const base = label.trim();
+  if (base.length < 4) return false;
+
+  const stems = new Set<string>([
+    base.replace(/ese$/i, ''),      /* Japanese  → Japan   */
+    base.replace(/ese$/i, 'a'),     /* Chinese   → China   */
+    base.replace(/ian$/i, 'ia'),    /* Indonesian→ Indonesia */
+    base.replace(/ian$/i, 'y'),     /* Hungarian → Hungary */
+    base.replace(/ian$/i, ''),      /* Brazilian → Brazil  */
+    base.replace(/ean$/i, 'ea'),    /* Guinean   → Guinea  */
+    base.replace(/ean$/i, 'e'),     /* Belizean  → Belize  */
+    base.replace(/an$/i, 'a'),      /* Angolan   → Angola  */
+    base.replace(/i$/i, ''),        /* Kuwaiti   → Kuwait  */
+  ]);
+  stems.delete(base);
+
+  for (const stem of stems) {
+    if (stem.length < 3) continue;
+    if (isCountry(canonicalCountry(stem))) return true;
+  }
+  return false;
+}
 
 /**
  * The region as a place, or nothing.
@@ -467,7 +538,9 @@ function regionThatIsAPlace(region: string, country: string): string {
   const known = DEMONYM_PLACE[label];
   if (known) return known.country === country ? known.place : '';
   if (FOOD_CATEGORY.test(label) || NOT_A_PLACE.test(label) || FORMER_STATE.test(label)) return '';
-  if (FOREIGN_DEMONYM.test(label)) return '';
+  if (FOREIGN_DEMONYM.test(label) || isDemonymOfACountry(label)) return '';
+  /* The country again, under itself: 'Jordan › Jordan' is a step that says nothing. */
+  if (canonicalCountry(label) === country) return '';
   /* Another country outright is never a region of this one. */
   if (isCountry(canonicalCountry(label)) && canonicalCountry(label) !== country) return '';
   if (/^people'?s republic of china$/i.test(label) || /^democratic republic of the congo$/i.test(label)) return '';

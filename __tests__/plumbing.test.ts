@@ -953,6 +953,46 @@ describe('a card names a place that agrees with its record', () => {
 });
 
 /**
+ * A region is a place, not a nationality.
+ *
+ * Found by reading a record rather than the data: an empty record from Goa printed
+ * "India › Goan" in the trail, "Also from Goan" over its neighbours, and "3 more people
+ * connected to Goan" in the ask — the one sentence on the page that asks somebody to
+ * confirm where the dish is from. Behind it were about a hundred more: "Ghana › Angolan",
+ * "Indonesia › Belizean", "India › Emirati", "South Africa › South African".
+ *
+ * Two rules, and this holds both. The adjectives that name a region of their own country
+ * are translated to it; the ones that name a country are dropped, whether or not it is
+ * this record's country, because "Ghana › Ghanaian" says the country twice.
+ */
+describe('a region names a place rather than a people', () => {
+  const regions = new Set(catalogue.map((d) => d.loc.region).filter(Boolean));
+
+  it('translates an adjective that names a region of its own country', () => {
+    for (const adjective of ['Goan', 'Punjabi', 'Gujarati', 'Rajasthani', 'Okinawan', 'Sindhi', 'Uttar Pradeshi']) {
+      expect(regions.has(adjective)).toBe(false);
+    }
+    for (const place of ['Goa', 'Punjab', 'Gujarat', 'Rajasthan', 'Okinawa', 'Sindh', 'Uttar Pradesh']) {
+      expect(regions.has(place)).toBe(true);
+    }
+  });
+
+  it('drops an adjective that names a country', () => {
+    for (const demonym of ['Angolan', 'Belizean', 'South African', 'Emirati', 'Guinean', 'Andorran', 'Kuwaiti']) {
+      expect(regions.has(demonym)).toBe(false);
+    }
+  });
+
+  /* The rule is stem-based, so the risk it carries is a real place that merely ends the
+     same way. These are the ones in the catalogue that would be lost if it over-reached. */
+  it('leaves alone the places whose names merely end like one', () => {
+    for (const place of ['Sichuan', 'Fujian', 'Rajasthan', 'Kalimantan', 'Busan', 'Bali', 'Hanoi', 'Shanghai', 'Kurdistan']) {
+      expect(regions.has(place)).toBe(true);
+    }
+  });
+});
+
+/**
  * The atlas says out loud when it holds the same dish twice.
  *
  * 122 names sit under more than one country. The first reading was "duplicates to merge",
