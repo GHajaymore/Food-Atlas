@@ -23,7 +23,12 @@
  */
 
 import { DATA_VERSION } from './version';
-import { CONFIRMATIONS_URL, canConfirm, type ConfirmationIndex } from '../domain/confirmations';
+import {
+  CONFIRMATIONS_URL,
+  canConfirm,
+  setConfirmationsOpen,
+  type ConfirmationIndex,
+} from '../domain/confirmations';
 import { coverageOf, type LanguageCoverage } from '../domain/language';
 import { recipeLines } from '../domain/recipeLines';
 import { decodeEntities } from '../domain/text';
@@ -116,6 +121,9 @@ async function loadConfirmations(): Promise<ConfirmationIndex> {
   try {
     const response = await fetch(CONFIRMATIONS_URL);
     if (!response.ok) return {};
+    /* The endpoint says whether a write would be accepted, because an empty index cannot:
+       see `confirmationsOpen`. Absent header means closed, which is the safe direction. */
+    setConfirmationsOpen(response.headers.get('X-Confirmations') === 'open');
     const body: unknown = await response.json();
     return body && typeof body === 'object' && !Array.isArray(body) ? (body as ConfirmationIndex) : {};
   } catch {

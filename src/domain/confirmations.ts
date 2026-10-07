@@ -146,9 +146,30 @@ export interface DishConfirmations {
 /** Confirmations by dish id, as the endpoint returns them. */
 export type ConfirmationIndex = Readonly<Record<string, DishConfirmations>>;
 
-export const CONFIRMATIONS_URL = process.env.EXPO_PUBLIC_CONFIRMATIONS_URL ?? '';
+export const CONFIRMATIONS_URL = process.env.EXPO_PUBLIC_CONFIRMATIONS_URL ?? '/api/confirmations';
 
 export const canConfirm = (): boolean => CONFIRMATIONS_URL.trim().length > 0;
+
+/**
+ * Whether the server can actually take a confirmation, as opposed to merely answering.
+ *
+ * `canConfirm()` says an endpoint is configured. This says the table behind it exists —
+ * the schema is applied by hand against the production database, so there is a window in
+ * which the code is deployed and a write could only answer 503. An empty index looks the
+ * same as a working endpoint nobody has used yet, so the read reports which it is in a
+ * header and `loadConfirmations` sets this.
+ *
+ * Starts closed, and nothing opens it but that header. Offering a form that cannot accept
+ * what somebody writes is the dead control this project refuses everywhere else — and the
+ * person it would waste is the one who knows the dish.
+ */
+let open = false;
+
+export const setConfirmationsOpen = (value: boolean): void => {
+  open = value;
+};
+
+export const confirmationsOpen = (): boolean => open;
 
 /** Nothing confirmed, which is the state of every record until the endpoint exists. */
 export const NONE: DishConfirmations = { people: [] };

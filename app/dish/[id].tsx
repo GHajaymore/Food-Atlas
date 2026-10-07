@@ -42,6 +42,10 @@ import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { BRAND } from '../../src/brand';
 import { slugFor } from '../../src/domain/countrySlug';
 import { placeInSentence } from '../../src/domain/placeArticle';
+import { ConfirmForm, type Said } from '../../src/components/ConfirmForm';
+import { Testimony } from '../../src/components/Testimony';
+import { canConfirm, confirmationsOpen } from '../../src/domain/confirmations';
+import { submitConfirmation } from '../../src/data/confirmations';
 import { useNoIndex } from '../../src/domain/noindex';
 import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { atRiskNote } from '../../src/domain/atRisk';
@@ -203,6 +207,11 @@ export default function DishDetail() {
    * where the record has only a country it does not deserve to name — the ask then
    * simply omits the place rather than inventing one.
    */
+  /* What this reader has just said, shown with the rest until the next load fetches the
+     index again. Nothing is invented here: these are their own words coming back. */
+  const [justSaid, setJustSaid] = useState<Said[]>([]);
+  const [confirming, setConfirming] = useState(false);
+
   const askPlace = placeInSentence(
     dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country,
     locale,
@@ -223,10 +232,27 @@ export default function DishDetail() {
    * specific and near: a reader from Kozhikode recognises themselves in it, and nobody
    * recognises themselves in "if you cook this where it comes from".
    */
+  /*
+   * Everything said about this record: what the index carried when the catalogue was
+   * built, then anything this reader has added since the page opened.
+   *
+   * The standing line counts these, so a reader who has just confirmed sees the number
+   * they moved rather than the one they arrived at.
+   */
+  const said: Said[] = [
+    ...(dish.confirmations ?? []).map((person) => ({
+      name: person.name,
+      connection: person.connection,
+      said: person.said,
+      local: person.local,
+    })),
+    ...justSaid,
+  ];
+
   const ask = confirmAsk(
     copy,
     isDocumented,
-    confirmStanding(copy, askPlace, dish.confirmations?.length ?? 0, scoreThresholds().validationsRequired),
+    confirmStanding(copy, askPlace, said.length, scoreThresholds().validationsRequired),
   );
 
   const siblings = siblingsOf(dish, catalogue);
@@ -1044,17 +1070,86 @@ export default function DishDetail() {
             </>
           )}
 
-          {/* The prompt that turns a reader into a validator. Two taps, not a form —
-              correcting your own food is a far stronger motive than filling in a
-              blank submission, and it is what actually feeds the pipeline. */}
+          {/*
+           * What people have already said about this record.
+           *
+           * Shown rather than counted, which is the design's oldest rule and was the one
+           * part of it the record page never had: "3 confirmations" is a number a reader
+           * has to trust, and "Priya, born in Kozhikode — we use ghee, not oil" is
+           * evidence they can weigh. It is also what makes a fraud visible to readers
+           * instead of invisible to everyone.
+           *
+           * The reader's own, just submitted, sit at the end. The server is the truth and
+           * the index is fetched on the next load; somebody who writes something and sees
+           * no change assumes it failed.
+           */}
+          {said.length ? (
+            <View style={styles.saidList}>
+              <T style={styles.saidHead}>{copy.confirmedBy}</T>
+              {said.map((person, i) => (
+                <View key={`${person.name}-${i}`} style={styles.saidPerson}>
+                  <T style={styles.saidName}>
+                    {person.name}
+                    {person.local ? copy.fromTheTown : ''}
+                  </T>
+                  <Muted style={styles.saidConnection}>{person.connection}</Muted>
+                  {/* The quote, with a translation beside it rather than in place of it.
+                      See `domain/testimony.ts`. */}
+                  <Testimony said={person.said} />
+                </View>
+              ))}
+            </View>
+          ) : null}
+
+          {/* The prompt that turns a reader into a validator. */}
           <Card style={styles.confirm}>
             <CardKicker>{ask.kicker}</CardKicker>
             <CardBody>{ask.body}</CardBody>
             {/* Named and counted, under the general case. Absent where the record has no
                 place worth naming — "two more people from somewhere" is not an ask. */}
             {ask.standing ? <Muted style={styles.standing}>{ask.standing}</Muted> : null}
+            {canConfirm() && confirmationsOpen() ? (
+              /*
+               * The form, where there is somewhere for it to go.
+               *
+               * This card has asked the question since the record page was written and,
+               * until `/api/confirmations` existed, both answers led into the submission
+               * flow — so the one act the whole authenticity model waits for had no door
+               * on the 17,358 records that already exist. The same form the proposals
+               * queue uses, because it is the same act against the same threshold:
+               * `PROPOSAL_CONFIRMATIONS` is `VALIDATIONS_REQUIRED` for exactly that reason.
+               */
+              <>
+                <ConfirmForm
+                  subject={dish.name}
+                  busy={confirming}
+                  onSubmit={async (said) => {
+                    setConfirming(true);
+                    const result = await submitConfirmation(copy, dish.id, said);
+                    setConfirming(false);
+                    /* Shown at once. The server is the truth, but a reader who says
+                       something and sees no change assumes it failed. The score behind it
+                       moves on the next load, when the index is fetched again. */
+                    if (result.ok) setJustSaid((prev) => [...prev, said]);
+                    return result.ok ? { ok: true } : { ok: false, error: result.error };
+                  }}
+                />
+                {/* Disagreement is evidence too, and it is not a confirmation: it goes
+                    where a different method is written down rather than adding a row to
+                    the count that moves the badge. */}
+                <Button
+                  label={ask.no}
+                  variant="secondary"
+                  block
+                  onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })}
+                />
+              </>
+            ) : (
+              <>
             <Button label={ask.yes} variant="secondary" block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
             <Button label={ask.no} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
+              </>
+            )}
           </Card>
         </>
       )}
@@ -1130,6 +1225,13 @@ const styles = StyleSheet.create({
   disputed: { marginBottom: 18 },
   standing: { fontSize: 12, lineHeight: 12 * 1.5, marginTop: -2, marginBottom: 2 },
   confirm: { marginTop: 24 },
+  /* The same shape the proposals queue gives a confirmation, so the one act does not
+     look like two different things in the two places it can happen. */
+  saidList: { marginTop: 24, gap: space[2] },
+  saidHead: { fontSize: 11, color: accentText, fontFamily: font.semibold, letterSpacing: 0.6 },
+  saidPerson: { marginTop: space[2] },
+  saidName: { fontSize: 13, color: color.text },
+  saidConnection: { fontSize: 12, lineHeight: 12 * 1.5 },
   dietBlock: { marginBottom: 20 },
   dietChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   dietBasis: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 8 },

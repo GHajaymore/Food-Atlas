@@ -167,3 +167,71 @@ Set `EXPO_PUBLIC_CONFIRMATIONS_URL` to the read endpoint. Until it is set,
 `canConfirm()` is false, nothing is fetched, every record carries zero confirmations,
 and the app says confirmation is not open yet — the same rule the donate button and
 the contribution form follow.
+
+---
+
+## What was actually built (2026-10-07)
+
+The spec above is unchanged and was followed; this section records where it meets D1 and
+what the names really are.
+
+### The table — `migrations/0009_record_confirmations.sql`
+
+`record_confirmation`, beside `proposal_confirmation` from 0001. Same job, different
+subject: that one confirms a dish nobody has published yet, this one confirms a record
+already in the atlas. Three changes from the SQL above, all because D1 is SQLite: `uuid`
+is `text`, `timestamptz` is `text` holding an ISO date, and `boolean` is `integer`. The
+`claim_kind` column was not built — the form asks what somebody is confirming in their own
+words (`said`), and a second, coarser field asking the same question in four options would
+have been answered carelessly or not at all.
+
+`dish_id` is deliberately not a foreign key: the catalogue is a set of JSON files rebuilt
+by a script and has no table here to reference.
+
+Two unique indexes rather than one:
+
+- `record_one_per_person` — one published confirmation per `(dish_id, person_id)`. The
+  line "3 confirmations" rests on.
+- `record_one_per_account` — and one per `(dish_id, account_id)` where an account exists.
+  Clearing cookies issues a new `person_id`; this is what stops that becoming a second
+  *counted* confirmation, since a counted one is precisely one tied to an account.
+
+### The endpoints — `functions/api/confirmations/index.ts`
+
+`GET /api/confirmations` returns exactly `ConfirmationIndex` from
+`src/domain/confirmations.ts`, because `catalogue.ts` hands the body straight to
+`buildCatalogue` and `assess` scores it. `person_id` and `account_id` never appear in a
+response; `verified` says somebody was signed in and nothing about which account.
+
+`POST /api/confirmations` takes `{ dishId, name, connection, said, local }`. 422 when
+`said` or `connection` is empty, 409 when this person or this account has already confirmed
+this record, 503 while the table is missing.
+
+### The header that stops a dead form
+
+The migration is applied by hand, so there is a window where the code is deployed and the
+table is not. An empty index and a missing table are indistinguishable to the client, and
+the difference decides whether a form can accept what somebody writes — so the read sends
+`X-Confirmations: open` or `closed`, `loadConfirmations` records it, and the record page
+offers the form only when it hears `open`. It starts closed, which is the direction that
+never wastes the one reader who knows the dish.
+
+### Identity
+
+A second signed cookie, `wf_cid`, scoped to `/api/confirmations` and minted by the shared
+middleware in `functions/api/_identity.ts`. Not the proposals cookie widened to `/api`:
+that would send an identifier with the analytics beacon too, and the promise that no page
+view can be joined to a person is worth more than a cookie. The consequence, stated rather
+than discovered: one reader is two `personId`s to this server, one per path. That is
+correct for what the ids do — each enforces one-person-one-confirmation inside its own
+table — and the thing that counts toward a badge is the account, which is the same on both.
+
+### Switching it on
+
+```
+npx wrangler d1 migrations apply wikifoodia --remote
+```
+
+Nothing else. The code ships before the migration and behaves until it runs: reads answer
+`{}`, every record is scored as one nobody has confirmed — which is true — and no form is
+offered. The first page load after the migration shows it.
