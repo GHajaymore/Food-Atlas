@@ -177,6 +177,41 @@ const recipeMarkup = (dish, url) => {
   return `<script type="application/ld+json">${JSON.stringify(recipe).replace(/<\//g, '<\\/')}</script>`;
 };
 
+/**
+ * Where this record sits: the atlas, the country, the dish.
+ *
+ * Worth writing only because the middle step is now a page — `prerender-countries.mjs`
+ * gives 141 countries a file of their own. A trail through `/browse?country=Japan` would
+ * have pointed a crawler at a query string serving the same HTML as every other query,
+ * which is the shape this project has refused everywhere else.
+ *
+ * The last step carries no `item`, which is how schema.org says to mark the page you are
+ * on, and the country step is dropped entirely where that country has no page rather than
+ * invented. A record filed under an origin that is not a country — Levant, the Maghreb —
+ * gets a two-step trail, which is the truth about where it sits.
+ */
+const trailMarkup = (dish) => {
+  const slug = countrySlugs.get(dish.loc.country);
+  const steps = [
+    { name: 'WikiFoodia', item: `${SITE}/` },
+    slug ? { name: dish.loc.country, item: `${SITE}/country/${slug}` } : null,
+    { name: dish.name },
+  ].filter(Boolean);
+
+  const trail = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: steps.map((step, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: step.name,
+      ...(step.item ? { item: step.item } : {}),
+    })),
+  };
+
+  return `<script type="application/ld+json">${JSON.stringify(trail).replace(/<\//g, '<\/')}</script>`;
+};
+
 const shell = readFileSync(resolve(DIST, 'index.html'), 'utf8');
 
 const worthIndexing = catalogue.filter(
@@ -268,6 +303,7 @@ for (const dish of worthIndexing) {
     `<meta name="twitter:description" content="${escape(description)}"/>`,
     dish.photo ? `<meta name="twitter:image" content="${escape(photoUrl(dish))}"/>` : '',
     recipeMarkup(dish, url),
+    trailMarkup(dish),
   ]
     .filter(Boolean)
     .join('\n    ');

@@ -60,6 +60,7 @@ const count = {
   twitterImage: 0,
   siteName: 0,
   recipe: 0,
+  trail: 0,
   recipeImage: 0,
   article: 0,
   photo: 0,
@@ -135,20 +136,47 @@ for (const name of files) {
   if (targets.length) pagesWithLinks += 1;
   for (const id of targets) linkTargets.set(id, (linkTargets.get(id) ?? 0) + 1);
 
-  const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-  if (ld) {
-    count.recipe += 1;
+  /*
+   * Every JSON-LD block on the page, by its type — a record now carries two: the recipe
+   * where there is a method, and the breadcrumb that places it under its country. Reading
+   * only the first and assuming Recipe reported 8,858 recipes with no method the moment
+   * the trail was added, which is the right failure for the wrong reason.
+   */
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  for (const [, json] of blocks) {
+    let parsed;
     try {
-      const recipe = JSON.parse(ld[1]);
-      if (recipe.image) {
-        count.recipeImage += 1;
-        if (!isUrl(recipe.image)) sample(badRecipeImage, `${name}: ${recipe.image}`);
-      }
-      /* The one promise `Recipe` makes that this atlas can fail to keep. */
-      if (!recipe.recipeInstructions?.length) sample(unparseable, `${name}: Recipe with no method`);
+      parsed = JSON.parse(json);
     } catch {
       sample(unparseable, `${name}: ld+json does not parse`);
+      continue;
     }
+
+    if (parsed['@type'] === 'Recipe') {
+      count.recipe += 1;
+      if (parsed.image) {
+        count.recipeImage += 1;
+        if (!isUrl(parsed.image)) sample(badRecipeImage, `${name}: ${parsed.image}`);
+      }
+      /* The one promise `Recipe` makes that this atlas can fail to keep. */
+      if (!parsed.recipeInstructions?.length) sample(unparseable, `${name}: Recipe with no method`);
+      continue;
+    }
+
+    if (parsed['@type'] === 'BreadcrumbList') {
+      count.trail += 1;
+      const steps = parsed.itemListElement ?? [];
+      /* The atlas and the dish, at least; the country sits between them where it has a
+         page. A trail whose last step carries an `item` is pointing the page at itself. */
+      if (steps.length < 2) sample(unparseable, `${name}: breadcrumb with ${steps.length} step(s)`);
+      if (steps[steps.length - 1]?.item) sample(unparseable, `${name}: breadcrumb ends with a link`);
+      for (const step of steps) {
+        if (step.item && !isUrl(step.item)) sample(unparseable, `${name}: breadcrumb step ${step.item}`);
+      }
+      continue;
+    }
+
+    sample(unparseable, `${name}: unexpected ld+json type ${parsed['@type']}`);
   }
 }
 
@@ -334,7 +362,8 @@ if (total > FILE_CAP * 0.9) {
 
 process.stdout.write(
   `verify-prerender: ${count.pages} pages · ${count.description} described · ${count.photo} illustrated · ` +
-    `${count.recipe} with a method (${count.recipeImage} of those illustrated)\n`,
+    `${count.recipe} with a method (${count.recipeImage} of those illustrated) · ${count.trail} with a breadcrumb
+`,
 );
 for (const note of notes) process.stdout.write(`  ${note}\n`);
 

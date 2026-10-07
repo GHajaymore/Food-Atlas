@@ -14,7 +14,7 @@
 import { hasMethod, hasProse, methodLength } from '../../src/domain/method';
 import { photoOriginLabel } from '../../src/domain/photoProvenance';
 import { languageNameIn } from '../../src/domain/language';
-import { placeName } from '../../src/domain/continents';
+import { isCountry, placeName } from '../../src/domain/continents';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
 import { useEffect, useMemo, useState } from 'react';
@@ -40,6 +40,7 @@ import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById, loadCookbookSteps, loadProse } from '../../src/data/catalogue';
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { BRAND } from '../../src/brand';
+import { slugFor } from '../../src/domain/countrySlug';
 import { useNoIndex } from '../../src/domain/noindex';
 import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { atRiskNote } from '../../src/domain/atRisk';
@@ -378,6 +379,10 @@ export default function DishDetail() {
                   ? { country: part }
                   : { country: dish.loc.country, region: dish.loc.region || part }
               }
+              /* The country step opens the country's own page; the deeper steps stay
+                 filters, because a region has no page and inventing one for 2,000 of
+                 them would be 2,000 pages holding a handful of records each. */
+              href={i === 0 && isCountry(part) ? `/country/${slugFor(part)}` : undefined}
             />
             {i < dish.breadcrumb.length - 1 ? ' › ' : ''}
           </Muted>

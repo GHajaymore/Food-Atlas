@@ -48,9 +48,18 @@ interface Props {
   variant?: 'chip' | 'inline' | 'tag';
   /** Announced instead of the label, where the label alone would be ambiguous. */
   describedAs?: string;
+  /**
+   * Where the facet has a page of its own, rather than a filter.
+   *
+   * A country does: `/country/japan` is a real address with its own title, description
+   * and canonical, while `/browse?country=Japan` is a query string serving the same HTML
+   * as every other query. The query is still passed, because it is what the link *means*
+   * and what every other facet does with it; this only changes where the tap lands.
+   */
+  href?: string;
 }
 
-export function FacetLink({ label, query, variant = 'inline', describedAs }: Props) {
+export function FacetLink({ label, query, variant = 'inline', describedAs, href }: Props) {
   const copy = useCopy();
   if (!label.trim()) return null;
 
@@ -59,7 +68,7 @@ export function FacetLink({ label, query, variant = 'inline', describedAs }: Pro
       accessibilityRole="link"
       accessibilityLabel={describedAs ?? copy.seeEverything.replace('{label}', label)}
       tint="neutral"
-      onPress={() => router.push(hrefFor(query))}
+      onPress={() => router.push(href ?? hrefFor(query))}
       style={variant === 'chip' ? styles.chip : styles.inline}
     >
       {variant === 'tag' ? (
