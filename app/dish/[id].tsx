@@ -24,7 +24,7 @@ import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
 import { Disclosure } from '../../src/components/Disclosure';
 import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
-import { filterKeyFor, levelLabel } from '../../src/domain/authenticity';
+import { filterKeyFor, isAuthentic, levelLabel } from '../../src/domain/authenticity';
 import { RecordColumns } from '../../src/components/RecordColumns';
 import { Related } from '../../src/components/Related';
 import { LocalNames } from '../../src/components/LocalNames';
@@ -700,11 +700,28 @@ export default function DishDetail() {
 
           {isDocumented ? (
           <>
-          {/* The heading has to agree with the badge. A Cookbook recipe is classified
-              Modern Adaptation, and calling its ingredients the "Authentic Version"
-              contradicts the classification printed directly above it — which is the
-              silent mislabelling the brief exists to prevent. */}
-          <H5 level={2} style={styles.h5}>{isAdaptation ? copy.thePublishedRecipe : copy.authenticVersion}</H5>
+          {/*
+           * The heading has to agree with the badge, and for a long time it only half did.
+           *
+           * A Cookbook recipe is classified Modern Adaptation, and calling its ingredients
+           * the "Authentic Version" contradicts the classification printed directly above
+           * it. That case was handled. Every other case was not: a record badged
+           * Traditional Variation and scored 27/100 was headed "Authentic Version" too,
+           * which is the same silent mislabelling with a different cause — and since no
+           * record in the atlas is currently Authentic, it was the heading nearly every
+           * documented record carried.
+           *
+           * Now: the published recipe where it is one, the authentic version only where
+           * the badge says authentic, and otherwise the plain truth — this is the version
+           * the sources recorded, and the badge above says how far that has been checked.
+           */}
+          <H5 level={2} style={styles.h5}>
+            {isAdaptation
+              ? copy.thePublishedRecipe
+              : isAuthentic(dish.badgeLevel)
+                ? copy.authenticVersion
+                : copy.theVersionRecordedHere}
+          </H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
               {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
@@ -1002,10 +1019,18 @@ export default function DishDetail() {
             </Disclosure>
           ) : (
             <>
+              {/*
+               * The same rule as the method heading above: only a record the atlas calls
+               * authentic is asked to justify authenticity. "Why is this considered
+               * authentic?" over a Traditional Variation scored 27/100 presupposes a claim
+               * the record does not make, and the passage underneath it is an explanation
+               * of the classification either way — so the honest question is the one that
+               * matches the badge.
+               */}
               <H5 level={2} style={styles.h5}>
                 {isAdaptation
                   ? copy.whyThisIsAnAdaptation
-                  : isDocumented
+                  : isDocumented && isAuthentic(dish.badgeLevel)
                     ? copy.whyConsideredAuthentic
                     : copy.whatThisRecordIs}
               </H5>

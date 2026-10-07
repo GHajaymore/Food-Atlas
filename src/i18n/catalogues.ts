@@ -629,6 +629,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'También {category}',
     authenticVersion:
       'Versión auténtica',
+    theVersionRecordedHere: "La versión registrada aquí",
     thePublishedRecipe:
       'La receta publicada',
     whyThisIsAnAdaptation:
@@ -1966,6 +1967,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Aussi {category}',
     authenticVersion:
       'Version authentique',
+    theVersionRecordedHere: "La version enregistrée ici",
     thePublishedRecipe:
       'La recette publiée',
     whyThisIsAnAdaptation:
@@ -3302,6 +3304,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Auch {category}',
     authenticVersion:
       'Authentische Fassung',
+    theVersionRecordedHere: "Die hier festgehaltene Version",
     thePublishedRecipe:
       'Das veröffentlichte Rezept',
     whyThisIsAnAdaptation:
@@ -4638,6 +4641,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Anche {category}',
     authenticVersion:
       'Versione autentica',
+    theVersionRecordedHere: "La versione registrata qui",
     thePublishedRecipe:
       'La ricetta pubblicata',
     whyThisIsAnAdaptation:
@@ -5974,6 +5978,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Também {category}',
     authenticVersion:
       'Versão autêntica',
+    theVersionRecordedHere: "A versão registada aqui",
     thePublishedRecipe:
       'A receita publicada',
     whyThisIsAnAdaptation:
@@ -7311,6 +7316,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Ook {category}',
     authenticVersion:
       'Authentieke versie',
+    theVersionRecordedHere: "De hier vastgelegde versie",
     thePublishedRecipe:
       'Het gepubliceerde recept',
     whyThisIsAnAdaptation:
@@ -8647,6 +8653,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Też {category}',
     authenticVersion:
       'Wersja autentyczna',
+    theVersionRecordedHere: "Wersja zapisana tutaj",
     thePublishedRecipe:
       'Opublikowany przepis',
     whyThisIsAnAdaptation:
@@ -10007,6 +10014,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Yine {category}',
     authenticVersion:
       'Özgün sürüm',
+    theVersionRecordedHere: "Burada kaydedilen hâli",
     thePublishedRecipe:
       'Yayımlanmış tarif',
     whyThisIsAnAdaptation:
@@ -11343,6 +11351,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Тоже {category}',
     authenticVersion:
       'Подлинный вариант',
+    theVersionRecordedHere: "Версия, записанная здесь",
     thePublishedRecipe:
       'Опубликованный рецепт',
     whyThisIsAnAdaptation:
@@ -12703,6 +12712,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'यह भी {category}',
     authenticVersion:
       'प्रामाणिक रूप',
+    theVersionRecordedHere: "यहाँ दर्ज किया गया रूप",
     thePublishedRecipe:
       'प्रकाशित विधि',
     whyThisIsAnAdaptation:
@@ -14039,6 +14049,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '同样是{category}',
     authenticVersion:
       '本真做法',
+    theVersionRecordedHere: "这里记录的版本",
     thePublishedRecipe:
       '已发表的食谱',
     whyThisIsAnAdaptation:
@@ -15375,6 +15386,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '同じく{category}',
     authenticVersion:
       '本物の作り方',
+    theVersionRecordedHere: "ここに記録されている作り方",
     thePublishedRecipe:
       '公開されているレシピ',
     whyThisIsAnAdaptation:

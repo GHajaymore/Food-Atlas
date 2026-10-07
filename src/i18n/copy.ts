@@ -456,6 +456,7 @@ export interface Copy {
   relatedAlsoUses: string;
   relatedAlsoCategory: string;
   authenticVersion: string;
+  theVersionRecordedHere: string;
   thePublishedRecipe: string;
   whyThisIsAnAdaptation: string;
   whyConsideredAuthentic: string;
@@ -1496,6 +1497,8 @@ export const EN: Copy = {
     'Also {category}',
   authenticVersion:
     'Authentic Version',
+  theVersionRecordedHere:
+    'The version recorded here',
   thePublishedRecipe:
     'The published recipe',
   whyThisIsAnAdaptation:
