@@ -24,6 +24,7 @@
  */
 
 import { router } from 'expo-router';
+import { assess } from '../src/domain/assess';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../src/components/Card';
@@ -54,8 +55,35 @@ const dimensionsFor = (copy: Copy): { name: string; what: string; from: 'documen
   { name: SCORE_DIMENSIONS[5], what: copy.dimensionCommunity, from: 'people' },
 ];
 
-/** The score published sources alone cannot pass. See `assess.ts`. */
-const DOCUMENTED_CEILING = 43;
+/**
+ * The two ceilings, asked of the scoring function rather than typed in.
+ *
+ * This was `const DOCUMENTED_CEILING = 43` with a comment pointing at assess.ts, which
+ * is a claim about code that nothing checked — and it was already half wrong. 43 is what
+ * a record reaches when a heritage register has published the production method it
+ * protects, because `technique = registerMethod || communityMethod` credits that one
+ * document. On ordinary published sources, with no such register, the ceiling is lower.
+ *
+ * Both are computed here from perfect documentary evidence and no people at all, so the
+ * page cannot drift from the arithmetic it invites the reader to check.
+ */
+const onPaper = (registerMethod: boolean) =>
+  assess({
+    hasCountry: true,
+    hasRegion: true,
+    ingredients: ['', '', '', '', '', '', '', ''],
+    heritage: ['PDO', 'PGI', 'TSG'],
+    hasArticle: true,
+    extractLength: 100_000,
+    hasAccount: true,
+    registerMethod,
+    /* The three a document cannot supply, left exactly as an import leaves them. */
+    validations: 0,
+    validatedLocally: false,
+  }).score;
+
+const DOCUMENTED_CEILING = onPaper(false);
+const REGISTERED_CEILING = onPaper(true);
 
 export default function How() {
   const copy = useCopy();
@@ -78,7 +106,9 @@ export default function How() {
         aside={
           <Card style={styles.ceiling}>
             <CardKicker>{copy.theGapThatCannotBeClosed}</CardKicker>
-            <CardBody>{copy.ceilingBody.replace('{ceiling}', String(DOCUMENTED_CEILING))}</CardBody>
+            <CardBody>{copy.ceilingBody
+              .replace('{ceiling}', String(DOCUMENTED_CEILING))
+              .replace('{registered}', String(REGISTERED_CEILING))}</CardBody>
             <CardBody>{copy.thresholdBody.replace('{threshold}', String(authenticAt))}</CardBody>
           </Card>
         }

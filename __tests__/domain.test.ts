@@ -3176,6 +3176,15 @@ describe('what a record still needs, stated exactly', () => {
     expect(confirmStanding(EN, '', 0, 3)).toBe('');
   });
 
+  it('does not ask for more than nobody', () => {
+    /* "Nobody has yet. The badge requires 3, so 3 more people ... would meet it" asks a
+       reader to add to something that does not exist. With none, the count is plain. */
+    const line = confirmStanding(EN, 'Goa', 0, 3);
+    expect(line).toContain('Nobody has yet');
+    expect(line).toContain('3 people connected to Goa');
+    expect(line).not.toContain('more');
+  });
+
   it('reads correctly at the boundaries', () => {
     expect(confirmStanding(EN, 'Kerala', 2, 3)).toContain('one more person');
     expect(confirmStanding(EN, 'Kerala', 3, 3)).toContain('the number the badge requires');

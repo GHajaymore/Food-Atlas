@@ -449,6 +449,7 @@ export interface Copy {
   standingNeed: string;
   onePersonMore: string;
   morePeople: string;
+  peopleCount: string;
   contestedNote: string;
   relatedAlsoFrom: string;
   relatedAlsoCuisine: string;
@@ -1130,7 +1131,7 @@ export const EN: Copy = {
   sixDimensionsBody:
     'Every record is scored on the same six dimensions, and all six are printed on the record itself. The score is their average, so a reader who doubts it can add up the numbers.',
   ceilingBody:
-    'Three of those six cannot be answered by any document ever written. No encyclopaedia knows whether a method is the method of a place; no register is a person from the town. With those three empty, the best a record can score on published sources alone is {ceiling}.',
+    'Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists.',
   thresholdBody:
     'A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish.',
   whatClosesItBody:
@@ -1483,6 +1484,8 @@ export const EN: Copy = {
     'one more person',
   morePeople:
     '{n} more people',
+  peopleCount:
+    '{n} people',
   contestedNote:
     'Filed here for navigation. {n} places have a documented claim to this dish — none of them is settled, and they are all listed below.',
   relatedAlsoFrom:

@@ -150,7 +150,15 @@ export function confirmStanding(copy: Copy, place: string, have: number, need: n
   /* Separate keys per count rather than a number and a suffix. Polish and Russian have
      three plural classes, and gluing a plural noun onto a figure reads as broken to a
      native speaker on most of the numbers this renders. */
-  const people = remaining === 1 ? copy.onePersonMore : copy.morePeople.replace('{n}', String(remaining));
+  /* "More" than nobody is not a number. With no confirmations the sentence reads
+     "Nobody has yet. The badge requires 3, so 3 more people ... would meet it", and the
+     reader is being asked to add to something that does not exist. */
+  const people =
+    have === 0
+      ? copy.peopleCount.replace('{n}', String(remaining))
+      : remaining === 1
+        ? copy.onePersonMore
+        : copy.morePeople.replace('{n}', String(remaining));
   const soFar =
     have === 0 ? copy.standingNobody : have === 1 ? copy.standingOne : copy.standingMany.replace('{n}', String(have));
 

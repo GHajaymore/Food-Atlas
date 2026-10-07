@@ -268,8 +268,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Esa es la regla sobre la que está construido este atlas, y es aritmética, no una política, lo que significa que puedes comprobarla en vez de confiar en ella.',
     sixDimensionsBody:
       'Cada registro se puntúa en las mismas seis dimensiones, y las seis se imprimen en el propio registro. La puntuación es su media, así que quien dude puede sumar las cifras.',
-    ceilingBody:
-      'Tres de esas seis no puede responderlas ningún documento jamás escrito. Ninguna enciclopedia sabe si un método es el método de un lugar; ningún registro es una persona del pueblo. Con esas tres vacías, lo máximo que un registro puede puntuar solo con fuentes publicadas es {ceiling}.',
+    ceilingBody: "Dos de esas seis no las responde ningún documento jamás escrito: ninguna enciclopedia es una persona del lugar. La tercera, la técnica, solo se responde cuando un catálogo oficial de patrimonio publica el método de producción que protege. Con ellas vacías, un registro alcanza como máximo {ceiling} con fuentes publicadas: {registered} cuando ese catálogo existe.",
     thresholdBody:
       'Un registro se llama Auténtico a partir de {threshold}. La distancia entre esas dos cifras es deliberada, y es todo el argumento: solo pueden cerrarla quienes conocen el plato.',
     whatClosesItBody:
@@ -615,6 +614,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'una persona más',
     morePeople:
       '{n} personas más',
+    peopleCount: "{n} personas",
     contestedNote:
       'Archivado aquí para poder navegar. {n} lugares tienen una reivindicación documentada de este plato: ninguna está zanjada, y todas se enumeran abajo.',
     relatedAlsoFrom:
@@ -1606,8 +1606,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'C’est la règle sur laquelle cet atlas est bâti, et c’est de l’arithmétique et non une politique — ce qui veut dire que vous pouvez la vérifier plutôt que la croire.',
     sixDimensionsBody:
       'Chaque fiche est notée sur les mêmes six dimensions, et les six sont imprimées sur la fiche elle-même. La note est leur moyenne, si bien que qui en doute peut additionner les chiffres.',
-    ceilingBody:
-      'Trois de ces six ne peuvent être établies par aucun document jamais écrit. Aucune encyclopédie ne sait si une méthode est la méthode d’un lieu ; aucun registre n’est une personne du village. Ces trois-là vides, le mieux qu’une fiche puisse obtenir sur des sources publiées seules est {ceiling}.',
+    ceilingBody: "Deux de ces six ne peuvent être renseignées par aucun document jamais écrit : aucune encyclopédie n’est une personne du lieu. La troisième, la technique, ne l’est que lorsqu’un registre patrimonial publie la méthode de production qu’il protège. Sans elles, une fiche atteint au mieux {ceiling} à partir de sources publiées — {registered} lorsqu’un tel registre existe.",
     thresholdBody:
       'Une fiche est dite Authentique à partir de {threshold}. L’écart entre ces deux chiffres est délibéré, et c’est tout l’argument : seules les personnes qui connaissent le plat peuvent le combler.',
     whatClosesItBody:
@@ -1953,6 +1952,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'une personne de plus',
     morePeople:
       '{n} personnes de plus',
+    peopleCount: "{n} personnes",
     contestedNote:
       'Classé ici pour la navigation. {n} lieux revendiquent ce plat avec des sources — aucune revendication n’est tranchée, et toutes sont listées ci-dessous.',
     relatedAlsoFrom:
@@ -2943,8 +2943,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Das ist die Regel, auf der dieser Atlas gebaut ist, und sie ist Arithmetik statt Politik — Sie können sie also prüfen, statt ihr zu glauben.',
     sixDimensionsBody:
       'Jeder Eintrag wird nach denselben sechs Dimensionen bewertet, und alle sechs stehen auf dem Eintrag selbst. Der Wert ist ihr Durchschnitt, wer ihn also bezweifelt, kann die Zahlen zusammenzählen.',
-    ceilingBody:
-      'Drei dieser sechs kann kein jemals geschriebenes Dokument beantworten. Keine Enzyklopädie weiß, ob eine Zubereitung die Zubereitung eines Ortes ist; kein Register ist ein Mensch aus dem Ort. Sind diese drei leer, ist das Beste, was ein Eintrag allein aus veröffentlichten Quellen erreichen kann, {ceiling}.',
+    ceilingBody: "Zwei dieser sechs kann kein jemals geschriebenes Dokument beantworten: keine Enzyklopädie ist ein Mensch aus dem Ort. Die dritte, die Technik, nur dort, wo ein Herkunftsregister das geschützte Herstellungsverfahren veröffentlicht. Ohne sie erreicht ein Eintrag aus veröffentlichten Quellen höchstens {ceiling} — {registered}, wo es ein solches Register gibt.",
     thresholdBody:
       'Ein Eintrag heißt ab {threshold} echt. Der Abstand zwischen diesen beiden Zahlen ist Absicht und ist das ganze Argument: Schließen können ihn nur Menschen, die das Gericht kennen.',
     whatClosesItBody:
@@ -3290,6 +3289,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'eine Person mehr',
     morePeople:
       '{n} Menschen mehr',
+    peopleCount: "{n} Personen",
     contestedNote:
       'Hier eingeordnet, damit man es findet. {n} Orte haben einen belegten Anspruch auf dieses Gericht — keiner davon ist entschieden, und alle stehen unten.',
     relatedAlsoFrom:
@@ -4280,8 +4280,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'È la regola su cui questo atlante è costruito, ed è aritmetica e non una politica — il che significa che puoi verificarla invece di fidarti.',
     sixDimensionsBody:
       'Ogni scheda è valutata sulle stesse sei dimensioni, e tutte e sei sono stampate sulla scheda stessa. Il punteggio è la loro media, così chi ne dubita può sommare i numeri.',
-    ceilingBody:
-      'Tre di quelle sei non possono essere risolte da nessun documento mai scritto. Nessuna enciclopedia sa se un metodo è il metodo di un luogo; nessun registro è una persona del paese. Con quelle tre vuote, il massimo che una scheda può ottenere con le sole fonti pubblicate è {ceiling}.',
+    ceilingBody: "Due di queste sei non può rispondervi nessun documento mai scritto: nessuna enciclopedia è una persona del posto. La terza, la tecnica, solo dove un registro di tutela pubblica il metodo di produzione che protegge. Senza di esse, una scheda arriva al massimo a {ceiling} con fonti pubblicate: {registered} dove quel registro esiste.",
     thresholdBody:
       'Una scheda si dice Autentica a {threshold}. La distanza fra quei due numeri è voluta ed è tutto l’argomento: può colmarla solo chi conosce il piatto.',
     whatClosesItBody:
@@ -4627,6 +4626,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'una persona in più',
     morePeople:
       '{n} persone in più',
+    peopleCount: "{n} persone",
     contestedNote:
       'Collocato qui per poterlo trovare. {n} luoghi hanno una rivendicazione documentata su questo piatto: nessuna è risolta, e sono tutte elencate sotto.',
     relatedAlsoFrom:
@@ -5617,8 +5617,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'É a regra sobre a qual este atlas é construído, e é aritmética e não uma política — o que significa que a pode verificar em vez de confiar nela.',
     sixDimensionsBody:
       'Cada registo é pontuado nas mesmas seis dimensões, e as seis estão impressas no próprio registo. A pontuação é a sua média, por isso quem duvidar pode somar os números.',
-    ceilingBody:
-      'Três dessas seis não podem ser respondidas por nenhum documento alguma vez escrito. Nenhuma enciclopédia sabe se um método é o método de um lugar; nenhum registo é uma pessoa da aldeia. Com essas três vazias, o máximo que um registo pode pontuar só com fontes publicadas é {ceiling}.',
+    ceilingBody: "Duas destas seis não podem ser respondidas por nenhum documento alguma vez escrito: nenhuma enciclopédia é uma pessoa do lugar. A terceira, a técnica, só onde um registo de património publica o método de produção que protege. Sem elas, um registo do atlas atinge no máximo {ceiling} com fontes publicadas — {registered} onde esse registo existe.",
     thresholdBody:
       'Um registo é chamado Autêntico a partir de {threshold}. A distância entre esses dois números é deliberada e é todo o argumento: só pode ser fechada por quem conhece o prato.',
     whatClosesItBody:
@@ -5964,6 +5963,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'mais uma pessoa',
     morePeople:
       'mais {n} pessoas',
+    peopleCount: "{n} pessoas",
     contestedNote:
       'Arquivado aqui para se poder navegar. {n} lugares têm uma reivindicação documentada deste prato — nenhuma está resolvida, e estão todas listadas abaixo.',
     relatedAlsoFrom:
@@ -6955,8 +6955,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Dat is de regel waarop deze atlas is gebouwd, en het is rekenkunde en geen beleid — u kunt haar dus controleren in plaats van erop te vertrouwen.',
     sixDimensionsBody:
       'Elk record wordt op dezelfde zes dimensies beoordeeld, en alle zes staan op het record zelf. De score is hun gemiddelde, dus wie eraan twijfelt kan de getallen optellen.',
-    ceilingBody:
-      'Drie van die zes kunnen door geen enkel ooit geschreven document worden beantwoord. Geen encyclopedie weet of een bereiding de bereiding van een plek is; geen register is een mens uit het dorp. Met die drie leeg is het hoogste dat een record op alleen gepubliceerde bronnen kan halen {ceiling}.',
+    ceilingBody: "Twee van die zes kan geen enkel geschreven document beantwoorden: geen encyclopedie is een mens uit die plaats. De derde, de techniek, alleen waar een erfgoedregister de beschermde bereidingswijze publiceert. Zonder die drie haalt een record met gepubliceerde bronnen hooguit {ceiling} — {registered} waar zo’n register bestaat.",
     thresholdBody:
       'Een record heet Echt vanaf {threshold}. De afstand tussen die twee getallen is bewust en is het hele argument: alleen mensen die het gerecht kennen kunnen hem dichten.',
     whatClosesItBody:
@@ -7302,6 +7301,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'één persoon meer',
     morePeople:
       '{n} mensen meer',
+    peopleCount: "{n} personen",
     contestedNote:
       'Hier ondergebracht om het te kunnen vinden. {n} plaatsen hebben een gedocumenteerde aanspraak op dit gerecht — geen enkele is beslecht, en ze staan hieronder allemaal.',
     relatedAlsoFrom:
@@ -8292,8 +8292,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'To reguła, na której zbudowany jest ten atlas, i jest arytmetyką, a nie polityką — czyli możesz ją sprawdzić, zamiast w nią wierzyć.',
     sixDimensionsBody:
       'Każdy wpis oceniany jest w tych samych sześciu wymiarach, a wszystkie sześć wydrukowane są na samym wpisie. Wynik to ich średnia, więc kto w niego wątpi, może dodać liczby.',
-    ceilingBody:
-      'Na trzy z tych sześciu nie odpowie żaden kiedykolwiek napisany dokument. Żadna encyklopedia nie wie, czy dany sposób jest sposobem danego miejsca; żaden rejestr nie jest człowiekiem z tej wsi. Przy tych trzech pustych, najwięcej, co wpis może uzyskać z samych publikacji, to {ceiling}.',
+    ceilingBody: "Na dwa z tych sześciu nie odpowie żaden kiedykolwiek napisany dokument: żadna encyklopedia nie jest człowiekiem z tego miejsca. Na trzeci, technikę, odpowiada tylko rejestr chronionych produktów, który publikuje metodę wytwarzania. Bez nich wpis osiąga ze źródeł publikowanych najwyżej {ceiling} — {registered} tam, gdzie taki rejestr istnieje.",
     thresholdBody:
       'Wpis nazywa się Autentycznym od {threshold}. Odstęp między tymi dwiema liczbami jest zamierzony i jest całym argumentem: zamknąć go mogą tylko ludzie, którzy znają tę potrawę.',
     whatClosesItBody:
@@ -8639,6 +8638,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'jeszcze jedna osoba',
     morePeople:
       'jeszcze {n} osób',
+    peopleCount: "{n} osoby",
     contestedNote:
       'Umieszczone tutaj, żeby dało się to znaleźć. Udokumentowane roszczenie do tej potrawy ma {n} miejsc — żadne nie jest rozstrzygnięte, a wszystkie wymieniono poniżej.',
     relatedAlsoFrom:
@@ -9653,8 +9653,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bu atlasın kurulduğu kural budur ve bir politika değil, aritmetiktir — yani ona güvenmek yerine denetleyebilirsiniz.',
     sixDimensionsBody:
       'Her kayıt aynı altı boyutta puanlanır ve altısı da kaydın kendisinde yazar. Puan bunların ortalamasıdır; kuşku duyan sayıları toplayabilir.',
-    ceilingBody:
-      'Bu altıdan üçü, şimdiye kadar yazılmış hiçbir belgeyle yanıtlanamaz. Hiçbir ansiklopedi bir yapılışın o yerin yapılışı olup olmadığını bilmez; hiçbir sicil o kasabadan bir insan değildir. O üçü boşken, bir kaydın yalnızca yayımlanmış kaynaklarla alabileceği en yüksek puan {ceiling}.',
+    ceilingBody: "Bu altısından ikisini yazılmış hiçbir belge yanıtlayamaz: hiçbir ansiklopedi o yerin insanı değildir. Üçüncüsünü, tekniği, yalnızca koruduğu üretim yöntemini yayımlayan bir tescil kaydı yanıtlar. Bunlar boşken bir kayıt, yayımlanmış kaynaklarla en çok {ceiling} alır — böyle bir tescil varsa {registered}.",
     thresholdBody:
       'Bir kayda {threshold} puandan itibaren Otantik denir. Bu iki sayı arasındaki mesafe bilinçlidir ve bütün mesele odur: onu ancak yemeği bilenler kapatabilir.',
     whatClosesItBody:
@@ -10000,6 +9999,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'bir kişi daha',
     morePeople:
       '{n} kişi daha',
+    peopleCount: "{n} kişi",
     contestedNote:
       'Bulunabilsin diye buraya yerleştirildi. Bu yemek üzerinde belgelenmiş iddiası olan {n} yer var — hiçbiri karara bağlanmış değil ve hepsi aşağıda sıralı.',
     relatedAlsoFrom:
@@ -10990,8 +10990,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Это правило, на котором построен атлас, и это арифметика, а не политика — значит, его можно проверить, а не принимать на веру.',
     sixDimensionsBody:
       'Каждая запись оценивается по одним и тем же шести измерениям, и все шесть напечатаны на самой записи. Оценка — их среднее, так что сомневающийся может сложить числа сам.',
-    ceilingBody:
-      'На три из этих шести не ответит ни один когда-либо написанный документ. Ни одна энциклопедия не знает, является ли способ приготовления способом данного места; ни один реестр не человек из этого посёлка. При этих трёх пустых максимум, который запись может набрать на одних опубликованных источниках, — {ceiling}.',
+    ceilingBody: "На два из этих шести не ответит ни один когда-либо написанный документ: ни одна энциклопедия не является человеком из этого места. На третий — технику — отвечает только реестр, публикующий защищаемый им способ производства. Без них запись набирает по опубликованным источникам не более {ceiling} — {registered}, если такой реестр есть.",
     thresholdBody:
       'Запись называется подлинной начиная с {threshold}. Расстояние между этими двумя числами задумано намеренно, и в нём весь смысл: закрыть его могут только люди, которые знают это блюдо.',
     whatClosesItBody:
@@ -11337,6 +11336,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'ещё один человек',
     morePeople:
       'ещё {n} человек',
+    peopleCount: "{n} человека",
     contestedNote:
       'Помещено сюда, чтобы его можно было найти. Задокументированные права на это блюдо есть у {n} мест — ни одни из них не решены, и все перечислены ниже.',
     relatedAlsoFrom:
@@ -12351,8 +12351,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'यही वह नियम है जिस पर यह एटलस टिका है, और यह नीति नहीं, अंकगणित है — यानी आप इस पर भरोसा करने के बजाय इसे जाँच सकते हैं।',
     sixDimensionsBody:
       'हर रिकॉर्ड उन्हीं छह आयामों पर आँका जाता है, और छहों रिकॉर्ड पर ही छपे होते हैं। अंक उनका औसत है, इसलिए जिसे संदेह हो वह संख्याएँ जोड़ सकता है।',
-    ceilingBody:
-      'उन छह में से तीन का उत्तर आज तक लिखा गया कोई दस्तावेज़ नहीं दे सकता। कोई विश्वकोश नहीं जानता कि कोई विधि उस जगह की विधि है या नहीं; कोई रजिस्टर उस कस्बे का व्यक्ति नहीं होता। वे तीन खाली होने पर, केवल प्रकाशित स्रोतों से कोई रिकॉर्ड अधिकतम {ceiling} तक ही पहुँच सकता है।',
+    ceilingBody: "इन छह में से दो का उत्तर कोई भी लिखा हुआ दस्तावेज़ नहीं दे सकता: कोई विश्वकोश उस जगह का व्यक्ति नहीं होता। तीसरा, तकनीक, केवल वहाँ उत्तर पाता है जहाँ कोई धरोहर रजिस्टर संरक्षित उत्पादन विधि प्रकाशित करता है। इनके बिना कोई रिकॉर्ड प्रकाशित स्रोतों से अधिकतम {ceiling} तक पहुँचता है — ऐसा रजिस्टर हो तो {registered}।",
     thresholdBody:
       'किसी रिकॉर्ड को {threshold} पर प्रामाणिक कहा जाता है। इन दो संख्याओं की दूरी जान-बूझकर है, और यही पूरा तर्क है: इसे केवल वही लोग पाट सकते हैं जो उस व्यंजन को जानते हैं।',
     whatClosesItBody:
@@ -12698,6 +12697,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'एक व्यक्ति और',
     morePeople:
       '{n} लोग और',
+    peopleCount: "{n} लोग",
     contestedNote:
       'ढूँढ़ने की सुविधा के लिए यहाँ रखा गया। {n} जगहों का इस व्यंजन पर प्रलेखित दावा है — इनमें से कोई तय नहीं हुआ, और सब नीचे दिए हैं।',
     relatedAlsoFrom:
@@ -13688,8 +13688,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '这就是这份图谱赖以建立的规则，它是算术而不是政策 — 也就是说你可以核对它，而不必相信它。',
     sixDimensionsBody:
       '每条记录都按同样的六个维度评分，六项都印在记录本身上。总分是它们的平均值，所以怀疑的人可以自己把数字加起来。',
-    ceilingBody:
-      '这六项中有三项，是任何写下来的文献都回答不了的。没有哪部百科全书知道某种做法是不是某地的做法；没有哪份登记簿是那个镇上的一个人。这三项空着时，一条记录仅凭已发表的资料最高只能得到 {ceiling}。',
+    ceilingBody: "这六项中有两项，任何写下来的文件都无法回答：百科全书不是当地的人。第三项“技法”，只有在遗产名录公布其保护的制作工艺时才能回答。这几项为空时，一条记录仅凭已发表的资料最多得 {ceiling} 分；有这样的名录时为 {registered} 分。",
     thresholdBody:
       '一条记录达到 {threshold} 才被称为正宗。这两个数字之间的距离是刻意的，也正是全部论点所在：只有了解这道菜的人才能把它补上。',
     whatClosesItBody:
@@ -14035,6 +14034,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '一位',
     morePeople:
       '{n} 位',
+    peopleCount: "{n} 位",
     contestedNote:
       '归在这里是为了便于查找。有 {n} 个地方对这道菜提出了有据可查的主张 — 没有一个是定论，下面全部列出。',
     relatedAlsoFrom:
@@ -15025,8 +15025,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'これがこのアトラスの土台にある規則です。方針ではなく算術なので、信じるのではなく確かめられます。',
     sixDimensionsBody:
       'どの記録も同じ六つの観点で採点され、六つとも記録そのものに印刷されています。点数はその平均なので、疑う人は数字を足してみればわかります。',
-    ceilingBody:
-      'この六つのうち三つは、これまでに書かれたどんな文献でも答えられません。ある作り方がその土地の作り方かどうかを知っている百科事典はなく、登録簿がその町の人であることもありません。その三つが空のままなら、公表された資料だけで記録が届く上限は {ceiling} です。',
+    ceilingBody: "この六つのうち二つは、これまでに書かれたどの文書でも答えられません。百科事典はその土地の人ではないからです。三つ目の「技法」は、保護する製法を公開している遺産登録制度がある場合にのみ答えられます。これらが空のとき、記録が公開資料だけで達する上限は {ceiling} 点、そうした登録がある場合は {registered} 点です。",
     thresholdBody:
       '記録が本物と呼ばれるのは {threshold} からです。この二つの数字の隔たりは意図されたもので、それこそが論の全部です。埋められるのは、その料理を知る人だけです。',
     whatClosesItBody:
@@ -15372,6 +15371,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'あと一人',
     morePeople:
       'あと {n} 人',
+    peopleCount: "{n}人",
     contestedNote:
       '見つけられるようにここに置いています。この料理には {n} か所が裏づけのある由来を主張しており、どれも決着していません。すべて下に挙げてあります。',
     relatedAlsoFrom:
