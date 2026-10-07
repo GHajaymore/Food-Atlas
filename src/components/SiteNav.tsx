@@ -24,9 +24,10 @@
 
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import { usePendingProposals } from '../data/pending';
 import { useCopy, type Copy } from '../i18n';
 import { useLayout } from '../theme/layout';
-import { color, space, TAP_TARGET } from '../theme/tokens';
+import { accentAlpha, accentText, color, font, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { SessionControl } from './SessionControl';
 import { T } from './Text';
@@ -48,6 +49,7 @@ const linksFor = (copy: Copy): { label: string; to: string; note: string }[] => 
 export function SiteNav() {
   const copy = useCopy();
   const links = linksFor(copy);
+  const waiting = usePendingProposals();
   const layout = useLayout();
 
   /*
@@ -66,19 +68,31 @@ export function SiteNav() {
 
   return (
     <View role="navigation" style={styles.wrap}>
-      {links.map((link) => (
-        <Pressable
-          key={link.to}
-          accessibilityRole="button"
-          accessibilityLabel={`${link.label}. ${link.note}`}
-          tint="neutral"
-          onPress={() => router.push(link.to)}
-          style={styles.item}
-        >
-          <T style={styles.label}>{link.label}</T>
-          <T style={styles.note}>{link.note}</T>
-        </Pressable>
-      ))}
+      {links.map((link) => {
+        /* Same count as the masthead carries on a wide screen, in the one place a phone
+           reader passes on the way out of the feed. Digits, not a phrase: see TopBar. */
+        const count = link.to === '/proposals' ? waiting : 0;
+        return (
+          <Pressable
+            key={link.to}
+            accessibilityRole="button"
+            accessibilityLabel={count ? `${link.label} (${count}). ${link.note}` : `${link.label}. ${link.note}`}
+            tint="neutral"
+            onPress={() => router.push(link.to)}
+            style={styles.item}
+          >
+            <View style={styles.row}>
+              <T style={styles.label}>{link.label}</T>
+              {count > 0 ? (
+                <View style={styles.count}>
+                  <T style={styles.countText}>{count}</T>
+                </View>
+              ) : null}
+            </View>
+            <T style={styles.note}>{link.note}</T>
+          </Pressable>
+        );
+      })}
 
       {/*
        * The session, at the foot of the phone.
@@ -106,5 +120,17 @@ const styles = StyleSheet.create({
     paddingVertical: space[2],
   },
   label: { fontSize: 14, color: color.accent },
+  row: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
+  count: {
+    minWidth: 18,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 9,
+    borderWidth: 1,
+    borderColor: accentAlpha(35),
+    backgroundColor: accentAlpha(12),
+    alignItems: 'center',
+  },
+  countText: { fontSize: 11, color: accentText, fontFamily: font.medium },
   note: { fontSize: 12, color: color.muted, marginTop: 1 },
 });

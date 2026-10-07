@@ -26,9 +26,10 @@
 
 import { router, usePathname } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
+import { usePendingProposals } from '../data/pending';
 import { useCopy, type Copy } from '../i18n';
 import { useLayout } from '../theme/layout';
-import { color, font, PAGE_PADDING, space, TAP_TARGET } from '../theme/tokens';
+import { accentAlpha, accentText, color, font, PAGE_PADDING, space, TAP_TARGET } from '../theme/tokens';
 import { LanguagePicker } from './LanguagePicker';
 import { Pressable } from './Pressable';
 import { SessionControl } from './SessionControl';
@@ -89,6 +90,7 @@ export const sectionOf = (path: string): string => {
 export function TopBar() {
   const copy = useCopy();
   const links = linksFor(copy);
+  const waiting = usePendingProposals();
   const layout = useLayout();
   const path = usePathname();
 
@@ -110,18 +112,30 @@ export function TopBar() {
         <View style={styles.links}>
           {links.map((link) => {
             const active = sectionOf(path) === link.to;
+            /* The one number in this bar, on the one route where a reader can act on it.
+               A bare count rather than a translated phrase: digits read the same in all
+               twelve languages, and a new string would have been English beside eleven
+               stale translations until somebody wrote them. */
+            const count = link.to === '/proposals' ? waiting : 0;
             return (
               <Pressable
                 key={link.to}
                 accessibilityRole="link"
                 accessibilityState={{ selected: active }}
                 current={active}
-                accessibilityLabel={link.label}
+                accessibilityLabel={count ? `${link.label} (${count})` : link.label}
                 tint="neutral"
                 onPress={() => router.push(link.to)}
                 style={styles.link}
               >
-                <T style={active ? styles.labelOn : styles.label}>{link.label}</T>
+                <View style={styles.row}>
+                  <T style={active ? styles.labelOn : styles.label}>{link.label}</T>
+                  {count > 0 ? (
+                    <View style={styles.count}>
+                      <T style={styles.countText}>{count}</T>
+                    </View>
+                  ) : null}
+                </View>
                 {/* A rule under the current section, not colour alone. Colour is doing
                     real work here and it is the one channel some readers do not have;
                     an underline is the affordance every browser tab and every nav bar
@@ -232,6 +246,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: space[3],
   },
   label: { fontSize: 13, color: color.muted },
+  row: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
+  /* A tint and a hairline rather than a filled dot, because a solid accent chip beside a
+     muted label is the loudest thing in the masthead and this is a hint, not an alarm. */
+  count: {
+    minWidth: 18,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 9,
+    borderWidth: 1,
+    borderColor: accentAlpha(35),
+    backgroundColor: accentAlpha(12),
+    alignItems: 'center',
+  },
+  countText: { fontSize: 11, color: accentText, fontFamily: font.medium },
   /* Reserved on every item rather than added to the active one, so marking a section
      cannot shift the row of labels by two pixels as a reader moves between pages. */
   underlineOff: { height: 2, marginTop: 3, backgroundColor: 'transparent' },
