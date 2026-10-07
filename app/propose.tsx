@@ -25,7 +25,7 @@
  * the same honesty the rest of the app applies to its own scores.
  */
 
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
@@ -64,10 +64,24 @@ export default function Propose() {
   const copy = useCopy();
   /* The list the atlas can actually file under, recomputed only if the catalogue changes. */
   const countries = useMemo(() => filableCountries(), []);
+
+  /*
+   * What the reader has already told us, wherever they came from.
+   *
+   * `/contribute` has carried a dish and a place in its URL since the record pages began
+   * asking for a method, and this form — the one that actually posts — ignored both, so
+   * the last step of the funnel asked for the name again. A place that is one of the
+   * filable countries fills the country; anything narrower is a region, which is what the
+   * records themselves carry.
+   */
+  const { dish: askedFor, place: placeAskedFor } = useLocalSearchParams<{ dish?: string; place?: string }>();
+  const given = typeof placeAskedFor === 'string' ? placeAskedFor.trim() : '';
+  const givenCountry = countries.find((name) => name.toLowerCase() === given.toLowerCase()) ?? '';
+
   const [form, setForm] = useState({
-    name: '',
-    country: '',
-    region: '',
+    name: typeof askedFor === 'string' ? askedFor.trim() : '',
+    country: givenCountry,
+    region: givenCountry ? '' : given,
     cooks: '',
     ingredients: '',
     steps: '',

@@ -46,6 +46,7 @@ import {
 import { levelLabel } from '../src/domain/authenticity';
 import { COMMONS_UPLOAD_URL, isRejection, parsePhotoReference } from '../src/domain/photoSubmission';
 import { stillNeeded, tidyText } from '../src/domain/entry';
+import { PROPOSAL_CONFIRMATIONS, canPropose } from '../src/domain/proposals';
 import { openAtSource } from '../src/domain/video';
 import { accentText, color, font, space } from '../src/theme/tokens';
 
@@ -459,6 +460,36 @@ export default function Contribute() {
                 label={copy.sendThisTradition}
                 block
                 onPress={() => openAtSource(contributionUrl(tidied()))}
+              />
+            </Card>
+          ) : canPropose() ? (
+            /*
+             * The destination that exists.
+             *
+             * This branch used to end the flow with "Submissions are not open yet — there
+             * is nowhere to send them", because `canContribute()` asks about an external
+             * form URL that was never set. Meanwhile `/propose` has been posting to this
+             * app's own API since proposals shipped, so a reader who had just typed out
+             * their grandmother's dish was told on the last screen that it could not be
+             * sent — on a site where it could. Found by reading the live pages in order.
+             *
+             * Everything they typed goes with them, so the form opens filled in rather
+             * than asking for the name a third time.
+             */
+            <Card style={styles.sendCard}>
+              <CardKicker>{copy.nowSendYours}</CardKicker>
+              <CardBody>
+                {copy.notPublishedBySending.replace('{n}', String(PROPOSAL_CONFIRMATIONS))}
+              </CardBody>
+              <Button
+                label={copy.proposeThisDish}
+                block
+                onPress={() =>
+                  router.push({
+                    pathname: '/propose',
+                    params: { dish: tidied().dish, place: tidied().place },
+                  })
+                }
               />
             </Card>
           ) : (

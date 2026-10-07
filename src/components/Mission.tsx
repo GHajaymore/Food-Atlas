@@ -45,6 +45,7 @@ import { useCopy, useNumber } from '../i18n';
 import { canConfirm } from '../domain/confirmations';
 import { useLayout } from '../theme/layout';
 import { canContribute } from '../domain/contribution';
+import { canPropose } from '../domain/proposals';
 import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
 import { Disclosure } from './Disclosure';
@@ -92,7 +93,13 @@ export function useMissionNumbers() {
     unwritten,
     authenticated,
     heritage,
-    open: canContribute() || canConfirm(),
+    /*
+     * `/propose` posts to this app's own API and has since proposals shipped; the two
+     * flags beside it are the older external-form routes, both unset. Counting only those
+     * put "Submissions are not open yet — there is nowhere to send them" under the home
+     * page's main ask, on a site whose proposal form works. Measured on the live site.
+     */
+    open: canPropose() || canContribute() || canConfirm(),
   };
 }
 
@@ -211,7 +218,12 @@ export function MissionCallout() {
        * The ask and both buttons stay in the open, because that is what a reader acts on.
        */}
       <View style={styles.actions}>
-        <Button label={copy.recordADishYouKnow} onPress={() => router.push('/contribute')} />
+        <Button
+          label={copy.recordADishYouKnow}
+          /* Straight to the form that posts, where there is one. `/contribute` is the
+             older teaching flow and keeps its place for the readers already in it. */
+          onPress={() => router.push(canPropose() ? '/propose' : '/contribute')}
+        />
         <Button
           label={copy.howItGetsAuthenticated}
           variant="secondary"
