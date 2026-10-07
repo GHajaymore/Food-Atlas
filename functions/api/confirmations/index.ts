@@ -31,6 +31,7 @@
  * one nobody has confirmed — which is true.
  */
 
+import { admin, type AdminEnv } from '../_admin';
 import type { Identity } from './_middleware';
 
 interface Env {
@@ -62,6 +63,8 @@ const text = (value: unknown, max: number): string => String(value ?? '').trim()
 const missingTable = (error: unknown): boolean => /no such table/i.test(String((error as Error)?.message ?? error));
 
 interface Row {
+  /** Present only on the administrator read; the public index never carries it. */
+  id: string;
   dish_id: number;
   name: string;
   connection: string;
@@ -69,19 +72,56 @@ interface Row {
   local: number;
   account_id: string;
   at: string;
+  status: string;
 }
 
-export const onRequestGet: PagesFunction<Env, string, Identity> = async ({ env }) => {
+export const onRequestGet: PagesFunction<Env, string, Identity> = async ({ request, env }) => {
+  /*
+   * `?include=all` returns removed confirmations too, with their ids, and needs the
+   * administrator token. Moderation is reversible only if the moderator can see what they
+   * removed — and a public list of everything taken down would republish exactly the
+   * material the removal was for.
+   */
+  const wantsAll = new URL(request.url).searchParams.get('include') === 'all';
+  if (wantsAll) {
+    const who = await admin(request, env as unknown as AdminEnv);
+    if (!who.ok) return who.response;
+  }
+
   let rows: Row[] = [];
   try {
     const found = await env.DB.prepare(
-      `select dish_id, name, connection, said, local, account_id, at
-         from record_confirmation
-        where status = 'published'
-        order by at asc
-        limit 5000`,
+      wantsAll
+        ? `select id, dish_id, name, connection, said, local, account_id, at, status
+             from record_confirmation
+            order by at desc
+            limit 1000`
+        : `select dish_id, name, connection, said, local, account_id, at
+             from record_confirmation
+            where status = 'published'
+            order by at asc
+            limit 5000`,
     ).all<Row>();
     rows = found.results ?? [];
+    /* The moderator's view is a list, not an index: it is read by one screen that shows
+       rows and acts on them, and keying it by dish would hide the ids it needs. */
+    if (wantsAll) {
+      return json(
+        rows.map((row) => ({
+          id: row.id,
+          dishId: row.dish_id,
+          name: row.name,
+          connection: row.connection,
+          said: row.said,
+          local: row.local === 1,
+          verified: row.account_id !== '',
+          at: row.at.slice(0, 10),
+          status: row.status,
+        })),
+        200,
+        { [STATUS]: 'open' },
+      );
+    }
   } catch (error) {
     if (!missingTable(error)) throw error;
     return json({}, 200, { [STATUS]: 'closed' });
@@ -137,6 +177,36 @@ export const onRequestPost: PagesFunction<Env, string, Identity> = async ({ requ
   if (missing.length) return json({ error: 'Some of it is still missing.', missing }, 422);
 
   const accountId = String(data.accountId ?? '');
+  const personId = String(data.personId ?? '');
+
+  /*
+   * How many one person may write in a day.
+   *
+   * The unique index stops the same person confirming the same record twice; nothing
+   * stopped them confirming a thousand different ones. Somebody doing that is not reading
+   * 17,358 dishes — they are filling a free database, and D1's free plan allows 100,000
+   * writes a day, so the bill arrives as an outage rather than an invoice.
+   *
+   * Set where a real contributor never meets it. Twenty records in one sitting is a long
+   * evening of honest work and an implausible amount of knowledge; the refusal says so
+   * rather than pretending something broke.
+   */
+  const DAILY = 20;
+  try {
+    const today = await env.DB.prepare(
+      `select count(*) as n from record_confirmation
+        where person_id = ? and at > datetime('now', '-1 day')`,
+    )
+      .bind(personId)
+      .first<{ n: number }>();
+    if ((today?.n ?? 0) >= DAILY) {
+      return json({ error: 'That is as many as one person can add in a day.' }, 429);
+    }
+  } catch (error) {
+    /* No table yet: the insert below answers that case properly, with the message that
+       says confirmations are not switched on rather than a count that cannot be made. */
+    if (!missingTable(error)) throw error;
+  }
 
   try {
     await env.DB.prepare(
@@ -146,7 +216,7 @@ export const onRequestPost: PagesFunction<Env, string, Identity> = async ({ requ
       .bind(
         crypto.randomUUID(),
         dishId,
-        String(data.personId ?? ''),
+        personId,
         accountId,
         name,
         connection,

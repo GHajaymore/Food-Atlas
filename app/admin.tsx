@@ -58,6 +58,11 @@ import { H5, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
 import { loadAnalytics, type Analytics as AnalyticsData, type Tally } from '../src/data/analytics';
 import { loadAllProposals, setProposalStatus } from '../src/data/proposals';
+import {
+  loadAllConfirmations,
+  setConfirmationStatus,
+  type ModeratedConfirmation,
+} from '../src/data/confirmations';
 import { loadRefreshQueue, queueRefresh, type RefreshRequest } from '../src/data/refresh';
 import { loadSettings, saveSettings, settings as current } from '../src/data/settings';
 import { loadSession, signInUrl, type Session, NO_SESSION } from '../src/data/auth';
@@ -226,6 +231,108 @@ function Moderation({ token }: { token: string }) {
               onPress={() => change(p, p.status === 'declined' ? 'proposed' : 'declined')}
             />
           )}
+        </Block>
+      ))}
+    </View>
+  );
+}
+
+/**
+ * Taking a confirmation down.
+ *
+ * A confirmation is published the instant somebody writes it, on a record anybody can
+ * read, with their name and stated connection attached. That is the design — evidence is
+ * only worth something if a reader can see who gave it — and it means the first piece of
+ * abuse is live until somebody can remove it. Before this screen existed the only remedy
+ * was a SQL statement against the production database.
+ *
+ * Removing is reversible and the row stays. The unique index is scoped to published, so a
+ * removal also frees that person to write a better one rather than locking them out of
+ * the record for good.
+ *
+ * What this cannot do is add one or edit what somebody said. Removing abuse is a duty;
+ * editing testimony would be putting words in a reader's mouth on the one claim this
+ * atlas makes that nobody else makes.
+ */
+function Confirmations({ token }: { token: string }) {
+  const [rows, setRows] = useState<ModeratedConfirmation[]>([]);
+  const [error, setError] = useState('');
+  const [loaded, setLoaded] = useState(false);
+  const [working, setWorking] = useState('');
+
+  const load = async () => {
+    setError('');
+    const result = await loadAllConfirmations(token);
+    if ('error' in result) {
+      setError(result.error);
+      setLoaded(false);
+      return;
+    }
+    setRows(result);
+    setLoaded(true);
+  };
+
+  const change = async (row: ModeratedConfirmation, status: 'published' | 'removed') => {
+    setWorking(row.id);
+    const result = await setConfirmationStatus(token, row.id, status);
+    setWorking('');
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    setRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, status } : r)));
+  };
+
+  return (
+    <View style={styles.moderation}>
+      <T style={styles.sectionHead}>Confirmations on records</T>
+      <Muted style={styles.note}>
+        What people have said about records already in the atlas, including anything
+        removed. Needs the token above.
+      </Muted>
+
+      <Button
+        label={loaded ? 'Reload' : 'Load confirmations'}
+        variant="secondary"
+        block
+        style={styles.load}
+        onPress={load}
+      />
+
+      {error ? <T style={styles.message}>{error}</T> : null}
+
+      {loaded && !rows.length ? (
+        <Muted style={styles.note}>Nobody has confirmed a record yet.</Muted>
+      ) : null}
+
+      {rows.map((row) => (
+        <Block
+          key={row.id}
+          style={row.status === 'removed' ? { ...styles.modRow, ...styles.declined } : styles.modRow}
+        >
+          <View style={styles.modHead}>
+            <View style={styles.modText}>
+              <T style={styles.modName}>
+                {row.name}
+                {row.local ? ' · from the town' : ''}
+                {row.verified ? ' · signed in' : ''}
+              </T>
+              <Muted style={styles.modMeta}>
+                record {row.dishId} · {row.at} · {row.connection}
+              </Muted>
+              {/* What they actually said, which is the thing being moderated. */}
+              <Muted style={styles.modMeta}>{row.said}</Muted>
+            </View>
+            <T style={styles.modStatus}>{row.status}</T>
+          </View>
+
+          <Button
+            label={working === row.id ? 'Working…' : row.status === 'removed' ? 'Put back' : 'Remove'}
+            variant="secondary"
+            compact
+            style={styles.modAction}
+            onPress={() => change(row, row.status === 'removed' ? 'published' : 'removed')}
+          />
         </Block>
       ))}
     </View>
@@ -977,6 +1084,10 @@ export default function Admin() {
         credentials={credentials}
         panels={[
           <Moderation key="moderation" token={token} />,
+          /* Beside the proposals queue, because they are the same duty on two surfaces:
+             one removes a dish somebody proposed, the other removes what somebody said
+             about a dish already here. */
+          <Confirmations key="confirmations" token={token} />,
           <RefreshQueue key="refresh" token={token} />,
           <Analytics key="analytics" token={token} />,
           <Access key="access" token={token} session={session} />,
