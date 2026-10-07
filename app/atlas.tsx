@@ -27,6 +27,8 @@ import { metricNote } from '../src/domain/metricNotes';
 import rawHistory from '../src/data/metrics-history.json';
 import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics';
 import { buildAtlas } from '../src/domain/queries';
+import { isCountry } from '../src/domain/continents';
+import { slugFor } from '../src/domain/countrySlug';
 import { useApp } from '../src/state/store';
 import { space } from '../src/theme/tokens';
 
@@ -41,10 +43,28 @@ export default function Atlas() {
   // tiles simply show no direction rather than inventing one.
   const history = rawHistory as Snapshot[];
 
+  /*
+   * A country opens its own page now, rather than filtering the feed behind the reader.
+   *
+   * Tapping used to set the place in the store and unwind to the feed, which is the right
+   * move on a phone — narrowing is something you do and then undo — and the wrong one on a
+   * website, where the narrowed view is a *place*: an address to link to, send to somebody,
+   * keep open in a tab and let a search engine index. `browse.tsx` makes the same argument
+   * about query URLs; `/country/<slug>` is that argument finished.
+   *
+   * The place is still set, so the feed a reader goes back to is the country they were
+   * looking at rather than the world again.
+   */
   const openCountry = (name: string) => {
     setCountry(name);
-    // Unwind to the Feed rather than stacking another copy of it. Opened directly
-    // there is nothing to unwind, so fall back to replacing the route.
+    /* Only a real country has a page. The directory also lists origins that are not
+       places with a flag — Levant, Mesoamerica, the Maghreb — and those keep the older
+       behaviour of narrowing the feed, because inventing `/country/levant` would put
+       back into the site the thing the headline count deliberately leaves out. */
+    if (isCountry(name)) {
+      router.push(`/country/${slugFor(name)}`);
+      return;
+    }
     if (router.canGoBack()) router.dismissTo('/');
     else router.replace('/');
   };

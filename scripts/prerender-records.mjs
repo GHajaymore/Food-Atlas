@@ -60,6 +60,7 @@ const SITE = 'https://wikifoodia.ajailabs.app';
  * prose-documented records out of the index when the accounts moved too.
  */
 import { builtCatalogue } from './lib/built-catalogue.mjs';
+import { countryPages } from './lib/country-pages.mjs';
 import { sizedPhoto } from '../src/domain/commons.ts';
 import { alsoRecordedIn } from '../src/domain/related.ts';
 
@@ -211,6 +212,9 @@ const NEIGHBOURS = 6;
 
 const indexed = new Set(worthIndexing.map((dish) => dish.id));
 
+/* country -> slug, for the one extra link each record carries out to its place. */
+const countrySlugs = new Map(countryPages(catalogue).pages.map((entry) => [entry.country, entry.slug]));
+
 const byCountry = new Map();
 for (const dish of worthIndexing) {
   const country = dish.loc.country;
@@ -311,7 +315,14 @@ for (const dish of worthIndexing) {
   const links = [
     alsoIn.length ? `<h2>Also recorded in</h2><ul>${alsoIn.map(linkTo).join('')}</ul>` : '',
     near.length
-      ? `<h2>More from ${escape(dish.loc.country)}</h2><ul>${near.map(linkTo).join('')}</ul>`
+      ? `<h2>More from ${escape(dish.loc.country)}</h2><ul>${near.map(linkTo).join('')}</ul>` +
+        /* And the country's own page, which holds the rest of them. Written by
+           prerender-countries.mjs under the same rule that decides this file's links, so
+           a country with nothing worth linking to has no page and gets no link here. */
+        (countrySlugs.has(dish.loc.country)
+          ? `<p><a href="${escape(`${SITE}/country/${countrySlugs.get(dish.loc.country)}`)}">` +
+            `All ${escape(dish.loc.country)} in the atlas</a></p>`
+          : '')
       : '',
   ]
     .filter(Boolean)

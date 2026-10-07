@@ -20,6 +20,7 @@ import {
 } from '../src/domain/authenticity';
 import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
+import { countryFor, slugFor } from '../src/domain/countrySlug';
 import { mealLabel } from '../src/domain/meals';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import {
@@ -1602,6 +1603,40 @@ describe('dietary classification', () => {
   it('labels a dish with its group and kinds', () => {
     expect(dietLabel(EN, mole().diet)).toBe('Non-vegetarian · Pork, Poultry');
     expect(dietLabel(EN, halwa().diet)).toBe('Vegan');
+  });
+});
+
+describe('a country has an address', () => {
+  const countries = [...new Set(catalogue.map((dish) => dish.loc.country).filter(Boolean))];
+
+  it('folds accents, punctuation and spacing to one lower-case slug', () => {
+    expect(slugFor('Morocco')).toBe('morocco');
+    expect(slugFor('Côte d’Ivoire')).toBe('cote-d-ivoire');
+    expect(slugFor('Congo - Kinshasa')).toBe('congo-kinshasa');
+    expect(slugFor('São Tomé & Príncipe')).toBe('sao-tome-principe');
+  });
+
+  /*
+   * The failure this guards is a page quietly overwriting another: two countries folding
+   * onto one slug means one of them loses its page and the other claims its records.
+   * Checked against every country in the shipped catalogue rather than a sample, because
+   * the name that would collide arrives with an import nobody is watching.
+   */
+  it('gives every country in the catalogue a slug of its own', () => {
+    const seen = new Map<string, string>();
+    for (const country of countries) {
+      const slug = slugFor(country);
+      if (!slug) continue;
+      expect(seen.has(slug) ? `${seen.get(slug)} and ${country}` : slug).toBe(slug);
+      seen.set(slug, country);
+    }
+    expect(seen.size).toBeGreaterThan(150);
+  });
+
+  it('resolves a slug back through the names the catalogue holds', () => {
+    expect(countryFor('morocco', countries)).toBe('Morocco');
+    expect(countryFor('MOROCCO', countries)).toBe('Morocco');
+    expect(countryFor('narnia', countries)).toBeUndefined();
   });
 });
 

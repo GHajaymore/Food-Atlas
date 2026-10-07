@@ -214,6 +214,33 @@ else {
 }
 
 /*
+ * Every country page in the sitemap must exist, and must link somewhere.
+ *
+ * A country page whose list is empty is the thin page this project refuses to publish
+ * anywhere else, and one the sitemap names but nobody wrote is the disagreement the
+ * record pages are already checked for. Both are silent faults: the build succeeds and
+ * the page serves the app shell.
+ */
+{
+  const sitemapText = existsSync(sitemap) ? readFileSync(sitemap, 'utf8') : '';
+  const listed = [...sitemapText.matchAll(/<loc>[^<]*\/country\/([a-z0-9-]+)<\/loc>/g)].map((m) => m[1]);
+  let links = 0;
+  for (const slug of listed) {
+    const file = resolve(DIST, 'country', `${slug}.html`);
+    if (!existsSync(file)) {
+      fail(`/country/${slug} is in the sitemap and was never written`);
+      continue;
+    }
+    const html = readFileSync(file, 'utf8');
+    const found = (html.match(/href="https:\/\/[^"]*\/dish\/\d+"/g) ?? []).length;
+    if (!found) fail(`/country/${slug} lists no records`);
+    if (!html.includes(`/country/${slug}"`)) fail(`/country/${slug} does not point its canonical at itself`);
+    links += found;
+  }
+  if (listed.length) notes.push(`${listed.length} country pages carrying ${links} record links`);
+}
+
+/*
  * Every screen in the sitemap must be a page of its own.
  *
  * The failure this catches is silent and was live until it was measured: an export shape
