@@ -19,7 +19,7 @@ import { Inter_700Bold } from '@expo-google-fonts/inter/700Bold';
 import { useFonts } from 'expo-font';
 import { useLayout } from '../src/theme/layout';
 import { WideTypeContext } from '../src/theme/typeScale';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -37,6 +37,7 @@ import { TopBar } from '../src/components/TopBar';
 import { loadCatalogue } from '../src/data/catalogue';
 import { watchForExit } from '../src/data/events';
 import { copyFor, loadCopy, useCopy, useLocale } from '../src/i18n';
+import { titleFor, useDocumentTitle } from '../src/domain/pageTitle';
 import { color, font } from '../src/theme/tokens';
 import { installWebStyles } from '../src/theme/webStyles';
 
@@ -52,6 +53,10 @@ watchForExit();
 export default function RootLayout() {
   const copy = useCopy();
   const layout = useLayout();
+  /* The tab's name follows the route. The record page overrides this with its dish — it
+     mounts under this layout, so its effect runs after and wins. */
+  const path = usePathname();
+  useDocumentTitle(titleFor(copy, path));
   const [fontsLoaded] = useFonts({
     Fraunces_500Medium,
     Inter_400Regular,

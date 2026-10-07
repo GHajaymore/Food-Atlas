@@ -81,7 +81,7 @@ export const KIND_LABELS: Record<DietKind, keyof Copy> = {
   'other-seafood': 'dietOtherSeafood',
 };
 
-export const TRACE_LABELS: Record<DietaryTrace, string> = {
+export const TRACE_LABELS: Record<DietaryTrace, keyof Copy> = {
   dairy: 'dietDairy',
   egg: 'dietEgg',
   honey: 'dietHoney',
@@ -136,7 +136,16 @@ export function dietLabel(copy: Copy, diet: Diet): string {
 }
 
 /** Trace labels for the detail screen, e.g. ['Contains dairy']. */
-export const traceLabels = (diet: Diet): string[] => diet.contains.map((t) => TRACE_LABELS[t]);
+/**
+ * What a dish contains in traces, in the reader's language.
+ *
+ * Same fault as `mealLabel` and found in the same sweep: this returned the copy *keys*,
+ * so a dish page printed chips reading "containsAlcohol" and "dietDairy" beside the diet
+ * tag. The lookup belongs here rather than at the call site, because a label function
+ * that can be called without a language is one that will be.
+ */
+export const traceLabels = (copy: Copy, diet: Diet): string[] =>
+  diet.contains.map((t) => copy[TRACE_LABELS[t]]);
 
 /** Groups that carry a sub-menu, for the UI to know when to expand. */
 export const hasSubMenu = (group: DietGroup): boolean => kindsFor(group).length > 0;

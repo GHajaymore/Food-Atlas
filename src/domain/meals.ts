@@ -87,7 +87,19 @@ export function matchesMeal(meals: Meals, selected: MealOccasion[]): boolean {
 }
 
 /** 'Snack · Celebration & feast' for a card. */
-export const mealLabel = (meals: Meals): string =>
+/**
+ * The occasions, in the reader's language.
+ *
+ * Took a `Copy` for none of its life until now, and printed the key names instead:
+ * every card with an occasion on it read "Vegan · mealSnack · mealCelebration", in all
+ * twelve languages, because `MEAL_LABELS` maps an occasion to a *key* and nothing was
+ * looking that key up. Caught on the live site, on the first card of /browse.
+ *
+ * The signature is the fix rather than a lookup inside the old one: a function that
+ * returns a label cannot be given the occasions without also being given the language,
+ * and making that impossible to forget is worth the extra argument at the two call sites.
+ */
+export const mealLabel = (copy: Copy, meals: Meals): string =>
   meals.occasions.length
-    ? meals.occasions.map((o) => MEAL_LABELS[o]).join(' · ')
-    : MEAL_LABELS.unclassified;
+    ? meals.occasions.map((o) => copy[MEAL_LABELS[o]]).join(' · ')
+    : copy[MEAL_LABELS.unclassified];

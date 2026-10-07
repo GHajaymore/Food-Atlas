@@ -20,6 +20,7 @@ import {
 } from '../src/domain/authenticity';
 import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
+import { mealLabel } from '../src/domain/meals';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import {
   nearbyNames,
@@ -1592,8 +1593,9 @@ describe('dietary classification', () => {
 
   it('surfaces alcohol as a trace so a reader avoiding it is told', () => {
     expect(byId(6).diet.contains).toContain('alcohol');
-    // traceLabels returns copy keys now; the words themselves live in the catalogues.
-    expect(traceLabels(byId(6).diet)).toContain('containsAlcohol');
+    // The words, not the keys: chips used to read "containsAlcohol" on the record page.
+    expect(traceLabels(EN, byId(6).diet)).toContain(EN.containsAlcohol);
+    expect(traceLabels(EN, byId(6).diet).join(' ')).not.toMatch(/contains[A-Z]|diet[A-Z]/);
     expect(EN.containsAlcohol).toBe('Contains alcohol');
   });
 
@@ -1613,6 +1615,23 @@ describe('meal occasion is recorded in the tradition s own terms', () => {
 
     // Halwa is bought by weight and eaten through the day.
     expect(halwa().meals.occasions).toEqual(['snack', 'celebration']);
+  });
+
+  /*
+   * The regression that shipped: every card with an occasion on it read
+   * "Vegan · mealSnack · mealCelebration", because `mealLabel` mapped the occasion to a
+   * copy *key* and returned it. Asserting on the words would pass against the keys in a
+   * language whose key happens to be the word, so this asserts the English words and
+   * that no label anywhere looks like a key.
+   */
+  it('says the occasion in words, never the copy key', () => {
+    expect(mealLabel(EN, halwa().meals)).toBe('Snack · Celebration & feast');
+    expect(mealLabel(EN, { occasions: [], note: '' })).toBe('Not recorded');
+
+    for (const [locale, copy] of Object.entries(CATALOGUES)) {
+      const label = mealLabel({ ...EN, ...copy }, halwa().meals);
+      expect(`${locale}: ${label}`).not.toMatch(/meal[A-Z]/);
+    }
   });
 
   it('keeps the local occasion, not just the chip', () => {

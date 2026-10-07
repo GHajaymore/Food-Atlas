@@ -139,7 +139,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
               only to find out it is not for them or not for now. */}
           <Muted style={styles.diet}>
             {dietLabel(copy, dish.diet)}
-            {dish.meals.occasions.length ? ` · ${mealLabel(dish.meals)}` : ''}
+            {dish.meals.occasions.length ? ` · ${mealLabel(copy, dish.meals)}` : ''}
           </Muted>
 
           {/*

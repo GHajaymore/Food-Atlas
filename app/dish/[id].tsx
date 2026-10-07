@@ -39,7 +39,9 @@ import { Tag } from '../../src/components/Tag';
 import { VideoCard } from '../../src/components/VideoCard';
 import { catalogue, dishById, loadCookbookSteps, loadProse } from '../../src/data/catalogue';
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
+import { BRAND } from '../../src/brand';
 import { useNoIndex } from '../../src/domain/noindex';
+import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { atRiskNote } from '../../src/domain/atRisk';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
 import {
@@ -71,6 +73,15 @@ export default function DishDetail() {
   /* A record id that matches nothing still answers 200 with the app shell, so say plainly
      that this address is not a page. See domain/noindex.ts. */
   useNoIndex(!dish);
+
+  /*
+   * The same title `prerender-records.mjs` writes into this page's HTML, kept right when
+   * the reader arrives by clicking rather than by loading: dish, place, brand. Falls back
+   * to the brand alone while the record is missing, rather than naming a dish that is not
+   * there.
+   */
+  const where = dish ? [dish.loc.city, dish.loc.region, dish.loc.country].filter(Boolean).join(', ') : '';
+  useDocumentTitle(dish ? `${dish.name}${where ? ` — ${where}` : ''} · ${BRAND.name}` : BRAND.name);
 
   /*
    * One count per record opened. The dish id and nothing else — no reader, no session,
@@ -555,7 +566,7 @@ export default function DishDetail() {
                 describedAs={copy.everythingRecordedAs.replace('{what}', copy[GROUP_LABELS[dish.diet.group]])}
                 query={{ diet: dish.diet.group }}
               />
-              {traceLabels(dish.diet).map((trace) => (
+              {traceLabels(copy, dish.diet).map((trace) => (
                 <Tag key={trace} label={trace} variant="outline" />
               ))}
             </View>

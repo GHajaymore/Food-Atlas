@@ -214,6 +214,37 @@ else {
 }
 
 /*
+ * Every screen in the sitemap must be a page of its own.
+ *
+ * The failure this catches is silent and was live until it was measured: an export shape
+ * change makes `prerender-screens.mjs` write nothing, Pages falls back to index.html, and
+ * seven URLs quietly go back to sharing one title. Checked against the sitemap rather than
+ * a list kept here, so adding a screen there cannot leave this behind.
+ */
+{
+  const sitemapText = existsSync(sitemap) ? readFileSync(sitemap, 'utf8') : '';
+  const screens = [...sitemapText.matchAll(/<loc>https:\/\/[^<]*?\.app(\/[a-z-]*)<\/loc>/g)]
+    .map((m) => m[1])
+    .filter((path) => path !== '/' && !path.startsWith('/dish'));
+  const titles = new Map();
+  for (const path of screens) {
+    const file = resolve(DIST, `${path.slice(1)}.html`);
+    if (!existsSync(file)) {
+      fail(`${path} is in the sitemap and has no HTML file of its own`);
+      continue;
+    }
+    const html = readFileSync(file, 'utf8');
+    const title = (html.match(/<title>([^<]*)<\/title>/) ?? [])[1] ?? '';
+    const canonical = (html.match(/<link rel="canonical" href="([^"]+)"/) ?? [])[1] ?? '';
+    if (!title || title === 'WikiFoodia') fail(`${path} has no title of its own`);
+    if (!canonical.endsWith(path)) fail(`${path} does not point its canonical at itself (${canonical || 'none'})`);
+    if (titles.has(title)) fail(`${path} and ${titles.get(title)} share the title "${title}"`);
+    titles.set(title, path);
+  }
+  if (screens.length) notes.push(`${screens.length} screens, each with its own title and canonical`);
+}
+
+/*
  * The data version in the bundle must match the data actually being shipped.
  *
  * `/data/*` is served `immutable` for a year, which is only safe because the app asks for
