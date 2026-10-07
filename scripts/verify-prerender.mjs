@@ -242,6 +242,34 @@ else {
 }
 
 /*
+ * Nothing in the sitemap may be disallowed in robots.txt.
+ *
+ * The two files are written by different hands for different reasons and nothing made
+ * them agree: `/propose` was added to the sitemap the day it got its own prerendered
+ * page, and `robots.txt` had disallowed it since before that page existed. Search Console
+ * reports that pair as "submitted URL blocked by robots.txt" — a self-inflicted error on
+ * the one report the launch is being judged by, found here instead.
+ */
+{
+  const robotsFile = resolve(DIST, 'robots.txt');
+  const sitemapText = existsSync(sitemap) ? readFileSync(sitemap, 'utf8') : '';
+  const listed = [...sitemapText.matchAll(/<loc>https?:\/\/[^/]+([^<]*)<\/loc>/g)].map((m) => m[1]);
+
+  if (!existsSync(robotsFile)) fail('dist/robots.txt is missing');
+  else {
+    const disallowed = [...readFileSync(robotsFile, 'utf8').matchAll(/^\s*Disallow:\s*(\S+)\s*$/gim)]
+      .map((m) => m[1])
+      .filter((path) => path !== '/');
+    const blocked = listed.filter((loc) => disallowed.some((rule) => loc === rule || loc.startsWith(`${rule}/`)));
+    if (blocked.length) {
+      fail(`the sitemap lists ${blocked.length} URL(s) robots.txt disallows: ${[...new Set(blocked)].slice(0, 5).join(' | ')}`);
+    } else if (disallowed.length) {
+      notes.push(`robots.txt disallows ${disallowed.length} paths, none of them listed`);
+    }
+  }
+}
+
+/*
  * Every country page in the sitemap must exist, and must link somewhere.
  *
  * A country page whose list is empty is the thin page this project refuses to publish

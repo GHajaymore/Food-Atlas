@@ -46,9 +46,11 @@ const indexed = catalogue.filter(
  * were seven URLs sharing one file, which is the duplicate-content fault this list was
  * written to avoid for records.
  *
- * `/propose` is here because it is where a missing dish starts and it reads as a page in
- * its own right. `/proposals` is not: it is a queue whose contents change, and no
- * description of it would stay true.
+ * `/propose` is deliberately absent, and so is `/proposals`. Both are disallowed in
+ * robots.txt — a crawler following a form spends its budget on inputs rather than on
+ * food — and a sitemap that lists a URL robots.txt refuses is a contradiction Search
+ * Console reports as an error. They still have prerendered heads, which is what a
+ * shared link needs; a page worth sharing is not the same as a page worth indexing.
  */
 const SCREENS = [
   ['/', '1.0'],
@@ -56,7 +58,6 @@ const SCREENS = [
   ['/browse', '0.8'],
   ['/search', '0.7'],
   ['/how', '0.7'],
-  ['/propose', '0.6'],
   ['/support', '0.5'],
   ['/privacy', '0.4'],
 ];

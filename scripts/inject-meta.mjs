@@ -53,6 +53,21 @@ const DESCRIPTION =
 
 const TITLE = 'WikiFoodia — the community decides what’s authentic';
 
+/**
+ * Google Search Console's ownership token, when there is one.
+ *
+ * Search Console offers several proofs and the HTML tag is the one that fits a site
+ * served from static files on somebody else's CDN: no DNS record to add, no file to keep
+ * at a fixed path, and it survives every redeploy because it is written here rather than
+ * dropped into `dist` by hand.
+ *
+ * Empty until Ajay creates the property and sends the string, and empty means nothing is
+ * written — a `content=""` tag would be an ownership claim with no owner. Verification is
+ * the step that puts 8,858 record pages in front of a search engine, so this is the whole
+ * of the code side of the launch: paste the value, build, deploy.
+ */
+const SEARCH_CONSOLE = process.env.GOOGLE_SITE_VERIFICATION ?? '';
+
 const main = async () => {
   let html;
   try {
@@ -74,6 +89,7 @@ const main = async () => {
 
   const tags = [
     `    <meta name="description" content="${DESCRIPTION}" />`,
+    SEARCH_CONSOLE ? `    <meta name="google-site-verification" content="${SEARCH_CONSOLE}" />` : '',
     /* Open Graph: WhatsApp, Signal, Slack, Facebook, LinkedIn, Discord, Mastodon. */
     `    <meta property="og:site_name" content="WikiFoodia" />`,
     `    <meta property="og:type" content="website" />`,
@@ -87,7 +103,10 @@ const main = async () => {
     `    <meta name="twitter:title" content="${TITLE}" />`,
     `    <meta name="twitter:description" content="${DESCRIPTION}" />`,
     `    <meta name="twitter:image" content="${SITE}/icon.png" />`,
-  ].join('\n');
+  ]
+    /* The verification tag is absent rather than empty when there is no token yet. */
+    .filter(Boolean)
+    .join('\n');
 
   html = html.replace('</head>', `${MARKER}\n${tags}\n  </head>`);
 
