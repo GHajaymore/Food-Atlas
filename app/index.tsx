@@ -41,6 +41,7 @@ import { catalogue as dishes } from '../src/data/catalogue';
 import { FILTERS, filterLabel, levelLabel } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
+import { placeInSentence } from '../src/domain/placeArticle';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { likelyCountry } from '../src/domain/nearby';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
@@ -119,7 +120,11 @@ export default function Feed() {
 
   /* Display only. Every narrowing reads from `path`, which stays in the English the atlas is
      keyed on, so translating here cannot reach the query. */
-  const place = path.length ? placeName(path[path.length - 1].value, copy, locale) : copy.worldwide;
+  /* Read in a sentence — "42 traditions in the Netherlands" — so the few English names
+     that need an article get one. See domain/placeArticle.ts. */
+  const place = path.length
+    ? placeInSentence(placeName(path[path.length - 1].value, copy, locale), locale)
+    : copy.worldwide;
   const placeHint = next
     ? path.length
       ? copy.narrowToA.replace('{level}', copy[next.labelKey]).replace('{n}', String(next.options.length))

@@ -41,6 +41,7 @@ import { catalogue, dishById, loadCookbookSteps, loadProse } from '../../src/dat
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { BRAND } from '../../src/brand';
 import { slugFor } from '../../src/domain/countrySlug';
+import { placeInSentence } from '../../src/domain/placeArticle';
 import { useNoIndex } from '../../src/domain/noindex';
 import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { atRiskNote } from '../../src/domain/atRisk';
@@ -202,7 +203,10 @@ export default function DishDetail() {
    * where the record has only a country it does not deserve to name — the ask then
    * simply omits the place rather than inventing one.
    */
-  const askPlace = dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country;
+  const askPlace = placeInSentence(
+    dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country,
+    locale,
+  );
 
   /* `hasProse` was declared here to decide what was worth offering for translation. The
      machine translation it gated is gone, and it had outlived it unused. The name now
@@ -373,7 +377,7 @@ export default function DishDetail() {
           <Muted key={part} style={styles.breadcrumbText}>
             <FacetLink
               label={shown}
-              describedAs={copy.everythingFrom.replace('{place}', placeName(opensAt, copy, locale))}
+              describedAs={copy.everythingFrom.replace('{place}', placeInSentence(placeName(opensAt, copy, locale), locale))}
               query={
                 i === 0
                   ? { country: part }
@@ -411,7 +415,7 @@ export default function DishDetail() {
           <Muted style={styles.originLabel}>{copy.recordedOrigin}</Muted>
           <T style={styles.originValue}>{placeName(dish.origin, copy, locale)}</T>
           <Muted style={styles.originNote}>
-            {copy.originDiffersNote.replace('{country}', placeName(dish.loc.country, copy, locale))}
+            {copy.originDiffersNote.replace('{country}', placeInSentence(placeName(dish.loc.country, copy, locale), locale))}
           </Muted>
         </View>
       ) : null}
@@ -724,7 +728,7 @@ export default function DishDetail() {
           </H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
-              {copy.adaptationLeadIn.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
+              {copy.adaptationLeadIn.replace('{place}', placeInSentence(placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale), locale))}
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{dish.prepSummary}</Muted>
@@ -865,7 +869,7 @@ export default function DishDetail() {
               const search = (
                 <Block style={styles.discoverBlock}>
                   <Muted style={styles.discoverNote}>
-                    {copy.videoSearchNote.replace('{place}', dish.breadcrumb[0])}
+                    {copy.videoSearchNote.replace('{place}', placeInSentence(placeName(dish.breadcrumb[0], copy, locale), locale))}
                   </Muted>
                   <Button
                     label={copy.findPreparationVideos}

@@ -1,5 +1,6 @@
 import { hasMethod, hasProse, methodLength } from './method';
 import { placeName } from './continents';
+import { placeInSentence } from './placeArticle';
 /**
  * The home screen as doorways rather than a list.
  *
@@ -456,7 +457,9 @@ export const shelfLabel = (
    * Found by reading the rendered page after the country pass, not from the diff: every
    * card said アメリカ合衆国 while the shelf above them still said United States.
    */
-  const country = shelf.country ? placeName(shelf.country, copy, locale) : '';
+  /* In a sentence, so the English names that take an article get one — see
+     domain/placeArticle.ts. Every other language is untouched. */
+  const country = shelf.country ? placeInSentence(placeName(shelf.country, copy, locale), locale) : '';
   return {
     title: copy[shelf.titleKey].replace('{country}', country),
     note: copy[shelf.noteKey].replace('{country}', country),

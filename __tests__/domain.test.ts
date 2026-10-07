@@ -21,6 +21,7 @@ import {
 import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
 import { countryFor, slugFor } from '../src/domain/countrySlug';
+import { placeInSentence } from '../src/domain/placeArticle';
 import { titleFor } from '../src/domain/pageTitle';
 import { mealLabel } from '../src/domain/meals';
 import { dietLabel, traceLabels } from '../src/domain/diet';
@@ -1624,6 +1625,31 @@ describe('the browser tab says what is on screen', () => {
   it('says nothing for the screens that name themselves', () => {
     expect(titleFor(EN, '/dish/1')).toBe('');
     expect(titleFor(EN, '/country/japan')).toBe('');
+  });
+});
+
+/**
+ * "it is not a record of how it is prepared in United Kingdom".
+ */
+describe('a place reads as English when it is inside a sentence', () => {
+  it('adds the article the few English names need', () => {
+    expect(placeInSentence('United Kingdom', 'en')).toBe('the United Kingdom');
+    expect(placeInSentence('Netherlands', 'en')).toBe('the Netherlands');
+    expect(placeInSentence('Philippines', 'en')).toBe('the Philippines');
+  });
+
+  it('leaves every other name alone', () => {
+    for (const place of ['Japan', 'India', 'Kozhikode', 'Goa', 'France', 'Sudanese food']) {
+      expect(placeInSentence(place, 'en')).toBe(place);
+    }
+  });
+
+  /* The rule is a fact about English. Spanish says "en Reino Unido" and Japanese adds
+     nothing, so every other language gets exactly what it got before. */
+  it('touches no other language', () => {
+    for (const locale of ['es', 'fr', 'de', 'ja', 'zh', 'hi']) {
+      expect(placeInSentence('United Kingdom', locale)).toBe('United Kingdom');
+    }
   });
 });
 

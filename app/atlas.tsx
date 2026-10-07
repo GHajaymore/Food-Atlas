@@ -29,6 +29,7 @@ import { catalogueMetrics, trendFor, type Snapshot } from '../src/domain/metrics
 import { buildAtlas } from '../src/domain/queries';
 import { isCountry } from '../src/domain/continents';
 import { slugFor } from '../src/domain/countrySlug';
+import { placeInSentence } from '../src/domain/placeArticle';
 import { useApp } from '../src/state/store';
 import { space } from '../src/theme/tokens';
 
@@ -112,7 +113,7 @@ export default function Atlas() {
       <Muted style={styles.concentration}>
         {copy.concentrationNote
           .replace('{p}', String(metrics.concentration.percent))
-          .replace('{country}', metrics.concentration.country)}
+          .replace('{country}', placeInSentence(metrics.concentration.country, locale))}
       </Muted>
       <Explain note={metricNote(copy, 'concentration')} />
     </>
