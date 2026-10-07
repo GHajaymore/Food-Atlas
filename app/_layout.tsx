@@ -53,8 +53,9 @@ watchForExit();
 export default function RootLayout() {
   const copy = useCopy();
   const layout = useLayout();
-  /* The tab's name follows the route. The record page overrides this with its dish — it
-     mounts under this layout, so its effect runs after and wins. */
+  /* The tab's name follows the route, except on the screens that name themselves from
+     what they are showing — `titleFor` returns nothing for those, because this effect runs
+     after theirs and would otherwise overwrite the dish or the country with the brand. */
   const path = usePathname();
   useDocumentTitle(titleFor(copy, path));
   const [fontsLoaded] = useFonts({

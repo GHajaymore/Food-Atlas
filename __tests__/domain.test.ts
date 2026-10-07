@@ -21,6 +21,7 @@ import {
 import { assess, AUTHENTIC_AT } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
 import { countryFor, slugFor } from '../src/domain/countrySlug';
+import { titleFor } from '../src/domain/pageTitle';
 import { mealLabel } from '../src/domain/meals';
 import { dietLabel, traceLabels } from '../src/domain/diet';
 import {
@@ -1603,6 +1604,26 @@ describe('dietary classification', () => {
   it('labels a dish with its group and kinds', () => {
     expect(dietLabel(EN, mole().diet)).toBe('Non-vegetarian · Pork, Poultry');
     expect(dietLabel(EN, halwa().diet)).toBe('Vegan');
+  });
+});
+
+describe('the browser tab says what is on screen', () => {
+  it('names the section, in the reader’s language', () => {
+    expect(titleFor(EN, '/how')).toBe('How it works · WikiFoodia');
+    expect(titleFor(EN, '/support')).toBe('Keeping it free · WikiFoodia');
+    expect(titleFor(EN, '/browse')).toBe('Browse the world atlas · WikiFoodia');
+    expect(titleFor(EN, '/')).toBe('WikiFoodia');
+  });
+
+  /*
+   * A child's effects run before its parent's, so a title the layout sets lands after the
+   * one the screen set. Returning nothing here is what stops the layout overwriting a dish
+   * or a country with the bare brand — it did, and the tab read "WikiFoodia" on every
+   * record opened by clicking.
+   */
+  it('says nothing for the screens that name themselves', () => {
+    expect(titleFor(EN, '/dish/1')).toBe('');
+    expect(titleFor(EN, '/country/japan')).toBe('');
   });
 });
 

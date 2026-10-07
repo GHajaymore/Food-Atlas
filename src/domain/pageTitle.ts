@@ -12,8 +12,11 @@
  * one is English, because the HTML is. The two agree on shape (`<page> · WikiFoodia`) so a
  * tab does not visibly rewrite itself on arrival.
  *
- * Record pages are not here. A dish page knows its dish and sets its own title; a map in
- * this file would have to repeat the naming rule that `prerender-records.mjs` already owns.
+ * Two kinds of screen name themselves — a record is its dish, a country is its country —
+ * and both are listed in `SELF_NAMED` so this returns nothing for them. That is not tidiness:
+ * React runs a child's effects before its parent's, so the layout's title is written *after*
+ * the screen's and would overwrite it. Measured, after this file first claimed the opposite:
+ * clicking Japan on the atlas left the tab reading "WikiFoodia".
  */
 
 import { useEffect } from 'react';
@@ -39,8 +42,15 @@ const TITLES: { of: string; label: (copy: Copy) => string }[] = [
   { of: '/privacy', label: (copy) => copy.privacyTitle },
 ];
 
-/** `<page> · WikiFoodia`, or the brand alone on the home page and anything unlisted. */
+/** The screens that set their own title from the thing they are showing. */
+const SELF_NAMED = ['/dish', '/country'];
+
+/**
+ * `<page> · WikiFoodia`, the brand alone on the home page and anything unlisted, and an
+ * empty string for a screen that names itself — which `useDocumentTitle` ignores.
+ */
 export function titleFor(copy: Copy, path: string): string {
+  if (SELF_NAMED.some((base) => path === base || path.startsWith(base + '/'))) return '';
   const match = TITLES.find((entry) => path === entry.of || path.startsWith(entry.of + '/'));
   return match ? `${match.label(copy)} · ${BRAND.name}` : BRAND.name;
 }
