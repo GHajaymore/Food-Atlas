@@ -46,10 +46,13 @@ import { color, font, space } from '../src/theme/tokens';
 /* Built from the copy rather than declared at module scope, for the reason TopBar's
    links give: a module constant is evaluated before a reader has chosen a language and
    would hold the English wording for the rest of the session. */
-const dimensionsFor = (copy: Copy): { name: string; what: string; from: 'documents' | 'people' }[] => [
+const dimensionsFor = (copy: Copy): { name: string; what: string; from: 'documents' | 'people' | 'people-or-register' }[] => [
   { name: SCORE_DIMENSIONS[0], what: copy.dimensionOrigin, from: 'documents' },
   { name: SCORE_DIMENSIONS[1], what: copy.dimensionIngredients, from: 'documents' },
-  { name: SCORE_DIMENSIONS[2], what: copy.dimensionTechnique, from: 'people' },
+  /* The one dimension a document can answer, and only one kind of document can: a
+     heritage register publishing the production method it protects. See the ceiling
+     note below, and `technique = registerMethod || communityMethod` in assess.ts. */
+  { name: SCORE_DIMENSIONS[2], what: copy.dimensionTechnique, from: 'people-or-register' },
   { name: SCORE_DIMENSIONS[3], what: copy.dimensionLocalSource, from: 'people' },
   { name: SCORE_DIMENSIONS[4], what: copy.dimensionDocumentation, from: 'documents' },
   { name: SCORE_DIMENSIONS[5], what: copy.dimensionCommunity, from: 'people' },
@@ -125,8 +128,12 @@ export default function How() {
                 <Block key={dimension.name} style={styles.dimension}>
                   <View style={styles.dimensionHead}>
                     <T style={styles.dimensionName}>{dimension.name}</T>
-                    <T style={dimension.from === 'people' ? styles.fromPeople : styles.fromDocs}>
-                      {dimension.from === 'people' ? copy.fromPeople : copy.fromDocuments}
+                    <T style={dimension.from === 'documents' ? styles.fromDocs : styles.fromPeople}>
+                      {dimension.from === 'people'
+                        ? copy.fromPeople
+                        : dimension.from === 'people-or-register'
+                          ? copy.fromPeopleOrRegister
+                          : copy.fromDocuments}
                     </T>
                   </View>
                   <Muted style={styles.dimensionWhat}>{dimension.what}</Muted>

@@ -306,6 +306,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'los documentos pueden',
     fromPeople:
       'solo las personas',
+    fromPeopleOrRegister: "personas o un catálogo oficial",
     contributeLead:
       'Regístralo tal como se hace donde tú estás. Nada se publica solo con este formulario: primero pasa por la evaluación y por la validación de la comunidad.',
     writeItTheWayYouWriteIt:
@@ -1644,6 +1645,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'les documents peuvent',
     fromPeople:
       'seules les personnes',
+    fromPeopleOrRegister: "des personnes ou un registre",
     contributeLead:
       'Enregistrez-le tel qu’il se fait là où vous êtes. Rien n’est publié à partir de ce seul formulaire : cela passe d’abord par l’évaluation et par la validation de la communauté.',
     writeItTheWayYouWriteIt:
@@ -2981,6 +2983,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Dokumente können',
     fromPeople:
       'nur Menschen',
+    fromPeopleOrRegister: "Menschen oder ein Register",
     contributeLead:
       'Halten Sie es so fest, wie es dort gemacht wird, wo Sie sind. Aus diesem Formular allein wird nichts veröffentlicht — es geht zuerst durch die Bewertung und durch die Bestätigung der Gemeinschaft.',
     writeItTheWayYouWriteIt:
@@ -4318,6 +4321,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'i documenti possono',
     fromPeople:
       'solo le persone',
+    fromPeopleOrRegister: "persone o un registro",
     contributeLead:
       'Registralo com’è fatto dove sei tu. Da questo modulo da solo non viene pubblicato nulla: prima passa dalla valutazione e dalla conferma della comunità.',
     writeItTheWayYouWriteIt:
@@ -5655,6 +5659,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'os documentos podem',
     fromPeople:
       'só as pessoas',
+    fromPeopleOrRegister: "pessoas ou um registo",
     contributeLead:
       'Registe-o tal como é feito onde você está. Nada é publicado só com este formulário — passa primeiro pela avaliação e pela validação da comunidade.',
     writeItTheWayYouWriteIt:
@@ -6993,6 +6998,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'documenten kunnen',
     fromPeople:
       'alleen mensen',
+    fromPeopleOrRegister: "mensen of een register",
     contributeLead:
       'Leg het vast zoals het gemaakt wordt waar u bent. Uit dit formulier alleen wordt niets gepubliceerd — het gaat eerst door de beoordeling en door de bevestiging van de gemeenschap.',
     writeItTheWayYouWriteIt:
@@ -8330,6 +8336,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'dokumenty mogą',
     fromPeople:
       'tylko ludzie',
+    fromPeopleOrRegister: "ludzie lub rejestr",
     contributeLead:
       'Zapisz to tak, jak robi się to tam, gdzie jesteś. Z samego tego formularza nic nie zostaje opublikowane — najpierw przechodzi przez ocenę i przez potwierdzenie społeczności.',
     writeItTheWayYouWriteIt:
@@ -9691,6 +9698,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'belgeler yapabilir',
     fromPeople:
       'yalnızca insanlar',
+    fromPeopleOrRegister: "insanlar ya da bir tescil",
     contributeLead:
       'Bulunduğunuz yerde nasıl yapılıyorsa öyle kaydedin. Yalnızca bu formdan hiçbir şey yayımlanmaz — önce değerlendirmeden ve topluluk doğrulamasından geçer.',
     writeItTheWayYouWriteIt:
@@ -11028,6 +11036,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'документы могут',
     fromPeople:
       'только люди',
+    fromPeopleOrRegister: "люди или реестр",
     contributeLead:
       'Запишите так, как это делают там, где вы находитесь. Из одной этой формы ничего не публикуется — сначала идёт оценка и подтверждение сообществом.',
     writeItTheWayYouWriteIt:
@@ -12389,6 +12398,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'दस्तावेज़ बता सकते हैं',
     fromPeople:
       'केवल लोग',
+    fromPeopleOrRegister: "लोग, या कोई रजिस्टर",
     contributeLead:
       'जहाँ आप हैं वहाँ जैसे बनता है, वैसे ही दर्ज करें। सिर्फ़ इस फ़ॉर्म से कुछ भी प्रकाशित नहीं होता — पहले आकलन और समुदाय की पुष्टि से गुज़रता है।',
     writeItTheWayYouWriteIt:
@@ -13726,6 +13736,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '文献可以',
     fromPeople:
       '只有人可以',
+    fromPeopleOrRegister: "人，或名录",
     contributeLead:
       '按你所在地的做法记录下来。仅凭这份表格不会发布任何内容 — 它要先经过评估和社区确认。',
     writeItTheWayYouWriteIt:
@@ -15063,6 +15074,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '文献でわかる',
     fromPeople:
       '人だけがわかる',
+    fromPeopleOrRegister: "人、または登録制度",
     contributeLead:
       'あなたのいる土地での作り方のまま記録してください。この用紙だけで公開されるものはありません — まず評価と、地域の人による確認を通ります。',
     writeItTheWayYouWriteIt:

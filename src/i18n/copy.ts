@@ -279,6 +279,7 @@ export interface Copy {
   dimensionCommunity: string;
   fromDocuments: string;
   fromPeople: string;
+  fromPeopleOrRegister: string;
   contributeLead: string;
   writeItTheWayYouWriteIt: string;
   editorialRuleBody: string;
@@ -1169,6 +1170,8 @@ export const EN: Copy = {
     'documents can',
   fromPeople:
     'only people',
+  fromPeopleOrRegister:
+    'people, or a register',
   contributeLead:
     'Record it as it is made where you are. Nothing is published from this form alone — it goes through assessment and community validation first.',
   writeItTheWayYouWriteIt:
