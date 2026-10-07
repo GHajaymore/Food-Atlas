@@ -26,7 +26,10 @@ import { BRAND } from '../brand';
 const TITLES: { of: string; label: (copy: Copy) => string }[] = [
   { of: '/how', label: (copy) => copy.howItWorks },
   { of: '/atlas', label: (copy) => copy.foodAtlas },
-  { of: '/browse', label: (copy) => copy.browse },
+  /* The longer phrase, because it is the one the prerendered HTML carries and a tab
+     that rewrites itself from "Browse the world atlas" to "Browse" on arrival looks
+     like a bug. `copy.browse` is the chip on the screen, not its name. */
+  { of: '/browse', label: (copy) => copy.browseTheAtlas },
   { of: '/place', label: (copy) => copy.foodAtlas },
   { of: '/search', label: (copy) => copy.search },
   { of: '/propose', label: (copy) => copy.proposeADish },

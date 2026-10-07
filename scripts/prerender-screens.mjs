@@ -58,14 +58,14 @@ const SCREENS = [
   },
   {
     path: '/browse',
-    title: 'Browse the atlas',
+    title: 'Browse the world atlas',
     description:
       `Filter ${records} traditions by country, occasion, diet and how well documented each one is. ` +
       'Every record shows the evidence behind it.',
   },
   {
     path: '/search',
-    title: 'Search the atlas',
+    title: 'Search',
     description:
       `Search ${records} traditional dishes by name, place or ingredient — local names and other ` +
       'spellings are searched too.',
@@ -132,8 +132,15 @@ for (const screen of SCREENS) {
       /<meta name="twitter:description" content="[^"]*"\s*\/?>/,
       `<meta name="twitter:description" content="${description}" />`,
     )
-    /* Its own canonical, so the duplicate it used to be is now a page in its own right. */
-    .replace('</head>', `    <link rel="canonical" href="${url}" />\n  </head>`);
+    /*
+     * Its own canonical, so the duplicate it used to be is now a page in its own right.
+     *
+     * At the top of the head rather than the foot, because the inline script injected by
+     * `inject-canonical.mjs` writes one for the current path unless it finds one already
+     * there — and it runs where it sits, which is further down.
+     */
+    .replace('<head>', `<head>
+    <link rel="canonical" href="${url}" />`);
 
   writeFileSync(resolve(DIST, `${screen.path.slice(1)}.html`), page);
   written += 1;

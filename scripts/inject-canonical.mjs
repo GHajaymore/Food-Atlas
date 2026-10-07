@@ -45,6 +45,7 @@ const ALTERNATE_HOST = 'wikifoodia.pages.dev';
 const script = `<script>(function(){try{
 var canon=${JSON.stringify(CANONICAL_HOST)},alt=${JSON.stringify(ALTERNATE_HOST)};
 if(location.hostname===alt){location.replace('https://'+canon+location.pathname+location.search+location.hash);return;}
+if(document.querySelector('link[rel="canonical"]'))return;
 var l=document.createElement('link');l.rel='canonical';
 l.href='https://'+canon+location.pathname;
 document.head.appendChild(l);
