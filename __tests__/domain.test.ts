@@ -3445,6 +3445,31 @@ describe('a record named for the query comes before one that merely contains it'
     expect(order.map((d) => d.id)).toEqual([91_004, 91_005, 91_002]);
   });
 
+  /*
+   * The third tier, measured on the live catalogue: searching "pierogi" returned Momo
+   * first — a Polish local name on the momo record mentions pierogi, and Pierogi itself
+   * is unscored, so evidence ordering sent the record with that exact name to the bottom
+   * of its own result. "kimchi" did the same behind Dubu-kimchi.
+   */
+  it('puts the record called exactly that first, scored or not', () => {
+    const exact: Dish = { ...halwa(), id: 91_010, name: 'Pierogi', score: null, localNames: {} };
+    const mentionsIt: Dish = {
+      ...halwa(),
+      id: 91_011,
+      name: 'Momo',
+      score: 25,
+      localNames: { pl: 'Pierogi tybetańskie' },
+    };
+    const order = searchResults([mentionsIt, exact], facets('pierogi'));
+    expect(order.map((d) => d.id)).toEqual([91_010, 91_011]);
+  });
+
+  it('counts an exact local name too, in any script', () => {
+    const exact: Dish = { ...halwa(), id: 91_012, name: 'Kimchi', score: 10, localNames: { ko: '김치' } };
+    const better: Dish = { ...halwa(), id: 91_013, name: 'Dubu-kimchi', score: 90, localNames: { ko: '두부김치' } };
+    expect(searchResults([better, exact], facets('김치')).map((d) => d.id)).toEqual([91_012, 91_013]);
+  });
+
   it('changes nothing when there is no query to be relevant to', () => {
     const order = searchResults([named, mentions], facets(''));
     expect(order.map((d) => d.id)).toEqual([91_002, 91_001]);

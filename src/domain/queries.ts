@@ -249,8 +249,41 @@ function nameHaystackFor(dish: Dish): string {
  * the name it covers — is guesswork dressed as precision, and this atlas has enough
  * numbers that mean something.
  */
-const relevance = (dish: Dish, wanted: string[]): number =>
-  matchesAllTerms(nameHaystackFor(dish), wanted) ? 1 : 0;
+/**
+ * The names this record answers to, each folded on its own.
+ *
+ * `nameHaystackFor` joins them into one string, which is right for "does any name
+ * mention this" and useless for "is this record called that" — in the joined string
+ * every name runs into the next. Kept beside it rather than replacing it: the two
+ * questions are different and the tiers below ask both.
+ */
+const eachName = new WeakMap<Dish, string[]>();
+
+function namesOf(dish: Dish): string[] {
+  const cached = eachName.get(dish);
+  if (cached !== undefined) return cached;
+  const names = [dish.name, ...Object.values(dish.localNames ?? {})].filter(Boolean).map((n) => fold(n));
+  eachName.set(dish, names);
+  return names;
+}
+
+const relevance = (dish: Dish, wanted: string[]): number => {
+  if (!wanted.length) return 0;
+  /*
+   * A record called exactly what was typed comes first.
+   *
+   * The two tiers below were deliberate and remain so; this third one is not a finer
+   * guess at how well a name matches, it is the case where there is nothing to guess.
+   * Measured: searching "pierogi" put Momo first — a Polish local name on the momo
+   * record mentions pierogi, and Pierogi itself is unscored, so evidence ordering sent
+   * the record with that exact name to the bottom of its own result. "kimchi" did the
+   * same behind Dubu-kimchi. A reader typing a dish's name has not asked for the
+   * best-evidenced record that mentions it.
+   */
+  const typed = wanted.join(' ');
+  if (namesOf(dish).includes(typed)) return 2;
+  return matchesAllTerms(nameHaystackFor(dish), wanted) ? 1 : 0;
+};
 
 function haystackFor(dish: Dish): string {
   const cached = haystacks.get(dish);
