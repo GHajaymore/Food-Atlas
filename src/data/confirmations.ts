@@ -17,8 +17,15 @@ import { CONFIRMATIONS_URL, canConfirm } from '../domain/confirmations';
 import { saidLabels, SAID_REQUIRED } from '../domain/confirmations';
 import { stillNeeded } from '../domain/entry';
 
-/** What the caller needs to know about a write that did not happen. */
-export type Sent = { ok: true } | { ok: false; error: string };
+/**
+ * What the caller needs to know about a write.
+ *
+ * `verified` is whether this confirmation counted toward the badge — which only the
+ * server can answer, because the session is an HttpOnly cookie the page cannot read. The
+ * record page needs it: a line saying two more people would meet the bar is false if the
+ * one just written was anonymous and therefore moved nothing.
+ */
+export type Sent = { ok: true; verified?: boolean } | { ok: false; error: string };
 
 /** One row as the moderator's view returns it — with its id, and its status. */
 export interface ModeratedConfirmation {
@@ -78,7 +85,8 @@ export async function submitConfirmation(
       return { ok: false, error: copy.serverRefused.replace('{status}', String(response.status)) };
     }
 
-    return { ok: true };
+    const body = (await response.json().catch(() => ({}))) as { verified?: boolean };
+    return { ok: true, verified: body.verified === true };
   } catch (error) {
     return failed(copy ?? EN, error);
   }

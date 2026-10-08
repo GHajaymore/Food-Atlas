@@ -78,6 +78,37 @@ describe('what the client refuses to send', () => {
   });
 });
 
+describe('whether it counted is the server’s answer, not a guess', () => {
+  /*
+   * The session is an HttpOnly cookie, so the page cannot tell whether the person who
+   * just wrote something was signed in — and the standing line is false if it assumes.
+   * Every confirmation is kept and shown; only a signed-in one moves the number.
+   */
+  test('an anonymous confirmation is accepted and counts nothing', async () => {
+    global.fetch = answered(201, { ok: true, verified: false }) as unknown as typeof fetch;
+
+    const result = await submitConfirmation(EN, 1, said);
+
+    expect(result).toEqual({ ok: true, verified: false });
+  });
+
+  test('a signed-in one says so', async () => {
+    global.fetch = answered(201, { ok: true, verified: true }) as unknown as typeof fetch;
+
+    const result = await submitConfirmation(EN, 1, said);
+
+    expect(result).toEqual({ ok: true, verified: true });
+  });
+
+  test('a body that says nothing about it counts nothing', async () => {
+    global.fetch = answered(201, {}) as unknown as typeof fetch;
+
+    const result = await submitConfirmation(EN, 1, said);
+
+    expect(result).toEqual({ ok: true, verified: false });
+  });
+});
+
 describe('what a reader is told when the server refuses', () => {
   test('a second confirmation of the same record is a fact, not an error', async () => {
     global.fetch = answered(409) as unknown as typeof fetch;

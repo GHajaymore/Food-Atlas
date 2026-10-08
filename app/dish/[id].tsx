@@ -211,6 +211,9 @@ export default function DishDetail() {
      index again. Nothing is invented here: these are their own words coming back. */
   const [justSaid, setJustSaid] = useState<Said[]>([]);
   const [confirming, setConfirming] = useState(false);
+  /* Of those, how many the server said it counted — a signed-in confirmation moves the
+     number, an anonymous one is kept and shown and moves nothing. */
+  const [justCounted, setJustCounted] = useState(0);
 
   const askPlace = placeInSentence(
     dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country,
@@ -249,10 +252,23 @@ export default function DishDetail() {
     ...justSaid,
   ];
 
+  /*
+   * How many of them the badge actually counts.
+   *
+   * Every confirmation is kept and shown — an anonymous one is still knowledge, and the
+   * people least likely to hold an account are the ones this depends on — but only a
+   * signed-in one moves the number, because the whole of "three confirmations" meaning
+   * three people is that each is tied to an account somebody else issued. So the standing
+   * line counts those, and the list above shows everybody.
+   *
+   * The server says which, since the session is a cookie the page cannot read.
+   */
+  const counted = (dish.confirmations ?? []).filter((person) => person.verified).length + justCounted;
+
   const ask = confirmAsk(
     copy,
     isDocumented,
-    confirmStanding(copy, askPlace, said.length, scoreThresholds().validationsRequired),
+    confirmStanding(copy, askPlace, counted, scoreThresholds().validationsRequired),
   );
 
   const siblings = siblingsOf(dish, catalogue);
@@ -1130,7 +1146,10 @@ export default function DishDetail() {
                     /* Shown at once. The server is the truth, but a reader who says
                        something and sees no change assumes it failed. The score behind it
                        moves on the next load, when the index is fetched again. */
-                    if (result.ok) setJustSaid((prev) => [...prev, said]);
+                    if (result.ok) {
+                      setJustSaid((prev) => [...prev, said]);
+                      if (result.verified) setJustCounted((n) => n + 1);
+                    }
                     return result.ok ? { ok: true } : { ok: false, error: result.error };
                   }}
                 />

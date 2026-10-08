@@ -238,5 +238,13 @@ export const onRequestPost: PagesFunction<Env, string, Identity> = async ({ requ
     throw error;
   }
 
-  return json({ ok: true }, 201);
+  /*
+   * Whether this one counted, said by the side that knows.
+   *
+   * Every confirmation is kept and shown; only a signed-in one moves the number the badge
+   * rests on. The client cannot work that out for itself — the session is an HttpOnly
+   * cookie — and the page has to know, because "2 more people would meet it" is false if
+   * the one just written was anonymous.
+   */
+  return json({ ok: true, verified: accountId !== '' }, 201);
 };
