@@ -25,13 +25,25 @@ import { H6, Muted, T } from './Text';
 import { Tag } from './Tag';
 
 /**
+ * @param explainLanguage Whether this card carries the line about what the reader will
+ * hear. Same rule, same reason: three videos in one language printed the identical thirty
+ * words three times, and the sentence is about the language rather than about the video.
+ *
  * @param explainMissingIngredients Whether this card carries the sentence about why no
  * ingredient list is shown. True on the first such card in a group and false on the rest:
  * the explanation is about the atlas, not about this video, and Kozhikode Halwa printed
  * the same 27 words three times, once under each video. The capture button stays on every
  * card, because that one really is per video.
  */
-export function VideoCard({ video, explainMissingIngredients = true }: { video: Video; explainMissingIngredients?: boolean }) {
+export function VideoCard({
+  video,
+  explainMissingIngredients = true,
+  explainLanguage = true,
+}: {
+  video: Video;
+  explainMissingIngredients?: boolean;
+  explainLanguage?: boolean;
+}) {
   const copy = useCopy();
   const hasIngredients = !!video.ingredients?.length;
   /* The reader's own language, straight from the picker.
@@ -98,7 +110,7 @@ export function VideoCard({ video, explainMissingIngredients = true }: { video: 
           fontSize={10}
           noWrap
         />
-        <Muted style={styles.languageNote}>{plan.note}</Muted>
+        {explainLanguage ? <Muted style={styles.languageNote}>{plan.note}</Muted> : null}
       </View>
 
       {hasIngredients ? (

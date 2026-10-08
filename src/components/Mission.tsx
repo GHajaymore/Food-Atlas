@@ -45,6 +45,7 @@ import { useCopy, useNumber } from '../i18n';
 import { canConfirm } from '../domain/confirmations';
 import { useLayout } from '../theme/layout';
 import { canContribute } from '../domain/contribution';
+import { documentaryCeiling } from '../domain/assess';
 import { canPropose } from '../domain/proposals';
 import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
@@ -110,7 +111,7 @@ export function useMissionNumbers() {
  * /how derives the same figure the same way; both must move together or the app
  * contradicts itself on the one page that argues its figures are checkable.
  */
-const DOCUMENTED_CEILING = 43;
+const DOCUMENTED_CEILING = documentaryCeiling();
 
 /**
  * The headline and the sentence under it.

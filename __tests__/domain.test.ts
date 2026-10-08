@@ -18,7 +18,7 @@ import {
   VALIDATIONS_REQUIRED,
   viewsNumber,
 } from '../src/domain/authenticity';
-import { assess, AUTHENTIC_AT } from '../src/domain/assess';
+import { assess, AUTHENTIC_AT, documentaryCeiling } from '../src/domain/assess';
 import { detectAtRisk } from '../src/domain/atRisk';
 import { countryFor, slugFor } from '../src/domain/countrySlug';
 import { placeInSentence } from '../src/domain/placeArticle';
@@ -1631,6 +1631,40 @@ describe('the browser tab says what is on screen', () => {
 /**
  * "it is not a record of how it is prepared in United Kingdom".
  */
+/**
+ * Where documents stop, asked of the scoring function rather than typed in.
+ *
+ * It was typed in three times — /how, Mission and ScoreBreakdown each held
+ * `const DOCUMENTED_CEILING = 43` — and the gauge on every record marked 43 under a
+ * score of 23, on a panel whose whole argument is that the arithmetic is checkable.
+ * 43 is reachable only with a register-published production method, and nothing in the
+ * catalogue has one.
+ */
+describe('the documentary ceiling is arithmetic, not a constant', () => {
+  it('caps below the threshold either way, which is the entire argument', () => {
+    expect(documentaryCeiling(false)).toBeLessThan(AUTHENTIC_AT);
+    expect(documentaryCeiling(true)).toBeLessThan(AUTHENTIC_AT);
+  });
+
+  it('is lower without a register than with one', () => {
+    expect(documentaryCeiling(false)).toBeLessThan(documentaryCeiling(true));
+  });
+
+  /* The number the pages print today. If the weights move this fails, which is the
+     point — three screens quote it and all three now read it from here. */
+  it('is 35 on ordinary published sources, and 43 with a register', () => {
+    expect(documentaryCeiling(false)).toBe(35);
+    expect(documentaryCeiling(true)).toBe(43);
+  });
+
+  /* And the catalogue as shipped: no record is credited for technique, so the ordinary
+     ceiling is the one every record is actually measured against. */
+  it('matches what the shipped catalogue can reach', () => {
+    const best = catalogue.reduce((top, dish) => Math.max(top, dish.score ?? 0), 0);
+    expect(best).toBeLessThanOrEqual(documentaryCeiling(false));
+  });
+});
+
 describe('a place reads as English when it is inside a sentence', () => {
   it('adds the article the few English names need', () => {
     expect(placeInSentence('United Kingdom', 'en')).toBe('the United Kingdom');

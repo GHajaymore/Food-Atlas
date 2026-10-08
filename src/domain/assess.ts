@@ -234,6 +234,37 @@ const CLASSIFICATION: Record<Exclude<Level, 'fusion' | 'adaptation'>, Omit<Asses
 export const AUTHENTIC_AT = 55;
 
 /**
+ * The best a record can score with perfect documents and nobody speaking for it.
+ *
+ * Asked of the scoring function rather than typed in, because it was typed in three
+ * times — `/how`, `Mission` and `ScoreBreakdown` each carried `const DOCUMENTED_CEILING =
+ * 43`, and the comment in the third one says exactly what that is: "how an app comes to
+ * contradict itself after somebody moves a threshold". It then contradicted itself
+ * anyway, in a way no threshold change was needed to cause.
+ *
+ * Two ceilings, because there are two. `withRegisterMethod` is the one documentary route
+ * to traditional technique — a heritage register publishing the production method it
+ * protects — and it is worth 8 points. Without it the arithmetic caps lower, and
+ * *without it is every record in the atlas today*: nothing in the catalogue carries that
+ * credit, so the gauge on a record should mark where documents stop for **that** record
+ * rather than where they could stop for a record that does not exist.
+ */
+export const documentaryCeiling = (withRegisterMethod = false): number =>
+  assess({
+    hasCountry: true,
+    hasRegion: true,
+    ingredients: ['', '', '', '', '', '', '', ''],
+    heritage: ['PDO', 'PGI', 'TSG'],
+    hasArticle: true,
+    extractLength: 100_000,
+    hasAccount: true,
+    registerMethod: withRegisterMethod,
+    /* The three a document cannot supply, left exactly as an import leaves them. */
+    validations: 0,
+    validatedLocally: false,
+  }).score ?? 0;
+
+/**
  * The two numbers that decide what "Authentic" means, passed in rather than compiled in.
  *
  * They became a parameter when an administrator gained the ability to change them

@@ -38,6 +38,7 @@
  */
 
 import { answeredBy, scoreDimensionLabel } from '../domain/authenticity';
+import { documentaryCeiling } from '../domain/assess';
 import { useCopy } from '../i18n';
 import { StyleSheet, View } from 'react-native';
 import { accentText, color, font, space } from '../theme/tokens';
@@ -52,7 +53,7 @@ import { Muted, T } from './Text';
  * `/how` and `Mission` derive it the same way; all three have to move together or the app
  * contradicts itself on the page that argues its figures are checkable.
  */
-const DOCUMENTED_CEILING = 43;
+const CEILING = { paper: documentaryCeiling(false), registered: documentaryCeiling(true) };
 
 interface Props {
   score: number;
@@ -80,6 +81,20 @@ export function ScoreBreakdown({ score, breakdown, showBars }: Props) {
 
   const documents = breakdown.filter(([label]) => answeredBy(label) === 'documents');
   const people = breakdown.filter(([label]) => answeredBy(label) === 'people');
+
+  /*
+   * Where documents stop for *this* record.
+   *
+   * The mark read 43 on every record, which is the ceiling a record reaches when a
+   * heritage register has published the production method it protects. Nothing in the
+   * catalogue carries that credit — measured: zero records are scored for traditional
+   * technique — so every reader was shown a gauge marked at a number no record here can
+   * reach, under a score of 23. For a panel whose whole argument is that the arithmetic
+   * is checkable, that is the wrong twenty points to be out by.
+   */
+  const ceiling = people.some(([label, value]) => /technique/i.test(label) && value > 0)
+    ? CEILING.registered
+    : CEILING.paper;
 
   const group = (rows: BreakdownRow[], heading: string, from: 'documents' | 'people') =>
     rows.length ? (
@@ -117,15 +132,15 @@ export function ScoreBreakdown({ score, breakdown, showBars }: Props) {
           >
             <View style={styles.scaleTrack}>
               <View style={[styles.scaleFill, { width: `${Math.max(0, Math.min(100, score))}%` }]} />
-              <View style={[styles.tick, styles.tickDocs, { left: `${DOCUMENTED_CEILING}%` }]} />
+              <View style={[styles.tick, styles.tickDocs, { left: `${ceiling}%` }]} />
               <View style={[styles.tick, styles.tickAuthentic, { left: `${authenticAt}%` }]} />
             </View>
             {/* A row each, so neither label can land on the other whichever one wraps. */}
             <View style={styles.scaleLabels}>
               <View style={styles.scaleLabelRow}>
-                <View style={{ width: `${DOCUMENTED_CEILING}%` }} />
+                <View style={{ width: `${ceiling}%` }} />
                 <Muted style={styles.scaleLabel} numberOfLines={2}>
-                  {DOCUMENTED_CEILING} · {copy.scaleDocumentsStop}
+                  {ceiling} · {copy.scaleDocumentsStop}
                 </Muted>
               </View>
               <View style={styles.scaleLabelRow}>

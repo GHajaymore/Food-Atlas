@@ -49,6 +49,7 @@ import { submitConfirmation } from '../../src/data/confirmations';
 import { useNoIndex } from '../../src/domain/noindex';
 import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { atRiskNote } from '../../src/domain/atRisk';
+import { planTranslation } from '../../src/domain/language';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
 import {
   confirmAsk,
@@ -888,19 +889,33 @@ export default function DishDetail() {
               <View style={styles.videos}>
                 {/* The note about a missing ingredient list belongs to the group, not to
                     each video, so only the first card that needs it carries it. */}
-                {dish.videos.map((video) => (
+                {dish.videos.map((video, i) => (
                   <VideoCard
                     key={video.id}
                     video={video}
                     explainMissingIngredients={
                       video.id === dish.videos.find((v) => !v.ingredients?.length)?.id
                     }
+                    /*
+                     * And the same for the language line, which says what a reader will
+                     * actually hear. Three videos in Malayalam printed the identical
+                     * thirty words three times, once under each — the sentence is about
+                     * the language, not about the video. Repeated only when the card
+                     * above it said something different, which is when it is news.
+                     */
+                    explainLanguage={
+                      i === 0 ||
+                      planTranslation(copy, video, locale).note !==
+                        planTranslation(copy, dish.videos[i - 1], locale).note
+                    }
                   />
                 ))}
               </View>
+              {/* Two sentences, and they were printed with nothing between them:
+                  "…the dish that cook made.Engagement figures are…". Visible on every
+                  record carrying a video, and only visible by reading the page. */}
               <Muted style={styles.videoNote}>
-                {copy.stillFramesFromVideos}
-                {copy.engagementNotShown}
+                {copy.stillFramesFromVideos} {copy.engagementNotShown}
               </Muted>
             </>
           ) : (
