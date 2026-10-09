@@ -70,10 +70,12 @@ for (const { country, slug, records, linkable: pages } of eligible) {
    */
   const waiting = records.length - pages.length;
   const description =
-    `${records.length.toLocaleString('en-GB')} traditions recorded from ${country}` +
+    `${records.length.toLocaleString('en-GB')} ${records.length === 1 ? 'tradition' : 'traditions'} recorded from ${country}` +
     (waiting
-      ? `, ${pages.length.toLocaleString('en-GB')} with a written method or ingredients. The other ` +
-        `${waiting.toLocaleString('en-GB')} are waiting for someone who knows them.`
+      ? `, ${pages.length.toLocaleString('en-GB')} with a written method or ingredients. ` +
+        (waiting === 1
+          ? 'The other one is waiting for someone who knows it.'
+          : `The other ${waiting.toLocaleString('en-GB')} are waiting for someone who knows them.`)
       : ', each with the evidence behind it.');
 
   const head = [

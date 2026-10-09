@@ -39,7 +39,7 @@ import { catalogueMetrics } from '../../src/domain/metrics';
 import { useNoIndex } from '../../src/domain/noindex';
 import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { BRAND } from '../../src/brand';
-import { useCopy, useLocale, useNumber } from '../../src/i18n';
+import { useCopy, useLocale, useNumber, usePlural } from '../../src/i18n';
 import { useLayout } from '../../src/theme/layout';
 import { color, font, space } from '../../src/theme/tokens';
 
@@ -49,6 +49,7 @@ export default function Country() {
   const copy = useCopy();
   const locale = useLocale((state) => state.locale);
   const n = useNumber();
+  const plural = usePlural();
   const layout = useLayout();
   const { slug } = useLocalSearchParams<{ slug: string }>();
   /* The atlas's own two figures, so this page cannot quote a different pair from the
@@ -123,7 +124,9 @@ export default function Country() {
       {/* The country's own name, never translated away — rule 1 on the atlas screen. */}
       <H4 style={styles.title}>{named}</H4>
       <Muted style={styles.count}>
-        {n(records.length)} {copy.traditionsRecorded}
+        {/* Through the plural rules, not a number beside a plural noun: Eritrea, whose one
+            record came back on 9 October, read "1 traditions recorded". */}
+        {plural('oneTradition', 'nTraditions', records.length)}
       </Muted>
 
       <View style={layout.wide ? styles.grid : undefined}>

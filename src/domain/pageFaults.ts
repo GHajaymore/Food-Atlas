@@ -116,6 +116,15 @@ export function faultsIn(page: PageUnderCheck, text: string, title: string, isEn
     }
   }
 
+  // A count of one beside a plural noun: Eritrea's page read "1 traditions recorded" when
+  // its only record came back, because the number and the noun were printed separately.
+  // English only, and not on records, where "1 eggs" is a recipe's own wording.
+  if (isEnglish && !page.record) {
+    for (const bad of text.match(/(?<![\d.,])\b1 (traditions|records|dishes|countries|people|recipes|places|videos|sources|photographs)\b/g) ?? []) {
+      faults.push(`singular count with a plural noun: "${bad}"`);
+    }
+  }
+
   // Every tab reading "WikiFoodia" whatever it was showing.
   if (!page.home && !page.notFound && title.trim() === 'WikiFoodia') {
     faults.push('document title is the bare brand');

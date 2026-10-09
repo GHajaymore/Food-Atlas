@@ -96,6 +96,13 @@ describe('each rule catches the fault it was written for', () => {
     ]);
   });
 
+  test('one of something, counted as many', () => {
+    expect(faultsIn(screen, 'Eritrea\n1 traditions recorded\nKategna', 'Eritrea · WikiFoodia', true)).toEqual([
+      'singular count with a plural noun: "1 traditions"',
+    ]);
+    expect(faultsIn(screen, '11 traditions · 21 countries · 1 tradition', 'X · WikiFoodia', true)).toEqual([]);
+  });
+
   test('a tab that does not say what it shows', () => {
     expect(faultsIn(screen, 'Food Atlas', 'WikiFoodia', true)).toEqual(['document title is the bare brand']);
   });
