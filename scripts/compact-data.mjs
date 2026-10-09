@@ -34,7 +34,7 @@ import { articleUrl } from '../src/domain/articleUrl.ts';
  * implementation of any of them would drift silently, and the drift would show up as
  * badges moving across the atlas with nothing to point at.
  */
-import { cleanBlurb, cleanName, cleanProse, proseLength } from '../src/data/build.ts';
+import { cardBlurb, cleanBlurb, cleanName, cleanProse, proseLength } from '../src/data/build.ts';
 import { detectAtRisk } from '../src/domain/atRisk.ts';
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
@@ -85,7 +85,7 @@ const PUBLIC = (name) => resolve(HERE, `../public/data/${name}.json`);
  * | `extractLength: prepSummary.length` | `prepLength` |
  * | `registerMethod: patRegion && prepSummary` | `patRegion && prepLength` |
  * | `detectAtRisk(prepSummary)` | `atRiskEvidence`, precomputed below |
- * | `cleanBlurb(prepSummary.slice(0, 220))` | `blurb`, precomputed below |
+ * | `cardBlurb(prepSummary)` — ends at a sentence | `blurb`, precomputed below |
  * | `prepSummary.trim()` in six screens | `hasProse()` |
  *
  * Which leaves the dish screen, the one place that shows the prose as prose. Exactly the
@@ -274,7 +274,7 @@ const main = async () => {
          * is the entire reason that script was written before this line was.
          */
         if (name === 'cuisines') {
-          const blurb = text ? cleanBlurb(text.slice(0, 220), cleanName(row.name ?? '')) : '';
+          const blurb = text ? cardBlurb(text, cleanName(row.name ?? '')) : '';
           if (blurb) out.blurb = blurb;
           else delete out.blurb;
         }

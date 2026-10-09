@@ -216,6 +216,38 @@ export function endAtSentence(text: string): string {
  */
 export const proseLength = (prose: string): number => prose.replace(/…$/u, '').length;
 
+/**
+ * The sentence a card prints, cut from the account so it ends where a sentence does.
+ *
+ * It was `prepSummary.slice(0, 220)`, and on 2,339 cards the knife fell mid-word: Balchão's
+ * card read "…the spice-vinegar paste, sugar, and s" with nothing after it, which looks like
+ * a broken page rather than a long account. `endAtSentence` already fixed exactly this for
+ * the accounts themselves; the card's own cut had been left behind.
+ *
+ * Same rule, applied to the window the card shows: back to the last complete sentence if
+ * that keeps at least half of it, otherwise back to the last whole word with an ellipsis,
+ * which is true — there is more. An account that fits the window is left as it is.
+ *
+ * Exported because `compact-data.mjs` precomputes this for the published files, and the two
+ * routes must not be able to disagree about what a card says.
+ */
+export function cardBlurb(prose: string, name: string): string {
+  const CARD = 220;
+  const text = prose.trim();
+  if (text.length <= CARD) return cleanBlurb(text, name);
+
+  const window = text.slice(0, CARD);
+  let last = -1;
+  for (const match of window.matchAll(SENTENCE_END)) last = (match.index ?? 0) + match[0].length;
+  if (last >= CARD / 2) return cleanBlurb(window.slice(0, last), name);
+
+  /* No sentence ends in the back half. Scripts without spaces (Chinese, Japanese, Thai)
+     have no word boundary to step back to, so they are marked where they stop. */
+  const space = window.lastIndexOf(' ');
+  const cut = space > CARD / 2 ? window.slice(0, space) : window;
+  return cleanBlurb(`${cut.replace(/[\s,;:–—-]+$/u, '')}…`, name);
+}
+
 export const cleanBlurb = (blurb: string, name: string): string => {
   const text = decodeEntities(blurb).replace(/\s+/g, ' ').trim().replace(/[,;:]$/, '');
   if (!text) return '';
@@ -1307,7 +1339,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
        * it has been.
        */
       blurb:
-        (prepSummary ? cleanBlurb(prepSummary.slice(0, 220), name) : (row.blurb ?? '')) ||
+        (prepSummary ? cardBlurb(prepSummary, name) : (row.blurb ?? '')) ||
         `Recorded as a dish of ${breadcrumb.join(' › ')}. How it is traditionally prepared has not been documented here yet.`,
 
       // The lead image of the dish's own article where the lead-image pass found
