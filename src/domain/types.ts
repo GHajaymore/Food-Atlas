@@ -157,7 +157,18 @@ export interface Dispute {
 /** One documented claim on a contested origin. Neutral language, always sourced. */
 export interface OriginClaim {
   place: string;
+  /** In English, as written. A hand-curated claim is an argument and stays as written. */
   claim: string;
+  /**
+   * The catalogue key for a claim the build writes itself — one of four fixed sentences
+   * — so the record page prints it in the reader's language. Until 9 October every one
+   * of the 1,000-odd claims was English in all twelve languages.
+   */
+  claimKey?: 'claimNamedByEntry' | 'claimJointInscription' | 'claimJointDesignation' | 'claimJointDesignationWithin';
+  /** Fills `{place}` in `claimJointDesignationWithin`. */
+  claimPlace?: string;
+  /** The same for a fixed source title: "Country of origin". */
+  titleKey?: 'sourceCountryOfOrigin';
   source: Source;
 }
 

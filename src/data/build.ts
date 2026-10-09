@@ -1694,6 +1694,7 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
       ? row.countries.slice(0, 4).map((place) => ({
           place,
           claim: 'A submitting state on this joint inscription.',
+          claimKey: 'claimJointInscription' as const,
           source: {
             title: row.name,
             publisher: 'UNESCO Intangible Cultural Heritage',
@@ -1857,6 +1858,8 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
             claim: state.within
               ? `Covered by this jointly registered designation, in ${state.within}.`
               : 'A member state covered by this jointly registered designation.',
+            claimKey: state.within ? ('claimJointDesignationWithin' as const) : ('claimJointDesignation' as const),
+            claimPlace: state.within || undefined,
             source: {
               title: `${row.name}${row.reference ? ` — ${row.reference}` : ''}`,
               publisher: row.attribution,
@@ -2186,6 +2189,8 @@ function originClaimsFrom(countries: string[] | undefined, articleUrl: string | 
     /* One sentence for both: it is shown untranslated in every language today, and a
        second English variant would be one more string no catalogue carries. */
     claim: `Named as a country of origin by this dish's encyclopaedia entry.`,
+    claimKey: 'claimNamedByEntry' as const,
+    titleKey: 'sourceCountryOfOrigin' as const,
     source: {
       title: 'Country of origin',
       publisher: articleUrl ? 'Wikipedia / Wikidata' : 'Wikidata',

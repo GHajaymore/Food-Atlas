@@ -734,6 +734,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Nada coincide con todo esto a la vez.',
     filtersLiftOneByOne: "Cada filtro de arriba se puede quitar por separado.",
+    claimNamedByEntry: "Nombrado como país de origen por la entrada enciclopédica de este plato.",
+    claimJointInscription: "Un Estado que presentó esta inscripción conjunta.",
+    claimJointDesignation: "Un Estado miembro amparado por esta denominación registrada conjuntamente.",
+    claimJointDesignationWithin: "Amparado por esta denominación registrada conjuntamente ({place}).",
+    sourceCountryOfOrigin: "País de origen",
     mostOfYourListFirst:
       'Primero lo que más coincide con tu lista',
     translatesTheAppsWords:
@@ -2074,6 +2079,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Rien ne correspond à tout cela à la fois.',
     filtersLiftOneByOne: "Chaque filtre ci-dessus peut être retiré séparément.",
+    claimNamedByEntry: "Cité comme pays d'origine par la notice encyclopédique de ce plat.",
+    claimJointInscription: "Un État ayant soumis cette inscription conjointe.",
+    claimJointDesignation: "Un État membre couvert par cette dénomination enregistrée conjointement.",
+    claimJointDesignationWithin: "Couvert par cette dénomination enregistrée conjointement ({place}).",
+    sourceCountryOfOrigin: "Pays d'origine",
     mostOfYourListFirst:
       'Ce qui recoupe le plus votre liste d’abord',
     translatesTheAppsWords:
@@ -3413,6 +3423,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Nichts passt auf all das zugleich.',
     filtersLiftOneByOne: "Jeder Filter oben lässt sich einzeln entfernen.",
+    claimNamedByEntry: "Im enzyklopädischen Eintrag zu diesem Gericht als Herkunftsland genannt.",
+    claimJointInscription: "Ein Staat, der diese gemeinsame Eintragung eingereicht hat.",
+    claimJointDesignation: "Ein Mitgliedstaat, für den diese gemeinsam eingetragene Bezeichnung gilt.",
+    claimJointDesignationWithin: "Von dieser gemeinsam eingetragenen Bezeichnung erfasst ({place}).",
+    sourceCountryOfOrigin: "Herkunftsland",
     mostOfYourListFirst:
       'Zuerst, was am meisten aus Ihrer Liste enthält',
     translatesTheAppsWords:
@@ -4752,6 +4767,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Non c’è niente che corrisponda a tutto questo insieme.',
     filtersLiftOneByOne: "Ogni filtro qui sopra si può togliere da solo.",
+    claimNamedByEntry: "Indicato come paese d'origine dalla voce enciclopedica di questo piatto.",
+    claimJointInscription: "Uno Stato che ha presentato questa iscrizione congiunta.",
+    claimJointDesignation: "Uno Stato membro coperto da questa denominazione registrata congiuntamente.",
+    claimJointDesignationWithin: "Coperto da questa denominazione registrata congiuntamente ({place}).",
+    sourceCountryOfOrigin: "Paese d'origine",
     mostOfYourListFirst:
       'Prima quello che usa di più la tua lista',
     translatesTheAppsWords:
@@ -6091,6 +6111,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Nada corresponde a tudo isto ao mesmo tempo.',
     filtersLiftOneByOne: "Cada filtro acima pode ser retirado separadamente.",
+    claimNamedByEntry: "Indicado como país de origem pela entrada enciclopédica deste prato.",
+    claimJointInscription: "Um Estado que apresentou esta inscrição conjunta.",
+    claimJointDesignation: "Um Estado-Membro abrangido por esta denominação registada conjuntamente.",
+    claimJointDesignationWithin: "Abrangido por esta denominação registada conjuntamente ({place}).",
+    sourceCountryOfOrigin: "País de origem",
     mostOfYourListFirst:
       'Primeiro o que usa mais da sua lista',
     translatesTheAppsWords:
@@ -7431,6 +7456,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Niets voldoet aan dit alles tegelijk.',
     filtersLiftOneByOne: "Elk filter hierboven kun je afzonderlijk weghalen.",
+    claimNamedByEntry: "Als land van herkomst genoemd in het encyclopedie-artikel over dit gerecht.",
+    claimJointInscription: "Een staat die deze gezamenlijke inschrijving heeft ingediend.",
+    claimJointDesignation: "Een lidstaat waarvoor deze gezamenlijk geregistreerde benaming geldt.",
+    claimJointDesignationWithin: "Valt onder deze gezamenlijk geregistreerde benaming ({place}).",
+    sourceCountryOfOrigin: "Land van herkomst",
     mostOfYourListFirst:
       'Eerst wat het meest van uw lijst gebruikt',
     translatesTheAppsWords:
@@ -8770,6 +8800,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Nic nie pasuje do tego wszystkiego naraz.',
     filtersLiftOneByOne: "Każdy filtr powyżej można usunąć osobno.",
+    claimNamedByEntry: "Wskazany jako kraj pochodzenia w haśle encyklopedycznym tej potrawy.",
+    claimJointInscription: "Państwo, które zgłosiło ten wspólny wpis.",
+    claimJointDesignation: "Państwo członkowskie objęte tym wspólnie zarejestrowanym oznaczeniem.",
+    claimJointDesignationWithin: "Objęte tym wspólnie zarejestrowanym oznaczeniem ({place}).",
+    sourceCountryOfOrigin: "Kraj pochodzenia",
     mostOfYourListFirst:
       'Najpierw to, co najbardziej korzysta z twojej listy',
     translatesTheAppsWords:
@@ -10133,6 +10168,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Bunların hepsine birden uyan bir şey yok.',
     filtersLiftOneByOne: "Yukarıdaki her filtre tek tek kaldırılabilir.",
+    claimNamedByEntry: "Bu yemeğin ansiklopedi maddesinde menşe ülkesi olarak geçiyor.",
+    claimJointInscription: "Bu ortak kaydı sunan devletlerden biri.",
+    claimJointDesignation: "Bu ortak tescilli adın kapsadığı üye devletlerden biri.",
+    claimJointDesignationWithin: "Bu ortak tescilli adın kapsamında ({place}).",
+    sourceCountryOfOrigin: "Menşe ülkesi",
     mostOfYourListFirst:
       'Önce listenizden en çok kullananlar',
     translatesTheAppsWords:
@@ -11472,6 +11512,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'Ничего не подходит подо всё это сразу.',
     filtersLiftOneByOne: "Каждый фильтр выше можно снять по отдельности.",
+    claimNamedByEntry: "Указана как страна происхождения в энциклопедической статье об этом блюде.",
+    claimJointInscription: "Государство, подавшее эту совместную заявку.",
+    claimJointDesignation: "Государство — член ЕС, на которое распространяется это совместно зарегистрированное наименование.",
+    claimJointDesignationWithin: "Под защитой этого совместно зарегистрированного наименования ({place}).",
+    sourceCountryOfOrigin: "Страна происхождения",
     mostOfYourListFirst:
       'Сначала то, что берёт из вашего списка больше всего',
     translatesTheAppsWords:
@@ -12835,6 +12880,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'इन सबसे एक साथ कुछ भी मेल नहीं खाता।',
     filtersLiftOneByOne: "ऊपर दिया हर फ़िल्टर अलग से हटाया जा सकता है।",
+    claimNamedByEntry: "इस व्यंजन की विश्वकोश प्रविष्टि में मूल देश के रूप में दर्ज।",
+    claimJointInscription: "इस संयुक्त अंकन को प्रस्तुत करने वाला एक राष्ट्र।",
+    claimJointDesignation: "इस संयुक्त रूप से पंजीकृत नाम के अंतर्गत आने वाला एक सदस्य राष्ट्र।",
+    claimJointDesignationWithin: "इस संयुक्त रूप से पंजीकृत नाम के अंतर्गत ({place})।",
+    sourceCountryOfOrigin: "मूल देश",
     mostOfYourListFirst:
       'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
     translatesTheAppsWords:
@@ -14174,6 +14224,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       '没有同时符合这一切的。',
     filtersLiftOneByOne: "上面的每个筛选条件都可以单独取消。",
+    claimNamedByEntry: "此菜的百科条目将其列为原产国。",
+    claimJointInscription: "联合申报这一项目的国家之一。",
+    claimJointDesignation: "这一联合注册名称所涵盖的成员国之一。",
+    claimJointDesignationWithin: "受这一联合注册名称保护（{place}）。",
+    sourceCountryOfOrigin: "原产国",
     mostOfYourListFirst:
       '用到你清单最多的排在前面',
     translatesTheAppsWords:
@@ -15513,6 +15568,11 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     nothingMatchesAll:
       'これらすべてに同時に当てはまるものはありません。',
     filtersLiftOneByOne: "上の絞り込みは、一つずつ外せます。",
+    claimNamedByEntry: "この料理の百科事典の項目で原産国として挙げられています。",
+    claimJointInscription: "この共同登録を申請した国の一つ。",
+    claimJointDesignation: "この共同登録された名称の対象となる加盟国の一つ。",
+    claimJointDesignationWithin: "この共同登録された名称の対象（{place}）。",
+    sourceCountryOfOrigin: "原産国",
     mostOfYourListFirst:
       '手持ちの材料をいちばん使うものから',
     translatesTheAppsWords:

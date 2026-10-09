@@ -511,6 +511,11 @@ export interface Copy {
   confirmedBy: string;
   nothingMatchesAll: string;
   filtersLiftOneByOne: string;
+  claimNamedByEntry: string;
+  claimJointInscription: string;
+  claimJointDesignation: string;
+  claimJointDesignationWithin: string;
+  sourceCountryOfOrigin: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1610,6 +1615,11 @@ export const EN: Copy = {
     'Nothing matches all of these at once.',
   filtersLiftOneByOne:
     'Each filter above can be lifted on its own.',
+  claimNamedByEntry: "Named as a country of origin by this dish's encyclopaedia entry.",
+  claimJointInscription: "A submitting state on this joint inscription.",
+  claimJointDesignation: "A member state covered by this jointly registered designation.",
+  claimJointDesignationWithin: "Covered by this jointly registered designation, in {place}.",
+  sourceCountryOfOrigin: "Country of origin",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:

@@ -1057,9 +1057,13 @@ export default function DishDetail() {
                     style={styles.sourceRow}
                   >
                     <T style={styles.sourceTitle}>{claim.place}</T>
-                    <Muted style={styles.sourceMeta}>{claim.claim}</Muted>
                     <Muted style={styles.sourceMeta}>
-                      {claim.source.publisher} · {claim.source.title} ↗
+                      {claim.claimKey
+                        ? copy[claim.claimKey].replace('{place}', claim.claimPlace ?? '')
+                        : claim.claim}
+                    </Muted>
+                    <Muted style={styles.sourceMeta}>
+                      {claim.source.publisher} · {claim.titleKey ? copy[claim.titleKey] : claim.source.title} ↗
                     </Muted>
                   </Pressable>
                 ))}

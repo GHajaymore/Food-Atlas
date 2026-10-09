@@ -4,7 +4,7 @@ Generated from `src/i18n/catalogues.ts` by a script, so what is below is exactly
 
 Every string in the app's twelve other languages was written by a model, not run through a
 translation service — and not one has been read by a native speaker. These are the
-24 that matter most: the ones a reader is asked to act on, and the ones that make a
+29 that matter most: the ones a reader is asked to act on, and the ones that make a
 claim the atlas has to be able to defend.
 
 **For a reviewer:** read your language's section against the English. Mark anything that is
@@ -68,6 +68,16 @@ place names are never translated, deliberately.
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Dos de esas seis no las responde ningún documento jamás escrito: ninguna enciclopedia es una persona del lugar. La tercera, la técnica, solo se responde cuando un catálogo oficial de patrimonio publica el método de producción que protege. Con ellas vacías, un registro alcanza como máximo {ceiling} con fuentes publicadas: {registered} cuando ese catálogo existe. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Un registro se llama Auténtico a partir de {threshold}. La distancia entre esas dos cifras es deliberada, y es todo el argumento: solo pueden cerrarla quienes conocen el plato. | |
 
+### Origin claims (added 9 October)
+
+| English | Español | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Nombrado como país de origen por la entrada enciclopédica de este plato. | |
+| A submitting state on this joint inscription. | Un Estado que presentó esta inscripción conjunta. | |
+| A member state covered by this jointly registered designation. | Un Estado miembro amparado por esta denominación registrada conjuntamente. | |
+| Covered by this jointly registered designation, in {place}. | Amparado por esta denominación registrada conjuntamente ({place}). | |
+| Country of origin | País de origen | |
+
 ## Français (`fr`)
 
 ### The ask on every record
@@ -123,6 +133,16 @@ place names are never translated, deliberately.
 | The version recorded here | La version enregistrée ici | |
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Deux de ces six ne peuvent être renseignées par aucun document jamais écrit : aucune encyclopédie n’est une personne du lieu. La troisième, la technique, ne l’est que lorsqu’un registre patrimonial publie la méthode de production qu’il protège. Sans elles, une fiche atteint au mieux {ceiling} à partir de sources publiées — {registered} lorsqu’un tel registre existe. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Une fiche est dite Authentique à partir de {threshold}. L’écart entre ces deux chiffres est délibéré, et c’est tout l’argument : seules les personnes qui connaissent le plat peuvent le combler. | |
+
+### Origin claims (added 9 October)
+
+| English | Français | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Cité comme pays d'origine par la notice encyclopédique de ce plat. | |
+| A submitting state on this joint inscription. | Un État ayant soumis cette inscription conjointe. | |
+| A member state covered by this jointly registered designation. | Un État membre couvert par cette dénomination enregistrée conjointement. | |
+| Covered by this jointly registered designation, in {place}. | Couvert par cette dénomination enregistrée conjointement ({place}). | |
+| Country of origin | Pays d'origine | |
 
 ## Deutsch (`de`)
 
@@ -180,6 +200,16 @@ place names are never translated, deliberately.
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Zwei dieser sechs kann kein jemals geschriebenes Dokument beantworten: keine Enzyklopädie ist ein Mensch aus dem Ort. Die dritte, die Technik, nur dort, wo ein Herkunftsregister das geschützte Herstellungsverfahren veröffentlicht. Ohne sie erreicht ein Eintrag aus veröffentlichten Quellen höchstens {ceiling} — {registered}, wo es ein solches Register gibt. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Ein Eintrag heißt ab {threshold} echt. Der Abstand zwischen diesen beiden Zahlen ist Absicht und ist das ganze Argument: Schließen können ihn nur Menschen, die das Gericht kennen. | |
 
+### Origin claims (added 9 October)
+
+| English | Deutsch | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Im enzyklopädischen Eintrag zu diesem Gericht als Herkunftsland genannt. | |
+| A submitting state on this joint inscription. | Ein Staat, der diese gemeinsame Eintragung eingereicht hat. | |
+| A member state covered by this jointly registered designation. | Ein Mitgliedstaat, für den diese gemeinsam eingetragene Bezeichnung gilt. | |
+| Covered by this jointly registered designation, in {place}. | Von dieser gemeinsam eingetragenen Bezeichnung erfasst ({place}). | |
+| Country of origin | Herkunftsland | |
+
 ## Italiano (`it`)
 
 ### The ask on every record
@@ -235,6 +265,16 @@ place names are never translated, deliberately.
 | The version recorded here | La versione registrata qui | |
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Due di queste sei non può rispondervi nessun documento mai scritto: nessuna enciclopedia è una persona del posto. La terza, la tecnica, solo dove un registro di tutela pubblica il metodo di produzione che protegge. Senza di esse, una scheda arriva al massimo a {ceiling} con fonti pubblicate: {registered} dove quel registro esiste. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Una scheda si dice Autentica a {threshold}. La distanza fra quei due numeri è voluta ed è tutto l’argomento: può colmarla solo chi conosce il piatto. | |
+
+### Origin claims (added 9 October)
+
+| English | Italiano | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Indicato come paese d'origine dalla voce enciclopedica di questo piatto. | |
+| A submitting state on this joint inscription. | Uno Stato che ha presentato questa iscrizione congiunta. | |
+| A member state covered by this jointly registered designation. | Uno Stato membro coperto da questa denominazione registrata congiuntamente. | |
+| Covered by this jointly registered designation, in {place}. | Coperto da questa denominazione registrata congiuntamente ({place}). | |
+| Country of origin | Paese d'origine | |
 
 ## Português (`pt`)
 
@@ -292,6 +332,16 @@ place names are never translated, deliberately.
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Duas destas seis não podem ser respondidas por nenhum documento alguma vez escrito: nenhuma enciclopédia é uma pessoa do lugar. A terceira, a técnica, só onde um registo de património publica o método de produção que protege. Sem elas, um registo do atlas atinge no máximo {ceiling} com fontes publicadas — {registered} onde esse registo existe. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Um registo é chamado Autêntico a partir de {threshold}. A distância entre esses dois números é deliberada e é todo o argumento: só pode ser fechada por quem conhece o prato. | |
 
+### Origin claims (added 9 October)
+
+| English | Português | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Indicado como país de origem pela entrada enciclopédica deste prato. | |
+| A submitting state on this joint inscription. | Um Estado que apresentou esta inscrição conjunta. | |
+| A member state covered by this jointly registered designation. | Um Estado-Membro abrangido por esta denominação registada conjuntamente. | |
+| Covered by this jointly registered designation, in {place}. | Abrangido por esta denominação registada conjuntamente ({place}). | |
+| Country of origin | País de origem | |
+
 ## Nederlands (`nl`)
 
 ### The ask on every record
@@ -347,6 +397,16 @@ place names are never translated, deliberately.
 | The version recorded here | De hier vastgelegde versie | |
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Twee van die zes kan geen enkel geschreven document beantwoorden: geen encyclopedie is een mens uit die plaats. De derde, de techniek, alleen waar een erfgoedregister de beschermde bereidingswijze publiceert. Zonder die drie haalt een record met gepubliceerde bronnen hooguit {ceiling} — {registered} waar zo’n register bestaat. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Een record heet Echt vanaf {threshold}. De afstand tussen die twee getallen is bewust en is het hele argument: alleen mensen die het gerecht kennen kunnen hem dichten. | |
+
+### Origin claims (added 9 October)
+
+| English | Nederlands | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Als land van herkomst genoemd in het encyclopedie-artikel over dit gerecht. | |
+| A submitting state on this joint inscription. | Een staat die deze gezamenlijke inschrijving heeft ingediend. | |
+| A member state covered by this jointly registered designation. | Een lidstaat waarvoor deze gezamenlijk geregistreerde benaming geldt. | |
+| Covered by this jointly registered designation, in {place}. | Valt onder deze gezamenlijk geregistreerde benaming ({place}). | |
+| Country of origin | Land van herkomst | |
 
 ## Polski (`pl`)
 
@@ -404,6 +464,16 @@ place names are never translated, deliberately.
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Na dwa z tych sześciu nie odpowie żaden kiedykolwiek napisany dokument: żadna encyklopedia nie jest człowiekiem z tego miejsca. Na trzeci, technikę, odpowiada tylko rejestr chronionych produktów, który publikuje metodę wytwarzania. Bez nich wpis osiąga ze źródeł publikowanych najwyżej {ceiling} — {registered} tam, gdzie taki rejestr istnieje. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Wpis nazywa się Autentycznym od {threshold}. Odstęp między tymi dwiema liczbami jest zamierzony i jest całym argumentem: zamknąć go mogą tylko ludzie, którzy znają tę potrawę. | |
 
+### Origin claims (added 9 October)
+
+| English | Polski | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Wskazany jako kraj pochodzenia w haśle encyklopedycznym tej potrawy. | |
+| A submitting state on this joint inscription. | Państwo, które zgłosiło ten wspólny wpis. | |
+| A member state covered by this jointly registered designation. | Państwo członkowskie objęte tym wspólnie zarejestrowanym oznaczeniem. | |
+| Covered by this jointly registered designation, in {place}. | Objęte tym wspólnie zarejestrowanym oznaczeniem ({place}). | |
+| Country of origin | Kraj pochodzenia | |
+
 ## Türkçe (`tr`)
 
 ### The ask on every record
@@ -459,6 +529,16 @@ place names are never translated, deliberately.
 | The version recorded here | Burada kaydedilen hâli | |
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | Bu altısından ikisini yazılmış hiçbir belge yanıtlayamaz: hiçbir ansiklopedi o yerin insanı değildir. Üçüncüsünü, tekniği, yalnızca koruduğu üretim yöntemini yayımlayan bir tescil kaydı yanıtlar. Bunlar boşken bir kayıt, yayımlanmış kaynaklarla en çok {ceiling} alır — böyle bir tescil varsa {registered}. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Bir kayda {threshold} puandan itibaren Otantik denir. Bu iki sayı arasındaki mesafe bilinçlidir ve bütün mesele odur: onu ancak yemeği bilenler kapatabilir. | |
+
+### Origin claims (added 9 October)
+
+| English | Türkçe | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Bu yemeğin ansiklopedi maddesinde menşe ülkesi olarak geçiyor. | |
+| A submitting state on this joint inscription. | Bu ortak kaydı sunan devletlerden biri. | |
+| A member state covered by this jointly registered designation. | Bu ortak tescilli adın kapsadığı üye devletlerden biri. | |
+| Covered by this jointly registered designation, in {place}. | Bu ortak tescilli adın kapsamında ({place}). | |
+| Country of origin | Menşe ülkesi | |
 
 ## Русский (`ru`)
 
@@ -516,6 +596,16 @@ place names are never translated, deliberately.
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | На два из этих шести не ответит ни один когда-либо написанный документ: ни одна энциклопедия не является человеком из этого места. На третий — технику — отвечает только реестр, публикующий защищаемый им способ производства. Без них запись набирает по опубликованным источникам не более {ceiling} — {registered}, если такой реестр есть. | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | Запись называется подлинной начиная с {threshold}. Расстояние между этими двумя числами задумано намеренно, и в нём весь смысл: закрыть его могут только люди, которые знают это блюдо. | |
 
+### Origin claims (added 9 October)
+
+| English | Русский | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | Указана как страна происхождения в энциклопедической статье об этом блюде. | |
+| A submitting state on this joint inscription. | Государство, подавшее эту совместную заявку. | |
+| A member state covered by this jointly registered designation. | Государство — член ЕС, на которое распространяется это совместно зарегистрированное наименование. | |
+| Covered by this jointly registered designation, in {place}. | Под защитой этого совместно зарегистрированного наименования ({place}). | |
+| Country of origin | Страна происхождения | |
+
 ## हिन्दी (`hi`)
 
 ### The ask on every record
@@ -571,6 +661,16 @@ place names are never translated, deliberately.
 | The version recorded here | यहाँ दर्ज किया गया रूप | |
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | इन छह में से दो का उत्तर कोई भी लिखा हुआ दस्तावेज़ नहीं दे सकता: कोई विश्वकोश उस जगह का व्यक्ति नहीं होता। तीसरा, तकनीक, केवल वहाँ उत्तर पाता है जहाँ कोई धरोहर रजिस्टर संरक्षित उत्पादन विधि प्रकाशित करता है। इनके बिना कोई रिकॉर्ड प्रकाशित स्रोतों से अधिकतम {ceiling} तक पहुँचता है — ऐसा रजिस्टर हो तो {registered}। | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | किसी रिकॉर्ड को {threshold} पर प्रामाणिक कहा जाता है। इन दो संख्याओं की दूरी जान-बूझकर है, और यही पूरा तर्क है: इसे केवल वही लोग पाट सकते हैं जो उस व्यंजन को जानते हैं। | |
+
+### Origin claims (added 9 October)
+
+| English | हिन्दी | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | इस व्यंजन की विश्वकोश प्रविष्टि में मूल देश के रूप में दर्ज। | |
+| A submitting state on this joint inscription. | इस संयुक्त अंकन को प्रस्तुत करने वाला एक राष्ट्र। | |
+| A member state covered by this jointly registered designation. | इस संयुक्त रूप से पंजीकृत नाम के अंतर्गत आने वाला एक सदस्य राष्ट्र। | |
+| Covered by this jointly registered designation, in {place}. | इस संयुक्त रूप से पंजीकृत नाम के अंतर्गत ({place})। | |
+| Country of origin | मूल देश | |
 
 ## 中文 (`zh`)
 
@@ -628,6 +728,16 @@ place names are never translated, deliberately.
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | 这六项中有两项，任何写下来的文件都无法回答：百科全书不是当地的人。第三项“技法”，只有在遗产名录公布其保护的制作工艺时才能回答。这几项为空时，一条记录仅凭已发表的资料最多得 {ceiling} 分；有这样的名录时为 {registered} 分。 | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | 一条记录达到 {threshold} 才被称为正宗。这两个数字之间的距离是刻意的，也正是全部论点所在：只有了解这道菜的人才能把它补上。 | |
 
+### Origin claims (added 9 October)
+
+| English | 中文 | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | 此菜的百科条目将其列为原产国。 | |
+| A submitting state on this joint inscription. | 联合申报这一项目的国家之一。 | |
+| A member state covered by this jointly registered designation. | 这一联合注册名称所涵盖的成员国之一。 | |
+| Covered by this jointly registered designation, in {place}. | 受这一联合注册名称保护（{place}）。 | |
+| Country of origin | 原产国 | |
+
 ## 日本語 (`ja`)
 
 ### The ask on every record
@@ -683,3 +793,14 @@ place names are never translated, deliberately.
 | The version recorded here | ここに記録されている作り方 | |
 | Two of those six cannot be answered by any document ever written: no encyclopaedia is a person from the town. The third, technique, is answered only where a heritage register publishes the production method it protects. With them empty, a record scores at most {ceiling} on published sources — {registered} where such a register exists. | この六つのうち二つは、これまでに書かれたどの文書でも答えられません。百科事典はその土地の人ではないからです。三つ目の「技法」は、保護する製法を公開している遺産登録制度がある場合にのみ答えられます。これらが空のとき、記録が公開資料だけで達する上限は {ceiling} 点、そうした登録がある場合は {registered} 点です。 | |
 | A record is called Authentic at {threshold}. The distance between those two numbers is deliberate, and it is the entire argument: it is closable only by people who know the dish. | 記録が本物と呼ばれるのは {threshold} からです。この二つの数字の隔たりは意図されたもので、それこそが論の全部です。埋められるのは、その料理を知る人だけです。 | |
+
+### Origin claims (added 9 October)
+
+| English | 日本語 | Note |
+|---|---|---|
+| Named as a country of origin by this dish's encyclopaedia entry. | この料理の百科事典の項目で原産国として挙げられています。 | |
+| A submitting state on this joint inscription. | この共同登録を申請した国の一つ。 | |
+| A member state covered by this jointly registered designation. | この共同登録された名称の対象となる加盟国の一つ。 | |
+| Covered by this jointly registered designation, in {place}. | この共同登録された名称の対象（{place}）。 | |
+| Country of origin | 原産国 | |
+

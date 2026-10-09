@@ -197,6 +197,9 @@ const PAGES = [
   { path: '/dish/300000', expect: 'Acid Drops', record: 'Acid Drops' },
   { path: '/dish/5', expect: 'Hákarl', record: 'Hákarl' },
   { path: '/country/japan', expect: 'Japan' },
+  /* A record with origin claims, whose fixed sentences are now catalogue keys: a key
+     printed as a word, or a {place} left unfilled, shows up here first. */
+  { path: '/dish/7643', expect: 'Buuz', record: 'Buuz' },
   /* A country with one record and no prerendered page: it read "1 traditions recorded". */
   { path: '/country/eritrea', expect: 'Kategna' },
   /* The filtered states, where label maps render: a level chip printed "variation ×"

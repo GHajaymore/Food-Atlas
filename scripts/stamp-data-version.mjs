@@ -3,8 +3,12 @@
  *
  *   node scripts/stamp-data-version.mjs
  *
- * Runs first in `npm run build`, before the bundle is compiled, because the version has to
- * be inside the bundle that asks for the data.
+ * Runs early in `npm run build`, before the bundle is compiled, because the version has to
+ * be inside the bundle that asks for the data — but after `split-catalogues.mjs`, which
+ * writes the language files this hashes. It used to run first: a change to any translation
+ * was hashed in its old form, the split then rewrote it, and the build's own check refused
+ * the result ("the data in dist hashes to … but the bundle asks for …") until a second
+ * build happened to hash the new form. Found on 9 October, adding the claim sentences.
  *
  * ## What this fixes
  *
