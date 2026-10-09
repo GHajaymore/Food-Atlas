@@ -8,6 +8,8 @@
  * names at that spot.
  */
 
+/* Never from the package root: that put all 3,024 icons in the bundle. See
+   ./phosphorIcons.js for the measurement and why it is a .js file with a .d.ts beside it. */
 import {
   BookmarkSimple,
   Camera,
@@ -16,7 +18,7 @@ import {
   MagnifyingGlass,
   MapPin,
   Play,
-} from 'phosphor-react-native';
+} from './phosphorIcons';
 import { color } from '../theme/tokens';
 
 export interface IconProps {
