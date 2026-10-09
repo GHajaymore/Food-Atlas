@@ -31,12 +31,13 @@ import { Button } from '../src/components/Button';
 import { DishCard } from '../src/components/DishCard';
 import { FacetLink } from '../src/components/FacetLink';
 import { NavRow } from '../src/components/NavRow';
-import { useCopy, useNumber } from '../src/i18n';
+import { useCopy, useNumber, usePlural } from '../src/i18n';
 import { Screen } from '../src/components/Screen';
 import { H4, Muted, T } from '../src/components/Text';
 import { catalogue } from '../src/data/catalogue';
 import { count } from '../src/data/events';
-import { browse, describe, hrefFor, parseBrowse, type BrowseQuery } from '../src/domain/browse';
+import { browse, describe, hrefFor, levelOf, parseBrowse, type BrowseQuery } from '../src/domain/browse';
+import { filterLabel } from '../src/domain/authenticity';
 import { useLayout } from '../src/theme/layout';
 import { color, font, space } from '../src/theme/tokens';
 
@@ -56,6 +57,7 @@ const CHIPS: { key: keyof BrowseQuery; prefix?: string }[] = [
 export default function Browse() {
   const copy = useCopy();
   const n = useNumber();
+  const plural = usePlural();
   const params = useLocalSearchParams();
   const layout = useLayout();
   const [page, setPage] = useState(1);
@@ -85,7 +87,7 @@ export default function Browse() {
 
       <H4 style={styles.title}>{title}</H4>
       <Muted style={styles.count}>
-        {n(results.length)} {results.length === 1 ? 'record' : 'records'}
+        {plural('oneTradition', 'nTraditions', results.length)}
       </Muted>
 
       {/*
@@ -100,13 +102,25 @@ export default function Browse() {
         <View style={styles.chips}>
           {active.map(({ key, prefix }) => {
             const without = { ...query, [key]: undefined };
+            /*
+             * The chip says what the filter is, in words — the same words as the heading.
+             *
+             * It printed the raw value: "variation ×" under a heading reading "Traditional
+             * Variations", "unverified ×" beside "Unverified". And a level the URL named
+             * but nothing recognises showed a chip for a filter that was not applied. The
+             * screen reader heard worse — "Remove the q filter", "Remove the level filter"
+             * — the internal names of the query parameters. Both now use what is shown.
+             */
+            const level = key === 'level' ? levelOf(query) : null;
+            if (level === 'all') return null;
+            const shown = level ? filterLabel(copy, level) : `${prefix ?? ''}${query[key]}${key === 'q' ? '”' : ''}`;
             return (
               <FacetLink
                 key={key}
                 variant="chip"
-                label={`${prefix ?? ''}${query[key]}${key === 'q' ? '”' : ''} ×`}
+                label={`${shown} ×`}
                 query={without}
-                describedAs={copy.removeFilter.replace('{key}', key)}
+                describedAs={copy.removeFilter.replace('{key}', shown)}
               />
             );
           })}
@@ -151,8 +165,9 @@ export default function Browse() {
         <View style={styles.empty}>
           <T style={styles.emptyHead}>{copy.nothingMatchesAll}</T>
           <Muted style={styles.emptyNote}>
-            Each filter above can be lifted on its own. The atlas holds{' '}
-            {n(catalogue.length)} records; this combination is not one of them.
+            {/* Was English in every language, and its second half repeated the heading
+                above it. What is left is the one thing a reader can do about it. */}
+            {copy.filtersLiftOneByOne}
           </Muted>
           <Button
             label={copy.startAgain}

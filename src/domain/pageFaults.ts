@@ -90,6 +90,20 @@ export function faultsIn(page: PageUnderCheck, text: string, title: string, isEn
     faults.push('home page says submissions are not open, and /propose is open');
   }
 
+  // A filter chip naming the internal value instead of the level: "variation ×" under a
+  // heading reading "Traditional Variations".
+  for (const raw of text.match(/\b(variation|unverified|adaptation|authentic|fusion|local|regional) ×/g) ?? []) {
+    faults.push(`filter chip shows the internal value: "${raw}"`);
+  }
+
+  // A count of thousands printed bare: "Anywhere 17358" where every other screen prints
+  // 17,358. Not on record pages, whose prose may quote a postcode or a catalogue number.
+  if (!page.record) {
+    for (const bare of text.match(/(?<![\d.,\u202f\u00a0'’])\b\d{5,}\b/g) ?? []) {
+      faults.push(`number printed without its thousands separator: "${bare}"`);
+    }
+  }
+
   // Every tab reading "WikiFoodia" whatever it was showing.
   if (!page.home && !page.notFound && title.trim() === 'WikiFoodia') {
     faults.push('document title is the bare brand');

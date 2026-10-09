@@ -733,6 +733,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Confirmado por',
     nothingMatchesAll:
       'Nada coincide con todo esto a la vez.',
+    filtersLiftOneByOne: "Cada filtro de arriba se puede quitar por separado.",
     mostOfYourListFirst:
       'Primero lo que más coincide con tu lista',
     translatesTheAppsWords:
@@ -2072,6 +2073,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Confirmé par',
     nothingMatchesAll:
       'Rien ne correspond à tout cela à la fois.',
+    filtersLiftOneByOne: "Chaque filtre ci-dessus peut être retiré séparément.",
     mostOfYourListFirst:
       'Ce qui recoupe le plus votre liste d’abord',
     translatesTheAppsWords:
@@ -3410,6 +3412,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bestätigt von',
     nothingMatchesAll:
       'Nichts passt auf all das zugleich.',
+    filtersLiftOneByOne: "Jeder Filter oben lässt sich einzeln entfernen.",
     mostOfYourListFirst:
       'Zuerst, was am meisten aus Ihrer Liste enthält',
     translatesTheAppsWords:
@@ -4748,6 +4751,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Confermato da',
     nothingMatchesAll:
       'Non c’è niente che corrisponda a tutto questo insieme.',
+    filtersLiftOneByOne: "Ogni filtro qui sopra si può togliere da solo.",
     mostOfYourListFirst:
       'Prima quello che usa di più la tua lista',
     translatesTheAppsWords:
@@ -6086,6 +6090,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Confirmado por',
     nothingMatchesAll:
       'Nada corresponde a tudo isto ao mesmo tempo.',
+    filtersLiftOneByOne: "Cada filtro acima pode ser retirado separadamente.",
     mostOfYourListFirst:
       'Primeiro o que usa mais da sua lista',
     translatesTheAppsWords:
@@ -7425,6 +7430,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Bevestigd door',
     nothingMatchesAll:
       'Niets voldoet aan dit alles tegelijk.',
+    filtersLiftOneByOne: "Elk filter hierboven kun je afzonderlijk weghalen.",
     mostOfYourListFirst:
       'Eerst wat het meest van uw lijst gebruikt',
     translatesTheAppsWords:
@@ -8763,6 +8769,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Potwierdzone przez',
     nothingMatchesAll:
       'Nic nie pasuje do tego wszystkiego naraz.',
+    filtersLiftOneByOne: "Każdy filtr powyżej można usunąć osobno.",
     mostOfYourListFirst:
       'Najpierw to, co najbardziej korzysta z twojej listy',
     translatesTheAppsWords:
@@ -10125,6 +10132,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Doğrulayan',
     nothingMatchesAll:
       'Bunların hepsine birden uyan bir şey yok.',
+    filtersLiftOneByOne: "Yukarıdaki her filtre tek tek kaldırılabilir.",
     mostOfYourListFirst:
       'Önce listenizden en çok kullananlar',
     translatesTheAppsWords:
@@ -11463,6 +11471,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'Подтвердили',
     nothingMatchesAll:
       'Ничего не подходит подо всё это сразу.',
+    filtersLiftOneByOne: "Каждый фильтр выше можно снять по отдельности.",
     mostOfYourListFirst:
       'Сначала то, что берёт из вашего списка больше всего',
     translatesTheAppsWords:
@@ -12825,6 +12834,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       'पुष्टि करने वाले',
     nothingMatchesAll:
       'इन सबसे एक साथ कुछ भी मेल नहीं खाता।',
+    filtersLiftOneByOne: "ऊपर दिया हर फ़िल्टर अलग से हटाया जा सकता है।",
     mostOfYourListFirst:
       'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
     translatesTheAppsWords:
@@ -14163,6 +14173,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '确认者',
     nothingMatchesAll:
       '没有同时符合这一切的。',
+    filtersLiftOneByOne: "上面的每个筛选条件都可以单独取消。",
     mostOfYourListFirst:
       '用到你清单最多的排在前面',
     translatesTheAppsWords:
@@ -15501,6 +15512,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
       '確認した人',
     nothingMatchesAll:
       'これらすべてに同時に当てはまるものはありません。',
+    filtersLiftOneByOne: "上の絞り込みは、一つずつ外せます。",
     mostOfYourListFirst:
       '手持ちの材料をいちばん使うものから',
     translatesTheAppsWords:

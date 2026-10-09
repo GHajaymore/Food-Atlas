@@ -510,6 +510,7 @@ export interface Copy {
   whereTheExampleEndsUp: string;
   confirmedBy: string;
   nothingMatchesAll: string;
+  filtersLiftOneByOne: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1607,6 +1608,8 @@ export const EN: Copy = {
     'Confirmed by',
   nothingMatchesAll:
     'Nothing matches all of these at once.',
+  filtersLiftOneByOne:
+    'Each filter above can be lifted on its own.',
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:

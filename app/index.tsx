@@ -41,6 +41,7 @@ import { catalogue as dishes } from '../src/data/catalogue';
 import { FILTERS, filterLabel, levelLabel } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
+import { offersDietFilter, offersMealFilter } from '../src/domain/classification';
 import { placeInSentence } from '../src/domain/placeArticle';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { likelyCountry } from '../src/domain/nearby';
@@ -164,6 +165,8 @@ export default function Feed() {
   // What the collapsed Refine row says, so an active constraint stays visible even
   // when its controls are folded away.
   const refineSummary = [...dietNames, ...meals.map((m) => copy[MEAL_LABELS[m]].toLowerCase())].join(' · ');
+  const showDiet = offersDietFilter(dishes) || dietGroups.length > 0 || dietKinds.length > 0;
+  const showMeal = offersMealFilter(dishes) || meals.length > 0;
 
   /*
    * The page's parts, named rather than written in place.
@@ -231,16 +234,23 @@ export default function Feed() {
         ))}
       </FadingScrollRow>
 
-      <Refine summary={refineSummary} count={dietNames.length + meals.length}>
-        <DietFilter
-          groups={dietGroups}
-          kinds={dietKinds}
-          onToggleGroup={toggleDietGroup}
-          onToggleKind={toggleDietKind}
-          onClear={clearDiet}
-        />
-        <MealFilter selected={meals} onToggle={toggleMeal} onClear={clearMeals} />
-      </Refine>
+      {/* Offered only when enough records carry a diet or a meal for the choice to mean
+          something — see domain/classification.ts. Six of 17,358 do today, so "Vegan" was
+          answering "two dishes". A filter already set stays, so it can be cleared. */}
+      {showDiet || showMeal ? (
+        <Refine summary={refineSummary} count={dietNames.length + meals.length}>
+          {showDiet ? (
+            <DietFilter
+              groups={dietGroups}
+              kinds={dietKinds}
+              onToggleGroup={toggleDietGroup}
+              onToggleKind={toggleDietKind}
+              onClear={clearDiet}
+            />
+          ) : null}
+          {showMeal ? <MealFilter selected={meals} onToggle={toggleMeal} onClear={clearMeals} /> : null}
+        </Refine>
+      ) : null}
     </>
   );
 

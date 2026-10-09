@@ -27,6 +27,7 @@ import { Tag } from '../src/components/Tag';
 import { catalogue as dishes, shareWithoutIngredients } from '../src/data/catalogue';
 import { CLASSIFICATIONS, levelLabel } from '../src/domain/authenticity';
 import { MEAL_LABELS } from '../src/domain/meals';
+import { offersDietFilter, offersMealFilter } from '../src/domain/classification';
 import { cookWith, parsePantry } from '../src/domain/pantry';
 import { cardPlace } from '../src/domain/place';
 import { STAPLES } from '../src/domain/staples';
@@ -34,7 +35,7 @@ import { allCategories, allCuisines, randomAtRisk, searchResults } from '../src/
 import { canRequest, requestUrl } from '../src/domain/requests';
 import type { Level, SortKey } from '../src/domain/types';
 import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
-import { joinOr, useCopy, type Copy, useNumber, useLocale } from '../src/i18n';
+import { joinOr, useCopy, type Copy, useNumber, useLocale, usePlural } from '../src/i18n';
 import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
 
@@ -71,6 +72,7 @@ export default function Search() {
   const copy = useCopy();
   const locale = useLocale((state) => state.locale);
   const n = useNumber();
+  const plural = usePlural();
   const SORTS = sortsFor(copy);
   const {
     query,
@@ -293,16 +295,22 @@ export default function Search() {
         count={active.length + meals.length + (sortBy === 'authenticity' ? 0 : 1)}
         filters={
       <View style={styles.facetGroups}>
-        <DietFilter
-          variant="facet"
-          groups={dietGroups}
-          kinds={dietKinds}
-          onToggleGroup={toggleDietGroup}
-          onToggleKind={toggleDietKind}
-          onClear={clearDiet}
-        />
+        {/* Same rule as the front page: offered when enough records carry a diet or a
+            meal for the facet to answer anything. See domain/classification.ts. */}
+        {offersDietFilter(dishes) || dietGroups.length > 0 || dietKinds.length > 0 ? (
+          <DietFilter
+            variant="facet"
+            groups={dietGroups}
+            kinds={dietKinds}
+            onToggleGroup={toggleDietGroup}
+            onToggleKind={toggleDietKind}
+            onClear={clearDiet}
+          />
+        ) : null}
 
-        <MealFilter variant="facet" selected={meals} onToggle={toggleMeal} onClear={clearMeals} />
+        {offersMealFilter(dishes) || meals.length > 0 ? (
+          <MealFilter variant="facet" selected={meals} onToggle={toggleMeal} onClear={clearMeals} />
+        ) : null}
 
         <FacetGroup label={copy.authenticityLevel}>
           {LEVEL_FACETS.map((level) => (
@@ -380,7 +388,7 @@ export default function Search() {
       <View style={styles.resultsHeader}>
         <H6>{copy.results}</H6>
         <Muted style={styles.resultCount}>
-          {results.length} {results.length === 1 ? 'match' : 'matches'}
+          {plural('oneTradition', 'nTraditions', results.length)}
         </Muted>
       </View>
 
@@ -423,7 +431,7 @@ export default function Search() {
           total, and the list grows on request rather than all at once. */}
       {results.length > visible.length ? (
         <Button
-          label={copy.showMoreLeft.replace('{n}', String(results.length - visible.length))}
+          label={copy.showMoreLeft.replace('{n}', n(results.length - visible.length))}
           variant="secondary"
           block
           onPress={() => setPage((p) => p + 1)}

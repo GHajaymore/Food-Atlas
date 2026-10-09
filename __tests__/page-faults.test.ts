@@ -83,6 +83,19 @@ describe('each rule catches the fault it was written for', () => {
     ]);
   });
 
+  test('a filter chip that shows the internal value', () => {
+    const text = 'Browse\nTraditional Variations\n3,108 records\nvariation ×';
+    expect(faultsIn(screen, text, 'X · WikiFoodia', true)).toEqual([
+      'filter chip shows the internal value: "variation ×"',
+    ]);
+  });
+
+  test('a count printed without its thousands separator', () => {
+    expect(faultsIn(screen, 'Choose a country\nWorldwide\nAnywhere\n17358', 'X · WikiFoodia', true)).toEqual([
+      'number printed without its thousands separator: "17358"',
+    ]);
+  });
+
   test('a tab that does not say what it shows', () => {
     expect(faultsIn(screen, 'Food Atlas', 'WikiFoodia', true)).toEqual(['document title is the bare brand']);
   });
@@ -99,6 +112,15 @@ describe('and stays quiet on a page that is fine', () => {
       'See wikifoodia.ajailabs.app for the rest, e.g. the sitemap.',
     ].join('\n');
     expect(faultsIn(record, text, 'Kozhikode Halwa — Kozhikode, Kerala, India · WikiFoodia', true)).toEqual([]);
+  });
+
+  test('numbers formatted the way each language formats them', () => {
+    const text = '17,358 traditions · 17.358 Traditionen · 17 358 traditions · १७,३५८ · 17,358 件';
+    expect(faultsIn(screen, text, 'X · WikiFoodia', true)).toEqual([]);
+  });
+
+  test('a postcode in a record is not a count', () => {
+    expect(faultsIn(record, 'Sold on Halwa Street, Kozhikode 673001.', 'X · WikiFoodia', true)).toEqual([]);
   });
 
   test('the authentic heading is allowed under the authentic badge', () => {

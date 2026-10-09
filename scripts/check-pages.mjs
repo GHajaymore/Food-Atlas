@@ -118,7 +118,7 @@ const PAGES = [
   { path: '/', expect: 'Every dish here shows its evidence', home: true },
   { path: '/how', expect: 'A document cannot make a dish authentic' },
   { path: '/atlas', expect: 'traditions documented across' },
-  { path: '/browse', expect: 'records' },
+  { path: '/browse', expect: 'traditions' },
   { path: '/search', expect: 'Search' },
   { path: '/propose', expect: 'Propose a dish' },
   { path: '/proposals', expect: 'proposals' },
@@ -129,6 +129,12 @@ const PAGES = [
   { path: '/dish/300000', expect: 'Acid Drops', record: 'Acid Drops' },
   { path: '/dish/5', expect: 'Hákarl', record: 'Hákarl' },
   { path: '/country/japan', expect: 'Japan' },
+  /* The filtered states, where label maps render: a level chip printed "variation ×"
+     under a heading reading "Traditional Variations" until this was read. */
+  { path: '/browse?q=halwa', expect: 'halwa' },
+  { path: '/browse?level=variation', expect: 'Traditional Variations' },
+  { path: '/browse?ingredient=ghee', expect: 'ghee' },
+  { path: '/place', expect: 'Choose a country' },
   { path: '/not-a-page', expect: 'Not a page here', notFound: true },
 ];
 

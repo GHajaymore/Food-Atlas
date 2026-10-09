@@ -21,10 +21,11 @@ import { feedFor, nextLevel, placeGroups } from '../src/domain/queries';
 import { useApp } from '../src/state/store';
 import { accentText, color, space } from '../src/theme/tokens';
 import { chooseLevel } from '../src/domain/authenticity';
-import { useCopy, useLocale } from '../src/i18n';
+import { useCopy, useLocale, useNumber } from '../src/i18n';
 
 export default function PlacePicker() {
   const copy = useCopy();
+  const n = useNumber();
   const locale = useLocale((state) => state.locale);
   const { activeFilter, path, placeQuery, setPlaceQuery, pushPlace } = useApp();
 
@@ -75,7 +76,7 @@ export default function PlacePicker() {
         style={styles.row}
       >
         <T style={styles.anywhere}>{copy.anywhere}</T>
-        <Muted style={styles.count}>{matching.length}</Muted>
+        <Muted style={styles.count}>{n(matching.length)}</Muted>
       </Pressable>
 
       {/*

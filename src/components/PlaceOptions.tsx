@@ -20,7 +20,7 @@
  */
 
 import { StyleSheet, View } from 'react-native';
-import { useCopy, usePlural } from '../i18n';
+import { useCopy, useNumber, usePlural } from '../i18n';
 import { useLayout } from '../theme/layout';
 import { color, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
@@ -52,6 +52,7 @@ export interface PlaceGroup {
 export function PlaceOptions({ groups, onPick }: { groups: PlaceGroup[]; onPick: (value: string) => void }) {
   const { wide, columns } = useLayout();
   const copy = useCopy();
+  const n = useNumber();
   const plural = usePlural();
 
   return (
@@ -85,7 +86,7 @@ export function PlaceOptions({ groups, onPick }: { groups: PlaceGroup[]; onPick:
                    * a country's detail line.
                    */}
                   {option.note && !wide ? <Muted style={styles.kind}>{option.note}</Muted> : null}
-                  <Muted style={styles.count}>{option.count}</Muted>
+                  <Muted style={styles.count}>{n(option.count)}</Muted>
                 </Pressable>
               </View>
             ))}
