@@ -583,10 +583,14 @@ describe('a region is a place, not a branch of a category tree', () => {
    *
    * 160 → 161 the same night: Eritrea, through Kategna — one of 44 records the build had
    * been dropping because their origin claims linked to nothing. See the test below.
+   *
+   * 161 → 162: El Salvador, through Quesadilla salvadoreña — one of 113 Spanish-cookbook
+   * recipes that were filed under Spain although their own page is categorised under
+   * another country. See scripts/fix-es-cookbook-country.mjs.
    */
   it('loses no country, and no large number of records, to the repair', () => {
     expect(catalogueStats.total).toBeGreaterThan(17_000);
-    expect(catalogueStats.countries).toBe(161);
+    expect(catalogueStats.countries).toBe(162);
   });
 
   /*
