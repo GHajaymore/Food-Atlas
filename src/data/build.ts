@@ -19,6 +19,7 @@
  *   node scripts/ingest-wikidata.mjs --missing   # top up countries that timed out
  */
 
+import { urlOf } from '../domain/articleUrl';
 import { hasMethod, hasProse, methodLength, scorable } from '../domain/method';
 import { isAuthentic } from '../domain/authenticity';
 import { EN } from '../i18n/copy';
@@ -1019,6 +1020,21 @@ export function buildCatalogue(
   cuisineRows: number[];
   importedProseRows: number[];
 } {
+/*
+ * The links the published files leave out, put back before anything reads them.
+ *
+ * `compact-data.mjs` drops a cuisines or cookbook row's article URL when its title
+ * reproduces it exactly — all 12,178 did — so the first load carries the title once
+ * instead of twice. Restored here, at the one door every row comes in through, so no
+ * reader of `row.url` further down has to know it was ever missing. See articleUrl.ts.
+ */
+rawCuisines = (rawCuisines as { url?: string; title?: string }[]).map((row) =>
+  row.url ? row : { ...row, url: urlOf(row, 'wikipedia') },
+);
+rawCookbook = (rawCookbook as { url?: string; title?: string }[]).map((row) =>
+  row.url ? row : { ...row, url: urlOf(row, 'wikibooks') },
+);
+
 /**
  * Cookbook recipes carry a method but no place, so they cannot stand as atlas
  * records of their own — a record with no country has nowhere to sit and nothing to

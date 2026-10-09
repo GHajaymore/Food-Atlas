@@ -25,6 +25,7 @@
  */
 
 import { commonsFile } from '../src/domain/commons.ts';
+import { articleUrl } from '../src/domain/articleUrl.ts';
 /*
  * The builder's own cleaners, imported rather than copied.
  *
@@ -154,7 +155,7 @@ const OFFERED = new Set(
     .map((m) => m[1]),
 );
 
-const trim = (row, keep) => {
+const trim = (row, keep, source) => {
   const out = {};
   for (const field of keep) {
     const value = row[field];
@@ -181,10 +182,25 @@ const trim = (row, keep) => {
       out[field] = name || value;
       continue;
     }
+    /*
+     * An article link is left out when the row's own title rebuilds it exactly.
+     *
+     * Same reasoning as the photograph above, and it was all of them: 5,199 cuisines links
+     * and 6,979 cookbook links were byte-for-byte what `articleUrl` produces from the title
+     * shipped beside them — about 104 KB compressed off the first load. `buildCatalogue`
+     * restores them before anything reads one. A link the title does not reproduce is kept,
+     * so a source that one day points somewhere else loses nothing.
+     */
+    if (field === 'url' && SITE[source] && typeof value === 'string' && row.title) {
+      if (articleUrl(row.title, SITE[source]) === value) continue;
+    }
     out[field] = value;
   }
   return out;
 };
+
+/** Which sources' links follow from their titles. See src/domain/articleUrl.ts. */
+const SITE = { cuisines: 'wikipedia', cookbook: 'wikibooks' };
 
 const main = async () => {
   const dry = process.argv.includes('--dry');
@@ -193,7 +209,7 @@ const main = async () => {
 
   for (const [name, keep] of Object.entries(KEEP)) {
     const rows = JSON.parse(await readFile(DATA(name), 'utf8'));
-    const compact = rows.map((row) => trim(row, keep));
+    const compact = rows.map((row) => trim(row, keep, name));
 
     const from = JSON.stringify(rows).length;
     const to = JSON.stringify(compact).length;

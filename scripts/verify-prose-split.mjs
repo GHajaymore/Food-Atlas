@@ -71,9 +71,16 @@ for (const was of old) {
     continue;
   }
   for (const field of WATCHED) {
-    /* `prepLength` is the one field that did not exist before; it is checked against the
-       length of the prose that used to be there, which is what it claims to be. */
-    const left = field === 'prepLength' ? was.prepSummary.length : was[field];
+    /*
+     * `prepLength` did not exist before the split; against files from before it, it is
+     * checked against the length of the prose that used to be there, which is what it
+     * claims to be. Against files from after it — which is every comparison since
+     * September — the prose is already deferred and `prepSummary` is empty here, so the
+     * old length must be compared with the old length. Without this the check reported
+     * 3,040 records "changed" from 0 the first time it was run on a later data change.
+     */
+    const left =
+      field === 'prepLength' && was.prepLength === undefined ? was.prepSummary.length : was[field];
     if (JSON.stringify(left) !== JSON.stringify(is[field])) {
       drift.get(field).push([was.name, left, is[field]]);
     }
