@@ -54,6 +54,10 @@ export interface PopularVersion {
   level: string;
   /** The specific ways it departs from the tradition. */
   changed: string[];
+  /** Catalogue keys for the three fields above, where the build wrote them itself. */
+  labelKey?: string;
+  levelKey?: string;
+  changedKeys?: string[];
 }
 
 /**
@@ -122,7 +126,14 @@ export interface Source {
   title: string;
   publisher: string;
   url: string;
+  /** In English, as written. */
   note: string;
+  /**
+   * The catalogue key for a note the build writes itself, so it reads in the reader's
+   * language. Every record carries one of six such notes, and until 9 October all of
+   * them were English on all twelve language versions of the page.
+   */
+  noteKey?: string;
 }
 
 /**

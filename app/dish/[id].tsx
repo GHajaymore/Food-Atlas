@@ -875,14 +875,23 @@ export default function DishDetail() {
               </Muted>
               <Block style={styles.popularBlock}>
                 <View style={styles.popularHead}>
-                  <T style={styles.popularLabel}>{dish.popular.label}</T>
-                  <Tag label={dish.popular.level} variant="neutral" fontSize={10} noWrap />
+                  <T style={styles.popularLabel}>{fromKey(dish.popular.labelKey, dish.popular.label)}</T>
+                  <Tag
+                    label={
+                      dish.popular.levelKey
+                        ? `${dish.popular.level.split(' ')[0]} ${fromKey(dish.popular.levelKey, dish.popular.level)}`
+                        : dish.popular.level
+                    }
+                    variant="neutral"
+                    fontSize={10}
+                    noWrap
+                  />
                 </View>
                 <View style={styles.changedList}>
-                  {dish.popular.changed.map((change) => (
+                  {dish.popular.changed.map((change, i) => (
                     <View key={change} style={styles.bulletRow}>
                       <Muted style={styles.bullet}>•</Muted>
-                      <Muted style={styles.changeText}>{change}</Muted>
+                      <Muted style={styles.changeText}>{fromKey(dish.popular!.changedKeys?.[i], change)}</Muted>
                     </View>
                   ))}
                 </View>
@@ -988,7 +997,7 @@ export default function DishDetail() {
               >
                 <T style={styles.sourceTitle}>{source.title}</T>
                 <Muted style={styles.sourceMeta}>
-                  {source.publisher} · {source.note}
+                  {source.publisher} · {fromKey(source.noteKey, source.note)}
                 </Muted>
               </Pressable>
             ))}

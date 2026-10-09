@@ -785,6 +785,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
         note: row.patRegion
           ? 'Imported record. The account below comes from the regional register, not from here.'
           : 'Imported record. Place and name only — no preparation is claimed.',
+        noteKey: row.patRegion ? 'sourceNoteImportedRegister' : 'sourceNoteImported',
       },
       // Attribution is a condition of the CC BY licence these registers carry, not a
       // courtesy, so the region is credited on the record itself rather than in a
@@ -1386,6 +1387,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
           note: prepSummary
             ? 'The preparation below is quoted from this article, not from someone cooking it in the place.'
             : 'Found in this cuisine’s category. Place and name only — no preparation is claimed.',
+          noteKey: prepSummary ? 'sourceNoteQuotedArticle' : 'sourceNoteFoundInCategory',
         },
         ...giSource(row),
       ],
@@ -1457,6 +1459,7 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
       kinds: [],
       contains: [],
       basis: 'Recorded from a published recipe, which does not state a dietary classification.',
+      basisKey: 'dietBasisPublishedRecipe',
     },
     meals: { occasions: [], note: '' },
     loc: { country: canonicalCountry(row.country!), region: row.region ?? '', province: '', city: '', village: '' },
@@ -1499,11 +1502,13 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
         publisher: 'Wikibooks Cookbook',
         url: row.url,
         note: nativeCookbook(row)
-          ? 'A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household s tradition.'
+          ? 'A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition.'
           : 'A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place.',
+        noteKey: nativeCookbook(row) ? 'sourceNoteCookbookNative' : 'sourceNoteCookbookForeign',
       },
     ],
     disclaimer: cookbookDisclaimer(row),
+    disclaimerKey: nativeCookbook(row) ? 'cookbookDisclaimerNative' : 'cookbookDisclaimerForeign',
     /* The third builder. The field was wired into the import and the cuisine mappings and
        still did not show on naan, because the copy that wins for naan is the cookbook
        one. Three sources, three mappings, and a field is only as present as its least
@@ -1610,6 +1615,7 @@ const fromUnesco: Dish[] = inscriptions.map(({ row, dish }, index) => {
       kinds: [],
       contains: [],
       basis: 'An inscription documents a practice, not a recipe, so no dietary classification can be made from it.',
+      basisKey: 'dietBasisInscription',
     },
     meals: { occasions: [], note: '' },
     loc: { country: canonicalCountry(row.country), region: '', province: '', city: '', village: '' },
@@ -1791,6 +1797,7 @@ const fromGiRegister: Dish[] = (rawGi as GiRow[])
         kinds: [],
         contains: [],
         basis: 'A register entry protects a name, and states no dietary classification.',
+        basisKey: 'dietBasisRegister',
       },
       meals: { occasions: [], note: '' },
       loc: { country, region: '', province: '', city: '', village: '' },
@@ -1895,6 +1902,9 @@ function withCookbookMethod(dish: Dish): Dish {
         'Written for a general audience rather than recorded in the place the dish comes from',
         'No source here states who prepared it, or where',
       ],
+      labelKey: 'popularPublishedRecipe',
+      levelKey: 'levelAdaptation',
+      changedKeys: ['popularGeneralAudience', 'popularNoPreparer'],
     },
   };
 }

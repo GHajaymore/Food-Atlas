@@ -4,7 +4,7 @@ Generated from `src/i18n/catalogues.ts` by a script, so what is below is exactly
 
 Every string in the app's twelve other languages was written by a model, not run through a
 translation service — and not one has been read by a native speaker. These are the
-29 that matter most: the ones a reader is asked to act on, and the ones that make a
+43 that matter most: the ones a reader is asked to act on, and the ones that make a
 claim the atlas has to be able to defend.
 
 **For a reviewer:** read your language's section against the English. Mark anything that is
@@ -78,6 +78,25 @@ place names are never translated, deliberately.
 | Covered by this jointly registered designation, in {place}. | Amparado por esta denominación registrada conjuntamente ({place}). | |
 | Country of origin | País de origen | |
 
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Español | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Registro importado. Solo lugar y nombre: no se afirma ninguna preparación. | |
+| Imported record. The account below comes from the regional register, not from here. | Registro importado. El relato de abajo procede del registro regional, no de aquí. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | La preparación de abajo está citada de este artículo, no de alguien que la cocina en el lugar. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Encontrado en la categoría de esta cocina. Solo lugar y nombre: no se afirma ninguna preparación. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Una receta escrita por la comunidad, del recetario del país del que es el plato. Recoge cómo se suele hacer allí, que no es lo mismo que la tradición de una familia. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Una receta escrita por la comunidad. Documenta cómo se suele hacer el plato, no cómo se hace en su propio lugar. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Tomado de una receta publicada, que no indica ninguna clasificación alimentaria. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Una inscripción documenta una práctica, no una receta, así que no permite ninguna clasificación alimentaria. | |
+| A register entry protects a name, and states no dietary classification. | Una entrada de registro protege un nombre y no indica ninguna clasificación alimentaria. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | Es una receta publicada del recetario del país de donde viene el plato. Recoge una versión común, no cómo la hace una familia concreta, así que se clasifica como Adaptación moderna y no lleva puntuación de autenticidad: nadie del lugar la ha confirmado como propia. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | Es una receta publicada, no un registro de cómo se prepara el plato en su lugar de origen. Por eso se clasifica como Adaptación moderna y no lleva puntuación de autenticidad: nadie del lugar ha confirmado que así es como lo hace. | |
+| The commonly published recipe | La receta publicada más habitual | |
+| Written for a general audience rather than recorded in the place the dish comes from | Escrita para un público general, no recogida en el lugar de donde viene el plato | |
+| No source here states who prepared it, or where | Ninguna fuente de aquí dice quién la preparó ni dónde | |
+
 ## Français (`fr`)
 
 ### The ask on every record
@@ -143,6 +162,25 @@ place names are never translated, deliberately.
 | A member state covered by this jointly registered designation. | Un État membre couvert par cette dénomination enregistrée conjointement. | |
 | Covered by this jointly registered designation, in {place}. | Couvert par cette dénomination enregistrée conjointement ({place}). | |
 | Country of origin | Pays d'origine | |
+
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Français | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Fiche importée. Lieu et nom seulement — aucune préparation n’est revendiquée. | |
+| Imported record. The account below comes from the regional register, not from here. | Fiche importée. Le récit ci-dessous vient du registre régional, pas d’ici. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | La préparation ci-dessous est citée de cet article, et non de quelqu’un qui la cuisine sur place. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Trouvé dans la catégorie de cette cuisine. Lieu et nom seulement — aucune préparation n’est revendiquée. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Une recette écrite par la communauté, tirée du livre de cuisine du pays d’où vient le plat. Elle consigne la façon courante de le faire là-bas, ce qui n’est pas la tradition d’un foyer. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Une recette écrite par la communauté. Elle décrit la façon courante de faire le plat, pas la façon dont on le fait chez lui. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Tiré d’une recette publiée, qui n’indique aucune classification alimentaire. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Une inscription documente une pratique, pas une recette : aucune classification alimentaire ne peut en être tirée. | |
+| A register entry protects a name, and states no dietary classification. | Une entrée de registre protège un nom et n’indique aucune classification alimentaire. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | Il s’agit d’une recette publiée, tirée du livre de cuisine du pays d’où vient le plat. Elle consigne une version courante, pas la façon de faire d’un foyer en particulier ; elle est donc classée Adaptation moderne et ne reçoit pas de note d’authenticité — personne sur place ne l’a confirmée comme la sienne. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | Il s’agit d’une recette publiée, pas d’un relevé de la façon dont le plat est préparé là d’où il vient. Elle est donc classée Adaptation moderne et ne reçoit pas de note d’authenticité — personne sur place n’a confirmé que c’est ainsi qu’on le fait. | |
+| The commonly published recipe | La recette la plus souvent publiée | |
+| Written for a general audience rather than recorded in the place the dish comes from | Écrite pour un public général plutôt que relevée là d’où vient le plat | |
+| No source here states who prepared it, or where | Aucune source ici n’indique qui l’a préparée, ni où | |
 
 ## Deutsch (`de`)
 
@@ -210,6 +248,25 @@ place names are never translated, deliberately.
 | Covered by this jointly registered designation, in {place}. | Von dieser gemeinsam eingetragenen Bezeichnung erfasst ({place}). | |
 | Country of origin | Herkunftsland | |
 
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Deutsch | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Importierter Eintrag. Nur Ort und Name — eine Zubereitung wird nicht behauptet. | |
+| Imported record. The account below comes from the regional register, not from here. | Importierter Eintrag. Die Beschreibung unten stammt aus dem regionalen Register, nicht von hier. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | Die Zubereitung unten ist aus diesem Artikel zitiert, nicht von jemandem, der sie vor Ort kocht. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | In der Kategorie dieser Küche gefunden. Nur Ort und Name — eine Zubereitung wird nicht behauptet. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Ein von der Gemeinschaft geschriebenes Rezept aus dem Kochbuch des Landes, aus dem das Gericht stammt. Es hält fest, wie das Gericht dort üblicherweise gemacht wird — das ist nicht dasselbe wie die Tradition eines Haushalts. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Ein von der Gemeinschaft geschriebenes Rezept. Es beschreibt, wie das Gericht üblicherweise gemacht wird, nicht wie es an seinem Herkunftsort gemacht wird. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Aus einem veröffentlichten Rezept übernommen, das keine Ernährungseinordnung angibt. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Eine Eintragung dokumentiert eine Praxis, kein Rezept — daraus lässt sich keine Ernährungseinordnung ableiten. | |
+| A register entry protects a name, and states no dietary classification. | Ein Registereintrag schützt einen Namen und gibt keine Ernährungseinordnung an. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | Dies ist ein veröffentlichtes Rezept aus dem Kochbuch des Landes, aus dem das Gericht stammt. Es hält eine gängige Fassung fest, nicht wie ein bestimmter Haushalt es macht; deshalb gilt es als Moderne Abwandlung und erhält keine Belegstärke — niemand vor Ort hat es als das eigene bestätigt. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | Dies ist ein veröffentlichtes Rezept, keine Aufzeichnung darüber, wie das Gericht an seinem Herkunftsort zubereitet wird. Deshalb gilt es als Moderne Abwandlung und erhält keine Belegstärke — niemand vor Ort hat bestätigt, dass man es so macht. | |
+| The commonly published recipe | Das am häufigsten veröffentlichte Rezept | |
+| Written for a general audience rather than recorded in the place the dish comes from | Für ein allgemeines Publikum geschrieben, nicht am Herkunftsort des Gerichts aufgezeichnet | |
+| No source here states who prepared it, or where | Keine Quelle hier sagt, wer es zubereitet hat oder wo | |
+
 ## Italiano (`it`)
 
 ### The ask on every record
@@ -275,6 +332,25 @@ place names are never translated, deliberately.
 | A member state covered by this jointly registered designation. | Uno Stato membro coperto da questa denominazione registrata congiuntamente. | |
 | Covered by this jointly registered designation, in {place}. | Coperto da questa denominazione registrata congiuntamente ({place}). | |
 | Country of origin | Paese d'origine | |
+
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Italiano | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Scheda importata. Solo luogo e nome — nessuna preparazione è dichiarata. | |
+| Imported record. The account below comes from the regional register, not from here. | Scheda importata. Il resoconto qui sotto viene dal registro regionale, non da qui. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | La preparazione qui sotto è citata da questo articolo, non da qualcuno che la cucina sul posto. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Trovato nella categoria di questa cucina. Solo luogo e nome — nessuna preparazione è dichiarata. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Una ricetta scritta dalla comunità, dal ricettario del paese da cui viene il piatto. Registra come si fa di solito lì, che non è la tradizione di una famiglia. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Una ricetta scritta dalla comunità. Documenta come si fa di solito il piatto, non come lo si fa nel suo luogo. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Ripreso da una ricetta pubblicata, che non indica alcuna classificazione alimentare. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Un’iscrizione documenta una pratica, non una ricetta, quindi non consente alcuna classificazione alimentare. | |
+| A register entry protects a name, and states no dietary classification. | Una voce di registro tutela un nome e non indica alcuna classificazione alimentare. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | È una ricetta pubblicata, dal ricettario del paese da cui viene il piatto. Registra una versione comune, non come la fa una singola famiglia; per questo è classificata come Adattamento moderno e non ha punteggio di autenticità — nessuno del luogo l’ha confermata come propria. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | È una ricetta pubblicata, non una registrazione di come il piatto si prepara nel luogo da cui viene. Per questo è classificata come Adattamento moderno e non ha punteggio di autenticità — nessuno del luogo ha confermato che lo si fa così. | |
+| The commonly published recipe | La ricetta pubblicata più diffusa | |
+| Written for a general audience rather than recorded in the place the dish comes from | Scritta per un pubblico generale, non registrata nel luogo da cui viene il piatto | |
+| No source here states who prepared it, or where | Nessuna fonte qui dice chi l’ha preparata, né dove | |
 
 ## Português (`pt`)
 
@@ -342,6 +418,25 @@ place names are never translated, deliberately.
 | Covered by this jointly registered designation, in {place}. | Abrangido por esta denominação registada conjuntamente ({place}). | |
 | Country of origin | País de origem | |
 
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Português | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Registo importado. Só lugar e nome — não se afirma nenhuma preparação. | |
+| Imported record. The account below comes from the regional register, not from here. | Registo importado. O relato abaixo vem do registo regional, não daqui. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | A preparação abaixo é citada deste artigo, não de alguém que a cozinha no lugar. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Encontrado na categoria desta cozinha. Só lugar e nome — não se afirma nenhuma preparação. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Uma receita escrita pela comunidade, do livro de receitas do país de onde o prato é. Regista como o prato se faz habitualmente lá, o que não é o mesmo que a tradição de uma família. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Uma receita escrita pela comunidade. Documenta como o prato se faz habitualmente, não como se faz no seu próprio lugar. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Retirado de uma receita publicada, que não indica nenhuma classificação alimentar. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Uma inscrição documenta uma prática, não uma receita, por isso não permite nenhuma classificação alimentar. | |
+| A register entry protects a name, and states no dietary classification. | Uma entrada de registo protege um nome e não indica nenhuma classificação alimentar. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | É uma receita publicada, do livro de receitas do país de onde o prato vem. Regista uma versão comum, não como uma família em particular a faz; por isso é classificada como Adaptação moderna e não tem pontuação de autenticidade — ninguém do lugar a confirmou como sua. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | É uma receita publicada, não um registo de como o prato é preparado no lugar de onde vem. Por isso é classificada como Adaptação moderna e não tem pontuação de autenticidade — ninguém do lugar confirmou que é assim que o faz. | |
+| The commonly published recipe | A receita publicada mais comum | |
+| Written for a general audience rather than recorded in the place the dish comes from | Escrita para um público geral, e não registada no lugar de onde o prato vem | |
+| No source here states who prepared it, or where | Nenhuma fonte aqui diz quem a preparou, nem onde | |
+
 ## Nederlands (`nl`)
 
 ### The ask on every record
@@ -407,6 +502,25 @@ place names are never translated, deliberately.
 | A member state covered by this jointly registered designation. | Een lidstaat waarvoor deze gezamenlijk geregistreerde benaming geldt. | |
 | Covered by this jointly registered designation, in {place}. | Valt onder deze gezamenlijk geregistreerde benaming ({place}). | |
 | Country of origin | Land van herkomst | |
+
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Nederlands | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Geïmporteerd record. Alleen plaats en naam — er wordt geen bereiding beweerd. | |
+| Imported record. The account below comes from the regional register, not from here. | Geïmporteerd record. Het verslag hieronder komt uit het regionale register, niet van hier. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | De bereiding hieronder is geciteerd uit dit artikel, niet van iemand die haar ter plaatse kookt. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Gevonden in de categorie van deze keuken. Alleen plaats en naam — er wordt geen bereiding beweerd. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Een door de gemeenschap geschreven recept, uit het kookboek van het land waar het gerecht vandaan komt. Het legt vast hoe het gerecht daar gewoonlijk wordt gemaakt — en dat is niet hetzelfde als de traditie van één huishouden. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Een door de gemeenschap geschreven recept. Het beschrijft hoe het gerecht gewoonlijk wordt gemaakt, niet hoe het op zijn eigen plek wordt gemaakt. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Overgenomen uit een gepubliceerd recept, dat geen voedingsindeling vermeldt. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Een inschrijving documenteert een gebruik, geen recept, dus er valt geen voedingsindeling uit af te leiden. | |
+| A register entry protects a name, and states no dietary classification. | Een registervermelding beschermt een naam en vermeldt geen voedingsindeling. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | Dit is een gepubliceerd recept uit het kookboek van het land waar het gerecht vandaan komt. Het legt een gangbare versie vast, niet hoe één bepaald huishouden het maakt; daarom geldt het als Moderne bewerking en krijgt het geen bewijskracht — niemand van daar heeft het als het eigen recept bevestigd. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | Dit is een gepubliceerd recept, geen verslag van hoe het gerecht wordt bereid waar het vandaan komt. Daarom geldt het als Moderne bewerking en krijgt het geen bewijskracht — niemand van daar heeft bevestigd dat ze het zo maken. | |
+| The commonly published recipe | Het meest gepubliceerde recept | |
+| Written for a general audience rather than recorded in the place the dish comes from | Geschreven voor een algemeen publiek, niet vastgelegd waar het gerecht vandaan komt | |
+| No source here states who prepared it, or where | Geen bron hier zegt wie het bereidde, of waar | |
 
 ## Polski (`pl`)
 
@@ -474,6 +588,25 @@ place names are never translated, deliberately.
 | Covered by this jointly registered designation, in {place}. | Objęte tym wspólnie zarejestrowanym oznaczeniem ({place}). | |
 | Country of origin | Kraj pochodzenia | |
 
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Polski | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Rekord zaimportowany. Tylko miejsce i nazwa — nie podaje się żadnego sposobu przyrządzenia. | |
+| Imported record. The account below comes from the regional register, not from here. | Rekord zaimportowany. Opis poniżej pochodzi z rejestru regionalnego, nie stąd. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | Sposób przyrządzenia poniżej jest cytowany z tego artykułu, a nie od kogoś, kto gotuje tę potrawę na miejscu. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Znaleziono w kategorii tej kuchni. Tylko miejsce i nazwa — nie podaje się żadnego sposobu przyrządzenia. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Przepis napisany przez społeczność, z książki kucharskiej kraju, z którego pochodzi potrawa. Opisuje, jak zwykle się ją tam robi, co nie jest tym samym co tradycja jednego domu. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Przepis napisany przez społeczność. Opisuje, jak zwykle robi się tę potrawę, a nie jak robi się ją w jej własnym miejscu. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Zaczerpnięte z opublikowanego przepisu, który nie podaje klasyfikacji dietetycznej. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Wpis dokumentuje praktykę, a nie przepis, więc nie da się z niego wyprowadzić klasyfikacji dietetycznej. | |
+| A register entry protects a name, and states no dietary classification. | Wpis w rejestrze chroni nazwę i nie podaje klasyfikacji dietetycznej. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | To opublikowany przepis z książki kucharskiej kraju, z którego pochodzi potrawa. Opisuje wersję powszechną, a nie to, jak robi ją jakiś konkretny dom, dlatego jest sklasyfikowany jako Adaptacja współczesna i nie ma punktacji autentyczności — nikt z tego miejsca nie potwierdził go jako własnego. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | To opublikowany przepis, a nie zapis tego, jak potrawę przyrządza się tam, skąd pochodzi. Dlatego jest sklasyfikowany jako Adaptacja współczesna i nie ma punktacji autentyczności — nikt z tego miejsca nie potwierdził, że tak ją robi. | |
+| The commonly published recipe | Najczęściej publikowany przepis | |
+| Written for a general audience rather than recorded in the place the dish comes from | Napisany dla ogółu czytelników, a nie zapisany tam, skąd pochodzi potrawa | |
+| No source here states who prepared it, or where | Żadne źródło tutaj nie mówi, kto go przyrządził ani gdzie | |
+
 ## Türkçe (`tr`)
 
 ### The ask on every record
@@ -539,6 +672,25 @@ place names are never translated, deliberately.
 | A member state covered by this jointly registered designation. | Bu ortak tescilli adın kapsadığı üye devletlerden biri. | |
 | Covered by this jointly registered designation, in {place}. | Bu ortak tescilli adın kapsamında ({place}). | |
 | Country of origin | Menşe ülkesi | |
+
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Türkçe | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | İçe aktarılmış kayıt. Yalnızca yer ve ad — hiçbir hazırlanış iddia edilmiyor. | |
+| Imported record. The account below comes from the regional register, not from here. | İçe aktarılmış kayıt. Aşağıdaki anlatım bölgesel sicilden geliyor, buradan değil. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | Aşağıdaki hazırlanış bu maddeden alıntıdır; yerinde pişiren birinden değil. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Bu mutfağın kategorisinde bulundu. Yalnızca yer ve ad — hiçbir hazırlanış iddia edilmiyor. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Topluluk tarafından yazılmış bir tarif; yemeğin geldiği ülkenin yemek kitabından. Yemeğin orada genellikle nasıl yapıldığını kaydeder; bu, tek bir evin geleneğiyle aynı şey değildir. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Topluluk tarafından yazılmış bir tarif. Yemeğin genellikle nasıl yapıldığını belgeler, kendi yerinde nasıl yapıldığını değil. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Yayımlanmış bir tariften alındı; tarif herhangi bir beslenme sınıflandırması belirtmiyor. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Bir kayıt bir uygulamayı belgeler, bir tarifi değil; bu yüzden ondan beslenme sınıflandırması çıkarılamaz. | |
+| A register entry protects a name, and states no dietary classification. | Bir sicil kaydı bir adı korur ve herhangi bir beslenme sınıflandırması belirtmez. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | Bu, yemeğin geldiği ülkenin yemek kitabından yayımlanmış bir tariftir. Herhangi bir evin nasıl yaptığını değil, yaygın bir versiyonu kaydeder; bu yüzden Modern uyarlama olarak sınıflandırılır ve özgünlük puanı taşımaz — oradan hiç kimse onu kendi tarifi olarak doğrulamadı. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | Bu, yayımlanmış bir tariftir; yemeğin geldiği yerde nasıl hazırlandığının kaydı değildir. Bu yüzden Modern uyarlama olarak sınıflandırılır ve özgünlük puanı taşımaz — oradan hiç kimse bunun kendi yapış biçimi olduğunu doğrulamadı. | |
+| The commonly published recipe | En yaygın yayımlanan tarif | |
+| Written for a general audience rather than recorded in the place the dish comes from | Yemeğin geldiği yerde kaydedilmek yerine genel bir okur kitlesi için yazılmış | |
+| No source here states who prepared it, or where | Buradaki hiçbir kaynak onu kimin, nerede hazırladığını söylemiyor | |
 
 ## Русский (`ru`)
 
@@ -606,6 +758,25 @@ place names are never translated, deliberately.
 | Covered by this jointly registered designation, in {place}. | Под защитой этого совместно зарегистрированного наименования ({place}). | |
 | Country of origin | Страна происхождения | |
 
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | Русский | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | Импортированная запись. Только место и название — способ приготовления не заявлен. | |
+| Imported record. The account below comes from the regional register, not from here. | Импортированная запись. Описание ниже взято из регионального реестра, а не отсюда. | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | Приготовление ниже процитировано из этой статьи, а не со слов того, кто готовит это блюдо на месте. | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | Найдено в категории этой кухни. Только место и название — способ приготовления не заявлен. | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | Рецепт, написанный сообществом, из кулинарной книги страны, откуда это блюдо. Он фиксирует, как блюдо обычно готовят там, — а это не то же самое, что традиция одной семьи. | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | Рецепт, написанный сообществом. Он описывает, как блюдо обычно готовят, а не как его готовят там, откуда оно родом. | |
+| Recorded from a published recipe, which does not state a dietary classification. | Взято из опубликованного рецепта, в котором не указана классификация по питанию. | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | Запись в списке документирует практику, а не рецепт, поэтому классификацию по питанию по ней не определить. | |
+| A register entry protects a name, and states no dietary classification. | Запись в реестре защищает название и не указывает классификацию по питанию. | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | Это опубликованный рецепт из кулинарной книги страны, откуда родом блюдо. Он фиксирует распространённый вариант, а не то, как его готовит какая-то одна семья, поэтому он отнесён к категории «Современная адаптация» и не получает оценки подлинности — никто из тех мест не подтвердил его как свой. | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | Это опубликованный рецепт, а не запись того, как блюдо готовят там, откуда оно родом. Поэтому он отнесён к категории «Современная адаптация» и не получает оценки подлинности — никто из тех мест не подтвердил, что готовит его именно так. | |
+| The commonly published recipe | Самый распространённый опубликованный рецепт | |
+| Written for a general audience rather than recorded in the place the dish comes from | Написан для широкой аудитории, а не записан там, откуда родом блюдо | |
+| No source here states who prepared it, or where | Ни один источник здесь не говорит, кто его приготовил и где | |
+
 ## हिन्दी (`hi`)
 
 ### The ask on every record
@@ -671,6 +842,25 @@ place names are never translated, deliberately.
 | A member state covered by this jointly registered designation. | इस संयुक्त रूप से पंजीकृत नाम के अंतर्गत आने वाला एक सदस्य राष्ट्र। | |
 | Covered by this jointly registered designation, in {place}. | इस संयुक्त रूप से पंजीकृत नाम के अंतर्गत ({place})। | |
 | Country of origin | मूल देश | |
+
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | हिन्दी | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | आयातित रिकॉर्ड। केवल जगह और नाम — बनाने की किसी विधि का दावा नहीं किया गया है। | |
+| Imported record. The account below comes from the regional register, not from here. | आयातित रिकॉर्ड। नीचे का विवरण क्षेत्रीय रजिस्टर से है, यहाँ से नहीं। | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | नीचे दी गई विधि इस लेख से उद्धृत है, उस जगह इसे पकाने वाले किसी व्यक्ति से नहीं। | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | इस खान-पान की श्रेणी में मिला। केवल जगह और नाम — बनाने की किसी विधि का दावा नहीं किया गया है। | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | समुदाय द्वारा लिखी गई एक रेसिपी, उस देश की रसोई-पुस्तक से जहाँ का यह व्यंजन है। यह दर्ज करती है कि वहाँ यह आम तौर पर कैसे बनता है — जो किसी एक घर की परंपरा जैसा नहीं है। | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | समुदाय द्वारा लिखी गई एक रेसिपी। यह बताती है कि यह व्यंजन आम तौर पर कैसे बनता है, न कि अपनी जगह पर कैसे बनता है। | |
+| Recorded from a published recipe, which does not state a dietary classification. | एक प्रकाशित रेसिपी से लिया गया, जिसमें कोई आहार-वर्गीकरण नहीं बताया गया है। | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | एक अंकन किसी प्रथा को दर्ज करता है, रेसिपी को नहीं, इसलिए इससे कोई आहार-वर्गीकरण नहीं निकाला जा सकता। | |
+| A register entry protects a name, and states no dietary classification. | एक रजिस्टर प्रविष्टि किसी नाम की रक्षा करती है, और कोई आहार-वर्गीकरण नहीं बताती। | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | यह उस देश की रसोई-पुस्तक से एक प्रकाशित रेसिपी है जहाँ से यह व्यंजन आता है। यह एक आम संस्करण दर्ज करती है, न कि कोई एक घर इसे कैसे बनाता है, इसलिए इसे आधुनिक रूपांतर माना गया है और इसे प्रामाणिकता के अंक नहीं दिए जाते — उस जगह के किसी व्यक्ति ने इसे अपना नहीं बताया है। | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | यह एक प्रकाशित रेसिपी है, न कि इसका रिकॉर्ड कि जहाँ से यह व्यंजन आता है वहाँ इसे कैसे बनाया जाता है। इसी कारण इसे आधुनिक रूपांतर माना गया है और इसे प्रामाणिकता के अंक नहीं दिए जाते — उस जगह के किसी व्यक्ति ने पुष्टि नहीं की है कि वे इसे ऐसे ही बनाते हैं। | |
+| The commonly published recipe | सबसे आम प्रकाशित रेसिपी | |
+| Written for a general audience rather than recorded in the place the dish comes from | आम पाठकों के लिए लिखी गई, न कि उस जगह दर्ज की गई जहाँ से यह व्यंजन आता है | |
+| No source here states who prepared it, or where | यहाँ कोई स्रोत नहीं बताता कि इसे किसने, कहाँ बनाया | |
 
 ## 中文 (`zh`)
 
@@ -738,6 +928,25 @@ place names are never translated, deliberately.
 | Covered by this jointly registered designation, in {place}. | 受这一联合注册名称保护（{place}）。 | |
 | Country of origin | 原产国 | |
 
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | 中文 | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | 导入的记录。只有地点和名称——不声称任何做法。 | |
+| Imported record. The account below comes from the regional register, not from here. | 导入的记录。下面的描述来自地方登记册，而不是来自这里。 | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | 下面的做法引自这篇条目，而不是来自当地做这道菜的人。 | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | 见于这一菜系的分类。只有地点和名称——不声称任何做法。 | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | 一份由社区撰写的食谱，出自这道菜所属国家的食谱书。它记录的是当地通常的做法，这与某一户人家的传统并不相同。 | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | 一份由社区撰写的食谱。它记录这道菜通常的做法，而不是它在原产地的做法。 | |
+| Recorded from a published recipe, which does not state a dietary classification. | 取自一份已发表的食谱，其中没有说明饮食分类。 | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | 名录登记记录的是一种实践，而不是食谱，因此无法据此作出饮食分类。 | |
+| A register entry protects a name, and states no dietary classification. | 登记条目保护的是一个名称，并未说明饮食分类。 | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | 这是出自这道菜所属国家食谱书的一份已发表食谱。它记录的是一个常见版本，而不是某一户人家的做法，因此被归为现代改良，不给本真度分数——当地还没有人确认这就是他们自己的做法。 | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | 这是一份已发表的食谱，而不是这道菜在原产地如何制作的记录。因此它被归为现代改良，不给本真度分数——当地还没有人确认他们就是这样做的。 | |
+| The commonly published recipe | 最常见的已发表食谱 | |
+| Written for a general audience rather than recorded in the place the dish comes from | 为一般读者撰写，而非在这道菜的原产地记录 | |
+| No source here states who prepared it, or where | 这里没有任何来源说明是谁、在哪里做的 | |
+
 ## 日本語 (`ja`)
 
 ### The ask on every record
@@ -803,4 +1012,23 @@ place names are never translated, deliberately.
 | A member state covered by this jointly registered designation. | この共同登録された名称の対象となる加盟国の一つ。 | |
 | Covered by this jointly registered designation, in {place}. | この共同登録された名称の対象（{place}）。 | |
 | Country of origin | 原産国 | |
+
+### Source notes and the published-recipe notice (added 9 October)
+
+| English | 日本語 | Note |
+|---|---|---|
+| Imported record. Place and name only — no preparation is claimed. | 取り込まれた記録です。場所と名前のみで、作り方は主張していません。 | |
+| Imported record. The account below comes from the regional register, not from here. | 取り込まれた記録です。下の説明は地域の登録簿によるもので、このサイトによるものではありません。 | |
+| The preparation below is quoted from this article, not from someone cooking it in the place. | 下の作り方はこの記事からの引用で、その土地で作っている人から得たものではありません。 | |
+| Found in this cuisine’s category. Place and name only — no preparation is claimed. | この料理分類のカテゴリーで見つかったものです。場所と名前のみで、作り方は主張していません。 | |
+| A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition. | その料理の国の料理本に、コミュニティが書いたレシピです。現地で一般的な作り方を記録したもので、ひとつの家庭の伝統と同じではありません。 | |
+| A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place. | コミュニティが書いたレシピです。一般的な作り方を記録したもので、その土地での作り方ではありません。 | |
+| Recorded from a published recipe, which does not state a dietary classification. | 公開されたレシピから採ったもので、食の分類は示されていません。 | |
+| An inscription documents a practice, not a recipe, so no dietary classification can be made from it. | 登録は慣習を記録するもので、レシピではないため、そこから食の分類はできません。 | |
+| A register entry protects a name, and states no dietary classification. | 登録簿の項目は名前を保護するもので、食の分類は示していません。 | |
+| This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own. | これは、その料理の国の料理本に載った公開レシピです。どこかひとつの家庭の作り方ではなく一般的な版を記録したものなので、現代のアレンジに分類され、本物らしさの点数はつきません。その土地の人で、これを自分たちのものと確かめた人はまだいません。 | |
+| This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it. | これは公開されたレシピで、その料理の土地での作り方の記録ではありません。そのため現代のアレンジに分類され、本物らしさの点数はつきません。その土地の人で、こうして作っていると確かめた人はまだいません。 | |
+| The commonly published recipe | 最もよく公開されているレシピ | |
+| Written for a general audience rather than recorded in the place the dish comes from | その料理の土地で記録されたものではなく、一般の読者向けに書かれたもの | |
+| No source here states who prepared it, or where | 誰がどこで作ったのかを示す出典はここにありません | |
 

@@ -516,6 +516,20 @@ export interface Copy {
   claimJointDesignation: string;
   claimJointDesignationWithin: string;
   sourceCountryOfOrigin: string;
+  sourceNoteImported: string;
+  sourceNoteImportedRegister: string;
+  sourceNoteQuotedArticle: string;
+  sourceNoteFoundInCategory: string;
+  sourceNoteCookbookNative: string;
+  sourceNoteCookbookForeign: string;
+  dietBasisPublishedRecipe: string;
+  dietBasisInscription: string;
+  dietBasisRegister: string;
+  cookbookDisclaimerNative: string;
+  cookbookDisclaimerForeign: string;
+  popularPublishedRecipe: string;
+  popularGeneralAudience: string;
+  popularNoPreparer: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1620,6 +1634,20 @@ export const EN: Copy = {
   claimJointDesignation: "A member state covered by this jointly registered designation.",
   claimJointDesignationWithin: "Covered by this jointly registered designation, in {place}.",
   sourceCountryOfOrigin: "Country of origin",
+  sourceNoteImported: "Imported record. Place and name only — no preparation is claimed.",
+  sourceNoteImportedRegister: "Imported record. The account below comes from the regional register, not from here.",
+  sourceNoteQuotedArticle: "The preparation below is quoted from this article, not from someone cooking it in the place.",
+  sourceNoteFoundInCategory: "Found in this cuisine’s category. Place and name only — no preparation is claimed.",
+  sourceNoteCookbookNative: "A community-written recipe, from the cookbook of the country the dish is from. It records how the dish is commonly made there, which is not the same as one household’s tradition.",
+  sourceNoteCookbookForeign: "A community-written recipe. It documents how the dish is commonly made, not how it is made in its own place.",
+  dietBasisPublishedRecipe: "Recorded from a published recipe, which does not state a dietary classification.",
+  dietBasisInscription: "An inscription documents a practice, not a recipe, so no dietary classification can be made from it.",
+  dietBasisRegister: "A register entry protects a name, and states no dietary classification.",
+  cookbookDisclaimerNative: "This is a published recipe from the cookbook of the country the dish comes from. It records a common version, not how any one household makes it, so it is classified as a Modern Adaptation and carries no authenticity score — nobody from the place has confirmed it as their own.",
+  cookbookDisclaimerForeign: "This is a published recipe, not a record of how the dish is prepared where it comes from. It is classified as a Modern Adaptation for that reason, and it carries no authenticity score — nobody from the place has confirmed that this is how they make it.",
+  popularPublishedRecipe: "The commonly published recipe",
+  popularGeneralAudience: "Written for a general audience rather than recorded in the place the dish comes from",
+  popularNoPreparer: "No source here states who prepared it, or where",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:
