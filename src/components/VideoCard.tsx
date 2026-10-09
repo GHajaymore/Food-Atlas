@@ -25,9 +25,9 @@ import { H6, Muted, T } from './Text';
 import { Tag } from './Tag';
 
 /**
- * @param explainLanguage Whether this card carries the line about what the reader will
- * hear. Same rule, same reason: three videos in one language printed the identical thirty
- * words three times, and the sentence is about the language rather than about the video.
+ * @param languageNote What this card says about the language a reader will hear, with
+ * anything a card above it already said removed by the caller. Omitted, the card says it
+ * all; empty, it says nothing — the sentence is about the language, not the video.
  *
  * @param explainMissingIngredients Whether this card carries the sentence about why no
  * ingredient list is shown. True on the first such card in a group and false on the rest:
@@ -38,11 +38,11 @@ import { Tag } from './Tag';
 export function VideoCard({
   video,
   explainMissingIngredients = true,
-  explainLanguage = true,
+  languageNote,
 }: {
   video: Video;
   explainMissingIngredients?: boolean;
-  explainLanguage?: boolean;
+  languageNote?: string;
 }) {
   const copy = useCopy();
   const hasIngredients = !!video.ingredients?.length;
@@ -110,7 +110,7 @@ export function VideoCard({
           fontSize={10}
           noWrap
         />
-        {explainLanguage ? <Muted style={styles.languageNote}>{plan.note}</Muted> : null}
+        {(languageNote ?? plan.note) ? <Muted style={styles.languageNote}>{languageNote ?? plan.note}</Muted> : null}
       </View>
 
       {hasIngredients ? (

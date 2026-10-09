@@ -29,6 +29,7 @@
     "@types/react": "~19.2.2",
     "jest": "^29.7.0",
     "jest-expo": "^57.0.4",
+    "playwright": "^1.64.0",
     "typescript": "~6.0.3",
     "wrangler": "^4.126.0"
   },
@@ -41,11 +42,12 @@
     "test": "jest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p functions",
     "check-sources": "node scripts/check-sources.mjs",
-    "deploy": "npm run build && wrangler pages deploy",
+    "deploy": "npm run build && npm run check:pages && wrangler pages deploy",
     "db:create": "wrangler d1 create wikifoodia",
     "db:migrate": "wrangler d1 migrations apply wikifoodia --remote",
     "verify:prerender": "node scripts/verify-prerender.mjs",
-    "stamp:data": "node scripts/stamp-data-version.mjs"
+    "stamp:data": "node scripts/stamp-data-version.mjs",
+    "check:pages": "node --experimental-strip-types --import ./scripts/lib/ts-resolve.mjs scripts/check-pages.mjs"
   },
   "private": true,
   "jest": {

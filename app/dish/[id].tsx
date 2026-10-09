@@ -272,6 +272,28 @@ export default function DishDetail() {
     confirmStanding(copy, askPlace, counted, scoreThresholds().validationsRequired),
   );
 
+  /*
+   * What each video card says about the language a reader will hear — minus anything a
+   * card above it has already said.
+   *
+   * Three Malayalam videos printed the same thirty words three times. Comparing whole
+   * notes fixed that in English and not in German, where "Spoken in Malayalam" and
+   * "Spoken in English" differ but the sentence after them — how the captions work — is
+   * identical, so it still printed twice. Found by `scripts/check-pages.mjs` on its first
+   * run. Dropping repeated *sentences* keeps what is news on each card (which language
+   * this cook speaks) and says the mechanism once.
+   */
+  const languageNotes = (() => {
+    const said = new Set<string>();
+    return (dish.videos ?? []).map((video) =>
+      planTranslation(copy, video, locale)
+        .note.split(/(?<=[.!?。！？])\s*/)
+        .map((sentence) => sentence.trim())
+        .filter((sentence) => sentence && !said.has(sentence) && (said.add(sentence), true))
+        .join(' '),
+    );
+  })();
+
   const siblings = siblingsOf(dish, catalogue);
 
   /* Recomputed only when the record changes. A pass over 18,008 records is a few
@@ -896,18 +918,7 @@ export default function DishDetail() {
                     explainMissingIngredients={
                       video.id === dish.videos.find((v) => !v.ingredients?.length)?.id
                     }
-                    /*
-                     * And the same for the language line, which says what a reader will
-                     * actually hear. Three videos in Malayalam printed the identical
-                     * thirty words three times, once under each — the sentence is about
-                     * the language, not about the video. Repeated only when the card
-                     * above it said something different, which is when it is news.
-                     */
-                    explainLanguage={
-                      i === 0 ||
-                      planTranslation(copy, video, locale).note !==
-                        planTranslation(copy, dish.videos[i - 1], locale).note
-                    }
+                    languageNote={languageNotes[i]}
                   />
                 ))}
               </View>
