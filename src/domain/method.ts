@@ -70,3 +70,21 @@ export const scorable = (dish: Pick<Dish, 'steps' | 'stepCount' | 'ingredients'>
  * true. Never ask the string.
  */
 export const hasProse = (dish: Pick<Dish, 'prepLength'>): boolean => dish.prepLength > 0;
+
+/**
+ * Whether an ingredient is a line of a recipe rather than the name of a food.
+ *
+ * Curated records list names — "ghee", "kokum", "nendran banana" — and each becomes a
+ * link to everything else made with it. A published recipe lists lines: "3 colheres
+ * (sopa) de rum;", "1 abacaxi, cortado em fatias de 2 centímetros". Shown as linked
+ * pills those were bold boxes a sentence long, each searching for a string no other
+ * record contains. A quantity, a semicolon or colon, or more than four words marks a
+ * line — not a comma or a fourth word, which "Wheat starch or maida" and "Sugar, to
+ * taste" have and are still names.
+ */
+export const isRecipeLine = (ingredient: string): boolean =>
+  /\d|[;:]/.test(ingredient) || ingredient.trim().split(/\s+/).length > 4;
+
+/** A list reads as recipe lines when at least half of it is. */
+export const listsRecipeLines = (ingredients: readonly string[]): boolean =>
+  ingredients.length > 0 && ingredients.filter(isRecipeLine).length * 2 >= ingredients.length;

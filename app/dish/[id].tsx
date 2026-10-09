@@ -11,7 +11,7 @@
  *     adaptation. It is never merged into the authentic ingredient list above it.
  */
 
-import { hasMethod, hasProse, methodLength } from '../../src/domain/method';
+import { hasMethod, hasProse, listsRecipeLines, methodLength } from '../../src/domain/method';
 import { photoOriginLabel } from '../../src/domain/photoProvenance';
 import { languageNameIn } from '../../src/domain/language';
 import { isCountry, placeName } from '../../src/domain/continents';
@@ -796,6 +796,27 @@ export default function DishDetail() {
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{dish.prepSummary}</Muted>
+          {/*
+           * A published recipe's ingredients are lines, and read as a list — approved by
+           * Ajay from a mockup on 9 October. So is any other record whose list is mostly
+           * recipe lines. Names keep their pills and links below: a single name such as
+           * "Cow milk or buffalo milk" is still a name, which is why the second test wants
+           * three lines before it calls something a recipe.
+           */}
+          {dish.ingredients.length > 0 &&
+          (isAdaptation || (dish.ingredients.length >= 3 && listsRecipeLines(dish.ingredients))) ? (
+            <>
+              <H6 level={3} style={styles.equipmentHeading}>{copy.ingredientsHeading}</H6>
+              <View style={styles.ingredientList}>
+                {dish.ingredients.map((line, i) => (
+                  <View key={`${i}-${line}`} style={styles.bulletRow}>
+                    <T style={styles.ingredientBullet}>•</T>
+                    <T style={styles.ingredientLine}>{line}</T>
+                  </View>
+                ))}
+              </View>
+            </>
+          ) : (
           <View style={styles.chipWrap}>
             {/*
              * Each ingredient opens everything made with it.
@@ -819,6 +840,7 @@ export default function DishDetail() {
               />
             ))}
           </View>
+          )}
 
           {/* Only where there is equipment to name. Published recipes list none. */}
           {dish.equipment.length ? (
@@ -1326,6 +1348,9 @@ const styles = StyleSheet.create({
   popularLabel: { fontSize: 13, fontFamily: 'Inter_500Medium', flex: 1 },
   changedList: { gap: 5, marginBottom: 10 },
   bulletRow: { flexDirection: 'row', gap: 6 },
+  ingredientList: { gap: 6, marginBottom: 20 },
+  ingredientBullet: { color: color.accent, fontSize: 15, lineHeight: 22 },
+  ingredientLine: { fontSize: 15, lineHeight: 22, flex: 1 },
   bullet: { fontSize: 12 },
   changeText: { fontSize: 12, lineHeight: 12 * 1.45, flex: 1 },
   sourceLink: { fontSize: 12, color: accentText },
