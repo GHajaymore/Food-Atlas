@@ -1883,8 +1883,8 @@
  {
   "id": 1104,
   "name": "Rumford's Soup",
-  "country": "Italy",
-  "region": "Munich",
+  "country": "Germany",
+  "region": "Bavaria",
   "continent": "Elsewhere",
   "qid": "Q356346",
   "blurb": "soup of barley, dried peas, potatoes, and beer",
@@ -1904,7 +1904,9 @@
   "originChecked": true,
   "originSupport": "unplaceable",
   "origin": "Bavaria",
-  "originFrom": "wikidata:P495"
+  "originFrom": "wikidata:P495",
+  "city": "Munich",
+  "placeByHand": "\"Consumed in Munich and greater Bavaria.\""
  },
  {
   "id": 1105,

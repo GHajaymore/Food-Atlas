@@ -36971,7 +36971,7 @@
  {
   "title": "Kottu",
   "name": "Kottu",
-  "country": "India",
+  "country": "Sri Lanka",
   "region": "Batticaloa",
   "url": "https://en.wikipedia.org/wiki/Kottu",
   "infobox": true,
@@ -44054,7 +44054,7 @@
  {
   "title": "Hutki shira",
   "name": "Hutki shira",
-  "country": "India",
+  "country": "Bangladesh",
   "region": "Sylhet",
   "url": "https://en.wikipedia.org/wiki/Hutki_shira",
   "infobox": true,
@@ -44256,7 +44256,7 @@
  {
   "title": "Tusha shinni",
   "name": "Tusha shinni",
-  "country": "India",
+  "country": "Bangladesh",
   "region": "Sylhet",
   "url": "https://en.wikipedia.org/wiki/Tusha_shinni",
   "infobox": true,
@@ -60704,7 +60704,6 @@
   "title": "Squid as food",
   "name": "Squid as food",
   "country": "Japan",
-  "region": "New York City",
   "url": "https://en.wikipedia.org/wiki/Squid_as_food",
   "infobox": true,
   "leadImageChecked": true,
@@ -65004,7 +65003,7 @@
  {
   "title": "Milkfish congee",
   "name": "Milkfish congee",
-  "country": "Japan",
+  "country": "Taiwan",
   "region": "Tainan",
   "url": "https://en.wikipedia.org/wiki/Milkfish_congee",
   "infobox": true,
@@ -92089,7 +92088,7 @@
  {
   "title": "Egg tart",
   "name": "Egg tart",
-  "country": "United Kingdom",
+  "country": "China",
   "region": "Guangzhou",
   "url": "https://en.wikipedia.org/wiki/Egg_tart",
   "leadImageChecked": true,
@@ -92192,7 +92191,7 @@
  {
   "title": "Jar jow",
   "name": "Jar jow",
-  "country": "China",
+  "country": "United Kingdom",
   "region": "East London",
   "url": "https://en.wikipedia.org/wiki/Jar_jow",
   "leadImageChecked": true,
@@ -112904,8 +112903,7 @@
  {
   "title": "Egg roll",
   "name": "Egg roll",
-  "country": "Vietnam",
-  "region": "New York City",
+  "country": "United States",
   "url": "https://en.wikipedia.org/wiki/Egg_roll",
   "leadImageChecked": true,
   "leadFile": "CookbookEggrollTongs.jpg",
@@ -114872,8 +114870,8 @@
  {
   "title": "Hunan dumplings",
   "name": "Hunan dumplings",
-  "country": "China",
-  "region": "Montreal",
+  "country": "Canada",
+  "region": "Quebec",
   "url": "https://en.wikipedia.org/wiki/Hunan_dumplings",
   "leadImageChecked": true,
   "infobox": true,
@@ -114888,7 +114886,9 @@
   "wikidataChecked": true,
   "qid": "Q136393800",
   "rev": "1316593923",
-  "originSupport": "unplaceable"
+  "originSupport": "unplaceable",
+  "city": "Montreal",
+  "placeByHand": "\"A dish from Canadian Chinese cuisine … invented in Montreal.\""
  },
  {
   "title": "Jardin Tiki",
@@ -114993,8 +114993,8 @@
  {
   "title": "Thunder Bay bon bons",
   "name": "Thunder Bay bon bons",
-  "country": "China",
-  "region": "Thunder Bay",
+  "country": "Canada",
+  "region": "Ontario",
   "url": "https://en.wikipedia.org/wiki/Thunder_Bay_bon_bons",
   "leadImageChecked": true,
   "infobox": true,
@@ -115009,7 +115009,9 @@
   "wikidataChecked": true,
   "qid": "Q136393787",
   "rev": "1335812368",
-  "originSupport": "unplaceable"
+  "originSupport": "unplaceable",
+  "city": "Thunder Bay",
+  "placeByHand": "\"A dish from Canadian Chinese cuisine.\""
  },
  {
   "title": "Wok with Yan",
@@ -120646,7 +120648,7 @@
   "title": "Malay sponge cake",
   "name": "Malay sponge cake",
   "country": "China",
-  "region": "China (Guangdong)",
+  "region": "Guangdong",
   "url": "https://en.wikipedia.org/wiki/Malay_sponge_cake",
   "leadImageChecked": true,
   "leadFile": "Sponge_cake_at_Top_Cantonese_Restaurant.jpg",
@@ -191353,7 +191355,6 @@
   "title": "Shaved ice",
   "name": "Shaved ice",
   "country": "Malaysia",
-  "region": "Baltimore",
   "url": "https://en.wikipedia.org/wiki/Shaved_ice",
   "leadImageChecked": true,
   "leadFile": "Shavedice.jpg",
@@ -210014,7 +210015,6 @@
   "title": "Khachapuri",
   "name": "Khachapuri",
   "country": "Georgia",
-  "region": "New York City",
   "url": "https://en.wikipedia.org/wiki/Khachapuri",
   "leadImageChecked": true,
   "leadFile": "Old_Tbilisi,_Georgian_khachapuri,_Georgia.jpg",
@@ -213069,7 +213069,6 @@
   "title": "Ful medames",
   "name": "Ful medames",
   "country": "Egypt",
-  "region": "MENA",
   "url": "https://en.wikipedia.org/wiki/Ful_medames",
   "leadImageChecked": true,
   "leadFile": "Ful_medames_(arabic_meal).jpg",

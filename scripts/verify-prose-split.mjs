@@ -30,6 +30,7 @@ if (!before) {
 }
 
 const { buildCatalogue } = await import('../src/data/build.ts');
+const { isExcluded } = await import('../src/data/exclusions.ts');
 
 const read = (dir, name) => JSON.parse(readFileSync(resolve(dir, `${name}.json`), 'utf8'));
 
@@ -55,19 +56,29 @@ const now = build('public/data', shared);
    deliberately absent: it is empty in the second run by design, which is the change. */
 const WATCHED = ['score', 'badgeLevel', 'badgeLabel', 'blurb', 'atRisk', 'atRiskEvidence', 'prepLength'];
 
-if (old.length !== now.length) {
-  process.stderr.write(`FAIL  the catalogue changed size: ${old.length} -> ${now.length}\n`);
-  process.exit(1);
-}
-
+/*
+ * Records are matched by id, and a change of size is reported by name rather than ending
+ * the run. The first version stopped at "the catalogue changed size" — which is the one
+ * moment this check matters most, and it said nothing about which record or why. On 9
+ * October a place fix made the build drop Pastel de nata through an invariant, silently;
+ * what tells that apart from an intended exclusion is whether the record is in
+ * `exclusions.ts`, so that is what is asked.
+ */
 const byId = new Map(now.map((dish) => [dish.id, dish]));
+const oldIds = new Set(old.map((dish) => dish.id));
 const drift = new Map(WATCHED.map((field) => [field, []]));
 let missing = 0;
 
 for (const was of old) {
   const is = byId.get(was.id);
   if (!is) {
-    missing += 1;
+    const country = was.loc?.country ?? '';
+    if (isExcluded(was.name, country)) {
+      process.stdout.write(`ok    ${was.name} (${country}) left the catalogue, as exclusions.ts says it should\n`);
+    } else {
+      process.stderr.write(`FAIL  ${was.name} (${country}, id ${was.id}) vanished from the rebuild, and nothing excludes it\n`);
+      missing += 1;
+    }
     continue;
   }
   for (const field of WATCHED) {
@@ -85,6 +96,10 @@ for (const was of old) {
       drift.get(field).push([was.name, left, is[field]]);
     }
   }
+}
+
+for (const dish of now) {
+  if (!oldIds.has(dish.id)) process.stdout.write(`note  ${dish.name} (id ${dish.id}) is new in the rebuild\n`);
 }
 
 let failed = missing > 0;

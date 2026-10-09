@@ -57,7 +57,7 @@ const sources = {
   gi: read('gi'),
 };
 
-const { catalogue, stats: catalogueStats } = buildCatalogue(
+const { catalogue, stats: catalogueStats, droppedByInvariants } = buildCatalogue(
   sources.catalogue,
   sources.cuisines,
   sources.cookbook,
@@ -580,10 +580,24 @@ describe('a region is a place, not a branch of a category tree', () => {
    * 161 → 160 on 9 October, read and decided: Palestine was counted twice, once as
    * "Palestine" and once as "Palestinian National Authority". No dish left the atlas;
    * zibdieh joined the other Palestinian records. See countryNames.ts.
+   *
+   * 160 → 161 the same night: Eritrea, through Kategna — one of 44 records the build had
+   * been dropping because their origin claims linked to nothing. See the test below.
    */
   it('loses no country, and no large number of records, to the repair', () => {
     expect(catalogueStats.total).toBeGreaterThan(17_000);
-    expect(catalogueStats.countries).toBe(160);
+    expect(catalogueStats.countries).toBe(161);
+  });
+
+  /*
+   * The build refuses a record that breaks an invariant, and it used to do so silently.
+   * 44 dishes — Buuz, Kepta duona, Kibbeh bil siniyeh — were missing for weeks because
+   * their origin claims had an empty source link, and on 9 October a place change made
+   * Pastel de nata vanish the same way with every test green. A refusal is a finding: if
+   * this fails, read the names, and fix the record or the rule, not this list.
+   */
+  it('drops no record for breaking an invariant without saying which', () => {
+    expect(droppedByInvariants.map((d) => `${d.name} (${d.country}): ${d.violations[0]}`)).toEqual([]);
   });
 });
 

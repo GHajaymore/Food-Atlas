@@ -650,17 +650,17 @@ function categoryRegions(rawCuisines: unknown[], everythingElse: unknown[][]): S
 }
 
 /**
- * The levels of a place, each said once.
+ * The levels below a region, each said once.
  *
- * Lisbon is a district and a city, and Chongqing a province-level municipality and a
- * city, so the GeoNames pass correctly files a record under both — and the page printed
- * "Portugal › Lisbon › Lisbon › Belém". A level that repeats the one above it tells the
- * reader nothing; the record keeps both fields, the trail prints the name once.
+ * Lisbon is a district and a city, and the GeoNames pass correctly files Pastel de nata
+ * under both — so the page printed "Portugal › Lisbon › Lisbon › Belém". A level that
+ * repeats the one above it tells the reader nothing, so it is cleared here, in the place
+ * itself, not just in the trail printed from it: the first attempt trimmed only the
+ * breadcrumb, the invariant that the breadcrumb must match the place caught the
+ * mismatch, and the build quietly dropped the record — 17,357 became 17,356.
  */
-const placeTrail = (...levels: string[]): string[] =>
-  levels
-    .filter(Boolean)
-    .filter((level, i, all) => i === 0 || level.toLowerCase() !== all[i - 1].toLowerCase());
+const belowOnce = (level: string, above: string): string =>
+  level && level.toLowerCase() === above.toLowerCase() ? '' : level;
 
 function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Thresholds): Dish {
   const confirmed = confirmationsFor(confirmations, row.id);
@@ -671,9 +671,9 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
    * code of the place it matched rather than guessing at them. Absent unless that
    * pass confirmed the region, so a breadcrumb never claims a depth nothing checked.
    */
-  const province = placeBelow(row.province ?? '', country);
-  const city = placeBelow(row.city ?? '', country);
-  const breadcrumb = placeTrail(country, region, province, city);
+  const province = belowOnce(placeBelow(row.province ?? '', country), region);
+  const city = belowOnce(placeBelow(row.city ?? '', country), province || region);
+  const breadcrumb = [country, region, province, city].filter(Boolean);
   const name = cleanName(row.name);
 
   // The infobox pass reads the article itself; `evidence` holds what Wikidata
@@ -809,7 +809,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
     disclaimerKey: assessment.disclaimerKey,
     disclaimerKeys: assessment.disclaimerKeys,
     disclaimerParams: assessment.disclaimerParams,
-    originClaims: originClaimsFrom(row.originClaims, row.url),
+    originClaims: originClaimsFrom(row.originClaims, row.url, row.qid),
     /* Only when it says something the filing does not already. A record filed under
        India whose origin reads "India" has nothing to add and would print a line saying
        so on every card. */
@@ -1064,6 +1064,8 @@ export function buildCatalogue(
   cookbookRows: number[];
   cuisineRows: number[];
   importedProseRows: number[];
+  /** Records refused for breaking an invariant. Pinned empty by plumbing.test.ts. */
+  droppedByInvariants: DroppedRecord[];
 } {
 /*
  * The links the published files leave out, put back before anything reads them.
@@ -1272,9 +1274,9 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
    * code of the place it matched rather than guessing at them. Absent unless that
    * pass confirmed the region, so a breadcrumb never claims a depth nothing checked.
    */
-  const province = placeBelow(row.province ?? '', country);
-  const city = placeBelow(row.city ?? '', country);
-  const breadcrumb = placeTrail(country, region, province, city);
+  const province = belowOnce(placeBelow(row.province ?? '', country), region);
+  const city = belowOnce(placeBelow(row.city ?? '', country), province || region);
+  const breadcrumb = [country, region, province, city].filter(Boolean);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = cleanLines(row.ingredients);
@@ -1953,7 +1955,7 @@ const isVaguerDuplicate = (dish: Dish): boolean =>
  * "Pierogi": the atlas held both, and the thinner of the two — filed under China, one
  * of three claims its own article lists — was the one a lookup reached first.
  */
-const validImported = [...fromCuisines, ...imported]
+const assembledImported = [...fromCuisines, ...imported]
   .filter((d) => !isVaguerDuplicate(d))
   .map(withCookbookMethod)
   /* Dropped when the atlas already holds the dish the recipe describes, under the same
@@ -1976,8 +1978,25 @@ const validImported = [...fromCuisines, ...imported]
   // scanning a list should meet the documented records before the bare protected
   // names — and the duplicate guard runs against everything already assembled, since
   // a protected name the atlas holds under a different source is not a second food.
-  .concat(fromGiRegister.filter((d) => !alreadyPresent.has(key(d.name, d.loc.country))))
-  .filter((dish) => findViolations(dish).length === 0);
+  .concat(fromGiRegister.filter((d) => !alreadyPresent.has(key(d.name, d.loc.country))));
+
+/**
+ * Records the build refuses because they break an invariant — named, so a test can
+ * hold the list.
+ *
+ * The refusal is right: a record whose breadcrumb disagrees with its place must not
+ * reach a reader. But it was silent. On 9 October a change that trimmed repeated place
+ * names from the breadcrumb, and not from the place, made Pastel de nata disagree with
+ * itself, and the build dropped it — 17,357 records became 17,356 and every test passed.
+ * A data comparison cannot see this either: it runs the same build code on both sides.
+ * So the dropped records are exposed here and `plumbing.test.ts` pins them.
+ */
+const droppedByInvariants: DroppedRecord[] =
+  assembledImported
+    .map((dish) => ({ name: dish.name, country: dish.loc.country, violations: findViolations(dish) }))
+    .filter((entry) => entry.violations.length > 0);
+
+const validImported = assembledImported.filter((dish) => findViolations(dish).length === 0);
 
   /**
    * The same dish, under the same country, more than once.
@@ -2094,7 +2113,14 @@ const validImported = [...fromCuisines, ...imported]
   withIngredients: catalogue.filter((d) => (d.ingredients?.length ?? 0) > 0).length,
 };
 
-  return { catalogue, stats, cookbookRows, cuisineRows, importedProseRows };
+  return { catalogue, stats, cookbookRows, cuisineRows, importedProseRows, droppedByInvariants };
+}
+
+/** A record the build refused, and the invariants it broke. */
+export interface DroppedRecord {
+  name: string;
+  country: string;
+  violations: string[];
 }
 
 /** The coverage figures the atlas page reports. */
@@ -2134,16 +2160,27 @@ export interface CatalogueStats {
  * and a citation; this carries only what the article stated, and says so, because
  * the alternative is writing an argument nobody made.
  */
-function originClaimsFrom(countries: string[] | undefined, articleUrl: string | undefined) {
+function originClaimsFrom(countries: string[] | undefined, articleUrl: string | undefined, qid?: string) {
   if (!countries || countries.length < 2) return undefined;
 
+  /*
+   * A record with no article still has the Wikidata item its countries were read from,
+   * and that item is where the claim was made. Without it the source was an empty link,
+   * the invariant that every claim is sourced failed, and the build dropped the whole
+   * record — 44 dishes, Buuz, Kepta duona, Kibbeh bil siniyeh and Mussels marinière among
+   * them, missing from the atlas since the claims were first stored. Found on 9 October
+   * by naming what the build refuses instead of only counting it.
+   */
+  const url = articleUrl || (qid ? `https://www.wikidata.org/wiki/${qid}` : '');
   return countries.map((place) => ({
     place,
+    /* One sentence for both: it is shown untranslated in every language today, and a
+       second English variant would be one more string no catalogue carries. */
     claim: `Named as a country of origin by this dish's encyclopaedia entry.`,
     source: {
       title: 'Country of origin',
-      publisher: 'Wikipedia / Wikidata',
-      url: articleUrl ?? '',
+      publisher: articleUrl ? 'Wikipedia / Wikidata' : 'Wikidata',
+      url,
       note: 'Recorded as one of several claims. No source here settles which is first.',
     },
   }));

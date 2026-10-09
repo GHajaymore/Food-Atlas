@@ -45,6 +45,11 @@ export const NOT_TRADITIONS: { name: string; country: string; why: string }[] = 
     country: 'Netherlands',
     why: '"A Sichuan cuisine restaurant in Amsterdam" — a restaurant, filed as a dish under the Netherlands › Sichuan.',
   },
+  {
+    name: 'British and Canadian School Building',
+    country: 'China',
+    why: '"An historic building, former English-language school and Chinese food products factory" in Montreal.',
+  },
   { name: 'B-52', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
   { name: '007', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
   { name: 'S.L.Y', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },

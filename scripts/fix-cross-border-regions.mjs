@@ -93,6 +93,28 @@ const FIXES = [
   ['Taegu (Hawaiian dish)', 'South Korea', 'Hawaii', { country: 'United States' }, '"A popular side dish in Hawaii."'],
   ['Hodge-Podge (soup)', 'China', 'Scotland', { country: 'United Kingdom' }, '"Particularly associated with Scotland."'],
   ['breakfast burrito', 'United States', 'Mexico', { region: 'New Mexico' }, '"Most notably originating in New Mexican cuisine."'],
+  ['Egg tart', 'United Kingdom', 'Guangzhou', { country: 'China' }, '"A kind of tart found in Cantonese cuisine, derived from the English custard tart."'],
+
+  /*
+   * A city of another country, not a state — which is why the GeoNames report, looking
+   * only for first-level units, never listed them. Found on 9 October by asking instead
+   * for every region whose name exists in exactly one other country, then reading what
+   * the built pages print. "Kottu — Batticaloa, India" was one.
+   */
+  ['Kottu', 'India', 'Batticaloa', { country: 'Sri Lanka' }, '"A Sri Lankan dish … originated in the Eastern regions of Sri Lanka, particularly Batticaloa."'],
+  ['Hutki shira', 'India', 'Sylhet', { country: 'Bangladesh' }, '"Popularly eaten in Bangladesh, particularly in the Sylhet Division."'],
+  ['Tusha shinni', 'India', 'Sylhet', { country: 'Bangladesh' }, '"A halwa dessert from the Sylhet region of Bangladesh."'],
+  ['Milkfish congee', 'Japan', 'Tainan', { country: 'Taiwan' }, '"A Taiwanese breakfast dish … originating from Tainan."'],
+  ['Jar jow', 'China', 'East London', { country: 'United Kingdom' }, '"A dish from British Chinese cuisine … strongly associated with East London."'],
+  ['Egg roll', 'Vietnam', 'New York City', { country: 'United States', region: null }, '"Served in American Chinese restaurants"; no city named.'],
+  ['Hunan dumplings', 'China', 'Montreal', { country: 'Canada', region: 'Quebec', city: 'Montreal' }, '"A dish from Canadian Chinese cuisine … invented in Montreal."'],
+  ['Thunder Bay bon bons', 'China', 'Thunder Bay', { country: 'Canada', region: 'Ontario', city: 'Thunder Bay' }, '"A dish from Canadian Chinese cuisine."'],
+  ["Rumford's Soup", 'Italy', 'Munich', { country: 'Germany', region: 'Bavaria', city: 'Munich' }, '"Consumed in Munich and greater Bavaria."'],
+  ['Malay sponge cake', 'China', 'China (Guangdong)', { region: 'Guangdong' }, '"Popular in Guangdong and Hong Kong"; the region read "China (Guangdong)".'],
+  ['Squid as food', 'Japan', 'New York City', DROP, 'Eaten in many cuisines; New York City is in the United States.'],
+  ['Shaved ice', 'Malaysia', 'Baltimore', DROP, 'A family of desserts; Baltimore is in the United States.'],
+  ['Khachapuri', 'Georgia', 'New York City', DROP, 'Georgian; New York City is in the United States.'],
+  ['Ful medames', 'Egypt', 'MENA', DROP, '"MENA" is not a region of Egypt.'],
 
   /*
    * Inside the right country, at the wrong place. The GeoNames pass matched a region
