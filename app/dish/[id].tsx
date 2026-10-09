@@ -50,6 +50,7 @@ import { useNoIndex } from '../../src/domain/noindex';
 import { useDocumentTitle } from '../../src/domain/pageTitle';
 import { atRiskNote } from '../../src/domain/atRisk';
 import { planTranslation } from '../../src/domain/language';
+import { sentencesOf } from '../../src/domain/sentences';
 import { alsoRecordedIn, relatedTo } from '../../src/domain/related';
 import {
   confirmAsk,
@@ -286,10 +287,8 @@ export default function DishDetail() {
   const languageNotes = (() => {
     const said = new Set<string>();
     return (dish.videos ?? []).map((video) =>
-      planTranslation(copy, video, locale)
-        .note.split(/(?<=[.!?。！？])\s*/)
-        .map((sentence) => sentence.trim())
-        .filter((sentence) => sentence && !said.has(sentence) && (said.add(sentence), true))
+      sentencesOf(planTranslation(copy, video, locale).note)
+        .filter((sentence) => !said.has(sentence) && (said.add(sentence), true))
         .join(' '),
     );
   })();

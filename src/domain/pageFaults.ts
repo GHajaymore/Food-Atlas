@@ -11,6 +11,8 @@
  * green. Narrow a rule or allowlist a word, with the reason beside it — never delete one.
  */
 
+import { sentencesOf } from './sentences';
+
 export interface PageUnderCheck {
   /** The front page, where "submissions are not open" was printed under the main ask. */
   home?: boolean;
@@ -54,11 +56,19 @@ export function faultsIn(page: PageUnderCheck, text: string, title: string, isEn
 
   // The same long sentence more than once on one screen: thirty words about a video's
   // language, printed under each of three videos.
+  //
+  // "Long" means twelve words, or twenty characters of Chinese or Japanese. Counting words
+  // by spaces made every Chinese and Japanese sentence one word long, so this rule silently
+  // never ran in either — and the sentence split did not know the Hindi danda, so it missed
+  // the same repeat in Hindi. Both found by running the check in every language and asking
+  // what it could actually see. A single character count does not work instead: one CJK
+  // character carries roughly what a Latin word does.
   const seen = new Map<string, number>();
   for (const line of text.split('\n')) {
-    for (const sentence of line.split(/(?<=[.!?。！？])\s+/)) {
-      const s = sentence.trim();
-      if (s.split(/\s+/).length < 12) continue;
+    for (const s of sentencesOf(line)) {
+      const words = s.split(/\s+/).length;
+      const ideographic = (s.match(/[぀-ヿ㐀-鿿豈-﫿]/g) ?? []).length;
+      if (words < 12 && ideographic < 20) continue;
       seen.set(s, (seen.get(s) ?? 0) + 1);
     }
   }

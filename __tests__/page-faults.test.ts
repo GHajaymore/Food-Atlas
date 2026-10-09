@@ -44,6 +44,31 @@ describe('each rule catches the fault it was written for', () => {
     expect(faults.some((f) => f.startsWith('printed 2 times'))).toBe(true);
   });
 
+  /*
+   * The same fault in scripts the first version of this rule could not read: the Hindi
+   * danda was not a sentence end, and Chinese and Japanese have no spaces to count words
+   * by. Both strings are what the live record page printed, in each language.
+   */
+  test('the same sentence twice in Hindi, which ends sentences with a danda', () => {
+    const note =
+      'मूल ऑडियो के ऊपर मशीन से अनूदित हिन्दी उपशीर्षकों के साथ खुलता है — पकाने वाले की आवाज़ बदली नहीं जाती, और अनुवाद वीडियो मंच का है, किसी व्यक्ति का नहीं।';
+    const text = `मलयालम में बोला गया। ${note}\nअंग्रेज़ी में बोला गया। ${note}`;
+    expect(faultsIn(record, text, 'X · WikiFoodia', false).some((f) => f.startsWith('printed 2 times'))).toBe(true);
+  });
+
+  test('the same sentence twice in Japanese, which has no spaces to count', () => {
+    const note =
+      '元の音声の上に、機械翻訳された日本語の字幕を載せて開きます。作る人の声は差し替えず、訳は動画プラットフォームのもので、人によるものではありません。';
+    const text = `マラヤーラム語で話されています。${note}\n英語で話されています。${note}`;
+    expect(faultsIn(record, text, 'X · WikiFoodia', false).some((f) => f.startsWith('printed 2 times'))).toBe(true);
+  });
+
+  test('and in Chinese', () => {
+    const note = '打开时会在原声之上叠加机器翻译的中文字幕 — 做菜的人的声音没有被替换，翻译来自视频平台，不是人做的。';
+    const text = `讲的是马拉雅拉姆语。${note}\n讲的是英语。${note}`;
+    expect(faultsIn(record, text, 'X · WikiFoodia', false).some((f) => f.startsWith('printed 2 times'))).toBe(true);
+  });
+
   test('a claim of authenticity on a record without the badge', () => {
     const text = '🟡 Traditional Variation\n27 /100\nAuthentic Version\nCooked for hours…';
     expect(faultsIn(record, text, 'Kozhikode Halwa · WikiFoodia', true)).toEqual([

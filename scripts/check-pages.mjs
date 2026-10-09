@@ -148,6 +148,20 @@ const RUNS = [
     height: 812,
     pages: PAGES.filter((p) => p.record || p.home || p.path === '/how' || p.path === '/country/japan'),
   },
+  /*
+   * And every other language once, on the two screens a reader is likeliest to land on.
+   *
+   * Ten of the twelve had never been opened by anything — not a test, not a person. A
+   * missing key falls back to English silently and a long label overflows silently, so a
+   * language nobody reads is a language nobody would hear about. Phone width, where length
+   * breaks things; the record proves it rendered by its untranslated name.
+   */
+  ...['es', 'fr', 'it', 'pt', 'nl', 'pl', 'tr', 'ru', 'hi', 'zh', 'ja'].map((locale) => ({
+    locale,
+    width: 375,
+    height: 812,
+    pages: PAGES.filter((p) => p.home || p.path === '/dish/1'),
+  })),
 ];
 
 /* ------------------------------------------------------------------ checks */
@@ -194,7 +208,10 @@ try {
         if (proof) {
           await tab.getByText(proof, { exact: false }).first().waitFor({ timeout: 30_000 });
         } else {
-          await tab.waitForTimeout(1500);
+          /* No untranslated text to wait for, so wait for the app to have said a lot: the
+             loading skeleton is a few dozen characters, a rendered screen is thousands. A
+             fixed pause passed on a page that had not finished building its catalogue. */
+          await tab.waitForFunction(() => document.body.innerText.length > 1500, null, { timeout: 30_000 });
         }
 
         const text = await tab.evaluate(() => document.body.innerText);
