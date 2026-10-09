@@ -77,16 +77,84 @@ const isFile = async (path) => {
  * the compiled defaults apply. Fixed rather than live, because this checks the screen and
  * not the database — and it must never write to one.
  */
+/**
+ * One of each thing people can say, so the screens that show it are read.
+ *
+ * Production has neither yet — nobody has confirmed a record or proposed a dish — so with
+ * empty stubs the "Confirmed by" block on a record, the proposal list and the nav count
+ * had never been rendered by anything but a hand-run local test, in English. The first
+ * stranger to use either would have been the first to see it in their language.
+ *
+ * Fixtures, and plainly so: they exist only in this script's stub and never reach a
+ * database. One confirmation is signed in and one is not, because the standing line counts
+ * only the first and that difference is the one most worth seeing rendered.
+ */
+const CONFIRMATIONS = {
+  '1': {
+    people: [
+      {
+        name: 'Fixture Reader',
+        connection: 'Born and cooking in Kozhikode',
+        said: 'We use coconut oil, not ghee, and stir it for three hours.',
+        local: true,
+        verified: true,
+        at: '2026-10-08',
+      },
+      {
+        name: 'Second Fixture',
+        connection: 'Grew up in Malabar',
+        said: 'Same at home, though we add more cashews.',
+        local: false,
+        verified: false,
+        at: '2026-10-08',
+      },
+    ],
+  },
+};
+
+const PROPOSALS = [
+  {
+    id: 'fixture-1',
+    name: 'Fixture Unniyappam',
+    country: 'India',
+    region: 'Kerala',
+    cooks: 'Made at home for Vishu and temple festivals.',
+    ingredients: ['rice', 'jaggery', 'banana', 'coconut', 'ghee'],
+    steps: ['Soak and grind the rice.', 'Mix with jaggery and mashed banana.', 'Fry in an appam pan.'],
+    submitter: 'Fixture Proposer',
+    connection: 'Grew up in Thrissur',
+    photo: '',
+    at: '2026-10-08',
+    status: 'proposed',
+    people: [
+      {
+        name: 'Fixture Confirmer',
+        connection: 'Cooks it every Vishu',
+        said: 'Yes — and we add sesame seeds.',
+        local: true,
+        verified: false,
+        at: '2026-10-08',
+      },
+    ],
+  },
+];
+
 const api = (path, res) => {
   const send = (status, body, headers = {}) => {
     res.writeHead(status, { 'Content-Type': 'application/json', ...headers });
     res.end(body === undefined ? '' : JSON.stringify(body));
   };
-  if (path === '/api/proposals') return send(200, []);
-  if (path === '/api/confirmations') return send(200, {}, { 'X-Confirmations': 'open' });
+  if (path === '/api/proposals') return send(200, PROPOSALS);
+  if (path === '/api/confirmations') return send(200, CONFIRMATIONS, { 'X-Confirmations': 'open' });
   if (path === '/api/events') return send(204);
   return send(404, { error: 'not stubbed' });
 };
+
+/** A transparent one-pixel PNG, served in place of every photograph from another host. */
+const PIXEL = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+  'base64',
+);
 
 /** Cloudflare Pages' resolution: the exact file, then `<path>.html`, then the app shell. */
 const serve = () =>
@@ -121,7 +189,7 @@ const PAGES = [
   { path: '/browse', expect: 'traditions' },
   { path: '/search', expect: 'Search' },
   { path: '/propose', expect: 'Propose a dish' },
-  { path: '/proposals', expect: 'proposals' },
+  { path: '/proposals', expect: 'Fixture Unniyappam', proof: 'Fixture Unniyappam' },
   { path: '/privacy', expect: 'What this site knows about you' },
   { path: '/support', expect: 'Keeping it free' },
   { path: '/dish/1', expect: 'Kozhikode Halwa', record: 'Kozhikode Halwa' },
@@ -166,7 +234,7 @@ const RUNS = [
     locale,
     width: 375,
     height: 812,
-    pages: PAGES.filter((p) => p.home || p.path === '/dish/1'),
+    pages: PAGES.filter((p) => p.home || p.path === '/dish/1' || p.path === '/proposals'),
   })),
 ];
 
@@ -197,9 +265,20 @@ try {
 
     /* Nothing leaves this machine. Photographs and video stills are other people's
        servers; the screen around them is what is being checked. */
-    await context.route('**/*', (route) =>
-      route.request().url().startsWith(ORIGIN) ? route.continue() : route.abort(),
-    );
+    /*
+     * Photographs are answered with a placeholder rather than refused. Refused, the app
+     * rendered no <img> at all, so the alt-text rule below passed by having nothing to
+     * check — measured: zero images on a record that shows eleven. A one-pixel PNG lets
+     * every image element render exactly as it would with the real photograph behind it.
+     */
+    await context.route('**/*', (route) => {
+      const request = route.request();
+      if (request.url().startsWith(ORIGIN)) return route.continue();
+      if (request.resourceType() === 'image') {
+        return route.fulfill({ status: 200, contentType: 'image/png', body: PIXEL });
+      }
+      return route.abort();
+    });
 
     for (const page of run.pages) {
       const tab = await context.newPage();
@@ -210,7 +289,7 @@ try {
       try {
         await tab.goto(`${ORIGIN}${page.path}`, { waitUntil: 'networkidle', timeout: 60_000 });
 
-        const proof = run.locale === 'en' ? page.expect : page.record;
+        const proof = run.locale === 'en' ? page.expect : (page.proof ?? page.record);
         if (proof) {
           await tab.getByText(proof, { exact: false }).first().waitFor({ timeout: 30_000 });
         } else {
@@ -226,8 +305,37 @@ try {
           () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
         );
 
+        /*
+         * What a screen reader would meet: a picture with no description, and a control it
+         * can only announce as "button". The October audit found none by hand; this keeps
+         * it that way without anyone having to remember to look. Visible elements only —
+         * the skip link is clipped until focused, and an audit that measured it clipped
+         * reported a contrast failure that was not there.
+         */
+        const unlabelled = await tab.evaluate(() => {
+          const visible = (el) => {
+            const r = el.getBoundingClientRect();
+            const s = getComputedStyle(el);
+            return r.width > 1 && r.height > 1 && s.visibility !== 'hidden' && s.display !== 'none';
+          };
+          const nameOf = (el) =>
+            (el.getAttribute('aria-label') || el.getAttribute('title') || el.textContent || '').trim();
+          const images = [...document.querySelectorAll('img')].filter(
+            (img) => visible(img) && !img.alt && img.getAttribute('aria-hidden') !== 'true' && img.getAttribute('role') !== 'presentation',
+          );
+          const controls = [...document.querySelectorAll('button, a[href], [role="button"], [role="link"], input, textarea, select')].filter(
+            (el) => visible(el) && !nameOf(el) && !(el.getAttribute('placeholder') || '').trim() && !el.getAttribute('aria-labelledby'),
+          );
+          return {
+            images: images.map((img) => img.src.split('/').pop().slice(0, 40)),
+            controls: controls.map((el) => `${el.tagName.toLowerCase()}${el.getAttribute('role') ? `[role=${el.getAttribute('role')}]` : ''}`),
+          };
+        });
+
         const faults = faultsIn(page, text, title, run.locale === 'en');
         if (overflow > 1) faults.push(`page scrolls sideways by ${overflow}px`);
+        for (const image of unlabelled.images) faults.push(`image with no alt text: ${image}`);
+        for (const control of unlabelled.controls) faults.push(`control with no accessible name: ${control}`);
         for (const message of scriptErrors) faults.push(`script error: ${message.slice(0, 140)}`);
 
         for (const fault of faults) failures.push(`${label}  ${fault}`);

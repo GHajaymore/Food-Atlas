@@ -97,9 +97,11 @@ export function faultsIn(page: PageUnderCheck, text: string, title: string, isEn
   }
 
   // A count of thousands printed bare: "Anywhere 17358" where every other screen prints
-  // 17,358. Not on record pages, whose prose may quote a postcode or a catalogue number.
+  // 17,358. Not on record pages, whose prose may quote a postcode. And not a number that
+  // is part of a name: a photographer credited as "NNU-1-05100104" must be shown exactly
+  // as written, and a count never starts with a zero or sits inside a hyphenated word.
   if (!page.record) {
-    for (const bare of text.match(/(?<![\d.,\u202f\u00a0'’])\b\d{5,}\b/g) ?? []) {
+    for (const bare of text.match(/(?<![\d.,\u202f\u00a0'’\-_/:#A-Za-z])[1-9]\d{4,}(?![\d\-_A-Za-z])/g) ?? []) {
       faults.push(`number printed without its thousands separator: "${bare}"`);
     }
   }

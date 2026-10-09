@@ -119,6 +119,12 @@ describe('and stays quiet on a page that is fine', () => {
     expect(faultsIn(screen, text, 'X · WikiFoodia', true)).toEqual([]);
   });
 
+  /* A real photo credit from the catalogue, which the first version of the rule flagged on
+     the Turkish home page the moment photographs were allowed to render in the check. */
+  test('a photographer whose name contains digits is not a count', () => {
+    expect(faultsIn(home, 'NNU-1-05100104 · CC BY-SA 3.0\nChangzhou sesame candy', 'WikiFoodia', true)).toEqual([]);
+  });
+
   test('a postcode in a record is not a count', () => {
     expect(faultsIn(record, 'Sold on Halwa Street, Kozhikode 673001.', 'X · WikiFoodia', true)).toEqual([]);
   });
