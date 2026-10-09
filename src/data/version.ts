@@ -6,4 +6,4 @@
  * for why that matters more than it sounds: without it a reader can be served a week-old
  * catalogue and shown badges the atlas has already withdrawn.
  */
-export const DATA_VERSION = 'd6987eeaf864';
+export const DATA_VERSION = '78e52485b5e4';

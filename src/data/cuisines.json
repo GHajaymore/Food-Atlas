@@ -94032,7 +94032,7 @@
   "title": "Pear-syrup candy",
   "name": "Pear-syrup candy",
   "country": "China",
-  "region": "Chongqing",
+  "region": "Jiangnan",
   "url": "https://en.wikipedia.org/wiki/Pear-syrup_candy",
   "leadImageChecked": true,
   "leadFile": "梨膏糖_2.jpg",
@@ -94060,11 +94060,9 @@
   "originChecked": true,
   "wikidataChecked": true,
   "qid": "Q11115849",
-  "province": "Chongqing",
-  "city": "Jiangnan",
-  "placeConfirmed": "GeoNames — CC BY 4.0",
   "rev": "1348664330",
-  "originSupport": "supported"
+  "originSupport": "supported",
+  "placeByHand": "\"From eastern area of the Jiangnan region of China.\""
  },
  {
   "title": "Peen tong",
@@ -107449,7 +107447,7 @@
   "title": "Yanduxian",
   "name": "Yanduxian",
   "country": "China",
-  "region": "Chongqing",
+  "region": "Jiangnan",
   "url": "https://en.wikipedia.org/wiki/Yanduxian",
   "leadImageChecked": true,
   "leadFile": "I-Toq_Si_(20141106190320).JPG",
@@ -107476,11 +107474,9 @@
   "originChecked": true,
   "wikidataChecked": true,
   "qid": "Q19841068",
-  "province": "Chongqing",
-  "city": "Jiangnan",
-  "placeConfirmed": "GeoNames — CC BY 4.0",
   "rev": "1360439937",
-  "originSupport": "supported"
+  "originSupport": "supported",
+  "placeByHand": "\"A Chinese soup dish from Shanghai and Jiangsu.\""
  },
  {
   "title": "Luzhu huoshao",
@@ -115174,7 +115170,7 @@
   "title": "Batchoy",
   "name": "Batchoy",
   "country": "Philippines",
-  "region": "Central Luzon",
+  "region": "Western Visayas",
   "url": "https://en.wikipedia.org/wiki/Batchoy",
   "leadImageChecked": true,
   "leadFile": "Batchoy_of_Iloilo.jpg",
@@ -115218,11 +115214,11 @@
   "originChecked": true,
   "wikidataChecked": true,
   "qid": "Q4868733",
-  "province": "Province of Tarlac",
-  "city": "La Paz",
-  "placeConfirmed": "GeoNames — CC BY 4.0",
+  "province": "Iloilo",
+  "city": "Iloilo City",
   "rev": "1365072326",
-  "originSupport": "supported"
+  "originSupport": "supported",
+  "placeByHand": "\"Traces its roots to the Iloilo City district of La Paz.\""
  },
  {
   "title": "Goto (food)",

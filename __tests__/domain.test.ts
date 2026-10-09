@@ -1007,6 +1007,13 @@ describe('what counts as a country', () => {
     expect(isCountry(canonicalCountry("Kingdom of the Netherlands"))).toBe(true);
   });
 
+  it("counts Palestine once, whichever name the source used", () => {
+    // Zibdieh came from Wikidata as "Palestinian National Authority", which made a
+    // second Palestine in the coverage figure and on the country pages.
+    expect(canonicalCountry("Palestinian National Authority")).toBe("Palestine");
+    expect(canonicalCountry("State of Palestine")).toBe("Palestine");
+  });
+
   it('is asked about canonical names, which is what the records carry', () => {
     // `isCountry` reads the continent map, and that map is keyed by one spelling per
     // country. "Türkiye" is not in it; `canonicalCountry` turns it into "Turkey"

@@ -93,6 +93,20 @@ const FIXES = [
   ['Taegu (Hawaiian dish)', 'South Korea', 'Hawaii', { country: 'United States' }, '"A popular side dish in Hawaii."'],
   ['Hodge-Podge (soup)', 'China', 'Scotland', { country: 'United Kingdom' }, '"Particularly associated with Scotland."'],
   ['breakfast burrito', 'United States', 'Mexico', { region: 'New Mexico' }, '"Most notably originating in New Mexican cuisine."'],
+
+  /*
+   * Inside the right country, at the wrong place. The GeoNames pass matched a region
+   * string to a *town* of that name and filed the record under the town's state: the
+   * cultural region Jiangnan became a Jiangnan in Chongqing, 1,500 km up the Yangtze;
+   * Ore-Ida's Ontario, Oregon, became Ontario, California; La Paz in Iloilo City became
+   * a La Paz in Tarlac. `null` clears a level. Each is marked `placeByHand`, which that
+   * pass now leaves alone — otherwise its next run would make the same match again.
+   */
+  ['Pear-syrup candy', 'China', 'Chongqing', { region: 'Jiangnan', province: null, city: null }, '"From eastern area of the Jiangnan region of China."'],
+  ['Yanduxian', 'China', 'Chongqing', { region: 'Jiangnan', province: null, city: null }, '"A Chinese soup dish from Shanghai and Jiangsu."'],
+  ['Batchoy', 'Philippines', 'Central Luzon', { region: 'Western Visayas', province: 'Iloilo', city: 'Iloilo City' }, '"Traces its roots to the Iloilo City district of La Paz."'],
+  ['Mache', 'Philippines', 'Calabarzon', { city: null }, '"From the province of Laguna" — no town named, so none is printed.'],
+  ['Tater Tots', 'United States', 'California', { region: null, province: null, city: null }, 'Ore-Ida’s Ontario is in Oregon; the article names no place, so none is printed.'],
 ];
 
 let changed = 0;
@@ -110,7 +124,14 @@ for (const file of ['catalogue', 'cuisines']) {
         delete row.province;
         delete row.placeConfirmed;
       } else {
-        Object.assign(row, action);
+        for (const [field, value] of Object.entries(action)) {
+          if (value === null) delete row[field];
+          else row[field] = value;
+        }
+        if ('province' in action || 'city' in action) {
+          delete row.placeConfirmed;
+          row.placeByHand = why;
+        }
       }
       here++;
       console.log(`${file}: ${name} — ${country} › ${region} → ${action === DROP ? `${country}, no region` : JSON.stringify(action)}  (${why})`);

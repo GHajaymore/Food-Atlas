@@ -86,6 +86,15 @@ const ALIASES: Record<string, string> = {
   'Bolivarian Republic of Venezuela': 'Venezuela',
   'United Republic of Tanzania': 'Tanzania',
   'Republic of South Africa': 'South Africa',
+  /*
+   * The body that governs and the state it governs for, under the name the rest of the
+   * atlas uses. Without it the coverage figure counted Palestine twice — "Palestine" 5
+   * and "Palestinian National Authority" 1 — and zibdieh sat on a country page of its
+   * own. Naming, not a claim: both names are the same people's.
+   */
+  'Palestinian National Authority': 'Palestine',
+  'Palestinian Authority': 'Palestine',
+  'State of Palestine': 'Palestine',
 };
 
 /** Case- and accent-insensitive lookup, so a source's capitalisation cannot defeat it. */

@@ -104376,11 +104376,10 @@
   "course": "Dessert or snack",
   "wikidataChecked": true,
   "province": "Province of Laguna",
-  "city": "Santa Rosa",
-  "placeConfirmed": "GeoNames — CC BY 4.0",
   "rev": "1247908147",
   "originChecked": true,
-  "originSupport": "supported"
+  "originSupport": "supported",
+  "placeByHand": "\"From the province of Laguna\" — no town named, so none is printed."
  },
  {
   "id": 8079,
@@ -119264,7 +119263,6 @@
   "id": 8980,
   "name": "Tater Tots",
   "country": "United States",
-  "region": "California",
   "continent": "North America",
   "qid": "Q3516025",
   "blurb": "trademarked Ore-Ida product, cylindrical pieces of deep-fried grated potatoes, the first tater tots made using holey board",
@@ -119278,12 +119276,10 @@
   ],
   "course": "Entrée or side dish, sometimes as part of a main course",
   "wikidataChecked": true,
-  "province": "San Bernardino County",
-  "city": "Ontario",
-  "placeConfirmed": "GeoNames — CC BY 4.0",
   "rev": "1370640116",
   "originChecked": true,
-  "originSupport": "supported"
+  "originSupport": "supported",
+  "placeByHand": "Ore-Ida’s Ontario is in Oregon; the article names no place, so none is printed."
  },
  {
   "id": 8981,

@@ -196,6 +196,9 @@ const main = async () => {
     for (const row of rows) {
       const region = (row.region ?? '').trim();
       if (!region || !row.country) continue;
+      /* Corrected by hand against its article — see fix-cross-border-regions.mjs, which
+         exists because this pass matched "Jiangnan" to a town in Chongqing. */
+      if (row.placeByHand) continue;
 
       const finding = lookUp(region, row.country, gazetteer);
 

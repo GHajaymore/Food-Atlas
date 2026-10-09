@@ -649,6 +649,19 @@ function categoryRegions(rawCuisines: unknown[], everythingElse: unknown[][]): S
   return found;
 }
 
+/**
+ * The levels of a place, each said once.
+ *
+ * Lisbon is a district and a city, and Chongqing a province-level municipality and a
+ * city, so the GeoNames pass correctly files a record under both — and the page printed
+ * "Portugal › Lisbon › Lisbon › Belém". A level that repeats the one above it tells the
+ * reader nothing; the record keeps both fields, the trail prints the name once.
+ */
+const placeTrail = (...levels: string[]): string[] =>
+  levels
+    .filter(Boolean)
+    .filter((level, i, all) => i === 0 || level.toLowerCase() !== all[i - 1].toLowerCase());
+
 function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Thresholds): Dish {
   const confirmed = confirmationsFor(confirmations, row.id);
   const country = canonicalCountry(row.country);
@@ -660,7 +673,7 @@ function expand(row: ImportedRow, confirmations: ConfirmationIndex, t: Threshold
    */
   const province = placeBelow(row.province ?? '', country);
   const city = placeBelow(row.city ?? '', country);
-  const breadcrumb = [country, region, province, city].filter(Boolean);
+  const breadcrumb = placeTrail(country, region, province, city);
   const name = cleanName(row.name);
 
   // The infobox pass reads the article itself; `evidence` holds what Wikidata
@@ -1261,7 +1274,7 @@ const fromCuisines: Dish[] = (rawCuisines as CuisineRow[])
    */
   const province = placeBelow(row.province ?? '', country);
   const city = placeBelow(row.city ?? '', country);
-  const breadcrumb = [country, region, province, city].filter(Boolean);
+  const breadcrumb = placeTrail(country, region, province, city);
 
     // Its Wikipedia article is the one piece of evidence it arrives with.
     const ingredients = cleanLines(row.ingredients);

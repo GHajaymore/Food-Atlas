@@ -576,10 +576,14 @@ describe('a region is a place, not a branch of a category tree', () => {
    * which is the whole point of it: a published coverage figure moved and somebody had to
    * look at why and decide. A floor here would have let the atlas quietly stop covering a
    * country — and would have said nothing when it started covering six.
+   *
+   * 161 → 160 on 9 October, read and decided: Palestine was counted twice, once as
+   * "Palestine" and once as "Palestinian National Authority". No dish left the atlas;
+   * zibdieh joined the other Palestinian records. See countryNames.ts.
    */
   it('loses no country, and no large number of records, to the repair', () => {
     expect(catalogueStats.total).toBeGreaterThan(17_000);
-    expect(catalogueStats.countries).toBe(161);
+    expect(catalogueStats.countries).toBe(160);
   });
 });
 
