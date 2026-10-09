@@ -242,6 +242,13 @@ export interface Dish {
   atRiskEvidence?: string;
 
   blurb: string;
+  /**
+   * Where the build wrote `blurb` from a template rather than quoting a source: the
+   * catalogue key and what fills it, so a card can print it in the reader's language.
+   * See `domain/cardText.ts`.
+   */
+  blurbKey?: string;
+  blurbParams?: { dish: string; country: string; language?: string; languageName?: string };
   photo: string;
   credit: string;
   creditHref: string;

@@ -4,7 +4,7 @@ Generated from `src/i18n/catalogues.ts` by a script, so what is below is exactly
 
 Every string in the app's twelve other languages was written by a model, not run through a
 translation service — and not one has been read by a native speaker. These are the
-43 that matter most: the ones a reader is asked to act on, and the ones that make a
+46 that matter most: the ones a reader is asked to act on, and the ones that make a
 claim the atlas has to be able to defend.
 
 **For a reviewer:** read your language's section against the English. Mark anything that is
@@ -97,6 +97,14 @@ place names are never translated, deliberately.
 | Written for a general audience rather than recorded in the place the dish comes from | Escrita para un público general, no recogida en el lugar de donde viene el plato | |
 | No source here states who prepared it, or where | Ninguna fuente de aquí dice quién la preparó ni dónde | |
 
+### Cookbook card sentence (added 9 October)
+
+| English | Español | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Una receta publicada de {dish}, escrita en {language} en el recetario del país ({country}): una versión común, no la de una familia. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Una receta publicada de {dish}, escrita en {language} para un público general, no recogida en el lugar ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Una receta publicada de {dish}, escrita para un público general, no recogida en el lugar ({country}). | {language} is filled with the browser's own name for it |
+
 ## Français (`fr`)
 
 ### The ask on every record
@@ -181,6 +189,14 @@ place names are never translated, deliberately.
 | The commonly published recipe | La recette la plus souvent publiée | |
 | Written for a general audience rather than recorded in the place the dish comes from | Écrite pour un public général plutôt que relevée là d’où vient le plat | |
 | No source here states who prepared it, or where | Aucune source ici n’indique qui l’a préparée, ni où | |
+
+### Cookbook card sentence (added 9 October)
+
+| English | Français | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Une recette publiée de {dish}, écrite en {language} dans le livre de cuisine du pays ({country}) — une version courante plutôt que celle d’un foyer. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Une recette publiée de {dish}, écrite en {language} pour un public général plutôt que relevée sur place ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Une recette publiée de {dish}, écrite pour un public général plutôt que relevée sur place ({country}). | {language} is filled with the browser's own name for it |
 
 ## Deutsch (`de`)
 
@@ -267,6 +283,14 @@ place names are never translated, deliberately.
 | Written for a general audience rather than recorded in the place the dish comes from | Für ein allgemeines Publikum geschrieben, nicht am Herkunftsort des Gerichts aufgezeichnet | |
 | No source here states who prepared it, or where | Keine Quelle hier sagt, wer es zubereitet hat oder wo | |
 
+### Cookbook card sentence (added 9 October)
+
+| English | Deutsch | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Ein veröffentlichtes Rezept für {dish}, auf {language} geschrieben, aus dem Kochbuch des Landes ({country}) — eine gängige Fassung, nicht die eines Haushalts. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Ein veröffentlichtes Rezept für {dish}, auf {language} für ein allgemeines Publikum geschrieben, nicht vor Ort aufgezeichnet ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Ein veröffentlichtes Rezept für {dish}, für ein allgemeines Publikum geschrieben, nicht vor Ort aufgezeichnet ({country}). | {language} is filled with the browser's own name for it |
+
 ## Italiano (`it`)
 
 ### The ask on every record
@@ -351,6 +375,14 @@ place names are never translated, deliberately.
 | The commonly published recipe | La ricetta pubblicata più diffusa | |
 | Written for a general audience rather than recorded in the place the dish comes from | Scritta per un pubblico generale, non registrata nel luogo da cui viene il piatto | |
 | No source here states who prepared it, or where | Nessuna fonte qui dice chi l’ha preparata, né dove | |
+
+### Cookbook card sentence (added 9 October)
+
+| English | Italiano | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Una ricetta pubblicata di {dish}, scritta in {language} nel ricettario del paese ({country}): una versione comune, non quella di una famiglia. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Una ricetta pubblicata di {dish}, scritta in {language} per un pubblico generale, non registrata sul posto ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Una ricetta pubblicata di {dish}, scritta per un pubblico generale, non registrata sul posto ({country}). | {language} is filled with the browser's own name for it |
 
 ## Português (`pt`)
 
@@ -437,6 +469,14 @@ place names are never translated, deliberately.
 | Written for a general audience rather than recorded in the place the dish comes from | Escrita para um público geral, e não registada no lugar de onde o prato vem | |
 | No source here states who prepared it, or where | Nenhuma fonte aqui diz quem a preparou, nem onde | |
 
+### Cookbook card sentence (added 9 October)
+
+| English | Português | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Uma receita publicada de {dish}, escrita em {language} no livro de receitas do país ({country}) — uma versão comum, não a de uma família. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Uma receita publicada de {dish}, escrita em {language} para um público geral, e não registada no lugar ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Uma receita publicada de {dish}, escrita para um público geral, e não registada no lugar ({country}). | {language} is filled with the browser's own name for it |
+
 ## Nederlands (`nl`)
 
 ### The ask on every record
@@ -521,6 +561,14 @@ place names are never translated, deliberately.
 | The commonly published recipe | Het meest gepubliceerde recept | |
 | Written for a general audience rather than recorded in the place the dish comes from | Geschreven voor een algemeen publiek, niet vastgelegd waar het gerecht vandaan komt | |
 | No source here states who prepared it, or where | Geen bron hier zegt wie het bereidde, of waar | |
+
+### Cookbook card sentence (added 9 October)
+
+| English | Nederlands | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Een gepubliceerd recept voor {dish}, geschreven in het {language}, uit het kookboek van het land ({country}) — een gangbare versie, niet die van één huishouden. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Een gepubliceerd recept voor {dish}, geschreven in het {language} voor een algemeen publiek, niet ter plaatse vastgelegd ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Een gepubliceerd recept voor {dish}, geschreven voor een algemeen publiek, niet ter plaatse vastgelegd ({country}). | {language} is filled with the browser's own name for it |
 
 ## Polski (`pl`)
 
@@ -607,6 +655,14 @@ place names are never translated, deliberately.
 | Written for a general audience rather than recorded in the place the dish comes from | Napisany dla ogółu czytelników, a nie zapisany tam, skąd pochodzi potrawa | |
 | No source here states who prepared it, or where | Żadne źródło tutaj nie mówi, kto go przyrządził ani gdzie | |
 
+### Cookbook card sentence (added 9 October)
+
+| English | Polski | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Opublikowany przepis na {dish}, napisany w języku: {language}, z książki kucharskiej tego kraju ({country}) — wersja powszechna, a nie jednego domu. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Opublikowany przepis na {dish}, napisany w języku: {language}, dla ogółu czytelników, a nie zapisany na miejscu ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Opublikowany przepis na {dish}, napisany dla ogółu czytelników, a nie zapisany na miejscu ({country}). | {language} is filled with the browser's own name for it |
+
 ## Türkçe (`tr`)
 
 ### The ask on every record
@@ -691,6 +747,14 @@ place names are never translated, deliberately.
 | The commonly published recipe | En yaygın yayımlanan tarif | |
 | Written for a general audience rather than recorded in the place the dish comes from | Yemeğin geldiği yerde kaydedilmek yerine genel bir okur kitlesi için yazılmış | |
 | No source here states who prepared it, or where | Buradaki hiçbir kaynak onu kimin, nerede hazırladığını söylemiyor | |
+
+### Cookbook card sentence (added 9 October)
+
+| English | Türkçe | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | {dish} için yayımlanmış bir tarif; ülkenin ({country}) yemek kitabında {language} yazılmış — tek bir evin değil, yaygın bir versiyon. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | {dish} için yayımlanmış bir tarif; yerinde kaydedilmek yerine genel bir okur kitlesi için {language} yazılmış ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | {dish} için yayımlanmış bir tarif; yerinde kaydedilmek yerine genel bir okur kitlesi için yazılmış ({country}). | {language} is filled with the browser's own name for it |
 
 ## Русский (`ru`)
 
@@ -777,6 +841,14 @@ place names are never translated, deliberately.
 | Written for a general audience rather than recorded in the place the dish comes from | Написан для широкой аудитории, а не записан там, откуда родом блюдо | |
 | No source here states who prepared it, or where | Ни один источник здесь не говорит, кто его приготовил и где | |
 
+### Cookbook card sentence (added 9 October)
+
+| English | Русский | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | Опубликованный рецепт блюда {dish} из кулинарной книги страны ({country}), язык: {language} — распространённый вариант, а не рецепт одной семьи. | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | Опубликованный рецепт блюда {dish} для широкой аудитории, язык: {language}, — не записан на месте ({country}). | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | Опубликованный рецепт блюда {dish} для широкой аудитории — не записан на месте ({country}). | {language} is filled with the browser's own name for it |
+
 ## हिन्दी (`hi`)
 
 ### The ask on every record
@@ -861,6 +933,14 @@ place names are never translated, deliberately.
 | The commonly published recipe | सबसे आम प्रकाशित रेसिपी | |
 | Written for a general audience rather than recorded in the place the dish comes from | आम पाठकों के लिए लिखी गई, न कि उस जगह दर्ज की गई जहाँ से यह व्यंजन आता है | |
 | No source here states who prepared it, or where | यहाँ कोई स्रोत नहीं बताता कि इसे किसने, कहाँ बनाया | |
+
+### Cookbook card sentence (added 9 October)
+
+| English | हिन्दी | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | {dish} की एक प्रकाशित रेसिपी, {language} में, देश ({country}) की रसोई-पुस्तक से — किसी एक घर की नहीं, एक आम संस्करण। | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | {dish} की एक प्रकाशित रेसिपी, {language} में आम पाठकों के लिए लिखी गई, उस जगह ({country}) दर्ज नहीं की गई। | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | {dish} की एक प्रकाशित रेसिपी, आम पाठकों के लिए लिखी गई, उस जगह ({country}) दर्ज नहीं की गई। | {language} is filled with the browser's own name for it |
 
 ## 中文 (`zh`)
 
@@ -947,6 +1027,14 @@ place names are never translated, deliberately.
 | Written for a general audience rather than recorded in the place the dish comes from | 为一般读者撰写，而非在这道菜的原产地记录 | |
 | No source here states who prepared it, or where | 这里没有任何来源说明是谁、在哪里做的 | |
 
+### Cookbook card sentence (added 9 October)
+
+| English | 中文 | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | {dish}的一份已发表食谱，以{language}写成，出自该国（{country}）的食谱书——是常见版本，而非某一户人家的做法。 | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | {dish}的一份已发表食谱，以{language}为一般读者写成，并非在当地（{country}）记录。 | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | {dish}的一份已发表食谱，为一般读者写成，并非在当地（{country}）记录。 | {language} is filled with the browser's own name for it |
+
 ## 日本語 (`ja`)
 
 ### The ask on every record
@@ -1031,4 +1119,12 @@ place names are never translated, deliberately.
 | The commonly published recipe | 最もよく公開されているレシピ | |
 | Written for a general audience rather than recorded in the place the dish comes from | その料理の土地で記録されたものではなく、一般の読者向けに書かれたもの | |
 | No source here states who prepared it, or where | 誰がどこで作ったのかを示す出典はここにありません | |
+
+### Cookbook card sentence (added 9 October)
+
+| English | 日本語 | Note |
+|---|---|---|
+| A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's. | {dish}の公開レシピ。{country}の料理本に{language}で書かれたもので、ひとつの家庭のものではなく一般的な版です。 | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}. | {dish}の公開レシピ。一般の読者向けに{language}で書かれたもので、その土地（{country}）で記録されたものではありません。 | {language} is filled with the browser's own name for it |
+| A published recipe for {dish}, written for a general audience rather than recorded in {country}. | {dish}の公開レシピ。一般の読者向けに書かれたもので、その土地（{country}）で記録されたものではありません。 | {language} is filled with the browser's own name for it |
 

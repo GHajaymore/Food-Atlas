@@ -1473,6 +1473,20 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     atRisk: false,
 
     blurb: cookbookBlurb(row),
+    blurbKey: nativeCookbook(row)
+      ? 'blurbCookbookNative'
+      : row.sourceLanguage && row.sourceLanguage !== 'en'
+        ? 'blurbCookbookForeignLanguage'
+        : 'blurbCookbookEnglish',
+    blurbParams: {
+      dish: row.name,
+      country: row.country!,
+      language: row.sourceLanguage && row.sourceLanguage !== 'en' ? row.sourceLanguage : undefined,
+      languageName:
+        row.sourceLanguage && row.sourceLanguage !== 'en'
+          ? (COOKBOOK_LANGUAGE[row.sourceLanguage] ?? row.sourceLanguage)
+          : undefined,
+    },
 
     // The recipe's own page where enrich-recipe-images reached it; the rest came
     // from searching Commons for the recipe's name.

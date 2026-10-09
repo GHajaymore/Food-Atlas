@@ -530,6 +530,9 @@ export interface Copy {
   popularPublishedRecipe: string;
   popularGeneralAudience: string;
   popularNoPreparer: string;
+  blurbCookbookNative: string;
+  blurbCookbookForeignLanguage: string;
+  blurbCookbookEnglish: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1648,6 +1651,9 @@ export const EN: Copy = {
   popularPublishedRecipe: "The commonly published recipe",
   popularGeneralAudience: "Written for a general audience rather than recorded in the place the dish comes from",
   popularNoPreparer: "No source here states who prepared it, or where",
+  blurbCookbookNative: "A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's.",
+  blurbCookbookForeignLanguage: "A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}.",
+  blurbCookbookEnglish: "A published recipe for {dish}, written for a general audience rather than recorded in {country}.",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:

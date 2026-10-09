@@ -753,6 +753,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "La receta publicada más habitual",
     popularGeneralAudience: "Escrita para un público general, no recogida en el lugar de donde viene el plato",
     popularNoPreparer: "Ninguna fuente de aquí dice quién la preparó ni dónde",
+    blurbCookbookNative: "Una receta publicada de {dish}, escrita en {language} en el recetario del país ({country}): una versión común, no la de una familia.",
+    blurbCookbookForeignLanguage: "Una receta publicada de {dish}, escrita en {language} para un público general, no recogida en el lugar ({country}).",
+    blurbCookbookEnglish: "Una receta publicada de {dish}, escrita para un público general, no recogida en el lugar ({country}).",
     mostOfYourListFirst:
       'Primero lo que más coincide con tu lista',
     translatesTheAppsWords:
@@ -2112,6 +2115,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "La recette la plus souvent publiée",
     popularGeneralAudience: "Écrite pour un public général plutôt que relevée là d’où vient le plat",
     popularNoPreparer: "Aucune source ici n’indique qui l’a préparée, ni où",
+    blurbCookbookNative: "Une recette publiée de {dish}, écrite en {language} dans le livre de cuisine du pays ({country}) — une version courante plutôt que celle d’un foyer.",
+    blurbCookbookForeignLanguage: "Une recette publiée de {dish}, écrite en {language} pour un public général plutôt que relevée sur place ({country}).",
+    blurbCookbookEnglish: "Une recette publiée de {dish}, écrite pour un public général plutôt que relevée sur place ({country}).",
     mostOfYourListFirst:
       'Ce qui recoupe le plus votre liste d’abord',
     translatesTheAppsWords:
@@ -3470,6 +3476,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "Das am häufigsten veröffentlichte Rezept",
     popularGeneralAudience: "Für ein allgemeines Publikum geschrieben, nicht am Herkunftsort des Gerichts aufgezeichnet",
     popularNoPreparer: "Keine Quelle hier sagt, wer es zubereitet hat oder wo",
+    blurbCookbookNative: "Ein veröffentlichtes Rezept für {dish}, auf {language} geschrieben, aus dem Kochbuch des Landes ({country}) — eine gängige Fassung, nicht die eines Haushalts.",
+    blurbCookbookForeignLanguage: "Ein veröffentlichtes Rezept für {dish}, auf {language} für ein allgemeines Publikum geschrieben, nicht vor Ort aufgezeichnet ({country}).",
+    blurbCookbookEnglish: "Ein veröffentlichtes Rezept für {dish}, für ein allgemeines Publikum geschrieben, nicht vor Ort aufgezeichnet ({country}).",
     mostOfYourListFirst:
       'Zuerst, was am meisten aus Ihrer Liste enthält',
     translatesTheAppsWords:
@@ -4828,6 +4837,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "La ricetta pubblicata più diffusa",
     popularGeneralAudience: "Scritta per un pubblico generale, non registrata nel luogo da cui viene il piatto",
     popularNoPreparer: "Nessuna fonte qui dice chi l’ha preparata, né dove",
+    blurbCookbookNative: "Una ricetta pubblicata di {dish}, scritta in {language} nel ricettario del paese ({country}): una versione comune, non quella di una famiglia.",
+    blurbCookbookForeignLanguage: "Una ricetta pubblicata di {dish}, scritta in {language} per un pubblico generale, non registrata sul posto ({country}).",
+    blurbCookbookEnglish: "Una ricetta pubblicata di {dish}, scritta per un pubblico generale, non registrata sul posto ({country}).",
     mostOfYourListFirst:
       'Prima quello che usa di più la tua lista',
     translatesTheAppsWords:
@@ -6186,6 +6198,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "A receita publicada mais comum",
     popularGeneralAudience: "Escrita para um público geral, e não registada no lugar de onde o prato vem",
     popularNoPreparer: "Nenhuma fonte aqui diz quem a preparou, nem onde",
+    blurbCookbookNative: "Uma receita publicada de {dish}, escrita em {language} no livro de receitas do país ({country}) — uma versão comum, não a de uma família.",
+    blurbCookbookForeignLanguage: "Uma receita publicada de {dish}, escrita em {language} para um público geral, e não registada no lugar ({country}).",
+    blurbCookbookEnglish: "Uma receita publicada de {dish}, escrita para um público geral, e não registada no lugar ({country}).",
     mostOfYourListFirst:
       'Primeiro o que usa mais da sua lista',
     translatesTheAppsWords:
@@ -7545,6 +7560,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "Het meest gepubliceerde recept",
     popularGeneralAudience: "Geschreven voor een algemeen publiek, niet vastgelegd waar het gerecht vandaan komt",
     popularNoPreparer: "Geen bron hier zegt wie het bereidde, of waar",
+    blurbCookbookNative: "Een gepubliceerd recept voor {dish}, geschreven in het {language}, uit het kookboek van het land ({country}) — een gangbare versie, niet die van één huishouden.",
+    blurbCookbookForeignLanguage: "Een gepubliceerd recept voor {dish}, geschreven in het {language} voor een algemeen publiek, niet ter plaatse vastgelegd ({country}).",
+    blurbCookbookEnglish: "Een gepubliceerd recept voor {dish}, geschreven voor een algemeen publiek, niet ter plaatse vastgelegd ({country}).",
     mostOfYourListFirst:
       'Eerst wat het meest van uw lijst gebruikt',
     translatesTheAppsWords:
@@ -8903,6 +8921,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "Najczęściej publikowany przepis",
     popularGeneralAudience: "Napisany dla ogółu czytelników, a nie zapisany tam, skąd pochodzi potrawa",
     popularNoPreparer: "Żadne źródło tutaj nie mówi, kto go przyrządził ani gdzie",
+    blurbCookbookNative: "Opublikowany przepis na {dish}, napisany w języku: {language}, z książki kucharskiej tego kraju ({country}) — wersja powszechna, a nie jednego domu.",
+    blurbCookbookForeignLanguage: "Opublikowany przepis na {dish}, napisany w języku: {language}, dla ogółu czytelników, a nie zapisany na miejscu ({country}).",
+    blurbCookbookEnglish: "Opublikowany przepis na {dish}, napisany dla ogółu czytelników, a nie zapisany na miejscu ({country}).",
     mostOfYourListFirst:
       'Najpierw to, co najbardziej korzysta z twojej listy',
     translatesTheAppsWords:
@@ -10285,6 +10306,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "En yaygın yayımlanan tarif",
     popularGeneralAudience: "Yemeğin geldiği yerde kaydedilmek yerine genel bir okur kitlesi için yazılmış",
     popularNoPreparer: "Buradaki hiçbir kaynak onu kimin, nerede hazırladığını söylemiyor",
+    blurbCookbookNative: "{dish} için yayımlanmış bir tarif; ülkenin ({country}) yemek kitabında {language} yazılmış — tek bir evin değil, yaygın bir versiyon.",
+    blurbCookbookForeignLanguage: "{dish} için yayımlanmış bir tarif; yerinde kaydedilmek yerine genel bir okur kitlesi için {language} yazılmış ({country}).",
+    blurbCookbookEnglish: "{dish} için yayımlanmış bir tarif; yerinde kaydedilmek yerine genel bir okur kitlesi için yazılmış ({country}).",
     mostOfYourListFirst:
       'Önce listenizden en çok kullananlar',
     translatesTheAppsWords:
@@ -11643,6 +11667,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "Самый распространённый опубликованный рецепт",
     popularGeneralAudience: "Написан для широкой аудитории, а не записан там, откуда родом блюдо",
     popularNoPreparer: "Ни один источник здесь не говорит, кто его приготовил и где",
+    blurbCookbookNative: "Опубликованный рецепт блюда {dish} из кулинарной книги страны ({country}), язык: {language} — распространённый вариант, а не рецепт одной семьи.",
+    blurbCookbookForeignLanguage: "Опубликованный рецепт блюда {dish} для широкой аудитории, язык: {language}, — не записан на месте ({country}).",
+    blurbCookbookEnglish: "Опубликованный рецепт блюда {dish} для широкой аудитории — не записан на месте ({country}).",
     mostOfYourListFirst:
       'Сначала то, что берёт из вашего списка больше всего',
     translatesTheAppsWords:
@@ -13025,6 +13052,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "सबसे आम प्रकाशित रेसिपी",
     popularGeneralAudience: "आम पाठकों के लिए लिखी गई, न कि उस जगह दर्ज की गई जहाँ से यह व्यंजन आता है",
     popularNoPreparer: "यहाँ कोई स्रोत नहीं बताता कि इसे किसने, कहाँ बनाया",
+    blurbCookbookNative: "{dish} की एक प्रकाशित रेसिपी, {language} में, देश ({country}) की रसोई-पुस्तक से — किसी एक घर की नहीं, एक आम संस्करण।",
+    blurbCookbookForeignLanguage: "{dish} की एक प्रकाशित रेसिपी, {language} में आम पाठकों के लिए लिखी गई, उस जगह ({country}) दर्ज नहीं की गई।",
+    blurbCookbookEnglish: "{dish} की एक प्रकाशित रेसिपी, आम पाठकों के लिए लिखी गई, उस जगह ({country}) दर्ज नहीं की गई।",
     mostOfYourListFirst:
       'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
     translatesTheAppsWords:
@@ -14383,6 +14413,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "最常见的已发表食谱",
     popularGeneralAudience: "为一般读者撰写，而非在这道菜的原产地记录",
     popularNoPreparer: "这里没有任何来源说明是谁、在哪里做的",
+    blurbCookbookNative: "{dish}的一份已发表食谱，以{language}写成，出自该国（{country}）的食谱书——是常见版本，而非某一户人家的做法。",
+    blurbCookbookForeignLanguage: "{dish}的一份已发表食谱，以{language}为一般读者写成，并非在当地（{country}）记录。",
+    blurbCookbookEnglish: "{dish}的一份已发表食谱，为一般读者写成，并非在当地（{country}）记录。",
     mostOfYourListFirst:
       '用到你清单最多的排在前面',
     translatesTheAppsWords:
@@ -15741,6 +15774,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     popularPublishedRecipe: "最もよく公開されているレシピ",
     popularGeneralAudience: "その料理の土地で記録されたものではなく、一般の読者向けに書かれたもの",
     popularNoPreparer: "誰がどこで作ったのかを示す出典はここにありません",
+    blurbCookbookNative: "{dish}の公開レシピ。{country}の料理本に{language}で書かれたもので、ひとつの家庭のものではなく一般的な版です。",
+    blurbCookbookForeignLanguage: "{dish}の公開レシピ。一般の読者向けに{language}で書かれたもので、その土地（{country}）で記録されたものではありません。",
+    blurbCookbookEnglish: "{dish}の公開レシピ。一般の読者向けに書かれたもので、その土地（{country}）で記録されたものではありません。",
     mostOfYourListFirst:
       '手持ちの材料をいちばん使うものから',
     translatesTheAppsWords:

@@ -17,6 +17,7 @@
 import { useCopy, useLocale } from '../i18n';
 import { languageByCode } from '../domain/language';
 import { placeName } from '../domain/continents';
+import { cardText } from '../domain/cardText';
 import { levelLabel } from '../domain/authenticity';
 import { hasMethod, hasProse } from '../domain/method';
 import { router } from 'expo-router';
@@ -70,7 +71,10 @@ export function DishCard({ dish, showViews, compact }: Props) {
    * So the card says which language it is in. That turns unreadable text into a labelled
    * fact — the same move the app makes everywhere else it cannot answer something.
    */
-  const foreign = foreignTo(dish.sourceLanguage, locale);
+  const blurb = cardText(dish, copy, locale);
+  // A sentence the build composed is in the reader's language, so it is not labelled
+  // with the language of the recipe it describes.
+  const foreign = !blurb.translated && foreignTo(dish.sourceLanguage, locale);
   const sourceTag = foreign ? languageByCode(dish.sourceLanguage)?.endonym ?? dish.sourceLanguage : '';
 
   if (compact) {
@@ -157,7 +161,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
             <>
               {foreign ? <Muted style={styles.blurbLang}>{sourceTag}</Muted> : null}
               <T style={styles.blurb} numberOfLines={foreign ? 3 : undefined}>
-                {dish.blurb}
+                {blurb.text}
               </T>
             </>
           ) : null}

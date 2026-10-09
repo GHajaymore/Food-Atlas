@@ -39,6 +39,7 @@
 
 import { useCopy, useLocale } from '../i18n';
 import { placeName } from '../domain/continents';
+import { cardText } from '../domain/cardText';
 import { levelLabel } from '../domain/authenticity';
 import { cardPlace } from '../domain/place';
 import { router } from 'expo-router';
@@ -97,7 +98,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
 
           {dish.blurb ? (
             <T style={styles.blurb} numberOfLines={2}>
-              {dish.blurb}
+              {cardText(dish, copy, locale).text}
             </T>
           ) : null}
 
