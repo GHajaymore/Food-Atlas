@@ -119,6 +119,18 @@ describe('and stays quiet on a page that is fine', () => {
     expect(faultsIn(screen, text, 'X · WikiFoodia', true)).toEqual([]);
   });
 
+  /* Lodeh's photograph is credited to "iNews" — camel-cased, a real name, and on the front
+     page whenever the daily rotation reaches it. */
+  test('a camel-cased name on a photo credit is a name, not a copy key', () => {
+    expect(faultsIn(home, 'iNews · CC BY-SA 4.0\nLodeh\nIndonesia', 'WikiFoodia', true)).toEqual([]);
+  });
+
+  test('but a copy key beside a credit is still caught', () => {
+    expect(faultsIn(home, 'iNews · CC BY-SA 4.0\nVegan · mealSnack', 'WikiFoodia', true)).toEqual([
+      'copy key printed as a word: "mealSnack"',
+    ]);
+  });
+
   /* A real photo credit from the catalogue, which the first version of the rule flagged on
      the Turkish home page the moment photographs were allowed to render in the check. */
   test('a photographer whose name contains digits is not a count', () => {

@@ -35,7 +35,17 @@ export function faultsIn(page: PageUnderCheck, text: string, title: string, isEn
 
   // A copy key printed as a word: "Vegan · mealSnack · mealCelebration", in all twelve
   // languages, because a label function returned the key instead of looking it up.
-  for (const word of text.match(/\b[a-z]+[A-Z][a-zA-Z]{2,}\b/g) ?? []) {
+  //
+  // Not on a photograph's credit line, "Name · CC BY-SA 4.0": that is a person's or an
+  // organisation's name, shown exactly as the licence requires, and some are camel-cased —
+  // Lodeh's photograph is credited to "iNews". The front page rotates which records it
+  // shows each day, so allowlisting names one by one would fail on whichever day the
+  // next one came round.
+  const prose = text
+    .split('\n')
+    .filter((line) => !/·\s*(CC[\s-]|CC0\b|Public domain)/i.test(line))
+    .join('\n');
+  for (const word of prose.match(/\b[a-z]+[A-Z][a-zA-Z]{2,}\b/g) ?? []) {
     if (!CAMEL_ALLOWED.has(word)) faults.push(`copy key printed as a word: "${word}"`);
   }
 
