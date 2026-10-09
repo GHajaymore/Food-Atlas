@@ -106,7 +106,7 @@ export function TopBar() {
           onPress={() => router.push('/')}
           style={styles.brand}
         >
-          <Wordmark size={19} />
+          <Wordmark size={24} />
         </Pressable>
 
         <View style={styles.links}>

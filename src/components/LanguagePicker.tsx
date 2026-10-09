@@ -31,6 +31,7 @@ import { useCopy } from '../i18n';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { UI_LOCALES, translationCoverage, useLocale } from '../i18n';
+import { useLayout } from '../theme/layout';
 import { color, elevation, font, radius, space, TAP_TARGET } from '../theme/tokens';
 import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
@@ -65,6 +66,14 @@ export function LanguagePicker({ compact }: { compact?: boolean }) {
   const locale = useLocale((s) => s.locale);
   const setLocale = useLocale((s) => s.setLocale);
   const [open, setOpen] = useState(false);
+  /*
+   * In the phone header the language's name does not fit beside the name of the site and
+   * the menu: "Nederlands" alone pushed the menu button off a 375 screen. Below the full
+   * phone shell the trigger is the globe, which is what readers look for, and its label
+   * still says the language aloud. The list it opens names every language in full.
+   */
+  const { width } = useLayout();
+  const named = !compact || width >= 430;
 
   return (
     <View style={styles.wrap}>
@@ -80,7 +89,7 @@ export function LanguagePicker({ compact }: { compact?: boolean }) {
             Spain, and putting a flag on it tells several hundred million people their
             language belongs to somewhere else. */}
         <T style={styles.glyph}>🌐</T>
-        <T style={styles.current}>{label(locale)}</T>
+        {named ? <T style={styles.current}>{label(locale)}</T> : null}
         <T style={styles.chevron}>{open ? '⌃' : '⌄'}</T>
       </Pressable>
 

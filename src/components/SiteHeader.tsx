@@ -58,18 +58,32 @@ const linksFor = (copy: Copy): { label: string; to: string }[] => [
  * 29px headline directly beneath it — the product's own name set smaller than a sentence
  * about the product, which is what makes it read as an afterthought rather than a masthead.
  *
- * 26 everywhere. The first attempt kept inner screens at 20, on the reasoning that there
+ * 30 everywhere — 26 until 8 October 2026, when Ajay asked for it a little larger. The
+ * first attempt kept inner screens at 20, on the reasoning that there
  * the name is a way back rather than the subject; Ajay's call is one size, and he is right
  * that a masthead which changes size between screens is not a masthead — it is two marks.
  *
  * Verified at the width where this could break: the row puts the name beside the language
- * picker and the search, and at 320px in Dutch — the widest label — it still clears.
+ * picker and the search, and at 320px in Dutch — the widest label — it still clears at 30.
  */
-const MARK = 26;
+const MARK = 30;
+
+/**
+ * Below this window width the row cannot hold the name at 30 beside the controls, so the
+ * name steps down rather than pushing the menu button off the screen.
+ *
+ * Measured on 8 October: the row needs the name (162 at 30), the language globe (52), the
+ * search and menu buttons (44 each) and their gaps — 318 points. A 360 phone gives the
+ * row 320, and a 320 phone gives it 280, where even the old 26 left the menu button
+ * entirely off-screen in every language. 22 is what fits there.
+ */
+const NARROW = 360;
+const MARK_NARROW = 22;
 
 export function SiteHeader() {
   const copy = useCopy();
-  const { wide } = useLayout();
+  const { wide, width } = useLayout();
+  const mark = width < NARROW ? MARK_NARROW : MARK;
   const path = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -92,7 +106,7 @@ export function SiteHeader() {
        * stays a label — a link to the page you are on is a dead end.
        */}
       {path === '/' ? (
-        <Wordmark size={MARK} />
+        <Wordmark size={mark} />
       ) : (
         <Pressable
           accessibilityRole="link"
@@ -100,7 +114,7 @@ export function SiteHeader() {
           tint="none"
           onPress={() => router.push('/')}
         >
-          <Wordmark size={MARK} />
+          <Wordmark size={mark} />
         </Pressable>
       )}
 

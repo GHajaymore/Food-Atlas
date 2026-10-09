@@ -76,7 +76,7 @@ export function FeedSkeleton({
     <View style={styles.ground}>
       <View style={[styles.column, { maxWidth: layout.shell }]}>
         <View style={styles.header}>
-          {fonts ? <Wordmark size={20} /> : <Block style={styles.wordmarkBar} />}
+          {fonts ? <Wordmark size={24} /> : <Block style={styles.wordmarkBar} />}
           {fonts ? null : <Block style={styles.controlBar} />}
         </View>
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
      image and an unarrived one look like the same kind of nothing. */
   block: { backgroundColor: color.neutral[900], borderRadius: radius.sm },
 
-  wordmarkBar: { width: 118, height: 20 },
+  wordmarkBar: { width: 142, height: 24 },
   controlBar: { width: 92, height: 20 },
   taglineBar: { width: 190, height: 11, marginTop: 8 },
   tagline: { fontSize: 11, marginTop: 6 },
