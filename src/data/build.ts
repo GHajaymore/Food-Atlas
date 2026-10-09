@@ -1445,7 +1445,11 @@ const fromCookbook: Dish[] = (rawCookbook as CookbookRow[])
     cookbookRows[index] = sourceIndex;
     return {
     id: 300_000 + index,
-    name: cleanName(row.name),
+    /* Without the wiki's page prefix: 26 recipes were printed as "User:Golgbachev/Bacon
+       and Eggs with Toast" and one as "Cookbook:Awug". Stripped here and not in the filter
+       above, because a record's id is its position in what that filter keeps — changing
+       what it reads could renumber every cookbook record after the first one it moved. */
+    name: cleanName(row.name.replace(/^(?:User:[^/]+\/|Cookbook:)/, '')),
     category: 'Unclassified',
     cuisine: '',
     diet: {

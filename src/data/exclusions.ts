@@ -50,6 +50,38 @@ export const NOT_TRADITIONS: { name: string; country: string; why: string }[] = 
     country: 'China',
     why: '"An historic building, former English-language school and Chinese food products factory" in Montreal.',
   },
+  /*
+   * Found on 9 October by asking every record's name whether it reads like a dish, then
+   * reading each suspect's article lead. Kept: "Festival" (Jamaica), which sounded like an
+   * event and is "a type of deep-fried bread, typical of Jamaican cuisine".
+   */
+  { name: 'Mowgli Street Food', country: 'India', why: '"A restaurant chain in the United Kingdom that serves Indian cuisine."' },
+  { name: "Curry in the Crown: The Story of Britain's Favourite Dish", country: 'India', why: 'A book about curry, not a dish.' },
+  { name: 'Good Curry Guide', country: 'India', why: 'A restaurant guide, not a dish.' },
+  { name: 'Fort Road Food Street', country: 'Pakistan', why: 'A street in Lahore, not a dish.' },
+  { name: 'Gawalmandi Food Street', country: 'Pakistan', why: 'A street in Lahore, not a dish.' },
+  { name: 'Just One Cookbook', country: 'Japan', why: 'A recipe website, not a dish.' },
+  { name: 'Kweilin Street Night Market', country: 'China', why: 'A night market, not a dish.' },
+  { name: "Eddy's Bar", country: 'China', why: '"A gay bar in Shanghai."' },
+  { name: 'Omar (whisky brand)', country: 'Taiwan', why: 'A whisky brand of the Taiwan Tobacco and Liquor Corporation.' },
+  { name: 'Tea Research and Extension Station', country: 'Taiwan', why: '"The research and development center of Taiwan tea."' },
+  { name: 'Hàng Bông Street', country: 'Vietnam', why: 'A street in Hanoi, not a dish.' },
+  { name: 'Longevity Brand', country: 'Vietnam', why: '"A brand of canned condensed milk, registered by FrieslandCampina."' },
+  { name: '2007 Vietnam food scare', country: 'Vietnam', why: 'An event, not a dish.' },
+  { name: 'Bar One', country: 'South Africa', why: 'A chocolate bar "manufactured in South Africa by Nestlé" — a brand, like Maltesers.' },
+  { name: '5 Star (chocolate bar)', country: 'India', why: 'A chocolate bar "produced by Cadbury" — a brand, like Maltesers.' },
+  { name: 'Black Thunder (chocolate bar)', country: 'Japan', why: 'A chocolate bar of the Yuraku Confectionery Company — a brand.' },
+  { name: 'Dilly Bar', country: 'United States', why: 'A Dairy Queen menu item, like the Burger King one above.' },
+  {
+    name: 'Heinz Mustaaaaaard Chipotle Honey Flavored Mustard with Other Natural Flavors',
+    country: 'United States',
+    why: 'One product of one manufacturer, named as it is sold.',
+  },
+  { name: 'Vorlage:Rezept', country: 'Germany', why: 'The German Wikibooks recipe template itself, read in as a recipe.' },
+  { name: 'Street food of Chennai', country: 'India', why: 'An overview of a city’s street food, not one dish.' },
+  { name: 'Street food of Thailand', country: 'Thailand', why: 'An overview of a country’s street food, not one dish.' },
+  { name: 'Street food of Indonesia', country: 'Indonesia', why: 'An overview of a country’s street food, not one dish.' },
+  { name: 'Hong Kong street food', country: 'China', why: 'An overview of a city’s street food, not one dish.' },
   { name: 'B-52', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
   { name: '007', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
   { name: 'S.L.Y', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
