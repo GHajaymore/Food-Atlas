@@ -40,6 +40,11 @@ export const NOT_TRADITIONS: { name: string; country: string; why: string }[] = 
     country: 'Canada',
     why: 'Everything on the record describes a mass-produced canned soup from Campbell’s.',
   },
+  {
+    name: 'Sichuan Food (restaurant)',
+    country: 'Netherlands',
+    why: '"A Sichuan cuisine restaurant in Amsterdam" — a restaurant, filed as a dish under the Netherlands › Sichuan.',
+  },
   { name: 'B-52', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
   { name: '007', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
   { name: 'S.L.Y', country: 'France', why: 'A modern mixed drink recipe, not a food tradition.' },
