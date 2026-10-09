@@ -2172,7 +2172,12 @@ function originClaimsFrom(countries: string[] | undefined, articleUrl: string | 
    * by naming what the build refuses instead of only counting it.
    */
   const url = articleUrl || (qid ? `https://www.wikidata.org/wiki/${qid}` : '');
-  return countries.map((place) => ({
+  /* In the atlas's own names — the page printed "People's Republic of China" and "Ivory
+     Coast" as claims beside records filed under China and Côte d'Ivoire — and once each,
+     since two spellings of one country are one claim. */
+  const places = [...new Set(countries.map(canonicalCountry))];
+  if (places.length < 2) return undefined;
+  return places.map((place) => ({
     place,
     /* One sentence for both: it is shown untranslated in every language today, and a
        second English variant would be one more string no catalogue carries. */

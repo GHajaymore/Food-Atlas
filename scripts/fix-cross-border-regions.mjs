@@ -67,6 +67,7 @@ const FIXES = [
   ['Kefessia', 'Russia', 'Crimea', DROP, 'Crimea’s status is contested; the atlas prints neither claim.'],
   ['sugarcane honey', 'United States', 'Madeira', DROP, 'Madeira is in Portugal.'],
   ['Sungeo-guk', 'South Korea', 'Pyongyang', DROP, 'Pyongyang is in North Korea.'],
+  ['buuz', 'Mongolia', 'Buryatia', DROP, 'Buryatia is a republic of Russia, which the record already lists as a claim.'],
 
   // Tibet: the same call `plumbing.test.ts` made for "China › Tibet" — drop, never translate.
   ['Sha phaley', 'India', 'Tibet', DROP, 'Tibetan; Tibet is not a region of India.'],
