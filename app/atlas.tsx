@@ -15,6 +15,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { AtlasColumns } from '../src/components/AtlasColumns';
 import { AtlasDirectory } from '../src/components/AtlasDirectory';
+import { WorldMap } from '../src/components/WorldMap';
 import { Button } from '../src/components/Button';
 import { Card, CardBody, CardKicker } from '../src/components/Card';
 import { NavRow } from '../src/components/NavRow';
@@ -80,6 +81,7 @@ export default function Atlas() {
           .replace('{n}', n(metrics.total))
           .replace('{c}', String(metrics.countries))}
       </Muted>
+      <WorldMap />
     </>
   );
 

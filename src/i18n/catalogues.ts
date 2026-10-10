@@ -762,6 +762,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Documentado en parte",
     evidenceThin: "Poco documentado",
     howCardWords: "En las tarjetas, la puntuación se dice con palabras: Bien documentado desde {ceiling}, hasta donde las fuentes publicadas pueden llevar un registro; Documentado en parte desde 20; Poco documentado por debajo.",
+    mapTitle: "Dónde están las tradiciones",
+    mapHint: "Pasa el cursor o toca un país para ver lo que el atlas tiene de él.",
+    mapNone: "Aún no hay tradiciones registradas",
+    mapLegend: "Tradiciones registradas",
     mostOfYourListFirst:
       'Primero lo que más coincide con tu lista',
     translatesTheAppsWords:
@@ -2130,6 +2134,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "En partie documenté",
     evidenceThin: "Peu documenté",
     howCardWords: "Sur les cartes, la note est dite en mots : Bien documenté à partir de {ceiling} — aussi loin que les sources publiées peuvent mener une fiche ; En partie documenté à partir de 20 ; Peu documenté en dessous.",
+    mapTitle: "Où se trouvent les traditions",
+    mapHint: "Survolez ou touchez un pays pour voir ce que l’atlas en contient.",
+    mapNone: "Aucune tradition consignée pour l’instant",
+    mapLegend: "Traditions consignées",
     mostOfYourListFirst:
       'Ce qui recoupe le plus votre liste d’abord',
     translatesTheAppsWords:
@@ -3497,6 +3505,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Teilweise belegt",
     evidenceThin: "Kaum belegt",
     howCardWords: "Auf den Karten steht die Belegstärke in Worten: Gut belegt ab {ceiling} — so weit, wie veröffentlichte Quellen einen Eintrag bringen können; Teilweise belegt ab 20; Kaum belegt darunter.",
+    mapTitle: "Wo die Traditionen herkommen",
+    mapHint: "Fahren Sie über ein Land oder tippen Sie darauf, um zu sehen, was der Atlas dazu hat.",
+    mapNone: "Noch keine Traditionen erfasst",
+    mapLegend: "Erfasste Traditionen",
     mostOfYourListFirst:
       'Zuerst, was am meisten aus Ihrer Liste enthält',
     translatesTheAppsWords:
@@ -4864,6 +4876,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "In parte documentato",
     evidenceThin: "Poco documentato",
     howCardWords: "Sulle schede il punteggio è detto a parole: Ben documentato da {ceiling} in su, fin dove le fonti pubblicate possono portare una scheda; In parte documentato da 20; Poco documentato sotto.",
+    mapTitle: "Dove sono le tradizioni",
+    mapHint: "Passa sopra o tocca un paese per vedere che cosa ne contiene l’atlante.",
+    mapNone: "Ancora nessuna tradizione registrata",
+    mapLegend: "Tradizioni registrate",
     mostOfYourListFirst:
       'Prima quello che usa di più la tua lista',
     translatesTheAppsWords:
@@ -6231,6 +6247,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Parcialmente documentado",
     evidenceThin: "Pouco documentado",
     howCardWords: "Nos cartões, a pontuação é dita por palavras: Bem documentado a partir de {ceiling} — até onde as fontes publicadas podem levar um registo; Parcialmente documentado a partir de 20; Pouco documentado abaixo disso.",
+    mapTitle: "Onde estão as tradições",
+    mapHint: "Passe o cursor ou toque num país para ver o que o atlas tem dele.",
+    mapNone: "Ainda sem tradições registadas",
+    mapLegend: "Tradições registadas",
     mostOfYourListFirst:
       'Primeiro o que usa mais da sua lista',
     translatesTheAppsWords:
@@ -7599,6 +7619,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Deels gedocumenteerd",
     evidenceThin: "Weinig gedocumenteerd",
     howCardWords: "Op de kaarten staat de score in woorden: Goed gedocumenteerd vanaf {ceiling} — zo ver als gepubliceerde bronnen een record kunnen brengen; Deels gedocumenteerd vanaf 20; Weinig gedocumenteerd daaronder.",
+    mapTitle: "Waar de tradities vandaan komen",
+    mapHint: "Beweeg over een land of tik erop om te zien wat de atlas ervan heeft.",
+    mapNone: "Nog geen tradities vastgelegd",
+    mapLegend: "Vastgelegde tradities",
     mostOfYourListFirst:
       'Eerst wat het meest van uw lijst gebruikt',
     translatesTheAppsWords:
@@ -8966,6 +8990,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Częściowo udokumentowane",
     evidenceThin: "Słabo udokumentowane",
     howCardWords: "Na kartach punktacja jest podana słowami: Dobrze udokumentowane od {ceiling} — tak daleko, jak opublikowane źródła mogą zaprowadzić wpis; Częściowo udokumentowane od 20; Słabo udokumentowane poniżej.",
+    mapTitle: "Skąd pochodzą tradycje",
+    mapHint: "Najedź na kraj lub dotknij go, aby zobaczyć, co atlas o nim zawiera.",
+    mapNone: "Nie zapisano jeszcze żadnych tradycji",
+    mapLegend: "Zapisane tradycje",
     mostOfYourListFirst:
       'Najpierw to, co najbardziej korzysta z twojej listy',
     translatesTheAppsWords:
@@ -10357,6 +10385,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Kısmen belgelenmiş",
     evidenceThin: "Az belgelenmiş",
     howCardWords: "Kartlarda puan sözcüklerle verilir: {ceiling} ve üzeri İyi belgelenmiş — yayımlanmış kaynakların bir kaydı götürebileceği yere kadar; 20’den itibaren Kısmen belgelenmiş; altında Az belgelenmiş.",
+    mapTitle: "Gelenekler nerede",
+    mapHint: "Atlasın neler tuttuğunu görmek için bir ülkenin üzerine gelin ya da dokunun.",
+    mapNone: "Henüz kayıtlı gelenek yok",
+    mapLegend: "Kayıtlı gelenekler",
     mostOfYourListFirst:
       'Önce listenizden en çok kullananlar',
     translatesTheAppsWords:
@@ -11724,6 +11756,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "Частично задокументировано",
     evidenceThin: "Мало задокументировано",
     howCardWords: "На карточках оценка выражена словами: «Хорошо задокументировано» — от {ceiling}, насколько могут довести запись опубликованные источники; «Частично задокументировано» — от 20; «Мало задокументировано» — ниже.",
+    mapTitle: "Где записаны традиции",
+    mapHint: "Наведите курсор на страну или коснитесь её, чтобы увидеть, что о ней есть в атласе.",
+    mapNone: "Традиций пока не записано",
+    mapLegend: "Записанные традиции",
     mostOfYourListFirst:
       'Сначала то, что берёт из вашего списка больше всего',
     translatesTheAppsWords:
@@ -13115,6 +13151,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "आंशिक रूप से प्रलेखित",
     evidenceThin: "कम प्रलेखित",
     howCardWords: "कार्डों पर अंक शब्दों में बताए जाते हैं: {ceiling} और उससे ऊपर “अच्छी तरह प्रलेखित” — जहाँ तक प्रकाशित स्रोत किसी रिकॉर्ड को ले जा सकते हैं; 20 से “आंशिक रूप से प्रलेखित”; उससे नीचे “कम प्रलेखित”।",
+    mapTitle: "परंपराएँ कहाँ से हैं",
+    mapHint: "किसी देश पर कर्सर ले जाएँ या टैप करें और देखें कि एटलस में वहाँ से क्या है।",
+    mapNone: "अभी कोई परंपरा दर्ज नहीं",
+    mapLegend: "दर्ज परंपराएँ",
     mostOfYourListFirst:
       'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
     translatesTheAppsWords:
@@ -14482,6 +14522,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "部分有记录",
     evidenceThin: "记录很少",
     howCardWords: "卡片上的分数用文字表示：{ceiling} 分及以上为“记录充分”——已发表的来源最多只能做到这一步；20 分起为“部分有记录”；低于 20 分为“记录很少”。",
+    mapTitle: "传统分布在哪里",
+    mapHint: "将鼠标悬停或轻触某个国家，看看图册收录了那里的什么。",
+    mapNone: "尚无记录的传统",
+    mapLegend: "已记录的传统",
     mostOfYourListFirst:
       '用到你清单最多的排在前面',
     translatesTheAppsWords:
@@ -15849,6 +15893,10 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     evidencePartly: "一部に記録あり",
     evidenceThin: "記録が乏しい",
     howCardWords: "カードでは点数を言葉で示します。{ceiling} 点以上は「記録が充実」（公開された資料でたどり着ける上限まで）、20 点からは「一部に記録あり」、それ未満は「記録が乏しい」です。",
+    mapTitle: "伝統はどこに",
+    mapHint: "国にカーソルを合わせるかタップすると、このアトラスにある記録が見られます。",
+    mapNone: "まだ記録された伝統はありません",
+    mapLegend: "記録された伝統",
     mostOfYourListFirst:
       '手持ちの材料をいちばん使うものから',
     translatesTheAppsWords:

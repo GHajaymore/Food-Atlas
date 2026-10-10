@@ -94,7 +94,7 @@ const BASE = process.env.EXPO_PUBLIC_DATA_URL ?? '';
  * anywhere can answer with the old one, and the files can then be cached hard — an address
  * that names its contents never goes out of date.
  */
-const dataUrl = (path: string): string => `${BASE}/data/${path}?v=${DATA_VERSION}`;
+export const dataUrl = (path: string): string => `${BASE}/data/${path}?v=${DATA_VERSION}`;
 
 const SOURCES = ['catalogue', 'cuisines', 'cookbook', 'unesco', 'gi'] as const;
 

@@ -539,6 +539,10 @@ export interface Copy {
   evidencePartly: string;
   evidenceThin: string;
   howCardWords: string;
+  mapTitle: string;
+  mapHint: string;
+  mapNone: string;
+  mapLegend: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1666,6 +1670,10 @@ export const EN: Copy = {
   evidencePartly: "Partly documented",
   evidenceThin: "Thinly documented",
   howCardWords: "On a card the score is said in words: Well documented at {ceiling} and above — as far as published sources can take a record; Partly documented from 20; Thinly documented below that.",
+  mapTitle: "Where the traditions are",
+  mapHint: "Hover or tap a country to see what the atlas holds there.",
+  mapNone: "No traditions recorded yet",
+  mapLegend: "Traditions recorded",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:
