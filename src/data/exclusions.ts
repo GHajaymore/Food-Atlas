@@ -71,6 +71,7 @@ export const NOT_TRADITIONS: { name: string; country: string; why: string }[] = 
   { name: 'Bar One', country: 'South Africa', why: 'A chocolate bar "manufactured in South Africa by Nestlé" — a brand, like Maltesers.' },
   { name: '5 Star (chocolate bar)', country: 'India', why: 'A chocolate bar "produced by Cadbury" — a brand, like Maltesers.' },
   { name: 'Black Thunder (chocolate bar)', country: 'Japan', why: 'A chocolate bar of the Yuraku Confectionery Company — a brand.' },
+  { name: 'Badak', country: 'Indonesia', why: '"A cola manufactured by PT Pabrik Es Siantar" — one company’s drink, like Carabao above.' },
   { name: 'Dilly Bar', country: 'United States', why: 'A Dairy Queen menu item, like the Burger King one above.' },
   {
     name: 'Heinz Mustaaaaaard Chipotle Honey Flavored Mustard with Other Natural Flavors',

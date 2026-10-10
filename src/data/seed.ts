@@ -406,9 +406,16 @@ const SEED: Omit<Dish, 'prepLength'>[] = [
     traditionalBadge: true,
     atRisk: false,
     blurb: 'Thin, soft-crust pizza baked briefly in a wood-fired oven — the benchmark for the style.',
-    photo: commons('Napoli,_pizza.JPG'),
-    credit: 'MOs810 / Wikimedia Commons',
-    creditHref: commonsPage('Napoli,_pizza.JPG'),
+    /*
+     * A Margherita: tomato, mozzarella, basil, and the charred, raised cornicione of a
+     * wood-fired Neapolitan base — photographed at I Decumani on Via dei Tribunali. The
+     * photograph here until 9 October was a pizza under a heap of rocket, which a
+     * Neapolitan would not call a Margherita, on the one record that claims to be the
+     * benchmark for it.
+     */
+    photo: commons('Eq_it-na_pizza-margherita_sep2005_sml.jpg'),
+    credit: 'Valerio Capello · CC BY-SA 3.0',
+    creditHref: commonsPage('Eq_it-na_pizza-margherita_sep2005_sml.jpg'),
     photoOrigin: 'Photographed in Naples, Italy',
     photoVerified: true,
     score: 91,
