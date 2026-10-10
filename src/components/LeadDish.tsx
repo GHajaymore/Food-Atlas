@@ -93,7 +93,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
               {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale)}
             </Muted>
             <View style={styles.spacer} />
-            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} level={dish.badgeLevel} size="row" />
           </View>
 
           {dish.blurb ? (

@@ -44,6 +44,13 @@ interface Props {
   label: string;
   style?: ViewStyle;
   imageStyle?: ImageStyle;
+  /**
+   * The credit as quiet text rather than a pill — on cards, approved by Ajay from a
+   * mockup on 9 October. Twenty grey pills reading "Wikimedia Commons" were the loudest
+   * repeated thing on the front page. Still on every card, still readable: the licences
+   * want the credit where the image is shown.
+   */
+  quietCredit?: boolean;
   /** Set where a visible credit line already accompanies this image. */
   hideCredit?: boolean;
   resizeMode?: 'cover' | 'contain';
@@ -70,7 +77,7 @@ const blendStyle = Platform.OS === 'web' ? null : ({ mixBlendMode: 'lighten' } a
  */
 const webHooks = Platform.OS === 'web' ? { dataSet: { lighten: 'true', motion: 'photo-veil' } } : {};
 
-export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resizeMode = 'cover', width = 400 }: Props) {
+export function Photo({ uri, credit, label, style, imageStyle, hideCredit, quietCredit, resizeMode = 'cover', width = 400 }: Props) {
   const copy = useCopy();
   /**
    * There is deliberately no "has it loaded yet" state here.
@@ -109,7 +116,7 @@ export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resiz
         style={[styles.image, blendStyle, imageStyle]}
       />
       {credit && !hideCredit ? (
-        <View style={styles.creditWrap} pointerEvents="none">
+        <View style={[styles.creditWrap, quietCredit ? styles.creditQuiet : null]} pointerEvents="none">
           {/*
             Two lines, not one.
             On a rail card the credit has about 100px to live in, and 30 of the 51 on
@@ -119,7 +126,7 @@ export function Photo({ uri, credit, label, style, imageStyle, hideCredit, resiz
             on a field that is a condition of the licence rather than a caption.
             Two lines clears the longest credit in the catalogue with room to spare.
           */}
-          <T style={styles.credit} numberOfLines={2}>
+          <T style={[styles.credit, quietCredit ? styles.creditQuietText : null]} numberOfLines={2}>
             {credit}
           </T>
         </View>
@@ -147,4 +154,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(22, 24, 38, 0.72)',
   },
   credit: { fontFamily: font.regular, fontSize: 9, lineHeight: 9 * 1.35, color: 'rgba(233, 233, 237, 0.75)' },
+  creditQuiet: { backgroundColor: 'transparent', paddingHorizontal: 0, paddingVertical: 0 },
+  creditQuietText: {
+    fontSize: 9.5,
+    lineHeight: 9.5 * 1.35,
+    color: 'rgba(240, 240, 244, 0.8)',
+    textShadowColor: 'rgba(0, 0, 0, 0.9)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
 });

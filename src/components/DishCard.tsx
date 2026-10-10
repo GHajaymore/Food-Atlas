@@ -105,7 +105,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
            * print.
            */}
           <View style={styles.rowEvidence}>
-            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} size="row" />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} level={dish.badgeLevel} size="row" />
             {dish.atRisk ? <Muted style={styles.rowRisk}>{copy.tagAtRiskShort}</Muted> : null}
           </View>
         </View>
@@ -123,7 +123,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
     >
       <Card style={styles.card} elevated>
         <View style={styles.photo}>
-          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photoFill} width={800} />
+          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photoFill} width={800} quietCredit />
         </View>
 
         <View style={styles.body}>
@@ -181,7 +181,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
              * already carries the classification in words; what is missing down here is
              * the number.
              */}
-            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} level={dish.badgeLevel} />
             {showViews && dish.views ? <Muted style={styles.views}>{dish.views}</Muted> : null}
           </View>
         </View>

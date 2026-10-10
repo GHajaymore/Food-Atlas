@@ -535,6 +535,9 @@ export interface Copy {
   blurbCookbookEnglish: string;
   footerCount: string;
   footerSourcesLicensed: string;
+  evidenceWell: string;
+  evidencePartly: string;
+  evidenceThin: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1658,6 +1661,9 @@ export const EN: Copy = {
   blurbCookbookEnglish: "A published recipe for {dish}, written for a general audience rather than recorded in {country}.",
   footerCount: "{n} traditions from {c} countries.",
   footerSourcesLicensed: "Built from Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data. Text quoted from Wikipedia and Wikibooks is shared under CC BY-SA 4.0; photographs are credited to their authors, with their licence, on every record that carries one.",
+  evidenceWell: "Well documented",
+  evidencePartly: "Partly documented",
+  evidenceThin: "Thinly documented",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:

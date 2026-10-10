@@ -114,7 +114,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             onPress={() => onOpenDish(dish.id)}
             style={{ ...styles.card, width: cardSize }}
           >
-            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} width={Math.round(cardSize * 2)} />
+            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} width={Math.round(cardSize * 2)} quietCredit />
             {/* Size and the two-line floor come from the card, so a wider card gets a
                 larger name rather than the same name with more room around it. */}
             <T
@@ -131,7 +131,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             <Muted style={{ ...styles.place, fontSize: cardText.place }} numberOfLines={1}>
               {placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale)}
             </Muted>
-            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} level={dish.badgeLevel} />
           </Pressable>
         ))}
 

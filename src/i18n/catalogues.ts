@@ -758,6 +758,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Una receta publicada de {dish}, escrita para un público general, no recogida en el lugar ({country}).",
     footerCount: "{n} tradiciones de {c} países.",
     footerSourcesLicensed: "Construido a partir de Wikipedia, Wikidata, Wikimedia Commons, Wikibooks y los datos abiertos regionales de Italia. El texto citado de Wikipedia y Wikibooks se comparte bajo CC BY-SA 4.0; las fotografías se acreditan a sus autores, con su licencia, en cada registro que lleva una.",
+    evidenceWell: "Bien documentado",
+    evidencePartly: "Documentado en parte",
+    evidenceThin: "Poco documentado",
     mostOfYourListFirst:
       'Primero lo que más coincide con tu lista',
     translatesTheAppsWords:
@@ -2122,6 +2125,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Une recette publiée de {dish}, écrite pour un public général plutôt que relevée sur place ({country}).",
     footerCount: "{n} traditions de {c} pays.",
     footerSourcesLicensed: "Construit à partir de Wikipédia, Wikidata, Wikimedia Commons, Wikibooks et des données ouvertes régionales italiennes. Le texte cité de Wikipédia et de Wikibooks est partagé sous CC BY-SA 4.0 ; les photographies sont créditées à leurs auteurs, avec leur licence, sur chaque fiche qui en porte une.",
+    evidenceWell: "Bien documenté",
+    evidencePartly: "En partie documenté",
+    evidenceThin: "Peu documenté",
     mostOfYourListFirst:
       'Ce qui recoupe le plus votre liste d’abord',
     translatesTheAppsWords:
@@ -3485,6 +3491,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Ein veröffentlichtes Rezept für {dish}, für ein allgemeines Publikum geschrieben, nicht vor Ort aufgezeichnet ({country}).",
     footerCount: "{n} Traditionen aus {c} Ländern.",
     footerSourcesLicensed: "Aufgebaut aus Wikipedia, Wikidata, Wikimedia Commons, Wikibooks und Italiens regionalen offenen Daten. Aus Wikipedia und Wikibooks zitierter Text steht unter CC BY-SA 4.0; Fotografien werden ihren Urhebern mit ihrer Lizenz auf jedem Eintrag zugeschrieben, der eine trägt.",
+    evidenceWell: "Gut belegt",
+    evidencePartly: "Teilweise belegt",
+    evidenceThin: "Kaum belegt",
     mostOfYourListFirst:
       'Zuerst, was am meisten aus Ihrer Liste enthält',
     translatesTheAppsWords:
@@ -4848,6 +4857,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Una ricetta pubblicata di {dish}, scritta per un pubblico generale, non registrata sul posto ({country}).",
     footerCount: "{n} tradizioni da {c} paesi.",
     footerSourcesLicensed: "Costruito da Wikipedia, Wikidata, Wikimedia Commons, Wikibooks e i dati aperti regionali italiani. Il testo citato da Wikipedia e Wikibooks è condiviso con licenza CC BY-SA 4.0; le fotografie sono attribuite ai loro autori, con la loro licenza, su ogni scheda che ne porta una.",
+    evidenceWell: "Ben documentato",
+    evidencePartly: "In parte documentato",
+    evidenceThin: "Poco documentato",
     mostOfYourListFirst:
       'Prima quello che usa di più la tua lista',
     translatesTheAppsWords:
@@ -6211,6 +6223,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Uma receita publicada de {dish}, escrita para um público geral, e não registada no lugar ({country}).",
     footerCount: "{n} tradições de {c} países.",
     footerSourcesLicensed: "Construído a partir da Wikipédia, Wikidata, Wikimedia Commons, Wikibooks e dos dados abertos regionais de Itália. O texto citado da Wikipédia e do Wikibooks é partilhado sob CC BY-SA 4.0; as fotografias são creditadas aos seus autores, com a respetiva licença, em cada registo que traz uma.",
+    evidenceWell: "Bem documentado",
+    evidencePartly: "Parcialmente documentado",
+    evidenceThin: "Pouco documentado",
     mostOfYourListFirst:
       'Primeiro o que usa mais da sua lista',
     translatesTheAppsWords:
@@ -7575,6 +7590,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Een gepubliceerd recept voor {dish}, geschreven voor een algemeen publiek, niet ter plaatse vastgelegd ({country}).",
     footerCount: "{n} tradities uit {c} landen.",
     footerSourcesLicensed: "Gebouwd op Wikipedia, Wikidata, Wikimedia Commons, Wikibooks en de regionale open data van Italië. Tekst geciteerd uit Wikipedia en Wikibooks wordt gedeeld onder CC BY-SA 4.0; foto’s worden met hun licentie toegeschreven aan hun makers op elk record dat er een draagt.",
+    evidenceWell: "Goed gedocumenteerd",
+    evidencePartly: "Deels gedocumenteerd",
+    evidenceThin: "Weinig gedocumenteerd",
     mostOfYourListFirst:
       'Eerst wat het meest van uw lijst gebruikt',
     translatesTheAppsWords:
@@ -8938,6 +8956,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Opublikowany przepis na {dish}, napisany dla ogółu czytelników, a nie zapisany na miejscu ({country}).",
     footerCount: "{n} tradycji z {c} krajów.",
     footerSourcesLicensed: "Zbudowane na Wikipedii, Wikidanych, Wikimedia Commons, Wikibooks i regionalnych danych otwartych Włoch. Tekst cytowany z Wikipedii i Wikibooks jest udostępniany na licencji CC BY-SA 4.0; zdjęcia są przypisane ich autorom, wraz z licencją, przy każdym wpisie, który je ma.",
+    evidenceWell: "Dobrze udokumentowane",
+    evidencePartly: "Częściowo udokumentowane",
+    evidenceThin: "Słabo udokumentowane",
     mostOfYourListFirst:
       'Najpierw to, co najbardziej korzysta z twojej listy',
     translatesTheAppsWords:
@@ -10325,6 +10346,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "{dish} için yayımlanmış bir tarif; yerinde kaydedilmek yerine genel bir okur kitlesi için yazılmış ({country}).",
     footerCount: "{c} ülkeden {n} gelenek.",
     footerSourcesLicensed: "Wikipedia, Wikidata, Wikimedia Commons, Wikibooks ve İtalya’nın bölgesel açık verilerinden kuruldu. Wikipedia ve Wikibooks’tan alıntılanan metin CC BY-SA 4.0 lisansıyla paylaşılır; fotoğraflar, taşıyan her kayıtta lisanslarıyla birlikte yazarlarına atfedilir.",
+    evidenceWell: "İyi belgelenmiş",
+    evidencePartly: "Kısmen belgelenmiş",
+    evidenceThin: "Az belgelenmiş",
     mostOfYourListFirst:
       'Önce listenizden en çok kullananlar',
     translatesTheAppsWords:
@@ -11688,6 +11712,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "Опубликованный рецепт блюда {dish} для широкой аудитории — не записан на месте ({country}).",
     footerCount: "{n} традиций из {c} стран.",
     footerSourcesLicensed: "Построено на Википедии, Викиданных, Викискладе, Викиучебниках и региональных открытых данных Италии. Текст, процитированный из Википедии и Викиучебников, распространяется по лицензии CC BY-SA 4.0; фотографии подписаны именами авторов и их лицензией на каждой записи, где они есть.",
+    evidenceWell: "Хорошо задокументировано",
+    evidencePartly: "Частично задокументировано",
+    evidenceThin: "Мало задокументировано",
     mostOfYourListFirst:
       'Сначала то, что берёт из вашего списка больше всего',
     translatesTheAppsWords:
@@ -13075,6 +13102,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "{dish} की एक प्रकाशित रेसिपी, आम पाठकों के लिए लिखी गई, उस जगह ({country}) दर्ज नहीं की गई।",
     footerCount: "{c} देशों की {n} परंपराएँ।",
     footerSourcesLicensed: "विकिपीडिया, विकिडेटा, विकिमीडिया कॉमन्स, विकिबुक्स और इटली के क्षेत्रीय खुले डेटा से बना। विकिपीडिया और विकिबुक्स से उद्धृत पाठ CC BY-SA 4.0 के तहत साझा किया गया है; जिस भी रिकॉर्ड में तस्वीर है, उसमें फ़ोटोग्राफ़र का श्रेय उसकी लाइसेंस के साथ दिया गया है।",
+    evidenceWell: "अच्छी तरह प्रलेखित",
+    evidencePartly: "आंशिक रूप से प्रलेखित",
+    evidenceThin: "कम प्रलेखित",
     mostOfYourListFirst:
       'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
     translatesTheAppsWords:
@@ -14438,6 +14468,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "{dish}的一份已发表食谱，为一般读者写成，并非在当地（{country}）记录。",
     footerCount: "来自 {c} 个国家的 {n} 项传统。",
     footerSourcesLicensed: "取材自维基百科、维基数据、维基共享资源、维基教科书，以及意大利的地区开放数据。引自维基百科和维基教科书的文字按 CC BY-SA 4.0 共享；凡带照片的记录，都注明了拍摄者及其许可。",
+    evidenceWell: "记录充分",
+    evidencePartly: "部分有记录",
+    evidenceThin: "记录很少",
     mostOfYourListFirst:
       '用到你清单最多的排在前面',
     translatesTheAppsWords:
@@ -15801,6 +15834,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     blurbCookbookEnglish: "{dish}の公開レシピ。一般の読者向けに書かれたもので、その土地（{country}）で記録されたものではありません。",
     footerCount: "{c} か国の {n} 件の伝統。",
     footerSourcesLicensed: "ウィキペディア、ウィキデータ、ウィキメディア・コモンズ、ウィキブックス、そしてイタリアの地域オープンデータから構築。ウィキペディアとウィキブックスから引用した文章は CC BY-SA 4.0 で共有しています。写真のある記録には、すべて撮影者とそのライセンスを明記しています。",
+    evidenceWell: "記録が充実",
+    evidencePartly: "一部に記録あり",
+    evidenceThin: "記録が乏しい",
     mostOfYourListFirst:
       '手持ちの材料をいちばん使うものから',
     translatesTheAppsWords:

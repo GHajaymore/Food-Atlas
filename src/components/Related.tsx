@@ -82,6 +82,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
                 credit={dish.credit}
                 label={dish.name}
                 style={{ ...styles.photo, width: layout.wide ? 168 : 132, height: layout.wide ? 112 : 88 }}
+                quietCredit
               />
             ) : (
               <View style={{ ...styles.blank, width: layout.wide ? 168 : 132, height: layout.wide ? 112 : 88 }} />
@@ -95,7 +96,7 @@ export function Related({ items }: { items: RelatedDish[] }) {
                 {reason}
               </T>
             )}
-            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} />
+            <EvidenceBadge icon={dish.badgeIcon} label={levelLabel(copy, dish.badgeLevel)} score={dish.score} level={dish.badgeLevel} />
           </Pressable>
         ))}
       </View>

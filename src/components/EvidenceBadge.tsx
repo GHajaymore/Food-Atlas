@@ -28,18 +28,46 @@
  */
 
 import { useCopy } from '../i18n';
+import type { Copy } from '../i18n/copy';
+import { documentaryCeiling } from '../domain/assess';
+import { isAuthentic } from '../domain/authenticity';
+import type { Level } from '../domain/types';
 import { StyleSheet, View } from 'react-native';
 import { accentText, color, font, radius, space } from '../theme/tokens';
 import { T } from './Text';
 
 type Size = 'card' | 'row' | 'hero';
 
+/*
+ * On a card, the score in words — approved by Ajay from a mockup on 9 October.
+ *
+ * Forty cards reading "27 /100" read as forty poor grades for forty dishes, to anyone who
+ * has not read /how; the number measures how much evidence the record has, not the food.
+ * The words say that. The bands are the atlas's own: what documents alone can reach (the
+ * documentary ceiling, never hard-coded), part of the way there, and less. "Authentic"
+ * only where the record carries the badge. The record page keeps the number and its
+ * gauge, where there is room to say what it means.
+ */
+const CEILING = documentaryCeiling();
+const PARTLY_FROM = 20;
+const inWords = (copy: Copy, score: number, level?: Level): string =>
+  level && isAuthentic(level)
+    ? copy.statAuthentic
+    : score >= CEILING
+      ? copy.evidenceWell
+      : score >= PARTLY_FROM
+        ? copy.evidencePartly
+        : copy.evidenceThin;
+
 export function EvidenceBadge({
   icon,
   label,
   score,
+  level,
   size = 'card',
 }: {
+  /** The record's classification, which decides whether "Authentic" may be said. */
+  level?: Level;
   icon: string;
   /** The classification, e.g. "Authentic — Local". */
   label: string;
@@ -54,7 +82,9 @@ export function EvidenceBadge({
     <View style={[styles.wrap, size === 'hero' ? styles.wrapHero : null]}>
       <T style={[styles.icon, SIZES[size].icon]}>{icon}</T>
 
-      {scored ? (
+      {scored && size !== 'hero' ? (
+        <T style={[styles.words, SIZES[size].of]}>{inWords(copy, score, level)}</T>
+      ) : scored ? (
         <>
           <T style={[styles.score, SIZES[size].score]}>{score}</T>
           {/* Deliberately quieter than the number: the denominator is context, and
@@ -107,5 +137,6 @@ const styles = StyleSheet.create({
   score: { fontFamily: font.heading, color: color.text, fontVariant: ['tabular-nums'] },
   of: { color: color.meta },
   unscored: { color: color.meta },
+  words: { fontFamily: font.medium, color: color.text },
   label: { color: accentText },
 });
