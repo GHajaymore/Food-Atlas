@@ -141,6 +141,12 @@ export default function How() {
               ))}
             </CardGrid>
 
+            {/* The words the cards now use instead of the number, and where each begins —
+                so "Partly documented" on a card is checkable here (added 9 October). */}
+            <Muted style={[styles.body, styles.cardWords]}>
+              {copy.howCardWords.replace('{ceiling}', String(DOCUMENTED_CEILING))}
+            </Muted>
+
 
           </>
         }
@@ -207,6 +213,7 @@ const styles = StyleSheet.create({
   head: { marginTop: space[8] },
   body: { fontSize: 13, lineHeight: 20, marginTop: space[2] },
   dimensions: { gap: space[2], marginTop: space[3] },
+  cardWords: { marginTop: space[4] },
   dimension: { padding: space[3], gap: 2 },
   dimensionHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: space[2] },
   dimensionName: { fontSize: 13, color: color.text, fontFamily: font.medium },
