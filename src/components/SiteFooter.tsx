@@ -39,7 +39,6 @@ import { catalogueStats } from '../data/catalogue';
 import { useLayout } from '../theme/layout';
 import { color, font, space } from '../theme/tokens';
 import { Pressable } from './Pressable';
-import { SessionControl } from './SessionControl';
 import { Muted, T } from './Text';
 import { Wordmark } from './Wordmark';
 
@@ -101,13 +100,18 @@ export function SiteFooter() {
     <View role="contentinfo" style={styles.foot}>
       <View style={styles.columns}>
         <View style={styles.identity}>
-          <Wordmark size={17} />
+          <Wordmark size={24} />
           <Muted style={styles.tagline}>{BRAND.tagline}</Muted>
           <Muted style={styles.holding}>
-            {copy.footerHolding
+            {copy.footerCount
               .replace('{n}', n(catalogueStats.total))
               .replace('{c}', String(catalogueStats.countries))}
           </Muted>
+          {/* Moved here from under the home page's headline (approved 9 October). The
+              count line above dropped its own "free, no advertising" so the footer does
+              not say it twice. */}
+          <Muted style={styles.promise}>{copy.freeAndStayingFree}</Muted>
+          <Muted style={styles.promise}>{copy.noRatingsNoComments}</Muted>
         </View>
 
         {columns.map((column) => (
@@ -129,8 +133,10 @@ export function SiteFooter() {
       </View>
 
       <View style={styles.base}>
-        <Muted style={styles.sources}>{copy.footerSources}</Muted>
-        <SessionControl compact />
+        <Muted style={styles.sources}>{copy.footerSourcesLicensed}</Muted>
+        {/* Who runs this, and how to reach them — the privacy page names AjAi Labs and
+            this address already. Replaces a second Sign-in button; the header has one. */}
+        <Muted style={styles.operator}>© 2026 AjAi Labs · contact@ajailabs.app</Muted>
       </View>
     </View>
   );
@@ -158,9 +164,10 @@ const styles = StyleSheet.create({
   /* Grows into spare width so the link columns stay put as the window widens — a nav
      column stretched to 300px is a column of very lonely words — but never below a
      width that can set a line of text. */
-  identity: { flexGrow: 1, flexBasis: 280, minWidth: 250, gap: 6 },
-  tagline: { fontSize: 11 },
-  holding: { fontSize: 11, lineHeight: 11 * 1.6, marginTop: 6, maxWidth: 330 },
+  identity: { flexGrow: 1, flexBasis: 420, minWidth: 250, maxWidth: 460, gap: 6 },
+  tagline: { fontSize: 13, lineHeight: 20, marginTop: 6 },
+  holding: { fontSize: 13, lineHeight: 20, marginTop: 2, maxWidth: 440 },
+  promise: { fontSize: 12.5, lineHeight: 19, maxWidth: 440, marginTop: 4 },
 
   column: { width: 150, gap: 2 },
   heading: { fontFamily: font.heading, fontSize: 11, letterSpacing: 0.6, marginBottom: 6, color: color.text },
@@ -176,5 +183,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: color.divider,
   },
-  sources: { fontSize: 10.5, lineHeight: 10.5 * 1.6, flex: 1, minWidth: 0 },
+  sources: { fontSize: 12, lineHeight: 19, flex: 1, minWidth: 0 },
+  operator: { fontSize: 12, lineHeight: 19, flexShrink: 0 },
 });

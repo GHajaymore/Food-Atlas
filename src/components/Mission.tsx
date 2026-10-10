@@ -249,11 +249,16 @@ export function MissionCallout() {
 export function MissionFootnotes() {
   const copy = useCopy();
   const n = useNumber();
+  const { wide } = useLayout();
   const { authenticAt } = settings;
   const { unwritten } = useMissionNumbers();
 
   return (
     <>
+      {/* On a wide screen these two live in the site footer (approved 9 October): under
+          the headline they were fine print ahead of the food. A phone has no footer and
+          already shows them well down the page, so it keeps them here. */}
+      {wide ? null : (
       <Muted style={styles.free}>
         {/*
          * "No accounts" had to go, and the replacement is deliberately not softer.
@@ -269,6 +274,7 @@ export function MissionFootnotes() {
          */}
         {copy.freeAndStayingFree}
       </Muted>
+      )}
 
       {/*
        * What this is not, said once and plainly.
@@ -294,9 +300,11 @@ export function MissionFootnotes() {
        * stronger version on the page that argues for checkable claims would have been the
        * worst possible place to overstate one.
        */}
+      {wide ? null : (
       <Muted style={styles.free}>
         {copy.noRatingsNoComments}
       </Muted>
+      )}
 
       <Disclosure style={styles.disclosure} summary={copy.whyASourceCannot}>
         <Muted style={styles.body}>
@@ -394,7 +402,11 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     borderTopWidth: 1,
     borderTopColor: color.divider,
-    columnGap: 36,
+    /* One line, always: wrapped 4+1 it stranded the accented zero on its own row —
+       the fault the note on `stat` below describes, on the desktop it said was fine.
+       A long label wraps to two lines inside its tile instead. */
+    flexWrap: 'nowrap',
+    columnGap: 28,
   },
   stakesWide: { fontSize: 15, lineHeight: 24, maxWidth: 560, marginTop: 14 },
   /*
@@ -430,7 +442,7 @@ const styles = StyleSheet.create({
   // Four across on one line is the whole point of the row: wrapped 3+1 it strands the
   // accented figure on its own and reads as a layout fault. The labels were shortened
   // and the gap tightened until the widest case fits.
-  stat: { minWidth: 70 },
+  stat: { minWidth: 70, flexShrink: 1 },
   /*
    * The figures take the display face.
    *

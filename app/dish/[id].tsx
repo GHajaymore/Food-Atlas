@@ -459,6 +459,22 @@ export default function DishDetail() {
       </View>
 
       {/*
+       * What the dish is, in a line, beside its name — approved by Ajay from a mockup on
+       * 9 October. The page opened on a score and six gauges with nothing saying what was
+       * being scored.
+       *
+       * Only where the line is a description: the curated records' own, and the Wikidata
+       * description an imported record carries. A cuisine record's card text is the
+       * opening of the method printed further down, and a cookbook's is a sentence about
+       * the recipe the section below already says, so neither is repeated here. And only
+       * in English, which is what both descriptions are written in: a lone English line
+       * under the name of a German page reads as a translation the app forgot.
+       */}
+      {locale.startsWith('en') && dish.id < 100_000 && dish.blurb && !/^Recorded /.test(dish.blurb) ? (
+        <T style={styles.lede}>{dish.blurb}</T>
+      ) : null}
+
+      {/*
        * Where the dish is from, when that is not where it is filed.
        *
        * The breadcrumb above says "India › Kerala" because the atlas has to file every
@@ -1274,6 +1290,7 @@ const styles = StyleSheet.create({
   atRiskQuote: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 6, fontStyle: 'italic' },
   atRiskNote: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 8 },
   breadcrumb: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginBottom: 22 },
+  lede: { fontFamily: font.display, fontSize: 18, lineHeight: 27, color: color.text, marginTop: -8, marginBottom: 22, maxWidth: 400 },
   /* Set apart from the breadcrumb by a rule rather than a card: it qualifies the line
      above it, and a card would read as a separate fact of its own. */
   origin: {

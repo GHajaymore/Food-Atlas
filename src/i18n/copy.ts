@@ -533,6 +533,8 @@ export interface Copy {
   blurbCookbookNative: string;
   blurbCookbookForeignLanguage: string;
   blurbCookbookEnglish: string;
+  footerCount: string;
+  footerSourcesLicensed: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1654,6 +1656,8 @@ export const EN: Copy = {
   blurbCookbookNative: "A published recipe for {dish}, written in {language} in the cookbook of {country} — a common version rather than one household's.",
   blurbCookbookForeignLanguage: "A published recipe for {dish}, written in {language} for a general audience rather than recorded in {country}.",
   blurbCookbookEnglish: "A published recipe for {dish}, written for a general audience rather than recorded in {country}.",
+  footerCount: "{n} traditions from {c} countries.",
+  footerSourcesLicensed: "Built from Wikipedia, Wikidata, Wikimedia Commons, Wikibooks and Italy’s regional open data. Text quoted from Wikipedia and Wikibooks is shared under CC BY-SA 4.0; photographs are credited to their authors, with their licence, on every record that carries one.",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:

@@ -33,7 +33,7 @@
  * right — it is the part made of sentences.
  */
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform, type ViewStyle } from 'react-native';
 import { useLayout } from '../theme/layout';
 import { space } from '../theme/tokens';
 
@@ -66,11 +66,23 @@ export function RecordColumns({
 
   return (
     <View style={styles.row}>
-      <View style={styles.identity}>{identity}</View>
+      <View style={[styles.identity, STICKY]}>{identity}</View>
       <View style={styles.dossier}>{dossier}</View>
     </View>
   );
 }
+
+/*
+ * The identity column stays in view while the dossier scrolls — approved by Ajay from a
+ * mockup on 9 October. On a long record the photograph, name and badge scrolled away
+ * after the first screen and left a 360px empty column beside the method for the rest
+ * of the page. Capped at the window and scrollable on its own, so a record with a long
+ * identity column can still be read to the end of it. Web only: a native screen stacks.
+ */
+const STICKY =
+  Platform.OS === 'web'
+    ? ({ position: 'sticky', top: 24, maxHeight: 'calc(100vh - 48px)', overflowY: 'auto' } as unknown as ViewStyle)
+    : null;
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'flex-start', gap: 48 },
