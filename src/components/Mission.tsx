@@ -492,7 +492,9 @@ const styles = StyleSheet.create({
    * to take on trust, and it was set in the colour reserved for steps you have not got to
    * yet. `muted` is the token for a secondary line that is still meant to be read.
    */
-  free: { fontSize: 12.5, lineHeight: 19, color: color.muted },
+  /* Space above each: on a phone the two promises ran into the callout above them and
+     into each other, one undifferentiated block of small grey text (seen 9 October). */
+  free: { fontSize: 12.5, lineHeight: 19, color: color.muted, marginTop: space[3] },
 
   body: { fontSize: 13, lineHeight: 20 },
   spaced: { marginTop: 8 },

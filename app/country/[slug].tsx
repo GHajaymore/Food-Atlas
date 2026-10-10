@@ -131,7 +131,7 @@ export default function Country() {
 
       <View style={layout.wide ? styles.grid : undefined}>
         {visible.map((dish) => (
-          <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : undefined}>
+          <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : styles.stacked}>
             <DishCard dish={dish} showViews={false} compact={!dish.photo} />
           </View>
         ))}
@@ -163,6 +163,8 @@ const styles = StyleSheet.create({
   title: { marginTop: space[2] },
   count: { fontSize: 13, marginTop: 2 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: space[2] },
+  /* The same 2px-apart stack /browse had on a phone. */
+  stacked: { marginBottom: space[3] },
   more: { marginTop: space[6] },
   empty: { marginTop: space[6], gap: space[2] },
   emptyHead: { fontSize: 15, color: color.text, fontFamily: font.semibold },

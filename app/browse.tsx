@@ -131,7 +131,7 @@ export default function Browse() {
         <>
           <View style={layout.wide ? styles.grid : undefined}>
             {visible.map((dish) => (
-              <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : undefined}>
+              <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : styles.stacked}>
                 {/*
                   * A record with no photograph gets the row treatment, not a card with a
                   * letter where the photograph would be.
@@ -186,6 +186,9 @@ const styles = StyleSheet.create({
   count: { fontSize: 13, marginTop: 2 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: space[3] },
   grid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: space[2] },
+  /* On a phone the cards are stacked, and they sat about 2px apart, so separate dishes read
+     as one long block (seen 9 October). */
+  stacked: { marginBottom: space[3] },
   more: { marginTop: space[6] },
   empty: { marginTop: space[6], gap: space[2] },
   emptyHead: { fontSize: 15, color: color.text, fontFamily: font.semibold },

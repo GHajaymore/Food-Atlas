@@ -434,7 +434,26 @@ function photoFields(row: PhotoRow, source: PhotoSource = 'unknown') {
  * have. An empty region is the honest answer there.
  */
 const cleanRegion = (region: string, country: string): string =>
-  regionThatIsAPlace(placeBelow(region ?? '', country), country);
+  wholeCompassRegion(regionThatIsAPlace(placeBelow(region ?? '', country), country), country);
+
+/**
+ * A compass word left on its own: "India › South", "China › Northern", "Central Europe ›
+ * Central".
+ *
+ * The cuisine tree files dishes under "South Indian cuisine", and the scraper stripped
+ * the country's adjective and kept the direction. On a card the place line then read
+ * "Central" — the first thing a phone reader saw under Gefilte fish on 9 October. The
+ * direction belongs to the country, so it is said with it: "South India", "Northern
+ * China". Where the country already carries the word ("Central Europe › Central") it says
+ * nothing the country does not, and goes. Measured: fifteen records.
+ */
+const COMPASS = /^(north|south|east|west|northern|southern|eastern|western|central|northeast|northwest|southeast|southwest|north-east|north-west|south-east|south-west)$/i;
+const wholeCompassRegion = (region: string, country: string): string => {
+  if (!region || !COMPASS.test(region.trim())) return region;
+  const word = region.trim();
+  if (country.toLowerCase().includes(word.toLowerCase())) return '';
+  return `${word[0].toUpperCase()}${word.slice(1).toLowerCase()} ${country}`;
+};
 
 /**
  * A cuisine adjective that names a place inside the country, and the place it names.
