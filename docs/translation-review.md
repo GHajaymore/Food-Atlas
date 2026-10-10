@@ -323,7 +323,7 @@ place names are never translated, deliberately.
 |---|---|---|
 | Nobody has yet | Ancora nessuno | |
 | {n} people | {n} persone | |
-| {soFar}. The badge requires {need}, so {people} connected to {place} would meet it. | {soFar}. Il distintivo richiede {need}, quindi {people} legate a {place} basterebbero. | |
+| {soFar}. The badge requires {need}, so {people} connected to {place} would meet it. | {soFar}. Il distintivo richiede {need}, quindi {people} legate al luogo ({place}) basterebbero. | Reworded 9 October so the place needs no article: "legate a" + a country takes one (all’Italia, al Giappone). |
 
 ### An empty record
 

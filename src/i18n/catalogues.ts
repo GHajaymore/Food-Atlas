@@ -4704,7 +4704,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     confirmPlaceNo:
       'No, viene da un altro posto',
     standingMet:
-      '{n} persone legate a {place} lo hanno confermato: il numero che il distintivo richiede.',
+      "{n} persone legate al luogo ({place}) lo hanno confermato: il numero che il distintivo richiede.",
     standingNobody:
       'Ancora nessuno',
     standingOne:
@@ -4712,7 +4712,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     standingMany:
       'Finora {n} persone',
     standingNeed:
-      '{soFar}. Il distintivo richiede {need}, quindi {people} legate a {place} basterebbero.',
+      "{soFar}. Il distintivo richiede {need}, quindi {people} legate al luogo ({place}) basterebbero.",
     onePersonMore:
       'una persona in più',
     morePeople:
@@ -4721,7 +4721,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     contestedNote:
       'Collocato qui per poterlo trovare. {n} luoghi hanno una rivendicazione documentata su questo piatto: nessuna è risolta, e sono tutte elencate sotto.',
     relatedAlsoFrom:
-      'Anche da {place}',
+      "Dallo stesso luogo: {place}",
     relatedAlsoCuisine:
       'Anche {cuisine}',
     relatedSharesIngredients:
@@ -5109,7 +5109,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     everythingClassified:
       'Tutto ciò che è classificato {what}',
     everythingFrom:
-      'Tutto quello che viene da {place}',
+      "Tutto ciò che il catalogo registra in {place}",
     everythingRecordedAs:
       'Tutto ciò che è registrato come {what}',
     everythingMadeWith:
@@ -5464,7 +5464,7 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     engagementNotShown:
       'I dati di visualizzazione non vengono mostrati di proposito: non misurano l’autenticità.',
     videoSearchNote:
-      'Puoi cercarne uno alla fonte. I risultati arrivano ordinati per visualizzazioni, che misurano la diffusione e nient’altro — chi cucina può essere di {place} oppure no. Nulla di ciò che trovi così incide sulla classificazione di questa scheda.',
+      "Puoi cercarne uno alla fonte. I risultati arrivano ordinati per visualizzazioni, che misurano la diffusione e nient’altro — chi cucina può essere o non essere del luogo ({place}). Nulla di ciò che trovi così incide sulla classificazione di questa scheda.",
     nowOpenForConfirmation:
       '{name} è ora aperto alla conferma.',
     proposalOpenBody:

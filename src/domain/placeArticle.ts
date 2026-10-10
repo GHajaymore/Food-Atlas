@@ -1,3 +1,5 @@
+import { COUNTRY_CODE } from './countryCodes';
+
 /**
  * "prepared in United Kingdom".
  *
@@ -128,8 +130,100 @@ const DE_CONTRACT: Record<string, string> = {
   'an dem': 'am',
 };
 
+/*
+ * French: the preposition merges with the country's article, so the form depends on
+ * gender, number and first letter — en Inde, au Japon, aux États-Unis, à Cuba; d'Inde,
+ * du Japon, des États-Unis. "à" has two senses in these sentences: where something is
+ * made (en/au/aux) and what people are tied to — "liées à" (à la/au/aux). Keyed by the
+ * names `Intl.DisplayNames` gives in French; a region or a city is left as it is.
+ */
+const FR_PLURAL = new Set(['Bahamas', 'Bermudes', 'Comores', 'Émirats arabes unis', 'États-Unis', 'Maldives', 'Pays-Bas', 'Philippines', 'Seychelles', 'Îles Marshall', 'Îles Salomon', 'Territoires palestiniens', 'Fidji']);
+const FR_NO_ARTICLE = new Set(['Aruba', 'Bahreïn', 'Chypre', 'Cuba', 'Curaçao', 'Djibouti', 'Guam', 'Kiribati', 'Madagascar', 'Malte', 'Maurice', 'Monaco', 'Nauru', 'Oman', 'Porto Rico', 'Saint-Christophe-et-Niévès', 'Saint-Marin', 'Saint-Vincent-et-les Grenadines', 'Sainte-Lucie', 'Sao Tomé-et-Principe', 'Singapour', 'Taïwan', 'Tonga', 'Trinité-et-Tobago', 'Tuvalu', 'Antigua-et-Barbuda', 'La Réunion', 'R.A.S. chinoise de Hong Kong', 'R.A.S. chinoise de Macao', 'Samoa', 'Palaos']);
+/* Islands whose name keeps its article: à la Grenade, de la Dominique. */
+const FR_ISLAND_FEMININE = new Set(['Grenade', 'Dominique', 'Barbade']);
+/* Countries named without an article that still say "en": en Israël, en Haïti. */
+const FR_EN_NO_ARTICLE = new Set(['Israël', 'Haïti']);
+/* Masculine although the name ends in -e. */
+const FR_MASCULINE_E = new Set(['Mexique', 'Cambodge', 'Mozambique', 'Zimbabwe', 'Belize', 'Suriname']);
+const FR_FEMININE_EXTRA = new Set(['Sierra Leone']);
+
+const frVowel = (s: string) => /^[aeiouâàéèêëîïôöûüAEIOUÂÀÉÈÊËÎÏÔÖÛÜ]/.test(s);
+
+/** The French forms of a country, or null for a name that is not one. */
+function frenchForms(name: string, countries: Set<string>): { loc: string; de: string; rel: string } | null {
+  if (!countries.has(name) || name.startsWith('État de la Cité')) return null;
+  if (FR_PLURAL.has(name)) return { loc: `aux ${name}`, de: `des ${name}`, rel: `aux ${name}` };
+  if (FR_ISLAND_FEMININE.has(name)) return { loc: `à la ${name}`, de: `de la ${name}`, rel: `à la ${name}` };
+  if (FR_EN_NO_ARTICLE.has(name)) return { loc: `en ${name}`, de: `d’${name}`, rel: `à ${name}` };
+  if (FR_NO_ARTICLE.has(name)) return { loc: `à ${name}`, de: frVowel(name) ? `d’${name}` : `de ${name}`, rel: `à ${name}` };
+  const first = name.split(/[\s-]/)[0];
+  const feminine = FR_FEMININE_EXTRA.has(name) || (/e$/.test(first) && !FR_MASCULINE_E.has(first));
+  if (frVowel(name)) return { loc: `en ${name}`, de: `d’${name}`, rel: `à l’${name}` };
+  if (feminine) return { loc: `en ${name}`, de: `de ${name}`, rel: `à la ${name}` };
+  return { loc: `au ${name}`, de: `du ${name}`, rel: `au ${name}` };
+}
+
+/*
+ * Italian, for where something is made — "in {place}" and "a {place}": in Italia, but
+ * negli Stati Uniti, nel Regno Unito, and a Cuba. The sentences that would need da, di
+ * or "legate a" with a country's article ("dall'Italia", "al Giappone") are worded in
+ * the catalogue so the place stands after a neutral noun instead: a gender table for 212
+ * countries, with Italian's exceptions, would be a new source of exactly this fault.
+ */
+const IT_ARTICLE: Record<string, string> = {
+  'Stati Uniti': 'negli', 'Emirati Arabi Uniti': 'negli', 'Paesi Bassi': 'nei', 'Territori Palestinesi': 'nei',
+  Filippine: 'nelle', Maldive: 'nelle', Seychelles: 'nelle', Comore: 'nelle', Bahamas: 'nelle', Bermuda: 'nelle',
+  'Isole Marshall': 'nelle', 'Isole Salomone': 'nelle', 'Regno Unito': 'nel', 'Repubblica Centrafricana': 'nella',
+  'Repubblica Dominicana': 'nella', 'Città del Vaticano': 'nella',
+};
+const IT_ISLAND = new Set(['Cuba', 'Malta', 'Cipro', 'Singapore', 'Taiwan', 'Haiti', 'Mauritius', 'Monaco', 'San Marino', 'Portorico', 'Aruba', 'Curaçao', 'Guam', 'Samoa', 'Tonga', 'Nauru', 'Tuvalu', 'Palau', 'Kiribati', 'Trinidad e Tobago', 'Saint Lucia', 'Saint Kitts e Nevis', 'Saint Vincent e Grenadine', 'São Tomé e Príncipe', 'Antigua e Barbuda', 'Barbados', 'Grenada', 'Dominica', 'Bahrein', 'RAS di Hong Kong', 'RAS di Macao']);
+
+/** Every country name `Intl.DisplayNames` gives in a language, so a region is never mistaken for one. */
+const countryNamesCache = new Map<string, Set<string>>();
+function countryNames(lang: string): Set<string> {
+  let names = countryNamesCache.get(lang);
+  if (!names) {
+    names = new Set<string>();
+    try {
+      const display = new Intl.DisplayNames([lang], { type: 'region' });
+      for (const code of new Set(Object.values(COUNTRY_CODE))) {
+        const name = display.of(code);
+        if (name) names.add(name);
+      }
+    } catch {
+      /* No Intl.DisplayNames: nothing is treated as a country, and the name goes in as given. */
+    }
+    countryNamesCache.set(lang, names);
+  }
+  return names;
+}
+
 /** Put a place into a sentence where `token` stands, with the article and case it needs. */
 export function fillPlace(template: string, token: string, place: string, locale?: string): string {
+  const lang = (locale ?? 'en').toLowerCase().slice(0, 2);
+  const escapedToken = token.replace(/[{}]/g, '\\$&');
+  if (lang === 'fr') {
+    const forms = frenchForms(place.trim(), countryNames('fr'));
+    if (!forms) return template.split(token).join(place);
+    return template
+      .replace(new RegExp(`(\\S+\\s+)?(à|À|de|De)\\s+${escapedToken}`, 'g'), (_w, before: string | undefined, prep: string) => {
+        const lead = before ?? '';
+        const relation = /li[ée]e?s?\s+$/i.test(lead);
+        const form = /^[àÀ]$/.test(prep) ? (relation ? forms.rel : forms.loc) : forms.de;
+        return lead + (prep[0] === prep[0].toUpperCase() ? form[0].toUpperCase() + form.slice(1) : form);
+      })
+      .split(token)
+      .join(place);
+  }
+  if (lang === 'it') {
+    const name = place.trim();
+    if (!countryNames('it').has(name)) return template.split(token).join(place);
+    const form = IT_ISLAND.has(name) ? `a ${name}` : IT_ARTICLE[name] ? `${IT_ARTICLE[name]} ${name}` : `in ${name}`;
+    return template
+      .replace(new RegExp(`\\b(in|a)\\s+${escapedToken}`, 'g'), form)
+      .split(token)
+      .join(place);
+  }
   const inserted = placeAfterPreposition(place, locale);
   if (!(locale ?? '').toLowerCase().startsWith('de') || inserted === place) {
     return template.split(token).join(inserted);

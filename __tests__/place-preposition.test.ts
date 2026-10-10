@@ -42,3 +42,40 @@ test('the real German and Dutch sentences that take a place read correctly', () 
     expect(fillPlace(nl[key], '{place}', 'Verenigde Staten', 'nl')).not.toMatch(/\b(in|uit) Verenigde Staten/);
   }
 });
+
+describe('French and Italian', () => {
+  const fr = CATALOGUES.fr as Record<string, string>;
+  const it = CATALOGUES.it as Record<string, string>;
+  test('French merges the preposition with the article the country takes', () => {
+    expect(fillPlace('se fait à {place}', '{place}', 'Inde', 'fr')).toBe('se fait en Inde');
+    expect(fillPlace('se fait à {place}', '{place}', 'Japon', 'fr')).toBe('se fait au Japon');
+    expect(fillPlace('se fait à {place}', '{place}', 'États-Unis', 'fr')).toBe('se fait aux États-Unis');
+    expect(fillPlace('se fait à {place}', '{place}', 'Cuba', 'fr')).toBe('se fait à Cuba');
+    expect(fillPlace('se fait à {place}', '{place}', 'Mexique', 'fr')).toBe('se fait au Mexique');
+    expect(fillPlace('vient de {place}', '{place}', 'Japon', 'fr')).toBe('vient du Japon');
+    expect(fillPlace('vient de {place}', '{place}', 'Italie', 'fr')).toBe('vient d’Italie');
+    expect(fillPlace('vient de {place}', '{place}', 'France', 'fr')).toBe('vient de France');
+    expect(fillPlace('vient de {place}', '{place}', 'États-Unis', 'fr')).toBe('vient des États-Unis');
+  });
+  test('"liées à" takes the relation form, not the place-where form', () => {
+    expect(fillPlace('3 personnes liées à {place}', '{place}', 'France', 'fr')).toBe('3 personnes liées à la France');
+    expect(fillPlace('3 personnes liées à {place}', '{place}', 'Japon', 'fr')).toBe('3 personnes liées au Japon');
+    expect(fillPlace('3 personnes liées à {place}', '{place}', 'Inde', 'fr')).toBe('3 personnes liées à l’Inde');
+  });
+  test('a French city or region is left as it is', () => {
+    expect(fillPlace('se fait à {place}', '{place}', 'Naples', 'fr')).toBe('se fait à Naples');
+  });
+  test('Italian: in Italia, negli Stati Uniti, a Cuba; a city keeps its "a"', () => {
+    expect(fillPlace('si prepara in {place}', '{place}', 'India', 'it')).toBe('si prepara in India');
+    expect(fillPlace('si prepara in {place}', '{place}', 'Stati Uniti', 'it')).toBe('si prepara negli Stati Uniti');
+    expect(fillPlace('si fa a {place}', '{place}', 'Regno Unito', 'it')).toBe('si fa nel Regno Unito');
+    expect(fillPlace('si fa a {place}', '{place}', 'Cuba', 'it')).toBe('si fa a Cuba');
+    expect(fillPlace('si fa a {place}', '{place}', 'Napoli', 'it')).toBe('si fa a Napoli');
+  });
+  test('no real French or Italian sentence puts a bare country after a bare preposition', () => {
+    for (const key of ['adaptationLeadIn', 'quotedFromSource', 'everythingFrom', 'videoSearchNote', 'inPlace', 'standingMet', 'standingNeed']) {
+      expect(fillPlace(fr[key], '{place}', 'États-Unis', 'fr')).not.toMatch(/\b(à|de) États-Unis/);
+      expect(fillPlace(it[key], '{place}', 'Stati Uniti', 'it')).not.toMatch(/\b(in|a|da|di) Stati Uniti/);
+    }
+  });
+});
