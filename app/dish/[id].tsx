@@ -27,6 +27,8 @@ import { BookmarkIcon, CameraIcon } from '../../src/components/icons';
 import { FacetLink } from '../../src/components/FacetLink';
 import { filterKeyFor, isAuthentic, levelLabel } from '../../src/domain/authenticity';
 import { RecordColumns } from '../../src/components/RecordColumns';
+import { CountryLocator } from '../../src/components/CountryLocator';
+import { COUNTRY_CODE } from '../../src/domain/countryCodes';
 import { Related } from '../../src/components/Related';
 import { LocalNames } from '../../src/components/LocalNames';
 import { NavRow } from '../../src/components/NavRow';
@@ -571,6 +573,14 @@ export default function DishDetail() {
           <Muted style={styles.atRiskQuote}>“{dish.atRiskEvidence}”</Muted>
           <Muted style={styles.atRiskNote}>{atRiskNote(copy)}</Muted>
         </Block>
+      ) : null}
+
+      {/* Where the filing country is, on the map the Food Atlas and the country page
+          draw. Wide screens only: there the identity column ends under the breadcrumb
+          with the dossier running on for screens beside it; on a phone it would push
+          the evidence a further screen down. */}
+      {wideScreen && COUNTRY_CODE[dish.loc.country] ? (
+        <CountryLocator code={COUNTRY_CODE[dish.loc.country]} style={styles.locator} />
       ) : null}
           </>
         }
@@ -1302,6 +1312,7 @@ const styles = StyleSheet.create({
   alsoLink: { minHeight: TAP_TARGET, justifyContent: 'center' },
   alsoLinkLabel: { fontSize: 12, color: accentText },
   alsoNote: { fontSize: 11, lineHeight: 11 * 1.5, marginTop: 2 },
+  locator: { width: '100%', marginTop: space[4] },
   atRisk: { padding: 12, marginTop: 14 },
   atRiskTitle: { fontSize: 12, fontFamily: font.medium },
   atRiskQuote: { fontSize: 12, lineHeight: 12 * 1.55, marginTop: 6, fontStyle: 'italic' },

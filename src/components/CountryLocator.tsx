@@ -38,8 +38,10 @@ export function CountryLocator({ code, style }: { code: string | undefined; styl
     let w = Math.max(MIN_WIDTH, (x1 - x0) * 2.2, (y1 - y0) * 2.2 * ASPECT);
     w = Math.min(w, map.width);
     const h = w / ASPECT;
-    const x = Math.min(Math.max(cx - w / 2, 0), map.width - w);
-    const y = Math.min(Math.max(cy - h / 2, -h * 0.25), map.height - h * 0.75);
+    /* Centred, even at the world's edge: open sea beside Japan or New Zealand is the
+       truth, and clamping the frame to the map pushed both against one side. */
+    const x = cx - w / 2;
+    const y = cy - h / 2;
     return { x, y, w, h, dot: shape ? undefined : dot };
   }, [map, code]);
 
