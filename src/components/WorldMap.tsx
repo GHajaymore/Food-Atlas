@@ -37,6 +37,7 @@ import { slugFor } from '../domain/countrySlug';
 import { useCopy, useLocale, usePlural } from '../i18n';
 import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
+import { Pressable } from './Pressable';
 import { H6, Muted, T } from './Text';
 import { EMPTY_LAND, useWorldMap } from './worldMapData';
 
@@ -52,7 +53,12 @@ const bandOf = (count: number) => [...BANDS].reverse().find((b) => count >= b.fr
 
 const EMPTY = EMPTY_LAND;
 
-export function WorldMap() {
+/**
+ * `glance` is the home page's version: the same map in the hero's second column, with no
+ * legend and no button — the whole map is the link to the Food Atlas, and hovering still
+ * names a country, because that moment of "Peru, 112" is what makes a reader click.
+ */
+export function WorldMap({ glance = false }: { glance?: boolean } = {}) {
   const copy = useCopy();
   const locale = useLocale((s) => s.locale);
   const plural = usePlural();
@@ -85,10 +91,18 @@ export function WorldMap() {
   const opacityFor = (a2: string) => (a2 === focus ? 1 : (bandOf(byCode.get(a2)?.count ?? 0)?.opacity ?? 1));
 
   return (
-    <View style={styles.wrap}>
+    <View style={glance ? undefined : styles.wrap}>
       <H6 style={styles.title}>{copy.mapTitle}</H6>
 
-      <View style={[styles.frame, { aspectRatio: map.width / map.height }]}>
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel={copy.foodAtlas}
+        tint="none"
+        disabled={!glance}
+        onPress={() => router.push('/atlas')}
+        {...(glance ? ({ onMouseLeave: () => setFocus(null) } as object) : {})}
+        style={[styles.frame, { aspectRatio: map.width / map.height }]}
+      >
         <Svg width="100%" height="100%" viewBox={`0 0 ${map.width} ${map.height}`} accessibilityLabel={copy.mapTitle}>
           <G>
             {map.countries.map((c) => (
@@ -99,7 +113,7 @@ export function WorldMap() {
                 fillOpacity={opacityFor(c.a2)}
                 stroke={c.a2 === focus ? color.text : color.bg}
                 strokeWidth={c.a2 === focus ? 1.2 : 0.5}
-                onPress={() => setFocus(c.a2)}
+                onPress={glance ? undefined : () => setFocus(c.a2)}
                 // Hover on a desktop. react-native-svg passes these through to the DOM.
                 {...({ onMouseEnter: () => setFocus(c.a2) } as object)}
               />
@@ -121,17 +135,30 @@ export function WorldMap() {
                   cy={dot.c[1]}
                   r={9}
                   fill="transparent"
-                  onPress={() => setFocus(dot.a2)}
+                  onPress={glance ? undefined : () => setFocus(dot.a2)}
                   {...({ onMouseEnter: () => setFocus(dot.a2) } as object)}
                 />
               </G>
             ))}
           </G>
         </Svg>
-      </View>
+      </Pressable>
 
       <View style={styles.readout}>
-        {focused ? (
+        {glance ? (
+          /* One line: what the pointer is on (or the hint), and the way in. */
+          <>
+            {focused ? (
+              <View style={styles.readoutText}>
+                <T style={styles.country}>{placeName(focused.name, copy, locale)}</T>
+                <Muted style={styles.count}>{plural('oneTradition', 'nTraditions', focused.count)}</Muted>
+              </View>
+            ) : (
+              <Muted style={[styles.count, styles.glanceHint]}>{focus ? copy.mapNone : copy.mapHint}</Muted>
+            )}
+            <Button label={`${copy.foodAtlas} →`} variant="secondary" compact onPress={() => router.push('/atlas')} />
+          </>
+        ) : focused ? (
           <>
             <View style={styles.readoutText}>
               <T style={styles.country}>{placeName(focused.name, copy, locale)}</T>
@@ -151,6 +178,7 @@ export function WorldMap() {
         )}
       </View>
 
+      {glance ? null : (
       <View style={styles.legend}>
         <Muted style={styles.legendLabel}>{copy.mapLegend}</Muted>
         {BANDS.map((band) => (
@@ -164,12 +192,14 @@ export function WorldMap() {
           <Muted style={styles.legendText}>0</Muted>
         </View>
       </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   wrap: { marginBottom: space[6] },
+  glanceHint: { flex: 1, minWidth: 0 },
   title: { marginBottom: space[2] },
   frame: { width: '100%', maxWidth: '100%' },
   readout: {

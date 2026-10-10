@@ -142,10 +142,19 @@ export function DishCard({ dish, showViews, compact }: Props) {
 
           {/* The dietary read and the occasion, so a reader does not open a dish
               only to find out it is not for them or not for now. */}
-          <Muted style={styles.diet}>
-            {dietLabel(copy, dish.diet)}
-            {dish.meals.occasions.length ? ` · ${mealLabel(copy, dish.meals)}` : ''}
-          </Muted>
+          {/* Not where neither is known. "Not classified" sat under nearly every card
+              on the Italy, Japan and Brazil pages (9 October) — the card saying nothing,
+              in a line of its own; the record page still says it, where it is an answer. */}
+          {dish.diet.group !== 'unclassified' || dish.meals.occasions.length ? (
+            <Muted style={styles.diet}>
+              {[
+                dish.diet.group !== 'unclassified' ? dietLabel(copy, dish.diet) : '',
+                dish.meals.occasions.length ? mealLabel(copy, dish.meals) : '',
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+            </Muted>
+          ) : null}
 
           {/*
            * Nothing where the blurb is the fallback sentence.

@@ -51,6 +51,7 @@ import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
 import { Disclosure } from './Disclosure';
 import { Eyebrow, Muted, T } from './Text';
+import { WorldMap } from './WorldMap';
 
 function Stat({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
   return (
@@ -343,7 +344,20 @@ export function Mission() {
           <MissionFigures />
         </View>
 
-        <MissionCallout />
+        {/*
+         * The callout, and under it the atlas itself. The column held the one call to
+         * action and then 300px of nothing beside the headline and the figures; a site
+         * that says "162 countries" can show them, and the map is the shortest way from
+         * the front page to a country.
+         */}
+        {wide ? (
+          <View style={styles.heroSide}>
+            <MissionCallout />
+            <WorldMap glance />
+          </View>
+        ) : (
+          <MissionCallout />
+        )}
       </View>
 
       <MissionFootnotes />
@@ -376,9 +390,8 @@ const styles = StyleSheet.create({
   heroMain: { flex: 1.35, minWidth: 0 },
   /* The aside keeps the callout's tinted panel — it is still the one thing on the
      screen a reader can act on, and it should not lose that by moving sideways. */
+  heroSide: { flex: 1, minWidth: 320, gap: space[4] },
   heroAside: {
-    flex: 1,
-    minWidth: 320,
     borderWidth: 1,
     borderColor: color.divider,
     borderLeftWidth: 3,
