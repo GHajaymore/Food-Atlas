@@ -326,9 +326,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     exampleIngredients:
       'Plátano nendran maduro, huevos, ghee, azúcar, anacardos, pasas; cocinado en una sartén gruesa a fuego bajo de carbón o de gas, tapado con una tapa cargada con brasas',
     shelfFromCountry:
-      'De {country}',
+      "De tu país: {country}",
     shelfFromCountryNote:
-      'Lo que el atlas tiene de {country}. Que aquí sea exacto vale más para ti que en ningún otro sitio: tú puedes saber si está bien.',
+      "Lo que el atlas tiene de tu país ({country}). Que aquí sea exacto vale más para ti que en ningún otro sitio: tú puedes saber si está bien.",
     sending:
       'Enviando…',
     missionHeadline:
@@ -1690,9 +1690,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     exampleIngredients:
       'Banane nendran mûre, œufs, ghee, sucre, noix de cajou, raisins secs ; cuit dans une poêle épaisse sur feu doux de charbon ou de gaz, couvert d’un couvercle chargé de braises',
     shelfFromCountry:
-      'Du {country}',
+      "De votre pays : {country}",
     shelfFromCountryNote:
-      'Ce que l’atlas contient pour {country}. Sa justesse ici vaut plus pour vous que partout ailleurs : vous, vous pouvez savoir si c’est exact.',
+      "Ce que l’atlas contient pour votre pays ({country}). Sa justesse ici vaut plus pour vous que partout ailleurs : vous, vous pouvez savoir si c’est exact.",
     sending:
       'Envoi…',
     missionHeadline:
@@ -3053,9 +3053,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     exampleIngredients:
       'Reife Nendran-Banane, Eier, Ghee, Zucker, Cashewkerne, Rosinen; in einer schweren Pfanne bei niedriger Kohle- oder Gasflamme gegart, mit einem Deckel bedeckt, der mit Glut beschwert ist',
     shelfFromCountry:
-      'Aus {country}',
+      "Aus Ihrem Land: {country}",
     shelfFromCountryNote:
-      'Was der Atlas aus {country} hat. Dass es hier stimmt, ist für Sie mehr wert als irgendwo sonst — Sie können beurteilen, ob es richtig ist.',
+      "Was der Atlas aus Ihrem Land ({country}) hat. Dass es hier stimmt, ist für Sie mehr wert als irgendwo sonst — Sie können beurteilen, ob es richtig ist.",
     sending:
       'Wird gesendet…',
     missionHeadline:
@@ -4416,9 +4416,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     exampleIngredients:
       'Banana nendran matura, uova, ghee, zucchero, anacardi, uvetta; cotto in una padella pesante su fiamma bassa di carbone o di gas, coperto con un coperchio caricato di braci',
     shelfFromCountry:
-      'Da {country}',
+      "Dal tuo paese: {country}",
     shelfFromCountryNote:
-      'Quello che l’atlante ha da {country}. Che qui sia esatto vale per te più che altrove: tu puoi capire se è giusto.',
+      "Quello che l’atlante ha dal tuo paese ({country}). Che qui sia esatto vale per te più che altrove: tu puoi capire se è giusto.",
     sending:
       'Invio…',
     missionHeadline:
@@ -5779,9 +5779,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     exampleIngredients:
       'Banana nendran madura, ovos, ghee, açúcar, castanhas de caju, passas; cozinhado numa frigideira pesada em lume brando de carvão ou de gás, tapado com uma tampa carregada de brasas',
     shelfFromCountry:
-      'De {country}',
+      "Do seu país: {country}",
     shelfFromCountryNote:
-      'O que o atlas tem de {country}. A exatidão aqui vale-lhe mais do que em qualquer outro lado — você consegue perceber se está certo.',
+      "O que o atlas tem do seu país ({country}). A exatidão aqui vale-lhe mais do que em qualquer outro lado — você consegue perceber se está certo.",
     sending:
       'A enviar…',
     missionHeadline:
@@ -7143,9 +7143,9 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     exampleIngredients:
       'Rijpe nendran-banaan, eieren, ghee, suiker, cashewnoten, rozijnen; gegaard in een zware pan op een lage houtskool- of gasvlam, afgedekt met een deksel dat met gloeiende kolen is verzwaard',
     shelfFromCountry:
-      'Uit {country}',
+      "Uit uw land: {country}",
     shelfFromCountryNote:
-      'Wat de atlas uit {country} heeft. Dat het hier klopt, is voor u meer waard dan waar ook — u kunt beoordelen of het juist is.',
+      "Wat de atlas uit uw land ({country}) heeft. Dat het hier klopt, is voor u meer waard dan waar ook — u kunt beoordelen of het juist is.",
     sending:
       'Versturen…',
     missionHeadline:
