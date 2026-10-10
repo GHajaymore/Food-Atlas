@@ -85,7 +85,14 @@ export function Related({ items }: { items: RelatedDish[] }) {
                 quietCredit
               />
             ) : (
-              <View style={{ ...styles.blank, width: layout.wide ? 168 : 132, height: layout.wide ? 112 : 88 }} />
+              /* The monogram every other photo-less tile uses. An empty bordered box read
+                 as an image that had failed to load (seen on Kozhikode Halwa's related
+                 traditions, 9 October). */
+              <Photo
+                uri=""
+                label={dish.name}
+                style={{ ...styles.photo, width: layout.wide ? 168 : 132, height: layout.wide ? 112 : 88 }}
+              />
             )}
 
             <T style={styles.name} numberOfLines={2}>

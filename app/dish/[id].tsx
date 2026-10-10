@@ -18,7 +18,8 @@ import { isCountry, placeName } from '../../src/domain/continents';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { count } from '../../src/data/events';
 import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View, type ViewStyle } from 'react-native';
+import { useLayout } from '../../src/theme/layout';
 import { Button, IconButton } from '../../src/components/Button';
 import { Block, Card, CardBody, CardKicker } from '../../src/components/Card';
 import { Disclosure } from '../../src/components/Disclosure';
@@ -216,6 +217,10 @@ export default function DishDetail() {
   /* Of those, how many the server said it counted — a signed-in confirmation moves the
      number, an anonymous one is kept and shown and moves nothing. */
   const [justCounted, setJustCounted] = useState(0);
+
+  /* The one width this page reads itself: the video grid below. Everything else is
+     arranged by `RecordColumns`. */
+  const { wide: wideScreen } = useLayout();
 
   const askPlace = placeInSentence(
     dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country,
@@ -954,7 +959,7 @@ export default function DishDetail() {
               <Muted style={styles.sectionLead}>
                 {copy.videosRankedByCloseness}
               </Muted>
-              <View style={styles.videos}>
+              <View style={[styles.videos, wideScreen && dish.videos.length > 1 ? VIDEO_GRID : null]}>
                 {/* The note about a missing ingredient list belongs to the group, not to
                     each video, so only the first card that needs it carries it. */}
                 {dish.videos.map((video, i) => (
@@ -1265,6 +1270,17 @@ export default function DishDetail() {
     </Screen>
   );
 }
+
+/*
+ * Two videos across on a wide screen — approved by Ajay from a mockup on 9 October. One
+ * per row, three videos took about 1,970px of a desktop page, more than the method and
+ * the evidence together, and pushed the sources and the ask out of reach. Two across
+ * halves it. A phone keeps one per row, where a half-width thumbnail is too small to read.
+ */
+const VIDEO_GRID =
+  Platform.OS === 'web'
+    ? ({ display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'start', gap: 16 } as unknown as ViewStyle)
+    : null;
 
 const styles = StyleSheet.create({
   hero: { width: '100%', aspectRatio: 4 / 3, borderRadius: radius.lg, marginBottom: 16 },
