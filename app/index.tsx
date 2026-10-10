@@ -42,7 +42,7 @@ import { FILTERS, filterLabel, levelLabel } from '../src/domain/authenticity';
 import { GROUP_LABELS, KIND_LABELS } from '../src/domain/diet';
 import { MEAL_LABELS } from '../src/domain/meals';
 import { offersDietFilter, offersMealFilter } from '../src/domain/classification';
-import { placeInSentence } from '../src/domain/placeArticle';
+import { placeInSentence, fillPlace } from '../src/domain/placeArticle';
 import { feedFor, mostPopular, narrowingSummary, nextLevel, placeChoiceHint } from '../src/domain/queries';
 import { likelyCountry } from '../src/domain/nearby';
 import { buildShelves, shelfMatch, shelfTitle } from '../src/domain/shelves';
@@ -126,6 +126,11 @@ export default function Feed() {
   const place = path.length
     ? placeInSentence(placeName(path[path.length - 1].value, copy, locale), locale)
     : copy.worldwide;
+  /* The same place after "in", for the two sentences that say "{n} traditions in …":
+     German and Dutch need the article and case there (domain/placeArticle.ts). */
+  const inPlaceSentence = path.length
+    ? fillPlace(copy.inPlace, '{place}', placeName(path[path.length - 1].value, copy, locale), locale)
+    : '';
   const placeHint = next
     ? path.length
       ? copy.narrowToA.replace('{level}', copy[next.labelKey]).replace('{n}', String(next.options.length))
@@ -146,7 +151,7 @@ export default function Feed() {
     n(feed.length),
   );
   const resultSummary = `${count}${
-    path.length ? copy.inPlace.replace('{place}', place) : openShelf ? '' : copy.summaryWorldwide
+    path.length ? inPlaceSentence : openShelf ? '' : copy.summaryWorldwide
   }${openShelf ? ` · ${openShelf}` : ''}`;
 
   // 'World' plus each chosen level; tapping any of them truncates the path there.
@@ -350,7 +355,7 @@ export default function Feed() {
               ...dietNames,
               ...meals.map((m) => copy[MEAL_LABELS[m]].toLowerCase()),
             ])}
-            {path.length ? copy.inPlace.replace('{place}', place) : copy.anywhereInTheAtlas}
+            {path.length ? inPlaceSentence : copy.anywhereInTheAtlas}
             {copy.absenceOfRecords}
           </CardBody>
           {/* The shelf is one of the things narrowing this list, so a reset that left

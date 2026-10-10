@@ -19,6 +19,7 @@
  */
 
 import type { Copy } from '../i18n/copy';
+import { fillPlace } from './placeArticle';
 import type { Dish, Dispute, DisputeKind } from './types';
 
 /** How a raised challenge should be handled. */
@@ -139,12 +140,12 @@ export interface ConfirmAsk {
  * checkable on the page — the count is printed beside it — which is the only kind of
  * claim this project makes.
  */
-export function confirmStanding(copy: Copy, place: string, have: number, need: number): string {
+export function confirmStanding(copy: Copy, place: string, have: number, need: number, locale?: string): string {
   if (!place) return '';
 
   const remaining = Math.max(0, need - have);
   if (remaining === 0) {
-    return copy.standingMet.replace('{n}', String(need)).replace('{place}', place);
+    return fillPlace(copy.standingMet.replace('{n}', String(need)), '{place}', place, locale);
   }
 
   /* Separate keys per count rather than a number and a suffix. Polish and Russian have
@@ -162,11 +163,12 @@ export function confirmStanding(copy: Copy, place: string, have: number, need: n
   const soFar =
     have === 0 ? copy.standingNobody : have === 1 ? copy.standingOne : copy.standingMany.replace('{n}', String(have));
 
-  return copy.standingNeed
-    .replace('{soFar}', soFar)
-    .replace('{need}', String(need))
-    .replace('{people}', people)
-    .replace('{place}', place);
+  return fillPlace(
+    copy.standingNeed.replace('{soFar}', soFar).replace('{need}', String(need)).replace('{people}', people),
+    '{place}',
+    place,
+    locale,
+  );
 }
 
 export function confirmAsk(copy: Copy, hasMethod: boolean, standing = ''): ConfirmAsk {

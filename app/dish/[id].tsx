@@ -42,7 +42,7 @@ import { catalogue, dishById, loadCookbookSteps, loadProse } from '../../src/dat
 import { joinAnd, useCopy, useLocale } from '../../src/i18n';
 import { BRAND } from '../../src/brand';
 import { slugFor } from '../../src/domain/countrySlug';
-import { placeInSentence } from '../../src/domain/placeArticle';
+import { fillPlace } from '../../src/domain/placeArticle';
 import { ConfirmForm, type Said } from '../../src/components/ConfirmForm';
 import { Testimony } from '../../src/components/Testimony';
 import { canConfirm, confirmationsOpen } from '../../src/domain/confirmations';
@@ -222,10 +222,11 @@ export default function DishDetail() {
      arranged by `RecordColumns`. */
   const { wide: wideScreen } = useLayout();
 
-  const askPlace = placeInSentence(
-    dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country,
-    locale,
-  );
+  /* Two forms of one place: the name as data, which pre-fills the contribute form, and
+     the name as it is shown in the reader's language, which goes into sentences through
+     `fillPlace` so German and Dutch get the article and case they need. */
+  const askPlaceRaw = dish.loc.city || dish.loc.province || dish.loc.region || dish.loc.country;
+  const askPlace = placeName(askPlaceRaw, copy, locale);
 
   /* `hasProse` was declared here to decide what was worth offering for translation. The
      machine translation it gated is gone, and it had outlived it unused. The name now
@@ -275,7 +276,7 @@ export default function DishDetail() {
   const ask = confirmAsk(
     copy,
     isDocumented,
-    confirmStanding(copy, askPlace, counted, scoreThresholds().validationsRequired),
+    confirmStanding(copy, askPlace, counted, scoreThresholds().validationsRequired, locale),
   );
 
   /*
@@ -446,7 +447,7 @@ export default function DishDetail() {
           <Muted key={part} style={styles.breadcrumbText}>
             <FacetLink
               label={shown}
-              describedAs={copy.everythingFrom.replace('{place}', placeInSentence(placeName(opensAt, copy, locale), locale))}
+              describedAs={fillPlace(copy.everythingFrom, '{place}', placeName(opensAt, copy, locale), locale)}
               query={
                 i === 0
                   ? { country: part }
@@ -500,7 +501,7 @@ export default function DishDetail() {
           <Muted style={styles.originLabel}>{copy.recordedOrigin}</Muted>
           <T style={styles.originValue}>{placeName(dish.origin, copy, locale)}</T>
           <Muted style={styles.originNote}>
-            {copy.originDiffersNote.replace('{country}', placeInSentence(placeName(dish.loc.country, copy, locale), locale))}
+            {fillPlace(copy.originDiffersNote, '{country}', placeName(dish.loc.country, copy, locale), locale)}
           </Muted>
         </View>
       ) : null}
@@ -705,7 +706,7 @@ export default function DishDetail() {
             <>
               <H5 level={2} style={styles.tightHeading}>{copy.howItsDescribed}</H5>
               <Muted style={styles.sectionLead}>
-                {copy.quotedFromSource.replace('{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale))}
+                {fillPlace(copy.quotedFromSource, '{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale), locale)}
               </Muted>
               <Block style={styles.describedBlock}>
                 {/*
@@ -750,7 +751,7 @@ export default function DishDetail() {
                 <CardBody>
                   {copy.nobodyRecordedTechnique}
                 </CardBody>
-                <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
+                <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlaceRaw } })} />
               </Card>
             </>
           ) : null}
@@ -776,12 +777,12 @@ export default function DishDetail() {
                * the atlas asks somebody to act on.
                */}
               <CardBody>{copy.nobodyHasWrittenItDown.replace('{dish}', dish.name)}</CardBody>
-              <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
+              <Button label={copy.recordHowItsMade} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlaceRaw } })} />
               <Disclosure summary={copy.whyThisRecordIsEmpty}>
                 <CardBody>
                   {copy.nobodyHasRecorded
                     .replace('{dish}', dish.name)
-                    .replace('{place}', askPlace ? copy.inPlace.replace('{place}', askPlace) : '')}
+                    .replace('{place}', askPlace ? fillPlace(copy.inPlace, '{place}', askPlace, locale) : '')}
                 </CardBody>
               </Disclosure>
             </Card>
@@ -813,7 +814,7 @@ export default function DishDetail() {
           </H5>
           {isAdaptation ? (
             <Muted style={styles.sectionLead}>
-              {copy.adaptationLeadIn.replace('{place}', placeInSentence(placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale), locale))}
+              {fillPlace(copy.adaptationLeadIn, '{place}', placeName(cardPlace(dish.breadcrumb, dish.loc.country), copy, locale), locale)}
             </Muted>
           ) : null}
           <Muted style={styles.prepSummary}>{dish.prepSummary}</Muted>
@@ -988,7 +989,7 @@ export default function DishDetail() {
               const search = (
                 <Block style={styles.discoverBlock}>
                   <Muted style={styles.discoverNote}>
-                    {copy.videoSearchNote.replace('{place}', placeInSentence(placeName(dish.breadcrumb[0], copy, locale), locale))}
+                    {fillPlace(copy.videoSearchNote, '{place}', placeName(dish.breadcrumb[0], copy, locale), locale)}
                   </Muted>
                   <Button
                     label={copy.findPreparationVideos}
@@ -1241,13 +1242,13 @@ export default function DishDetail() {
                   label={ask.no}
                   variant="secondary"
                   block
-                  onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })}
+                  onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlaceRaw } })}
                 />
               </>
             ) : (
               <>
-            <Button label={ask.yes} variant="secondary" block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
-            <Button label={ask.no} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlace } })} />
+            <Button label={ask.yes} variant="secondary" block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlaceRaw } })} />
+            <Button label={ask.no} block onPress={() => router.push({ pathname: '/contribute', params: { dish: dish.name, place: askPlaceRaw } })} />
               </>
             )}
           </Card>
