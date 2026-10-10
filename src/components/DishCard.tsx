@@ -33,6 +33,7 @@ import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { CardTitle, Muted, T } from './Text';
 import { Tag } from './Tag';
+import { listPhoto } from '../domain/listPhoto';
 
 interface Props {
   dish: Dish;
@@ -88,7 +89,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
       >
         {/* Only where there is an image. A monogram tile beside every row is visual
             noise that carries no information. */}
-        {dish.photo ? <Photo uri={dish.photo} label={dish.name} style={styles.rowThumb} /> : null}
+        {listPhoto(dish) ? <Photo uri={listPhoto(dish)} label={dish.name} style={styles.rowThumb} /> : null}
         <View style={styles.rowText}>
           <T style={styles.rowName} numberOfLines={1}>
             {dish.name}
@@ -123,7 +124,7 @@ export function DishCard({ dish, showViews, compact }: Props) {
     >
       <Card style={styles.card} elevated>
         <View style={styles.photo}>
-          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photoFill} width={800} quietCredit />
+          <Photo uri={listPhoto(dish)} credit={dish.credit} label={dish.name} style={styles.photoFill} width={800} quietCredit />
         </View>
 
         <View style={styles.body}>
@@ -191,8 +192,10 @@ export function DishCard({ dish, showViews, compact }: Props) {
 }
 
 const styles = StyleSheet.create({
-  press: { borderRadius: radius.md },
-  card: { padding: 0, gap: 0, overflow: 'hidden', ...elevation.sm },
+  /* Grow to the cell, so the cards in one row of a grid end on one line however long
+     each blurb is. */
+  press: { borderRadius: radius.md, flexGrow: 1 },
+  card: { padding: 0, gap: 0, overflow: 'hidden', flexGrow: 1, ...elevation.sm },
   photo: { width: '100%', aspectRatio: 16 / 10 },
   photoFill: { width: '100%', height: '100%' },
   body: { padding: space[3], gap: 6 },

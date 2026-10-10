@@ -110,6 +110,15 @@ export const NOT_TRADITIONS: { name: string; country: string; why: string }[] = 
   { name: 'Cheetos Mexican Street Corn', country: 'United States', why: 'A Cheetos flavour variant, by its own description.' },
   { name: "Fry's Turkish Delight", country: 'United Kingdom', why: 'A branded confectionery bar, not the confection itself — which the atlas holds separately.' },
   { name: 'Black russian', country: 'France', why: 'A modern mixed drink recipe, like the three cocktails above it.' },
+
+  /*
+   * The same record twice. Found on 9 October when /browse began opening on its strongest
+   * records and the page check saw one paragraph printed twice: "Egg Fu Yong" and "Egg
+   * foo young" carry the same eight ingredients, the same photograph and the same text,
+   * because the first title is a redirect to the second article. The spelling the
+   * article itself uses stays.
+   */
+  { name: 'Egg Fu Yong', country: 'China', why: 'A duplicate of Egg foo young — its title redirects to that article.' },
 ];
 
 const excluded = new Set(NOT_TRADITIONS.map((entry) => `${entry.name}|${entry.country}`));

@@ -43,6 +43,7 @@
 
 import { isAuthentic } from './authenticity';
 import { methodLength } from './method';
+import { listPhoto } from './listPhoto';
 import type { Dish, Level } from './types';
 
 /** How many of the strongest records the hero rotates between. */
@@ -67,7 +68,7 @@ const RANK: Record<Level, number> = {
  * come for.
  */
 export const heroWorthy = (dish: Dish): boolean =>
-  Boolean(dish.photo) &&
+  Boolean(listPhoto(dish)) &&
   dish.badgeLevel !== 'adaptation' &&
   dish.badgeLevel !== 'fusion' &&
   dish.ingredients.length >= 3 &&

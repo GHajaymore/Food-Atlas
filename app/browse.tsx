@@ -25,10 +25,9 @@
  */
 
 import { router, useLocalSearchParams } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../src/components/Button';
-import { DishCard } from '../src/components/DishCard';
 import { FacetLink } from '../src/components/FacetLink';
 import { NavRow } from '../src/components/NavRow';
 import { useCopy, useNumber, usePlural } from '../src/i18n';
@@ -38,10 +37,9 @@ import { catalogue } from '../src/data/catalogue';
 import { count } from '../src/data/events';
 import { browse, describe, hrefFor, levelOf, parseBrowse, type BrowseQuery } from '../src/domain/browse';
 import { filterLabel } from '../src/domain/authenticity';
-import { useLayout } from '../src/theme/layout';
 import { color, font, space } from '../src/theme/tokens';
+import { RecordGrid } from '../src/components/RecordGrid';
 
-const PAGE = 36;
 
 /** The facets on screen, so each can be lifted off again. */
 const CHIPS: { key: keyof BrowseQuery; prefix?: string }[] = [
@@ -59,8 +57,6 @@ export default function Browse() {
   const n = useNumber();
   const plural = usePlural();
   const params = useLocalSearchParams();
-  const layout = useLayout();
-  const [page, setPage] = useState(1);
 
   const query = useMemo(
     () => parseBrowse(params as Record<string, string | string[] | undefined>),
@@ -78,7 +74,6 @@ export default function Browse() {
     }
   }, [query]);
 
-  const visible = results.slice(0, page * PAGE);
   const active = CHIPS.filter((c) => query[c.key]);
 
   return (
@@ -127,40 +122,10 @@ export default function Browse() {
         </View>
       ) : null}
 
-      {visible.length ? (
-        <>
-          <View style={layout.wide ? styles.grid : undefined}>
-            {visible.map((dish) => (
-              <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : styles.stacked}>
-                {/*
-                  * A record with no photograph gets the row treatment, not a card with a
-                  * letter where the photograph would be.
-                  *
-                  * `index.tsx` has done this since the feed was built and this screen
-                  * never got it, which is how Japan's 737 records came to be 737 cards
-                  * each reserving 250px for an image that does not exist. Ajay described
-                  * it as "one long list with big pictures", and the pictures were the
-                  * part that was not there.
-                  *
-                  * Roughly half the atlas has no photograph, so on a typical filter this
-                  * is the difference between a page you can scan and a page you scroll
-                  * past.
-                  */}
-                <DishCard dish={dish} showViews={false} compact={!dish.photo} />
-              </View>
-            ))}
-          </View>
-
-          {visible.length < results.length ? (
-            <Button
-              label={copy.showNMore.replace('{n}', String(Math.min(PAGE, results.length - visible.length)))}
-              variant="secondary"
-              block
-              style={styles.more}
-              onPress={() => setPage((p) => p + 1)}
-            />
-          ) : null}
-        </>
+      {results.length ? (
+        /* Photographed records as cards, the rest as rows beneath — see RecordGrid. Keyed
+           on the query, so a new filter starts from its first page. */
+        <RecordGrid key={JSON.stringify(query)} records={results} />
       ) : (
         <View style={styles.empty}>
           <T style={styles.emptyHead}>{copy.nothingMatchesAll}</T>
@@ -185,10 +150,6 @@ const styles = StyleSheet.create({
   title: { marginTop: space[2] },
   count: { fontSize: 13, marginTop: 2 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], marginTop: space[3] },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: space[2] },
-  /* On a phone the cards are stacked, and they sat about 2px apart, so separate dishes read
-     as one long block (seen 9 October). */
-  stacked: { marginBottom: space[3] },
   more: { marginTop: space[6] },
   empty: { marginTop: space[6], gap: space[2] },
   emptyHead: { fontSize: 15, color: color.text, fontFamily: font.semibold },

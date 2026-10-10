@@ -510,10 +510,10 @@ const FOOD_CATEGORY =
 
 /** Labels for a people, a language or a faith rather than a place. */
 const NOT_A_PLACE =
-  /-speaking|^(east|southeast|south|central|west) asian$|^oceanian$|^(mizrahi jewish|chinese islamic|islamic|anglo-indian|assyrian)$|^baltic states$|^(meitei|newari|parsi|peranakan|mughlai|maghrebi|latin american|catalan|emirati)$/i;
+  /-speaking|^(east|southeast|south|central|west) asian$|^oceanian$|^(mizrahi jewish|chinese islamic|islamic|anglo-indian|assyrian)$|^baltic states$|^(meitei|newari|parsi|peranakan|mughlai|maghrebi|latin american|catalan|emirati)$|terms$|^(buddhist|national)$/i;
 
 /** Former states, which are the country's past rather than a part of it. */
-const FORMER_STATE = /\b(empire|ssr)\b|^british hong kong$|^ancient /i;
+const FORMER_STATE = /\b(empire|ssr|shogunate)\b|^british hong kong$|^ancient /i;
 
 /**
  * A nationality adjective ending in -an / -ese / -ish that belongs to a different country:
@@ -596,7 +596,12 @@ function regionThatIsAPlace(region: string, country: string): string {
   /* Another country outright is never a region of this one. */
   if (isCountry(canonicalCountry(label)) && canonicalCountry(label) !== country) return '';
   if (/^people'?s republic of china$/i.test(label) || /^democratic republic of the congo$/i.test(label)) return '';
-  return label;
+  /* 'Okinawa' and 'Okinawa Prefecture' are one place, and were two facets and two chips on
+     Japan's page (9 October). The prefecture is the region; the word is the filing. */
+  if (country === 'Japan') return label.replace(/ prefecture$/i, '');
+  /* A place name starts with a capital in a breadcrumb and on a chip: "northern China",
+     "province of Lecce" arrived lower-case from the middle of a sentence. */
+  return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 /**

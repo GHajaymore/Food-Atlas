@@ -26,7 +26,8 @@ import { placeInSentence } from './placeArticle';
  * views rail to the bottom.
  */
 
-import { EN, type Copy } from '../i18n/copy';
+import type { Copy } from '../i18n/copy';
+import { listPhoto } from './listPhoto';
 import { isAuthentic } from './authenticity';
 import type { Dish, Level } from './types';
 
@@ -96,25 +97,15 @@ const MIN_RAIL = 4;
  * a card that gives the reader nothing to look at, and a rail of them makes the
  * catalogue look empty when it is not.
  */
-/**
- * Whether the photograph was chosen for this dish rather than found by its name.
- *
- * 1,681 photographs came from searching Wikimedia Commons for a dish's name, and the
- * record page already says so. The rails did not: "Enchiladas Rojas" led a front-page
- * rail with a picture that is mostly a laptop, "Apfelstreuselkuchen" with an unbaked
- * tray that reads as pasta. A rail is the shop window, so a picture somebody chose for
- * this dish — its own article's, its own Wikidata item's, its own recipe page's —
- * comes before a guess. The guess is still shown on the record, with its warning.
- */
-const chosenPhoto = (d: Dish): number => (d.photoOrigin === EN.photoFromSearch ? 0 : 1);
-
+/* A rail is the shop window: only a photograph chosen for the dish goes on one. A guess
+   found by name was ranked behind it here until 9 October; now it is not on a rail at
+   all — see listPhoto.ts for why. */
 const railOrder = (dishes: Dish[], take: number) =>
   dishes
-    .filter((d) => d.photo)
+    .filter((d) => listPhoto(d))
     .sort(
       (a, b) =>
         CLASS_RANK[b.badgeLevel] - CLASS_RANK[a.badgeLevel] ||
-        chosenPhoto(b) - chosenPhoto(a) ||
         (b.score ?? 0) - (a.score ?? 0) ||
         substance(b) - substance(a),
     )
@@ -185,11 +176,10 @@ function urgentOrder(dishes: Dish[], take: number): Dish[] {
   const documented = (d: Dish) => (hasMethod(d) ? 2 : hasProse(d) ? 1 : 0);
 
   return dishes
-    .filter((d) => d.photo)
+    .filter((d) => listPhoto(d))
     .sort(
       (a, b) =>
         documented(a) - documented(b) ||
-        chosenPhoto(b) - chosenPhoto(a) ||
         // Then the usual reading order, so within "equally undocumented" the record
         // that carries the most is still the one shown.
         CLASS_RANK[b.badgeLevel] - CLASS_RANK[a.badgeLevel] ||
@@ -288,7 +278,7 @@ export const SHELF_DEFS: ShelfDef[] = [
     id: 'illustrated',
     titleKey: 'shelfIllustrated',
     noteKey: 'shelfIllustratedNote',
-    match: (d) => Boolean(d.photo),
+    match: (d) => Boolean(listPhoto(d)),
     spread: true,
   },
 ];

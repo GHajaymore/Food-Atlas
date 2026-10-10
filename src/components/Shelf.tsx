@@ -24,6 +24,7 @@ import { Pressable } from './Pressable';
 import { H4, Muted, T } from './Text';
 import { shelfLabel } from '../domain/shelves';
 import { useCopy, useNumber, useLocale } from '../i18n';
+import { listPhoto } from '../domain/listPhoto';
 
 interface Props {
   shelf: ShelfData;
@@ -114,7 +115,7 @@ export function Shelf({ shelf, onOpenDish, onOpenAll }: Props) {
             onPress={() => onOpenDish(dish.id)}
             style={{ ...styles.card, width: cardSize }}
           >
-            <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} width={Math.round(cardSize * 2)} quietCredit />
+            <Photo uri={listPhoto(dish)} credit={dish.credit} label={dish.name} style={{ ...styles.photo, width: cardSize, height: cardSize }} width={Math.round(cardSize * 2)} quietCredit />
             {/* Size and the two-line floor come from the card, so a wider card gets a
                 larger name rather than the same name with more room around it. */}
             <T

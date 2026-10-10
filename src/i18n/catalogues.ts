@@ -766,6 +766,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Pasa el cursor o toca un país para ver lo que el atlas tiene de él.",
     mapNone: "Aún no hay tradiciones registradas",
     mapLegend: "Tradiciones registradas",
+    countryRegions: "Por región",
+    notYetPhotographed: "Aún sin fotografía",
     mostOfYourListFirst:
       'Primero lo que más coincide con tu lista',
     translatesTheAppsWords:
@@ -2138,6 +2140,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Survolez ou touchez un pays pour voir ce que l’atlas en contient.",
     mapNone: "Aucune tradition consignée pour l’instant",
     mapLegend: "Traditions consignées",
+    countryRegions: "Par région",
+    notYetPhotographed: "Sans photo pour l’instant",
     mostOfYourListFirst:
       'Ce qui recoupe le plus votre liste d’abord',
     translatesTheAppsWords:
@@ -3509,6 +3513,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Fahren Sie über ein Land oder tippen Sie darauf, um zu sehen, was der Atlas dazu hat.",
     mapNone: "Noch keine Traditionen erfasst",
     mapLegend: "Erfasste Traditionen",
+    countryRegions: "Nach Region",
+    notYetPhotographed: "Noch ohne Foto",
     mostOfYourListFirst:
       'Zuerst, was am meisten aus Ihrer Liste enthält',
     translatesTheAppsWords:
@@ -4880,6 +4886,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Passa sopra o tocca un paese per vedere che cosa ne contiene l’atlante.",
     mapNone: "Ancora nessuna tradizione registrata",
     mapLegend: "Tradizioni registrate",
+    countryRegions: "Per regione",
+    notYetPhotographed: "Ancora senza foto",
     mostOfYourListFirst:
       'Prima quello che usa di più la tua lista',
     translatesTheAppsWords:
@@ -6251,6 +6259,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Passe o cursor ou toque num país para ver o que o atlas tem dele.",
     mapNone: "Ainda sem tradições registadas",
     mapLegend: "Tradições registadas",
+    countryRegions: "Por região",
+    notYetPhotographed: "Ainda sem fotografia",
     mostOfYourListFirst:
       'Primeiro o que usa mais da sua lista',
     translatesTheAppsWords:
@@ -7623,6 +7633,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Beweeg over een land of tik erop om te zien wat de atlas ervan heeft.",
     mapNone: "Nog geen tradities vastgelegd",
     mapLegend: "Vastgelegde tradities",
+    countryRegions: "Per regio",
+    notYetPhotographed: "Nog zonder foto",
     mostOfYourListFirst:
       'Eerst wat het meest van uw lijst gebruikt',
     translatesTheAppsWords:
@@ -8994,6 +9006,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Najedź na kraj lub dotknij go, aby zobaczyć, co atlas o nim zawiera.",
     mapNone: "Nie zapisano jeszcze żadnych tradycji",
     mapLegend: "Zapisane tradycje",
+    countryRegions: "Według regionu",
+    notYetPhotographed: "Jeszcze bez zdjęcia",
     mostOfYourListFirst:
       'Najpierw to, co najbardziej korzysta z twojej listy',
     translatesTheAppsWords:
@@ -10389,6 +10403,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Atlasın neler tuttuğunu görmek için bir ülkenin üzerine gelin ya da dokunun.",
     mapNone: "Henüz kayıtlı gelenek yok",
     mapLegend: "Kayıtlı gelenekler",
+    countryRegions: "Bölgeye göre",
+    notYetPhotographed: "Henüz fotoğrafı yok",
     mostOfYourListFirst:
       'Önce listenizden en çok kullananlar',
     translatesTheAppsWords:
@@ -11760,6 +11776,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "Наведите курсор на страну или коснитесь её, чтобы увидеть, что о ней есть в атласе.",
     mapNone: "Традиций пока не записано",
     mapLegend: "Записанные традиции",
+    countryRegions: "По регионам",
+    notYetPhotographed: "Пока без фото",
     mostOfYourListFirst:
       'Сначала то, что берёт из вашего списка больше всего',
     translatesTheAppsWords:
@@ -13155,6 +13173,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "किसी देश पर कर्सर ले जाएँ या टैप करें और देखें कि एटलस में वहाँ से क्या है।",
     mapNone: "अभी कोई परंपरा दर्ज नहीं",
     mapLegend: "दर्ज परंपराएँ",
+    countryRegions: "क्षेत्र के अनुसार",
+    notYetPhotographed: "अभी तक कोई फ़ोटो नहीं",
     mostOfYourListFirst:
       'पहले वे जिनमें आपकी सूची सबसे ज़्यादा लगती है',
     translatesTheAppsWords:
@@ -14526,6 +14546,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "将鼠标悬停或轻触某个国家，看看图册收录了那里的什么。",
     mapNone: "尚无记录的传统",
     mapLegend: "已记录的传统",
+    countryRegions: "按地区",
+    notYetPhotographed: "尚无照片",
     mostOfYourListFirst:
       '用到你清单最多的排在前面',
     translatesTheAppsWords:
@@ -15897,6 +15919,8 @@ export const CATALOGUES: Readonly<Record<string, Partial<Copy> & Partial<PluralE
     mapHint: "国にカーソルを合わせるかタップすると、このアトラスにある記録が見られます。",
     mapNone: "まだ記録された伝統はありません",
     mapLegend: "記録された伝統",
+    countryRegions: "地域別",
+    notYetPhotographed: "まだ写真がありません",
     mostOfYourListFirst:
       '手持ちの材料をいちばん使うものから',
     translatesTheAppsWords:

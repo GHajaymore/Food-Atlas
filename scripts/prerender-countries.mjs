@@ -35,6 +35,8 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { builtCatalogue } from './lib/built-catalogue.mjs';
 import { countryPages } from './lib/country-pages.mjs';
+import { countryOrder } from '../src/domain/countryOrder.ts';
+import { listPhoto } from '../src/domain/listPhoto.ts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(HERE, '../dist');
@@ -53,8 +55,6 @@ const { pages: eligible, countries } = countryPages(catalogue);
 const shell = readFileSync(resolve(DIST, 'index.html'), 'utf8');
 mkdirSync(resolve(DIST, 'country'), { recursive: true });
 
-/** Best documented first, then by name — the order the screen sorts by. */
-const documented = (dish) => (dish.steps.length ? 2 : dish.ingredients.length ? 1 : 0);
 
 export const countrySlugs = [];
 let capped = 0;
@@ -92,7 +92,9 @@ for (const { country, slug, records, linkable: pages } of eligible) {
     `<meta name="twitter:description" content="${escape(description)}"/>`,
   ].join('\n    ');
 
-  const listed = pages.sort((a, b) => documented(b) - documented(a) || a.name.localeCompare(b.name)).slice(0, LINKS);
+  /* The order the screen lists them in: photographed first, each list by countryOrder.ts. */
+  const ordered = countryOrder(pages);
+  const listed = [...ordered.filter((d) => listPhoto(d)), ...ordered.filter((d) => !listPhoto(d))].slice(0, LINKS);
   if (pages.length > LINKS) capped += 1;
 
   const body = [

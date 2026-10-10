@@ -38,6 +38,7 @@ import { openAtSource, topVideo, watchUrl } from '../src/domain/video';
 import { joinOr, useCopy, type Copy, useNumber, useLocale, usePlural } from '../src/i18n';
 import { useApp } from '../src/state/store';
 import { color, radius, space } from '../src/theme/tokens';
+import { listPhoto } from '../src/domain/listPhoto';
 
 const LEVEL_FACETS: Level[] = ['local', 'regional', 'variation', 'adaptation', 'fusion'];
 
@@ -238,8 +239,8 @@ export default function Search() {
                   onPress={() => router.push(`/dish/${dish.id}`)}
                   style={styles.pantryRow}
                 >
-                  {dish.photo ? (
-                    <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.pantryPhoto} />
+                  {listPhoto(dish) ? (
+                    <Photo uri={listPhoto(dish)} credit={dish.credit} label={dish.name} style={styles.pantryPhoto} />
                   ) : null}
                   <View style={styles.pantryText}>
                     <T style={styles.pantryName} numberOfLines={2}>
@@ -404,7 +405,7 @@ export default function Search() {
                 onPress={() => router.push(`/dish/${dish.id}`)}
                 style={styles.resultMain}
               >
-                <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.thumb} hideCredit />
+                <Photo uri={listPhoto(dish)} credit={dish.credit} label={dish.name} style={styles.thumb} hideCredit />
                 <View style={styles.resultText}>
                   <T style={styles.resultName}>{dish.name}</T>
                   <Muted style={styles.resultPlace}>{dish.breadcrumb.map((step) => placeName(step, copy, locale)).join(' › ')}</Muted>

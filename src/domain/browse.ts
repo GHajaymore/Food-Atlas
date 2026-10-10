@@ -32,6 +32,7 @@ import { GROUP_LABELS, KIND_LABELS, type DietGroup, type DietKind } from './diet
 import { MEAL_LABELS, type MealOccasion } from './meals';
 import { feedFor, searchResults, type SearchFacets } from './queries';
 import type { Dish, FilterKey, PathStep } from './types';
+import { countryOrder } from './countryOrder';
 
 /** What a browse URL can say. Every field optional; absent means "do not narrow by it". */
 export interface BrowseQuery {
@@ -167,7 +168,10 @@ export function browse(
   };
 
   const needsFacets = Boolean(facets.query || facets.categories.length || facets.ingredients.length || facets.cuisines?.length);
-  return needsFacets ? searchResults(narrowed, facets) : narrowed;
+  /* With no words to rank by, a place or a classification lists like a country page —
+     traditions first — rather than in the order the catalogue happened to load, which is
+     alphabetical and opened Japan on "Japanese kitchen" and "Aomori cassis". */
+  return needsFacets ? searchResults(narrowed, facets) : countryOrder(narrowed);
 }
 
 /**

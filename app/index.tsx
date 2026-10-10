@@ -53,6 +53,7 @@ import { settings, useApp } from '../src/state/store';
 const PAGE_SIZE = 30;
 import { useLayout } from '../src/theme/layout';
 import { accentText, color, elevation, radius, space } from '../src/theme/tokens';
+import { listPhoto } from '../src/domain/listPhoto';
 
 export default function Feed() {
   const copy = useCopy();
@@ -379,7 +380,7 @@ export default function Feed() {
       <View style={styles.cards}>
         {!isBrowsing
           ? assessed.map((dish) => (
-              <DishCard key={dish.id} dish={dish} showViews={showViews} compact={!dish.photo} />
+              <DishCard key={dish.id} dish={dish} showViews={showViews} compact={!listPhoto(dish)} />
             ))
           : null}
       </View>
@@ -444,7 +445,7 @@ export default function Feed() {
               style={{ ...styles.popularCard, width: layoutCard }}
             >
               <Photo
-                uri={dish.photo}
+                uri={listPhoto(dish)}
                 credit={dish.credit}
                 label={dish.name}
                 style={{ ...styles.popularPhoto, width: layoutCard, height: layoutCard }}

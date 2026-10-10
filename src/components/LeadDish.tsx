@@ -52,13 +52,14 @@ import { MapPinIcon } from './icons';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { Muted, T } from './Text';
+import { listPhoto } from '../domain/listPhoto';
 
 export function LeadDish({ dish }: { dish: Dish | undefined }) {
   const copy = useCopy();
   const locale = useLocale((state) => state.locale);
   /* No photograph, no hero. More than half the atlas has no image, and a monogram at this
      size would spend the best position on the page saying nothing. */
-  if (!dish?.photo) return null;
+  if (!dish || !listPhoto(dish)) return null;
 
   return (
     <Pressable
@@ -73,7 +74,7 @@ export function LeadDish({ dish }: { dish: Dish | undefined }) {
             A photograph inset inside padding reads as an illustration rather than a
             record. */}
         <View style={styles.frame}>
-          <Photo uri={dish.photo} credit={dish.credit} label={dish.name} style={styles.photo} hideCredit width={1200} />
+          <Photo uri={listPhoto(dish)} credit={dish.credit} label={dish.name} style={styles.photo} hideCredit width={1200} />
         </View>
 
         <View style={styles.body}>

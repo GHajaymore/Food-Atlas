@@ -23,13 +23,19 @@
  */
 
 import { router, useLocalSearchParams } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../../src/components/Button';
-import { DishCard } from '../../src/components/DishCard';
+import { RecordGrid } from '../../src/components/RecordGrid';
 import { NavRow } from '../../src/components/NavRow';
 import { Screen } from '../../src/components/Screen';
-import { H4, Muted, T } from '../../src/components/Text';
+import { H6, Muted, T } from '../../src/components/Text';
+import { CountryLocator } from '../../src/components/CountryLocator';
+import { FacetLink } from '../../src/components/FacetLink';
+import { COUNTRY_CODE } from '../../src/domain/countryCodes';
+import { countryOrder } from '../../src/domain/countryOrder';
+import { levelLabel } from '../../src/domain/authenticity';
+import type { Level } from '../../src/domain/types';
 import { catalogue } from '../../src/data/catalogue';
 import { count } from '../../src/data/events';
 import { hrefFor } from '../../src/domain/browse';
@@ -43,8 +49,6 @@ import { useCopy, useLocale, useNumber, usePlural } from '../../src/i18n';
 import { useLayout } from '../../src/theme/layout';
 import { color, font, space } from '../../src/theme/tokens';
 
-const PAGE = 36;
-
 export default function Country() {
   const copy = useCopy();
   const locale = useLocale((state) => state.locale);
@@ -56,7 +60,6 @@ export default function Country() {
      screen a reader just came from — it counts origins that are countries, not every
      value the import carries. */
   const metrics = useMemo(() => catalogueMetrics(copy, catalogue), [copy]);
-  const [page, setPage] = useState(1);
 
   const country = useMemo(
     () =>
@@ -69,16 +72,39 @@ export default function Country() {
     [slug],
   );
 
-  /* Best documented first, then by name — the same order the prerendered page lists them
-     in, so the static HTML and the app do not disagree about what comes first. */
-  const records = useMemo(() => {
-    if (!country) return [];
-    const documented = (dish: (typeof catalogue)[number]) =>
-      dish.steps.length ? 2 : dish.ingredients.length ? 1 : 0;
-    return catalogue
-      .filter((dish) => dish.loc.country === country)
-      .sort((a, b) => documented(b) - documented(a) || a.name.localeCompare(b.name));
-  }, [country]);
+  /* Traditions before published recipes — see countryOrder.ts. The prerendered page
+     lists them in the same order, so the static HTML and the app agree on what comes
+     first. */
+  const records = useMemo(
+    () => (country ? countryOrder(catalogue.filter((dish) => dish.loc.country === country)) : []),
+    [country],
+  );
+
+  /*
+   * Where in the country the records come from — the way a cook thinks about Italy or
+   * India. Only regions holding three or more, because thirty one-record regions are
+   * noise, and none at all unless at least two qualify.
+   */
+  const regions = useMemo(() => {
+    const tally = new Map<string, number>();
+    for (const dish of records) {
+      const region = dish.loc.region;
+      if (region && region !== country) tally.set(region, (tally.get(region) ?? 0) + 1);
+    }
+    const top = [...tally].filter(([, k]) => k >= 3).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    return top.length >= 2 ? top.slice(0, 10) : [];
+  }, [records, country]);
+
+  /* The records by classification, strongest first — `records` is already in that order. */
+  const kinds = useMemo(() => {
+    const out: { level: Level; icon: string; k: number }[] = [];
+    for (const dish of records) {
+      const last = out[out.length - 1];
+      if (last?.level === dish.badgeLevel) last.k += 1;
+      else out.push({ level: dish.badgeLevel, icon: dish.badgeIcon, k: 1 });
+    }
+    return out;
+  }, [records]);
 
   useNoIndex(!country);
   const named = country ? placeName(country, copy, locale) : '';
@@ -115,37 +141,46 @@ export default function Country() {
     );
   }
 
-  const visible = records.slice(0, page * PAGE);
-
   return (
     <Screen>
-      <NavRow title={copy.foodAtlas} />
+      {/* The country's own name is the page's title — it was a smaller line under a
+          large "Food Atlas", so the biggest words on India's page were not "India". */}
+      <NavRow title={named} />
 
-      {/* The country's own name, never translated away — rule 1 on the atlas screen. */}
-      <H4 style={styles.title}>{named}</H4>
-      <Muted style={styles.count}>
-        {/* Through the plural rules, not a number beside a plural noun: Eritrea, whose one
-            record came back on 9 October, read "1 traditions recorded". */}
-        {plural('oneTradition', 'nTraditions', records.length)}
-      </Muted>
-
-      <View style={layout.wide ? styles.grid : undefined}>
-        {visible.map((dish) => (
-          <View key={dish.id} style={layout.wide ? { width: `${100 / layout.columns}%` } : styles.stacked}>
-            <DishCard dish={dish} showViews={false} compact={!dish.photo} />
+      <View style={layout.wide ? styles.heroWide : styles.hero}>
+        <View style={styles.heroText}>
+          <Muted style={styles.count}>
+            {/* Through the plural rules, not a number beside a plural noun: Eritrea, whose one
+                record came back on 9 October, read "1 traditions recorded". */}
+            {plural('oneTradition', 'nTraditions', records.length)}
+          </Muted>
+          {/* What kind of record the count is made of. Brazil's 188 are 8 traditional
+              variations and 161 published recipes, and a reader deserves to know that
+              before scrolling, not after. */}
+          <View style={styles.kinds}>
+            {kinds.map(({ level, icon, k }) => (
+              <View key={level} style={styles.kind}>
+                <T style={styles.kindIcon}>{icon}</T>
+                <T style={styles.kindLabel}>{levelLabel(copy, level)}</T>
+                <Muted style={styles.kindCount}>{n(k)}</Muted>
+              </View>
+            ))}
           </View>
-        ))}
+          {regions.length ? (
+            <View style={styles.regions}>
+              <H6 style={styles.regionsTitle}>{copy.countryRegions}</H6>
+              <View style={styles.chips}>
+                {regions.map(([region, k]) => (
+                  <FacetLink key={region} variant="chip" label={`${placeName(region, copy, locale)} · ${n(k)}`} query={{ country, region }} />
+                ))}
+              </View>
+            </View>
+          ) : null}
+        </View>
+        <CountryLocator code={COUNTRY_CODE[country]} style={layout.wide ? styles.mapWide : styles.map} />
       </View>
 
-      {visible.length < records.length ? (
-        <Button
-          label={copy.showNMore.replace('{n}', String(Math.min(PAGE, records.length - visible.length)))}
-          variant="secondary"
-          block
-          style={styles.more}
-          onPress={() => setPage((p) => p + 1)}
-        />
-      ) : null}
+      <RecordGrid records={records} />
 
       {/* The way to narrow it: the same records, with every other facet available. */}
       <Button
@@ -160,11 +195,21 @@ export default function Country() {
 }
 
 const styles = StyleSheet.create({
-  title: { marginTop: space[2] },
-  count: { fontSize: 13, marginTop: 2 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: space[2] },
-  /* The same 2px-apart stack /browse had on a phone. */
-  stacked: { marginBottom: space[3] },
+  hero: { gap: space[3], marginBottom: space[4] },
+  heroWide: { flexDirection: 'row', alignItems: 'flex-start', gap: space[6], marginBottom: space[6] },
+  heroText: { flex: 1, minWidth: 0 },
+  /* Wider than the desktop frame, so on a phone the map does not push the dishes a screen down. */
+  map: { width: '100%', aspectRatio: 2.4 },
+  mapWide: { width: 380 },
+  kinds: { marginTop: space[3], gap: 6 },
+  kind: { flexDirection: 'row', alignItems: 'baseline', gap: space[2] },
+  kindIcon: { fontSize: 12, width: 16 },
+  kindLabel: { fontSize: 14, color: color.text },
+  kindCount: { fontSize: 13, fontVariant: ['tabular-nums'] },
+  regions: { marginTop: space[6] },
+  regionsTitle: { marginBottom: space[2] },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2] },
+  count: { fontSize: 13 },
   more: { marginTop: space[6] },
   empty: { marginTop: space[6], gap: space[2] },
   emptyHead: { fontSize: 15, color: color.text, fontFamily: font.semibold },

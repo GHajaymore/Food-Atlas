@@ -27,10 +27,10 @@
  */
 
 import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Circle, G, Path } from 'react-native-svg';
-import { catalogue, dataUrl } from '../data/catalogue';
+import { catalogue } from '../data/catalogue';
 import { isCountry, placeName } from '../domain/continents';
 import { COUNTRY_CODE } from '../domain/countryCodes';
 import { slugFor } from '../domain/countrySlug';
@@ -38,13 +38,7 @@ import { useCopy, useLocale, usePlural } from '../i18n';
 import { color, font, radius, space } from '../theme/tokens';
 import { Button } from './Button';
 import { H6, Muted, T } from './Text';
-
-interface MapData {
-  width: number;
-  height: number;
-  countries: { a2: string; d: string }[];
-  dots: { a2: string; c: [number, number] }[];
-}
+import { EMPTY_LAND, useWorldMap } from './worldMapData';
 
 /* The bands, and the shade of gold each gets. One hue, brighter for more, so the map
    reads at a glance and in grey; the legend states every band. */
@@ -56,34 +50,14 @@ const BANDS: { from: number; label: string; opacity: number }[] = [
 ];
 const bandOf = (count: number) => [...BANDS].reverse().find((b) => count >= b.from);
 
-const EMPTY = '#23263a';
-
-let cached: MapData | null = null;
+const EMPTY = EMPTY_LAND;
 
 export function WorldMap() {
   const copy = useCopy();
   const locale = useLocale((s) => s.locale);
   const plural = usePlural();
-  const [map, setMap] = useState<MapData | null>(cached);
+  const map = useWorldMap();
   const [focus, setFocus] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (cached) return;
-    let live = true;
-    fetch(dataUrl('world-map.json'))
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data: MapData | null) => {
-        if (!data || !live) return;
-        cached = data;
-        setMap(data);
-      })
-      .catch(() => {
-        /* No map is a smaller page, not a broken one: the directory below lists every country. */
-      });
-    return () => {
-      live = false;
-    };
-  }, []);
 
   /* Records per country, keyed by the ISO code the outlines carry. */
   const byCode = useMemo(() => {

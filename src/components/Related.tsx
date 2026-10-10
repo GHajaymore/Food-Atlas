@@ -30,6 +30,7 @@ import { EvidenceBadge } from './EvidenceBadge';
 import { Photo } from './Photo';
 import { Pressable } from './Pressable';
 import { H5, Muted, T } from './Text';
+import { listPhoto } from '../domain/listPhoto';
 
 export function Related({ items }: { items: RelatedDish[] }) {
   const copy = useCopy();
@@ -76,9 +77,9 @@ export function Related({ items }: { items: RelatedDish[] }) {
              * More than half the atlas has no image, and a related list that silently
              * showed only the photographed ones would misrepresent what is nearby.
              */}
-            {dish.photo ? (
+            {listPhoto(dish) ? (
               <Photo
-                uri={dish.photo}
+                uri={listPhoto(dish)}
                 credit={dish.credit}
                 label={dish.name}
                 style={{ ...styles.photo, width: layout.wide ? 168 : 132, height: layout.wide ? 112 : 88 }}

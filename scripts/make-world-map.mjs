@@ -16,7 +16,7 @@
 
 import { readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
-import { geoEqualEarth, geoPath } from 'd3-geo';
+import { geoArea, geoEqualEarth, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 
 const require = createRequire(import.meta.url);
@@ -35,6 +35,28 @@ const [[, y0], [, y1]] = geoPath(projection).bounds(world);
 const HEIGHT = Math.ceil(y1 - y0 + 2);
 projection.translate([projection.translate()[0], projection.translate()[1] - y0 + 1]);
 
+/*
+ * Where a country's page should centre its locator map: the bounds of its largest piece of
+ * land, not of all of it. France's outline includes French Guiana and the United States'
+ * includes Alaska, and a frame drawn round either is mostly ocean with the country a
+ * speck in one corner.
+ */
+const r1 = (n) => Math.round(n);
+function mainBounds(f) {
+  const g = f.geometry;
+  const polys = g.type === 'MultiPolygon' ? g.coordinates.map((c) => ({ type: 'Polygon', coordinates: c })) : [g];
+  const main = polys.reduce((best, poly) => (geoArea(poly) > geoArea(best) ? poly : best));
+  let [[x0, y0], [x1, y1]] = geoPath(projection).bounds(main);
+  /* Russia's mainland crosses the 180th meridian, so its bounds run the width of the
+     world; frame the part east of Greenwich, which is all of it but Chukotka's tip. */
+  if (x1 - x0 > WIDTH / 2) {
+    const pts = main.coordinates.flat().filter(([lon]) => lon >= 0).map((pt) => projection(pt));
+    [x0, x1] = [Math.min(...pts.map((q) => q[0])), Math.max(...pts.map((q) => q[0]))];
+    [y0, y1] = [Math.min(...pts.map((q) => q[1])), Math.max(...pts.map((q) => q[1]))];
+  }
+  return [r1(x0), r1(y0), r1(x1), r1(y1)];
+}
+
 const shapes = [];
 const unmatched = [];
 for (const f of world.features) {
@@ -47,7 +69,7 @@ for (const f of world.features) {
     unmatched.push(f.properties?.name ?? '?');
     continue;
   }
-  shapes.push({ a2, d });
+  shapes.push({ a2, d, b: mainBounds(f) });
 }
 
 /*

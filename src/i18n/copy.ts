@@ -543,6 +543,8 @@ export interface Copy {
   mapHint: string;
   mapNone: string;
   mapLegend: string;
+  countryRegions: string;
+  notYetPhotographed: string;
   mostOfYourListFirst: string;
   translatesTheAppsWords: string;
   byNameAndPlaceOnly: string;
@@ -1674,6 +1676,8 @@ export const EN: Copy = {
   mapHint: "Hover or tap a country to see what the atlas holds there.",
   mapNone: "No traditions recorded yet",
   mapLegend: "Traditions recorded",
+  countryRegions: "By region",
+  notYetPhotographed: "Not yet photographed",
   mostOfYourListFirst:
     'Most of your list first',
   translatesTheAppsWords:
